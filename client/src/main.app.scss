@@ -1,0 +1,33 @@
+.mainApp {
+  .facebookIcon {
+    padding-left: 5px;
+    margin-bottom: -2px;
+    color: $facebookBlue;
+  }
+
+  .pageContent {
+    flex: 1;
+  }
+
+  .footer {
+    @extend .padding8;
+    box-shadow: 0 -2px 3px rgba(10, 10, 10, 0.1);
+  }
+
+  .nav {
+    @extend .padding8;
+    background-color: $mainColor;
+
+    .title a, .is-hidden-mobile .nav-item {
+      color: white;
+    }
+
+    .nav-toggle span {
+      background-color: white;
+    }
+
+    .nav-toggle:hover {
+      background-color: transparent;
+    }
+  }
+}

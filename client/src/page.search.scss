@@ -1,0 +1,15 @@
+.pageSearch {
+  .hero {
+    @extend .elementSpacingTop;
+  }
+
+  .fontAwesomeBackgroundImageWrapper:after {
+    content: "\f128";
+  }
+
+  .createAProfileButtonContainer {
+    a {
+      color: white
+    }
+  }
+}
