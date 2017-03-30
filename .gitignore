@@ -59,4 +59,6 @@ typings/
 # dotenv environment variables file
 .env
 
-
+# Builds
+client/dist
+server/dist
