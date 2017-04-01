@@ -1,6 +1,6 @@
 import firebase = require('firebase')
-import {User} from './common.types'
-import {errors} from './constant.errors'
+import {User} from '../typeDefinitions'
+import {errors} from '../constant/errors'
 
 const firebaseConfig = {
   apiKey: 'AIzaSyDeZnov5HXrnlYKwvyUYlnoiwTDYljpz5U',

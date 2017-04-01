@@ -1,4 +1,4 @@
-import {HvError} from './common.types'
+import {HvError} from '../typeDefinitions'
 
 export const errors: {[code: string]: HvError} = {
   facebookLoginError: {

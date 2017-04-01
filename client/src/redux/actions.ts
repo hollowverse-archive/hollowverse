@@ -1,8 +1,8 @@
-import {stringEnum} from './utils'
-import {IAlgoliaSearchResults} from './vendor.algolia'
-import {HvError} from './common.types'
-import {createActionCreator, createActionCreatorWithNoPayload, handleAction} from './redux.utils'
-import {nonStandardActions} from './redux.nonStandardActions'
+import {stringEnum} from '../utils/utils'
+import {IAlgoliaSearchResults} from '../vendor/algolia'
+import {HvError} from '../typeDefinitions'
+import {createActionCreator, createActionCreatorWithNoPayload, handleAction} from './utils'
+import {nonStandardActions} from './nonStandardActions'
 import LoginStatus = facebookSdk.LoginStatus
 
 export interface IGeneralState {

@@ -1,7 +1,7 @@
-import {Action} from './redux.utils'
+import {Action} from './utils'
 import {Reducer} from 'redux';
 import {routerReducer, RouterState} from 'react-router-redux'
-import {IGeneralState, initialGeneralState, actionHandlers} from './redux.actions'
+import {IGeneralState, initialGeneralState, actionHandlers} from './actions'
 
 import LoginStatus = facebookSdk.LoginStatus
 

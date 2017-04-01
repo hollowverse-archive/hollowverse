@@ -1,7 +1,7 @@
 import * as Express from 'express'
 import * as React from 'react'
 import {Provider} from 'react-redux'
-import {App} from '../../client/src/main.app'
+import {App} from '../../client/src/main/app'
 import {renderToString} from 'react-dom/server'
 import {store} from './redux.store'
 import * as path from 'path'

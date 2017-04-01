@@ -1,10 +1,10 @@
 import React = require('react')
 import {connect} from 'react-redux'
-import {State} from './redux.reducers'
-import * as selectors from './redux.selectors'
-import {FadeIn} from './component.animations'
+import {State} from '../redux/reducers'
+import * as selectors from '../redux/selectors'
+import {FadeIn} from './animations'
 
-import {cn} from './utils'
+import {cn} from '../utils/utils'
 
 interface Props {
   showGlobalSpinner: boolean
