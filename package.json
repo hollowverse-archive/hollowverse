@@ -4,10 +4,10 @@
   "description": "Hollowverse.com",
   "main": "index.js",
   "scripts": {
-    "client/dev": "node_modules/.bin/webpack-dev-server --historyApiFallback true --content-base client/src --config client/webpack.dev.js",
-    "client/build": "node_modules/.bin/webpack --optimize-minimize --define process.env.NODE_ENV=\"'production'\" --config client/webpack.dev.js",
-    "zserver/dev": "node_modules/.bin/webpack --config server/webpack.dev.js",
-    "server/dev": "node_modules/.bin/nodemon --exec node_modules/.bin/ts-node -- server/src/index.tsx"
+    "client/dev": "webpack-dev-server --historyApiFallback true --content-base client/src --config client/webpack.dev.js",
+    "client/build": "webpack --optimize-minimize --define process.env.NODE_ENV=\"'production'\" --config client/webpack.dev.js",
+    "zserver/dev": "webpack --config server/webpack.dev.js",
+    "server/dev": "nodemon --exec ts-node -- server/src/index.tsx"
   },
   "author": "M.K. Safi <msafi@msafi.com>",
   "license": "Unlicense",
