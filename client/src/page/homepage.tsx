@@ -1,13 +1,13 @@
 import * as React from "react";
 import {connect} from 'react-redux'
-import {actions} from './redux.actions'
-import {State} from './redux.reducers'
-import {pick} from './utils'
-import {Form} from './component.form'
-import {RouteComponentProps} from './common.types'
-import * as selectors from './redux.selectors'
-import {FadeInUp} from './component.animations'
-import {IAlgoliaSearchResults} from './vendor.algolia'
+import {actions} from '../redux/actions'
+import {State} from '../redux/reducers'
+import {pick} from '../utils/utils'
+import {Form} from '../component/form'
+import {RouteComponentProps} from '../typeDefinitions'
+import * as selectors from '../redux/selectors'
+import {FadeInUp} from '../component/animations'
+import {IAlgoliaSearchResults} from '../vendor/algolia'
 
 import queryString = require('query-string')
 

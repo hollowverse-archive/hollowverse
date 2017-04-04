@@ -1,4 +1,4 @@
-import {State} from './redux.reducers'
+import {State} from './reducers'
 
 export function getNumberOfSearchHits(state: State) {
   if (typeof state.searchResults !== 'undefined') {

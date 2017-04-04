@@ -1,9 +1,9 @@
 import {put, takeEvery} from 'redux-saga/effects'
-import {actions} from './redux.actions'
-import {Action} from './redux.utils'
-import {algoliaSearchIndex} from './vendor.algolia'
-import * as facebook from './vendor.facebook'
-import * as firebase from './vendor.firebase'
+import {actions} from './actions'
+import {Action} from './utils'
+import {algoliaSearchIndex} from '../vendor/algolia'
+import * as facebook from '../vendor/facebook'
+import * as firebase from '../vendor/firebase'
 
 function* requestSearchResults(action: Action<string>) {
   try {

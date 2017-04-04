@@ -1,9 +1,9 @@
 import * as React from "react";
 import {connect} from 'react-redux'
-import {actions} from './redux.actions'
-import {State} from './redux.reducers'
-import {pick} from './utils'
-import * as selectors from './redux.selectors'
+import {actions} from '../redux/actions'
+import {State} from '../redux/reducers'
+import {pick} from '../utils/utils'
+import * as selectors from '../redux/selectors'
 
 interface Props {
   userIsLoggedIn: boolean

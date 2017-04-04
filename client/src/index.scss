@@ -1,0 +1,14 @@
+$mainColor: #00d1b2;
+$facebookBlue: #3B5998;
+$BulmaLightWatermark: rgb(238, 237, 237);
+
+@import "~bulma";
+
+@import "globalStyles";
+
+@import "app/app";
+@import "page/homepage";
+@import "page/search";
+
+@import "component/globalSpinner";
+@import "component/animations";

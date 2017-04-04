@@ -1,12 +1,12 @@
 import * as React from "react";
-import {pick, cn} from './utils'
+import {pick, cn} from '../utils/utils'
 import {connect} from 'react-redux'
-import {actions} from './redux.actions'
-import {State} from './redux.reducers'
-import {GlobalSpinner} from './component.globalSpinner'
-import {FadeInDown} from './component.animations'
-import OnClickOutside from './component.onClickOutside'
-import {Icon} from './component.icon'
+import {actions} from '../redux/actions'
+import {State} from '../redux/reducers'
+import {GlobalSpinner} from '../component/globalSpinner'
+import {FadeInDown} from '../component/animations'
+import OnClickOutside from '../component/onClickOutside'
+import {Icon} from '../component/icon'
 import {Link} from 'react-router'
 
 interface Props {

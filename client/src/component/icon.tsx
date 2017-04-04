@@ -1,5 +1,5 @@
 import React = require('react')
-import {cn} from './utils'
+import {cn} from '../utils/utils'
 
 interface Props {
   name: string,
