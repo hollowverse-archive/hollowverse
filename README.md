@@ -35,15 +35,18 @@ This will run the server straight from the source in `./server/src`. Nodemon wil
 * [Firebase](https://firebase.google.com/) - tools and infrastructure for the server side, abstraction over the Google Cloud Platform
 * [Webpack](https://webpack.github.io/) - module bundler for concatenating and minifying JavaScript
 
-### UI guidelines
+### UX guidelines
 
 * Layout should redraw as little as possible as data comes in
 * Follow the advice in [this article](https://goo.gl/1V7aJw)
+* Use optimistic updates wherever possible
 
-### Engineering approach
+### Engineering guidelines
 
 * Use strong static types to mitigate some of the need of unit testing
 * When a runtime bug is discovered, think about how to prevent it with stronger typing
+* Anything that can be executed server-side (such as business logic) should be executed server-side, 
+the client-side should be as lightweight as possible 
 
 ### React guidelines
 
