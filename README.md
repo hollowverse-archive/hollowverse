@@ -55,6 +55,7 @@ the client-side should be as lightweight as possible
 
 ### JavaScript guidelines
 
+* Don't use JavaScript anywhere, only TypeScript
 * No default exports
 * In lieu of a formal styleguide, take care to maintain the existing coding style
 
