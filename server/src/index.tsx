@@ -20,7 +20,7 @@ function handleRender(req: any, res: any) {
   const html = renderToString(
     <Provider store={store}>
       <App />
-    </Provider>
+    </Provider>,
   )
 
   // Grab the initial state from our Redux store

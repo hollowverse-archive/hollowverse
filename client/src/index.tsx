@@ -1,10 +1,10 @@
-import * as React from "react";
-import * as ReactDOM from "react-dom";
-import {Homepage} from "./page/homepage";
+import * as React from 'react'
+import * as ReactDOM from 'react-dom'
+import {Homepage} from './page/homepage'
 import {App} from './app/app'
 // import Search from "./page.search";
-import {CreateProfile} from "./page/createProfile";
-import Login from "./page/login";
+import {CreateProfile} from './page/createProfile'
+import Login from './page/login'
 import {Provider, connect} from 'react-redux'
 import {Router, Route, browserHistory, IndexRoute} from 'react-router'
 import {store} from './redux/store'
@@ -16,14 +16,14 @@ const history = syncHistoryWithStore(browserHistory, store)
 ReactDOM.render(
   <Provider store={store}>
     <Router history={history}>
-      <Route path="/" component={App}>
+      <Route path='/' component={App}>
         <IndexRoute component={Homepage}/>
-        <Route path="/create-profile" component={CreateProfile}/>
+        <Route path='/create-profile' component={CreateProfile}/>
         {/*<Route path="/create-profile" component={requireUserLogin(CreateProfile)}/>*/}
         {/*<Route path="/search" component={Search}/>*/}
         {/*<Route path="/login" component={Login}/>*/}
       </Route>
     </Router>
   </Provider>,
-  document.getElementById("app")
-);
+  document.getElementById('app'),
+)

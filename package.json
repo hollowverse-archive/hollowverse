@@ -9,7 +9,7 @@
     "server/express": "nodemon --exec ts-node -- server/src/index.tsx",
     "server/firebase": "npm run client/build && firebase serve",
     "deploy": "firebase login && ts-node deploy.ts",
-    "lint": "tslint '**/*.ts' -e '**/node_modules/**' --fix",
+    "lint": "tslint '**/*.t{s,sx}' -e '**/node_modules/**' --fix",
     "precommit": "lint-staged"
   },
   "author": "M.K. Safi <msafi@msafi.com>",

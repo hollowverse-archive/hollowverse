@@ -8,7 +8,7 @@ interface Props {
 
 export class Icon extends React.Component<Props & React.HTMLAttributes<HTMLElement>, undefined> {
   static defaultProps: Partial<Props> = {
-    size: 16
+    size: 16,
   }
 
   render() {

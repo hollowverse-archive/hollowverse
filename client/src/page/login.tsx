@@ -1,4 +1,4 @@
-import * as React from "react";
+import * as React from 'react'
 import {connect} from 'react-redux'
 
 class CreateNewProfile extends React.Component<undefined, undefined> {
