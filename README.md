@@ -57,7 +57,7 @@ the client-side should be as lightweight as possible
 
 * Don't use JavaScript anywhere, only TypeScript
 * No default exports
-* In lieu of a formal styleguide, take care to maintain the existing coding style
+* Follow the [Standard Style](https://github.com/blakeembrey/tslint-config-standard), see [tslint.json](./tslint.json) for more details
 
 ## License
 
