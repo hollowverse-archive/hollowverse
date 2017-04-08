@@ -4,8 +4,8 @@
   "description": "Hollowverse.com",
   "main": "index.js",
   "scripts": {
-    "client/dev": "webpack-dev-server --historyApiFallback true --content-base client/src --config client/webpack.dev.js",
-    "client/build": "webpack --define process.env.NODE_ENV=\"'production'\" --config client/webpack.prod.ts",
+    "client/dev": "webpack-dev-server --historyApiFallback true --content-base public --config client/webpack.config.ts",
+    "client/build": "webpack --optimize-minimize --define process.env.NODE_ENV=\"'production'\" --config client/webpack.config.ts",
     "server/dev": "nodemon --exec ts-node -- server/src/index.tsx",
     "deploy": "ts-node deploy.ts"
   },
@@ -37,6 +37,7 @@
     "babel-cli": "^6.4.5",
     "babel-core": "^6.4.5",
     "babel-loader": "^6.2.1",
+    "babel-preset-es2015": "^6.24.1",
     "bulma": "^0.3.2",
     "chalk": "^1.1.3",
     "classnames": "^2.2.3",
@@ -44,6 +45,7 @@
     "express": "^4.15.2",
     "extract-text-webpack-plugin": "^2.1.0",
     "firebase": "^3.6.9",
+    "firebase-tools": "^3.6.0",
     "lodash": "^4.17.4",
     "node-sass": "^4.5.0",
     "nodemon": "^1.11.0",

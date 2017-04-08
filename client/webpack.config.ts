@@ -6,8 +6,8 @@ module.exports = {
 
   output: {
     filename: 'bundle.js',
-    path: path.resolve(__dirname, 'public'),
-    publicPath: '/public/'
+    path: path.resolve(__dirname, '../public'),
+    publicPath: '/'
   },
 
   devtool: 'source-map',
@@ -16,8 +16,15 @@ module.exports = {
     rules: [
       {
         test: /\.tsx?$/,
-        loader: 'ts-loader',
-        include: path.resolve(__dirname, 'src')
+        include: path.resolve(__dirname, 'src'),
+        use: [{
+          loader: 'babel-loader',
+          options: {
+            presets: ['es2015']
+          }
+        }, {
+          loader: 'ts-loader',
+        }],
       },
 
       {

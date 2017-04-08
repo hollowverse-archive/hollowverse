@@ -1,3 +1,3 @@
-require('./index.scss')
-// require('material-design-lite/dist/material.min.js')
+import "babel-polyfill";
 import './index'
+require('./index.scss')
