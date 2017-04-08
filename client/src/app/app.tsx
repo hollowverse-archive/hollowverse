@@ -62,11 +62,11 @@ class AppClass extends React.Component<ActionCreators & Props, undefined> {
             {this.renderMenuItems(navClass, {isHiddenMobile: true})}
 
             <FadeInDown>
-              {p.isNavMenuOpen && (
+              {p.isNavMenuOpen ? (
                 <OnClickOutside handleClickOutside={() => p.setIsNavMenuOpen(false)}>
                   {this.renderMenuItems(navClass)}
                 </OnClickOutside>
-              )}
+              ) : null}
             </FadeInDown>
           </div>
         </nav>
@@ -94,9 +94,9 @@ class AppClass extends React.Component<ActionCreators & Props, undefined> {
         className={cn('nav-menu nav-right', navClass, {'is-hidden-mobile': config.isHiddenMobile})}
         onClick={() => p.setIsNavMenuOpen(false)}
       >
-        {(p.loginStatus === 'connected') && (
+        {(p.loginStatus === 'connected') ? (
           <a className='nav-item' onClick={() => p.requestLogout()}>Logout</a>
-        ) || (
+        ) : (
           <a className='nav-item' onClick={() => p.requestLogin()}>
             Login with Facebook
             <Icon name='facebook-official' size={16} className='facebookIcon'/>
