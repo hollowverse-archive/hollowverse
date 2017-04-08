@@ -62,4 +62,5 @@ typings/
 # Builds
 client/dist
 server/dist
-public/
+public/*
+!public/index.html

@@ -4,9 +4,6 @@ import shelljs = require('shelljs')
 print(chalk.green.bold('Building JavaScript and CSS files...'))
 shelljs.exec('npm run client/build')
 
-print(chalk.green.bold('Moving built files to `/public`'))
-shelljs.cp('client/src/index.html', 'public/index.html')
-
 print(chalk.green.bold('Deploying to Firebase...'))
 shelljs.exec('node_modules/.bin/firebase deploy')
 
