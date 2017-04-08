@@ -5,7 +5,7 @@ print(chalk.green.bold('Building JavaScript and CSS files...'))
 shelljs.exec('npm run client/build')
 
 print(chalk.green.bold('Deploying to Firebase...'))
-shelljs.exec('node_modules/.bin/firebase deploy')
+shelljs.exec('"./node_modules/.bin/firebase" deploy')
 
 print(chalk.green.bold('Done'))
 
