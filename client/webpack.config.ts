@@ -1,7 +1,7 @@
 import path = require('path')
 import ExtractTextPlugin = require('extract-text-webpack-plugin')
 
-module.exports = {
+export default {
   entry: path.resolve(__dirname, 'src/webpackEntry.ts'),
 
   output: {
