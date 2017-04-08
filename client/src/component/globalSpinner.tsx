@@ -16,7 +16,7 @@ class UnconnectedGlobalSpinner extends React.Component<Props, undefined> {
   cssClasses = {
     componentGlobalSpinner: 'componentGlobalSpinner modal',
     container: 'container',
-    spinner: 'mdl-spinner mdl-js-spinner is-active'
+    spinner: 'mdl-spinner mdl-js-spinner is-active',
   }
 
   render() {
@@ -27,14 +27,14 @@ class UnconnectedGlobalSpinner extends React.Component<Props, undefined> {
       <FadeIn timeout={300}>
         {p.showGlobalSpinner && (
           <div className={cn(cc.componentGlobalSpinner, activeCssClass)}>
-            <div className="modal-background"></div>
-            <div className="modal-content">
-              <div className="hero-body">
-                <div className="container has-text-centered">
-                  <div className="spinner">
-                    <div className="bounce1"></div>
-                    <div className="bounce2"></div>
-                    <div className="bounce3"></div>
+            <div className='modal-background'></div>
+            <div className='modal-content'>
+              <div className='hero-body'>
+                <div className='container has-text-centered'>
+                  <div className='spinner'>
+                    <div className='bounce1'></div>
+                    <div className='bounce2'></div>
+                    <div className='bounce3'></div>
                   </div>
                 </div>
               </div>
@@ -48,6 +48,6 @@ class UnconnectedGlobalSpinner extends React.Component<Props, undefined> {
 
 export const GlobalSpinner = connect((state: State) => {
   return {
-    showGlobalSpinner: selectors.showGlobalSpinner(state)
+    showGlobalSpinner: selectors.showGlobalSpinner(state),
   }
 })(UnconnectedGlobalSpinner)

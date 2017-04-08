@@ -1,4 +1,4 @@
-import * as React from "react";
+import * as React from 'react'
 import {connect} from 'react-redux'
 import {actions} from '../redux/actions'
 import {State} from '../redux/reducers'
@@ -11,12 +11,12 @@ interface Props {
 
 function mapStateToProps(state: State): Props {
   return {
-    userIsLoggedIn: selectors.getUserIsLoggedIn(state)
+    userIsLoggedIn: selectors.getUserIsLoggedIn(state),
   }
 }
 
 const actionCreators = pick(actions, [
-  'requestLogin'
+  'requestLogin',
 ])
 type ActionCreators = typeof actionCreators
 

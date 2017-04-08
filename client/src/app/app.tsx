@@ -1,4 +1,4 @@
-import * as React from "react";
+import * as React from 'react'
 import {pick, cn} from '../utils/utils'
 import {connect} from 'react-redux'
 import {actions} from '../redux/actions'
@@ -17,7 +17,7 @@ interface Props {
 function mapStateToProps(state: State): Props {
   return pick(state, [
     'loginStatus',
-    'isNavMenuOpen'
+    'isNavMenuOpen',
   ])
 }
 
@@ -25,7 +25,7 @@ const actionCreators = pick(actions, [
   'requestLogin',
   'requestLogout',
   'requestUpdateLoginStatus',
-  'setIsNavMenuOpen'
+  'setIsNavMenuOpen',
 ])
 type ActionCreators = typeof actionCreators
 
@@ -39,14 +39,14 @@ class AppClass extends React.Component<ActionCreators & Props, undefined> {
     const navClass = (p.isNavMenuOpen) ? 'is-active' : ''
 
     return (
-      <div className="mainApp">
+      <div className='mainApp'>
         <GlobalSpinner/>
 
         <nav className='nav has-shadow'>
-          <div className="container">
-            <div className="nav-left">
-              <div className="nav-item">
-                <h1 className="title"><Link to="/">Hollowverse</Link></h1>
+          <div className='container'>
+            <div className='nav-left'>
+              <div className='nav-item'>
+                <h1 className='title'><Link to='/'>Hollowverse</Link></h1>
               </div>
             </div>
 
@@ -71,13 +71,13 @@ class AppClass extends React.Component<ActionCreators & Props, undefined> {
           </div>
         </nav>
 
-        <div className="pageContent">
+        <div className='pageContent'>
           {this.props.children}
         </div>
 
-        <footer className="footer">
-          <div className="container">
-            <div className="content">
+        <footer className='footer'>
+          <div className='container'>
+            <div className='content'>
               <p>© 1884</p>
             </div>
           </div>
@@ -91,15 +91,15 @@ class AppClass extends React.Component<ActionCreators & Props, undefined> {
 
     return (
       <div
-        className={cn("nav-menu nav-right", navClass, {'is-hidden-mobile': config.isHiddenMobile})}
+        className={cn('nav-menu nav-right', navClass, {'is-hidden-mobile': config.isHiddenMobile})}
         onClick={() => p.setIsNavMenuOpen(false)}
       >
         {(p.loginStatus === 'connected') && (
-          <a className="nav-item" onClick={() => p.requestLogout()}>Logout</a>
+          <a className='nav-item' onClick={() => p.requestLogout()}>Logout</a>
         ) || (
-          <a className="nav-item" onClick={() => p.requestLogin()}>
+          <a className='nav-item' onClick={() => p.requestLogin()}>
             Login with Facebook
-            <Icon name="facebook-official" size={16} className="facebookIcon"/>
+            <Icon name='facebook-official' size={16} className='facebookIcon'/>
           </a>
         )}
       </div>

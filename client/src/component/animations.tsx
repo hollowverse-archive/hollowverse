@@ -5,7 +5,7 @@ export class FadeInDown extends React.Component<undefined, undefined> {
   render() {
     return (
       <ReactCSSTransitionGroup
-        transitionName="fadeInDown"
+        transitionName='fadeInDown'
         transitionEnterTimeout={100}
         transitionLeaveTimeout={100}
       >
@@ -19,7 +19,7 @@ export class FadeInUp extends React.Component<undefined, undefined> {
   render() {
     return (
       <ReactCSSTransitionGroup
-        transitionName="fadeInUp"
+        transitionName='fadeInUp'
         transitionEnterTimeout={100}
         transitionLeaveTimeout={100}
       >
@@ -32,7 +32,7 @@ export class FadeInUp extends React.Component<undefined, undefined> {
 interface FadeInProps {timeout?: 100 | 200 | 300 | 400}
 export class FadeIn extends React.Component<FadeInProps, undefined> {
   static defaultProps: Partial<FadeInProps> = {
-    timeout: 100
+    timeout: 100,
   }
 
   render() {

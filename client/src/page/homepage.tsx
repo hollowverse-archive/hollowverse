@@ -1,4 +1,4 @@
-import * as React from "react";
+import * as React from 'react'
 import {connect} from 'react-redux'
 import {actions} from '../redux/actions'
 import {State} from '../redux/reducers'
@@ -26,8 +26,8 @@ function mapStateToProps(state: State): Props {
     ...pick(state, [
       'searchResults',
       'searchInputValue',
-      'lastSearchTerm'
-    ])
+      'lastSearchTerm',
+    ]),
   }
 }
 
@@ -36,7 +36,7 @@ const actionCreators = pick(actions, [
   'requestSearchResults',
   'setSearchResults',
   'setLastSearchTerm',
-  'navigateToSearch'
+  'navigateToSearch',
 ])
 type ActionCreators = typeof actionCreators
 
@@ -55,18 +55,18 @@ class HomepageClass extends React.Component<ComponentProps, undefined> {
     const {props: p} = this
 
     return (
-      <div className="pageHomepage">
-        <section className="hero is-light overflowHidden">
-          <div className="hero-body fontAwesomeBackgroundImageWrapper">
-            <div className="container fontAwesomeBackgroundImageInner">
-              <h1 className="title">Enter a name of a famous person</h1>
+      <div className='pageHomepage'>
+        <section className='hero is-light overflowHidden'>
+          <div className='hero-body fontAwesomeBackgroundImageWrapper'>
+            <div className='container fontAwesomeBackgroundImageInner'>
+              <h1 className='title'>Enter a name of a famous person</h1>
 
-              <Form onSubmit={() => this.submitSearchTerm()} className="searchForm">
+              <Form onSubmit={() => this.submitSearchTerm()} className='searchForm'>
                 <FadeInUp>
                   {!p.hasResults && p.searchResults !== undefined && (
-                    <div className="text-center">
-                      <div className="notification is-warning hv-has-shadow">
-                        <a className="delete" onClick={() => p.setSearchResults(undefined)} />
+                    <div className='text-center'>
+                      <div className='notification is-warning hv-has-shadow'>
+                        <a className='delete' onClick={() => p.setSearchResults(undefined)} />
                         <p>
                           We don't have a page for "{p.searchTerm}", yet
                         </p>
@@ -75,18 +75,18 @@ class HomepageClass extends React.Component<ComponentProps, undefined> {
                   )}
                 </FadeInUp>
 
-                <p className="control">
+                <p className='control'>
                   <input
                     maxLength={50}
-                    className="input"
-                    type="text"
+                    className='input'
+                    type='text'
                     value={p.searchInputValue}
                     onChange={({target: {value}}) => this.handleSearchInputChange(value)}
                   />
                 </p>
 
-                <div className="searchButtonContainer">
-                  <a className="button is-primary is-large" onClick={() => this.submitSearchTerm()}>
+                <div className='searchButtonContainer'>
+                  <a className='button is-primary is-large' onClick={() => this.submitSearchTerm()}>
                     Search
                   </a>
                 </div>
