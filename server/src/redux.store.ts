@@ -6,5 +6,5 @@ const composeEnhancers = compose
 
 export const store = createStore(
   reducer,
-  composeEnhancers(applyMiddleware(thunkMiddleware))
+  composeEnhancers(applyMiddleware(thunkMiddleware)),
 )

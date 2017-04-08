@@ -1,5 +1,5 @@
-import path = require('path');
-import ExtractTextPlugin = require("extract-text-webpack-plugin")
+import path = require('path')
+import ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 module.exports = {
   entry: path.resolve(__dirname, 'src/webpackEntry.ts'),
@@ -7,7 +7,7 @@ module.exports = {
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, '../public'),
-    publicPath: '/'
+    publicPath: '/',
   },
 
   devtool: 'source-map',
@@ -20,8 +20,8 @@ module.exports = {
         use: [{
           loader: 'babel-loader',
           options: {
-            presets: ['es2015']
-          }
+            presets: ['es2015'],
+          },
         }, {
           loader: 'ts-loader',
         }],
@@ -31,25 +31,25 @@ module.exports = {
         test: /\.scss$/,
         use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
-          //resolve-url-loader may be chained before sass-loader if necessary
+          // resolve-url-loader may be chained before sass-loader if necessary
           use: [
             'css-loader',
-            'sass-loader'
-          ]
-        })
-      }
-    ]
+            'sass-loader',
+          ],
+        }),
+      },
+    ],
   },
 
   resolve: {
-    extensions: ['.tsx', '.ts', '.js']
+    extensions: ['.tsx', '.ts', '.js'],
   },
 
   plugins: [
     new ExtractTextPlugin({
-      filename: "css/styles.css",
+      filename: 'css/styles.css',
       disable: false,
-      allChunks: true
-    })
-  ]
+      allChunks: true,
+    }),
+  ],
 }

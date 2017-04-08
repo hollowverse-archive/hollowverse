@@ -11,7 +11,7 @@ declare namespace facebookSdk {
     accessToken: string,
     expiresIn: number,
     signedRequest: any,
-    userID: string
+    userID: string,
   }
 
   interface AuthResponse {
@@ -20,15 +20,13 @@ declare namespace facebookSdk {
   }
 
   interface Ifb {
+    Event: {
+      subscribe(eventToSubscribeTo: 'auth.statusChange',
+                 callback: (response: AuthResponse) => any): void,
+    },
     getLoginStatus(callback: (response: AuthResponse) => any, cache?: boolean): void
     login(callback: (response: AuthResponse) => void): void
     logout(callback: (response: AuthResponse) => void): void
     init(params: {appId: string, xfbml: boolean, status?: boolean, version: string, cookie: boolean}): void,
-    Event: {
-      subscribe(
-        eventToSubscribeTo: 'auth.statusChange',
-        callback: (response: AuthResponse) => any
-      ): void
-    }
   }
 }

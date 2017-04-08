@@ -28,7 +28,7 @@ export const initialGeneralState: IGeneralState = {
   error: undefined,
   isNavMenuOpen: false,
   lastSearchTerm: '',
-  createProfileUrlInputValue: ''
+  createProfileUrlInputValue: '',
 }
 
 export const actions = {

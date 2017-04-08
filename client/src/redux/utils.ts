@@ -16,7 +16,7 @@ export function createActionCreatorWithNoPayload(type: string) {
 }
 
 export function handleAction<T>(
-  patchingValue: ((action: Action<T>, state: GeneralState) => Partial<GeneralState>) | (keyof GeneralState)
+  patchingValue: ((action: Action<T>, state: GeneralState) => Partial<GeneralState>) | (keyof GeneralState),
 ) {
   let actionHandler: (state: GeneralState, action: Action<T>) => GeneralState
 

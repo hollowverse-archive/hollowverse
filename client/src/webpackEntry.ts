@@ -1,3 +1,3 @@
-import "babel-polyfill";
+import 'babel-polyfill'
 import './index'
 require('./index.scss')

@@ -1,5 +1,5 @@
 import {Action} from './utils'
-import {Reducer} from 'redux';
+import {Reducer} from 'redux'
 import {routerReducer, RouterState} from 'react-router-redux'
 import {IGeneralState, initialGeneralState, actionHandlers} from './actions'
 
@@ -14,7 +14,7 @@ export type GeneralState = Readonly<IGeneralState>
 
 const initialState: State = {
   ...initialGeneralState,
-  routing: undefined
+  routing: undefined,
 }
 
 const generalReducer = (state: GeneralState = initialGeneralState, action: Action<any>): GeneralState => {
@@ -26,6 +26,6 @@ const generalReducer = (state: GeneralState = initialGeneralState, action: Actio
 export const reducer: Reducer<State> = (state: State = initialState, action: Action<any>): State => {
   return {
     ...generalReducer(state, action),
-    routing: routerReducer(state.routing, action)
+    routing: routerReducer(state.routing, action),
   }
 }
