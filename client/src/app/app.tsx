@@ -95,7 +95,10 @@ class AppClass extends React.Component<ActionCreators & Props, undefined> {
         onClick={() => p.setIsNavMenuOpen(false)}
       >
         {(p.loginStatus === 'connected') ? (
-          <a className='nav-item' onClick={() => p.requestLogout()}>Logout</a>
+          <div>
+            <Link className='nav-item' to='/create-profile'>Add a Notable Person</Link>
+            <a className='nav-item' onClick={() => p.requestLogout()}>Logout</a>
+          </div>
         ) : (
           <a className='nav-item' onClick={() => p.requestLogin()}>
             Login with Facebook
