@@ -5,8 +5,8 @@ export const nonStandardActions = {
     return push({
       pathname: '/',
       query: {
-        searchTerm: payload
-      }
+        searchTerm: payload,
+      },
     })
-  }
+  },
 }

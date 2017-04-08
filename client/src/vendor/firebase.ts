@@ -7,7 +7,7 @@ const firebaseConfig = {
   authDomain: 'hollowverse-c9cad.firebaseapp.com',
   databaseURL: 'https://hollowverse-c9cad.firebaseio.com',
   storageBucket: 'hollowverse-c9cad.appspot.com',
-  messagingSenderId: '127114883987'
+  messagingSenderId: '127114883987',
 }
 
 export const firebaseApp = firebase.initializeApp(firebaseConfig)
@@ -49,7 +49,7 @@ export function userExists(user: firebase.User) {
 
       (error: firebase.FirebaseError) => {
         reject(error)
-      }
+      },
     )
   })
 }
@@ -58,7 +58,7 @@ export function createUser(user: User) {
   const usersReference = firebaseDb.ref('users')
 
   return usersReference.child(user.id).set({
-    displayName: user.displayName
+    displayName: user.displayName,
   })
 }
 

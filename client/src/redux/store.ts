@@ -18,8 +18,8 @@ export const store = createStore(
   composeEnhancers(applyMiddleware(
     thunkMiddleware,
     routerMiddleware(browserHistory),
-    sagaMiddleware
-  ))
+    sagaMiddleware,
+  )),
 )
 
 sagaMiddleware.run(sagas)

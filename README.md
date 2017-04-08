@@ -22,9 +22,16 @@ This will provide a dev version of the front-end on `localhost:8080` and rebuild
 
 ### Back-end
 
-* Start the server via nodemon: `npm run server/dev`
+* Start the server via nodemon: `npm run server/express`
 
 This will run the server straight from the source in `./server/src`. Nodemon will automatically refresh it on changes.
+
+### Building in production mode and deploying
+
+* Build assets in production mode and run Firebase Hosting locally: `npm run server/firebase`
+* Deploy to Firebase: `npm run deploy` - requires access to the Firebase project. You will be asked to authenticate via Google the first time you deploy
+
+These commands are independend. It's not required to run anything before `npm run deploy`.
 
 ## Built With
 
@@ -35,15 +42,18 @@ This will run the server straight from the source in `./server/src`. Nodemon wil
 * [Firebase](https://firebase.google.com/) - tools and infrastructure for the server side, abstraction over the Google Cloud Platform
 * [Webpack](https://webpack.github.io/) - module bundler for concatenating and minifying JavaScript
 
-### UI guidelines
+### UX guidelines
 
 * Layout should redraw as little as possible as data comes in
 * Follow the advice in [this article](https://goo.gl/1V7aJw)
+* Use optimistic updates wherever possible
 
-### Engineering approach
+### Engineering guidelines
 
 * Use strong static types to mitigate some of the need of unit testing
 * When a runtime bug is discovered, think about how to prevent it with stronger typing
+* Anything that can be executed server-side (such as business logic) should be executed server-side,
+the client-side should be as lightweight as possible
 
 ### React guidelines
 
@@ -52,8 +62,9 @@ This will run the server straight from the source in `./server/src`. Nodemon wil
 
 ### JavaScript guidelines
 
+* Don't use JavaScript anywhere, only TypeScript
 * No default exports
-* In lieu of a formal styleguide, take care to maintain the existing coding style
+* Follow the [Standard Style](https://github.com/blakeembrey/tslint-config-standard), see [tslint.json](./tslint.json) for more details
 
 ## License
 

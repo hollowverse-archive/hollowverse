@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "outDir": "./dist/",
+    "outDir": "./public/",
     "sourceMap": true,
     "noImplicitAny": true,
     "module": "commonjs",
@@ -16,5 +16,9 @@
     "paths": {
       "*": ["types/*"]
     }
-  }
+  },
+  "exclude": [
+    "node_modules",
+    "functions/node_modules"
+  ]
 }

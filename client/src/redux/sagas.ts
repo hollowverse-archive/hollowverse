@@ -41,7 +41,7 @@ function* requestLogout() {
 
     yield [
       facebook.logout(),
-      firebase.logout()
+      firebase.logout(),
     ]
 
     yield put(actions.setLoginStatus('unknown'))
@@ -63,7 +63,7 @@ function* requestUpdateLoginStatus() {
       yield firebase.loginOrRegister(facebookAuthResponse)
       yield put(actions.setLoginStatus('connected'))
     }
-  } catch(error) {
+  } catch (error) {
     yield put(actions.setError(error))
   } finally {
     yield put(actions.setIsLoginPending(false))
@@ -71,10 +71,10 @@ function* requestUpdateLoginStatus() {
 }
 
 function* sagas() {
-  yield takeEvery("requestSearchResults", requestSearchResults);
-  yield takeEvery("requestLogin", requestLogin);
-  yield takeEvery("requestLogout", requestLogout);
-  yield takeEvery("requestUpdateLoginStatus", requestUpdateLoginStatus);
+  yield takeEvery('requestSearchResults', requestSearchResults)
+  yield takeEvery('requestLogin', requestLogin)
+  yield takeEvery('requestLogout', requestLogout)
+  yield takeEvery('requestUpdateLoginStatus', requestUpdateLoginStatus)
 }
 
-export {sagas};
+export {sagas}

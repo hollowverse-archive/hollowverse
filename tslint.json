@@ -1,0 +1,21 @@
+{
+  "defaultSeverity": "error",
+  "extends": [
+    "tslint-config-standard"
+  ],
+  "jsRules": {},
+  "rules": {
+    "trailing-comma": [
+      true,
+      {
+        "multiline": "always",
+        "singleline": "never"
+      }
+    ],
+    "space-before-function-paren": [
+      true,
+      "never"
+    ]
+  },
+  "rulesDirectory": []
+}
