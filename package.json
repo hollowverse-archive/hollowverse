@@ -10,7 +10,8 @@
     "server/firebase": "npm run client/build && firebase serve",
     "deploy": "firebase login && ts-node deploy.ts",
     "lint": "tslint '**/*.t{s,sx}' -e '**/node_modules/**' --fix",
-    "precommit": "lint-staged"
+    "precommit": "lint-staged",
+    "test": "exit 0"
   },
   "author": "M.K. Safi <msafi@msafi.com>",
   "license": "Unlicense",
@@ -43,7 +44,6 @@
     "@types/redux-thunk": "^2.1.0",
     "@types/shelljs": "^0.7.0",
     "algoliasearch": "^3.21.1",
-    "awesome-typescript-loader": "^3.0.7",
     "babel-cli": "^6.4.5",
     "babel-core": "^6.4.5",
     "babel-loader": "^6.2.1",
