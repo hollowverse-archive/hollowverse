@@ -6,7 +6,8 @@
   "scripts": {
     "client/dev": "webpack-dev-server --historyApiFallback true --content-base public --config client/webpack.config.ts",
     "client/build": "webpack --optimize-minimize --define process.env.NODE_ENV=\"'production'\" --config client/webpack.config.ts",
-    "server/dev": "nodemon --exec ts-node -- server/src/index.tsx",
+    "server/express": "nodemon --exec ts-node -- server/src/index.tsx",
+    "server/firebase": "npm run client/build && firebase serve",
     "deploy": "ts-node deploy.ts",
     "lint": "tslint '**/*.ts' -e '**/node_modules/**' --fix",
     "precommit": "lint-staged"

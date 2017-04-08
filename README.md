@@ -22,9 +22,16 @@ This will provide a dev version of the front-end on `localhost:8080` and rebuild
 
 ### Back-end
 
-* Start the server via nodemon: `npm run server/dev`
+* Start the server via nodemon: `npm run server/express`
 
 This will run the server straight from the source in `./server/src`. Nodemon will automatically refresh it on changes.
+
+### Building in production mode and deploying
+
+* Build assets in production mode and run Firebase Hosting locally: `npm run server/firebase`
+* Deploy to Firebase: `npm run deploy` - requires access to the Firebase project
+
+These commands are independend. It's not required to run anything before `npm run deploy`.
 
 ## Built With
 
