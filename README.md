@@ -29,7 +29,7 @@ This will run the server straight from the source in `./server/src`. Nodemon wil
 ### Building in production mode and deploying
 
 * Build assets in production mode and run Firebase Hosting locally: `npm run server/firebase`
-* Deploy to Firebase: `npm run deploy` - requires access to the Firebase project
+* Deploy to Firebase: `npm run deploy` - requires access to the Firebase project. You will be asked to authenticate via Google the first time you deploy
 
 These commands are independend. It's not required to run anything before `npm run deploy`.
 
