@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Hollowverse.com",
   "main": "index.js",
+  "repository": "https://github.com/hollowverse/hollowverse.git",
   "scripts": {
     "client/dev": "webpack-dev-server --historyApiFallback true --content-base public --config client/webpack.config.ts",
     "client/build": "webpack --optimize-minimize --define process.env.NODE_ENV=\"'production'\" --config client/webpack.config.ts",
@@ -11,7 +12,7 @@
     "deploy": "firebase login && ts-node deploy.ts",
     "lint": "tslint '**/*.t{s,sx}' -e '**/node_modules/**' --fix",
     "precommit": "lint-staged",
-    "test": "exit 0"
+    "test": "npm run client/build"
   },
   "author": "M.K. Safi <msafi@msafi.com>",
   "license": "Unlicense",
@@ -24,9 +25,7 @@
   },
   "pre-commit": "lint-staged",
   "greenkeeper": {
-    "ignore": [
-      "react-onclickoutside"
-    ]
+    "ignore": []
   },
   "dependencies": {
     "@types/algoliasearch": "^3.18.0",
@@ -70,7 +69,7 @@
     "react": "^15.1.0",
     "react-addons-css-transition-group": "^15.4.2",
     "react-dom": "^15.1.0",
-    "react-onclickoutside": "~5.9.0",
+    "react-onclickoutside": "^5.9.0",
     "react-redux": "^5.0.3",
     "react-router": "^4.0.0",
     "react-router-dom": "^4.0.0",
