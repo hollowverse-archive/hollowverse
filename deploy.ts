@@ -1,5 +1,5 @@
-import chalk = require('chalk')
-import shelljs = require('shelljs')
+import * as chalk from 'chalk'
+import * as shelljs from 'shelljs'
 
 print(chalk.green.bold('Building JavaScript and CSS files...'))
 shelljs.exec('npm run client/build')

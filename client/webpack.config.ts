@@ -1,5 +1,5 @@
-import path = require('path')
-import ExtractTextPlugin = require('extract-text-webpack-plugin')
+import * as path from 'path'
+import * as ExtractTextPlugin from 'extract-text-webpack-plugin'
 
 export default {
   entry: path.resolve(__dirname, 'src/webpackEntry.ts'),

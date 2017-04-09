@@ -1,5 +1,5 @@
-import React = require('react')
-import onClickOutside = require('react-onclickoutside')
+import * as React from 'react'
+import * as onClickOutside from 'react-onclickoutside'
 
 interface Props {
   handleClickOutside(event: React.MouseEvent<any>): void

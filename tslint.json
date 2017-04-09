@@ -15,7 +15,8 @@
     "space-before-function-paren": [
       true,
       "never"
-    ]
+    ],
+    "no-require-imports": true
   },
   "rulesDirectory": []
 }

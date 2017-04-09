@@ -15,6 +15,10 @@ ReactDOM.render(
   <Provider store={store}>
     <ConnectedRouter history={history}>
       <App>
+        {/*
+          TODO: components cast as "any" for this reason:
+          https://github.com/hollowverse/hollowverse/issues/35
+        */}
         <Route exact path='/' component={Homepage as any}/>
         {/*/!*<Route path='/create-profile' component={CreateProfile}/>*!/*/}
         {/*/!*<Route path="/create-profile" component={requireUserLogin(CreateProfile)}/>*!/*/}

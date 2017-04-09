@@ -1,4 +1,4 @@
-import React = require('react')
+import * as React from 'react'
 import {connect} from 'react-redux'
 import {State} from '../redux/reducers'
 import * as selectors from '../redux/selectors'

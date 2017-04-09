@@ -7,7 +7,6 @@ import {Form} from '../component/form'
 import * as selectors from '../redux/selectors'
 import {FadeInUp} from '../component/animations'
 import {IAlgoliaSearchResults} from '../vendor/algolia'
-import queryString = require('query-string')
 
 interface Props {
   searchInputValue: string,
