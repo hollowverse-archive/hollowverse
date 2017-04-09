@@ -1,12 +1,10 @@
-import {push, RouterAction} from 'react-router-redux'
+import {push} from 'react-router-redux'
 
 export const nonStandardActions = {
-  navigateToSearch: (payload: string): RouterAction => {
+  navigateToSearch: (payload: string) => {
     return push({
       pathname: '/',
-      query: {
-        searchTerm: payload,
-      },
+      search: payload,
     })
   },
 }

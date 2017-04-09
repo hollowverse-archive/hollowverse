@@ -5,25 +5,24 @@ import {App} from './app/app'
 // import Search from "./page.search";
 import {CreateProfile} from './page/createProfile'
 import Login from './page/login'
-import {Provider, connect} from 'react-redux'
-import {Router, Route, browserHistory, IndexRoute} from 'react-router'
-import {store} from './redux/store'
+import {Provider} from 'react-redux'
+import {Route, BrowserRouter as Router} from 'react-router-dom'
+import {store, history} from './redux/store'
 import {requireUserLogin} from './hoc/requireUserLogin'
-import {syncHistoryWithStore, routerReducer} from 'react-router-redux'
-
-const history = syncHistoryWithStore(browserHistory, store)
+import {ConnectedRouter} from 'react-router-redux'
 
 ReactDOM.render(
   <Provider store={store}>
-    <Router history={history}>
-      <Route path='/' component={App}>
-        <IndexRoute component={Homepage}/>
-        <Route path='/create-profile' component={CreateProfile}/>
-        {/*<Route path="/create-profile" component={requireUserLogin(CreateProfile)}/>*/}
-        {/*<Route path="/search" component={Search}/>*/}
-        {/*<Route path="/login" component={Login}/>*/}
-      </Route>
-    </Router>
+    <ConnectedRouter history={history}>
+      <App>
+        <Route exact path='/' component={Homepage}/>
+        {/*/!*<Route path='/create-profile' component={CreateProfile}/>*!/*/}
+        {/*/!*<Route path="/create-profile" component={requireUserLogin(CreateProfile)}/>*!/*/}
+        {/*/!*<Route path="/search" component={Search}/>*!/*/}
+        {/*/!*<Route path="/login" component={Login}/>*!/*/}
+      </App>
+    </ConnectedRouter>
   </Provider>,
+
   document.getElementById('app'),
 )

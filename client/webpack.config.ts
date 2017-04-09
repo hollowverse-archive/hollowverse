@@ -10,7 +10,7 @@ export default {
     publicPath: '/',
   },
 
-  devtool: 'source-map',
+  devtool: 'cheap-module-source-map',
 
   module: {
     rules: [
@@ -31,7 +31,6 @@ export default {
         test: /\.scss$/,
         use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
-          // resolve-url-loader may be chained before sass-loader if necessary
           use: [
             'css-loader',
             'sass-loader',
