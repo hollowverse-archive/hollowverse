@@ -94,7 +94,7 @@ class AppClass extends React.Component<ActionCreators & Props, undefined> {
         className={cn('nav-menu nav-right', navClass, {'is-hidden-mobile': config.isHiddenMobile})}
         onClick={() => p.setIsNavMenuOpen(false)}
       >
-        {(p.loginStatus === 'connected') ? (
+        {p.loginStatus === 'connected' ? (
           <div>
             <Link className='nav-item' to='/create-profile'>Add a Notable Person</Link>
             <a className='nav-item' onClick={() => p.requestLogout()}>Logout</a>
