@@ -5,6 +5,12 @@ $elementSpacingTop: 40px;
   word-wrap: break-word;
 }
 
+// Remove unused scrollbar for the whole page when it's not needed.
+// See: https://github.com/jgthms/bulma/issues/527
+html {
+  overflow-y: auto;
+}
+
 body, #app, .mainApp {
   display: flex;
   min-height: 100vh;
