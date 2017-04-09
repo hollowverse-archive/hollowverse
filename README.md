@@ -1,5 +1,7 @@
 # Hollowverse
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/hollowverse/hollowverse.svg)](https://greenkeeper.io/)
+
 Politics, religions, and ideas.
 
 # Contributing
