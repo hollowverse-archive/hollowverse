@@ -1,5 +1,5 @@
-import path = require('path')
-import ExtractTextPlugin = require('extract-text-webpack-plugin')
+import * as path from 'path'
+import * as ExtractTextPlugin from 'extract-text-webpack-plugin'
 
 export default {
   entry: path.resolve(__dirname, 'src/webpackEntry.ts'),
@@ -10,7 +10,7 @@ export default {
     publicPath: '/',
   },
 
-  devtool: 'source-map',
+  devtool: 'cheap-module-source-map',
 
   module: {
     rules: [
@@ -31,7 +31,6 @@ export default {
         test: /\.scss$/,
         use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
-          // resolve-url-loader may be chained before sass-loader if necessary
           use: [
             'css-loader',
             'sass-loader',

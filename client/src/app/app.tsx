@@ -7,7 +7,7 @@ import {GlobalSpinner} from '../component/globalSpinner'
 import {FadeInDown} from '../component/animations'
 import OnClickOutside from '../component/onClickOutside'
 import {Icon} from '../component/icon'
-import {Link} from 'react-router'
+import {Link} from 'react-router-dom'
 
 interface Props {
   loginStatus: facebookSdk.LoginStatus,

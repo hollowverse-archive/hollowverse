@@ -1,4 +1,4 @@
-import firebase = require('firebase')
+import * as firebase from 'firebase'
 import {User} from '../typeDefinitions'
 import {errors} from '../constant/errors'
 

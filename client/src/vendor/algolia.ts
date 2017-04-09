@@ -1,4 +1,4 @@
-import algoliasearch = require('algoliasearch')
+import * as algoliasearch from 'algoliasearch'
 
 export interface IAlgoliaSearchResults {
   hits: Array<{}>

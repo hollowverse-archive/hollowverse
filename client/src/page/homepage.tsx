@@ -4,24 +4,21 @@ import {actions} from '../redux/actions'
 import {State} from '../redux/reducers'
 import {pick} from '../utils/utils'
 import {Form} from '../component/form'
-import {RouteComponentProps} from '../typeDefinitions'
 import * as selectors from '../redux/selectors'
 import {FadeInUp} from '../component/animations'
 import {IAlgoliaSearchResults} from '../vendor/algolia'
 
-import queryString = require('query-string')
-
 interface Props {
   searchInputValue: string,
-  searchTerm: string | undefined,
+  searchTerm: string,
   searchResults: IAlgoliaSearchResults | undefined,
   lastSearchTerm: string,
-  hasResults: boolean
+  hasResults: boolean,
 }
 
 function mapStateToProps(state: State): Props {
   return {
-    searchTerm: state.routing && state.routing.locationBeforeTransitions.query.searchTerm,
+    searchTerm: state.routing && state.routing.location && state.routing.location.search || '',
     hasResults: selectors.hasResults(state),
     ...pick(state, [
       'searchResults',
@@ -40,7 +37,7 @@ const actionCreators = pick(actions, [
 ])
 type ActionCreators = typeof actionCreators
 
-type ComponentProps = ActionCreators & Props & RouteComponentProps<any, any>
+type ComponentProps = ActionCreators & Props
 
 class HomepageClass extends React.Component<ComponentProps, undefined> {
   componentDidMount() {
@@ -119,7 +116,7 @@ class HomepageClass extends React.Component<ComponentProps, undefined> {
   search() {
     const {props: p} = this
 
-    if (p.lastSearchTerm !== p.searchTerm && p.searchTerm !== undefined) {
+    if (p.lastSearchTerm !== p.searchTerm && p.searchTerm !== '') {
       p.setLastSearchTerm(p.searchTerm)
       p.requestSearchResults(p.searchTerm)
     }
