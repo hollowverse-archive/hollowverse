@@ -8,27 +8,24 @@ import * as selectors from '../redux/selectors'
 import {FadeInUp} from '../component/animations'
 import {IAlgoliaSearchResults} from '../vendor/algolia'
 import queryString = require('query-string')
-import {RouteComponentProps} from 'react-router-dom'
 
 interface Props {
   searchInputValue: string,
-  searchTerm: string | undefined,
+  searchTerm: string,
   searchResults: IAlgoliaSearchResults | undefined,
   lastSearchTerm: string,
   hasResults: boolean,
-  match: any
 }
 
 function mapStateToProps(state: State): Props {
   return {
-    searchTerm: 'state.routing && state.routing.locationBeforeTransitions.query.searchTerm', // TODO: fix this
+    searchTerm: state.routing && state.routing.location && state.routing.location.search || '',
     hasResults: selectors.hasResults(state),
     ...pick(state, [
       'searchResults',
       'searchInputValue',
       'lastSearchTerm',
     ]),
-    match: 'hi',
   }
 }
 
@@ -120,11 +117,11 @@ class HomepageClass extends React.Component<ComponentProps, undefined> {
   search() {
     const {props: p} = this
 
-    if (p.lastSearchTerm !== p.searchTerm && p.searchTerm !== undefined) {
+    if (p.lastSearchTerm !== p.searchTerm && p.searchTerm !== '') {
       p.setLastSearchTerm(p.searchTerm)
       p.requestSearchResults(p.searchTerm)
     }
   }
 }
 
-export const Homepage = connect(mapStateToProps, actionCreators)(HomepageClass) as any
+export const Homepage = connect(mapStateToProps, actionCreators)(HomepageClass)

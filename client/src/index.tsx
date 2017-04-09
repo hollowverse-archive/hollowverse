@@ -15,7 +15,7 @@ ReactDOM.render(
   <Provider store={store}>
     <ConnectedRouter history={history}>
       <App>
-        <Route exact path='/' component={Homepage}/>
+        <Route exact path='/' component={Homepage as any}/>
         {/*/!*<Route path='/create-profile' component={CreateProfile}/>*!/*/}
         {/*/!*<Route path="/create-profile" component={requireUserLogin(CreateProfile)}/>*!/*/}
         {/*/!*<Route path="/search" component={Search}/>*!/*/}
