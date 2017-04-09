@@ -1,6 +1,5 @@
 import {createStore, applyMiddleware, compose} from 'redux'
 import {reducer} from './reducers'
-import thunkMiddleware from 'redux-thunk'
 import {routerMiddleware} from 'react-router-redux'
 import createBrowserHistory from 'history/createBrowserHistory'
 import createSagaMiddleware from 'redux-saga'
@@ -18,7 +17,6 @@ export const store = createStore(
   reducer,
   preloadedState,
   composeEnhancers(applyMiddleware(
-    thunkMiddleware,
     routerMiddleware(history),
     sagaMiddleware,
   )),
