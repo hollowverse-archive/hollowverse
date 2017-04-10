@@ -31,9 +31,9 @@ This will run the server straight from the source in `./server/src`. Nodemon wil
 ### Building in production mode and deploying
 
 * Build assets in production mode and run Firebase Hosting locally: `npm run server/firebase`
-* Deploy to Firebase: `npm run deploy` - requires access to the Firebase project. You will be asked to authenticate via Google the first time you deploy
+* Deploy to Firebase: `npm run deploy` (You must have a `FIREBASE_TOKEN` environment variable set to the value obtained from running the command `firebase login:ci`)
 
-These commands are independend. It's not required to run anything before `npm run deploy`.
+These commands are independent. It's not required to run anything before `npm run deploy`.
 
 ## Built With
 
@@ -43,6 +43,8 @@ These commands are independend. It's not required to run anything before `npm ru
 * [Sass](http://sass-lang.com/) - superset of CSS for easier styling
 * [Firebase](https://firebase.google.com/) - tools and infrastructure for the server side, abstraction over the Google Cloud Platform
 * [Webpack](https://webpack.github.io/) - module bundler for concatenating and minifying JavaScript
+
+## Project Guidelines
 
 ### UX guidelines
 

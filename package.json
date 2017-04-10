@@ -9,14 +9,14 @@
     "client/build": "webpack --optimize-minimize --define process.env.NODE_ENV=\"'production'\" --config client/webpack.config.ts",
     "server/express": "nodemon --exec ts-node -- server/src/index.tsx",
     "server/firebase": "npm run client/build && firebase serve",
-    "deploy": "firebase login && ts-node deploy.ts",
+    "deploy": "ts-node deploy.ts",
     "lint": "tslint '**/*.t{s,sx}' -e '**/node_modules/**' --fix",
     "precommit": "lint-staged",
     "test": "npm run client/build"
   },
-  "author": "M.K. Safi <msafi@msafi.com>",
+  "author": "Hollowverse",
   "license": "Unlicense",
-  "homepage": "https://github.com/msafi/hollowverse#readme",
+  "homepage": "https://github.com/hollowverse/hollowverse#readme",
   "lint-staged": {
     "*.{ts,tsx}": [
       "npm run lint",
