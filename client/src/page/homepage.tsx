@@ -7,6 +7,7 @@ import {Form} from '../component/form'
 import * as selectors from '../redux/selectors'
 import {FadeInUp} from '../component/animations'
 import {IAlgoliaSearchResults} from '../vendor/algolia'
+import {RouteComponentProps} from 'react-router-dom'
 
 interface Props {
   searchInputValue: string,
@@ -35,9 +36,9 @@ const actionCreators = pick(actions, [
   'setLastSearchTerm',
   'navigateToSearch',
 ])
-type ActionCreators = typeof actionCreators
 
-type ComponentProps = ActionCreators & Props
+type ActionCreators = typeof actionCreators
+type ComponentProps = ActionCreators & Props & RouteComponentProps<any>
 
 class HomepageClass extends React.Component<ComponentProps, undefined> {
   componentDidMount() {
@@ -123,4 +124,7 @@ class HomepageClass extends React.Component<ComponentProps, undefined> {
   }
 }
 
-export const Homepage = connect(mapStateToProps, actionCreators)(HomepageClass)
+export const Homepage = connect<Props, ActionCreators, RouteComponentProps<any>>(
+  mapStateToProps,
+  actionCreators,
+)(HomepageClass)
