@@ -9,12 +9,10 @@
     "client/build": "webpack --optimize-minimize --define process.env.NODE_ENV=\"'production'\" --config client/webpack.config.ts",
     "server/express": "nodemon --exec ts-node -- server/src/index.tsx",
     "server/firebase": "npm run client/build && firebase serve",
-    "deploy": "ts-node deploy.ts",
     "lint": "tslint '**/*.t{s,sx}' -e '**/node_modules/**' --fix",
     "precommit": "lint-staged",
     "test": "npm run client/build"
   },
-  "author": "Hollowverse",
   "license": "Unlicense",
   "homepage": "https://github.com/hollowverse/hollowverse#readme",
   "lint-staged": {
