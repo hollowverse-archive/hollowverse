@@ -1,10 +1,11 @@
 # Hollowverse
 
+[![Build Status](https://travis-ci.org/hollowverse/hollowverse.svg?branch=master)](https://travis-ci.org/hollowverse/hollowverse)
 [![Greenkeeper badge](https://badges.greenkeeper.io/hollowverse/hollowverse.svg)](https://greenkeeper.io/)
 
 Politics, religions, and ideas.
 
-# Contributing
+## Contributing
 
 We're currently at the stage of heavy initial development. Any contributions are appreciated!
 Please submit an issue with you questions if you're not sure where to start.
@@ -28,12 +29,15 @@ This will provide a dev version of the front-end on `localhost:8080` and rebuild
 
 This will run the server straight from the source in `./server/src`. Nodemon will automatically refresh it on changes.
 
-### Building in production mode and deploying
+### Building in production mode
 
 * Build assets in production mode and run Firebase Hosting locally: `npm run server/firebase`
-* Deploy to Firebase: `npm run deploy` (You must have a `FIREBASE_TOKEN` environment variable set to the value obtained from running the command `firebase login:ci`)
 
-These commands are independent. It's not required to run anything before `npm run deploy`.
+This will build the JavaScript bundle in production mode and then execute `firebase serve`.
+
+## Deployment
+
+Deployment to Firebase happens automatically when a PR is merged to `master`.
 
 ## Built With
 
