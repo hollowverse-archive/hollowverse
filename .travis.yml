@@ -1,27 +1,15 @@
 language: node_js
-
-node_js: "node"
-
+node_js: node
 install:
-  - npm install
-
+- npm install
 script:
-  - npm run test
-
-deploy:
-  provider: script
-  script: node_modules/.bin/ts-node deploy.ts
-  on:
-    branch: master
-
-env:
-  global:
-    -secure: mQ/rqpva5qxbbicO6WGBPkGnXRLwUDIO/gmALK0FTxX0QWpaKMJwtb/MyGBXccVFdwSqSsxiDm74MQ3MBNnkt7CeISLRBhOLmnKY/8CvFh2/VAgcMSBLY9j9xuR+foWEa30ICxV1/0DkgN52wcB4lVIR1Gc8E15K3PZHrrWRE/fT95G56Vw64Ik4Zw5RVBGl2y5TYLWPC1qlqbFaALKljjVwSbAy4cZtCEQ2oAAeHbHcjONokaLdUm1z3GfjhcqB/UTCT5MxF5B8DzOtsAwAWfoNEDpXo6/PO4WMbwVDLVjdd/oQeplCMn6Mu2onsPwC1A+GXUnX9ONHHrXJwa+FI010bjLiKXZJVu9hMCk06IcB1dhWOVuTmdu+xuusMNyvsJNQ9u7lkXKtq5Ks+Tp7VWnmRpHhV9Fz3aXKVcCMsGZftZA8reYfj4k0sKcqWyXodc4I46TknrS/DKzdLWoTDHEXak+++N2HKbIjQe/QZcZYFuYl1DtBrqgNk30u+CmH/FliJFFQQWNPZfrkKg556dZVGDY9u7cj9I5csdPh0CkfdLU8DEZq2sZoZyqNesHkyIdu/wy5/Sv+iFkYlXtY6W1QlErRwXnqQtlSz35XaAkjAGpm3HQ+BPG4X9wqgo/LlpgnB/oE3gTq+68kPaD6oeaLn9MpSVw5eFL1LwqPa4U=
-
+- node_modules/.bin/ts-node scripts/travis.ts
 notifications:
   email: false
-
 branches:
   only:
-    - master
-    - /^greenkeeper.*$/
+  - master
+  - /^greenkeeper.*$/
+env:
+  global:
+    secure: Dm2vO/0oDey5eRomOIXtx1E7j+rY0gZeU4tfRN5z54gvNKcwhZaS/ks2Fu40S680965YOCZFlGNN7eF3zjsAtjCz+cNJfczXp/g1c/Vx6TDHEIGAs7AjG14Rbf0Ap4SfziqlGa+oZMR04KsfN+5O5W+oFtI6mgpu82wLOTbWorxfz2OSPxnSRLQFrS1Zn7NBpnnFwqC7u4e6z/ka3oO597eKwfpYsonQbJeTL64HZ+CT7ryTYbf3OI3spUfMepfhCmxd8l0xr9gdXjAQXZTEKTFvZyb2A/6Xc7BXg3r7+Bk2673nKUDRApH5D3nMKUSyLhoAZhpdCP4nbBaPFBFAtcjJHM1jftN6eV4Tm+APMiRHUGfgYQayNudrm//XaQt+QQOrtMnkrKD+6cPhpzTT3zyIn6V3uzRVxHwa+EQvUikWY/6vzi5E1WNm0raUPYlLrzpmjoBaZGNLlY0poA8yzP7LjrpfsHkaOfsoGIMsZ5vdzNCVdb4Qss0vFp/G0tF49ymuyGHfxnWRbUB1CxgMlaPKX2AYuhSqNJGmkYOELcgWgjAoo45lsuqBFWczRWJRu7NjL9bMvs2bSlzRWiDjEdQwBqFJ2FcYUUGw/UqJ5HgxK3+jgHGGBXfltLzqAo4yBoIhdkkAIhwB93b8LypzmEnWnEXB6p/YM6DgAfhNMBU=
