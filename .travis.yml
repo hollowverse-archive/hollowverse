@@ -1,20 +1,21 @@
 language: node_js
 
-node_js: "node"
+node_js: node
 
 install:
-  - npm install
+- npm install
 
 script:
-  - node_modules/.bin/ts-node scripts/travis.ts
+- node_modules/.bin/ts-node scripts/travis.ts
 
 env:
-  -secure: "mjTLiB+qwL8K4b0/Ie6zzO9eXVd5y4+zzWneYAkmxMJ3yPeSXDeMSZQa0VhMAEEUiHc8IAZcaPChO+sPeXdDOkd8pEKtXgMJH58aDcF3QMWwvpiFQ3dUGlgU3VNKcEeGvpsfwN52igPS5p64rvgPZRTNy9Wnpw0eZ0oVwRxvftIaCyPl5mA80go4IhRg6CxfY+t+bRIOrW9lwSkDfmdZDR/RgIClTgCHNrdQWzUHWxuV42pT0dZS+f2htAlRHCMLa22hG3cNwPO3gDki2gjp6CaAChLNOTvoQ8hux3b3mBfkT9py0sD/zsYKVpQtbrTvJak8hd29h9q09MQiUz54rK8IaLYig9XAS8MPKPx/VmeHZKdJdBLAo/dDxoJ1hmmC63RRf+YPuYDavXBAOl5VjV4ggqhyNsv/VFqP0p5bLOs7lxPERrXLQBjad7IhLxziC4RmBeurCJ/1yb3aCuQ+ur2ZlBIXLqvkdWvYIm18QMKmGuNoIrPdXBMT4+/l/ZPSY4fyuVIStE0s2coOSvg3enRiTvhCiXEqtFEnUWLfzktQcoNZzsBYJ1+rxh5nW1CXyt4KRuy0lsQFdexr1npSec//nZHop5L2VJ2+snB3IncACOY7dBqfjwCfXVpyG/dp+QBrekk197QaU/VdaLIat9NEzsXGk4//fpkrD2Fwzsw="
+  global:
+    secure: dsflVH+fBauT9nR9tDwG1Vs024hXtmlbts0ziJK6wDQZxJM9eeU1x4U4q4Ly9DJTunKXupeqxIywcmViCjOK5l11q6sUosp30sxITiwwS5jjVQVLXRbjrmu3K9T9f2CMpRsXIGYBsqXR/mDRXhhyOPMLs9DTpWse3sYUZjW7sOCYvFYX/IE0D0OapIl6RRC29N2dPcSW9Cz3YOxyISCJsh+WDxqtUZ1F/r+YBaL22FeQ2oVsGXfrc4ly/FQ+czMIokPlCCTnosVJTvmvpTe2WXx+NAnGlqHkt+oxqPygY6G478S7hHVv5OjqNDh2fy9mtuxo+18OolEE5OajcizbjDwF6Xq2dZPyGeIeVjdNf3Al8gxQHiTDLT0rzU/VIuPHk4m/Ef2xJ4x6FUXuw8wHco8UiwyPufbPWb+NMa7EzAiJ7066ESDJ/nAUNDE4YuEdNgmlBrs2ND19q5VGoECfz9Bq5Uik+QeupHGjESJv8fW8WZPeYsBzFVevOvnSPkivK9efPqP2xohIcZ9ptb0gB8QSl9X6OcIser/SEpudbxS7nLg4jy70TfbK1R25XSWTZIc8x7EiD906ejVczZjxcxc/mloSbxVamao4PB4IdJb2XC4HgQqi3boF53TK8+5NlJuqhXiXF9enYqAFAxEe0E4drVeKuhTZhJ+rTTua8TI=
 
 notifications:
   email: false
 
 branches:
   only:
-    - master
-    - /^greenkeeper.*$/
+  - master
+  - /^greenkeeper.*$/
