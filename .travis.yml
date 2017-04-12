@@ -6,7 +6,7 @@ install:
   - npm install
 
 script:
-  - node_modules/.bin/ts-node travis.ts
+  - node_modules/.bin/ts-node scripts/travis.ts
 
 env:
   -secure: "ZmAkGn3QDyf7D0/PGB6wTOE6SQPr0kWVpG3DFjOhpfc2/shFvnBQyVrWrprOTml+A/nIxUGViSwOJ8fHR89JY11vUmY+9o/cef7CfXqlxTD8eme3zO4weW5Cguqseclvv+CkDuwaWXk1TfF+ZuGZk0Qx5aLKF69uiG4Fit7eQ+D8yjlYmB1qjsu2ibJ0lnqcJz0AnhnZt+OIpnX4QC+cpW/hN2lNbthhilGokJdrNElpOaGm3upTXwYrpmz9Z9noVR58IXRqFZ9m+lA9pjG3eHtO9Fg4UHi+EesSEtH486/m2hzlk2uGzN9Itc7ypHvIbC/UU1ObaHfrkM7gSQcj98XE7LoBAXudEJew+8MNH6fm/8zC/UW5S4+P9lUl0R7W2vzmE3gJ+ZKRxVgXBn/TMsfwWtq1DxHXwOoKl2mmM+bIHfUBwsW55v+Cm0Vwa714xDkJvzpNVr2aX2OaIIFUzk2e8U/MhnjhtxOgcSn2OwolpaQsRTFXmj3vT+ZPKJBG0BMopNQth04xJmoPVL0P4CWnNo7GH11NyZdGqE6nGvtD23wLNRnqIPw/04q7fYQV7s7OiBe/u+hHy9xzpXcx3QtfTwHLR1R7mDPWTiCiFFCy8yH+E5a/cjzwOa6q771f7Zq19wLeMsBwkxvj0LlEnHoaiW7AB46BCKNGElPHIhY="
