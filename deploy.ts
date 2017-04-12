@@ -3,7 +3,12 @@ import * as shelljs from 'shelljs'
 
 (shelljs as any).set('-e')
 
-if (shelljs.env['TRAVIS_BRANCH'] !== 'master') { shelljs.exit(0) }
+if (
+  shelljs.env['TRAVIS_BRANCH'] !== 'master' ||
+  shelljs.env['TRAVIS_PULL_REQUEST'] === 'true'
+) {
+  shelljs.exit(0)
+}
 
 print(chalk.green.bold('Deployment started...'))
 
