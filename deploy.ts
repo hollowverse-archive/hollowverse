@@ -3,6 +3,10 @@ import * as shelljs from 'shelljs'
 
 (shelljs as any).set('-e')
 
+if (shelljs.env['TRAVIS_BRANCH'] !== 'master') { shelljs.exit(0) }
+
+print(chalk.green.bold('Deployment started...'))
+
 print(chalk.green.bold('Building JavaScript and CSS files...'))
 shelljs.exec('npm run client/build')
 
