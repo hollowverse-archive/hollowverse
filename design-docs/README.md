@@ -1,7 +1,7 @@
-# Hollowverse - Design Repository
+# Hollowverse - Design Directory
 
 #### Main Idea
-- Everything in this repository is pre-alpha. Things like fonts, spacing, colors, icons are all placeholders. The purpose of the mockups is to give at least a legible visual idea of what we're doing while building up components. All Photoshop source files are included for easy on-boarding of prospective designers.
+- Everything in this directory is pre-alpha state. Things like fonts, spacing, colors, icons are all placeholders. The purpose of the mockups is to give at least a legible visual idea of what we're doing while building up components. All Photoshop source files are included for easy on-boarding of prospective designers.
 
 #### Directory Structure
 ```
