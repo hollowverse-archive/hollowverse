@@ -3,18 +3,6 @@ import {GeneralState} from './reducers'
 export interface Action<PayloadType> { type: string, payload: PayloadType}
 export type ActionCreator<PayloadType> = (payload: PayloadType) => Action<PayloadType>
 
-export function createActionCreator<PayloadType>(type: string) {
-  let actionCreator: ActionCreator<PayloadType>
-
-  actionCreator = (payload) => ({type, payload})
-
-  return actionCreator
-}
-
-export function createActionCreatorWithNoPayload(type: string) {
-  return () => ({type})
-}
-
 export function handleAction<T>(
   patchingValue: ((action: Action<T>, state: GeneralState) => Partial<GeneralState>) | (keyof GeneralState),
 ) {

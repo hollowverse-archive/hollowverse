@@ -9,8 +9,8 @@ action usually means adding a new property to the state.
 import {stringEnum} from '../utils/utils'
 import {IAlgoliaSearchResults} from '../vendor/algolia'
 import {HvError} from '../typeDefinitions'
-import {createActionCreator, createActionCreatorWithNoPayload, handleAction} from './utils'
-import {nonStandardActions} from './nonStandardActions'
+import {handleAction} from './utils'
+import {push} from 'react-router-redux'
 
 // This interface defines types of the entire state object of Hollowverse
 export interface IGeneralState {
@@ -42,22 +42,27 @@ export const initialGeneralState: IGeneralState = {
 
 // These are all the actions that can be triggered from within the Hollowverse application
 export const actions = {
-  ...nonStandardActions,
-  setSearchInputValue: createActionCreator<string>('setSearchInputValue'),
-  setIsSearchPending: createActionCreator<boolean>('setIsSearchPending'),
-  setIsLoginPending: createActionCreator<boolean>('setIsLoginPending'),
-  setIsLogoutPending: createActionCreator<boolean>('setIsLogoutPending'),
-  setSearchError: createActionCreator<string>('setSearchError'),
-  setSearchResults: createActionCreator<IAlgoliaSearchResults | undefined>('setSearchResults'),
-  setLoginStatus: createActionCreator<facebookSdk.LoginStatus | undefined>('setLoginStatus'),
-  setError: createActionCreator<HvError>('setError'),
-  setIsNavMenuOpen: createActionCreator<boolean>('setIsNavMenuOpen'),
-  setLastSearchTerm: createActionCreator<string>('setLastSearchTerm'),
-  requestSearchResults: createActionCreator<string>('requestSearchResults'),
-  requestLogin: createActionCreatorWithNoPayload('requestLogin'),
-  requestLogout: createActionCreatorWithNoPayload('requestLogout'),
-  requestUpdateLoginStatus: createActionCreatorWithNoPayload('requestUpdateLoginStatus'),
-  setCreateProfileUrlInputValue: createActionCreator<string>('setCreateProfileUrlInputValue'),
+  navigateToSearch: (payload: string) => {
+    return push({
+      pathname: '/',
+      search: payload,
+    })
+  },
+  setSearchInputValue: (payload: string) => ({type: 'setSearchInputValue', payload}),
+  setIsSearchPending: (payload: boolean) => ({type: 'setIsSearchPending', payload}),
+  setIsLoginPending: (payload: boolean) => ({type: 'setIsLoginPending', payload}),
+  setIsLogoutPending: (payload: boolean) => ({type: 'setIsLogoutPending', payload}),
+  setSearchError: (payload: string) => ({type: 'setSearchError', payload}),
+  setSearchResults: (payload: IAlgoliaSearchResults | undefined) => ({type: 'setSearchResults', payload}),
+  setLoginStatus: (payload: facebookSdk.LoginStatus | undefined) => ({type: 'setLoginStatus', payload}),
+  setError: (payload: HvError) => ({type: 'setError', payload}),
+  setIsNavMenuOpen: (payload: boolean) => ({type: 'setIsNavMenuOpen', payload}),
+  setLastSearchTerm: (payload: string) => ({type: 'setLastSearchTerm', payload}),
+  requestSearchResults: (payload: string) => ({type: 'requestSearchResults', payload}),
+  requestLogin: () => ({type: 'requestLogin'}),
+  requestLogout: () => ({type: 'requestLogout'}),
+  requestUpdateLoginStatus: () => ({type: 'requestUpdateLoginStatus'}),
+  setCreateProfileUrlInputValue: (payload: string) => ({type: 'setCreateProfileUrlInputValue', payload}),
 }
 
 export type ActionTypes = keyof typeof actions
