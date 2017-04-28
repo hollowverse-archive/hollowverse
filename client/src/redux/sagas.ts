@@ -1,9 +1,15 @@
+//
+// REDUX SAGAS
+//
+// This file just contains Redux Sagas generators
+//
 import {put, takeEvery} from 'redux-saga/effects'
 import {actions, Action} from './actions'
 import {algoliaSearchIndex} from '../vendor/algolia'
 import * as facebook from '../vendor/facebook'
 import * as firebase from '../vendor/firebase'
 
+// These are the Redux actions that trigger the saga generators
 function* sagas() {
   yield takeEvery('requestSearchResults', requestSearchResults)
   yield takeEvery('requestLogin', requestLogin)
