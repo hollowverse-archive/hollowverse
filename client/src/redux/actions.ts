@@ -1,16 +1,18 @@
-/*
-REDUX ACTION CREATORS
-
-This file contains Redux action creators as well as the initial state object.
-
-We've decided to put the initial state object here for convenience because adding an
-action usually means adding a new property to the state.
-*/
+//
+// REDUX ACTION CREATORS
+//
+//
+// This file contains:
+// * Redux action creators
+// * Redux action types
+//
 import {stringEnum} from '../utils/utils'
 import {IAlgoliaSearchResults} from '../vendor/algolia'
 import {HvError} from '../typeDefinitions'
-import {handleAction} from './utils'
 import {push} from 'react-router-redux'
+
+// This is the regular action type on Hollowverse. It contains a Redux Action Type and a payload.
+export interface Action<PayloadType> { type: string, payload: PayloadType}
 
 // These are all the actions that can be triggered from within the Hollowverse application
 export const actions = {
@@ -20,6 +22,8 @@ export const actions = {
       search: payload,
     })
   },
+
+  // Regular action Types
   setSearchInputValue: (payload: string) => ({type: 'setSearchInputValue', payload}),
   setIsSearchPending: (payload: boolean) => ({type: 'setIsSearchPending', payload}),
   setIsLoginPending: (payload: boolean) => ({type: 'setIsLoginPending', payload}),
@@ -39,18 +43,14 @@ export const actions = {
   requestUpdateLoginStatus: () => ({type: 'requestUpdateLoginStatus'}),
 }
 
+// `ActionTypes` is a TypeScript type 'string' of any key from the object `actions` above,
+// so `navigateToSearch` | `setSearchInputValue` | `setIsLogoutPending` | etc...are all valid
+// types of `ActionTypes`
 export type ActionTypes = keyof typeof actions
-export const ActionTypes = stringEnum(Object.keys(actions)) as {[name in ActionTypes]: ActionTypes}
 
-export const actionHandlers = {
-  [ActionTypes.setSearchInputValue]: handleAction<string>('searchInputValue'),
-  [ActionTypes.setSearchResults]: handleAction<IAlgoliaSearchResults | undefined>('searchResults'),
-  [ActionTypes.setIsSearchPending]: handleAction<boolean>('isSearchPending'),
-  [ActionTypes.setLoginStatus]: handleAction<facebookSdk.LoginStatus>('loginStatus'),
-  [ActionTypes.setIsLoginPending]: handleAction<boolean>('isLoginPending'),
-  [ActionTypes.setIsLogoutPending]: handleAction<boolean>('isLogoutPending'),
-  [ActionTypes.setError]: handleAction<HvError>('error'),
-  [ActionTypes.setIsNavMenuOpen]: handleAction<boolean>('isNavMenuOpen'),
-  [ActionTypes.setLastSearchTerm]: handleAction<string>('lastSearchTerm'),
-  [ActionTypes.setCreateProfileUrlInputValue]: handleAction<string>('createProfileUrlInputValue'),
-}
+// Instead of maintaining a separate list of Redux Action Types, we can use the keys of our `actions`
+// object above as our action types. That's what `stringEnum` does.
+//
+// Its type is being asserted as you can see so that when you try to access a key that doesn't exist
+// on the `actions` object, you'll get a compile error.
+export const ActionTypes = stringEnum(Object.keys(actions)) as {[name in ActionTypes]: ActionTypes}
