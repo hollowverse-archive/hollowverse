@@ -1,15 +1,23 @@
+/*
+REDUX ACTION CREATORS
+
+This file contains Redux action creators as well as the initial state object.
+
+We've decided to put the initial state object here for convenience because adding an
+action usually means adding a new property to the state.
+*/
 import {stringEnum} from '../utils/utils'
 import {IAlgoliaSearchResults} from '../vendor/algolia'
 import {HvError} from '../typeDefinitions'
 import {createActionCreator, createActionCreatorWithNoPayload, handleAction} from './utils'
 import {nonStandardActions} from './nonStandardActions'
-import LoginStatus = facebookSdk.LoginStatus
 
+// This interface defines types of the entire state object of Hollowverse
 export interface IGeneralState {
   searchInputValue: string,
   searchResults: IAlgoliaSearchResults | undefined,
   isSearchPending: boolean,
-  loginStatus: LoginStatus,
+  loginStatus: facebookSdk.LoginStatus,
   isLoginPending: boolean,
   isLogoutPending: boolean,
   error: HvError,
@@ -18,6 +26,7 @@ export interface IGeneralState {
   createProfileUrlInputValue: string
 }
 
+// Initialize the default state object
 export const initialGeneralState: IGeneralState = {
   searchInputValue: '',
   searchResults: undefined,
@@ -31,6 +40,7 @@ export const initialGeneralState: IGeneralState = {
   createProfileUrlInputValue: '',
 }
 
+// These are all the actions that can be triggered from within the Hollowverse application
 export const actions = {
   ...nonStandardActions,
   setSearchInputValue: createActionCreator<string>('setSearchInputValue'),
