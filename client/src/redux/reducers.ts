@@ -1,13 +1,21 @@
-import {Action} from './utils'
+//
+// REDUX REDUCERS
+//
+//
+// This file contains:
+// * Redux state shape
+// * Redux single action reducers
+// * Redux reducers
+//
 import {Reducer} from 'redux'
 import {routerReducer, RouterState} from 'react-router-redux'
-import {actionHandlers} from './actions'
+import {ActionTypes, Action} from './actions'
 import LoginStatus = facebookSdk.LoginStatus
 import {IAlgoliaSearchResults} from '../vendor/algolia'
 import {HvError} from '../typeDefinitions'
 
-// This interface defines types of the entire state object of Hollowverse
-export interface IGeneralState {
+// This interface defines the state keys of the Hollowverse app
+interface IAppState {
   searchInputValue: string,
   searchResults: IAlgoliaSearchResults | undefined,
   isSearchPending: boolean,
@@ -20,8 +28,12 @@ export interface IGeneralState {
   createProfileUrlInputValue: string
 }
 
+// Let's mark IAppState as read only to make sure our reducers and code don't accidentally
+// try to mutate it.
+type AppState = Readonly<IAppState>
+
 // Initialize the default state object
-export const initialGeneralState: IGeneralState = {
+const initialAppState: AppState = {
   searchInputValue: '',
   searchResults: undefined,
   isSearchPending: false,
@@ -34,27 +46,74 @@ export const initialGeneralState: IGeneralState = {
   createProfileUrlInputValue: '',
 }
 
-interface IState extends IGeneralState {
+// IRootState contains IAppState as well as other state keys that are required by external
+// modules
+interface IRootState extends IAppState {
   routing: RouterState | undefined
 }
 
-export type State = Readonly<IState>
-export type GeneralState = Readonly<IGeneralState>
+// Let's mark IRootState as read only to make sure our reducers and code don't accidentally
+// try to mutate it.
+export type State = Readonly<IRootState>
 
+// This is the root initial state of our application
 const initialState: State = {
-  ...initialGeneralState,
+  ...initialAppState,
   routing: undefined,
 }
 
-const generalReducer = (state: GeneralState = initialGeneralState, action: Action<any>): GeneralState => {
-  const actionHandler = actionHandlers[action.type] as (state: GeneralState, action: Action<any>) => GeneralState
-
-  return (typeof actionHandler === 'function') ? actionHandler(state, action) : state
+// For each Redux action, there would be at least one corresponding state key to be patched.
+//
+// For example, say you dispatch an action `setLoginStatus('connected')`, you
+// would have to have a reducer that will patch the state key `loginStatus` with the value `'connected'`.
+//
+// What this function does is: for any payload that simply needs to be inserted into the state without any logic
+// it will return a function that inserts that payload into the state and returns the new state.
+//
+// You can see how it's being used below with the `singleActionReducers` object.
+//
+// We can do away with this function, but then we'll have a bunch of boilerplate for each key we patch.
+function createSingleActionReducer<PayloadType>(stateKeyToPatch: string) {
+  return function simpleStatePatcher(state: AppState, action: Action<PayloadType>): AppState {
+    return ({...state, [stateKeyToPatch]: action.payload})
+  }
 }
 
+// We get the `ActionTypes` from `/redux/actions.ts` and for each one, we create an appropriate patcher.
+const singleActionReducers = {
+  [ActionTypes.setSearchInputValue]: createSingleActionReducer<string>('searchInputValue'),
+  [ActionTypes.setSearchResults]: createSingleActionReducer<IAlgoliaSearchResults | undefined>('searchResults'),
+  [ActionTypes.setIsSearchPending]: createSingleActionReducer<boolean>('isSearchPending'),
+  [ActionTypes.setLoginStatus]: createSingleActionReducer<facebookSdk.LoginStatus>('loginStatus'),
+  [ActionTypes.setIsLoginPending]: createSingleActionReducer<boolean>('isLoginPending'),
+  [ActionTypes.setIsLogoutPending]: createSingleActionReducer<boolean>('isLogoutPending'),
+  [ActionTypes.setError]: createSingleActionReducer<HvError>('error'),
+  [ActionTypes.setIsNavMenuOpen]: createSingleActionReducer<boolean>('isNavMenuOpen'),
+  [ActionTypes.setLastSearchTerm]: createSingleActionReducer<string>('lastSearchTerm'),
+  [ActionTypes.setCreateProfileUrlInputValue]: createSingleActionReducer<string>('createProfileUrlInputValue'),
+}
+
+// A Redux reducer is simply a function that accepts `state` and `action` and returns a new `state`.
+// That's what the function below does.
+//
+// The way it knows how to modify the state is by querying the `singleActionReducers` object above.
+// If it finds a corresponding action reducer, it will use it to patch the state. Otherwise, it will
+// return the state unmodified.
+//
+// `appReducer` is for Hollowverse state only. It is not the root reducer of the app.
+const appReducer = (state: AppState = initialAppState, action: Action<any>): AppState => {
+  const actionReducer = singleActionReducers[action.type] as (state: AppState, action: Action<any>) => AppState
+
+  return (typeof actionReducer === 'function') ?
+    actionReducer(state, action) :
+    state
+}
+
+// This is the root reducer of the app. It includes Hollowverse `appReducer` as well as other reducers
+// that may be required by external modules.
 export const reducer: Reducer<State> = (state: State = initialState, action: Action<any>): State => {
   return {
-    ...generalReducer(state, action),
+    ...appReducer(state, action),
     routing: routerReducer(state.routing, action),
   }
 }
