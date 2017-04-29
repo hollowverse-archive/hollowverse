@@ -5,12 +5,7 @@
 
 Politics, religions, and ideas.
 
-## Contributing
-
-We're currently at the stage of heavy initial development. Any contributions are appreciated!
-Please submit an issue with you questions if you're not sure where to start.
-
-## Getting Started
+## Getting started
 
 ### Prerequisites
 
@@ -35,11 +30,7 @@ This will run the server straight from the source in `./server/src`. Nodemon wil
 
 This will build the JavaScript bundle in production mode and then execute `firebase serve`.
 
-## Deployment
-
-Deployment to Firebase happens automatically when a PR is merged to `master`.
-
-## Built With
+## Built with
 
 * [TypeScript](https://www.typescriptlang.org/) - strongly typed language compiled to JavaScript
 * [React](https://facebook.github.io/react/) - front-end library for building UI
@@ -48,31 +39,9 @@ Deployment to Firebase happens automatically when a PR is merged to `master`.
 * [Firebase](https://firebase.google.com/) - tools and infrastructure for the server side, abstraction over the Google Cloud Platform
 * [Webpack](https://webpack.github.io/) - module bundler for concatenating and minifying JavaScript
 
-## Project Guidelines
+## More information
 
-### UX guidelines
-
-* Layout should redraw as little as possible as data comes in
-* Follow the advice in [this article](https://goo.gl/1V7aJw)
-* Use optimistic updates wherever possible
-
-### Engineering guidelines
-
-* Use strong static types to mitigate some of the need of unit testing
-* When a runtime bug is discovered, think about how to prevent it with stronger typing
-* Anything that can be executed server-side (such as business logic) should be executed server-side,
-the client-side should be as lightweight as possible
-
-### React guidelines
-
-* Only page-level components may have lifecycle hooks. Other components may not
-* No stateless functional components, for consistency and simplicity's sake
-
-### JavaScript guidelines
-
-* Don't use JavaScript anywhere, only TypeScript
-* No default exports
-* Follow the [Standard Style](https://github.com/blakeembrey/tslint-config-standard), see [tslint.json](./tslint.json) for more details
+For more information, see the [wiki](https://github.com/hollowverse/hollowverse/wiki).
 
 ## License
 
