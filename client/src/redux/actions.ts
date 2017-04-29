@@ -36,7 +36,7 @@ export const actions = {
   setLastSearchTerm: (payload: string) => ({type: 'setLastSearchTerm', payload}),
   setCreateProfileUrlInputValue: (payload: string) => ({type: 'setCreateProfileUrlInputValue', payload}),
 
-  // Redux Sagas actions
+  // Redux Sagas triggers
   requestSearchResults: (payload: string) => ({type: 'requestSearchResults', payload}),
   requestLogin: () => ({type: 'requestLogin'}),
   requestLogout: () => ({type: 'requestLogout'}),

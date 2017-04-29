@@ -1,7 +1,8 @@
 //
 // REDUX SAGAS
 //
-// This file just contains Redux Sagas generators
+// This file just contains Redux Sagas generators. For more information on Redux Sagas, see:
+// https://github.com/redux-saga/redux-saga
 //
 import {put, takeEvery} from 'redux-saga/effects'
 import {actions, Action} from './actions'
