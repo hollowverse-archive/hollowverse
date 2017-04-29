@@ -14,7 +14,7 @@ import LoginStatus = facebookSdk.LoginStatus
 import {IAlgoliaSearchResults} from '../vendor/algolia'
 import {HvError} from '../typeDefinitions'
 
-// This interface defines the state keys of the Hollowverse app
+// This interface defines the state properties of the Hollowverse app
 interface IAppState {
   searchInputValue: string,
   searchResults: IAlgoliaSearchResults | undefined,
@@ -28,8 +28,7 @@ interface IAppState {
   createProfileUrlInputValue: string
 }
 
-// Let's mark IAppState as read only to make sure our reducers and code don't accidentally
-// try to mutate it.
+// Make it an immutable type
 type AppState = Readonly<IAppState>
 
 // Initialize the default state object
@@ -52,11 +51,10 @@ interface IRootState extends IAppState {
   routing: RouterState | undefined
 }
 
-// Let's mark IRootState as read only to make sure our reducers and code don't accidentally
-// try to mutate it.
+// Make it an immutable type
 export type State = Readonly<IRootState>
 
-// This is the root initial state of our application
+// This is the root initial state of the whole application
 const initialState: State = {
   ...initialAppState,
   routing: undefined,
@@ -79,7 +77,7 @@ const singleActionReducers = {
 // A Redux reducer is simply a function that accepts `state` and `action` and returns a new `state`.
 // That's what the function below does.
 //
-// The way it knows how to modify the state is by querying the `singleActionReducers` object above.
+// The way it knows how to patch the state is by querying the `singleActionReducers` object above.
 // If it finds a corresponding action reducer, it will use it to patch the state. Otherwise, it will
 // return the state unmodified.
 //
@@ -114,7 +112,7 @@ export const reducer: Reducer<State> = (state: State = initialState, action: Act
 // What this function does is: for any payload that simply needs to be inserted into the state without any logic
 // it will return a function that inserts that payload into the state and returns the new state.
 //
-// You can see how it's being used below with the `singleActionReducers` object.
+// You can see how it's being used with the `singleActionReducers` object.
 //
 // We can do away with this function, but then we'll have a bunch of boilerplate for each key we patch.
 function createSingleActionSimpleReducer<PayloadType>(stateKeyToPatch: keyof IAppState) {

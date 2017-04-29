@@ -3,7 +3,7 @@
 //
 // This file just contains Redux selectors.
 //
-// Redux select help derive values from the `state` dynamically. As a best practice, if a value can be computed
+// Redux selectors help derive values from the `state` dynamically. As a best practice, if a value can be computed
 // through a selector, it shouldn't be stored in the state.
 //
 import {State} from './reducers'

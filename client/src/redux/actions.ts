@@ -11,10 +11,10 @@ import {IAlgoliaSearchResults} from '../vendor/algolia'
 import {HvError} from '../typeDefinitions'
 import {push} from 'react-router-redux'
 
-// This is the regular action type on Hollowverse. It contains a Redux Action Type and a payload.
+// Custom type definition of a Redux Action
 export interface Action<PayloadType> { type: string, payload: PayloadType}
 
-// These are all the actions that can be triggered from within the Hollowverse application
+// The following are all the actions that can be triggered from within the Hollowverse application
 export const actions = {
   navigateToSearch: (payload: string) => {
     return push({
@@ -43,9 +43,8 @@ export const actions = {
   requestUpdateLoginStatus: () => ({type: 'requestUpdateLoginStatus'}),
 }
 
-// `ActionTypes` is a TypeScript type 'string' of any key from the object `actions` above,
-// so `navigateToSearch` | `setSearchInputValue` | `setIsLogoutPending` | etc...are all valid
-// types of `ActionTypes`
+// `ActionTypes` can have any string value that corresponds with a key in the `actions` object above
+// so `navigateToSearch` | `setSearchInputValue` | `setIsLogoutPending` | etc...are all valid.
 export type ActionTypes = keyof typeof actions
 
 // Instead of maintaining a separate list of Redux Action Types, we can use the keys of our `actions`
