@@ -2,7 +2,7 @@ import * as shelljs from 'shelljs'
 
 (shelljs as any).set('-e')
 
-shelljs.exec('npm run test')
+shelljs.exec('yarn test')
 
 if (
   shelljs.env['TRAVIS_BRANCH'] === 'master' &&

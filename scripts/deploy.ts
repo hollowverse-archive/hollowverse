@@ -6,11 +6,11 @@ import * as shelljs from 'shelljs'
 print(chalk.green.bold('Deployment started...'))
 
 print(chalk.green.bold('Building JavaScript and CSS files...'))
-shelljs.exec('npm run client/build')
+shelljs.exec('yarn client/build')
 
-print(chalk.green.bold('`npm install` in Firebase `functions/`...'))
+print(chalk.green.bold('`yarn install` in Firebase `functions/`...'))
 shelljs.cd('functions/')
-shelljs.exec('npm install')
+shelljs.exec('yarn install')
 shelljs.cd('..')
 
 print(chalk.green.bold('Deploying to Firebase...'))
