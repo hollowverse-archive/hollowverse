@@ -10,23 +10,23 @@ Politics, religions, and ideas.
 ### Prerequisites
 
 * Install latest stable [Node.js](https://nodejs.org/en/)
-* Install dependencies: `npm install` in this directory
+* Install dependencies: `yarn install` in this directory
 
 ### Front-end
 
-* Start webpack-dev-server: `npm run client/dev`
+* Start webpack-dev-server: `yarn client/dev`
 
 This will provide a dev version of the front-end on `localhost:8080` and rebuild it on changes.
 
 ### Back-end
 
-* Start the server via nodemon: `npm run server/express`
+* Start the server via nodemon: `yarn server/express`
 
 This will run the server straight from the source in `./server/src`. Nodemon will automatically refresh it on changes.
 
 ### Building in production mode
 
-* Build assets in production mode and run Firebase Hosting locally: `npm run server/firebase`
+* Build assets in production mode and run Firebase Hosting locally: `yarn server/firebase`
 
 This will build the JavaScript bundle in production mode and then execute `firebase serve`.
 
