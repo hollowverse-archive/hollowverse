@@ -8,16 +8,16 @@
     "client/dev": "webpack-dev-server --historyApiFallback true --content-base public --config client/webpack.config.ts",
     "client/build": "webpack --optimize-minimize --define process.env.NODE_ENV=\"'production'\" --config client/webpack.config.ts",
     "server/express": "nodemon --exec ts-node -- server/src/index.tsx",
-    "server/firebase": "npm run client/build && firebase serve",
+    "server/firebase": "yarn client/build && firebase serve",
     "lint": "tslint '**/*.t{s,sx}' -e '**/node_modules/**' --fix",
     "precommit": "lint-staged",
-    "test": "npm run client/build"
+    "test": "yarn client/build"
   },
   "license": "Unlicense",
   "homepage": "https://github.com/hollowverse/hollowverse#readme",
   "lint-staged": {
     "*.{ts,tsx}": [
-      "npm run lint",
+      "yarn lint",
       "git add"
     ]
   },
