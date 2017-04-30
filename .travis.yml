@@ -10,6 +10,8 @@ install:
 - yarn install
 script:
 - node_modules/.bin/ts-node scripts/travis.ts
+after_success:
+- bash scripts/yarn.sh
 notifications:
   email: false
 branches:
