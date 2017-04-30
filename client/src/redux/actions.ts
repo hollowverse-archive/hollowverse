@@ -1,67 +1,55 @@
+//
+// REDUX ACTION CREATORS
+//
+//
+// This file contains:
+// * Redux action creators
+// * Redux action types
+//
 import {stringEnum} from '../utils/utils'
 import {IAlgoliaSearchResults} from '../vendor/algolia'
 import {HvError} from '../typeDefinitions'
-import {createActionCreator, createActionCreatorWithNoPayload, handleAction} from './utils'
-import {nonStandardActions} from './nonStandardActions'
-import LoginStatus = facebookSdk.LoginStatus
+import {push} from 'react-router-redux'
 
-export interface IGeneralState {
-  searchInputValue: string,
-  searchResults: IAlgoliaSearchResults | undefined,
-  isSearchPending: boolean,
-  loginStatus: LoginStatus,
-  isLoginPending: boolean,
-  isLogoutPending: boolean,
-  error: HvError,
-  isNavMenuOpen: boolean,
-  lastSearchTerm: string,
-  createProfileUrlInputValue: string
-}
+// Custom type definition of a Redux Action
+export interface Action<PayloadType> { type: string, payload: PayloadType}
 
-export const initialGeneralState: IGeneralState = {
-  searchInputValue: '',
-  searchResults: undefined,
-  isSearchPending: false,
-  loginStatus: 'unknown',
-  isLoginPending: false,
-  isLogoutPending: false,
-  error: undefined,
-  isNavMenuOpen: false,
-  lastSearchTerm: '',
-  createProfileUrlInputValue: '',
-}
-
+// The following are all the actions that can be triggered from within the Hollowverse application
 export const actions = {
-  ...nonStandardActions,
-  setSearchInputValue: createActionCreator<string>('setSearchInputValue'),
-  setIsSearchPending: createActionCreator<boolean>('setIsSearchPending'),
-  setIsLoginPending: createActionCreator<boolean>('setIsLoginPending'),
-  setIsLogoutPending: createActionCreator<boolean>('setIsLogoutPending'),
-  setSearchError: createActionCreator<string>('setSearchError'),
-  setSearchResults: createActionCreator<IAlgoliaSearchResults | undefined>('setSearchResults'),
-  setLoginStatus: createActionCreator<facebookSdk.LoginStatus | undefined>('setLoginStatus'),
-  setError: createActionCreator<HvError>('setError'),
-  setIsNavMenuOpen: createActionCreator<boolean>('setIsNavMenuOpen'),
-  setLastSearchTerm: createActionCreator<string>('setLastSearchTerm'),
-  requestSearchResults: createActionCreator<string>('requestSearchResults'),
-  requestLogin: createActionCreatorWithNoPayload('requestLogin'),
-  requestLogout: createActionCreatorWithNoPayload('requestLogout'),
-  requestUpdateLoginStatus: createActionCreatorWithNoPayload('requestUpdateLoginStatus'),
-  setCreateProfileUrlInputValue: createActionCreator<string>('setCreateProfileUrlInputValue'),
+  navigateToSearch: (payload: string) => {
+    return push({
+      pathname: '/',
+      search: payload,
+    })
+  },
+
+  // Regular action Types
+  setSearchInputValue: (payload: string) => ({type: 'setSearchInputValue', payload}),
+  setIsSearchPending: (payload: boolean) => ({type: 'setIsSearchPending', payload}),
+  setIsLoginPending: (payload: boolean) => ({type: 'setIsLoginPending', payload}),
+  setIsLogoutPending: (payload: boolean) => ({type: 'setIsLogoutPending', payload}),
+  setSearchError: (payload: string) => ({type: 'setSearchError', payload}),
+  setSearchResults: (payload: IAlgoliaSearchResults | undefined) => ({type: 'setSearchResults', payload}),
+  setLoginStatus: (payload: facebookSdk.LoginStatus | undefined) => ({type: 'setLoginStatus', payload}),
+  setError: (payload: HvError) => ({type: 'setError', payload}),
+  setIsNavMenuOpen: (payload: boolean) => ({type: 'setIsNavMenuOpen', payload}),
+  setLastSearchTerm: (payload: string) => ({type: 'setLastSearchTerm', payload}),
+  setCreateProfileUrlInputValue: (payload: string) => ({type: 'setCreateProfileUrlInputValue', payload}),
+
+  // Redux Sagas triggers
+  requestSearchResults: (payload: string) => ({type: 'requestSearchResults', payload}),
+  requestLogin: () => ({type: 'requestLogin'}),
+  requestLogout: () => ({type: 'requestLogout'}),
+  requestUpdateLoginStatus: () => ({type: 'requestUpdateLoginStatus'}),
 }
 
+// `ActionTypes` can have any string value that corresponds with a key in the `actions` object above
+// so `navigateToSearch` | `setSearchInputValue` | `setIsLogoutPending` | etc...are all valid.
 export type ActionTypes = keyof typeof actions
-export const ActionTypes = stringEnum(Object.keys(actions)) as {[name in ActionTypes]: ActionTypes}
 
-export const actionHandlers = {
-  [ActionTypes.setSearchInputValue]: handleAction<string>('searchInputValue'),
-  [ActionTypes.setSearchResults]: handleAction<IAlgoliaSearchResults | undefined>('searchResults'),
-  [ActionTypes.setIsSearchPending]: handleAction<boolean>('isSearchPending'),
-  [ActionTypes.setLoginStatus]: handleAction<facebookSdk.LoginStatus>('loginStatus'),
-  [ActionTypes.setIsLoginPending]: handleAction<boolean>('isLoginPending'),
-  [ActionTypes.setIsLogoutPending]: handleAction<boolean>('isLogoutPending'),
-  [ActionTypes.setError]: handleAction<HvError>('error'),
-  [ActionTypes.setIsNavMenuOpen]: handleAction<boolean>('isNavMenuOpen'),
-  [ActionTypes.setLastSearchTerm]: handleAction<string>('lastSearchTerm'),
-  [ActionTypes.setCreateProfileUrlInputValue]: handleAction<string>('createProfileUrlInputValue'),
-}
+// Instead of maintaining a separate list of Redux Action Types, we can use the keys of our `actions`
+// object above as our action types. That's what `stringEnum` does.
+//
+// Its type is being asserted as you can see so that when you try to access a key that doesn't exist
+// on the `actions` object, you'll get a compile error.
+export const ActionTypes = stringEnum(Object.keys(actions)) as {[name in ActionTypes]: ActionTypes}

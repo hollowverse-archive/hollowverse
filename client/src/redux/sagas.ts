@@ -1,9 +1,22 @@
+//
+// REDUX SAGAS
+//
+// This file just contains Redux Sagas generators. For more information on Redux Sagas, see:
+// https://github.com/redux-saga/redux-saga
+//
 import {put, takeEvery} from 'redux-saga/effects'
-import {actions} from './actions'
-import {Action} from './utils'
+import {actions, Action} from './actions'
 import {algoliaSearchIndex} from '../vendor/algolia'
 import * as facebook from '../vendor/facebook'
 import * as firebase from '../vendor/firebase'
+
+// These are the Redux actions that trigger the saga generators
+function* sagas() {
+  yield takeEvery('requestSearchResults', requestSearchResults)
+  yield takeEvery('requestLogin', requestLogin)
+  yield takeEvery('requestLogout', requestLogout)
+  yield takeEvery('requestUpdateLoginStatus', requestUpdateLoginStatus)
+}
 
 function* requestSearchResults(action: Action<string>) {
   try {
@@ -68,13 +81,6 @@ function* requestUpdateLoginStatus() {
   } finally {
     yield put(actions.setIsLoginPending(false))
   }
-}
-
-function* sagas() {
-  yield takeEvery('requestSearchResults', requestSearchResults)
-  yield takeEvery('requestLogin', requestLogin)
-  yield takeEvery('requestLogout', requestLogout)
-  yield takeEvery('requestUpdateLoginStatus', requestUpdateLoginStatus)
 }
 
 export {sagas}
