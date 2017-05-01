@@ -10,6 +10,8 @@ Politics, religions, and ideas.
 ### Prerequisites
 
 * Install latest stable [Node.js](https://nodejs.org/en/)
+* Install [Yarn](https://yarnpkg.com/lang/en/docs/install/#mac-tab) globally.
+* Install Nodemon globally: `npm install nodemon -g`
 * Install dependencies: `yarn install` in this directory
 
 ### Front-end
