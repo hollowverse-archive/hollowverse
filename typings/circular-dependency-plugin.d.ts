@@ -2,7 +2,7 @@ declare module 'circular-dependency-plugin' {
   import { Compiler, Plugin } from 'webpack'
 
   interface CircularDependencyPluginOptions {
-    exclude?: RegExp,
+    exclude?: RegExp
     failOnError?: boolean
   }
 
