@@ -3,16 +3,16 @@ $facebookBlue: #3B5998;
 $BulmaLightWatermark: rgb(238, 237, 237);
 
 @import "~bulma";
-
 @import "globalStyles";
 
 @import "app/app";
 @import "app/header";
-// @import "page/addNotablePerson/addNotablePerson";
-@import "page/homepage/homepage";
-// @import "page/login/login";
-// @import "page/notablePerson/notablePerson";
-@import "page/search/search";
 
-@import "component/globalSpinner";
-@import "component/animations";
+// @import "pages/addNotablePerson/addNotablePerson";
+@import "pages/homepage/homepage";
+// @import "pages/login/login";
+// @import "pages/notablePerson/notablePerson";
+@import "pages/search/search";
+
+@import "components/globalSpinner";
+@import "components/animations";

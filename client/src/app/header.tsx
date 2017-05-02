@@ -1,12 +1,12 @@
 import * as React from 'react'
-import {pick, cn} from '../utils/utils'
 import {connect} from 'react-redux'
+import {Link} from 'react-router-dom'
 import {actions} from '../redux/actions'
 import {State} from '../redux/reducers'
-import {Link} from 'react-router-dom'
-import {FadeInDown} from '../component/animations'
-import OnClickOutside from '../component/onClickOutside'
-import {Icon} from '../component/icon'
+import {pick, cn} from '../utils/utils'
+import {FadeInDown} from '../components/animations'
+import OnClickOutside from '../components/onClickOutside'
+import {Icon} from '../components/icon'
 
 interface Props {
   loginStatus: facebookSdk.LoginStatus,

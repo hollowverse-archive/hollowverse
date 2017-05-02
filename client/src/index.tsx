@@ -3,12 +3,12 @@ import * as ReactDOM from 'react-dom'
 import {Provider} from 'react-redux'
 import {Route, BrowserRouter as Router} from 'react-router-dom'
 import {store, history} from './redux/store'
-import {requireUserLogin} from './hoc/requireUserLogin'
 import {ConnectedRouter} from 'react-router-redux'
+import {requireUserLogin} from './hocs/requireUserLogin'
 import {App} from './app/app'
-import {Homepage} from './page/homepage/homepage'
-import {AddNotablePerson} from './page/addNotablePerson/addNotablePerson'
-import Login from './page/login/login'
+import {Homepage} from './pages/homepage/homepage'
+import {AddNotablePerson} from './pages/addNotablePerson/addNotablePerson'
+import Login from './pages/login/login'
 // import notablePerson from "./page/notablePerson/notablePerson"
 // import Search from "./page/search/search"
 
