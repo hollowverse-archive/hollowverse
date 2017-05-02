@@ -1,5 +1,6 @@
 import * as path from 'path'
 import * as ExtractTextPlugin from 'extract-text-webpack-plugin'
+import * as CircularDependencyPlugin from 'circular-dependency-plugin'
 
 export default {
   entry: path.resolve(__dirname, 'src/webpackEntry.ts'),
@@ -49,6 +50,10 @@ export default {
       filename: 'css/styles.css',
       disable: false,
       allChunks: true,
+    }),
+    new CircularDependencyPlugin({
+      exclude: /a\.js|node_modules/,
+      failOnError: true,
     }),
   ],
 }
