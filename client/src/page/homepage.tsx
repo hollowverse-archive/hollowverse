@@ -61,7 +61,7 @@ class HomepageClass extends React.Component<ComponentProps, undefined> {
 
               <Form onSubmit={() => this.submitSearchTerm()} className='searchForm'>
                 <FadeInUp>
-                  {!p.hasResults && p.searchResults !== undefined && (
+                  {!p.hasResults && p.searchResults !== undefined ? (
                     <div className='text-center'>
                       <div className='notification is-warning hv-has-shadow'>
                         <a className='delete' onClick={() => p.setSearchResults(undefined)} />
@@ -70,7 +70,7 @@ class HomepageClass extends React.Component<ComponentProps, undefined> {
                         </p>
                       </div>
                     </div>
-                  )}
+                  ) : null}
                 </FadeInUp>
 
                 <p className='control'>

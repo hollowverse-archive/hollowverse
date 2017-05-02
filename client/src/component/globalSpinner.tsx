@@ -25,7 +25,7 @@ class UnconnectedGlobalSpinner extends React.Component<Props, undefined> {
 
     return (
       <FadeIn timeout={300}>
-        {p.showGlobalSpinner && (
+        {p.showGlobalSpinner ? (
           <div className={cn(cc.componentGlobalSpinner, activeCssClass)}>
             <div className='modal-background'></div>
             <div className='modal-content'>
@@ -40,7 +40,7 @@ class UnconnectedGlobalSpinner extends React.Component<Props, undefined> {
               </div>
             </div>
           </div>
-        )}
+        ) : null}
       </FadeIn>
     )
   }
