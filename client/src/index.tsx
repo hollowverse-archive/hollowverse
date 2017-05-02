@@ -1,15 +1,16 @@
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
-import {Homepage} from './page/homepage'
-import {App} from './app/app'
-// import Search from "./page.search";
-import {CreateProfile} from './page/createProfile'
-import Login from './page/login'
 import {Provider} from 'react-redux'
 import {Route, BrowserRouter as Router} from 'react-router-dom'
 import {store, history} from './redux/store'
 import {requireUserLogin} from './hoc/requireUserLogin'
 import {ConnectedRouter} from 'react-router-redux'
+import {App} from './app/app'
+import {Homepage} from './page/homepage/homepage'
+import {CreateProfile} from './page/createProfile/createProfile'
+import Login from './page/login/login'
+// import notablePerson from "./page/notablePerson/notablePerson"
+// import Search from "./page/search/search"
 
 ReactDOM.render(
   <Provider store={store}>

@@ -7,8 +7,12 @@ $BulmaLightWatermark: rgb(238, 237, 237);
 @import "globalStyles";
 
 @import "app/app";
-@import "page/homepage";
-@import "page/search";
+@import "app/header";
+// @import "page/createProfile/createProfile";
+@import "page/homepage/homepage";
+// @import "page/login/login";
+// @import "page/notablePerson/notablePerson";
+@import "page/search/search";
 
 @import "component/globalSpinner";
 @import "component/animations";
