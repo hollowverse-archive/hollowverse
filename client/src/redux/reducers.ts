@@ -12,7 +12,7 @@ import {routerReducer, RouterState} from 'react-router-redux'
 import {ActionTypes, Action} from './actions'
 import LoginStatus = facebookSdk.LoginStatus
 import {IAlgoliaSearchResults} from '../vendor/algolia'
-import {HvError} from '../typeDefinitions'
+import {HvError} from '../../../typings/typeDefinitions'
 
 // This interface defines the state properties of the Hollowverse app
 interface IAppState {

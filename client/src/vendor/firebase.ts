@@ -1,5 +1,5 @@
 import * as firebase from 'firebase'
-import {User} from '../typeDefinitions'
+import {User} from '../../../typings/typeDefinitions'
 import {errors} from '../constants/errors'
 
 const firebaseConfig = {
