@@ -10,6 +10,7 @@ Politics, religions, and ideas.
 ### Prerequisites
 
 * Install latest stable [Node.js](https://nodejs.org/en/)
+* Install [Yarn](https://yarnpkg.com/lang/en/docs/install/) globally.
 * Install dependencies: `yarn install` in this directory
 
 ### Front-end

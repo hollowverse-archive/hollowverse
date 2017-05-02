@@ -1,8 +1,12 @@
 #!/bin/bash
 
+# When Greenkeeper opens PRs for updating packages, it updates package.json
+# but it does not update the yarn.lock file. This script will watch for Greenkeeper
+# PRs that have package updates and push a refreshed yarn.lock file to that PR.
+
 echo "Should yarn.lock be regenerated?"
 if [[ $TRAVIS_PULL_REQUEST_BRANCH != *"greenkeeper"* ]]; then
-	# Not a GreenKeeper Pull Request, aborting
+	# If the PR is not by Greenkeeper, this script will not interfere.
 	exit 0
 fi
 
