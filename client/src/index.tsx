@@ -7,7 +7,7 @@ import {requireUserLogin} from './hoc/requireUserLogin'
 import {ConnectedRouter} from 'react-router-redux'
 import {App} from './app/app'
 import {Homepage} from './page/homepage/homepage'
-import {CreateProfile} from './page/createProfile/createProfile'
+import {AddNotablePerson} from './page/addNotablePerson/addNotablePerson'
 import Login from './page/login/login'
 // import notablePerson from "./page/notablePerson/notablePerson"
 // import Search from "./page/search/search"

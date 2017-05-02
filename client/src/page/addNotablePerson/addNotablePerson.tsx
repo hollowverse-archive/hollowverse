@@ -16,7 +16,7 @@ function mapStateToProps(state: State): Props {
   }
 }
 
-class CreateProfileClass extends React.Component<Props, undefined> {
+class AddNotablePersonClass extends React.Component<Props, undefined> {
   render() {
     const {props: p} = this
 
@@ -50,4 +50,4 @@ class CreateProfileClass extends React.Component<Props, undefined> {
   }
 }
 
-export const CreateProfile = connect()(CreateProfileClass)
+export const AddNotablePerson = connect()(AddNotablePersonClass)
