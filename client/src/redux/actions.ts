@@ -8,7 +8,7 @@
 //
 import {stringEnum} from '../utils/utils'
 import {IAlgoliaSearchResults} from '../vendor/algolia'
-import {HvError} from '../typeDefinitions'
+import {HvError} from '../../../typings/typeDefinitions'
 import {push} from 'react-router-redux'
 
 // Custom type definition of a Redux Action

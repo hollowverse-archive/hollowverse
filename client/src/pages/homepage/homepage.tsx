@@ -1,13 +1,13 @@
 import * as React from 'react'
-import {connect} from 'react-redux'
-import {actions} from '../redux/actions'
-import {State} from '../redux/reducers'
-import {pick} from '../utils/utils'
-import {Form} from '../component/form'
-import * as selectors from '../redux/selectors'
-import {FadeInUp} from '../component/animations'
-import {IAlgoliaSearchResults} from '../vendor/algolia'
 import {RouteComponentProps} from 'react-router-dom'
+import {connect} from 'react-redux'
+import {actions} from '../../redux/actions'
+import {State} from '../../redux/reducers'
+import * as selectors from '../../redux/selectors'
+import {pick} from '../../utils/utils'
+import {Form} from '../../components/form'
+import {FadeInUp} from '../../components/animations'
+import {IAlgoliaSearchResults} from '../../vendor/algolia'
 
 interface Props {
   searchInputValue: string,
