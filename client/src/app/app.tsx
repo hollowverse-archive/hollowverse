@@ -9,20 +9,17 @@ import {GlobalSpinner} from '../components/globalSpinner'
 
 interface Props {
   loginStatus: facebookSdk.LoginStatus,
-  isNavMenuOpen: boolean
 }
 
 function mapStateToProps(state: State): Props {
   return pick(state, [
     'loginStatus',
-    'isNavMenuOpen',
   ])
 }
 
 const actionCreators = pick(actions, [
   'requestUpdateLoginStatus',
 ])
-
 type ActionCreators = typeof actionCreators
 
 class AppClass extends React.Component<ActionCreators & Props, undefined> {
