@@ -23,16 +23,11 @@ function mapStateToProps(state: State): Props {
 const actionCreators = pick(actions, [
   'requestLogin',
   'requestLogout',
-  'requestUpdateLoginStatus',
   'setIsNavMenuOpen',
 ])
 type ActionCreators = typeof actionCreators
 
 class HeaderClass extends React.Component<ActionCreators & Props, undefined> {
-  componentDidMount() {
-    this.props.requestUpdateLoginStatus()
-  }
-
   render() {
     const {props: p} = this
     const navClass = (p.isNavMenuOpen) ? 'is-active' : ''
