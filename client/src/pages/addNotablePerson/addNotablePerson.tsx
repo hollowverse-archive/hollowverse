@@ -1,8 +1,8 @@
 import * as React from 'react'
 import {connect} from 'react-redux'
-import {State} from '../redux/reducers'
-import {pick} from '../utils/utils'
-import * as selectors from '../redux/selectors'
+import {State} from '../../redux/reducers'
+import {pick} from '../../utils/utils'
+import * as selectors from '../../redux/selectors'
 
 interface Props {
   createProfileUrlInputValue: string
@@ -16,7 +16,7 @@ function mapStateToProps(state: State): Props {
   }
 }
 
-class CreateProfileClass extends React.Component<Props, undefined> {
+class AddNotablePersonClass extends React.Component<Props, undefined> {
   render() {
     const {props: p} = this
 
@@ -50,4 +50,4 @@ class CreateProfileClass extends React.Component<Props, undefined> {
   }
 }
 
-export const CreateProfile = connect()(CreateProfileClass)
+export const AddNotablePerson = connect()(AddNotablePersonClass)
