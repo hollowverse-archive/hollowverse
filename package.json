@@ -25,6 +25,7 @@
   "greenkeeper": {
     "ignore": []
   },
+  "commonpkg": "@hollowverse/common-config",
   "dependencies": {
     "@types/algoliasearch": "^3.18.0",
     "@types/chalk": "^0.4.31",
@@ -60,8 +61,6 @@
     "firebase": "^3.6.9",
     "firebase-tools": "^3.6.0",
     "history": "^4.6.1",
-    "husky": "^0.13.3",
-    "lint-staged": "^3.4.0",
     "lodash": "^4.17.4",
     "node-sass": "^4.5.0",
     "nodemon": "^1.11.0",
@@ -82,11 +81,17 @@
     "source-map-loader": "^0.2.1",
     "style-loader": "^0.17.0",
     "ts-loader": "^2.0.2",
+    "webpack": "^2.2.1",
+    "webpack-dev-server": "^2.4.1",
+    "@hollowverse/common-config": "hollowverse/common-config",
+    "commonpkg": "^1.0.0"
+  },
+  "devDependencies": {
+    "husky": "^0.13.3",
+    "lint-staged": "^3.4.0",
     "ts-node": "^3.0.3",
     "tslint": "^5.0.0",
     "tslint-config-standard": "^5.0.2",
-    "typescript": "^2.1.6",
-    "webpack": "^2.2.1",
-    "webpack-dev-server": "^2.4.1"
+    "typescript": "^2.1.6"
   }
 }
