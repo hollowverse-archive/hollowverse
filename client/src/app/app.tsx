@@ -1,4 +1,6 @@
 import * as React from 'react'
+import {css} from 'aphrodite/no-important'
+import {styles} from './app.styles'
 import {connect} from 'react-redux'
 import {actions} from '../redux/actions'
 import {State} from '../redux/reducers'
@@ -28,7 +30,7 @@ class AppClass extends React.Component<ActionCreators & Props, undefined> {
   }
   render() {
     return (
-      <div className='mainApp'>
+      <div className={css(styles.gradients)}>
         <GlobalSpinner/>
         <Header/>
         <div className='pageContent'>
