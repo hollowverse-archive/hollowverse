@@ -31,12 +31,13 @@ handleRender = (req, res) => {
 
   // Grab the initial state from our Redux store
   const preloadedState = store.getState()
-  // Send the rendered page back to the client
+  // Collect the arguments
   let elements = {
-    html: html,
-    css: css,
-    preloadedState: preloadedState,
+    html,
+    css,
+    preloadedState,
   }
+  // Send the rendered page back to the client
   res.send(renderFullPage(elements))
 }
 
