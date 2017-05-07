@@ -8,7 +8,7 @@ import {pick, cn} from '../utils/utils'
 import {FadeInDown} from '../components/animations'
 import OnClickOutside from '../components/onClickOutside'
 import {Icon} from '../components/icon'
-import {styles} from './Header.styles'
+import {styles} from './header.styles'
 
 interface Props {
   loginStatus: facebookSdk.LoginStatus,
