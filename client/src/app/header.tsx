@@ -36,9 +36,9 @@ class HeaderClass extends React.Component<ActionCreators & Props, undefined> {
 
     return (
         <div className={css(styles.navBar)}>
-          {/*<img className={css(styles.iconMenu)} src='assets/menu.svg'/>*/}
-          <h1 className={css(styles.textLogo)}>Hollowverse</h1>
-          {/*<img className={css(styles.iconSignIn)} src='assets/sign-in.svg'/>*/}
+          <i className={`fa fa-bars fa-2x ${css(styles.navBarIcon)}`}/>
+          <h1 className={css(styles.textLogo)}>HOLLOWVERSE</h1>
+          <i className={`fa fa-sign-in fa-2x ${css(styles.navBarIcon)}`} onClick={() => p.requestLogin()}/>
         </div>
     )
       /*
