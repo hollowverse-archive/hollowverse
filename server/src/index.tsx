@@ -10,12 +10,17 @@ import {App} from '../../client/src/app/app'
 const app = Express()
 const port = 3000
 
-// This is fired every time the server side receives a request
-app.use(Express.static(path.join(__dirname, '../../client/dist')))
-app.use(handleRender)
+interface HandleRender {
+  (req: any, res: any): void
+}
+
+interface RenderFullPage {
+  (elements: {html: any, css: any, preloadedState: any}): string
+}
 
 // We are going to fill these out in the sections to follow
-function handleRender(req: any, res: any) {
+let handleRender: HandleRender
+handleRender = (req, res) => {
   const {html, css} = StyleSheetServer.renderStatic(() => {
     return renderToString(
       <Provider store={store}>
@@ -26,12 +31,18 @@ function handleRender(req: any, res: any) {
 
   // Grab the initial state from our Redux store
   const preloadedState = store.getState()
-
   // Send the rendered page back to the client
-  res.send(renderFullPage(html, css, preloadedState))
+  let elements = {
+    html: html,
+    css: css,
+    preloadedState: preloadedState,
+  }
+  res.send(renderFullPage(elements))
 }
 
-function renderFullPage(html: any, css: any, preloadedState: any) {
+let renderFullPage: RenderFullPage
+renderFullPage = (elements) => {
+  const {html, css, preloadedState} = elements
   return `
 <!DOCTYPE html>
 <html lang="en">
@@ -56,5 +67,9 @@ function renderFullPage(html: any, css: any, preloadedState: any) {
 </html>
 `
 }
+
+// This is fired every time the server side receives a request
+app.use(Express.static(path.join(__dirname, '../../client/dist')))
+app.use(handleRender)
 
 app.listen(port)

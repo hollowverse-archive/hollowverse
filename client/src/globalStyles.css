@@ -1,6 +1,6 @@
 /* 
   Contents
-    1- Normalize/Base Global Styles (will stay)
+    1- Normalize/Base Global Styles (will stay but change)
     2- Old compiled output of SASS until the styles are replaced with JS (to be removed)
 */
 
@@ -243,7 +243,9 @@ template {
   display: none;
 }
 
-/* Old Styles - To be removed */ 
+/* ---------------------->
+  Old Styles - To be removed 
+*/ 
 
 /*! bulma.io v0.4.1 | MIT License | github.com/jgthms/bulma */
 @keyframes spinAround {
