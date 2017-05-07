@@ -1,4 +1,5 @@
 import * as React from 'react'
+import {css} from 'aphrodite/no-important'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {actions} from '../redux/actions'
@@ -7,6 +8,7 @@ import {pick, cn} from '../utils/utils'
 import {FadeInDown} from '../components/animations'
 import OnClickOutside from '../components/onClickOutside'
 import {Icon} from '../components/icon'
+import {styles} from './Header.styles'
 
 interface Props {
   loginStatus: facebookSdk.LoginStatus,
@@ -31,15 +33,15 @@ class HeaderClass extends React.Component<ActionCreators & Props, undefined> {
   render() {
     const {props: p} = this
     const navClass = (p.isNavMenuOpen) ? 'is-active' : ''
-    /*
-      return (
-          <div className={css(styles.navBar)}>
-            <img className={css(styles.iconMenu)} src='assets/menu.svg'/>
-            <h1 className={css(styles.textLogo)}>Hollowverse</h1>
-            <img className={css(styles.iconSignIn)} src='assets/sign-in.svg'/>
-          </div>
-      )
-      */
+
+    return (
+        <div className={css(styles.navBar)}>
+          {/*<img className={css(styles.iconMenu)} src='assets/menu.svg'/>*/}
+          <h1 className={css(styles.textLogo)}>Hollowverse</h1>
+          {/*<img className={css(styles.iconSignIn)} src='assets/sign-in.svg'/>*/}
+        </div>
+    )
+      /*
     return (
       <nav className='nav has-shadow'>
         <div className='container'>
@@ -70,6 +72,7 @@ class HeaderClass extends React.Component<ActionCreators & Props, undefined> {
         </div>
       </nav>
     )
+    */
   }
 
   renderMenuItems(navClass: string, config: {isHiddenMobile?: boolean} = {}) {
