@@ -1,10 +1,11 @@
 import * as Express from 'express'
 import * as React from 'react'
 import {Provider} from 'react-redux'
-import {App} from '../../client/src/app/app'
 import {renderToString} from 'react-dom/server'
 import {store} from './redux.store'
 import * as path from 'path'
+import {StyleSheetServer} from 'aphrodite'
+import {App} from '../../client/src/app/app'
 
 const app = Express()
 const port = 3000
@@ -15,22 +16,22 @@ app.use(handleRender)
 
 // We are going to fill these out in the sections to follow
 function handleRender(req: any, res: any) {
-  // Create a new Redux store instance
-  // Render the component to a string
-  const html = renderToString(
-    <Provider store={store}>
-      <App />
-    </Provider>,
-  )
+  const {html, css} = StyleSheetServer.renderStatic(() => {
+    return renderToString(
+      <Provider store={store}>
+       <App />
+      </Provider>,
+    )
+  })
 
   // Grab the initial state from our Redux store
   const preloadedState = store.getState()
 
   // Send the rendered page back to the client
-  res.send(renderFullPage(html, preloadedState))
+  res.send(renderFullPage(html, css, preloadedState))
 }
 
-function renderFullPage(html: any, preloadedState: any) {
+function renderFullPage(html: any, css: any, preloadedState: any) {
   return `
 <!DOCTYPE html>
 <html lang="en">
@@ -39,12 +40,14 @@ function renderFullPage(html: any, preloadedState: any) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <link rel="stylesheet" href="css/styles.css">
+  <style data-aphrodite>${css.content}</style>
   <title>Hollowverse</title>
 </head>
 
 <body>
 <div id="app">${html}</div>
 <script>
+  StyleSheet.rehydrate(${JSON.stringify(css.renderedClassNames)});
   window.__PRELOADED_STATE__ = ${JSON.stringify(preloadedState).replace(/</g, '\\u003c')}
 </script>
 <script type="text/javascript" src="https://connect.facebook.net/en_US/sdk.js"></script>
