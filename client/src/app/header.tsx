@@ -1,12 +1,12 @@
 import * as React from 'react'
-import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
-import { actions } from '../redux/actions'
-import { State } from '../redux/reducers'
-import { pick, cn } from '../utils/utils'
-import { FadeInDown } from '../components/animations'
+import {connect} from 'react-redux'
+import {Link} from 'react-router-dom'
+import {actions} from '../redux/actions'
+import {State} from '../redux/reducers'
+import {pick, cn} from '../utils/utils'
+import {FadeInDown} from '../components/animations'
 import OnClickOutside from '../components/onClickOutside'
-import { Icon } from '../components/icon'
+import {Icon} from '../components/icon'
 
 interface Props {
   loginStatus: facebookSdk.LoginStatus,
@@ -29,7 +29,7 @@ type ActionCreators = typeof actionCreators
 
 class HeaderClass extends React.Component<ActionCreators & Props, undefined> {
   render() {
-    const { props: p } = this
+    const {props: p} = this
     const navClass = (p.isNavMenuOpen) ? 'is-active' : ''
     /*
       return (
@@ -53,12 +53,12 @@ class HeaderClass extends React.Component<ActionCreators & Props, undefined> {
             className={cn('nav-toggle ignore-react-onclickoutside', navClass)}
             onClick={() => this.toggleIsNavMenuOpen()}
           >
-            <span />
-            <span />
-            <span />
+            <span/>
+            <span/>
+            <span/>
           </span>
 
-          {this.renderMenuItems(navClass, { isHiddenMobile: true })}
+          {this.renderMenuItems(navClass, {isHiddenMobile: true})}
 
           <FadeInDown>
             {p.isNavMenuOpen && (
@@ -72,12 +72,12 @@ class HeaderClass extends React.Component<ActionCreators & Props, undefined> {
     )
   }
 
-  renderMenuItems(navClass: string, config: { isHiddenMobile?: boolean } = {}) {
+  renderMenuItems(navClass: string, config: {isHiddenMobile?: boolean} = {}) {
     const { props: p } = this
 
     return (
       <div
-        className={cn('nav-menu nav-right', navClass, { 'is-hidden-mobile': config.isHiddenMobile })}
+        className={cn('nav-menu nav-right', navClass, {'is-hidden-mobile': config.isHiddenMobile})}
         onClick={() => p.setIsNavMenuOpen(false)}
       >
         {(p.loginStatus === 'connected') && (
@@ -85,7 +85,7 @@ class HeaderClass extends React.Component<ActionCreators & Props, undefined> {
         ) || (
             <a className='nav-item' onClick={() => p.requestLogin()}>
               Login with Facebook
-            <Icon name='facebook-official' size={16} className='facebookIcon' />
+            <Icon name='facebook-official' size={16} className='facebookIcon'/>
             </a>
           )}
       </div>
