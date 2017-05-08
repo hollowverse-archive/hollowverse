@@ -26,25 +26,30 @@ type ActionCreators = typeof actionCreators
 
 class HeaderClass extends React.Component<ActionCreators & Props, undefined> {
   render() {
+    const {icon, action} = this.renderLoginVariants()
+    console.log(icon, action)
     return (
         <div className={css(styles.navBar)}>
           <i className={`fa fa-bars fa-2x ${css(styles.navBarIcon)}`}/>
           <h1 className={css(styles.textLogo)}>HOLLOWVERSE</h1>
-          {this.renderLoginOptions()}
+        <i className={`${icon} ${css(styles.navBarIcon)}`} onClick={action}/>
         </div>
     )
   }
 
-  renderLoginOptions() {
+  renderLoginVariants(): {icon: string, action: () => void} {
     const { props: p } = this
+
     if (p.loginStatus === 'connected') {
-      return (
-        <i className={`fa fa-sign-out fa-2x ${css(styles.navBarIcon)}`} onClick={() => p.requestLogout()} />
-      )
+      return {
+        icon: 'fa fa-sign-in fa-2x',
+        action: () => p.requestLogout(),
+      }
     } else {
-      return (
-        <i className={`fa fa-sign-in fa-2x ${css(styles.navBarIcon)}`} onClick={() => p.requestLogin()} />
-      )
+      return {
+        icon: 'fa fa-sign-out fa-2x',
+        action: () => p.requestLogin(),
+      }
     }
   }
 
