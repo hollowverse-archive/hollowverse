@@ -1,8 +1,10 @@
 import {StyleSheet} from 'aphrodite/no-important'
 
+const gradient = 'linear-gradient(45deg, #67B26F 40%, #4ca2cd 95%)'
+
 export const styles = StyleSheet.create({
   navBar: {
-    backgroundColor: '#00c4a7',
+    background: gradient,
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-around',
@@ -16,7 +18,6 @@ export const styles = StyleSheet.create({
     display: 'inline-block',
   },
   navBarIcon: {
-    margin: '7rem',
     alignSelf: 'center',
     color: 'whitesmoke',
     cursor: 'pointer',
