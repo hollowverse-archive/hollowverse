@@ -13,9 +13,9 @@ export const styles = StyleSheet.create({
   textLogo: {
     alignSelf: 'center',
     color: '#fff',
+    display: 'inline-block',
     fontFamily: 'Roboto Medium',
     fontSize: '1.3rem',
-    display: 'inline-block',
   },
   navBarIcon: {
     alignSelf: 'center',
