@@ -30,10 +30,10 @@ class AppClass extends React.Component<ActionCreators & Props, undefined> {
   }
   render() {
     return (
-      <div className={css(styles.gradients)}>
+      <div className={css(styles.mainApp)}>
         <GlobalSpinner/>
         <Header/>
-        <div className='pageContent'>
+        <div className={css(styles.pageContent)}>
           {this.props.children}
         </div>
       </div>
