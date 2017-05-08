@@ -27,12 +27,12 @@ type ActionCreators = typeof actionCreators
 class HeaderClass extends React.Component<ActionCreators & Props, undefined> {
   render() {
     const {icon, action} = this.renderLoginVariants()
-    console.log(icon, action)
+
     return (
         <div className={css(styles.navBar)}>
           <i className={`fa fa-bars fa-2x ${css(styles.navBarIcon)}`}/>
           <h1 className={css(styles.textLogo)}>HOLLOWVERSE</h1>
-        <i className={`${icon} ${css(styles.navBarIcon)}`} onClick={action}/>
+          <i className={`${icon} ${css(styles.navBarIcon)}`} onClick={action}/>
         </div>
     )
   }
