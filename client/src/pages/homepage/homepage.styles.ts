@@ -1,10 +1,25 @@
-import { StyleSheet } from 'aphrodite/no-important'
+import {StyleSheet} from 'aphrodite/no-important'
 
 export const styles = StyleSheet.create({
-  mainApp: {
-    flex: 1,
+  pageHomepage: {
+    background: 'tomato',
+    display: 'flex',
+    height: '93vh',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  pageContent: {
-    flex: 1,
+  searchForm: {
+    color: 'green',
+  },
+  title: {
+    fontSize: '1.2rem',
+    fontFamily: 'Roboto Medium',
+    color: 'black',
+  },
+  searchButtonContainer: {
+
+  },
+  searchButton: {
+
   },
 })
