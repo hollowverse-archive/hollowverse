@@ -8,8 +8,8 @@ import {requireUserLogin} from './hocs/requireUserLogin'
 import {App} from './app/app'
 import {Homepage} from './pages/homepage/homepage'
 import {AddNotablePerson} from './pages/addNotablePerson/addNotablePerson'
+import {NotablePerson} from './pages/notablePerson/notablePerson'
 import Login from './pages/login/login'
-// import notablePerson from "./page/notablePerson/notablePerson"
 // import Search from "./page/search/search"
 
 ReactDOM.render(
@@ -17,6 +17,7 @@ ReactDOM.render(
     <ConnectedRouter history={history}>
       <App>
         <Route exact path='/' component={Homepage}/>
+        <Route exact path='/NotablePerson' component={NotablePerson}/>
         {/*/!*<Route path='/create-profile' component={CreateProfile}/>*!/*/}
         {/*/!*<Route path="/create-profile" component={requireUserLogin(CreateProfile)}/>*!/*/}
         {/*/!*<Route path="/search" component={Search}/>*!/*/}
