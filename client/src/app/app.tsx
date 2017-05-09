@@ -1,6 +1,5 @@
 import * as React from 'react'
 import {css} from 'aphrodite/no-important'
-import {styles} from './app.styles'
 import {connect} from 'react-redux'
 import {actions} from '../redux/actions'
 import {State} from '../redux/reducers'
@@ -8,6 +7,7 @@ import {Link} from 'react-router-dom'
 import {pick} from '../utils/utils'
 import {Header} from './header'
 import {GlobalSpinner} from '../components/globalSpinner'
+import {styles} from './app.styles'
 
 interface Props {
   loginStatus: facebookSdk.LoginStatus,
@@ -30,10 +30,10 @@ class AppClass extends React.Component<ActionCreators & Props, undefined> {
   }
   render() {
     return (
-      <div className={css(styles.gradients)}>
+      <div className={css(styles.mainApp)}>
         <GlobalSpinner/>
         <Header/>
-        <div className='pageContent'>
+        <div className={css(styles.pageContent)}>
           {this.props.children}
         </div>
       </div>

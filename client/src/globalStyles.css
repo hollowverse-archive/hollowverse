@@ -144,9 +144,6 @@ body, #app, .mainApp {
   margin-bottom: -2px;
   color: #3B5998; }
 
-.mainApp .pageContent {
-  flex: 1; }
-
 .nav {
   background-color: #00d1b2; }
   .nav .title a,
