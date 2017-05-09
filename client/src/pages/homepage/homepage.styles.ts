@@ -56,8 +56,8 @@ export const styles = StyleSheet.create({
     textDecoration: 'none',
     width: '6rem',
     ':hover': {
-      opacity: 0.9,
       color: 'white',
+      opacity: 0.9,
     },
   },
 })
