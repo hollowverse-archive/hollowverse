@@ -1,17 +1,17 @@
 import {StyleSheet} from 'aphrodite/no-important'
 
-const gradient = 'linear-gradient(45deg, #67B26F 40%, #4ca2cd 95%)'
+const gradient = 'linear-gradient(60deg, #67B26F 30%, #4ca2cd 95%)'
 
 export const styles = StyleSheet.create({
   pageHomepage: {
     alignItems: 'center',
     display: 'flex',
-    height: '93vh',
+    height: '92.5vh',
     justifyContent: 'center',
   },
   title: {
     color: '#333',
-    fontSize: '1.2rem',
+    fontSize: '1.1rem',
     fontFamily: 'Roboto Medium',
   },
   searchForm: {
@@ -32,9 +32,15 @@ export const styles = StyleSheet.create({
     color: 'whitesmoke',
     display: 'flex',
     fontSize: '1rem',
+    fontFamily: 'Roboto',
+    fontWeight: 500,
     height: '2.5rem',
     justifyContent: 'center',
     textDecoration: 'none',
     width: '6rem',
+    ':hover': {
+      opacity: 0.9,
+      color: 'white',
+    },
   },
 })
