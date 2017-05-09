@@ -7,11 +7,11 @@ interface Props {
 export class Form extends React.Component<Props & React.HTMLAttributes<HTMLFormElement>, undefined> {
   render() {
     const {props: p} = this
-    const {onSubmit, ...rest} = p
+    const {onSubmit, children, ...rest} = p
 
     return (
       <form onSubmit={(event) => this.onSubmit(event)} {...rest}>
-        {p.children}
+        {children}
       </form>
     )
   }
