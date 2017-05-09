@@ -2,13 +2,20 @@ import {StyleSheet} from 'aphrodite/no-important'
 
 export const styles = StyleSheet.create({
   pageHomepage: {
-    display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center',
+    display: 'flex',
     height: '100%',
+    justifyContent: 'center',
+  },
+  wrapper: {
+    backgroundColor: '#f5f5f5',
+    borderRadius: '10px',
+    padding: '2rem',
+    width: '70vw',
   },
   title: {
     color: '#333',
+    textAlign: 'center',
   },
   searchForm: {
     marginTop: '1.5rem',

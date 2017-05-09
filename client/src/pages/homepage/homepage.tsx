@@ -56,7 +56,7 @@ class HomepageClass extends React.Component<ComponentProps, undefined> {
 
     return (
       <div className={css(styles.pageHomepage)}>
-        <div>
+        <div className={css(styles.wrapper)}>
           <h1 className={css(common.titleTypography, styles.title)}>Enter a name of a famous person.</h1>
           <Form className={css(styles.searchForm)} onSubmit={() => this.submitSearchTerm()}>
             <p>
