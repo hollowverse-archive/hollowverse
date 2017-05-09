@@ -1,6 +1,6 @@
 /*
-  Common Styles and Guidelines
-  -values subject to change-
+    Common Styles and Guidelines
+    -all values subject to change-
 */
 
 import {StyleSheet} from 'aphrodite/no-important'
@@ -12,18 +12,14 @@ export const common = StyleSheet.create({
     background: gradient,
     color: 'whitesmoke',
   },
-  titleFont: {
+  titleTypography: {
     fontFamily: 'Roboto Medium',
     fontWeight: 500,
     fontSize: '1.3rem',
   },
-  textFont: {
+  textTypography: {
     fontFamily: 'Roboto',
     fontWeight: 400,
-    fontSize: '1.1rem',
-  },
-  spacing: {
-    marginTop: '1.5rem',
-    marginBottom: '1.5rem',
+    fontSize: '1rem',
   },
 })

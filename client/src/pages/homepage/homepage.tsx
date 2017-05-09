@@ -7,9 +7,9 @@ import {State} from '../../redux/reducers'
 import * as selectors from '../../redux/selectors'
 import {pick} from '../../utils/utils'
 import {Form} from '../../components/form'
-import {FadeInUp} from '../../components/animations'
 import {IAlgoliaSearchResults} from '../../vendor/algolia'
 import {styles} from './homepage.styles'
+import {common} from '../../common.styles'
 
 interface Props {
   searchInputValue: string,
@@ -57,26 +57,27 @@ class HomepageClass extends React.Component<ComponentProps, undefined> {
     return (
       <div className={css(styles.pageHomepage)}>
         <div>
-          <div>
-            <h1 className={css(styles.title)}>Enter a name of a famous person.</h1>
-            <Form className={css(styles.searchForm)} onSubmit={() => this.submitSearchTerm()}>
-              <p>
-                <input
-                  maxLength={50}
-                  className='input'
-                  type='text'
-                  value={p.searchInputValue}
-                  onChange={({target: {value}}) => this.handleSearchInputChange(value)}
-                />
-              </p>
-              <div className={css(styles.searchButtonContainer)}>
-                <a className={css(styles.searchButton)} onClick={() => this.submitSearchTerm()}>
-                  Search
-                </a>
-              </div>
-            </Form>
+          <h1 className={css(common.titleTypography, styles.title)}>Enter a name of a famous person.</h1>
+          <Form className={css(styles.searchForm)} onSubmit={() => this.submitSearchTerm()}>
+            <p>
+              <input
+                maxLength={50}
+                className={css(common.textTypography, styles.searchInput)}
+                type='text'
+                value={p.searchInputValue}
+                onChange={({target: {value}}) => this.handleSearchInputChange(value)}
+              />
+            </p>
+            <div className={css(styles.searchButtonContainer)}>
+              <a
+                className={css(common.textTypography, common.palette, styles.searchButton)}
+                onClick={() => this.submitSearchTerm()}
+              >
+                Search
+              </a>
             </div>
-          </div>
+          </Form>
+        </div>
       </div>
     )
   }

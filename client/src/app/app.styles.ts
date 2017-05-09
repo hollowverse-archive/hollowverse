@@ -6,5 +6,6 @@ export const styles = StyleSheet.create({
   },
   pageContent: {
     flex: 1,
+    height: '92.5vh',
   },
 })

@@ -6,6 +6,7 @@ import {actions} from '../redux/actions'
 import {State} from '../redux/reducers'
 import {pick} from '../utils/utils'
 import {styles} from './header.styles'
+import {common} from '../common.styles'
 
 interface Props {
   loginStatus: facebookSdk.LoginStatus,
@@ -29,9 +30,9 @@ class HeaderClass extends React.Component<ActionCreators & Props, undefined> {
     const {icon, action} = this.renderLoginVariants()
 
     return (
-        <div className={css(styles.navBar)}>
+        <div className={css(common.palette, styles.navBar)}>
           <i className={`fa fa-bars fa-2x ${css(styles.navBarIcon)}`}/>
-          <h1 className={css(styles.textLogo)}>HOLLOWVERSE</h1>
+          <h1 className={css(common.titleTypography, styles.textLogo)}>HOLLOWVERSE</h1>
           <i className={`${icon} ${css(styles.navBarIcon)}`} onClick={action}/>
         </div>
     )
