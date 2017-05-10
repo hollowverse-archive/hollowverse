@@ -5,7 +5,7 @@
 import {StyleSheet} from 'aphrodite/no-important'
 
 export const common = StyleSheet.create({
-  pageWrapper: {
+  page: {
     height: '100%',
   },
   palette: {

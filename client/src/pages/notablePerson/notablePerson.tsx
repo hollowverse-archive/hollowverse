@@ -30,7 +30,7 @@ type ComponentProps = Props & RouteComponentProps<any>
 class NotablePersonClass extends React.Component<ComponentProps, undefined> {
   render() {
     return (
-      <div className={css(common.pageWrapper)}>
+      <div className={css(common.page)}>
         <div className={css(styles.notablePersonTitleContainer)}>
           <img className={css(styles.notablePersonPhoto)} src={dummyData.notablePersonPictureUrl}/>
           <div className={css(styles.notablePersonText)}>
