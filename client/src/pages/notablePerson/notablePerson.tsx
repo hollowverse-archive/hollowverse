@@ -11,7 +11,7 @@ interface Props {
 }
 
 const dummyData: Props = {
-  notablePersonName: 'Micheal Jackson',
+  notablePersonName: 'Michael Jackson',
   notablePersonPictureUrl: 'http://lorempixel.com/150/150/',
   notablePersonLabels: [
     'Musician',
@@ -30,7 +30,7 @@ type ComponentProps = Props & RouteComponentProps<any>
 class NotablePersonClass extends React.Component<ComponentProps, undefined> {
   render() {
     return (
-      <div className={css(styles.pageNotablePerson)}>
+      <div className={css(common.pageWrapper)}>
         <div className={css(styles.notablePersonTitleContainer)}>
           <img className={css(styles.notablePersonPhoto)} src={dummyData.notablePersonPictureUrl}/>
           <div className={css(styles.notablePersonText)}>

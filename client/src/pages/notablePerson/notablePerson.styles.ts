@@ -1,11 +1,6 @@
 import {StyleSheet} from 'aphrodite/no-important'
 
-const gradient = 'linear-gradient(20deg, #ffb347 30%, #ffcc33 95%)'
-
 export const styles = StyleSheet.create({
-  pageNotablePerson: {
-    height: '100%',
-  },
   notablePersonTitleContainer: {
     display: 'flex',
     justifyContent: 'center',
@@ -26,13 +21,12 @@ export const styles = StyleSheet.create({
   },
   notablePersonName: {
     color: '#333',
-    fontSize: '1.4rem',
     margin: '0.25rem 0.25rem 0.40rem 0.5rem',
   },
   notablePersonLabel: {
     alignItems: 'center',
-    borderRadius: '29px',
-    background: gradient,
+    borderRadius: '30px',
+    background: 'linear-gradient(20deg, #ffb347 30%, #ffcc33 95%)',
     color: 'smoke',
     display: 'inline-flex',
     fontSize: '.75rem',

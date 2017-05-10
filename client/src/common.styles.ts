@@ -2,14 +2,14 @@
     Common Styles and Guidelines
     -all values subject to change-
 */
-
 import {StyleSheet} from 'aphrodite/no-important'
 
-const gradient = 'linear-gradient(45deg, #67B26F 40%, #4ca2cd 95%)'
-
 export const common = StyleSheet.create({
+  pageWrapper: {
+    height: '100%',
+  },
   palette: {
-    background: gradient,
+    background: 'linear-gradient(45deg, #67B26F 40%, #4ca2cd 95%)',
     color: 'whitesmoke',
   },
   titleTypography: {
