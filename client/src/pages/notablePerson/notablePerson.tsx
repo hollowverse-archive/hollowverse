@@ -1,5 +1,8 @@
 import * as React from 'react'
+import {css} from 'aphrodite/no-important'
 import {RouteComponentProps} from 'react-router-dom'
+import {common} from '../../common.styles'
+import {styles} from './notablePerson.styles'
 
 interface Props {
   notablePersonName: string
@@ -22,17 +25,13 @@ type ComponentProps = Props & RouteComponentProps<any>
 class NotablePersonClass extends React.Component<ComponentProps, undefined> {
   render() {
     return (
-      <div className='pageNotablePerson'>
-        <div className='notablePersonTitleContainer columns is-mobile'>
-          <div className='column is-4'>
-            <img className='notablePersonPhoto' src={dummyData.notablePersonPictureUrl}/>
-          </div>
-          <div className='column is-8'>
-            <h1 className='notablePersonTitle'>Religion, Politics, and ideas of...</h1>
-          <h2 className='notablePersonName'>{dummyData.notablePersonName}</h2>
-            {this.renderLabels()}
-          </div>
+      <div className={css(styles.pageNotablePerson)}>
+        <div className={css(styles.notablePersonTitleContainer)}>
+          <img className={css(styles.notablePersonPhoto)} src={dummyData.notablePersonPictureUrl} />
         </div>
+        <h1 className={css(styles.notablePersonTitle)}>Religion, Politics, and ideas of...</h1>
+        <h2 className={css(styles.notablePersonName)}>{dummyData.notablePersonName}</h2>
+        {this.renderLabels()}
       </div>
     )
   }
