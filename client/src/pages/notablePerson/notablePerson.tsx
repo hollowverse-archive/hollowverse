@@ -46,7 +46,7 @@ class NotablePersonClass extends React.Component<ComponentProps, undefined> {
     const { notablePersonLabels } = dummyData
     return (
       notablePersonLabels.map((label, i) =>
-        <span className='notablePersonLabel tag is-warning' key={i}>
+        <span className={css(styles.notablePersonLabel)} key={i}>
           {label}
         </span>,
       )
