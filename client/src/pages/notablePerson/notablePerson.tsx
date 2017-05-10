@@ -20,6 +20,11 @@ const dummyData: Props = {
   ],
 }
 
+/* Todo:
+  1- Custom Styles
+  2- Custom Labels
+*/
+
 type ComponentProps = Props & RouteComponentProps<any>
 
 class NotablePersonClass extends React.Component<ComponentProps, undefined> {
@@ -27,11 +32,13 @@ class NotablePersonClass extends React.Component<ComponentProps, undefined> {
     return (
       <div className={css(styles.pageNotablePerson)}>
         <div className={css(styles.notablePersonTitleContainer)}>
-          <img className={css(styles.notablePersonPhoto)} src={dummyData.notablePersonPictureUrl} />
+          <img className={css(styles.notablePersonPhoto)} src={dummyData.notablePersonPictureUrl}/>
+          <div className={css(styles.notablePersonText)}>
+            <h1 className={css(styles.notablePersonTitle)}>Religion, Politics, and ideas of...</h1>
+            <h2 className={css(common.titleTypography, styles.notablePersonName)}>{dummyData.notablePersonName}</h2>
+            {this.renderLabels()}
+          </div>
         </div>
-        <h1 className={css(styles.notablePersonTitle)}>Religion, Politics, and ideas of...</h1>
-        <h2 className={css(styles.notablePersonName)}>{dummyData.notablePersonName}</h2>
-        {this.renderLabels()}
       </div>
     )
   }

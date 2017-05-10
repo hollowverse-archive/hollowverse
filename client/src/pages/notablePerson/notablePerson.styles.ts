@@ -2,26 +2,30 @@ import {StyleSheet} from 'aphrodite/no-important'
 
 export const styles = StyleSheet.create({
   pageNotablePerson: {
-
+    height: '100%',
   },
   notablePersonTitleContainer: {
-    padding: '1.5rem 0.25rem',
+    display: 'flex',
+    marginTop: '1.5rem',
+    justifyContent: 'center',
   },
   notablePersonPhoto: {
-    borderRadius: '50%',
+    maxWidth: '150px',
+    borderRadius: '80px',
+    margin: '0 1.5rem',
+  },
+  notablePersonText: {
+    marginTop: '1rem',
   },
   notablePersonTitle: {
-    color: 'black',
-    fontSize: '1rem',
+    color: '#333',
     fontStyle: 'italic',
   },
   notablePersonName: {
-    color: 'black',
-    fontSize: '1.5rem',
-    textAlign: 'center',
-    marginBottom: 'notablePerson.scss',
+    color: '#333',
+    margin: '0.25rem 0.25rem',
   },
   notablePersonLabel: {
-    margin: '0.15rem 0.15rem',
+    marginTop: '1.5rem',
   },
 })
