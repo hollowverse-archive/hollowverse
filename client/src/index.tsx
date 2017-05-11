@@ -10,11 +10,7 @@ import {Homepage} from './pages/homepage/homepage'
 import Login from './pages/login/login'
 import {NotablePerson} from './pages/notablePerson/notablePerson'
 import {history, store} from './redux/store'
-import ContactUs from './pages/contactUs/contactUs'
-<<<<<<< HEAD
-=======
-
->>>>>>> Resolve conflict with contactUs route
+import {ContactUsForm} from './pages/contactUsForm/contactUsForm'
 // import Search from "./page/search/search"
 
 ReactDOM.render(
@@ -27,7 +23,7 @@ ReactDOM.render(
         {/*/!*<Route path="/create-profile" component={requireUserLogin(CreateProfile)}/>*!/*/}
         {/*/!*<Route path="/search" component={Search}/>*!/*/}
         {/*/!*<Route path="/login" component={Login}/>*!/*/}
-        {<Route path='/contactUs' component={ContactUs}/>}
+        {<Route path='/contactus' component={ContactUsForm}/>}
       </App>
     </ConnectedRouter>
   </Provider>,
