@@ -7,7 +7,7 @@ import {styles} from './notablePerson.styles'
 interface Props {
   notablePersonName: string
   notablePersonPictureUrl: string
-  notablePersonLabels: [string]
+  notablePersonLabels: string[]
 }
 
 const dummyData: Props = {
@@ -21,8 +21,9 @@ const dummyData: Props = {
 }
 
 /* Todo:
-  1- Custom Styles
-  2- Custom Labels
+  - [x] Custom Styles
+  - [x] Custom Labels
+  - [ ] Second pass for design & code optimization
 */
 
 type ComponentProps = Props & RouteComponentProps<any>

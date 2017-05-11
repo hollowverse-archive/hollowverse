@@ -8,7 +8,7 @@ export const styles = StyleSheet.create({
     margin: '0.8rem 0.8rem',
   },
   notablePersonPhoto: {
-    borderRadius: '80px',
+    borderRadius: '50%',
     maxWidth: '150px',
     margin: '0.7rem 0.25rem 0 0',
   },
