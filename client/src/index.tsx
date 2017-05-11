@@ -9,6 +9,7 @@ import {App} from './app/app'
 import {Homepage} from './pages/homepage/homepage'
 import {AddNotablePerson} from './pages/addNotablePerson/addNotablePerson'
 import Login from './pages/login/login'
+import ContactUs from './pages/contactUs/contactUs'
 // import notablePerson from "./page/notablePerson/notablePerson"
 // import Search from "./page/search/search"
 
@@ -21,6 +22,7 @@ ReactDOM.render(
         {/*/!*<Route path="/create-profile" component={requireUserLogin(CreateProfile)}/>*!/*/}
         {/*/!*<Route path="/search" component={Search}/>*!/*/}
         {/*/!*<Route path="/login" component={Login}/>*!/*/}
+        {<Route path='/contactUs' component={ContactUs}/>}
       </App>
     </ConnectedRouter>
   </Provider>,
