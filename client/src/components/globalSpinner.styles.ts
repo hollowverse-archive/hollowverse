@@ -10,6 +10,17 @@ const spinnerKeyFrames = {
 }
 
 export const styles = StyleSheet.create({
+  globalSpinnerContainer: {
+    backgroundColor: 'rgba(0, 0, 0, 0.6)',
+    content: '',
+    display: 'block',
+    top: 0,
+    left: 0,
+    position: 'fixed',
+    width: '100vw',
+    height: '100vh',
+    zIndex: 999,
+  },
   globalSpinner: {
     animationName: spinnerKeyFrames,
     animationDuration: '1.1s',
@@ -30,16 +41,5 @@ export const styles = StyleSheet.create({
     transform: 'translateZ(0)',
     top: 0,
     width: '10em',
-  },
-  container: {
-    backgroundColor: 'rgba(0, 0, 0, 0.6)',
-    content: '',
-    display: 'block',
-    top: 0,
-    left: 0,
-    position: 'fixed',
-    width: '100vw',
-    height: '100vh',
-    zIndex: 999,
   },
 })
