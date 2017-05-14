@@ -1,4 +1,4 @@
-import { StyleSheet } from 'aphrodite/no-important'
+import {StyleSheet} from 'aphrodite/no-important'
 
 const spinnerKeyFrames = {
   '0%': {
@@ -15,6 +15,7 @@ export const styles = StyleSheet.create({
     animationDuration: '1.1s',
     animationIterationCount: 'infinite',
     animationTimingFunction: 'linear',
+    bottom: 0,
     borderTop: '1em solid rgba(103, 178, 111, 0.2)',
     borderRight: '1em solid rgba(103, 178, 111, 0.2)',
     borderBottom: '1em solid rgba(103, 178, 111, 0.2)',
@@ -22,14 +23,13 @@ export const styles = StyleSheet.create({
     borderRadius: '50%',
     fontSize: '0.8rem',
     height: '10em',
+    left: 0,
     margin: 'auto',
     position: 'fixed',
-    transform: 'translateZ(0)',
-    width: '10em',
-    top: 0,
-    left: 0,
-    bottom: 0,
     right: 0,
+    transform: 'translateZ(0)',
+    top: 0,
+    width: '10em',
   },
   container: {
     backgroundColor: 'rgba(0, 0, 0, 0.6)',
