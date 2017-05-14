@@ -2,14 +2,14 @@ import * as React from 'react'
 import {connect} from 'react-redux'
 import {actions} from '../redux/actions'
 import {State} from '../redux/reducers'
-import {pick} from '../utils/utils'
 import * as selectors from '../redux/selectors'
+import {pick} from '../utils/utils'
 
-interface Props {
+interface IProps {
   userIsLoggedIn: boolean
 }
 
-function mapStateToProps(state: State): Props {
+function mapStateToProps(state: State): IProps {
   return {
     userIsLoggedIn: selectors.getUserIsLoggedIn(state),
   }
@@ -21,7 +21,7 @@ const actionCreators = pick(actions, [
 type ActionCreators = typeof actionCreators
 
 export function requireUserLogin(Component: React.ComponentClass<any>): React.ComponentClass<any> {
-  class RequireUserLogin extends React.Component<Props & ActionCreators, undefined> {
+  class RequireUserLogin extends React.Component<IProps & ActionCreators, undefined> {
     render() {
       const {props: p} = this
 

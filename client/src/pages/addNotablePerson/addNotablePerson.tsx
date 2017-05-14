@@ -1,14 +1,14 @@
 import * as React from 'react'
 import {connect} from 'react-redux'
 import {State} from '../../redux/reducers'
-import {pick} from '../../utils/utils'
 import * as selectors from '../../redux/selectors'
+import {pick} from '../../utils/utils'
 
-interface Props {
+interface IProps {
   createProfileUrlInputValue: string
 }
 
-function mapStateToProps(state: State): Props {
+function mapStateToProps(state: State): IProps {
   return {
     ...pick(state, [
       'createProfileUrlInputValue',
@@ -16,7 +16,7 @@ function mapStateToProps(state: State): Props {
   }
 }
 
-class AddNotablePersonClass extends React.Component<Props, undefined> {
+class AddNotablePersonClass extends React.Component<IProps, undefined> {
   render() {
     const {props: p} = this
 

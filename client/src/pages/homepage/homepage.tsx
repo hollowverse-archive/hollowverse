@@ -1,17 +1,17 @@
-import * as React from 'react'
 import {css} from 'aphrodite/no-important'
-import {RouteComponentProps} from 'react-router-dom'
+import * as React from 'react'
 import {connect} from 'react-redux'
+import {RouteComponentProps} from 'react-router-dom'
+import {common} from '../../common.styles'
+import {Form} from '../../components/form'
 import {actions} from '../../redux/actions'
 import {State} from '../../redux/reducers'
 import * as selectors from '../../redux/selectors'
 import {pick} from '../../utils/utils'
-import {Form} from '../../components/form'
 import {IAlgoliaSearchResults} from '../../vendor/algolia'
 import {styles} from './homepage.styles'
-import {common} from '../../common.styles'
 
-interface Props {
+interface IProps {
   searchInputValue: string,
   searchTerm: string,
   searchResults: IAlgoliaSearchResults | undefined,
@@ -19,7 +19,7 @@ interface Props {
   hasResults: boolean,
 }
 
-function mapStateToProps(state: State): Props {
+function mapStateToProps(state: State): IProps {
   return {
     searchTerm: state.routing && state.routing.location && state.routing.location.search || '',
     hasResults: selectors.hasResults(state),
@@ -40,7 +40,7 @@ const actionCreators = pick(actions, [
 ])
 
 type ActionCreators = typeof actionCreators
-type ComponentProps = ActionCreators & Props & RouteComponentProps<any>
+type ComponentProps = ActionCreators & IProps & RouteComponentProps<any>
 
 class HomepageClass extends React.Component<ComponentProps, undefined> {
   componentDidMount() {
@@ -110,7 +110,7 @@ class HomepageClass extends React.Component<ComponentProps, undefined> {
   }
 }
 
-export const Homepage = connect<Props, ActionCreators, RouteComponentProps<any>>(
+export const Homepage = connect<IProps, ActionCreators, RouteComponentProps<any>>(
   mapStateToProps,
   actionCreators,
 )(HomepageClass)

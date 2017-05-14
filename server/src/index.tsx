@@ -1,22 +1,20 @@
-import * as Express from 'express'
-import * as React from 'react'
-import {Provider} from 'react-redux'
-import {renderToString} from 'react-dom/server'
-import {store} from './redux.store'
-import * as path from 'path'
 import {StyleSheetServer} from 'aphrodite'
+import * as Express from 'express'
+import * as path from 'path'
+import * as React from 'react'
+import {renderToString} from 'react-dom/server'
+import {Provider} from 'react-redux'
 import {App} from '../../client/src/app/app'
+import {store} from './redux.store'
 
 const app = Express()
 const port = 3000
 
-interface HandleRender {
-  (req: any, res: any): void
-}
+let renderFullPage: RenderFullPage
 
-interface RenderFullPage {
-  (elements: {html: any, css: any, preloadedState: any}): string
-}
+type HandleRender = (req: any, res: any) => void
+
+type RenderFullPage = (elements: {html: any, css: any, preloadedState: any}) => string
 
 // We are going to fill these out in the sections to follow
 let handleRender: HandleRender
@@ -32,7 +30,7 @@ handleRender = (req, res) => {
   // Grab the initial state from our Redux store
   const preloadedState = store.getState()
   // Collect the arguments
-  let elements = {
+  const elements = {
     html,
     css,
     preloadedState,
@@ -41,7 +39,6 @@ handleRender = (req, res) => {
   res.send(renderFullPage(elements))
 }
 
-let renderFullPage: RenderFullPage
 renderFullPage = (elements) => {
   const {html, css, preloadedState} = elements
   return `

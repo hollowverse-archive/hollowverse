@@ -1,7 +1,7 @@
 import * as React from 'react'
 import * as onClickOutside from 'react-onclickoutside'
 
-interface Props {
+interface IProps {
   handleClickOutside(event: React.MouseEvent<any>): void
 }
 
@@ -11,7 +11,7 @@ const OnClickOutsideWrapper = onClickOutside(class extends React.Component<any, 
   }
 })
 
-export default class OnClickOutside extends React.Component<Props, any> {
+export default class OnClickOutside extends React.Component<IProps, any> {
   handleClickOutside(event: React.MouseEvent<any>) {
     this.props.handleClickOutside(event)
   }

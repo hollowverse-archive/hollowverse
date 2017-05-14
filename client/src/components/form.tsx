@@ -1,10 +1,10 @@
 import * as React from 'react'
 
-interface Props {
+interface IProps {
   onSubmit?: React.EventHandler<React.FormEvent<HTMLFormElement>>
 }
 
-export class Form extends React.Component<Props & React.HTMLAttributes<HTMLFormElement>, undefined> {
+export class Form extends React.Component<IProps & React.HTMLAttributes<HTMLFormElement>, undefined> {
   render() {
     const {props: p} = this
     const {onSubmit, children, ...rest} = p

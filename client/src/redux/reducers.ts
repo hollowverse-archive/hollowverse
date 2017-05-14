@@ -7,12 +7,12 @@
 // * Redux single action reducers
 // * Redux reducers
 //
-import {Reducer} from 'redux'
 import {routerReducer, RouterState} from 'react-router-redux'
-import {ActionTypes, Action} from './actions'
+import {Reducer} from 'redux'
+import {ActionTypes, IAction} from './actions'
 import LoginStatus = facebookSdk.LoginStatus
-import {IAlgoliaSearchResults} from '../vendor/algolia'
 import {HvError} from '../../../typings/typeDefinitions'
+import {IAlgoliaSearchResults} from '../vendor/algolia'
 
 // This interface defines the state properties of the Hollowverse app
 interface IAppState {
@@ -82,17 +82,19 @@ const singleActionReducers = {
 // return the state unmodified.
 //
 // `appReducer` is for Hollowverse state only. It is not the root reducer of the app.
-const appReducer = (state: AppState = initialAppState, action: Action<any>): AppState => {
-  const actionReducer = singleActionReducers[action.type] as (state: AppState, action: Action<any>) => AppState
+const appReducer = (state: AppState = initialAppState, action: IAction<any>): AppState => {
+  const actionReducer = singleActionReducers[action.type] as (state: AppState, action: IAction<any>) => AppState
 
+  /* tslint:disable:strict-type-predicates */
   return (typeof actionReducer === 'function') ?
     actionReducer(state, action) :
     state
+  /* tslint:enable:strict-type-predicates */
 }
 
 // This is the root reducer of the app. It includes Hollowverse `appReducer` as well as other reducers
 // that may be required by external modules.
-export const reducer: Reducer<State> = (state: State = initialState, action: Action<any>): State => {
+export const reducer: Reducer<State> = (state: State = initialState, action: IAction<any>): State => {
   return {
     ...appReducer(state, action),
     routing: routerReducer(state.routing, action),
@@ -116,7 +118,7 @@ export const reducer: Reducer<State> = (state: State = initialState, action: Act
 //
 // We can do away with this function, but then we'll have a bunch of boilerplate for each key we patch.
 function createSingleActionSimpleReducer<PayloadType>(stateKeyToPatch: keyof IAppState) {
-  return function singleActionSimpleReducer(state: AppState, action: Action<PayloadType>): AppState {
+  return function singleActionSimpleReducer(state: AppState, action: IAction<PayloadType>): AppState {
     return ({...state, [stateKeyToPatch]: action.payload})
   }
 }
@@ -130,9 +132,9 @@ function createSingleActionSimpleReducer<PayloadType>(stateKeyToPatch: keyof IAp
 //   return {setIsLoginPending: !state.isLoginPending}
 // })
 function createSingleActionReducer<PayloadType>(
-  patchingFunction: (action: Action<PayloadType>, state: AppState) => Partial<AppState>,
+  patchingFunction: (action: IAction<PayloadType>, state: AppState) => Partial<AppState>,
 ) {
-  return function singleActionReducer(action: Action<PayloadType>, state: AppState) {
+  return function singleActionReducer(action: IAction<PayloadType>, state: AppState) {
     return {...state, ...patchingFunction(action, state)}
   }
 }

@@ -1,16 +1,16 @@
-import * as React from 'react'
 import {css} from 'aphrodite/no-important'
+import * as React from 'react'
 import {RouteComponentProps} from 'react-router-dom'
 import {common} from '../../common.styles'
 import {styles} from './notablePerson.styles'
 
-interface Props {
+interface IProps {
   notablePersonName: string
   notablePersonPictureUrl: string
   notablePersonLabels: string[]
 }
 
-const dummyData: Props = {
+const dummyData: IProps = {
   notablePersonName: 'Michael Jackson',
   notablePersonPictureUrl: 'http://lorempixel.com/150/150/',
   notablePersonLabels: [
@@ -26,7 +26,7 @@ const dummyData: Props = {
   - [ ] Second pass for design & code optimization
 */
 
-type ComponentProps = Props & RouteComponentProps<any>
+type ComponentProps = IProps & RouteComponentProps<any>
 
 class NotablePersonClass extends React.Component<ComponentProps, undefined> {
   render() {

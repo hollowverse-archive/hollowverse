@@ -1,6 +1,6 @@
-import * as path from 'path'
-import * as ExtractTextPlugin from 'extract-text-webpack-plugin'
 import * as CircularDependencyPlugin from 'circular-dependency-plugin'
+import * as ExtractTextPlugin from 'extract-text-webpack-plugin'
+import * as path from 'path'
 
 export default {
   entry: path.resolve(__dirname, 'src/webpackEntry.ts'),

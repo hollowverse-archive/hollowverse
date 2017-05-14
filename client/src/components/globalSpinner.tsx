@@ -1,19 +1,16 @@
-import * as React from 'react'
 import {css} from 'aphrodite/no-important'
+import * as React from 'react'
 import {connect} from 'react-redux'
 import {State} from '../redux/reducers'
 import * as selectors from '../redux/selectors'
 import {FadeIn} from './animations'
-import {RouteComponentProps} from 'react-router-dom'
 import {styles} from './globalSpinner.styles'
 
-import {cn} from '../utils/utils'
-
-interface Props {
+interface IProps {
   showGlobalSpinner: boolean
 }
 
-class UnconnectedGlobalSpinner extends React.Component<Props, undefined> {
+class UnconnectedGlobalSpinner extends React.Component<IProps, undefined> {
   container: HTMLDivElement
 
   render() {
@@ -22,9 +19,8 @@ class UnconnectedGlobalSpinner extends React.Component<Props, undefined> {
     return (
       <FadeIn timeout={300}>
         {p.showGlobalSpinner && (
-        <div className={css(styles.globalSpinnerContainer)}>
-            <div className={css(styles.globalSpinner)}>
-            </div>
+          <div className={css(styles.globalSpinnerContainer)}>
+            <div className={css(styles.globalSpinner)}/>
           </div>
         )}
       </FadeIn>

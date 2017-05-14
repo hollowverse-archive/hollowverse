@@ -1,13 +1,13 @@
 declare module 'circular-dependency-plugin' {
   import { Compiler, Plugin } from 'webpack'
 
-  interface CircularDependencyPluginOptions {
+  interface ICircularDependencyPluginOptions {
     exclude?: RegExp
     failOnError?: boolean
   }
 
   class CircularDependencyPlugin implements Plugin {
-    constructor(options?: CircularDependencyPluginOptions)
+    constructor(options?: ICircularDependencyPluginOptions)
     apply(compiler: Compiler): void
   }
 

@@ -1,15 +1,15 @@
 import {errors} from '../constants/errors'
 
 export function getLoginStatus() {
-  return new Promise<facebookSdk.AuthResponse>((resolve) => {
-    FB.getLoginStatus(function(response) {
+  return new Promise<facebookSdk.IAuthResponse>((resolve) => {
+    FB.getLoginStatus((response) => {
       resolve(response)
     })
   })
 }
 
 export function login() {
-  return new Promise<facebookSdk.AuthResponse>((resolve, reject) => {
+  return new Promise<facebookSdk.IAuthResponse>((resolve, reject) => {
     FB.login((response) => {
       if (response.authResponse) {
         resolve(response)
@@ -21,7 +21,7 @@ export function login() {
 }
 
 export function logout() {
-  return new Promise<facebookSdk.AuthResponse>((resolve) => {
+  return new Promise<facebookSdk.IAuthResponse>((resolve) => {
     FB.logout((response) => {
       resolve(response)
     })
