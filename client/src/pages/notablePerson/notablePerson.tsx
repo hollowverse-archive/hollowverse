@@ -35,7 +35,7 @@ class NotablePersonClass extends React.Component<ComponentProps, undefined> {
         <div className={css(styles.notablePersonTitleContainer)}>
           <img className={css(styles.notablePersonPhoto)} src={dummyData.notablePersonPictureUrl}/>
           <div className={css(styles.notablePersonText)}>
-            <h1 className={css(styles.notablePersonTitle)}>Religion, Politics, and ideas of...</h1>
+            <h1 className={css(styles.notablePersonTitle)}>Religion, politics, and ideas of...</h1>
             <h2 className={css(common.titleTypography, styles.notablePersonName)}>{dummyData.notablePersonName}</h2>
             {this.renderLabels()}
           </div>

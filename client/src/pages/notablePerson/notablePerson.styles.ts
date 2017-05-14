@@ -4,12 +4,11 @@ export const styles = StyleSheet.create({
   notablePersonTitleContainer: {
     display: 'flex',
     justifyContent: 'center',
-    marginTop: '1.5rem',
     margin: '0.8rem 0.8rem',
   },
   notablePersonPhoto: {
     borderRadius: '50%',
-    maxWidth: '150px',
+    maxWidth: '80%',
     margin: '0.7rem 0.25rem 0 0',
   },
   notablePersonText: {
