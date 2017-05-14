@@ -22,7 +22,9 @@ class UnconnectedGlobalSpinner extends React.Component<Props, undefined> {
     return (
       <FadeIn timeout={300}>
         {p.showGlobalSpinner && (
-          <div className={css(styles.globalSpinner)}>
+        <div className={css(styles.container)}>
+            <div className={css(styles.globalSpinner)}>
+            </div>
           </div>
         )}
       </FadeIn>
