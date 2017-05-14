@@ -11,7 +11,7 @@ import {HvError} from '../../../typings/typeDefinitions'
 import {stringEnum} from '../utils/utils'
 import {IAlgoliaSearchResults} from '../vendor/algolia'
 
-// Custom type definition of a Redux IAction
+// Custom type definition of a Redux Action
 export interface IAction<PayloadType> { type: string, payload: PayloadType}
 
 // The following are all the actions that can be triggered from within the Hollowverse application
@@ -47,7 +47,7 @@ export const actions = {
 // so `navigateToSearch` | `setSearchInputValue` | `setIsLogoutPending` | etc...are all valid.
 export type ActionTypes = keyof typeof actions
 
-// Instead of maintaining a separate list of Redux IAction Types, we can use the keys of our `actions`
+// Instead of maintaining a separate list of Redux Action Types, we can use the keys of our `actions`
 // object above as our action types. That's what `stringEnum` does.
 //
 // Its type is being asserted as you can see so that when you try to access a key that doesn't exist
