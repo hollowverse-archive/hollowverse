@@ -9,13 +9,13 @@
 //
 // import queryString = require('query-string')
 //
-// interface Props {
+// interface IProps {
 //   searchTerm: string,
 //   numberOfSearchHits: number,
 //   isSearchPending: boolean
 // }
 //
-// function mapStateToProps(state: State, props: RouteComponentProps<any, any>): Props {
+// function mapStateToProps(state: State, props: RouteComponentProps<any, any>): IProps {
 //   return {
 //     searchTerm: queryString.parse(props.location.search).q as string,
 //     numberOfSearchHits: selectors.getNumberOfSearchHits(state),
@@ -31,7 +31,7 @@
 //
 // type ActionCreators = typeof actionCreators
 //
-// class Search extends React.Component<Props & ActionCreators, undefined> {
+// class Search extends React.Component<IProps & ActionCreators, undefined> {
 //   componentDidMount() {
 //     this.props.getSearchResults(this.props.searchTerm)
 //   }

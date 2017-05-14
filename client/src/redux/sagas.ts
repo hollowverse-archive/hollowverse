@@ -5,10 +5,10 @@
 // https://github.com/redux-saga/redux-saga
 //
 import {put, takeEvery} from 'redux-saga/effects'
-import {actions, Action} from './actions'
 import {algoliaSearchIndex} from '../vendor/algolia'
 import * as facebook from '../vendor/facebook'
 import * as firebase from '../vendor/firebase'
+import { actions, IAction } from './actions'
 
 // These are the Redux actions that trigger the saga generators
 function* sagas() {
@@ -18,7 +18,7 @@ function* sagas() {
   yield takeEvery('requestUpdateLoginStatus', requestUpdateLoginStatus)
 }
 
-function* requestSearchResults(action: Action<string>) {
+function* requestSearchResults(action: IAction<string>) {
   try {
     yield put(actions.setIsSearchPending(true))
 
