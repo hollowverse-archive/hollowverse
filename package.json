@@ -11,7 +11,7 @@
     "server/firebase": "yarn client/build && firebase serve",
     "lint": "tslint '**/*.t{s,sx}' -e '**/node_modules/**' --fix --project ./tsconfig.json --type-check",
     "precommit": "lint-staged",
-    "test": "yarn client/build"
+    "test": "yarn lint && yarn client/build"
   },
   "license": "Unlicense",
   "homepage": "https://github.com/hollowverse/hollowverse#readme",
