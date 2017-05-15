@@ -29,9 +29,9 @@ export class FadeInUp extends React.Component<{}, undefined> {
   }
 }
 
-interface FadeInProps {timeout?: 100 | 200 | 300 | 400}
-export class FadeIn extends React.Component<FadeInProps, undefined> {
-  static defaultProps: FadeInProps = {
+interface IFadeInProps {timeout?: 100 | 200 | 300 | 400}
+export class FadeIn extends React.Component<IFadeInProps, undefined> {
+  static defaultProps: IFadeInProps = {
     timeout: 100,
   }
 

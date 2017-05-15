@@ -1,7 +1,7 @@
 import * as cn from 'classnames'
 import {pick as _pick} from 'lodash'
 
-export function stringEnum<T extends string>(o: Array<T>): {[K in T]: K} {
+export function stringEnum<T extends string>(o: T[]): {[K in T]: K} {
   return o.reduce((res, key) => {
     res[key] = key
 

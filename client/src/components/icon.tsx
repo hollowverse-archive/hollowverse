@@ -1,13 +1,13 @@
 import * as React from 'react'
 import {cn} from '../utils/utils'
 
-interface Props {
+interface IProps {
   name: string,
   size?: 16
 }
 
-export class Icon extends React.Component<Props & React.HTMLAttributes<HTMLElement>, undefined> {
-  static defaultProps: Partial<Props> = {
+export class Icon extends React.Component<IProps & React.HTMLAttributes<HTMLElement>, undefined> {
+  static defaultProps: Partial<IProps> = {
     size: 16,
   }
 

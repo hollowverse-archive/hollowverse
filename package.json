@@ -9,9 +9,9 @@
     "client/build": "webpack --optimize-minimize --define process.env.NODE_ENV=\"'production'\" --config client/webpack.config.ts",
     "server/express": "nodemon --exec ts-node -- server/src/index.tsx",
     "server/firebase": "yarn client/build && firebase serve",
-    "lint": "tslint '**/*.t{s,sx}' -e '**/node_modules/**' --fix",
+    "lint": "tslint '**/*.t{s,sx}' -e '**/node_modules/**' --fix --project ./tsconfig.json --type-check",
     "precommit": "lint-staged",
-    "test": "yarn client/build"
+    "test": "yarn lint && yarn client/build"
   },
   "license": "Unlicense",
   "homepage": "https://github.com/hollowverse/hollowverse#readme",
@@ -27,6 +27,7 @@
   },
   "commonpkg": "@hollowverse/common-config",
   "dependencies": {
+    "@hollowverse/common-config": "hollowverse/common-config",
     "@types/algoliasearch": "^3.18.0",
     "@types/aphrodite": "^0.5.5",
     "@types/chalk": "^0.4.31",
@@ -56,6 +57,7 @@
     "chalk": "^1.1.3",
     "circular-dependency-plugin": "^3.0.0",
     "classnames": "^2.2.3",
+    "commonpkg": "^1.5.5",
     "css-loader": "^0.28.0",
     "express": "^4.15.2",
     "extract-text-webpack-plugin": "^2.1.0",
@@ -81,9 +83,7 @@
     "style-loader": "^0.17.0",
     "ts-loader": "^2.0.2",
     "webpack": "^2.2.1",
-    "webpack-dev-server": "^2.4.1",
-    "@hollowverse/common-config": "hollowverse/common-config",
-    "commonpkg": "^1.0.0"
+    "webpack-dev-server": "^2.4.1"
   },
   "devDependencies": {
     "husky": "^0.13.3",

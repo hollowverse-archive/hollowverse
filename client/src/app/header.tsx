@@ -1,18 +1,18 @@
-import * as React from 'react'
 import {css} from 'aphrodite/no-important'
+import * as React from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
+import {common} from '../common.styles'
 import {actions} from '../redux/actions'
 import {State} from '../redux/reducers'
 import {pick} from '../utils/utils'
 import {styles} from './header.styles'
-import {common} from '../common.styles'
 
-interface Props {
+interface IProps {
   loginStatus: facebookSdk.LoginStatus,
 }
 
-function mapStateToProps(state: State): Props {
+function mapStateToProps(state: State): IProps {
   return pick(state, [
     'loginStatus',
   ])
@@ -25,7 +25,7 @@ const actionCreators = pick(actions, [
 
 type ActionCreators = typeof actionCreators
 
-class HeaderClass extends React.Component<ActionCreators & Props, undefined> {
+class HeaderClass extends React.Component<ActionCreators & IProps, undefined> {
   render() {
     const {icon, action} = this.renderLoginVariants()
 

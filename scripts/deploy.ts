@@ -1,3 +1,4 @@
+/* tslint:disable:no-console */
 import * as chalk from 'chalk'
 import * as shelljs from 'shelljs'
 
@@ -14,10 +15,11 @@ shelljs.exec('yarn install')
 shelljs.cd('..')
 
 print(chalk.green.bold('Deploying to Firebase...'))
-shelljs.exec(`"./node_modules/.bin/firebase" deploy --token "${shelljs.env['FIREBASE_TOKEN']}"`)
+shelljs.exec(`"./node_modules/.bin/firebase" deploy --token "${shelljs.env.FIREBASE_TOKEN}"`)
 
 print(chalk.green.bold('Done'))
 
 function print(text: string) {
   console.log('\n', text, '\n')
 }
+/* tslint:enable:no-console */

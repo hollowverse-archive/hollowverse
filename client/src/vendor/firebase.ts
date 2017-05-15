@@ -1,5 +1,5 @@
 import * as firebase from 'firebase'
-import {User} from '../../../typings/typeDefinitions'
+import {IUser} from '../../../typings/typeDefinitions'
 import {errors} from '../constants/errors'
 
 const firebaseConfig = {
@@ -14,7 +14,7 @@ export const firebaseApp = firebase.initializeApp(firebaseConfig)
 export const firebaseAuth = firebaseApp.auth()
 export const firebaseDb = firebaseApp.database()
 
-export function login(payload: facebookSdk.AuthResponse): Promise<firebase.User> {
+export function login(payload: facebookSdk.IAuthResponse): Promise<firebase.User> {
   return new Promise<firebase.User>((resolve) => {
     const unsubscribe = firebaseAuth.onAuthStateChanged((firebaseUser: firebase.User) => {
       unsubscribe()
@@ -54,7 +54,7 @@ export function userExists(user: firebase.User) {
   })
 }
 
-export function createUser(user: User) {
+export function createUser(user: IUser) {
   const usersReference = firebaseDb.ref('users')
 
   return usersReference.child(user.id).set({
@@ -62,7 +62,7 @@ export function createUser(user: User) {
   })
 }
 
-export function loginOrRegister(facebookAuthResponse: facebookSdk.AuthResponse): Promise<void> {
+export function loginOrRegister(facebookAuthResponse: facebookSdk.IAuthResponse): Promise<void> {
   if (facebookAuthResponse.status === 'connected') {
     return login(facebookAuthResponse)
       .then<[boolean, firebase.User]>((firebaseUser) => {
@@ -74,7 +74,7 @@ export function loginOrRegister(facebookAuthResponse: facebookSdk.AuthResponse):
         if (!userExists) {
           return createUser({displayName: firebaseUser.displayName, id: firebaseUser.uid})
         } else {
-          return
+          return undefined
         }
       })
   } else {

@@ -1,8 +1,8 @@
-import {createStore, applyMiddleware, compose} from 'redux'
-import {reducer} from './reducers'
-import {routerMiddleware} from 'react-router-redux'
 import createBrowserHistory from 'history/createBrowserHistory'
+import {routerMiddleware} from 'react-router-redux'
+import {applyMiddleware, compose, createStore} from 'redux'
 import createSagaMiddleware from 'redux-saga'
+import {reducer} from './reducers'
 import {sagas} from './sagas'
 
 export const history = createBrowserHistory()

@@ -1,19 +1,19 @@
-import * as React from 'react'
 import {css} from 'aphrodite/no-important'
+import * as React from 'react'
 import {connect} from 'react-redux'
+import {Link} from 'react-router-dom'
+import {GlobalSpinner} from '../components/globalSpinner'
 import {actions} from '../redux/actions'
 import {State} from '../redux/reducers'
-import {Link} from 'react-router-dom'
 import {pick} from '../utils/utils'
-import {Header} from './header'
-import {GlobalSpinner} from '../components/globalSpinner'
 import {styles} from './app.styles'
+import {Header} from './header'
 
-interface Props {
+interface IProps {
   loginStatus: facebookSdk.LoginStatus,
 }
 
-function mapStateToProps(state: State): Props {
+function mapStateToProps(state: State): IProps {
   return pick(state, [
     'loginStatus',
   ])
@@ -24,7 +24,7 @@ const actionCreators = pick(actions, [
 ])
 type ActionCreators = typeof actionCreators
 
-class AppClass extends React.Component<ActionCreators & Props, undefined> {
+class AppClass extends React.Component<ActionCreators & IProps, undefined> {
   componentDidMount() {
     this.props.requestUpdateLoginStatus()
   }

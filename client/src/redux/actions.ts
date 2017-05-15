@@ -6,13 +6,13 @@
 // * Redux action creators
 // * Redux action types
 //
+import {push} from 'react-router-redux'
+import {HvError} from '../../../typings/typeDefinitions'
 import {stringEnum} from '../utils/utils'
 import {IAlgoliaSearchResults} from '../vendor/algolia'
-import {HvError} from '../../../typings/typeDefinitions'
-import {push} from 'react-router-redux'
 
 // Custom type definition of a Redux Action
-export interface Action<PayloadType> { type: string, payload: PayloadType}
+export interface IAction<PayloadType> { type: string, payload: PayloadType}
 
 // The following are all the actions that can be triggered from within the Hollowverse application
 export const actions = {

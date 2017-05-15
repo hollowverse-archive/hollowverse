@@ -7,7 +7,7 @@ export const styles = StyleSheet.create({
     height: '100%',
     justifyContent: 'center',
   },
-  wrapper: {
+  searchContainer: {
     backgroundColor: '#f5f5f5',
     borderRadius: '10px',
     padding: '2rem',
