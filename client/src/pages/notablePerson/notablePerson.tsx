@@ -62,7 +62,7 @@ class NotablePersonClass extends React.Component<ComponentProps, undefined> {
       notablePersonEvents.map((event) =>
         <div className='placeholderEvents' key={event.eventId}>
           {event.eventQuote}
-          <a href={event.eventSource} rel='nofollow'>Source</a>
+          <a href={event.eventSource}>Source</a>
           {event.addedBy}
         </div>,
       )
