@@ -1,4 +1,5 @@
 export const data = {
+  notablePersonId: 1001,
   notablePersonName: 'Michael Jackson',
   notablePersonPictureUrl: 'http://lorempixel.com/150/150/',
   notablePersonLabels: [

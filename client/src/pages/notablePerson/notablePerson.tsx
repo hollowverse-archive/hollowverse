@@ -6,6 +6,7 @@ import {styles} from './notablePerson.styles'
 import {data} from './dummyData'
 
 interface IProps {
+  notablePersonId: number
   notablePersonName: string
   notablePersonPictureUrl: string
   notablePersonLabels: string[]
@@ -39,16 +40,31 @@ class NotablePersonClass extends React.Component<ComponentProps, undefined> {
             {this.renderLabels()}
           </div>
         </div>
+        {this.renderEvents()}
       </div>
     )
   }
+
   renderLabels() {
-    const { notablePersonLabels } = data
+    const {notablePersonLabels} = data
     return (
       notablePersonLabels.map((label, i) =>
         <span className={css(styles.notablePersonLabel)} key={i}>
           {label}
         </span>,
+      )
+    )
+  }
+
+  renderEvents() {
+    const {notablePersonEvents} = data
+    return (
+      notablePersonEvents.map((event) =>
+        <div className='placeholderEvents' key={event.eventId}>
+          {event.eventQuote}
+          <a href={event.eventSource} rel='nofollow'>Source</a>
+          {event.addedBy}
+        </div>,
       )
     )
   }
