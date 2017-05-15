@@ -11,6 +11,10 @@ import Login from './pages/login/login'
 import {NotablePerson} from './pages/notablePerson/notablePerson'
 import {history, store} from './redux/store'
 import ContactUs from './pages/contactUs/contactUs'
+<<<<<<< HEAD
+=======
+
+>>>>>>> Resolve conflict with contactUs route
 // import Search from "./page/search/search"
 
 ReactDOM.render(
