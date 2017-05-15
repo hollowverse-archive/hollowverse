@@ -40,7 +40,9 @@ class NotablePersonClass extends React.Component<ComponentProps, undefined> {
             {this.renderLabels()}
           </div>
         </div>
-        {this.renderEvents()}
+        <div className={css(styles.eventsContainer)}>
+          {this.renderEvents()}
+        </div>
       </div>
     )
   }
@@ -60,10 +62,13 @@ class NotablePersonClass extends React.Component<ComponentProps, undefined> {
     const {notablePersonEvents} = data
     return (
       notablePersonEvents.map((event) =>
-        <div className='placeholderEvents' key={event.eventId}>
-          {event.eventQuote}
-          <a href={event.eventSource}>Source</a>
-          {event.addedBy}
+        <div className={css(styles.eventContent)} key={event.eventId}>
+          <div className='mockQuoteSection'>
+            <p>{event.eventQuote}</p>
+            <a href={event.eventSource}>Source</a>
+          </div>
+          <p>{event.comment}</p>
+          <p>{event.addedBy}</p>
         </div>,
       )
     )

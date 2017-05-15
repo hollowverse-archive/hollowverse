@@ -5,6 +5,7 @@ export const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'center',
     margin: '0.8rem 0.8rem',
+    backgroundColor: 'tomato',
   },
   notablePersonPhoto: {
     borderRadius: '50%',
@@ -36,5 +37,15 @@ export const styles = StyleSheet.create({
     paddingLeft: '.7rem',
     paddingRight: '.7rem',
     whiteSpace: 'nowrap',
+  },
+  eventsContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+  },
+  eventContent: {
+    padding: '1rem 1rem',
+    border: '1px solid gray',
+    margin: '0.8rem 0.8rem',
   },
 })
