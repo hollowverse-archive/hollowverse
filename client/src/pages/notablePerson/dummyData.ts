@@ -9,7 +9,7 @@ export const data = {
   notablePersonEvents: [
     {
       eventId: 100,
-      eventQuote: 'My opinions are public schools are...',
+      eventQuote: 'My opinions on public schools are...',
       eventSource: 'http://tmz.io/mjackson/bigevent',
       comment: 'I love how Michael put this issue forward',
       addedBy: 'Mr Cookie',
