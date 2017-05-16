@@ -18,9 +18,9 @@ interface IProps {
 class EventsClass extends React.Component<IProps, undefined> {
   render() {
     return (
-         <div className={css(styles.eventsContainer)}>
-          {this.renderEvents()}
-        </div>
+      <div className={css(styles.eventsContainer)}>
+        {this.renderEvents()}
+      </div>
     )
   }
   renderEvents() {
