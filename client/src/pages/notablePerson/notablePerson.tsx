@@ -1,6 +1,7 @@
 import {css} from 'aphrodite/no-important'
 import * as React from 'react'
 import {RouteComponentProps} from 'react-router-dom'
+import {Events} from './events'
 import {common} from '../../common.styles'
 import {styles} from './notablePerson.styles'
 import {data} from './dummyData'
@@ -20,16 +21,21 @@ interface IProps {
 }
 
 /* Todo:
-  - [x] Custom Styles
-  - [x] Custom Labels
     [ ] Add Events
   - [ ] Second pass for design & code optimization
+*/
+
+/*
+  Dummy data suggests that this top-level component will be accessing
+  the data probably with a lifehook method.
+  It then passes the necessary data to its children, like <Events>
 */
 
 type ComponentProps = IProps & RouteComponentProps<any>
 
 class NotablePersonClass extends React.Component<ComponentProps, undefined> {
   render() {
+    const {notablePersonEvents} = data
     return (
       <div className={css(common.page)}>
         <div className={css(styles.notablePersonTitleContainer)}>
@@ -40,9 +46,7 @@ class NotablePersonClass extends React.Component<ComponentProps, undefined> {
             {this.renderLabels()}
           </div>
         </div>
-        <div className={css(styles.eventsContainer)}>
-          {this.renderEvents()}
-        </div>
+        <Events data={data}/>
       </div>
     )
   }
@@ -54,22 +58,6 @@ class NotablePersonClass extends React.Component<ComponentProps, undefined> {
         <span className={css(styles.notablePersonLabel)} key={i}>
           {label}
         </span>,
-      )
-    )
-  }
-
-  renderEvents() {
-    const {notablePersonEvents} = data
-    return (
-      notablePersonEvents.map((event) =>
-        <div className={css(styles.eventContent)} key={event.eventId}>
-          <div className='mockQuoteSection'>
-            <p>{event.eventQuote}</p>
-            <a href={event.eventSource}>Source</a>
-          </div>
-          <p>{event.comment}</p>
-          <p>{event.addedBy}</p>
-        </div>,
       )
     )
   }
