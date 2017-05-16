@@ -15,7 +15,9 @@ interface IProps {
     eventId: number,
     eventQuote: string,
     eventSource: string,
-    comment: string,
+    eventSourceName: string,
+    userComment: string,
+    userAvatar: string,
     addedBy: string,
   }[]
 }
