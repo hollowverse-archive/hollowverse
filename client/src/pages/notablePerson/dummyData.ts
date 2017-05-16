@@ -17,10 +17,17 @@ export const data = {
     },
     {
       eventId: 101,
-      eventQuote: 'In a world filled with hate, we must still dare to hope. In a world filled with anger, we must still dare to comfort. In a world filled with despair, we must still dare to dream. And in a world filled with distrust, we must still dare to believe.',
+      eventQuote: '"In a world filled with hate, we must still dare to hope. In a world filled with anger, we must still dare to comfort. In a world filled with despair, we must still dare to dream. And in a world filled with distrust, we must still dare to believe."',
       eventSource: 'http://politico.io/mj/speech',
-      comment: 'That was a great speech.',
+      comment: 'That was a great speech!',
       addedBy: 'Awesome Gal',
+    },
+    {
+      eventId: 102,
+      eventQuote: '"I am going to search for my star until I find it. It is hidden in the drawer of innocence, wrapped in a scarf of wonder."',
+      eventSource: 'http://dnn.co/news/rt',
+      comment: 'Does this mean he belives in astrology? Maybe not.',
+      addedBy: 'Kale Chips',
     },
   ],
 }

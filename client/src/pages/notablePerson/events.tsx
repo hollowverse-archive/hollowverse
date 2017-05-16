@@ -1,7 +1,7 @@
 import * as React from 'react'
 import {css} from 'aphrodite/no-important'
 import {common} from '../../common.styles'
-import {styles} from './notablePerson.styles'
+import {styles} from './events.styles'
 
 interface IProps {
   data: {
@@ -27,7 +27,7 @@ class EventsClass extends React.Component<IProps, undefined> {
     const {notablePersonEvents} = this.props.data
     return (
       notablePersonEvents.map((event) =>
-        <div className={css(styles.eventContent)} key={event.eventId}>
+        <div className={css(common.textTypography, styles.eventContent)} key={event.eventId}>
           <div className='mockQuoteSection'>
             <p>{event.eventQuote}</p>
             <a href={event.eventSource}>Source</a>
