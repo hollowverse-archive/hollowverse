@@ -12,14 +12,14 @@ export const data = {
       eventId: 100,
       eventQuote: '"If you enter this world knowing you are loved and you leave this world knowing the same, then everything that happens in between can be dealt with."',
       eventSource: 'http://tmz.io/mjackson/bigevent',
-      comment: 'A very inspirational quote by MJ!!',
+      comment: 'A very inspirational quote by MJ!! It summarizes his world view pretty clearly.',
       addedBy: 'Mr Cookie',
     },
     {
       eventId: 101,
       eventQuote: '"In a world filled with hate, we must still dare to hope. In a world filled with anger, we must still dare to comfort. In a world filled with despair, we must still dare to dream. And in a world filled with distrust, we must still dare to believe."',
       eventSource: 'http://politico.io/mj/speech',
-      comment: 'That was a great speech!',
+      comment: 'This is from yesterday from the ceremony. Maybe this will shed some light on his beliefs!',
       addedBy: 'Awesome Gal',
     },
     {

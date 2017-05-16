@@ -28,12 +28,12 @@ class EventsClass extends React.Component<IProps, undefined> {
     return (
       notablePersonEvents.map((event) =>
         <div className={css(common.textTypography, styles.eventContent)} key={event.eventId}>
-          <div className='mockQuoteSection'>
-            <p>{event.eventQuote}</p>
-            <a href={event.eventSource}>Source</a>
+            <a className={css(styles.sourceTypography)} href={event.eventSource}>Source</a>
+          <div className={css(styles.quoteContainer)}>
+            <p className={css(styles.quotedText)}>{event.eventQuote}</p>
           </div>
-          <p>{event.comment}</p>
-          <p>{event.addedBy}</p>
+          <p className={css(styles.userComment)}>{event.comment}</p>
+          <p className={css(styles.username)}>{event.addedBy}</p>
         </div>,
       )
     )
