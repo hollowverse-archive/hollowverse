@@ -29,8 +29,8 @@ interface IProps {
 
 /*
   Dummy data suggests that this top-level component will be accessing
-  the data probably with a lifehook method.
-  It then passes the necessary data to its children, like <Events>
+  the data probably via a lifecycle method.
+  It then passes the necessary data to its children, for instance to: <Events>
 */
 
 type ComponentProps = IProps & RouteComponentProps<any>

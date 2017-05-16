@@ -22,7 +22,7 @@ export const data = {
       eventQuote: '"In a world filled with hate, we must still dare to hope. In a world filled with anger, we must still dare to comfort. In a world filled with despair, we must still dare to dream. And in a world filled with distrust, we must still dare to believe."',
       eventSource: 'http://politico.io/mj/speech',
       eventSourceName: 'Politico',
-      userComment: 'This is from yesterday from the ceremony. Maybe this will shed some light on his beliefs!',
+      userComment: 'This was published yesterday, he was quoted in the award ceremony.. Maybe this will shed some light on his beliefs!',
       userAvatar: 'http://lorempixel.com/20/20/',
       addedBy: 'Awesome Gal',
     },

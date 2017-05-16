@@ -1,7 +1,5 @@
 import {StyleSheet} from 'aphrodite/no-important'
 
-const gradient = 'linear-gradient(90deg, #67B26F 40%, #4ca2cd 95%)'
-
 export const styles = StyleSheet.create({
   eventsContainer: {
     display: 'flex',
@@ -19,13 +17,13 @@ export const styles = StyleSheet.create({
     margin: '0.4rem 0 0.5rem 0',
     borderLeft: '2.5px solid rgba(103, 178, 111, 0.8)',
   },
+  quotedText: {
+    marginLeft: '0.8rem',
+  },
   sourceTypography: {
     color: '#6b6b6b',
     fontWeight: 400,
     textDecoration: 'dotted #6b6b6b',
-  },
-  quotedText: {
-    marginLeft: '0.8rem',
   },
   userComment: {
     color: '#474747',

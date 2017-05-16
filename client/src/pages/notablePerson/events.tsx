@@ -26,7 +26,7 @@ class EventsClass extends React.Component<IProps, undefined> {
     )
   }
   renderEvents() {
-    const { notablePersonEvents } = this.props.data
+    const {notablePersonEvents} = this.props.data
     return (
       notablePersonEvents.map((event) =>
         <div className={css(common.textTypography, styles.eventContent)} key={event.eventId}>
