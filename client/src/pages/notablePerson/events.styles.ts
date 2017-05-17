@@ -37,7 +37,10 @@ export const styles = StyleSheet.create({
     textAlign: 'right',
   },
   username: {
-    fontSize: '1.03rem',
+    fontSize: '1rem',
+    fontWeight: 500,
+    color: palette.typography[0],
+
   },
   userAvatar: {
     borderRadius: '20%',

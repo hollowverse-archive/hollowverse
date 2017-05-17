@@ -1,6 +1,6 @@
 import * as React from 'react'
 import {css} from 'aphrodite/no-important'
-import {sortBy as _sortBy} from 'lodash'
+import {sortByDescending} from '../../utils/utils'
 import {common} from '../../common.styles'
 import {styles} from './events.styles'
 
@@ -29,10 +29,9 @@ class EventsClass extends React.Component<IProps, undefined> {
   }
   renderEvents() {
     const {notablePersonEvents} = this.props.data
-    const sortedByMostRecent = _sortBy(notablePersonEvents, 'postedAt').reverse()
 
     return (
-      sortedByMostRecent.map((event) =>
+      sortByDescending(notablePersonEvents, 'postedAt').map((event) =>
         <div className={css(common.textTypography, styles.eventContent)} key={event.eventId}>
           <a className={css(styles.sourceTypography)} href={event.eventSource}><p>{event.eventSourceName}</p></a>
           <div className={css(styles.quoteContainer)}>
