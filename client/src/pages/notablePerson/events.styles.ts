@@ -1,6 +1,8 @@
 import {StyleSheet} from 'aphrodite/no-important'
 import {palette} from '../../common.styles'
 
+const {typography, backgrounds} = palette
+
 export const styles = StyleSheet.create({
   eventsContainer: {
     display: 'flex',
@@ -12,7 +14,7 @@ export const styles = StyleSheet.create({
     border: '1px solid rgba(235, 235, 235, 1)',
     borderRadius: '3px',
     margin: '0.8rem 0.8rem',
-    background: palette.typography[3],
+    background: backgrounds[4],
     boxShadow: '0 2px 5px rgba(0,0,0,0.13), 0 2px 5px rgba(0,0,0,0.19)',
   },
   quoteContainer: {
@@ -23,12 +25,12 @@ export const styles = StyleSheet.create({
     marginLeft: '0.8rem',
   },
   sourceTypography: {
-    color: palette.typography[2],
+    color: typography[2],
     fontWeight: 400,
     textDecoration: 'dotted #6b6b6b',
   },
   userComment: {
-    color: palette.typography[1],
+    color: typography[1],
   },
   userContainer: {
     marginTop: '0.5rem',
@@ -39,7 +41,7 @@ export const styles = StyleSheet.create({
   username: {
     fontSize: '1rem',
     fontWeight: 500,
-    color: palette.typography[0],
+    color: typography[1],
 
   },
   userAvatar: {

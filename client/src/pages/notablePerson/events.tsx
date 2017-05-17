@@ -38,12 +38,12 @@ class EventsClass extends React.Component<IProps, undefined> {
             <p className={css(styles.quotedText)}>{event.eventQuote}</p>
           </div>
           <p className={css(styles.userComment)}>{event.userComment}</p>
-          <div className={css(styles.userContainer)}>
+          {/*<div className={css(styles.userContainer)}>
             <img className={css(styles.userAvatar)} src={event.userAvatar} />
             <p className={css(styles.username)}>
               {event.postedBy}
             </p>
-          </div>
+          </div>*/}
         </div>,
       )
     )

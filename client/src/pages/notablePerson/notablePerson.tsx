@@ -23,11 +23,6 @@ interface IProps {
   }[]
 }
 
-/* Todo:
-    [ ] Add Events
-  - [ ] Second pass for design & code optimization
-*/
-
 /*
   Dummy data suggests that this top-level component will be accessing
   the data probably via a lifecycle method.

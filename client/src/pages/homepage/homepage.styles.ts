@@ -1,6 +1,8 @@
 import {StyleSheet} from 'aphrodite/no-important'
 import {palette} from '../../common.styles'
 
+const {backgrounds, typography} = palette
+
 export const styles = StyleSheet.create({
   pageHomepage: {
     alignItems: 'center',
@@ -9,13 +11,13 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   searchContainer: {
-    backgroundColor: palette.backgrounds[1],
+    backgroundColor: backgrounds[0],
     borderRadius: '10px',
     padding: '2rem',
     width: '70vw',
   },
   title: {
-    color: palette.typography[0],
+    color: typography[1],
     textAlign: 'center',
   },
   searchForm: {
@@ -28,7 +30,7 @@ export const styles = StyleSheet.create({
   },
   searchInput: {
     alignItems: 'center',
-    backgroundColor: palette.backgrounds[0],
+    backgroundColor: backgrounds[0],
     border: '1px solid #dbdbdb',
     boxShadow: 'inset 0 1px 2px rgba(10, 10, 10, .1)',
     borderRadius: '3px',
@@ -57,7 +59,7 @@ export const styles = StyleSheet.create({
     textDecoration: 'none',
     width: '6rem',
     ':hover': {
-      color: palette.backgrounds[4],
+      color: backgrounds[3],
       opacity: 0.9,
     },
   },
