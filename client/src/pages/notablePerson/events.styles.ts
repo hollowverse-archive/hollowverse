@@ -16,8 +16,8 @@ export const styles = StyleSheet.create({
     boxShadow: '0 2px 5px rgba(0,0,0,0.13), 0 2px 5px rgba(0,0,0,0.19)',
   },
   quoteContainer: {
-    margin: '0.4rem 0 0.5rem 0',
-    borderLeft: '2.5px solid rgba(103, 178, 111, 0.8)',
+    margin: '0.4rem 0 1.2rem 0',
+    borderLeft: '3px solid rgba(103, 178, 111, 0.8)',
   },
   quotedText: {
     marginLeft: '0.8rem',
