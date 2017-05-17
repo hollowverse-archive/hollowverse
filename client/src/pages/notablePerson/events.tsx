@@ -12,7 +12,8 @@ interface IProps {
       eventSourceName: string,
       userComment: string,
       userAvatar: string,
-      addedBy: string,
+      postedBy: string,
+      postedAt: number,
     }[],
   }
 }
@@ -38,7 +39,7 @@ class EventsClass extends React.Component<IProps, undefined> {
           <div className={css(styles.userContainer)}>
             <img className={css(styles.userAvatar)} src={event.userAvatar} />
             <p className={css(styles.username)}>
-              {event.addedBy}
+              {event.postedBy}
             </p>
           </div>
         </div>,

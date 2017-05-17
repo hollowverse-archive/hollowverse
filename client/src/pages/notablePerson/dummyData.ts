@@ -15,7 +15,8 @@ export const data = {
       eventSourceName: 'TMZ',
       userComment: 'A very inspirational quote by MJ!! It summarizes his world view pretty clearly.',
       userAvatar: 'http://lorempixel.com/20/20/',
-      addedBy: 'Mr Cookie',
+      postedBy: 'Mr Cookie',
+      postedAt: 1494999474,
     },
     {
       eventId: 101,
@@ -24,7 +25,8 @@ export const data = {
       eventSourceName: 'Politico',
       userComment: 'This was published yesterday, he was quoted in the award ceremony.. Maybe this will shed some light on his beliefs!',
       userAvatar: 'http://lorempixel.com/20/20/',
-      addedBy: 'Awesome Gal',
+      postedBy: 'Awesome Gal',
+      postedAt: 1494999515,
     },
     {
       eventId: 102,
@@ -33,7 +35,8 @@ export const data = {
       eventSourceName: 'New York Times',
       userComment: 'Does this mean he belives in astrology? Maybe not.',
       userAvatar: 'http://lorempixel.com/20/20/',
-      addedBy: 'Kale Chips',
+      postedBy: 'Kale Chips',
+      postedAt: 1494999526,
     },
   ],
 }
