@@ -10,7 +10,7 @@ import {Homepage} from './pages/homepage/homepage'
 import Login from './pages/login/login'
 import {NotablePerson} from './pages/notablePerson/notablePerson'
 import {history, store} from './redux/store'
-import ContactUs from './pages/contactUs/contactUs'
+import {ContactUsForm} from './pages/contactUsForm/contactUsForm'
 
 // import Search from "./page/search/search"
 
@@ -24,7 +24,7 @@ ReactDOM.render(
         {/*/!*<Route path="/create-profile" component={requireUserLogin(CreateProfile)}/>*!/*/}
         {/*/!*<Route path="/search" component={Search}/>*!/*/}
         {/*/!*<Route path="/login" component={Login}/>*!/*/}
-        {<Route path='/contactUs' component={ContactUs}/>}
+        {<Route path='/contactUs' component={ContactUsForm}/>}
       </App>
     </ConnectedRouter>
   </Provider>,
