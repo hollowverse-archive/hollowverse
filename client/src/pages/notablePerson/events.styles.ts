@@ -13,6 +13,7 @@ export const styles = StyleSheet.create({
     borderRadius: '3px',
     margin: '0.8rem 0.8rem',
     background: palette.typography[3],
+    boxShadow: '0 2px 5px rgba(0,0,0,0.13), 0 2px 5px rgba(0,0,0,0.19)',
   },
   quoteContainer: {
     margin: '0.4rem 0 0.5rem 0',
