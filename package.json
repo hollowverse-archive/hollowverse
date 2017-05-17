@@ -88,7 +88,6 @@
     "ts-node": "^3.0.3",
     "tslint": "^5.0.0",
     "tslint-config-standard": "^5.0.2",
-    "typescript": "^2.1.6",
-    "tslint-react": "^3.0.0"
+    "typescript": "^2.1.6"
   }
 }
