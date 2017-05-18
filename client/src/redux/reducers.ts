@@ -25,7 +25,8 @@ interface IAppState {
   error: HvError,
   isNavMenuOpen: boolean,
   lastSearchTerm: string,
-  createProfileUrlInputValue: string
+  createProfileUrlInputValue: string,
+  pilotData: {},
 }
 
 // Make it an immutable type
@@ -43,6 +44,7 @@ const initialAppState: AppState = {
   isNavMenuOpen: false,
   lastSearchTerm: '',
   createProfileUrlInputValue: '',
+  pilotData: {},
 }
 
 // IRootState contains IAppState as well as other state keys that are required by external

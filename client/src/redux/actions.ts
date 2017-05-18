@@ -41,6 +41,7 @@ export const actions = {
   requestLogin: () => ({type: 'requestLogin'}),
   requestLogout: () => ({type: 'requestLogout'}),
   requestUpdateLoginStatus: () => ({type: 'requestUpdateLoginStatus'}),
+  requestPilotData: () => ({type: 'requestPilotData', payload: {}}),
 }
 
 // `ActionTypes` can have any string value that corresponds with a key in the `actions` object above

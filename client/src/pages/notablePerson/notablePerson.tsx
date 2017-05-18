@@ -1,12 +1,17 @@
 import {css} from 'aphrodite/no-important'
 import * as React from 'react'
 import {RouteComponentProps} from 'react-router-dom'
+import {connect} from 'react-redux'
+import {Link} from 'react-router-dom'
+import {actions} from '../../redux/actions'
+import {State} from '../../redux/reducers'
+import {pick} from '../../utils/utils'
 import {Events} from './events'
 import {common} from '../../common.styles'
 import {styles} from './notablePerson.styles'
 import {data} from './dummyData'
 
-interface IProps {
+interface PilotData {
   notablePersonId: number
   notablePersonName: string
   notablePersonPictureUrl: string
@@ -23,15 +28,34 @@ interface IProps {
   }[]
 }
 
+interface IProps {
+  pilotData: {}
+}
+
+function mapStateToProps(state: State): IProps {
+  return pick(state, [
+    'pilotData',
+  ])
+}
+
+const actionCreators = pick(actions, [
+  'requestPilotData',
+])
+
 /*
   Dummy data suggests that this top-level component will be accessing
   the data probably via a lifecycle method.
   It then passes the necessary data to its children, for instance to: <Events>
 */
 
-type ComponentProps = IProps & RouteComponentProps<any>
+type ActionCreators = typeof actionCreators
+type ComponentProps = ActionCreators & IProps & RouteComponentProps<any>
 
 class NotablePersonClass extends React.Component<ComponentProps, undefined> {
+  componentDidMount() {
+    const {props: p} = this
+    p.requestPilotData()
+  }
   render() {
     const {notablePersonEvents} = data
     return (
@@ -61,4 +85,7 @@ class NotablePersonClass extends React.Component<ComponentProps, undefined> {
   }
 }
 
-export const NotablePerson = NotablePersonClass
+export const NotablePerson = connect<IProps, ActionCreators, RouteComponentProps<any>>(
+  mapStateToProps,
+  actionCreators,
+  )(NotablePersonClass)
