@@ -35,7 +35,8 @@ export const actions = {
   setIsNavMenuOpen: (payload: boolean) => ({type: 'setIsNavMenuOpen', payload}),
   setLastSearchTerm: (payload: string) => ({type: 'setLastSearchTerm', payload}),
   setCreateProfileUrlInputValue: (payload: string) => ({type: 'setCreateProfileUrlInputValue', payload}),
-
+  setEmailInputValue: (payload: string) => ({type: 'setEmailInputValue', payload}),
+  setMessageInputValue: (payload: string) => ({type: 'setMessageInputValue', payload}),
   // Redux Sagas triggers
   requestSearchResults: (payload: string) => ({type: 'requestSearchResults', payload}),
   requestLogin: () => ({type: 'requestLogin'}),
