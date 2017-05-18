@@ -8,6 +8,7 @@ import {pick} from '../../utils/utils'
 interface IProps {
   emailInputValue: string,
   messageInputValue: string,
+  submitFormValues: object,
 }
 
 function mapStateToProps(state: State): IProps {
@@ -15,6 +16,7 @@ function mapStateToProps(state: State): IProps {
     ...pick(state, [
       'emailInputValue',
       'messageInputValue',
+      'submitFormValues',
     ]),
   }
 }
@@ -22,6 +24,7 @@ function mapStateToProps(state: State): IProps {
 const actionCreators = pick(actions, [
   'setEmailInputValue',
   'setMessageInputValue',
+  'setSubmitFormValues',
 ])
 
 type ActionCreators = typeof actionCreators
@@ -34,7 +37,7 @@ class ContactUsFormClass extends React.Component<ComponentProps, undefined> {
     return (
       <div>
         <h1>Contact Us</h1>
-        <form>
+        <form onSubmit={(event) => this.handleFormSubmit(event)}>
           <label>
             <input
               placeholder='Your Email'
@@ -61,11 +64,19 @@ class ContactUsFormClass extends React.Component<ComponentProps, undefined> {
   }
 
   handleEmailInputChange(emailText: string) {
-    console.log(this.props.setEmailInputValue(emailText))
+    const {props: p} = this
+    p.setEmailInputValue(emailText)
   }
 
   handleMessageInputChange(messageText: string) {
-    console.log(this.props.setMessageInputValue(messageText))
+    const {props: p} = this
+    p.setMessageInputValue(messageText)
+  }
+
+  handleFormSubmit(event: any) {
+    const {props: p} = this
+    event.preventDefault()
+    p.setSubmitFormValues({email: p.emailInputValue, message: p.messageInputValue})
   }
 
 }

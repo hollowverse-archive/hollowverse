@@ -37,6 +37,7 @@ export const actions = {
   setCreateProfileUrlInputValue: (payload: string) => ({type: 'setCreateProfileUrlInputValue', payload}),
   setEmailInputValue: (payload: string) => ({type: 'setEmailInputValue', payload}),
   setMessageInputValue: (payload: string) => ({type: 'setMessageInputValue', payload}),
+  setSubmitFormValues: (payload: object) => ({type: 'setSubmitFormValues', payload}),
 
   // Redux Sagas triggers
   requestSearchResults: (payload: string) => ({type: 'requestSearchResults', payload}),
