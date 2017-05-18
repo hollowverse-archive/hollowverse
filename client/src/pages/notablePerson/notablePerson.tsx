@@ -11,6 +11,7 @@ import {common} from '../../common.styles'
 import {styles} from './notablePerson.styles'
 import {data} from './dummyData'
 
+/* This will be useful later.
 interface PilotData {
   notablePersonId: number
   notablePersonName: string
@@ -27,6 +28,7 @@ interface PilotData {
     postedAt: number,
   }[]
 }
+*/
 
 interface IProps {
   pilotData: {}
@@ -41,12 +43,6 @@ function mapStateToProps(state: State): IProps {
 const actionCreators = pick(actions, [
   'requestPilotData',
 ])
-
-/*
-  Dummy data suggests that this top-level component will be accessing
-  the data probably via a lifecycle method.
-  It then passes the necessary data to its children, for instance to: <Events>
-*/
 
 type ActionCreators = typeof actionCreators
 type ComponentProps = ActionCreators & IProps & RouteComponentProps<any>
@@ -65,14 +61,14 @@ class NotablePersonClass extends React.Component<ComponentProps, undefined> {
           <div className={css(styles.notablePersonText)}>
             <h1 className={css(styles.notablePersonTitle)}>Religion, politics, and ideas of...</h1>
             <h2 className={css(common.titleTypography, styles.notablePersonName)}>{data.notablePersonName}</h2>
-            {this.renderLabels()}
+            {/*{this.renderLabels()}*/}
           </div>
         </div>
         <Events data={data}/>
       </div>
     )
   }
-
+/*
   renderLabels() {
     const {notablePersonLabels} = data
     return (
@@ -83,6 +79,7 @@ class NotablePersonClass extends React.Component<ComponentProps, undefined> {
       )
     )
   }
+*/
 }
 
 export const NotablePerson = connect<IProps, ActionCreators, RouteComponentProps<any>>(
