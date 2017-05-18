@@ -33,7 +33,7 @@ export const data = {
       eventQuote: '"I am going to search for my star until I find it. It is hidden in the drawer of innocence, wrapped in a scarf of wonder."',
       eventSource: 'http://nyt.co/news/rt',
       eventSourceName: 'New York Times',
-      userComment: 'Does this mean he belives in astrology? Maybe not. I will post another article on this.',
+      userComment: 'Does this mean he believes in astrology? Maybe not. I will post another article on this.',
       userAvatar: 'http://lorempixel.com/20/20/',
       postedBy: 'Kale Chips',
       postedAt: 1495001897,

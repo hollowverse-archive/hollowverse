@@ -84,9 +84,13 @@ function* requestUpdateLoginStatus() {
   }
 }
 
+// work in progress =>
 function* requestPilotData() {
-  return {
-    // hit Firebase
+  try {
+    const data = yield firebase.getData('notablePeople')
+    console.log(data) // => "permission denied, client doesn't have permission to access the desired data"
+  } catch (error) {
+    throw error
   }
 }
 

@@ -81,3 +81,20 @@ export function loginOrRegister(facebookAuthResponse: facebookSdk.IAuthResponse)
     return Promise.reject(errors.firebaseLoginError)
   }
 }
+
+// work in progress =>
+export function getData(child: string): Promise<firebase.database.DataSnapshot> {
+  return new Promise<firebase.database.DataSnapshot>((resolve, reject) => {
+    return firebaseDb.ref().child(child).once(
+      'value',
+
+      (snapshot) => {
+        resolve(snapshot)
+      },
+
+      (error: {}) => {
+        reject(error)
+      },
+    )
+  })
+}
