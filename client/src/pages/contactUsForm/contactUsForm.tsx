@@ -39,8 +39,6 @@ class ContactUsFormClass extends React.Component<ComponentProps, undefined> {
             <input
               placeholder='Your Email'
               type='email'
-              id='mail'
-              name='emailAddress'
               value={p.emailInputValue}
               onChange={({target: {value}}) => this.handleEmailInputChange(value)}
             />
@@ -48,8 +46,6 @@ class ContactUsFormClass extends React.Component<ComponentProps, undefined> {
           <label>
             <textarea
               placeholder='Your Message'
-              id='message'
-              name='userMessage'
               value={p.messageInputValue}
               onChange={({target: {value}}) => this.handleMessageInputChange(value)}
               >
