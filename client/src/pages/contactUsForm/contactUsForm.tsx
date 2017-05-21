@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import {RouteComponentProps} from 'react-router-dom'
 import {actions} from '../../redux/actions'
 import {State} from '../../redux/reducers'
-import {pick} from '../../utils/utils'
+import {pick, isValidEmail, hasSentence} from '../../utils/utils'
 
 interface IProps {
   emailInputValue: string,
@@ -55,6 +55,7 @@ class ContactUsFormClass extends React.Component<ComponentProps, undefined> {
             </textarea>
           </label>
           <input
+            disabled={!isValidEmail(p.emailInputValue) || !hasSentence(p.messageInputValue)}
             type='submit'
             value='Submit'
           />

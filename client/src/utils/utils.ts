@@ -13,4 +13,18 @@ export function pick<T, K extends keyof T>(object: T, predicate: K[]): {[NAME in
   return _pick(object, predicate) as any
 }
 
+export function isValidEmail(email: string): boolean {
+  const ePattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/
+  return ePattern.test(email)
+}
+
+export function hasSentence(message: string): boolean {
+  const minLength = 19
+  if (message.trim().length !== 0 && message.length > minLength) {
+    return true
+  } else {
+    return false
+  }
+}
+
 export {cn}
