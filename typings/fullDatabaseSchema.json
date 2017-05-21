@@ -1,0 +1,78 @@
+{
+  "notablePersons": {
+    "np_48d700ee": {
+      "name": "John Cena",
+      "photoUrl": "hollowverse.com/np_assets/np_48d700ee.png",
+      "labels": [
+        "label_1",
+        "label_2",
+        "label_3"
+      ],
+      "events": [
+        {
+          "id": 10001,
+          "quote": "quotation goes here.",
+          "sourceName": "New York Times",
+          "sourceUrl": "nyt.com/js/102",
+          "userId": "2qz4YC0TZKN4cGZn4nk0vqOIste2",
+          "userDisplayName": "John Doe",
+          "userComment": "I love this article",
+          "userAvatar": "hollowverse.com/users/2.png",
+          "postedAt": 1231234
+        },
+        {
+          "id": 10002,
+          "quote": "quotation goes here.",
+          "sourceName": "New York Times",
+          "sourceUrl": "nyt.com/js/102",
+          "userId": "IP4hZV6QLuSImwD785i85bZoXFy2",
+          "userDisplayName": "Jane Doe",
+          "userComment": "I love this article",
+          "userAvatar": "hollowverse.com/users/2.png",
+          "postedAt": 1231254
+        }
+      ]
+    },
+    "np_48d70422": {
+      "name": "Jane Cena",
+      "photoUrl": "hollowverse.com/np_assets/np_48d70422.png",
+      "labels": [
+        "label_1",
+        "label_2",
+        "label_3"
+      ],
+      "events": [
+        {
+          "id": 10001,
+          "quote": "quotation goes here.",
+          "sourceName": "New York Times",
+          "sourceUrl": "nyt.com/js/102",
+          "userId": "2qz4YC0TZKN4cGZn4nk0vqOIste2",
+          "userDisplayName": "John Doe",
+          "userComment": "I love this article",
+          "userAvatar": "hollowverse.com/users/2.png",
+          "postedAt": 1231234
+        },
+        {
+          "id": 10002,
+          "quote": "quotation goes here.",
+          "sourceName": "New York Times",
+          "sourceUrl": "nyt.com/js/102",
+          "userId": "IP4hZV6QLuSImwD785i85bZoXFy2",
+          "userDisplayName": "Jane Doe",
+          "userComment": "I love this article",
+          "userAvatar": "hollowverse.com/users/2.png",
+          "postedAt": 1231254
+        }
+      ]
+    }
+  },
+  "users": {
+    "2qz4YC0TZKN4cGZn4nk0vqOIste2": {
+      "displayName": "John Doe"
+    },
+    "IP4hZV6QLuSImwD785i85bZoXFy2": {
+      "displayName": "Jane Doe"
+    }
+  }
+}
