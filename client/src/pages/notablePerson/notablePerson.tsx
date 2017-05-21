@@ -5,14 +5,15 @@ import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {actions} from '../../redux/actions'
 import {State} from '../../redux/reducers'
+import * as selectors from '../../redux/selectors'
 import {pick} from '../../utils/utils'
+import {NotablePersonSchema} from '../../../../typings/dataSchema'
 import {Events} from './events'
 import {common} from '../../common.styles'
 import {styles} from './notablePerson.styles'
-import {NotablePersonSchema} from '../../../../typings/dataSchema'
 
 interface IProps {
-  notablePerson: NotablePersonSchema
+  notablePerson: NotablePersonSchema | undefined
 }
 
 function mapStateToProps(state: State): IProps {
@@ -30,30 +31,40 @@ type ComponentProps = ActionCreators & IProps & RouteComponentProps<any>
 
 class NotablePersonClass extends React.Component<ComponentProps, undefined> {
   componentDidMount() {
-    const {props: p} = this
-    // TODO: We'll pass the query string to below function:
+    const {props: p} = this // TODO: We'll pass the query string to below function:
     p.requestNotablePerson()
   }
-  render() {
-    const {name, photoUrl, labels} = this.props.notablePerson
 
+  render() {
     return (
-      <div className={css(common.page)}>
-        <div className={css(styles.notablePersonTitleContainer)}>
-          <img className={css(styles.notablePersonPhoto)} src={photoUrl}/>
-          <div className={css(styles.notablePersonText)}>
-            <h1 className={css(styles.notablePersonTitle)}>Religion, politics, and ideas of...</h1>
-            <h2 className={css(common.titleTypography, styles.notablePersonName)}>{name}</h2>
-            {/*{this.renderLabels()}*/}
-          </div>
-        </div>
-        {/*<Events data={data}/>*/}
-      </div>
+      this.renderNotablePerson()
     )
   }
-/* // TODO: We'll address possibility of undefined
-  renderLabels() {
-    const {labels} = this.props.notablePerson
+
+  renderNotablePerson() {
+    if (this.props.notablePerson) {
+      const {name, photoUrl, labels, events} = this.props.notablePerson
+      return (
+        <div className={css(common.page)}>
+          <div className={css(styles.notablePersonTitleContainer)}>
+            <img className={css(styles.notablePersonPhoto)} src={photoUrl} />
+            <div className={css(styles.notablePersonText)}>
+              <h1 className={css(styles.notablePersonTitle)}>Religion, politics, and ideas of...</h1>
+              <h2 className={css(common.titleTypography, styles.notablePersonName)}>{name}</h2>
+              {this.renderLabels(labels)}
+            </div>
+          </div>
+          <Events data={events}/>
+        </div>
+      )
+    } else {
+      return (
+        <div></div> // Loading? Grayed Out Components? WIP.
+      )
+    }
+  }
+
+  renderLabels(labels: string[]) {
     return (
       labels.map((label, i) =>
         <span className={css(styles.notablePersonLabel)} key={i}>
@@ -62,7 +73,6 @@ class NotablePersonClass extends React.Component<ComponentProps, undefined> {
       )
     )
   }
-*/
 }
 export const NotablePerson = connect<IProps, ActionCreators, RouteComponentProps<any>>(
   mapStateToProps,
