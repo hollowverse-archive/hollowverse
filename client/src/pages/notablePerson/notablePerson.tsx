@@ -34,11 +34,11 @@ class NotablePersonClass extends React.Component<ComponentProps, undefined> {
     const {props: p} = this
     p.requestPilotData()
   }
-  componentDidUpdate() {
-    const {props: p} = this
-    console.log(p.pilotData)
-  }
   render() {
+    /* Latest issue:
+    (38,38): error TS2339: Property 'pilotNotable' does not exist on type '{} | PilotData'.
+    console.log(this.props.pilotData.pilotNotable)
+    */
 
     return (
       <div className={css(common.page)}>

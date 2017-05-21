@@ -89,7 +89,7 @@ export function getData(child: string): Promise<firebase.database.DataSnapshot> 
       'value',
 
       (snapshot) => {
-        resolve(snapshot)
+        resolve(snapshot.val())
       },
 
       (error: {}) => {
