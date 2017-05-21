@@ -9,20 +9,20 @@ import {pick} from '../../utils/utils'
 import {Events} from './events'
 import {common} from '../../common.styles'
 import {styles} from './notablePerson.styles'
-import {PilotData} from '../../../../typings/dataSchema'
+import {NotablePersonSchema} from '../../../../typings/dataSchema'
 
 interface IProps {
-  pilotData: PilotData
+  notablePerson: NotablePersonSchema
 }
 
 function mapStateToProps(state: State): IProps {
   return {
-    pilotData: state.pilotData,
+    notablePerson: state.notablePerson,
   }
 }
 
 const actionCreators = pick(actions, [
-  'requestPilotData',
+  'requestNotablePerson',
 ])
 
 type ActionCreators = typeof actionCreators
@@ -31,20 +31,19 @@ type ComponentProps = ActionCreators & IProps & RouteComponentProps<any>
 class NotablePersonClass extends React.Component<ComponentProps, undefined> {
   componentDidMount() {
     const {props: p} = this
-    p.requestPilotData()
+    // TODO: We'll pass the query string to below function:
+    p.requestNotablePerson()
   }
   render() {
-    const {pilotNotable} = this.props.pilotData
-    /* Latest error: Object is possibly undefined.
-    console.log(pilotNotable.notablePersonPictureUrl)
-    */
+    const {name, photoUrl, labels} = this.props.notablePerson
+
     return (
       <div className={css(common.page)}>
         <div className={css(styles.notablePersonTitleContainer)}>
-          {/*<img className={css(styles.notablePersonPhoto)} src={pilotNotable.notablePersonPictureUrl}/>*/}
+          <img className={css(styles.notablePersonPhoto)} src={photoUrl}/>
           <div className={css(styles.notablePersonText)}>
             <h1 className={css(styles.notablePersonTitle)}>Religion, politics, and ideas of...</h1>
-            {/*<h2 className={css(common.titleTypography, styles.notablePersonName)}>{data.notablePersonName}</h2>*/}
+            <h2 className={css(common.titleTypography, styles.notablePersonName)}>{name}</h2>
             {/*{this.renderLabels()}*/}
           </div>
         </div>
@@ -52,11 +51,11 @@ class NotablePersonClass extends React.Component<ComponentProps, undefined> {
       </div>
     )
   }
-/*
+/* // TODO: We'll address possibility of undefined
   renderLabels() {
-    const {notablePersonLabels} = data
+    const {labels} = this.props.notablePerson
     return (
-      notablePersonLabels.map((label, i) =>
+      labels.map((label, i) =>
         <span className={css(styles.notablePersonLabel)} key={i}>
           {label}
         </span>,
@@ -65,7 +64,6 @@ class NotablePersonClass extends React.Component<ComponentProps, undefined> {
   }
 */
 }
-
 export const NotablePerson = connect<IProps, ActionCreators, RouteComponentProps<any>>(
   mapStateToProps,
   actionCreators,

@@ -1,5 +1,5 @@
 {
-  "notablePersons": {
+  "notablePersons": { // "notablePeople": { read: true, write: false }
     "np_48d700ee": {
       "name": "John Cena",
       "photoUrl": "hollowverse.com/np_assets/np_48d700ee.png",
@@ -9,7 +9,7 @@
         "label_3"
       ],
       "events": [
-        {
+        { 
           "id": 10001,
           "quote": "quotation goes here.",
           "sourceName": "New York Times",
@@ -67,8 +67,8 @@
       ]
     }
   },
-  "users": {
-    "2qz4YC0TZKN4cGZn4nk0vqOIste2": {
+  "users": { 
+    "2qz4YC0TZKN4cGZn4nk0vqOIste2": { // uuid: { .read/.write: auth != null && auth.uid == $uid }
       "displayName": "John Doe"
     },
     "IP4hZV6QLuSImwD785i85bZoXFy2": {

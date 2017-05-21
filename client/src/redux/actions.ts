@@ -10,7 +10,7 @@ import {push} from 'react-router-redux'
 import {HvError} from '../../../typings/typeDefinitions'
 import {stringEnum} from '../utils/utils'
 import {IAlgoliaSearchResults} from '../vendor/algolia'
-import {PilotData} from '../../../typings/dataSchema'
+import {NotablePersonSchema} from '../../../typings/dataSchema'
 
 // Custom type definition of a Redux Action
 export interface IAction<PayloadType> { type: string, payload: PayloadType}
@@ -36,14 +36,14 @@ export const actions = {
   setIsNavMenuOpen: (payload: boolean) => ({type: 'setIsNavMenuOpen', payload}),
   setLastSearchTerm: (payload: string) => ({type: 'setLastSearchTerm', payload}),
   setCreateProfileUrlInputValue: (payload: string) => ({type: 'setCreateProfileUrlInputValue', payload}),
-  setPilotData: (payload: PilotData) => ({type: 'setPilotData', payload}),
+  setNotablePerson: (payload: NotablePersonSchema) => ({type: 'setNotablePerson', payload}),
 
   // Redux Sagas triggers
   requestSearchResults: (payload: string) => ({type: 'requestSearchResults', payload}),
   requestLogin: () => ({type: 'requestLogin'}),
   requestLogout: () => ({type: 'requestLogout'}),
   requestUpdateLoginStatus: () => ({type: 'requestUpdateLoginStatus'}),
-  requestPilotData: () => ({type: 'requestPilotData'}),
+  requestNotablePerson: () => ({type: 'requestNotablePerson'}),
 }
 
 // `ActionTypes` can have any string value that corresponds with a key in the `actions` object above
