@@ -12,8 +12,9 @@ import {Reducer} from 'redux'
 import {ActionTypes, IAction} from './actions'
 import LoginStatus = facebookSdk.LoginStatus
 import {HvError} from '../../../typings/typeDefinitions'
+import {PilotData} from '../../../typings/dataSchema'
 import {IAlgoliaSearchResults} from '../vendor/algolia'
-import {PilotData} from '../pages/notablePerson/notablePerson'
+
 // This interface defines the state properties of the Hollowverse app
 interface IAppState {
   searchInputValue: string,
@@ -74,7 +75,7 @@ const singleActionReducers = {
   [ActionTypes.setIsNavMenuOpen]: createSingleActionSimpleReducer<boolean>('isNavMenuOpen'),
   [ActionTypes.setLastSearchTerm]: createSingleActionSimpleReducer<string>('lastSearchTerm'),
   [ActionTypes.setCreateProfileUrlInputValue]: createSingleActionSimpleReducer<string>('createProfileUrlInputValue'),
-  [ActionTypes.setPilotData]: createSingleActionSimpleReducer<string>('pilotData'),
+  [ActionTypes.setPilotData]: createSingleActionSimpleReducer<PilotData>('pilotData'),
 }
 
 // A Redux reducer is simply a function that accepts `state` and `action` and returns a new `state`.

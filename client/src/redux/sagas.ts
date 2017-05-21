@@ -87,7 +87,7 @@ function* requestUpdateLoginStatus() {
 // work in progress =>
 function* requestPilotData() {
   try {
-    const firebaseResponse: {} = yield firebase.getData('notablePeople')
+    const firebaseResponse = yield firebase.getData('notablePeople')
     yield put(actions.setPilotData(firebaseResponse))
   } catch (error) {
     throw error
