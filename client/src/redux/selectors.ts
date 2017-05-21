@@ -31,6 +31,8 @@ export function hasResults(state: State) {
   return state.searchResults && state.searchResults.hits && state.searchResults.hits.length > 0 || false
 }
 
+/*
 export function getPilotData(state: State) {
-  return state.pilotData
+  return state.setPilotData
 }
+*/

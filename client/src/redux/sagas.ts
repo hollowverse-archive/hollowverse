@@ -87,8 +87,8 @@ function* requestUpdateLoginStatus() {
 // work in progress =>
 function* requestPilotData() {
   try {
-    const data = yield firebase.getData('notablePeople')
-    console.log(data) // => "permission denied, client doesn't have permission to access the desired data"
+    const firebaseResponse: {} = yield firebase.getData('notablePeople')
+    yield put(actions.setPilotData(firebaseResponse))
   } catch (error) {
     throw error
   }

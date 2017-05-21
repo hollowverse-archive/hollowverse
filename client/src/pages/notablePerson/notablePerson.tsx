@@ -11,12 +11,11 @@ import {common} from '../../common.styles'
 import {styles} from './notablePerson.styles'
 import {data} from './dummyData'
 
-/* This will be useful later.
-interface PilotData {
-  notablePersonId: number
-  notablePersonName: string
-  notablePersonPictureUrl: string
-  notablePersonLabels: string[]
+export interface PilotData {
+  notablePersonId: number,
+  notablePersonName: string,
+  notablePersonPictureUrl: string,
+  notablePersonLabels: string[],
   notablePersonEvents: {
     eventId: number,
     eventQuote: string,
@@ -28,10 +27,9 @@ interface PilotData {
     postedAt: number,
   }[]
 }
-*/
 
 interface IProps {
-  pilotData: {}
+  pilotData: PilotData | {}
 }
 
 function mapStateToProps(state: State): IProps {
@@ -53,7 +51,7 @@ class NotablePersonClass extends React.Component<ComponentProps, undefined> {
     p.requestPilotData()
   }
   render() {
-    const {notablePersonEvents} = data
+
     return (
       <div className={css(common.page)}>
         <div className={css(styles.notablePersonTitleContainer)}>
