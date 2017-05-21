@@ -27,7 +27,7 @@ interface IAppState {
   isNavMenuOpen: boolean,
   lastSearchTerm: string,
   createProfileUrlInputValue: string,
-  pilotData: PilotData | {},
+  pilotData: PilotData,
 }
 
 // Make it an immutable type

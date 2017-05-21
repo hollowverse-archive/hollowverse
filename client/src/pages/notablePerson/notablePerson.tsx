@@ -12,11 +12,10 @@ import {styles} from './notablePerson.styles'
 import {PilotData} from '../../../../typings/dataSchema'
 
 interface IProps {
-  pilotData: PilotData | {}
+  pilotData: PilotData
 }
 
 function mapStateToProps(state: State): IProps {
-  console.log(state.pilotData)
   return {
     pilotData: state.pilotData,
   }
@@ -35,15 +34,14 @@ class NotablePersonClass extends React.Component<ComponentProps, undefined> {
     p.requestPilotData()
   }
   render() {
-    /* Latest issue:
-    (38,38): error TS2339: Property 'pilotNotable' does not exist on type '{} | PilotData'.
-    console.log(this.props.pilotData.pilotNotable)
+    const {pilotNotable} = this.props.pilotData
+    /* Latest error: Object is possibly undefined.
+    console.log(pilotNotable.notablePersonPictureUrl)
     */
-
     return (
       <div className={css(common.page)}>
         <div className={css(styles.notablePersonTitleContainer)}>
-          {/*<img className={css(styles.notablePersonPhoto)} src={data.notablePersonPictureUrl}/>*/}
+          {/*<img className={css(styles.notablePersonPhoto)} src={pilotNotable.notablePersonPictureUrl}/>*/}
           <div className={css(styles.notablePersonText)}>
             <h1 className={css(styles.notablePersonTitle)}>Religion, politics, and ideas of...</h1>
             {/*<h2 className={css(common.titleTypography, styles.notablePersonName)}>{data.notablePersonName}</h2>*/}
