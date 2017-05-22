@@ -75,8 +75,8 @@
     through2 "^2.0.0"
 
 "@hollowverse/common-config@hollowverse/common-config":
-  version "1.0.6"
-  resolved "https://codeload.github.com/hollowverse/common-config/tar.gz/8d42f2e902985c550d8e12f0eb0e39a3e7294a58"
+  version "1.2.0"
+  resolved "https://codeload.github.com/hollowverse/common-config/tar.gz/208880bfe232f6a9d09aca5ada6334f72eddb369"
 
 "@types/algoliasearch@^3.18.0":
   version "3.18.0"
