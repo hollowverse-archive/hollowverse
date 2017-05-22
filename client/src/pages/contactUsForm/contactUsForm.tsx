@@ -41,7 +41,7 @@ class ContactUsFormClass extends React.Component<ComponentProps, undefined> {
           <label>
             <input
               placeholder='Your Email'
-              type='email'
+              type='text'
               value={p.emailInputValue}
               onChange={({target: {value}}) => this.handleEmailInputChange(value)}
             />
