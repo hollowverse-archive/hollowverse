@@ -85,11 +85,9 @@ function* requestUpdateLoginStatus() {
   }
 }
 
-// work in progress =>
 function* requestNotablePerson(action: IAction<string>) {
   try {
     const firebaseResponse = yield firebase.getData(action.payload)
-    console.log(firebaseResponse)
     yield put(actions.setNotablePerson(firebaseResponse))
   } catch (error) {
     throw error
@@ -98,9 +96,9 @@ function* requestNotablePerson(action: IAction<string>) {
 
 function* requestUserData(action: IAction<string>) {
   try {
-    const firebaseResponse = yield firebase.getData(action.payload)
+    const firebaseResponse = yield firebase.getData(`/users/${action.payload}`)
     console.log(firebaseResponse)
-    yield put(actions.setNotablePerson(firebaseResponse))
+    yield put(actions.setUserData(firebaseResponse))
   } catch (error) {
     throw error
   }

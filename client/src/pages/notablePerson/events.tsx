@@ -1,14 +1,12 @@
-import * as React from 'react'
 import {css} from 'aphrodite/no-important'
+import * as React from 'react'
 import {sortByDescending} from '../../utils/utils'
 import {common} from '../../common.styles'
 import {styles} from './events.styles'
-import {Event} from '../../../../typings/dataSchema'
-
-// TODO: connect to Redux, bring requestUserData use in renderEvents function
+import {EventSchema} from '../../../../typings/dataSchema'
 
 interface IProps {
-  data: Event[]
+  data: EventSchema[]
 }
 
 class EventsClass extends React.Component<IProps, undefined> {
@@ -32,19 +30,17 @@ class EventsClass extends React.Component<IProps, undefined> {
               <p className={css(styles.quotedText)}>{event.quote}</p>
             </div>
             <p className={css(styles.userComment)}>{event.userComment}</p>
-            <div className={css(styles.userContainer)}>
+            {/*<div className={css(styles.userContainer)}>
               <img className={css(styles.userAvatar)} src={event.userAvatar} />
               <p className={css(styles.username)}>
                 {event.userDisplayName}
               </p>
-            </div>
+            </div>*/}
           </div>,
         )
       )
     } else {
-      return (
-        <div></div>
-      ) // Loading? Grayed Out Components? WIP.
+      return undefined
     }
   }
 }

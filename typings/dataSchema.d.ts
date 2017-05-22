@@ -1,26 +1,26 @@
-// based on ./fullDatabaseSchema.json
+export interface DatabaseSchema {
+  notablePersons: NotablePersonSchema,
+  users: UserSchema,
+}
 
 export interface NotablePersonSchema {
   name: string,
   photoUrl: string,
   labels: string[],
-  events: Event[],
-  users: User[],
+  events: EventSchema[],
 }
 
-export interface Event {
+export interface EventSchema {
   id: number,
   quote: string,
   sourceName: string,
   sourceUrl: string,
   userId: string,
-  userDisplayName: string, // to be moved to User
-  userComment: string, // to be moved to User
-  userAvatar: string,
+  userComment: string,
   postedAt: number,
 }
 
-export interface User {
+export interface UserSchema {
   displayName: string,
   userAvatar: string,
 }
