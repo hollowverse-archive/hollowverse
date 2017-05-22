@@ -64,7 +64,7 @@ class NotablePersonClass extends React.Component<ComponentProps, undefined> {
   }
 
   renderLabels(labels: string[]) {
-    if (labels.length > 0) {
+    if (labels && labels.length > 0) {
       return (
         labels.map((label, i) =>
           <span className={css(styles.notablePersonLabel)} key={i}>

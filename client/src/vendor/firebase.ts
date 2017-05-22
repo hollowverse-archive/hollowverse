@@ -1,6 +1,6 @@
 import * as firebase from 'firebase'
-import {IUser} from '../../../typings/typeDefinitions'
-import {errors} from '../constants/errors'
+import { IUser } from '../../../typings/typeDefinitions'
+import { errors } from '../constants/errors'
 
 const firebaseConfig = {
   apiKey: 'AIzaSyDeZnov5HXrnlYKwvyUYlnoiwTDYljpz5U',
@@ -22,14 +22,14 @@ export function login(payload: facebookSdk.IAuthResponse): Promise<firebase.User
       resolve(firebaseUser)
     })
   })
-  .then<firebase.User>(() => {
-    const credential = firebase.auth.FacebookAuthProvider.credential(payload.authResponse.accessToken)
+    .then<firebase.User>(() => {
+      const credential = firebase.auth.FacebookAuthProvider.credential(payload.authResponse.accessToken)
 
-    return firebaseAuth.signInWithCredential(credential)
-  })
-  .catch(() => {
-    return Promise.reject(errors.firebaseLoginError)
-  })
+      return firebaseAuth.signInWithCredential(credential)
+    })
+    .catch(() => {
+      return Promise.reject(errors.firebaseLoginError)
+    })
 }
 
 export function logout() {
@@ -72,7 +72,7 @@ export function loginOrRegister(facebookAuthResponse: facebookSdk.IAuthResponse)
         const [userExists, firebaseUser] = results
 
         if (!userExists) {
-          return createUser({displayName: firebaseUser.displayName, id: firebaseUser.uid})
+          return createUser({ displayName: firebaseUser.displayName, id: firebaseUser.uid })
         } else {
           return undefined
         }
@@ -82,21 +82,12 @@ export function loginOrRegister(facebookAuthResponse: facebookSdk.IAuthResponse)
   }
 }
 
-// work in progress =>
-export function getData(child: string): Promise<firebase.database.DataSnapshot> {
-  return new Promise<firebase.database.DataSnapshot>((resolve, reject) => {
-    return firebaseDb.ref().child(child).once(
-      'value',
-
-      (snapshot) => {
-        if (snapshot.val() !== undefined) {
-          resolve(snapshot.val())
-        }
-      },
-
-      (error: {}) => {
-        reject(error)
-      },
-    )
-  })
+export async function getData(child: string): Promise<firebase.database.DataSnapshot | void> {
+  try {
+    const ref = firebaseDb.ref().child(child)
+    const response = await ref.once('value')
+    return response.val()
+  } catch (err) {
+    throw err
+  }
 }
