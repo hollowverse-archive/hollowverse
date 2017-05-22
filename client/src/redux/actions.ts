@@ -10,7 +10,7 @@ import {push} from 'react-router-redux'
 import {HvError} from '../../../typings/typeDefinitions'
 import {stringEnum} from '../utils/utils'
 import {IAlgoliaSearchResults} from '../vendor/algolia'
-import {NotablePersonSchema} from '../../../typings/dataSchema'
+import {NotablePersonSchema, User} from '../../../typings/dataSchema'
 
 // Custom type definition of a Redux Action
 export interface IAction<PayloadType> { type: string, payload: PayloadType}
@@ -37,13 +37,15 @@ export const actions = {
   setLastSearchTerm: (payload: string) => ({type: 'setLastSearchTerm', payload}),
   setCreateProfileUrlInputValue: (payload: string) => ({type: 'setCreateProfileUrlInputValue', payload}),
   setNotablePerson: (payload: NotablePersonSchema | undefined) => ({type: 'setNotablePerson', payload}),
+  setUserData: (payload: User | undefined) => ({type: 'setUserData, payload'}),
 
   // Redux Sagas triggers
   requestSearchResults: (payload: string) => ({type: 'requestSearchResults', payload}),
   requestLogin: () => ({type: 'requestLogin'}),
   requestLogout: () => ({type: 'requestLogout'}),
   requestUpdateLoginStatus: () => ({type: 'requestUpdateLoginStatus'}),
-  requestNotablePerson: () => ({type: 'requestNotablePerson'}),
+  requestNotablePerson: (payload: string) => ({type: 'requestNotablePerson', payload}),
+  requestUserData: (payload: string) => ({ type: 'requestUserData', payload: {}}),
 }
 
 // `ActionTypes` can have any string value that corresponds with a key in the `actions` object above

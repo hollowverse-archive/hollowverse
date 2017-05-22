@@ -17,6 +17,7 @@ function* sagas() {
   yield takeEvery('requestLogout', requestLogout)
   yield takeEvery('requestUpdateLoginStatus', requestUpdateLoginStatus)
   yield takeEvery('requestNotablePerson', requestNotablePerson)
+  yield takeEvery('requestUserData', requestUserData)
 }
 
 function* requestSearchResults(action: IAction<string>) {
@@ -85,9 +86,19 @@ function* requestUpdateLoginStatus() {
 }
 
 // work in progress =>
-function* requestNotablePerson() {
+function* requestNotablePerson(action: IAction<string>) {
   try {
-    const firebaseResponse = yield firebase.getData('/notablePersons/np_48d700ee')
+    const firebaseResponse = yield firebase.getData(action.payload)
+    console.log(firebaseResponse)
+    yield put(actions.setNotablePerson(firebaseResponse))
+  } catch (error) {
+    throw error
+  }
+}
+
+function* requestUserData(action: IAction<string>) {
+  try {
+    const firebaseResponse = yield firebase.getData(action.payload)
     console.log(firebaseResponse)
     yield put(actions.setNotablePerson(firebaseResponse))
   } catch (error) {

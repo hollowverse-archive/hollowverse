@@ -12,7 +12,7 @@ import {Reducer} from 'redux'
 import {ActionTypes, IAction} from './actions'
 import LoginStatus = facebookSdk.LoginStatus
 import {HvError} from '../../../typings/typeDefinitions'
-import {NotablePersonSchema} from '../../../typings/dataSchema'
+import {NotablePersonSchema, User} from '../../../typings/dataSchema'
 import {IAlgoliaSearchResults} from '../vendor/algolia'
 
 // This interface defines the state properties of the Hollowverse app
@@ -28,6 +28,7 @@ interface IAppState {
   lastSearchTerm: string,
   createProfileUrlInputValue: string,
   notablePerson: NotablePersonSchema | undefined,
+  userData: User | undefined,
 }
 
 // Make it an immutable type
@@ -46,6 +47,7 @@ const initialAppState: AppState = {
   lastSearchTerm: '',
   createProfileUrlInputValue: '',
   notablePerson: undefined,
+  userData: undefined,
 }
 
 // IRootState contains IAppState as well as other state keys that are required by external
@@ -76,6 +78,7 @@ const singleActionReducers = {
   [ActionTypes.setLastSearchTerm]: createSingleActionSimpleReducer<string>('lastSearchTerm'),
   [ActionTypes.setCreateProfileUrlInputValue]: createSingleActionSimpleReducer<string>('createProfileUrlInputValue'),
   [ActionTypes.setNotablePerson]: createSingleActionSimpleReducer<NotablePersonSchema | undefined>('notablePerson'),
+  [ActionTypes.setUserData]: createSingleActionSimpleReducer<User | undefined>('userData'),
 }
 
 // A Redux reducer is simply a function that accepts `state` and `action` and returns a new `state`.

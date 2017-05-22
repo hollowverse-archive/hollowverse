@@ -4,7 +4,8 @@ export interface NotablePersonSchema {
   name: string,
   photoUrl: string,
   labels: string[],
-  events: Event[]
+  events: Event[],
+  users: User[],
 }
 
 export interface Event {
@@ -13,8 +14,13 @@ export interface Event {
   sourceName: string,
   sourceUrl: string,
   userId: string,
-  userDisplayName: string, // to be removed => Add to a fake user.
-  userComment: string, // to be removed
+  userDisplayName: string, // to be moved to User
+  userComment: string, // to be moved to User
   userAvatar: string,
   postedAt: number,
+}
+
+export interface User {
+  displayName: string,
+  userAvatar: string,
 }

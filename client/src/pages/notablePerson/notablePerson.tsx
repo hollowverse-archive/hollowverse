@@ -8,6 +8,7 @@ import {State} from '../../redux/reducers'
 import * as selectors from '../../redux/selectors'
 import {pick} from '../../utils/utils'
 import {NotablePersonSchema} from '../../../../typings/dataSchema'
+import {IAction} from '../../redux/actions'
 import {Events} from './events'
 import {common} from '../../common.styles'
 import {styles} from './notablePerson.styles'
@@ -32,7 +33,7 @@ type ComponentProps = ActionCreators & IProps & RouteComponentProps<any>
 class NotablePersonClass extends React.Component<ComponentProps, undefined> {
   componentDidMount() {
     const {props: p} = this // TODO: We'll pass the route parameters to below function:
-    p.requestNotablePerson()
+    p.requestNotablePerson('/notablePersons/np_48d700ee')
   }
 
   render() {
@@ -76,6 +77,7 @@ class NotablePersonClass extends React.Component<ComponentProps, undefined> {
       return undefined
     }
   }
+
 }
 
 export const NotablePerson = connect<IProps, ActionCreators, RouteComponentProps<any>>(
