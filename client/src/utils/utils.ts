@@ -14,8 +14,8 @@ export function pick<T, K extends keyof T>(object: T, predicate: K[]): {[NAME in
 }
 
 export function isValidEmail(email: string): boolean {
-  const ePattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/
-  return ePattern.test(email)
+  const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/
+  return emailPattern.test(email)
 }
 
 export function hasSentence(message: string): boolean {
