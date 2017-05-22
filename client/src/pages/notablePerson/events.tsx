@@ -20,7 +20,8 @@ class EventsClass extends React.Component<IProps, undefined> {
 
   renderEvents() {
     if (this.props.data.length > 0) {
-      let events = this.props.data
+      const events = this.props.data
+
       return (
         sortByDescending(events, 'postedAt').map((event) =>
           <div className={css(common.textTypography, styles.eventContent)} key={event.id}>

@@ -13,8 +13,8 @@ export interface Event {
   sourceName: string,
   sourceUrl: string,
   userId: string,
-  userDisplayName: string,
-  userComment: string,
+  userDisplayName: string, // to be removed => Add to a fake user.
+  userComment: string, // to be removed
   userAvatar: string,
   postedAt: number,
 }

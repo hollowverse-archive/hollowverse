@@ -31,7 +31,7 @@ type ComponentProps = ActionCreators & IProps & RouteComponentProps<any>
 
 class NotablePersonClass extends React.Component<ComponentProps, undefined> {
   componentDidMount() {
-    const {props: p} = this // TODO: We'll pass the query string to below function:
+    const {props: p} = this // TODO: We'll pass the route parameters to below function:
     p.requestNotablePerson()
   }
 
@@ -44,6 +44,7 @@ class NotablePersonClass extends React.Component<ComponentProps, undefined> {
   renderNotablePerson() {
     if (this.props.notablePerson) {
       const {name, photoUrl, labels, events} = this.props.notablePerson
+
       return (
         <div className={css(common.page)}>
           <div className={css(styles.notablePersonTitleContainer)}>
@@ -58,22 +59,25 @@ class NotablePersonClass extends React.Component<ComponentProps, undefined> {
         </div>
       )
     } else {
-      return (
-        <div></div> // Loading? Grayed Out Components? WIP.
-      )
+      return <div></div> // Loading? Grayed Out Components? WIP.
     }
   }
 
   renderLabels(labels: string[]) {
-    return (
-      labels.map((label, i) =>
-        <span className={css(styles.notablePersonLabel)} key={i}>
-          {label}
-        </span>,
+    if (labels.length > 0) {
+      return (
+        labels.map((label, i) =>
+          <span className={css(styles.notablePersonLabel)} key={i}>
+            {label}
+          </span>,
+        )
       )
-    )
+    } else {
+      return undefined
+    }
   }
 }
+
 export const NotablePerson = connect<IProps, ActionCreators, RouteComponentProps<any>>(
   mapStateToProps,
   actionCreators,
