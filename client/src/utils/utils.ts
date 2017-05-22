@@ -20,7 +20,8 @@ export function isValidEmail(email: string): boolean {
 
 export function hasSentence(message: string): boolean {
   const minLength = 19
-  if (message.trim().length !== 0 && message.length > minLength) {
+  const replaceWithSpace = message.replace(/\s+/g, ' ')
+  if (replaceWithSpace.length > minLength) {
     return true
   } else {
     return false
