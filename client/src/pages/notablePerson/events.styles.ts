@@ -1,7 +1,7 @@
 import {StyleSheet} from 'aphrodite/no-important'
 import {palette} from '../../common.styles'
 
-const {typography, backgrounds} = palette
+const {shadesOfBlack, shadesOfWhite} = palette
 
 export const styles = StyleSheet.create({
   eventsContainer: {
@@ -14,7 +14,7 @@ export const styles = StyleSheet.create({
     border: '1px solid rgba(235, 235, 235, 1)',
     borderRadius: '3px',
     margin: '0.8rem 0.8rem',
-    background: backgrounds[4],
+    background: shadesOfWhite[4],
     boxShadow: '0 2px 5px rgba(0,0,0,0.13), 0 2px 5px rgba(0,0,0,0.19)',
   },
   quoteContainer: {
@@ -25,12 +25,12 @@ export const styles = StyleSheet.create({
     marginLeft: '0.8rem',
   },
   sourceTypography: {
-    color: typography[2],
+    color: shadesOfBlack[2],
     fontWeight: 400,
     textDecoration: 'dotted #6b6b6b',
   },
   userComment: {
-    color: typography[1],
+    color: shadesOfBlack[1],
   },
   userContainer: {
     marginTop: '0.5rem',
@@ -41,7 +41,7 @@ export const styles = StyleSheet.create({
   username: {
     fontSize: '1rem',
     fontWeight: 500,
-    color: typography[1],
+    color: shadesOfBlack[1],
 
   },
   userAvatar: {

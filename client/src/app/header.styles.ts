@@ -1,7 +1,7 @@
 import {StyleSheet} from 'aphrodite/no-important'
 import {palette} from '../common.styles'
 
-const {typography} = palette
+const {shadesOfBlack} = palette
 
 export const styles = StyleSheet.create({
   navBar: {
@@ -13,7 +13,7 @@ export const styles = StyleSheet.create({
   },
   textLogo: {
     alignSelf: 'center',
-    color: typography[5],
+    color: shadesOfBlack[5],
     display: 'inline-block',
     textDecoration: 'none',
   },

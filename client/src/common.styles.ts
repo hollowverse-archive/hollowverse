@@ -3,7 +3,7 @@ import {StyleSheet} from 'aphrodite/no-important'
 // You can import these to your styles to create accents,
 // colors go from dark to light in index.
 export const palette = {
-  typography: [
+  shadesOfBlack: [
     '#303030',
     '#333333',
     '#474747',
@@ -12,7 +12,7 @@ export const palette = {
     '#f5f5f5',
     '#ffffff',
   ],
-  backgrounds: [
+  shadesOfWhite: [
     '#f5f5f5',
     '#f0f0f0',
     '#fcfcfc',
@@ -27,7 +27,7 @@ export const common = StyleSheet.create({
   },
   palette: {
     background: 'linear-gradient(45deg, #67B26F 40%, #4ca2cd 95%)',
-    color: palette.backgrounds[1],
+    color: palette.shadesOfWhite[1],
   },
   titleTypography: {
     fontFamily: 'Roboto Medium',

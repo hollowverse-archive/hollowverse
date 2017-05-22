@@ -9,6 +9,7 @@ import * as selectors from '../../redux/selectors'
 import {pick} from '../../utils/utils'
 import {NotablePersonSchema} from '../../../../typings/dataSchema'
 import {IAction} from '../../redux/actions'
+import {ShadowComponent} from '../../components/shadowComponent'
 import {Events} from './events'
 import {common} from '../../common.styles'
 import {styles} from './notablePerson.styles'
@@ -60,7 +61,7 @@ class NotablePersonClass extends React.Component<ComponentProps, undefined> {
         </div>
       )
     } else {
-      return <div></div> // Loading? Grayed Out Components? WIP.
+      return <ShadowComponent type='NotablePerson'/> // Loading? Grayed Out Components? WIP.
     }
   }
 

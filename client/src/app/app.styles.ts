@@ -1,10 +1,12 @@
 import {StyleSheet} from 'aphrodite/no-important'
 import {palette} from '../common.styles'
 
+const {shadesOfWhite} = palette
+
 export const styles = StyleSheet.create({
   mainApp: {
     flex: 1,
-    background: palette.backgrounds[2],
+    background: shadesOfWhite[2],
   },
   pageContent: {
     flex: 1,

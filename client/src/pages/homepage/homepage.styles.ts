@@ -1,7 +1,7 @@
 import {StyleSheet} from 'aphrodite/no-important'
 import {palette} from '../../common.styles'
 
-const {backgrounds, typography} = palette
+const {shadesOfWhite, shadesOfBlack} = palette
 
 export const styles = StyleSheet.create({
   pageHomepage: {
@@ -11,13 +11,13 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   searchContainer: {
-    backgroundColor: backgrounds[0],
+    backgroundColor: shadesOfWhite[0],
     borderRadius: '10px',
     padding: '2rem',
     width: '70vw',
   },
   title: {
-    color: typography[1],
+    color: shadesOfBlack[1],
     textAlign: 'center',
   },
   searchForm: {
@@ -30,7 +30,7 @@ export const styles = StyleSheet.create({
   },
   searchInput: {
     alignItems: 'center',
-    backgroundColor: backgrounds[0],
+    backgroundColor: shadesOfWhite[0],
     border: '1px solid #dbdbdb',
     boxShadow: 'inset 0 1px 2px rgba(10, 10, 10, .1)',
     borderRadius: '3px',
@@ -59,7 +59,7 @@ export const styles = StyleSheet.create({
     textDecoration: 'none',
     width: '6rem',
     ':hover': {
-      color: backgrounds[3],
+      color: shadesOfWhite[3],
       opacity: 0.9,
     },
   },

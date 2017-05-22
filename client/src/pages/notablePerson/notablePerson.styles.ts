@@ -1,7 +1,7 @@
 import {StyleSheet} from 'aphrodite/no-important'
 import {palette} from '../../common.styles'
 
-const {typography} = palette
+const {shadesOfBlack} = palette
 
 export const styles = StyleSheet.create({
   notablePersonTitleContainer: {
@@ -18,11 +18,11 @@ export const styles = StyleSheet.create({
     margin: '1.3rem 1rem 0 0',
   },
   notablePersonTitle: {
-    color: typography[1],
+    color: shadesOfBlack[1],
     fontStyle: 'italic',
   },
   notablePersonName: {
-    color: typography[1],
+    color: shadesOfBlack[1],
     fontWeight: 500,
     fontSize: '1.5rem',
     margin: '0.25rem 0.25rem 0.40rem 0.5rem',
@@ -31,7 +31,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: '30px',
     background: 'linear-gradient(20deg, #ffb347 30%, #ffcc33 95%)',
-    color: typography[0],
+    color: shadesOfBlack[0],
     display: 'inline-flex',
     fontSize: '.75rem',
     height: '1.5rem',

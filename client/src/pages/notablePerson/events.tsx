@@ -5,6 +5,8 @@ import {common} from '../../common.styles'
 import {styles} from './events.styles'
 import {Event} from '../../../../typings/dataSchema'
 
+// TODO: connect to Redux, bring requestUserData use in renderEvents function
+
 interface IProps {
   data: Event[]
 }
@@ -19,7 +21,7 @@ class EventsClass extends React.Component<IProps, undefined> {
   }
 
   renderEvents() {
-    if (this.props.data.length > 0) {
+    if (this.props.data && this.props.data.length > 0) {
       const events = this.props.data
 
       return (
