@@ -38,8 +38,10 @@ class ShadowComponentClass extends React.Component<IProps, undefined> {
           <span className={css(npStyles.notablePersonLabel, styles.shadowContent)} />
           <span className={css(npStyles.notablePersonLabel, styles.shadowContent, styles.shadowContentIndented)} />
           <span className={css(npStyles.notablePersonLabel, styles.shadowContent, styles.shadowContentIndented)} />
+          <span className={css(npStyles.notablePersonLabel, styles.shadowContent, styles.shadowContentIndented)} />
           <div className={css(eventStyles.userContainer)}>
-            <span className={css(npStyles.notablePersonLabel, styles.shadowContent, styles.shadowUserContent)} />
+            <span className={css(npStyles.notablePersonLabel, styles.shadowContent, styles.shadowUserComment)} />
+            <span className={css(npStyles.notablePersonLabel, styles.shadowContent, styles.shadowUsername)} />
           </div>
         </div>,
       )
