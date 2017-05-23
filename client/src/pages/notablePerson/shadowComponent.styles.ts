@@ -6,21 +6,21 @@ const {shadesOfBlack} = palette
 export const styles = StyleSheet.create({
   shadowPhoto: {
     background: shadesOfBlack[4],
-    width: '200px',
-    height: '150px',
     borderRadius: '50%',
+    height: '150px',
+    width: '200px',
   },
   shadowLabels: {
     background: shadesOfBlack[4],
-    width: '6rem',
     height: '1.3rem',
+    width: '6rem',
   },
   shadowName: {
-    marginTop: '1rem',
     background: shadesOfBlack[4],
-    width: '12rem',
-    height: '1.3rem',
     borderRadius: '30px',
+    height: '1.3rem',
+    marginTop: '1rem',
+    width: '12rem',
   },
   shadowContainer: {
     height: '10rem',
@@ -28,9 +28,9 @@ export const styles = StyleSheet.create({
   },
   shadowContent: {
     background: shadesOfBlack[4],
+    height: '0.8rem',
     marginLeft: '1rem',
     width: '90%',
-    height: '0.8rem',
   },
   shadowContentIndented: {
     marginLeft: '2rem',
@@ -38,7 +38,7 @@ export const styles = StyleSheet.create({
   },
   shadowUserContent: {
     marginLeft: 0,
-    width: '95%',
     height: '0.75rem',
+    width: '95%',
   },
 })

@@ -10,16 +10,16 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   eventContent: {
-    padding: '1rem 1rem',
+    background: shadesOfWhite[4],
     border: '1px solid rgba(235, 235, 235, 1)',
     borderRadius: '3px',
-    margin: '0.8rem 0.8rem',
-    background: shadesOfWhite[4],
     boxShadow: '0 2px 5px rgba(0,0,0,0.13), 0 2px 5px rgba(0,0,0,0.19)',
+    padding: '1rem 1rem',
+    margin: '0.8rem 0.8rem',
   },
   quoteContainer: {
-    margin: '0.4rem 0 1.2rem 0',
     borderLeft: '3px solid rgba(103, 178, 111, 0.8)',
+    margin: '0.4rem 0 1.2rem 0',
   },
   quotedText: {
     marginLeft: '0.8rem',
@@ -33,15 +33,15 @@ export const styles = StyleSheet.create({
     color: shadesOfBlack[1],
   },
   userContainer: {
-    marginTop: '0.5rem',
     display: 'flex',
     justifyContent: 'flex-end',
+    marginTop: '0.5rem',
     textAlign: 'right',
   },
   username: {
+    color: shadesOfBlack[1],
     fontSize: '1rem',
     fontWeight: 500,
-    color: shadesOfBlack[1],
 
   },
   userAvatar: {
