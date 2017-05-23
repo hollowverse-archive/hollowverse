@@ -42,7 +42,7 @@ class NotablePersonClass extends React.Component<ComponentProps, undefined> {
       return (
         <div className={css(common.page)}>
           <div className={css(styles.notablePersonTitleContainer)}>
-            <img className={css(styles.notablePersonPhoto)} src={photoUrl} />
+            <img className={css(styles.notablePersonPhoto)} width='200' height='200' src={photoUrl} />
             <div className={css(styles.notablePersonText)}>
               <h1 className={css(styles.notablePersonTitle)}>Religion, politics, and ideas of...</h1>
               <h2 className={css(common.titleTypography, styles.notablePersonName)}>{name}</h2>

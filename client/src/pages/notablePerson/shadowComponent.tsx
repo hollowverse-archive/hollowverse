@@ -17,7 +17,7 @@ class ShadowComponentClass extends React.Component<IProps, undefined> {
   render() {
     return (
       <div className={css(common.page)}>
-        <div className={css(npStyles.notablePersonTitleContainer)}>
+        <div className={css(npStyles.notablePersonTitleContainer, styles.shadowTopContainer)}>
           <span className={css(styles.shadowPhoto)} />
           <div className={css(npStyles.notablePersonText)}>
             <h1 className={css(npStyles.notablePersonTitle)}>Religion, politics, and ideas of...</h1>

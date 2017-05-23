@@ -4,6 +4,9 @@ import {palette} from '../../common.styles'
 const {shadesOfBlack} = palette
 
 export const styles = StyleSheet.create({
+  shadowTopContainer: {
+    marginBottom: '2.5rem',
+  },
   shadowPhoto: {
     background: shadesOfBlack[4],
     borderRadius: '50%',
@@ -25,6 +28,7 @@ export const styles = StyleSheet.create({
   shadowContainer: {
     height: '10rem',
     marginBottom: '2rem',
+    paddingBottom: '9rem',
   },
   shadowContent: {
     background: shadesOfBlack[4],
