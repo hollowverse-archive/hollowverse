@@ -97,7 +97,6 @@ function* requestNotablePerson(action: IAction<string>) {
 function* requestUserData(action: IAction<string>) {
   try {
     const firebaseResponse = yield firebase.getData(`/users/${action.payload}`)
-    console.log(firebaseResponse)
     yield put(actions.setUserData(firebaseResponse))
   } catch (error) {
     throw error

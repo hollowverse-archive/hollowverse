@@ -31,7 +31,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: '30px',
     background: 'linear-gradient(20deg, #ffb347 30%, #ffcc33 95%)',
-    color: shadesOfBlack[0],
+    color: shadesOfBlack[1],
     display: 'inline-flex',
     fontSize: '.75rem',
     height: '1.5rem',

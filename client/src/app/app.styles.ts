@@ -6,7 +6,7 @@ const {shadesOfWhite} = palette
 export const styles = StyleSheet.create({
   mainApp: {
     flex: 1,
-    background: shadesOfWhite[2],
+    background: shadesOfWhite[3],
   },
   pageContent: {
     flex: 1,

@@ -11,7 +11,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   searchContainer: {
-    backgroundColor: shadesOfWhite[0],
+    backgroundColor: shadesOfWhite[1],
     borderRadius: '10px',
     padding: '2rem',
     width: '70vw',
@@ -30,7 +30,7 @@ export const styles = StyleSheet.create({
   },
   searchInput: {
     alignItems: 'center',
-    backgroundColor: shadesOfWhite[0],
+    backgroundColor: shadesOfWhite[3],
     border: '1px solid #dbdbdb',
     boxShadow: 'inset 0 1px 2px rgba(10, 10, 10, .1)',
     borderRadius: '3px',
@@ -59,7 +59,7 @@ export const styles = StyleSheet.create({
     textDecoration: 'none',
     width: '6rem',
     ':hover': {
-      color: shadesOfWhite[3],
+      color: shadesOfWhite[5],
       opacity: 0.9,
     },
   },

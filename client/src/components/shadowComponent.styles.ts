@@ -1,21 +1,23 @@
 import {StyleSheet} from 'aphrodite/no-important'
 import {palette} from '../common.styles'
 
+const {shadesOfBlack} = palette
+
 export const styles = StyleSheet.create({
   shadowPhoto: {
-    background: 'gainsboro',
+    background: shadesOfBlack[4],
     width: '200px',
     height: '150px',
     borderRadius: '50%',
   },
   shadowLabels: {
-    background: 'gainsboro',
+    background: shadesOfBlack[4],
     width: '6rem',
     height: '1.3rem',
   },
   shadowName: {
     marginTop: '1rem',
-    background: 'gainsboro',
+    background: shadesOfBlack[4],
     width: '12rem',
     height: '1.3rem',
     borderRadius: '30px',
@@ -25,7 +27,7 @@ export const styles = StyleSheet.create({
     marginBottom: '2rem',
   },
   shadowContent: {
-    background: 'gainsboro',
+    background: shadesOfBlack[4],
     marginLeft: '1rem',
     width: '90%',
     height: '0.8rem',
