@@ -11,6 +11,8 @@ interface IProps {
   submitFormValues: object,
 }
 
+// Adding comment for testing
+
 function mapStateToProps(state: State): IProps {
   return {
     ...pick(state, [
