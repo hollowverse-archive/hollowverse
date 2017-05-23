@@ -25,7 +25,10 @@ interface IAppState {
   error: HvError,
   isNavMenuOpen: boolean,
   lastSearchTerm: string,
-  createProfileUrlInputValue: string
+  createProfileUrlInputValue: string,
+  emailInputValue: string,
+  messageInputValue: string,
+  submitFormValues: {email: string, message: string}
 }
 
 // Make it an immutable type
@@ -43,6 +46,9 @@ const initialAppState: AppState = {
   isNavMenuOpen: false,
   lastSearchTerm: '',
   createProfileUrlInputValue: '',
+  emailInputValue: '',
+  messageInputValue: '',
+  submitFormValues: {email: '', message: ''},
 }
 
 // IRootState contains IAppState as well as other state keys that are required by external
@@ -72,6 +78,9 @@ const singleActionReducers = {
   [ActionTypes.setIsNavMenuOpen]: createSingleActionSimpleReducer<boolean>('isNavMenuOpen'),
   [ActionTypes.setLastSearchTerm]: createSingleActionSimpleReducer<string>('lastSearchTerm'),
   [ActionTypes.setCreateProfileUrlInputValue]: createSingleActionSimpleReducer<string>('createProfileUrlInputValue'),
+  [ActionTypes.setEmailInputValue]: createSingleActionSimpleReducer<string>('emailInputValue'),
+  [ActionTypes.setMessageInputValue]: createSingleActionSimpleReducer<string>('messageInputValue'),
+  [ActionTypes.setSubmitFormValues]: createSingleActionSimpleReducer<object>('submitFormValues'),
 }
 
 // A Redux reducer is simply a function that accepts `state` and `action` and returns a new `state`.
