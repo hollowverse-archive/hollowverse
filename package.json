@@ -81,7 +81,7 @@
     "redux-saga": "^0.15.0",
     "shelljs": "^0.7.7",
     "source-map-loader": "^0.2.1",
-    "style-loader": "^0.17.0",
+    "style-loader": "^0.18.0",
     "ts-loader": "^2.0.2",
     "webpack": "^2.2.1",
     "webpack-dev-server": "^2.4.1"
