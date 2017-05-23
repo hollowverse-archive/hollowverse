@@ -1,5 +1,5 @@
 import {StyleSheet} from 'aphrodite/no-important'
-import {palette} from '../common.styles'
+import {palette} from '../../common.styles'
 
 const {shadesOfBlack} = palette
 

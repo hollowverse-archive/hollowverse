@@ -9,7 +9,7 @@ import * as selectors from '../../redux/selectors'
 import {pick} from '../../utils/utils'
 import {NotablePersonSchema} from '../../../../typings/dataSchema'
 import {IAction} from '../../redux/actions'
-import {ShadowComponent} from '../../components/shadowComponent'
+import {ShadowComponent} from './shadowComponent'
 import {Events} from './events'
 import {common} from '../../common.styles'
 import {styles} from './notablePerson.styles'
@@ -38,12 +38,6 @@ class NotablePersonClass extends React.Component<ComponentProps, undefined> {
   }
 
   render() {
-    return (
-      this.renderNotablePerson()
-    )
-  }
-
-  renderNotablePerson() {
     if (this.props.notablePerson) {
       const {name, photoUrl, labels, events} = this.props.notablePerson
 

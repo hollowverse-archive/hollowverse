@@ -1,9 +1,9 @@
 import {css} from 'aphrodite/no-important'
 import * as React from 'react'
 import {styles} from './shadowComponent.styles'
-import {common} from '../common.styles'
-import {styles as npStyles} from './../pages/notablePerson/notablePerson.styles'
-import {styles as eventStyles} from './../pages/notablePerson/events.styles'
+import {common} from '../../common.styles'
+import {styles as npStyles} from './../notablePerson/notablePerson.styles'
+import {styles as eventStyles} from './../notablePerson/events.styles'
 
 interface IProps {
   type: string
@@ -15,23 +15,6 @@ interface IProps {
 
 class ShadowComponentClass extends React.Component<IProps, undefined> {
   render() {
-    const {type} = this.props
-
-    return (
-      this.renderRequestedShadowComponent(type)
-    )
-  }
-
-  renderRequestedShadowComponent(type: string) {
-    switch (type) {
-      case 'NotablePerson':
-        return this.renderShadowNotablePerson()
-      default:
-        return null
-    }
-  }
-
-  renderShadowNotablePerson() {
     return (
       <div className={css(common.page)}>
         <div className={css(npStyles.notablePersonTitleContainer)}>
