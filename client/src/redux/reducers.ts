@@ -13,6 +13,7 @@ import {ActionTypes, IAction} from './actions'
 import LoginStatus = facebookSdk.LoginStatus
 import {HvError} from '../../../typings/typeDefinitions'
 import {IAlgoliaSearchResults} from '../vendor/algolia'
+import {ContactFormData} from '../pages/contactUsForm/contactUsForm'
 
 // This interface defines the state properties of the Hollowverse app
 interface IAppState {
@@ -28,7 +29,7 @@ interface IAppState {
   createProfileUrlInputValue: string,
   emailInputValue: string,
   messageInputValue: string,
-  submitFormValues: {email: string, message: string}
+  submitFormValues: ContactFormData | undefined,
 }
 
 // Make it an immutable type
@@ -48,7 +49,7 @@ const initialAppState: AppState = {
   createProfileUrlInputValue: '',
   emailInputValue: '',
   messageInputValue: '',
-  submitFormValues: {email: '', message: ''},
+  submitFormValues: undefined,
 }
 
 // IRootState contains IAppState as well as other state keys that are required by external
@@ -80,7 +81,7 @@ const singleActionReducers = {
   [ActionTypes.setCreateProfileUrlInputValue]: createSingleActionSimpleReducer<string>('createProfileUrlInputValue'),
   [ActionTypes.setEmailInputValue]: createSingleActionSimpleReducer<string>('emailInputValue'),
   [ActionTypes.setMessageInputValue]: createSingleActionSimpleReducer<string>('messageInputValue'),
-  [ActionTypes.setSubmitFormValues]: createSingleActionSimpleReducer<object>('submitFormValues'),
+  [ActionTypes.setSubmitFormValues]: createSingleActionSimpleReducer<ContactFormData | undefined>('submitFormValues'),
 }
 
 // A Redux reducer is simply a function that accepts `state` and `action` and returns a new `state`.

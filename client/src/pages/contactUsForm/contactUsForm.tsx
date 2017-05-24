@@ -5,13 +5,16 @@ import {actions} from '../../redux/actions'
 import {State} from '../../redux/reducers'
 import {pick, isValidEmail, hasSentence} from '../../utils/utils'
 
+export interface ContactFormData {
+  email: string,
+  message: string,
+}
+
 interface IProps {
   emailInputValue: string,
   messageInputValue: string,
-  submitFormValues: object,
+  submitFormValues: ContactFormData | undefined,
 }
-
-// Adding comment for testing
 
 function mapStateToProps(state: State): IProps {
   return {

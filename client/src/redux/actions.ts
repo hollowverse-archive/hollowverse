@@ -10,6 +10,7 @@ import {push} from 'react-router-redux'
 import {HvError} from '../../../typings/typeDefinitions'
 import {stringEnum} from '../utils/utils'
 import {IAlgoliaSearchResults} from '../vendor/algolia'
+import {ContactFormData} from '../pages/contactUsForm/contactUsForm'
 
 // Custom type definition of a Redux Action
 export interface IAction<PayloadType> { type: string, payload: PayloadType}
@@ -37,7 +38,8 @@ export const actions = {
   setCreateProfileUrlInputValue: (payload: string) => ({type: 'setCreateProfileUrlInputValue', payload}),
   setEmailInputValue: (payload: string) => ({type: 'setEmailInputValue', payload}),
   setMessageInputValue: (payload: string) => ({type: 'setMessageInputValue', payload}),
-  setSubmitFormValues: (payload: {}) => ({type: 'setSubmitFormValues', payload}),
+  setSubmitFormValues: (payload: ContactFormData | undefined) => ({type: 'setSubmitFormValues', payload}),
+
   // Redux Sagas triggers
   requestSearchResults: (payload: string) => ({type: 'requestSearchResults', payload}),
   requestLogin: () => ({type: 'requestLogin'}),
