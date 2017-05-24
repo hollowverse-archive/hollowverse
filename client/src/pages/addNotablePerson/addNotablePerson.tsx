@@ -50,4 +50,6 @@ class AddNotablePersonClass extends React.Component<IProps, undefined> {
   }
 }
 
-export const AddNotablePerson = connect()(AddNotablePersonClass)
+export const AddNotablePerson = connect(
+  mapStateToProps,
+)(AddNotablePersonClass)

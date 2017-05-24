@@ -11,6 +11,7 @@ import {routerReducer, RouterState} from 'react-router-redux'
 import {Reducer} from 'redux'
 import {ActionTypes, IAction} from './actions'
 import LoginStatus = facebookSdk.LoginStatus
+import {INotablePersonSchema, IUserSchema} from '../../../typings/dataSchema'
 import {HvError} from '../../../typings/typeDefinitions'
 import {IAlgoliaSearchResults} from '../vendor/algolia'
 import {ContactFormData} from '../pages/contactUsForm/contactUsForm'
@@ -30,6 +31,8 @@ interface IAppState {
   emailInputValue: string,
   messageInputValue: string,
   submitFormValues: ContactFormData | undefined,
+  notablePerson: INotablePersonSchema | undefined,
+  userData: IUserSchema | undefined,
 }
 
 // Make it an immutable type
@@ -50,6 +53,8 @@ const initialAppState: AppState = {
   emailInputValue: '',
   messageInputValue: '',
   submitFormValues: undefined,
+  notablePerson: undefined,
+  userData: undefined,
 }
 
 // IRootState contains IAppState as well as other state keys that are required by external
@@ -82,6 +87,8 @@ const singleActionReducers = {
   [ActionTypes.setEmailInputValue]: createSingleActionSimpleReducer<string>('emailInputValue'),
   [ActionTypes.setMessageInputValue]: createSingleActionSimpleReducer<string>('messageInputValue'),
   [ActionTypes.setSubmitFormValues]: createSingleActionSimpleReducer<ContactFormData | undefined>('submitFormValues'),
+  [ActionTypes.setNotablePerson]: createSingleActionSimpleReducer<INotablePersonSchema | undefined>('notablePerson'),
+  [ActionTypes.setUserData]: createSingleActionSimpleReducer<IUserSchema | undefined>('userData'),
 }
 
 // A Redux reducer is simply a function that accepts `state` and `action` and returns a new `state`.

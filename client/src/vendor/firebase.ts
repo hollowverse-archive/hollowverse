@@ -22,14 +22,14 @@ export function login(payload: facebookSdk.IAuthResponse): Promise<firebase.User
       resolve(firebaseUser)
     })
   })
-  .then<firebase.User>(() => {
-    const credential = firebase.auth.FacebookAuthProvider.credential(payload.authResponse.accessToken)
+    .then<firebase.User>(() => {
+      const credential = firebase.auth.FacebookAuthProvider.credential(payload.authResponse.accessToken)
 
-    return firebaseAuth.signInWithCredential(credential)
-  })
-  .catch(() => {
-    return Promise.reject(errors.firebaseLoginError)
-  })
+      return firebaseAuth.signInWithCredential(credential)
+    })
+    .catch(() => {
+      return Promise.reject(errors.firebaseLoginError)
+    })
 }
 
 export function logout() {
@@ -72,12 +72,22 @@ export function loginOrRegister(facebookAuthResponse: facebookSdk.IAuthResponse)
         const [userExists, firebaseUser] = results
 
         if (!userExists) {
-          return createUser({displayName: firebaseUser.displayName, id: firebaseUser.uid})
+          return createUser({ displayName: firebaseUser.displayName, id: firebaseUser.uid })
         } else {
           return undefined
         }
       })
   } else {
     return Promise.reject(errors.firebaseLoginError)
+  }
+}
+
+export async function getData(child: string): Promise<firebase.database.DataSnapshot | void> {
+  try {
+    const ref = firebaseDb.ref().child(child)
+    const response = await ref.once('value')
+    return response.val()
+  } catch (err) {
+    throw err
   }
 }

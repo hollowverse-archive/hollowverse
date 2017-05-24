@@ -7,6 +7,7 @@
 // * Redux action types
 //
 import {push} from 'react-router-redux'
+import {INotablePersonSchema, IUserSchema} from '../../../typings/dataSchema'
 import {HvError} from '../../../typings/typeDefinitions'
 import {stringEnum} from '../utils/utils'
 import {IAlgoliaSearchResults} from '../vendor/algolia'
@@ -39,12 +40,16 @@ export const actions = {
   setEmailInputValue: (payload: string) => ({type: 'setEmailInputValue', payload}),
   setMessageInputValue: (payload: string) => ({type: 'setMessageInputValue', payload}),
   setSubmitFormValues: (payload: ContactFormData | undefined) => ({type: 'setSubmitFormValues', payload}),
+  setNotablePerson: (payload: INotablePersonSchema | undefined) => ({type: 'setNotablePerson', payload}),
+  setUserData: (payload: IUserSchema | undefined) => ({type: 'setUserData', payload}),
 
   // Redux Sagas triggers
   requestSearchResults: (payload: string) => ({type: 'requestSearchResults', payload}),
   requestLogin: () => ({type: 'requestLogin'}),
   requestLogout: () => ({type: 'requestLogout'}),
   requestUpdateLoginStatus: () => ({type: 'requestUpdateLoginStatus'}),
+  requestNotablePerson: (payload: string) => ({type: 'requestNotablePerson', payload}),
+  requestUserData: (payload: string) => ({ type: 'requestUserData', payload}),
 }
 
 // `ActionTypes` can have any string value that corresponds with a key in the `actions` object above
