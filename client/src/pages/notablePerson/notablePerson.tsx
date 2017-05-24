@@ -1,19 +1,19 @@
 import {css} from 'aphrodite/no-important'
 import * as React from 'react'
-import {RouteComponentProps} from 'react-router-dom'
 import {connect} from 'react-redux'
+import {RouteComponentProps} from 'react-router-dom'
+import {INotablePersonSchema} from '../../../../typings/dataSchema'
+import {common} from '../../common.styles'
 import {actions} from '../../redux/actions'
 import {State} from '../../redux/reducers'
 import * as selectors from '../../redux/selectors'
 import {pick} from '../../utils/utils'
-import {NotablePersonSchema} from '../../../../typings/dataSchema'
-import {ShadowComponent} from './shadowComponent'
 import {Events} from './events'
-import {common} from '../../common.styles'
 import {styles} from './notablePerson.styles'
+import {ShadowComponent} from './shadowComponent'
 
 interface IProps {
-  notablePerson: NotablePersonSchema | undefined
+  notablePerson: INotablePersonSchema | undefined
 }
 
 function mapStateToProps(state: State): IProps {

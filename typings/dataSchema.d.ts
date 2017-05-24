@@ -1,16 +1,16 @@
-export interface DatabaseSchema {
-  notablePersons: NotablePersonSchema,
-  users: UserSchema,
+export interface IDatabaseSchema {
+  notablePersons: INotablePersonSchema,
+  users: IUserSchema,
 }
 
-export interface NotablePersonSchema {
+export interface INotablePersonSchema {
   name: string,
   photoUrl: string,
   labels: string[],
-  events: EventSchema[],
+  events: IEventSchema[],
 }
 
-export interface EventSchema {
+export interface IEventSchema {
   id: number,
   quote: string,
   sourceName: string,
@@ -20,7 +20,7 @@ export interface EventSchema {
   postedAt: number,
 }
 
-export interface UserSchema {
+export interface IUserSchema {
   displayName: string,
   userAvatar: string,
 }

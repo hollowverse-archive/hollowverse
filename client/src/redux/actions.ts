@@ -7,10 +7,10 @@
 // * Redux action types
 //
 import {push} from 'react-router-redux'
+import {INotablePersonSchema, IUserSchema} from '../../../typings/dataSchema'
 import {HvError} from '../../../typings/typeDefinitions'
 import {stringEnum} from '../utils/utils'
 import {IAlgoliaSearchResults} from '../vendor/algolia'
-import {NotablePersonSchema, UserSchema} from '../../../typings/dataSchema'
 
 // Custom type definition of a Redux Action
 export interface IAction<PayloadType> { type: string, payload: PayloadType}
@@ -36,8 +36,8 @@ export const actions = {
   setIsNavMenuOpen: (payload: boolean) => ({type: 'setIsNavMenuOpen', payload}),
   setLastSearchTerm: (payload: string) => ({type: 'setLastSearchTerm', payload}),
   setCreateProfileUrlInputValue: (payload: string) => ({type: 'setCreateProfileUrlInputValue', payload}),
-  setNotablePerson: (payload: NotablePersonSchema | undefined) => ({type: 'setNotablePerson', payload}),
-  setUserData: (payload: UserSchema | undefined) => ({type: 'setUserData', payload}),
+  setNotablePerson: (payload: INotablePersonSchema | undefined) => ({type: 'setNotablePerson', payload}),
+  setUserData: (payload: IUserSchema | undefined) => ({type: 'setUserData', payload}),
 
   // Redux Sagas triggers
   requestSearchResults: (payload: string) => ({type: 'requestSearchResults', payload}),

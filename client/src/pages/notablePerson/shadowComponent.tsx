@@ -1,9 +1,9 @@
 import {css} from 'aphrodite/no-important'
 import * as React from 'react'
-import {styles} from './shadowComponent.styles'
 import {common} from '../../common.styles'
-import {styles as npStyles} from './../notablePerson/notablePerson.styles'
 import {styles as eventStyles} from './../notablePerson/events.styles'
+import {styles as npStyles} from './../notablePerson/notablePerson.styles'
+import {styles} from './shadowComponent.styles'
 
 class ShadowComponentClass extends React.Component<{}, undefined> {
   render() {
