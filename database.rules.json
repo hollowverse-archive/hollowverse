@@ -5,6 +5,12 @@
         ".read": "auth != null && auth.uid == $uid",
         ".write": "auth != null && auth.uid == $uid"
       }
-    }
+    },
+    "notablePersons": {
+      "$uid": {
+        ".read": true,
+        ".write": false
+      }
+    } 
   }
 }

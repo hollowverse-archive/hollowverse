@@ -8,7 +8,7 @@ import {put, takeEvery} from 'redux-saga/effects'
 import {algoliaSearchIndex} from '../vendor/algolia'
 import * as facebook from '../vendor/facebook'
 import * as firebase from '../vendor/firebase'
-import { actions, IAction } from './actions'
+import {actions, IAction} from './actions'
 
 // These are the Redux actions that trigger the saga generators
 function* sagas() {
@@ -16,6 +16,8 @@ function* sagas() {
   yield takeEvery('requestLogin', requestLogin)
   yield takeEvery('requestLogout', requestLogout)
   yield takeEvery('requestUpdateLoginStatus', requestUpdateLoginStatus)
+  yield takeEvery('requestNotablePerson', requestNotablePerson)
+  yield takeEvery('requestUserData', requestUserData)
 }
 
 function* requestSearchResults(action: IAction<string>) {
@@ -80,6 +82,24 @@ function* requestUpdateLoginStatus() {
     yield put(actions.setError(error))
   } finally {
     yield put(actions.setIsLoginPending(false))
+  }
+}
+
+function* requestNotablePerson(action: IAction<string>) {
+  try {
+    const firebaseResponse = yield firebase.getData(action.payload)
+    yield put(actions.setNotablePerson(firebaseResponse))
+  } catch (error) {
+    throw error
+  }
+}
+
+function* requestUserData(action: IAction<string>) {
+  try {
+    const firebaseResponse = yield firebase.getData(`/users/${action.payload}`)
+    yield put(actions.setUserData(firebaseResponse))
+  } catch (error) {
+    throw error
   }
 }
 

@@ -264,8 +264,8 @@ acorn-dynamic-import@^2.0.0:
     acorn "^4.0.3"
 
 acorn@^4.0.3:
-  version "4.0.11"
-  resolved "https://registry.yarnpkg.com/acorn/-/acorn-4.0.11.tgz#edcda3bd937e7556410d42ed5860f67399c794c0"
+  version "4.0.13"
+  resolved "https://registry.yarnpkg.com/acorn/-/acorn-4.0.13.tgz#105495ae5361d697bd195c825192e1ad7f253787"
 
 acorn@^5.0.0:
   version "5.0.3"
@@ -283,7 +283,7 @@ ajv-keywords@^1.1.1:
   version "1.5.1"
   resolved "https://registry.yarnpkg.com/ajv-keywords/-/ajv-keywords-1.5.1.tgz#314dd0a4b3368fad3dfcdc54ede6171b886daf3c"
 
-ajv@5.0.1, ajv@^5.0.0:
+ajv@5.0.1:
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/ajv/-/ajv-5.0.1.tgz#5fd1a8f5cc92b371aa86445b1152fd4dec844ac9"
   dependencies:
@@ -293,6 +293,13 @@ ajv@5.0.1, ajv@^5.0.0:
 ajv@^4.11.2, ajv@^4.7.0, ajv@^4.9.1:
   version "4.11.8"
   resolved "https://registry.yarnpkg.com/ajv/-/ajv-4.11.8.tgz#82ffb02b29e662ae53bdc20af15947706739c536"
+  dependencies:
+    co "^4.6.0"
+    json-stable-stringify "^1.0.1"
+
+ajv@^5.0.0:
+  version "5.1.3"
+  resolved "https://registry.yarnpkg.com/ajv/-/ajv-5.1.3.tgz#423d1c302c61e617081b30ca05f595ec51408e33"
   dependencies:
     co "^4.6.0"
     json-stable-stringify "^1.0.1"
@@ -1377,8 +1384,8 @@ co@^4.6.0:
   resolved "https://registry.yarnpkg.com/co/-/co-4.6.0.tgz#6ea6bdf3d853ae54ccb8e47bfa0bf3f9031fb184"
 
 coa@~1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/coa/-/coa-1.0.1.tgz#7f959346cfc8719e3f7233cd6852854a7c67d8a3"
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/coa/-/coa-1.0.2.tgz#2ba9fec3b4aa43d7a49d7e6c3561e92061b6bcec"
   dependencies:
     q "^1.1.2"
 
@@ -3963,11 +3970,11 @@ moment@2.x.x:
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.18.1.tgz#c36193dd3ce1c2eed2adb7c802dbbc77a81b1c0f"
 
 morgan@^1.5.0:
-  version "1.8.1"
-  resolved "https://registry.yarnpkg.com/morgan/-/morgan-1.8.1.tgz#f93023d3887bd27b78dfd6023cea7892ee27a4b1"
+  version "1.8.2"
+  resolved "https://registry.yarnpkg.com/morgan/-/morgan-1.8.2.tgz#784ac7734e4a453a9c6e6e8680a9329275c8b687"
   dependencies:
     basic-auth "~1.1.0"
-    debug "2.6.1"
+    debug "2.6.8"
     depd "~1.1.0"
     on-finished "~2.3.0"
     on-headers "~1.0.1"
@@ -4016,8 +4023,8 @@ nested-error-stacks@^1.0.0:
     inherits "~2.0.1"
 
 node-fetch@^1.0.1:
-  version "1.6.3"
-  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-1.6.3.tgz#dc234edd6489982d58e8f0db4f695029abcd8c04"
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-1.7.0.tgz#3ff6c56544f9b7fb00682338bb55ee6f54a8a0ef"
   dependencies:
     encoding "^0.1.11"
     is-stream "^1.0.1"
@@ -5319,8 +5326,8 @@ retry-request@^1.3.2:
     through2 "^2.0.0"
 
 retry-request@^2.0.0:
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/retry-request/-/retry-request-2.0.2.tgz#8f5ff4facc526fdeb8262ac6314e6becee9e3325"
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/retry-request/-/retry-request-2.0.3.tgz#721870a809e1dc678cea24c058947c12bfb5c24d"
   dependencies:
     request "^2.81.0"
     through2 "^2.0.0"
@@ -5799,8 +5806,8 @@ stubs@^3.0.0:
   resolved "https://registry.yarnpkg.com/stubs/-/stubs-3.0.0.tgz#e8d2ba1fa9c90570303c030b6900f7d5f89abe5b"
 
 style-loader@^0.18.0:
-  version "0.18.0"
-  resolved "https://registry.yarnpkg.com/style-loader/-/style-loader-0.18.0.tgz#5b7a895860bda966286c8bb80ffd4ccbaf0411f5"
+  version "0.18.1"
+  resolved "https://registry.yarnpkg.com/style-loader/-/style-loader-0.18.1.tgz#6afca8953c842830e5e2dc84796309880a97f7e8"
   dependencies:
     loader-utils "^1.0.2"
     schema-utils "^0.3.0"
@@ -6082,8 +6089,8 @@ tsutils@^1.4.0:
   resolved "https://registry.yarnpkg.com/tsutils/-/tsutils-1.9.1.tgz#b9f9ab44e55af9681831d5f28d0aeeaf5c750cb0"
 
 tsutils@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/tsutils/-/tsutils-2.0.0.tgz#ae0ca48a4b431b5c04e4f711a9227aa2e37e2e04"
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/tsutils/-/tsutils-2.1.0.tgz#5be8376c929528f65b302de9e17b0004e4c1eb20"
 
 tty-browserify@0.0.0:
   version "0.0.0"
