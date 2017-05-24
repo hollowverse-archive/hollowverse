@@ -1,5 +1,4 @@
 import * as React from 'react'
-import {connect} from 'react-redux'
 
 class CreateNewProfile extends React.Component<undefined, undefined> {
   render() {
@@ -9,4 +8,4 @@ class CreateNewProfile extends React.Component<undefined, undefined> {
   }
 }
 
-export default connect()(CreateNewProfile)
+export default CreateNewProfile
