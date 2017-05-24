@@ -14,7 +14,7 @@ import LoginStatus = facebookSdk.LoginStatus
 import {INotablePersonSchema, IUserSchema} from '../../../typings/dataSchema'
 import {HvError} from '../../../typings/typeDefinitions'
 import {IAlgoliaSearchResults} from '../vendor/algolia'
-import {ContactFormData} from '../pages/contactUsForm/contactUsForm'
+import { IContactFormData } from '../../../typings/typeDefinitions'
 
 // This interface defines the state properties of the Hollowverse app
 interface IAppState {
@@ -30,7 +30,7 @@ interface IAppState {
   createProfileUrlInputValue: string,
   emailInputValue: string,
   messageInputValue: string,
-  submitFormValues: ContactFormData | undefined,
+  submitFormValues: IContactFormData | undefined,
   notablePerson: INotablePersonSchema | undefined,
   userData: IUserSchema | undefined,
 }
@@ -86,7 +86,7 @@ const singleActionReducers = {
   [ActionTypes.setCreateProfileUrlInputValue]: createSingleActionSimpleReducer<string>('createProfileUrlInputValue'),
   [ActionTypes.setEmailInputValue]: createSingleActionSimpleReducer<string>('emailInputValue'),
   [ActionTypes.setMessageInputValue]: createSingleActionSimpleReducer<string>('messageInputValue'),
-  [ActionTypes.setSubmitFormValues]: createSingleActionSimpleReducer<ContactFormData | undefined>('submitFormValues'),
+  [ActionTypes.setSubmitFormValues]: createSingleActionSimpleReducer<IContactFormData | undefined>('submitFormValues'),
   [ActionTypes.setNotablePerson]: createSingleActionSimpleReducer<INotablePersonSchema | undefined>('notablePerson'),
   [ActionTypes.setUserData]: createSingleActionSimpleReducer<IUserSchema | undefined>('userData'),
 }

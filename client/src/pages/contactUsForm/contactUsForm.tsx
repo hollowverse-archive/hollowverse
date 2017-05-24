@@ -4,16 +4,12 @@ import {RouteComponentProps} from 'react-router-dom'
 import {actions} from '../../redux/actions'
 import {State} from '../../redux/reducers'
 import {pick, isValidEmail, hasSentence} from '../../utils/utils'
-
-export interface ContactFormData {
-  email: string,
-  message: string,
-}
+import { IContactFormData } from '../../../../typings/typeDefinitions'
 
 interface IProps {
   emailInputValue: string,
   messageInputValue: string,
-  submitFormValues: ContactFormData | undefined,
+  submitFormValues: IContactFormData | undefined,
 }
 
 function mapStateToProps(state: State): IProps {

@@ -9,3 +9,8 @@ interface IHvError {
 }
 
 export type HvError = IHvError | undefined
+
+export interface IContactFormData {
+  email: string,
+  message: string,
+}
