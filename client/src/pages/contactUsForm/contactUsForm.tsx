@@ -3,8 +3,8 @@ import {connect} from 'react-redux'
 import {RouteComponentProps} from 'react-router-dom'
 import {actions} from '../../redux/actions'
 import {State} from '../../redux/reducers'
+import {IContactFormData} from '../../../../typings/typeDefinitions'
 import {pick, isValidEmail, hasSentence} from '../../utils/utils'
-import { IContactFormData } from '../../../../typings/typeDefinitions'
 
 interface IProps {
   emailInputValue: string,

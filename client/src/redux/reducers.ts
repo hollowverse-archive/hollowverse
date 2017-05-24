@@ -12,9 +12,9 @@ import {Reducer} from 'redux'
 import {ActionTypes, IAction} from './actions'
 import LoginStatus = facebookSdk.LoginStatus
 import {INotablePersonSchema, IUserSchema} from '../../../typings/dataSchema'
+import {IContactFormData} from '../../../typings/typeDefinitions'
 import {HvError} from '../../../typings/typeDefinitions'
 import {IAlgoliaSearchResults} from '../vendor/algolia'
-import { IContactFormData } from '../../../typings/typeDefinitions'
 
 // This interface defines the state properties of the Hollowverse app
 interface IAppState {

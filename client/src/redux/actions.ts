@@ -8,10 +8,10 @@
 //
 import {push} from 'react-router-redux'
 import {INotablePersonSchema, IUserSchema} from '../../../typings/dataSchema'
+import {IContactFormData} from '../../../typings/typeDefinitions'
 import {HvError} from '../../../typings/typeDefinitions'
 import {stringEnum} from '../utils/utils'
 import {IAlgoliaSearchResults} from '../vendor/algolia'
-import {IContactFormData} from '../../../typings/typeDefinitions'
 
 // Custom type definition of a Redux Action
 export interface IAction<PayloadType> { type: string, payload: PayloadType}
