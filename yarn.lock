@@ -191,8 +191,8 @@
     "@types/react" "*"
 
 "@types/react@*", "@types/react@^15.0.11":
-  version "15.0.24"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-15.0.24.tgz#8a75299dc37906df327c18ca918bf97a55e7123b"
+  version "15.0.25"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-15.0.25.tgz#d396949cccc9a90b61755def9781e5aced9b2261"
 
 "@types/reduce-reducers@^0.1.0":
   version "0.1.0"
