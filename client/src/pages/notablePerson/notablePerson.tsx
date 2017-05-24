@@ -53,7 +53,7 @@ class NotablePersonClass extends React.Component<ComponentProps, undefined> {
         </div>
       )
     } else {
-      return <ShadowComponent type='NotablePerson'/> // Loading? Grayed Out Components? WIP.
+      return <ShadowComponent/>
     }
   }
 

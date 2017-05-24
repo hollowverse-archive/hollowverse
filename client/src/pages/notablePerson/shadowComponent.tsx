@@ -5,15 +5,7 @@ import {common} from '../../common.styles'
 import {styles as npStyles} from './../notablePerson/notablePerson.styles'
 import {styles as eventStyles} from './../notablePerson/events.styles'
 
-interface IProps {
-  type: string
-}
-
-/* This component gets called from parent components like
-  <ShadowComponent type="NotablePerson"/> in the loading path of conditional rendering logic.
-*/
-
-class ShadowComponentClass extends React.Component<IProps, undefined> {
+class ShadowComponentClass extends React.Component<{}, undefined> {
   render() {
     return (
       <div className={css(common.page)}>
