@@ -14,6 +14,11 @@ import {IAlgoliaSearchResults} from '../vendor/algolia'
 // Custom type definition of a Redux Action
 export interface IAction<PayloadType> { type: string, payload: PayloadType}
 
+export interface IContactUsFormState {
+  email: string,
+  message: string
+}
+
 // The following are all the actions that can be triggered from within the Hollowverse application
 export const actions = {
   navigateToSearch: (payload: string) => {
@@ -35,6 +40,7 @@ export const actions = {
   setIsNavMenuOpen: (payload: boolean) => ({type: 'setIsNavMenuOpen', payload}),
   setLastSearchTerm: (payload: string) => ({type: 'setLastSearchTerm', payload}),
   setCreateProfileUrlInputValue: (payload: string) => ({type: 'setCreateProfileUrlInputValue', payload}),
+  setContactUsFormState: (payload: IContactUsFormState) => ({type: 'setContactUsFormState', payload}),
 
   // Redux Sagas triggers
   requestSearchResults: (payload: string) => ({type: 'requestSearchResults', payload}),
