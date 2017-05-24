@@ -42,11 +42,11 @@ class ContactUsFormClass extends React.Component<ComponentProps, undefined> {
     return (
       <div>
         <h1>Contact Us</h1>
-        <form onSubmit={(event) => this.handleFormSubmit(event)}>
+        <form onSubmit={(event) => this.handleFormSubmit(event)} noValidate>
           <label>
             <input
               placeholder='Your Email'
-              type='text'
+              type='email'
               value={p.emailInputValue}
               onChange={({target: {value}}) => this.handleEmailInputChange(value)}
             />
