@@ -2,10 +2,8 @@ import {errors} from '../constants/errors'
 
 export async function getLoginStatus() {
   try {
-    return await new Promise<facebookSdk.IAuthResponse>((resolve) => {
-      FB.getLoginStatus((response) => {
-        resolve(response)
-      })
+    return await FB.getLoginStatus((response) => {
+      return response
     })
   } catch (err) {
     throw err
