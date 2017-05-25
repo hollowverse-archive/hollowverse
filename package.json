@@ -70,7 +70,7 @@
     "react": "^15.1.0",
     "react-addons-css-transition-group": "^15.4.2",
     "react-dom": "^15.1.0",
-    "react-onclickoutside": "^5.9.0",
+    "react-onclickoutside": "^6.0.1",
     "react-redux": "^5.0.3",
     "react-router": "^4.0.0",
     "react-router-dom": "^4.0.0",
