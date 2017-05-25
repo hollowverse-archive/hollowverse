@@ -10,6 +10,7 @@ export function getLoginStatus() {
 }
 */
 
+// WIP: saga doesn't like the response.
 export async function getLoginStatus() {
   try {
     return await FB.getLoginStatus((response) => {
@@ -34,6 +35,7 @@ export function login() {
 }
 */
 
+// WIP: untested
 export async function login() {
   try {
     return await FB.login((response) => {
@@ -57,6 +59,7 @@ export function logout() {
 }
 */
 
+// WIP: untested
 export async function logout() {
   try {
     return await FB.logout((response) => {
@@ -67,6 +70,7 @@ export async function logout() {
   }
 }
 
+/*
 export function initSdk() {
   return new Promise<void>((resolve) => {
     FB.init({
@@ -78,4 +82,19 @@ export function initSdk() {
 
     resolve()
   })
+}
+*/
+
+// Status: OK
+export async function initSdk() {
+  try {
+    return await FB.init({
+      appId: '1151099935001443',
+      xfbml: true,
+      version: 'v2.8',
+      cookie: true,
+    })
+  } catch (err) {
+    throw err
+  }
 }
