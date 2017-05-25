@@ -1,15 +1,14 @@
 import * as React from 'react'
 import {connect} from 'react-redux'
 import {RouteComponentProps} from 'react-router-dom'
+import {IContactFormData} from '../../../typings/typeDefinitions'
 import {actions} from '../redux/actions'
 import {State} from '../redux/reducers'
-import {IContactFormData} from '../../../typings/typeDefinitions'
-import {pick, isValidEmail, hasSentence} from '../utils/utils'
+import {hasSentence, isValidEmail, pick} from '../utils/utils'
 
 interface IProps {
   emailInputValue: string,
   messageInputValue: string,
-  submitFormValues: IContactFormData | undefined,
 }
 
 function mapStateToProps(state: State): IProps {
@@ -17,7 +16,6 @@ function mapStateToProps(state: State): IProps {
     ...pick(state, [
       'emailInputValue',
       'messageInputValue',
-      'submitFormValues',
     ]),
   }
 }
@@ -25,7 +23,7 @@ function mapStateToProps(state: State): IProps {
 const actionCreators = pick(actions, [
   'setEmailInputValue',
   'setMessageInputValue',
-  'setSubmitFormValues',
+  'requestSubmitFormValues',
 ])
 
 type ActionCreators = typeof actionCreators
@@ -78,8 +76,13 @@ class InputClass extends React.Component<ComponentProps, undefined> {
   handleFormSubmit(event: any) {
     const {props: p} = this
     event.preventDefault()
-    p.setSubmitFormValues({email: p.emailInputValue, message: p.messageInputValue})
+    this.submitValuesAction({email: p.emailInputValue, message: p.messageInputValue})
+  }
+
+  submitValuesAction(formValues: IContactFormData) {
+    const {props: p} = this
+    p.requestSubmitFormValues(formValues)
   }
 }
 
-export const Input = connect(mapStateToProps,actionCreators)(InputClass)
+export const Input = connect(mapStateToProps, actionCreators)(InputClass)

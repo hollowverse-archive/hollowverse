@@ -4,13 +4,11 @@ import {RouteComponentProps} from 'react-router-dom'
 import {Input} from '../../components/input'
 import {actions} from '../../redux/actions'
 import {State} from '../../redux/reducers'
-import {IContactFormData} from '../../../../typings/typeDefinitions'
 import {pick, isValidEmail, hasSentence} from '../../utils/utils'
 
 interface IProps {
   emailInputValue: string,
   messageInputValue: string,
-  submitFormValues: IContactFormData | undefined,
 }
 
 function mapStateToProps(state: State): IProps {
@@ -18,7 +16,6 @@ function mapStateToProps(state: State): IProps {
     ...pick(state, [
       'emailInputValue',
       'messageInputValue',
-      'submitFormValues',
     ]),
   }
 }
@@ -26,7 +23,7 @@ function mapStateToProps(state: State): IProps {
 const actionCreators = pick(actions, [
   'setEmailInputValue',
   'setMessageInputValue',
-  'setSubmitFormValues',
+  'requestSubmitFormValues',
 ])
 
 type ActionCreators = typeof actionCreators

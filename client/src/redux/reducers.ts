@@ -30,7 +30,6 @@ interface IAppState {
   createProfileUrlInputValue: string,
   emailInputValue: string,
   messageInputValue: string,
-  submitFormValues: IContactFormData | undefined,
   notablePerson: INotablePersonSchema | undefined,
   userData: IUserSchema | undefined,
 }
@@ -52,7 +51,6 @@ const initialAppState: AppState = {
   createProfileUrlInputValue: '',
   emailInputValue: '',
   messageInputValue: '',
-  submitFormValues: undefined,
   notablePerson: undefined,
   userData: undefined,
 }
@@ -86,7 +84,6 @@ const singleActionReducers = {
   [ActionTypes.setCreateProfileUrlInputValue]: createSingleActionSimpleReducer<string>('createProfileUrlInputValue'),
   [ActionTypes.setEmailInputValue]: createSingleActionSimpleReducer<string>('emailInputValue'),
   [ActionTypes.setMessageInputValue]: createSingleActionSimpleReducer<string>('messageInputValue'),
-  [ActionTypes.setSubmitFormValues]: createSingleActionSimpleReducer<IContactFormData | undefined>('submitFormValues'),
   [ActionTypes.setNotablePerson]: createSingleActionSimpleReducer<INotablePersonSchema | undefined>('notablePerson'),
   [ActionTypes.setUserData]: createSingleActionSimpleReducer<IUserSchema | undefined>('userData'),
 }

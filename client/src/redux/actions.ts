@@ -39,7 +39,6 @@ export const actions = {
   setCreateProfileUrlInputValue: (payload: string) => ({type: 'setCreateProfileUrlInputValue', payload}),
   setEmailInputValue: (payload: string) => ({type: 'setEmailInputValue', payload}),
   setMessageInputValue: (payload: string) => ({type: 'setMessageInputValue', payload}),
-  setSubmitFormValues: (payload: IContactFormData | undefined) => ({type: 'setSubmitFormValues', payload}),
   setNotablePerson: (payload: INotablePersonSchema | undefined) => ({type: 'setNotablePerson', payload}),
   setUserData: (payload: IUserSchema | undefined) => ({type: 'setUserData', payload}),
 
@@ -48,6 +47,7 @@ export const actions = {
   requestLogin: () => ({type: 'requestLogin'}),
   requestLogout: () => ({type: 'requestLogout'}),
   requestUpdateLoginStatus: () => ({type: 'requestUpdateLoginStatus'}),
+  requestSubmitFormValues: (payload: IContactFormData) => ({type: 'requestSubmitFormValues', payload}),
   requestNotablePerson: (payload: string) => ({type: 'requestNotablePerson', payload}),
   requestUserData: (payload: string) => ({ type: 'requestUserData', payload}),
 }
