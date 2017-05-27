@@ -1,6 +1,8 @@
 import * as React from 'react'
 import {connect} from 'react-redux'
 import {RouteComponentProps} from 'react-router-dom'
+import {IContactFormData} from '../../../../typings/typeDefinitions'
+import {Form} from '../../components/form'
 import {Input} from '../../components/input'
 import {actions} from '../../redux/actions'
 import {State} from '../../redux/reducers'
@@ -33,9 +35,21 @@ class ContactUsFormClass extends React.Component<ComponentProps, undefined> {
   render() {
     return (
       <div>
-        <Input />
+        <Form onSubmit={() => this.handleFormSubmit()} noValidate>
+         <Input />
+        </Form>
       </div>
     )
+  }
+
+  handleFormSubmit() {
+    const {props: p} = this
+    this.submitValuesAction({email: p.emailInputValue, message: p.messageInputValue})
+  }
+
+  submitValuesAction(formValues: IContactFormData) {
+    const {props: p} = this
+    p.requestSubmitFormValues(formValues)
   }
 }
 

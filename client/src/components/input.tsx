@@ -1,7 +1,6 @@
 import * as React from 'react'
 import {connect} from 'react-redux'
 import {RouteComponentProps} from 'react-router-dom'
-import {IContactFormData} from '../../../typings/typeDefinitions'
 import {actions} from '../redux/actions'
 import {State} from '../redux/reducers'
 import {hasSentence, isValidEmail, pick} from '../utils/utils'
@@ -36,29 +35,26 @@ class InputClass extends React.Component<ComponentProps, undefined> {
     return (
       <div>
         <h1>Contact Us</h1>
-        <form onSubmit={(event) => this.handleFormSubmit(event)} noValidate>
-          <label>
+          <p>
             <input
               placeholder='Your Email'
               type='email'
               value={p.emailInputValue}
               onChange={({target: {value}}) => this.handleEmailInputChange(value)}
             />
-          </label>
-          <label>
+          </p>
+          <p>
             <textarea
               placeholder='Your Message'
               value={p.messageInputValue}
               onChange={({target: {value}}) => this.handleMessageInputChange(value)}
-              >
-            </textarea>
-          </label>
+            />
+          </p>
           <input
             disabled={!isValidEmail(p.emailInputValue) || !hasSentence(p.messageInputValue)}
             type='submit'
             value='Submit'
           />
-        </form>
       </div>
     )
   }
@@ -71,17 +67,6 @@ class InputClass extends React.Component<ComponentProps, undefined> {
   handleMessageInputChange(messageText: string) {
     const {props: p} = this
     p.setMessageInputValue(messageText)
-  }
-
-  handleFormSubmit(event: any) {
-    const {props: p} = this
-    event.preventDefault()
-    this.submitValuesAction({email: p.emailInputValue, message: p.messageInputValue})
-  }
-
-  submitValuesAction(formValues: IContactFormData) {
-    const {props: p} = this
-    p.requestSubmitFormValues(formValues)
   }
 }
 
