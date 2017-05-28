@@ -14,7 +14,7 @@ export const firebaseApp = firebase.initializeApp(firebaseConfig)
 export const firebaseAuth = firebaseApp.auth()
 export const firebaseDb = firebaseApp.database()
 
-export function login(payload: facebookSdk.IAuthResponse): Promise<firebase.User> {
+function promiseFirebaseLogin(payload: facebookSdk.IAuthResponse): Promise<firebase.User> {
   return new Promise<firebase.User>((resolve) => {
     const unsubscribe = firebaseAuth.onAuthStateChanged((firebaseUser: firebase.User) => {
       unsubscribe()
@@ -32,11 +32,7 @@ export function login(payload: facebookSdk.IAuthResponse): Promise<firebase.User
     })
 }
 
-export function logout() {
-  return firebaseAuth.signOut()
-}
-
-export function userExists(user: firebase.User) {
+function promiseUserExists(user: firebase.User) {
   const usersReference = firebaseDb.ref('users')
 
   return new Promise<boolean>((resolve, reject) => {
@@ -54,15 +50,7 @@ export function userExists(user: firebase.User) {
   })
 }
 
-export function createUser(user: IUser) {
-  const usersReference = firebaseDb.ref('users')
-
-  return usersReference.child(user.id).set({
-    displayName: user.displayName,
-  })
-}
-
-export function loginOrRegister(facebookAuthResponse: facebookSdk.IAuthResponse): Promise<void> {
+function promiseLoginOrRegister(facebookAuthResponse: facebookSdk.IAuthResponse): Promise<void> {
   if (facebookAuthResponse.status === 'connected') {
     return login(facebookAuthResponse)
       .then<[boolean, firebase.User]>((firebaseUser) => {
@@ -79,6 +67,42 @@ export function loginOrRegister(facebookAuthResponse: facebookSdk.IAuthResponse)
       })
   } else {
     return Promise.reject(errors.firebaseLoginError)
+  }
+}
+
+export async function login(payload: facebookSdk.IAuthResponse): Promise<firebase.User> {
+  try {
+    return await promiseFirebaseLogin(payload)
+  } catch (err) {
+    throw err
+  }
+}
+
+export function logout() {
+  return firebaseAuth.signOut()
+}
+
+export async function userExists(user: firebase.User) {
+  try {
+    return await promiseUserExists(user)
+  } catch (err) {
+    throw err
+  }
+}
+
+export function createUser(user: IUser) {
+  const usersReference = firebaseDb.ref('users')
+
+  return usersReference.child(user.id).set({
+    displayName: user.displayName,
+  })
+}
+
+export async function loginOrRegister(facebookAuthResponse: facebookSdk.IAuthResponse): Promise<void> {
+  try {
+    return await promiseLoginOrRegister(facebookAuthResponse)
+  } catch (err) {
+    throw err
   }
 }
 

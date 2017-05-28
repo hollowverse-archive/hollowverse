@@ -1,16 +1,6 @@
 import {errors} from '../constants/errors'
 
-export async function getLoginStatus() {
-  try {
-    return await FB.getLoginStatus((response) => {
-      return response
-    })
-  } catch (err) {
-    throw err
-  }
-}
-
-function loginToPromise(): Promise<facebookSdk.IAuthResponse | Error> {
+function promiseLogin(): Promise<facebookSdk.IAuthResponse | Error> {
   return new Promise<facebookSdk.IAuthResponse>((resolve, reject) => {
     FB.login((response) => {
       if (response.authResponse) {
@@ -22,9 +12,19 @@ function loginToPromise(): Promise<facebookSdk.IAuthResponse | Error> {
   })
 }
 
-export async function login(): Promise<facebookSdk.IAuthResponse | Error | void> {
+export async function getLoginStatus() {
   try {
-    return await loginToPromise()
+    return await FB.getLoginStatus((response) => {
+      return response
+    })
+  } catch (err) {
+    throw err
+  }
+}
+
+export async function login(): Promise<facebookSdk.IAuthResponse | Error> {
+  try {
+    return await promiseLogin()
   } catch (err) {
     throw err
   }
