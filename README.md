@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.org/hollowverse/hollowverse.svg?branch=master)](https://travis-ci.org/hollowverse/hollowverse)
 [![Greenkeeper badge](https://badges.greenkeeper.io/hollowverse/hollowverse.svg)](https://greenkeeper.io/)
+[![Discord Badge](https://img.shields.io/discord/308394001789353985.svg)](https://discordapp.com/invite/KmnPYnu)
 
 Politics, religions, and ideas.
 
@@ -36,7 +37,7 @@ This will build the JavaScript bundle in production mode and then execute `fireb
 * [TypeScript](https://www.typescriptlang.org/) - strongly typed language compiled to JavaScript
 * [React](https://facebook.github.io/react/) - front-end library for building UI
 * [Redux](http://redux.js.org/) - state container for structuring business logic in a predictable way
-* [Sass](http://sass-lang.com/) - superset of CSS for easier styling
+* [Aphrodite](https://github.com/Khan/aphrodite) - CSS in JS solution
 * [Firebase](https://firebase.google.com/) - tools and infrastructure for the server side, abstraction over the Google Cloud Platform
 * [Webpack](https://webpack.github.io/) - module bundler for concatenating and minifying JavaScript
 

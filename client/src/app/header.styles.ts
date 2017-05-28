@@ -1,4 +1,7 @@
 import {StyleSheet} from 'aphrodite/no-important'
+import {palette} from '../common.styles'
+
+const {shadesOfBlack} = palette
 
 export const styles = StyleSheet.create({
   navBar: {
@@ -6,10 +9,13 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     height: '7.5vh',
+    boxShadow: '0px 1px 2px rgba(0, 0, 0, 0.28)',
   },
   textLogo: {
     alignSelf: 'center',
+    color: shadesOfBlack[5],
     display: 'inline-block',
+    textDecoration: 'none',
   },
   navBarIcon: {
     alignSelf: 'center',

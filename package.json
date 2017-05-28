@@ -70,7 +70,7 @@
     "react": "^15.1.0",
     "react-addons-css-transition-group": "^15.4.2",
     "react-dom": "^15.1.0",
-    "react-onclickoutside": "^5.9.0",
+    "react-onclickoutside": "^6.0.0",
     "react-redux": "^5.0.3",
     "react-router": "^4.0.0",
     "react-router-dom": "^4.0.0",
@@ -81,7 +81,7 @@
     "redux-saga": "^0.15.0",
     "shelljs": "^0.7.7",
     "source-map-loader": "^0.2.1",
-    "style-loader": "^0.18.0",
+    "style-loader": "^0.18.1",
     "ts-loader": "^2.0.2",
     "webpack": "^2.2.1",
     "webpack-dev-server": "^2.4.1"
@@ -93,6 +93,6 @@
     "tslint": "^5.0.0",
     "tslint-config-standard": "^5.0.2",
     "tslint-react": "^3.0.0",
-    "typescript": "^2.1.6"
+    "typescript": "^2.3.2"
   }
 }

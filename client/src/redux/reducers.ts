@@ -11,6 +11,7 @@ import {routerReducer, RouterState} from 'react-router-redux'
 import {Reducer} from 'redux'
 import {ActionTypes, IAction} from './actions'
 import LoginStatus = facebookSdk.LoginStatus
+import {INotablePersonSchema, IUserSchema} from '../../../typings/dataSchema'
 import {HvError} from '../../../typings/typeDefinitions'
 import {IAlgoliaSearchResults} from '../vendor/algolia'
 
@@ -25,7 +26,9 @@ interface IAppState {
   error: HvError,
   isNavMenuOpen: boolean,
   lastSearchTerm: string,
-  createProfileUrlInputValue: string
+  createProfileUrlInputValue: string,
+  notablePerson: INotablePersonSchema | undefined,
+  userData: IUserSchema | undefined,
 }
 
 // Make it an immutable type
@@ -43,6 +46,8 @@ const initialAppState: AppState = {
   isNavMenuOpen: false,
   lastSearchTerm: '',
   createProfileUrlInputValue: '',
+  notablePerson: undefined,
+  userData: undefined,
 }
 
 // IRootState contains IAppState as well as other state keys that are required by external
@@ -72,6 +77,8 @@ const singleActionReducers = {
   [ActionTypes.setIsNavMenuOpen]: createSingleActionSimpleReducer<boolean>('isNavMenuOpen'),
   [ActionTypes.setLastSearchTerm]: createSingleActionSimpleReducer<string>('lastSearchTerm'),
   [ActionTypes.setCreateProfileUrlInputValue]: createSingleActionSimpleReducer<string>('createProfileUrlInputValue'),
+  [ActionTypes.setNotablePerson]: createSingleActionSimpleReducer<INotablePersonSchema | undefined>('notablePerson'),
+  [ActionTypes.setUserData]: createSingleActionSimpleReducer<IUserSchema | undefined>('userData'),
 }
 
 // A Redux reducer is simply a function that accepts `state` and `action` and returns a new `state`.
