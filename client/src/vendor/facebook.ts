@@ -10,18 +10,21 @@ export async function getLoginStatus() {
   }
 }
 
-export async function login(): Promise<facebookSdk.IAuthResponse | void> {
-  try {
-    const result = new Promise<facebookSdk.IAuthResponse>((resolve, reject) => {
-      FB.login((response) => {
-        if (response.authResponse) {
-          resolve(response)
-        } else {
-          reject(errors.facebookLoginError)
-        }
-      })
+function loginToPromise(): Promise<facebookSdk.IAuthResponse | Error> {
+  return new Promise<facebookSdk.IAuthResponse>((resolve, reject) => {
+    FB.login((response) => {
+      if (response.authResponse) {
+        resolve(response)
+      } else {
+        reject(errors.facebookLoginError)
+      }
     })
-    return await result
+  })
+}
+
+export async function login(): Promise<facebookSdk.IAuthResponse | Error | void> {
+  try {
+    return await loginToPromise()
   } catch (err) {
     throw err
   }
