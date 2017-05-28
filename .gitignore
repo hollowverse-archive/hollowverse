@@ -62,3 +62,6 @@ client/dist
 server/dist
 public/*
 !public/index.html
+
+# Editor configs
+.vscode
