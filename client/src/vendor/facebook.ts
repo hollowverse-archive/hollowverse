@@ -10,9 +10,9 @@ export async function getLoginStatus() {
   }
 }
 
-export async function login() {
+export async function login(): Promise<facebookSdk.IAuthResponse | void> {
   try {
-    return await new Promise<facebookSdk.IAuthResponse>((resolve, reject) => {
+    const result = new Promise<facebookSdk.IAuthResponse>((resolve, reject) => {
       FB.login((response) => {
         if (response.authResponse) {
           resolve(response)
@@ -21,6 +21,7 @@ export async function login() {
         }
       })
     })
+    return await result
   } catch (err) {
     throw err
   }
