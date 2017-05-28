@@ -29,6 +29,7 @@ interface IAppState {
   createProfileUrlInputValue: string,
   notablePerson: INotablePersonSchema | undefined,
   userData: IUserSchema | undefined,
+  displayWarning: boolean,
 }
 
 // Make it an immutable type
@@ -48,6 +49,7 @@ const initialAppState: AppState = {
   createProfileUrlInputValue: '',
   notablePerson: undefined,
   userData: undefined,
+  displayWarning: false,
 }
 
 // IRootState contains IAppState as well as other state keys that are required by external
@@ -79,6 +81,7 @@ const singleActionReducers = {
   [ActionTypes.setCreateProfileUrlInputValue]: createSingleActionSimpleReducer<string>('createProfileUrlInputValue'),
   [ActionTypes.setNotablePerson]: createSingleActionSimpleReducer<INotablePersonSchema | undefined>('notablePerson'),
   [ActionTypes.setUserData]: createSingleActionSimpleReducer<IUserSchema | undefined>('userData'),
+  [ActionTypes.toggleWarning]: createSingleActionSimpleReducer<boolean>('displayWarning'),
 }
 
 // A Redux reducer is simply a function that accepts `state` and `action` and returns a new `state`.
