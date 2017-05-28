@@ -32,6 +32,18 @@ function promiseFirebaseLogin(payload: facebookSdk.IAuthResponse): Promise<fireb
     })
 }
 
+export async function login(payload: facebookSdk.IAuthResponse): Promise<firebase.User> {
+  try {
+    return await promiseFirebaseLogin(payload)
+  } catch (err) {
+    throw err
+  }
+}
+
+export function logout() {
+  return firebaseAuth.signOut()
+}
+
 function promiseUserExists(user: firebase.User) {
   const usersReference = firebaseDb.ref('users')
 
@@ -47,6 +59,22 @@ function promiseUserExists(user: firebase.User) {
         reject(error)
       },
     )
+  })
+}
+
+export async function userExists(user: firebase.User) {
+  try {
+    return await promiseUserExists(user)
+  } catch (err) {
+    throw err
+  }
+}
+
+export function createUser(user: IUser) {
+  const usersReference = firebaseDb.ref('users')
+
+  return usersReference.child(user.id).set({
+    displayName: user.displayName,
   })
 }
 
@@ -68,34 +96,6 @@ function promiseLoginOrRegister(facebookAuthResponse: facebookSdk.IAuthResponse)
   } else {
     return Promise.reject(errors.firebaseLoginError)
   }
-}
-
-export async function login(payload: facebookSdk.IAuthResponse): Promise<firebase.User> {
-  try {
-    return await promiseFirebaseLogin(payload)
-  } catch (err) {
-    throw err
-  }
-}
-
-export function logout() {
-  return firebaseAuth.signOut()
-}
-
-export async function userExists(user: firebase.User) {
-  try {
-    return await promiseUserExists(user)
-  } catch (err) {
-    throw err
-  }
-}
-
-export function createUser(user: IUser) {
-  const usersReference = firebaseDb.ref('users')
-
-  return usersReference.child(user.id).set({
-    displayName: user.displayName,
-  })
 }
 
 export async function loginOrRegister(facebookAuthResponse: facebookSdk.IAuthResponse): Promise<void> {
