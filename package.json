@@ -9,7 +9,7 @@
     "client/build": "webpack --optimize-minimize --define process.env.NODE_ENV=\"'production'\" --config client/webpack.config.ts",
     "server/express": "nodemon --exec ts-node -- server/src/index.tsx",
     "server/firebase": "yarn client/build && firebase serve",
-    "lint": "tslint '**/*.t{s,sx}' --e='**/node_modules/**' --fix --project ./tsconfig.json --type-check",
+    "lint": "tslint '**/*.t{s,sx}' -e '**/node_modules/**' --fix --project ./tsconfig.json --type-check",
     "precommit": "lint-staged",
     "test": "yarn lint && yarn client/build",
     "commonpkg": "yarn add hollowverse/common-config && commonpkg"
