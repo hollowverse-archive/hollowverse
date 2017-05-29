@@ -38,6 +38,7 @@ export const actions = {
   setCreateProfileUrlInputValue: (payload: string) => ({type: 'setCreateProfileUrlInputValue', payload}),
   setNotablePerson: (payload: INotablePersonSchema | undefined) => ({type: 'setNotablePerson', payload}),
   setUserData: (payload: IUserSchema | undefined) => ({type: 'setUserData', payload}),
+  toggleWarning: (payload: boolean) => ({type: 'toggleWarning', payload}),
 
   // Redux Sagas triggers
   requestSearchResults: (payload: string) => ({type: 'requestSearchResults', payload}),
