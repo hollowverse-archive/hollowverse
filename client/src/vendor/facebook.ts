@@ -1,40 +1,36 @@
 import {errors} from '../constants/errors'
 
-export async function getLoginStatus() {
+export async function getLoginStatus(): Promise<facebookSdk.IAuthResponse> {
   try {
-    return await FB.getLoginStatus((response) => {
-      return response
-    })
-  } catch (err) {
-    throw err
-  }
-}
-
-function promiseFacebookLogin(): Promise<facebookSdk.IAuthResponse | Error> {
-  return new Promise<facebookSdk.IAuthResponse>((resolve, reject) => {
-    FB.login((response) => {
-      if (response.authResponse) {
+    return await new Promise<facebookSdk.IAuthResponse>((resolve) => {
+      FB.getLoginStatus((response) => {
         resolve(response)
-      } else {
-        reject(errors.facebookLoginError)
-      }
+      })
     })
-  })
-}
-
-export async function login(): Promise<facebookSdk.IAuthResponse | Error> {
-  try {
-    return await promiseFacebookLogin()
   } catch (err) {
     throw err
   }
 }
 
-export async function logout(): Promise<facebookSdk.IAuthResponse | void> {
+export async function login() {
   try {
-    return await FB.logout((response) => {
-      return response
+    return await new Promise<facebookSdk.IAuthResponse>((resolve, reject) => {
+      FB.login((response) => {
+        if (response.authResponse) {
+          resolve(response)
+        } else {
+          reject(errors.facebookLoginError)
+        }
+      })
     })
+  } catch (err) {
+    throw err
+  }
+}
+
+export function logout(): void {
+  try {
+    FB.logout()
   } catch (err) {
     throw err
   }

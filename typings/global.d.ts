@@ -28,7 +28,7 @@ declare namespace facebookSdk {
     },
     getLoginStatus(callback: (response: IAuthResponse) => any, cache?: boolean): void
     login(callback: (response: IAuthResponse) => void): void
-    logout(callback: (response: IAuthResponse) => void): void
+    logout(callback?: (response: IAuthResponse) => void): void
     init(params: {appId: string, xfbml: boolean, status?: boolean, version: string, cookie: boolean}): void,
   }
 }
