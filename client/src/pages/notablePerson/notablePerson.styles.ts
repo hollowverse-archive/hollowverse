@@ -10,9 +10,10 @@ export const styles = StyleSheet.create({
     margin: '0.8rem 0.8rem',
   },
   notablePersonPhoto: {
+    background: shadesOfBlack[4],
     borderRadius: '50%',
-    margin: '0.7rem 0.25rem 0 0',
-    maxWidth: '80%',
+    margin: '0.7rem 0.5rem 0 0',
+    minWidth: '150px',
   },
   notablePersonText: {
     margin: '1.3rem 1rem 0 0',
@@ -30,7 +31,7 @@ export const styles = StyleSheet.create({
   notablePersonLabel: {
     alignItems: 'center',
     borderRadius: '30px',
-    background: 'linear-gradient(20deg, #ffb347 30%, #ffcc33 95%)',
+    background: 'linear-gradient(20deg, #ffb347 30%, #ffcc33 65%)',
     color: shadesOfBlack[1],
     display: 'inline-flex',
     fontSize: '.75rem',
