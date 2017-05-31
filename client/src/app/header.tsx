@@ -1,7 +1,7 @@
 import {css} from 'aphrodite/no-important'
 import * as React from 'react'
 import {connect} from 'react-redux'
-import {Link} from 'react-router-dom'
+import {Link, RouteComponentProps} from 'react-router-dom'
 import {common} from '../common.styles'
 import {actions} from '../redux/actions'
 import {State} from '../redux/reducers'
@@ -24,15 +24,21 @@ const actionCreators = pick(actions, [
 ])
 
 type ActionCreators = typeof actionCreators
+type ComponentProps = ActionCreators & IProps & RouteComponentProps<any>
 
-class HeaderClass extends React.Component<ActionCreators & IProps, undefined> {
+class HeaderClass extends React.Component<ComponentProps, undefined> {
+
   render() {
     const {icon, action} = this.renderLoginVariants()
-
     return (
         <div className={css(common.palette, styles.navBar)}>
           {/*<i className={`fa fa-bars fa-2x ${css(styles.navBarIcon)}`}/>*/}
-          {/*<Link className={css(common.titleTypography, styles.textLogo)} to='/'>HOLLOWVERSE</Link>*/}
+          <Link
+            className={css(common.titleTypography, styles.textLogo)}
+            to='/'
+          >
+            HOLLOWVERSE
+          </Link>
           {/*<i className={`${icon} ${css(styles.navBarIcon)}`} onClick={action}/>*/}
         </div>
     )
