@@ -32,7 +32,7 @@ type ComponentProps = ActionCreators & IProps & RouteComponentProps<any>
 class NotablePersonClass extends React.Component<ComponentProps, undefined> {
   componentDidMount() {
     const {props: p} = this // TODO: We'll pass the route parameters to below function:
-    p.requestNotablePerson('/notablePersons/np_48d700ee')
+    p.requestNotablePerson(`/notablePersons/${p.match.params.id}`)
   }
 
   render() {

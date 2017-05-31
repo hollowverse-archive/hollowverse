@@ -32,7 +32,7 @@ class HeaderClass extends React.Component<ActionCreators & IProps, undefined> {
     return (
         <div className={css(common.palette, styles.navBar)}>
           {/*<i className={`fa fa-bars fa-2x ${css(styles.navBarIcon)}`}/>*/}
-          <Link className={css(common.titleTypography, styles.textLogo)} to='/'>HOLLOWVERSE</Link>
+          {/*<Link className={css(common.titleTypography, styles.textLogo)} to='/'>HOLLOWVERSE</Link>*/}
           {/*<i className={`${icon} ${css(styles.navBarIcon)}`} onClick={action}/>*/}
         </div>
     )
