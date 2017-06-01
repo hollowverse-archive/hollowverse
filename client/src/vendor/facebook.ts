@@ -1,17 +1,42 @@
 import {errors} from '../constants/errors'
 
-export async function getLoginStatus(): Promise<facebookSdk.IAuthResponse> {
-  try {
-    return await new Promise<facebookSdk.IAuthResponse>((resolve) => {
-      FB.getLoginStatus((response) => {
-        resolve(response)
+const promisifier = (method: any) => {
+  return () => {
+    return new Promise((resolve, reject) => {
+      method((results: any, err: any) => {
+        if (err) {
+          reject(err)
+        } else {
+          resolve(results)
+        }
       })
+    })
+  }
+}
+
+export async function getLoginStatus(): Promise<void> {
+  try {
+    const response = await promisifier(FB.getLoginStatus)
+    response().then((results: facebookSdk.IAuthResponse) => {
+      return results
     })
   } catch (err) {
     throw err
   }
 }
 
+export async function login(): Promise<void> {
+  try {
+    const response = await promisifier(FB.getLoginStatus)
+    response().then((results: facebookSdk.IAuthResponse) => {
+      return results
+    })
+  } catch (err) {
+    throw err
+  }
+}
+
+/*
 export async function login(): Promise<facebookSdk.IAuthResponse | Error> {
   try {
     return await new Promise<facebookSdk.IAuthResponse>((resolve, reject) => {
@@ -27,6 +52,23 @@ export async function login(): Promise<facebookSdk.IAuthResponse | Error> {
     throw err
   }
 }
+*/
+
+/*
+export async function getLoginStatus() {
+  try {
+    const response = await promisifier(FB.getLoginStatus())
+    response.then((results) => {
+      console.log(results)
+    })
+
+    return response
+  } catch (err) {
+    throw err
+  }
+}
+
+*/
 
 export function logout(): void {
   try {
