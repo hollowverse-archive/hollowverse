@@ -43,12 +43,12 @@ class AppClass extends React.Component<ActionCreators & IProps, undefined> {
         <GlobalSpinner/>
         <Header/>
         <Warning/>
-        <Switch>
-          <div className={css(styles.pageContent)}>
+        <div className={css(styles.pageContent)}>
+          <Switch>
             <Route exact path='/' component={Homepage}/>
             <Route exact path='/notable-person/:id' component={NotablePerson}/>
-          </div>
-        </Switch>
+          </Switch>
+        </div>
       </div>
     )
   }
