@@ -39,7 +39,7 @@ function* requestLogin() {
     yield put(actions.setIsLoginPending(true))
 
     const facebookAuthResponse = yield facebook.login()
-
+    // console.log(facebookAuthResponse)
     yield firebase.loginOrRegister(facebookAuthResponse)
 
     yield put(actions.setLoginStatus('connected'))
@@ -72,6 +72,7 @@ function* requestUpdateLoginStatus() {
     const sdk = yield facebook.initSdk()
 
     const facebookAuthResponse = yield facebook.getLoginStatus()
+    // console.log(facebookAuthResponse)
 
     if (facebookAuthResponse.status === 'connected') {
       yield put(actions.setIsLoginPending(true))

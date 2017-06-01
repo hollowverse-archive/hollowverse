@@ -14,23 +14,25 @@ const promisifier = (method: any) => {
   }
 }
 
-export async function getLoginStatus(): Promise<void> {
+export function getLoginStatus(): Promise<facebookSdk.IAuthResponse> {
   try {
-    const response = await promisifier(FB.getLoginStatus)
-    response().then((results: facebookSdk.IAuthResponse) => {
+    const response = promisifier(FB.getLoginStatus)
+    const status = response().then((results: facebookSdk.IAuthResponse) => {
       return results
     })
+    return status
   } catch (err) {
     throw err
   }
 }
 
-export async function login(): Promise<void> {
+export function login(): Promise<facebookSdk.IAuthResponse> {
   try {
-    const response = await promisifier(FB.getLoginStatus)
-    response().then((results: facebookSdk.IAuthResponse) => {
+    const response = promisifier(FB.getLoginStatus)
+    const status = response().then((results: facebookSdk.IAuthResponse) => {
       return results
     })
+    return status
   } catch (err) {
     throw err
   }
