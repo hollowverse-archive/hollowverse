@@ -2,8 +2,11 @@ import {css} from 'aphrodite/no-important'
 import * as React from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
+import {BrowserRouter as Router, Route, RouteComponentProps, Switch} from 'react-router-dom'
 import {GlobalSpinner} from '../components/globalSpinner'
 import {Warning} from '../components/warning'
+import {Homepage} from '../pages/homepage/homepage'
+import {NotablePerson} from '../pages/notablePerson/notablePerson'
 import {actions} from '../redux/actions'
 import {State} from '../redux/reducers'
 import {pick} from '../utils/utils'
@@ -39,9 +42,12 @@ class AppClass extends React.Component<ActionCreators & IProps, undefined> {
         <GlobalSpinner/>
         <Header/>
         <Warning/>
-        <div className={css(styles.pageContent)}>
-          {this.props.children}
-        </div>
+        <Switch>
+          <div className={css(styles.pageContent)}>
+            <Route path='/notable-person/:id' component={NotablePerson}/>
+            <Route path='/' component={Homepage}/>
+          </div>
+        </Switch>
       </div>
     )
   }
