@@ -3,6 +3,7 @@ import * as React from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {BrowserRouter as Router, Route, RouteComponentProps, Switch} from 'react-router-dom'
+import {ConnectedRouter} from 'react-router-redux'
 import {GlobalSpinner} from '../components/globalSpinner'
 import {Warning} from '../components/warning'
 import {Homepage} from '../pages/homepage/homepage'
@@ -44,8 +45,8 @@ class AppClass extends React.Component<ActionCreators & IProps, undefined> {
         <Warning/>
         <Switch>
           <div className={css(styles.pageContent)}>
-            <Route path='/notable-person/:id' component={NotablePerson}/>
-            <Route path='/' component={Homepage}/>
+            <Route exact path='/' component={Homepage}/>
+            <Route exact path='/notable-person/:id' component={NotablePerson}/>
           </div>
         </Switch>
       </div>
