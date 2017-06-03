@@ -6,7 +6,7 @@ export class Input extends React.Component<any, undefined> {
     const {onChange, onTextChange, ...rest} = p
 
     return (
-    <input onChange={event => this.onTextChange(event)} {...rest} />
+    <input onChange={(event) => this.onTextChange(event)} {...rest} />
     )
   }
 

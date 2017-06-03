@@ -43,7 +43,7 @@ class ContactUsFormClass extends React.Component<ComponentProps, undefined> {
             placeholder='Your Email'
             type='email'
             value={p.emailInputValue}
-            onTextChange={this.handleEmailInputChange.bind(this)}
+            onTextChange={(value: any) => this.handleEmailInputChange(value)}
           />
          </p>
          <p>
@@ -78,6 +78,8 @@ class ContactUsFormClass extends React.Component<ComponentProps, undefined> {
   handleFormSubmit() {
     const {props: p} = this
     this.submitValuesAction({email: p.emailInputValue, message: p.messageInputValue})
+    p.setEmailInputValue('')
+    p.setMessageInputValue('')
   }
 
   submitValuesAction(formValues: IContactFormData) {
