@@ -6,7 +6,7 @@ import {Form} from '../../components/form'
 import {Input} from '../../components/input'
 import {actions} from '../../redux/actions'
 import {State} from '../../redux/reducers'
-import {pick, isValidEmail, hasSentence} from '../../utils/utils'
+import {hasSentence, isValidEmail, pick} from '../../utils/utils'
 
 interface IProps {
   emailInputValue: string,
@@ -33,13 +33,46 @@ type ComponentProps = ActionCreators & IProps & RouteComponentProps<any>
 
 class ContactUsFormClass extends React.Component<ComponentProps, undefined> {
   render() {
+    const {props: p} = this
     return (
       <div>
+        <h1>Contact Us</h1>
         <Form onSubmit={() => this.handleFormSubmit()} noValidate>
-         <Input />
+         <p>
+          <Input
+            placeholder='Your Email'
+            type='email'
+            value={p.emailInputValue}
+            onTextChange={this.handleEmailInputChange.bind(this)}
+          />
+         </p>
+         <p>
+           <textarea
+             placeholder='Your Message'
+             value={p.messageInputValue}
+             onChange={(event) => this.handleMessageInputChange(event.target.value)}
+           />
+         </p>
+         <p>
+          <input
+            disabled={!isValidEmail(p.emailInputValue) || !hasSentence(p.messageInputValue)}
+            type='submit'
+            value='Submit'
+          />
+         </p>
         </Form>
       </div>
     )
+  }
+
+  handleEmailInputChange(emailText: string) {
+    const {props: p} = this
+    p.setEmailInputValue(emailText)
+  }
+
+  handleMessageInputChange(messageText: string) {
+    const {props: p} = this
+    p.setMessageInputValue(messageText)
   }
 
   handleFormSubmit() {
