@@ -32,6 +32,7 @@ interface IAppState {
   messageInputValue: string,
   notablePerson: INotablePersonSchema | undefined,
   userData: IUserSchema | undefined,
+  displayWarning: boolean,
 }
 
 // Make it an immutable type
@@ -53,6 +54,7 @@ const initialAppState: AppState = {
   messageInputValue: '',
   notablePerson: undefined,
   userData: undefined,
+  displayWarning: false,
 }
 
 // IRootState contains IAppState as well as other state keys that are required by external
@@ -86,6 +88,7 @@ const singleActionReducers = {
   [ActionTypes.setMessageInputValue]: createSingleActionSimpleReducer<string>('messageInputValue'),
   [ActionTypes.setNotablePerson]: createSingleActionSimpleReducer<INotablePersonSchema | undefined>('notablePerson'),
   [ActionTypes.setUserData]: createSingleActionSimpleReducer<IUserSchema | undefined>('userData'),
+  [ActionTypes.toggleWarning]: createSingleActionSimpleReducer<boolean>('displayWarning'),
 }
 
 // A Redux reducer is simply a function that accepts `state` and `action` and returns a new `state`.
