@@ -3,6 +3,7 @@ import * as React from 'react'
 import {connect} from 'react-redux'
 import {State} from '../redux/reducers'
 import * as selectors from '../redux/selectors'
+import {pick} from '../utils/utils'
 import {FadeIn} from './animations'
 import {styles} from './globalSpinner.styles'
 
@@ -10,7 +11,13 @@ interface IProps {
   showGlobalSpinner: boolean
 }
 
-class UnconnectedGlobalSpinner extends React.Component<IProps, undefined> {
+function mapStateToProps(state: State): IProps {
+  return pick(state, [
+    'showGlobalSpinner',
+  ])
+}
+
+class GlobalSpinnerClass extends React.Component<IProps, undefined> {
   container: HTMLDivElement
 
   render() {
@@ -28,8 +35,4 @@ class UnconnectedGlobalSpinner extends React.Component<IProps, undefined> {
   }
 }
 
-export const GlobalSpinner = connect((state: State) => {
-  return {
-    showGlobalSpinner: selectors.showGlobalSpinner(state),
-  }
-})(UnconnectedGlobalSpinner)
+export const GlobalSpinner = connect<IProps, null, null>(mapStateToProps)(GlobalSpinnerClass)

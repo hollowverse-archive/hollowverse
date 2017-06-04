@@ -53,6 +53,6 @@ class HeaderClass extends React.Component<ActionCreators & IProps, undefined> {
       }
     }
   }
-
 }
+
 export const Header = connect<IProps, ActionCreators, null>(mapStateToProps, actionCreators)(HeaderClass)
