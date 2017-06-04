@@ -12,9 +12,9 @@ interface IProps {
 }
 
 function mapStateToProps(state: State): IProps {
-  return pick(state, [
-    'showGlobalSpinner',
-  ])
+  return {
+    showGlobalSpinner: selectors.showGlobalSpinner(state),
+  }
 }
 
 class GlobalSpinnerClass extends React.Component<IProps, undefined> {
