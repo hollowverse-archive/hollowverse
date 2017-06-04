@@ -43,4 +43,4 @@ class WarningClass extends React.Component<ActionCreators & IProps, undefined> {
   }
 }
 
-export const Warning = connect(mapStateToProps, actionCreators)(WarningClass)
+export const Warning = connect<IProps, ActionCreators, null>(mapStateToProps, actionCreators)(WarningClass)

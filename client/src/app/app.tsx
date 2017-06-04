@@ -15,13 +15,6 @@ interface IProps {
   displayWarning: boolean
 }
 
-interface IChildren {
-  showGlobalSpinner: boolean
-  loginStatus: facebookSdk.LoginStatus
-  requestLogin: () => ({type: string})
-  requestLogout: () => ({type: string})
-}
-
 function mapStateToProps(state: State): IProps {
   return pick(state, [
     'loginStatus',
@@ -36,7 +29,7 @@ const actionCreators = pick(actions, [
 
 type ActionCreators = typeof actionCreators
 
-class AppClass extends React.Component<ActionCreators & IProps & IChildren, undefined> {
+class AppClass extends React.Component<ActionCreators & IProps, undefined> {
   componentDidMount() {
     this.props.requestUpdateLoginStatus()
     this.props.toggleWarning(true)
@@ -45,9 +38,9 @@ class AppClass extends React.Component<ActionCreators & IProps & IChildren, unde
     const {props: p} = this
     return (
       <div className={css(styles.mainApp)}>
-        <GlobalSpinner {...p}/>
-        <Header {...p}/>
-        <Warning {...p}/>
+        <GlobalSpinner/>
+        <Header/>
+        <Warning/>
         <div className={css(styles.pageContent)}>
           {this.props.children}
         </div>
