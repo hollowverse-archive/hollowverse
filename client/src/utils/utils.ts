@@ -17,4 +17,18 @@ export function sortByDescending<T>(object: {[index: number]: T, length: number}
   return _sortBy(object, iteratee).reverse()
 }
 
+export function promisfy(method: any) {
+  return () => {
+    return new Promise((resolve, reject) => {
+      method((results: any, err: any) => {
+        if (err) {
+          reject(err)
+        } else {
+          resolve(results)
+        }
+      })
+    })
+  }
+}
+
 export {cn}
