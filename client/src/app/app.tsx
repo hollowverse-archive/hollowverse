@@ -49,4 +49,4 @@ class AppClass extends React.Component<ActionCreators & IProps, undefined> {
   }
 }
 
-export const App = connect<IProps, ActionCreators, null>(mapStateToProps, actionCreators)(AppClass)
+export const App = connect(mapStateToProps, actionCreators)(AppClass)

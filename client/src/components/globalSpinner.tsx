@@ -3,7 +3,6 @@ import * as React from 'react'
 import {connect} from 'react-redux'
 import {State} from '../redux/reducers'
 import * as selectors from '../redux/selectors'
-import {pick} from '../utils/utils'
 import {FadeIn} from './animations'
 import {styles} from './globalSpinner.styles'
 
@@ -35,4 +34,4 @@ class GlobalSpinnerClass extends React.Component<IProps, undefined> {
   }
 }
 
-export const GlobalSpinner = connect<IProps, null, null>(mapStateToProps)(GlobalSpinnerClass)
+export const GlobalSpinner = connect(mapStateToProps)(GlobalSpinnerClass)
