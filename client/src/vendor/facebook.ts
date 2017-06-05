@@ -22,7 +22,6 @@ export async function login(): Promise<void> {
   }
 }
 
-
 export async function logout(): Promise<void> {
   try {
     return await FB.logout()
