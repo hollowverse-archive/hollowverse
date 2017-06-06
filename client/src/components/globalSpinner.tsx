@@ -10,7 +10,13 @@ interface IProps {
   showGlobalSpinner: boolean
 }
 
-class UnconnectedGlobalSpinner extends React.Component<IProps, undefined> {
+function mapStateToProps(state: State): IProps {
+  return {
+    showGlobalSpinner: selectors.showGlobalSpinner(state),
+  }
+}
+
+class GlobalSpinnerClass extends React.Component<IProps, undefined> {
   container: HTMLDivElement
 
   render() {
@@ -28,8 +34,4 @@ class UnconnectedGlobalSpinner extends React.Component<IProps, undefined> {
   }
 }
 
-export const GlobalSpinner = connect((state: State) => {
-  return {
-    showGlobalSpinner: selectors.showGlobalSpinner(state),
-  }
-})(UnconnectedGlobalSpinner)
+export const GlobalSpinner = connect(mapStateToProps)(GlobalSpinnerClass)
