@@ -1,10 +1,10 @@
 import {errors} from '../constants/errors'
-import {promisfy} from '../utils/utils'
+import {promisify} from '../utils/utils'
 
-FB.getLoginStatus = promisfy(FB.getLoginStatus)
-FB.login = promisfy(FB.login)
-FB.logout = promisfy(FB.logout)
-FB.init = promisfy(FB.init)
+FB.getLoginStatus = promisify(FB.getLoginStatus)
+FB.login = promisify(FB.login)
+FB.logout = promisify(FB.logout)
+FB.init = promisify(FB.init)
 
 export async function getLoginStatus(): Promise<void> {
   try {
