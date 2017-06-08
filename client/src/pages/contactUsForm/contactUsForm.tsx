@@ -1,12 +1,15 @@
+import {css} from 'aphrodite/no-important'
 import * as React from 'react'
 import {connect} from 'react-redux'
 import {RouteComponentProps} from 'react-router-dom'
 import {IContactFormData} from '../../../../typings/typeDefinitions'
+import {common} from '../../common.styles'
 import {Form} from '../../components/form'
 import {Input} from '../../components/input'
 import {actions} from '../../redux/actions'
 import {State} from '../../redux/reducers'
 import {hasSentence, isValidEmail, pick} from '../../utils/utils'
+import {styles} from './contactUsForm.styles'
 
 interface IProps {
   emailInputValue: string,
@@ -35,32 +38,35 @@ class ContactUsFormClass extends React.Component<ComponentProps, undefined> {
   render() {
     const {props: p} = this
     return (
-      <div>
-        <h1>Contact Us</h1>
-        <Form onSubmit={() => this.handleFormSubmit()} noValidate>
-         <p>
-          <Input
-            placeholder='Your Email'
-            type='email'
-            value={p.emailInputValue}
-            onTextChange={(value) => this.handleEmailInputChange(value)}
-          />
-         </p>
-         <p>
-           <textarea
-             placeholder='Your Message'
-             value={p.messageInputValue}
-             onChange={({target: {value}}) => this.handleMessageInputChange(value)}
-           />
-         </p>
-         <p>
-          <input
-            disabled={!isValidEmail(p.emailInputValue) || !hasSentence(p.messageInputValue)}
-            type='submit'
-            value='Submit'
-          />
-         </p>
-        </Form>
+      <div className={css(styles.pageContactForm)}>
+        <div className={css(styles.formContainer)}>
+          <h1 className={css(common.titleTypography, styles.formTitle)}>Contact us</h1>
+          <Form onSubmit={() => this.handleFormSubmit()} noValidate>
+            <label className={css(common.textTypography, styles.contactForm)}>Email:</label>
+            <Input
+              className={css(common.textTypography, styles.formInput)}
+              type='email'
+              value={p.emailInputValue}
+              onTextChange={(value) => this.handleEmailInputChange(value)}
+            />
+            <p>
+              <label className={css(common.textTypography, styles.contactForm)}>Message:</label>
+              <textarea
+                className={css(common.textTypography, styles.formInput, styles.textArea)}
+                value={p.messageInputValue}
+                onChange={({target: {value}}) => this.handleMessageInputChange(value)}
+              />
+            </p>
+            <div className={css(styles.submitButtonContainer)}>
+              <input
+                className={css(common.textTypography, common.palette, styles.submitButton)}
+                disabled={!isValidEmail(p.emailInputValue) || !hasSentence(p.messageInputValue)}
+                type='submit'
+                value='Send'
+              />
+            </div>
+          </Form>
+        </div>
       </div>
     )
   }
