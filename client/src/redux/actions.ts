@@ -38,6 +38,7 @@ export const actions = {
   setLastSearchTerm: (payload: string) => ({type: 'setLastSearchTerm', payload}),
   setCreateProfileUrlInputValue: (payload: string) => ({type: 'setCreateProfileUrlInputValue', payload}),
   setEmailInputValue: (payload: string) => ({type: 'setEmailInputValue', payload}),
+  setNameInputValue: (payload: string) => ({type: 'setNameInputValue', payload}),
   setMessageInputValue: (payload: string) => ({type: 'setMessageInputValue', payload}),
   setNotablePerson: (payload: INotablePersonSchema | undefined) => ({type: 'setNotablePerson', payload}),
   setUserData: (payload: IUserSchema | undefined) => ({type: 'setUserData', payload}),

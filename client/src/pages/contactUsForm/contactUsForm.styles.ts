@@ -23,7 +23,7 @@ export const styles = StyleSheet.create({
   },
   contactForm: {
     display: 'inline-block',
-    margin: '1.5rem 0rem .4rem',
+    margin: '1.3rem 0 .4rem',
   },
   textArea: {
     minHeight: '10rem',
@@ -69,7 +69,7 @@ export const styles = StyleSheet.create({
       opacity: 0.9,
     },
     ':disabled': {
-      opacity: '0.55',
+      opacity: '0.70',
     },
   },
 })

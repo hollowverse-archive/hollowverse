@@ -8,11 +8,12 @@ import {Form} from '../../components/form'
 import {Input} from '../../components/input'
 import {actions} from '../../redux/actions'
 import {State} from '../../redux/reducers'
-import {hasSentence, isValidEmail, pick} from '../../utils/utils'
+import {hasName, hasSentence, isValidEmail, pick} from '../../utils/utils'
 import {styles} from './contactUsForm.styles'
 
 interface IProps {
   emailInputValue: string,
+  nameInputValue: string,
   messageInputValue: string,
 }
 
@@ -20,6 +21,7 @@ function mapStateToProps(state: State): IProps {
   return {
     ...pick(state, [
       'emailInputValue',
+      'nameInputValue',
       'messageInputValue',
     ]),
   }
@@ -27,6 +29,7 @@ function mapStateToProps(state: State): IProps {
 
 const actionCreators = pick(actions, [
   'setEmailInputValue',
+  'setNameInputValue',
   'setMessageInputValue',
   'requestSubmitFormValues',
 ])
@@ -49,18 +52,23 @@ class ContactUsFormClass extends React.Component<ComponentProps, undefined> {
               value={p.emailInputValue}
               onTextChange={(value) => this.handleEmailInputChange(value)}
             />
-            <p>
-              <label className={css(common.textTypography, styles.contactForm)}>Message:</label>
-              <textarea
-                className={css(common.textTypography, styles.formInput, styles.textArea)}
-                value={p.messageInputValue}
-                onChange={({target: {value}}) => this.handleMessageInputChange(value)}
-              />
-            </p>
+            <label className={css(common.textTypography, styles.contactForm)}>Name:</label>
+            <Input
+              className={css(common.textTypography, styles.formInput)}
+              type='text'
+              value={p.nameInputValue}
+              onTextChange={(value) => this.handleNameInputChange(value)}
+            />
+            <label className={css(common.textTypography, styles.contactForm)}>Message:</label>
+            <textarea
+              className={css(common.textTypography, styles.formInput, styles.textArea)}
+              value={p.messageInputValue}
+              onChange={({target: {value}}) => this.handleMessageInputChange(value)}
+            />
             <div className={css(styles.submitButtonContainer)}>
               <input
                 className={css(common.textTypography, common.palette, styles.submitButton)}
-                disabled={!isValidEmail(p.emailInputValue) || !hasSentence(p.messageInputValue)}
+                disabled={!isValidEmail(p.emailInputValue) || !hasName(p.nameInputValue) || !hasSentence(p.messageInputValue)}
                 type='submit'
                 value='Send'
               />
@@ -76,6 +84,11 @@ class ContactUsFormClass extends React.Component<ComponentProps, undefined> {
     p.setEmailInputValue(emailText)
   }
 
+  handleNameInputChange(nameText: string) {
+    const {props: p} = this
+    p.setNameInputValue(nameText)
+  }
+
   handleMessageInputChange(messageText: string) {
     const {props: p} = this
     p.setMessageInputValue(messageText)
@@ -83,8 +96,13 @@ class ContactUsFormClass extends React.Component<ComponentProps, undefined> {
 
   handleFormSubmit() {
     const {props: p} = this
-    this.submitValuesAction({email: p.emailInputValue, message: p.messageInputValue})
+    this.submitValuesAction({
+      email: p.emailInputValue,
+      name: p.nameInputValue,
+      message: p.messageInputValue,
+    })
     p.setEmailInputValue('')
+    p.setNameInputValue('')
     p.setMessageInputValue('')
   }
 

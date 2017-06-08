@@ -29,6 +29,12 @@ export function hasSentence(message: string): boolean {
   }
 }
 
+export function hasName(name: string): boolean {
+  const nameCharacter = name.charAt(0)
+  const namePattern = /[^-_$!"\()[\]{}?+=%^&*:@~#';/,.<>\\|`\s]/g
+  return namePattern.test(nameCharacter)
+}
+
 export function sortByDescending<T>(object: {[index: number]: T, length: number}, iteratee: string): T[] {
   return _sortBy(object, iteratee).reverse()
 }

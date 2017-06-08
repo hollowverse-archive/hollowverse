@@ -12,5 +12,6 @@ export type HvError = IHvError | undefined
 
 export interface IContactFormData {
   email: string,
+  name: string,
   message: string,
 }
