@@ -1,7 +1,6 @@
 # Hollowverse
 
 [![Build Status](https://travis-ci.org/hollowverse/hollowverse.svg?branch=master)](https://travis-ci.org/hollowverse/hollowverse)
-[![Greenkeeper badge](https://badges.greenkeeper.io/hollowverse/hollowverse.svg)](https://greenkeeper.io/)
 [![Discord Badge](https://img.shields.io/discord/308394001789353985.svg)](https://discordapp.com/invite/KmnPYnu)
 
 Politics, religions, and ideas.
