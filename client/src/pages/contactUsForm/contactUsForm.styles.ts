@@ -52,6 +52,14 @@ export const styles = StyleSheet.create({
       outline: 0,
     },
   },
+  validInput: {
+    border: '1.3px solid #67B26F',
+    outline: 0,
+  },
+  invalidInput: {
+    border: '1.3px solid #FF0000',
+    outline: 0,
+  },
   submitButton: {
     alignItems: 'center',
     border: 'none',

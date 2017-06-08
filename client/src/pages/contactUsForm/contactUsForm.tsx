@@ -12,6 +12,9 @@ import {hasName, hasSentence, isValidEmail, pick} from '../../utils/utils'
 import {styles} from './contactUsForm.styles'
 
 interface IProps {
+  emailHasBlur: boolean,
+  nameHasBlur: boolean,
+  messageHasBlur: boolean,
   emailInputValue: string,
   nameInputValue: string,
   messageInputValue: string,
@@ -20,6 +23,9 @@ interface IProps {
 function mapStateToProps(state: State): IProps {
   return {
     ...pick(state, [
+      'emailHasBlur',
+      'nameHasBlur',
+      'messageHasBlur',
       'emailInputValue',
       'nameInputValue',
       'messageInputValue',
@@ -28,6 +34,9 @@ function mapStateToProps(state: State): IProps {
 }
 
 const actionCreators = pick(actions, [
+  'setEmailHasBlur',
+  'setNameHasBlur',
+  'setMessageHasBlur',
   'setEmailInputValue',
   'setNameInputValue',
   'setMessageInputValue',
@@ -40,6 +49,10 @@ type ComponentProps = ActionCreators & IProps & RouteComponentProps<any>
 class ContactUsFormClass extends React.Component<ComponentProps, undefined> {
   render() {
     const {props: p} = this
+    const emailInputValid = this.emailInputValidation()
+    const nameInputValid = this.nameInputValidation()
+    const messageInputValid = this.messageInputValidation()
+
     return (
       <div className={css(styles.pageContactForm)}>
         <div className={css(styles.formContainer)}>
@@ -47,28 +60,35 @@ class ContactUsFormClass extends React.Component<ComponentProps, undefined> {
           <Form onSubmit={() => this.handleFormSubmit()} noValidate>
             <label className={css(common.textTypography, styles.contactForm)}>Email:</label>
             <Input
-              className={css(common.textTypography, styles.formInput)}
+              className={css(common.textTypography, styles.formInput, emailInputValid)}
               type='email'
               value={p.emailInputValue}
               onTextChange={(value) => this.handleEmailInputChange(value)}
+              onBlur={(event) => this.onEmailBlur(event)}
             />
             <label className={css(common.textTypography, styles.contactForm)}>Name:</label>
             <Input
-              className={css(common.textTypography, styles.formInput)}
+              className={css(common.textTypography, styles.formInput, nameInputValid)}
               type='text'
               value={p.nameInputValue}
               onTextChange={(value) => this.handleNameInputChange(value)}
+              onBlur={(event) => this.onNameBlur(event)}
             />
             <label className={css(common.textTypography, styles.contactForm)}>Message:</label>
             <textarea
-              className={css(common.textTypography, styles.formInput, styles.textArea)}
+              className={css(common.textTypography, styles.formInput, styles.textArea, messageInputValid)}
               value={p.messageInputValue}
               onChange={({target: {value}}) => this.handleMessageInputChange(value)}
+              onBlur={(event) => this.onMessageBlur(event)}
             />
             <div className={css(styles.submitButtonContainer)}>
               <input
                 className={css(common.textTypography, common.palette, styles.submitButton)}
-                disabled={!isValidEmail(p.emailInputValue) || !hasName(p.nameInputValue) || !hasSentence(p.messageInputValue)}
+                disabled={
+                  !isValidEmail(p.emailInputValue) ||
+                  !hasName(p.nameInputValue) ||
+                  !hasSentence(p.messageInputValue)
+                  }
                 type='submit'
                 value='Send'
               />
@@ -77,6 +97,48 @@ class ContactUsFormClass extends React.Component<ComponentProps, undefined> {
         </div>
       </div>
     )
+  }
+
+  onEmailBlur(event: any) {
+    const {props: p} = this
+    p.setEmailHasBlur(true)
+  }
+
+  onNameBlur(event: any) {
+    const {props: p} = this
+    p.setNameHasBlur(true)
+  }
+
+  onMessageBlur(event: any) {
+    const {props: p} = this
+    p.setMessageHasBlur(true)
+  }
+
+  emailInputValidation() {
+    const {props: p} = this
+    if (p.emailHasBlur === true) {
+      return !isValidEmail(p.emailInputValue) ? styles.invalidInput : styles.validInput
+    } else {
+      return null
+    }
+  }
+
+  nameInputValidation() {
+    const {props: p} = this
+    if (p.nameHasBlur === true) {
+      return !hasName(p.nameInputValue) ? styles.invalidInput : styles.validInput
+    } else {
+      return null
+    }
+  }
+
+  messageInputValidation() {
+    const {props: p} = this
+    if (p.messageHasBlur === true) {
+      return !hasSentence(p.messageInputValue) ? styles.invalidInput : styles.validInput
+    } else {
+      return null
+    }
   }
 
   handleEmailInputChange(emailText: string) {
@@ -104,6 +166,9 @@ class ContactUsFormClass extends React.Component<ComponentProps, undefined> {
     p.setEmailInputValue('')
     p.setNameInputValue('')
     p.setMessageInputValue('')
+    p.setEmailHasBlur(false)
+    p.setNameHasBlur(false)
+    p.setMessageHasBlur(false)
   }
 
   submitValuesAction(formValues: IContactFormData) {
