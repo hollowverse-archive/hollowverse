@@ -5,6 +5,7 @@ import {RouteComponentProps} from 'react-router-dom'
 import {IContactFormData} from '../../../../typings/typeDefinitions'
 import {common} from '../../common.styles'
 import {Form} from '../../components/form'
+import {GlobalSpinner} from '../../components/globalSpinner'
 import {Input} from '../../components/input'
 import {actions} from '../../redux/actions'
 import {State} from '../../redux/reducers'
@@ -18,6 +19,7 @@ interface IProps {
   emailInputValue: string,
   nameInputValue: string,
   messageInputValue: string,
+  isSubmitPending: boolean,
 }
 
 function mapStateToProps(state: State): IProps {
@@ -29,6 +31,7 @@ function mapStateToProps(state: State): IProps {
       'emailInputValue',
       'nameInputValue',
       'messageInputValue',
+      'isSubmitPending',
     ]),
   }
 }
@@ -40,6 +43,7 @@ const actionCreators = pick(actions, [
   'setEmailInputValue',
   'setNameInputValue',
   'setMessageInputValue',
+  'setIsSubmitPending',
   'requestSubmitFormValues',
 ])
 
@@ -55,6 +59,7 @@ class ContactUsFormClass extends React.Component<ComponentProps, undefined> {
 
     return (
       <div className={css(styles.pageContactForm)}>
+        <GlobalSpinner />
         <div className={css(styles.formContainer)}>
           <h1 className={css(common.titleTypography, styles.formTitle)}>Contact us</h1>
           <Form onSubmit={() => this.handleFormSubmit()} noValidate>
@@ -163,6 +168,9 @@ class ContactUsFormClass extends React.Component<ComponentProps, undefined> {
       name: p.nameInputValue,
       message: p.messageInputValue,
     })
+    this.timeoutPlaceholder()
+
+    p.setIsSubmitPending(true)
     p.setEmailInputValue('')
     p.setNameInputValue('')
     p.setMessageInputValue('')
@@ -174,6 +182,13 @@ class ContactUsFormClass extends React.Component<ComponentProps, undefined> {
   submitValuesAction(formValues: IContactFormData) {
     const {props: p} = this
     p.requestSubmitFormValues(formValues)
+  }
+
+  timeoutPlaceholder() {
+    const {props: p} = this
+    setTimeout(() => {
+      p.setIsSubmitPending(false)
+    }, 800)
   }
 }
 

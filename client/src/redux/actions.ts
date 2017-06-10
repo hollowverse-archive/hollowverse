@@ -43,6 +43,7 @@ export const actions = {
   setEmailInputValue: (payload: string) => ({type: 'setEmailInputValue', payload}),
   setNameInputValue: (payload: string) => ({type: 'setNameInputValue', payload}),
   setMessageInputValue: (payload: string) => ({type: 'setMessageInputValue', payload}),
+  setIsSubmitPending: (payload: boolean) => ({type: 'setIsSubmitPending', payload}),
   setNotablePerson: (payload: INotablePersonSchema | undefined) => ({type: 'setNotablePerson', payload}),
   setUserData: (payload: IUserSchema | undefined) => ({type: 'setUserData', payload}),
   toggleWarning: (payload: boolean) => ({type: 'toggleWarning', payload}),
