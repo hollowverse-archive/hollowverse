@@ -1,7 +1,7 @@
 import {css} from 'aphrodite/no-important'
 import * as React from 'react'
 import {connect} from 'react-redux'
-import {NavLink, Route, RouteComponentProps, withRouter} from 'react-router-dom'
+import {RouteComponentProps, withRouter} from 'react-router-dom'
 import {common} from '../common.styles'
 import {actions} from '../redux/actions'
 import {State} from '../redux/reducers'
@@ -34,7 +34,7 @@ class HeaderClass extends React.Component<ComponentProps, undefined> {
           {/*<i className={`fa fa-bars fa-2x ${css(styles.navBarIcon)}`}/>*/}
             <a
               className={css(common.titleTypography, styles.textLogo)}
-              onClick={() => this.props.history.replace('/')}
+              onClick={() => this.props.history.push('/')}
             >
               HOLLOWVERSE
             </a>
