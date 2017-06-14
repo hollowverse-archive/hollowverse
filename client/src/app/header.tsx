@@ -1,7 +1,8 @@
 import {css} from 'aphrodite/no-important'
+import {push} from 'connected-react-router'
 import * as React from 'react'
 import {connect} from 'react-redux'
-import {RouteComponentProps, withRouter} from 'react-router-dom'
+import {RouteComponentProps} from 'react-router-dom'
 import {common} from '../common.styles'
 import {actions} from '../redux/actions'
 import {State} from '../redux/reducers'
@@ -32,12 +33,12 @@ class HeaderClass extends React.Component<ComponentProps, undefined> {
     return (
         <div className={css(common.palette, styles.navBar)}>
           {/*<i className={`fa fa-bars fa-2x ${css(styles.navBarIcon)}`}/>*/}
-            <a
+            <button
               className={css(common.titleTypography, styles.textLogo)}
-              onClick={() => this.props.history.push('/')}
+              onClick={() => push('/')}
             >
               HOLLOWVERSE
-            </a>
+            </button>
           {/*<i className={`${icon} ${css(styles.navBarIcon)}`} onClick={action}/>*/}
         </div>
     )
@@ -60,4 +61,4 @@ class HeaderClass extends React.Component<ComponentProps, undefined> {
   }
 }
 
-export const Header = connect(mapStateToProps, actionCreators)(withRouter(HeaderClass))
+export const Header = connect(mapStateToProps, actionCreators)(HeaderClass)

@@ -2,7 +2,7 @@ import {css} from 'aphrodite/no-important'
 import * as React from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
-import {BrowserRouter as Router, Route, RouteComponentProps, Switch} from 'react-router-dom'
+import {Route, RouteComponentProps, Switch, withRouter} from 'react-router-dom'
 import {ConnectedRouter} from 'react-router-redux'
 import {GlobalSpinner} from '../components/globalSpinner'
 import {Warning} from '../components/warning'
@@ -33,7 +33,7 @@ const actionCreators = pick(actions, [
 
 type ActionCreators = typeof actionCreators
 
-class AppClass extends React.Component<ActionCreators & IProps, undefined> {
+class AppClass extends React.Component<ActionCreators & IProps & RouteComponentProps<any>, undefined> {
   componentDidMount() {
     // this.props.requestUpdateLoginStatus() // Not needed for V1.
     this.props.toggleWarning(true)
@@ -44,8 +44,8 @@ class AppClass extends React.Component<ActionCreators & IProps, undefined> {
     return (
       <div className={css(styles.mainApp)}>
         <GlobalSpinner/>
-        <Header/>
         <Warning/>
+        <Header/>
         <div className={css(styles.pageContent)}>
           <Switch>
             <Route exact path='/' component={Homepage}/>
@@ -57,4 +57,4 @@ class AppClass extends React.Component<ActionCreators & IProps, undefined> {
   }
 }
 
-export const App = connect(mapStateToProps, actionCreators)(AppClass)
+export const App = connect(mapStateToProps, actionCreators)(withRouter(AppClass))

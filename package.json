@@ -59,6 +59,7 @@
     "circular-dependency-plugin": "^3.0.0",
     "classnames": "^2.2.3",
     "commonpkg": "^2.0.0",
+    "connected-react-router": "^4.2.1",
     "css-loader": "^0.28.4",
     "express": "^4.15.2",
     "extract-text-webpack-plugin": "^2.1.0",
