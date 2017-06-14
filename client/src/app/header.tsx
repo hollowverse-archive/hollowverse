@@ -58,7 +58,6 @@ class HeaderClass extends React.Component<ComponentProps, undefined> {
       }
     }
   }
-
 }
 
 export const Header = connect(mapStateToProps, actionCreators)(withRouter(HeaderClass))
