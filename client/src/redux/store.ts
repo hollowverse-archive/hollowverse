@@ -1,5 +1,5 @@
-import createBrowserHistory from 'history/createBrowserHistory'
-import {routerMiddleware} from 'react-router-redux'
+import {connectRouter, routerMiddleware} from 'connected-react-router'
+import {createBrowserHistory} from 'history'
 import {applyMiddleware, compose, createStore} from 'redux'
 import createSagaMiddleware from 'redux-saga'
 import {reducer} from './reducers'
@@ -14,7 +14,7 @@ const sagaMiddleware = createSagaMiddleware()
 delete window.__PRELOADED_STATE__
 
 export const store = createStore(
-  reducer,
+  connectRouter(history)(reducer),
   preloadedState,
   composeEnhancers(applyMiddleware(
     routerMiddleware(history),
