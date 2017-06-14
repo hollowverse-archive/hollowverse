@@ -26,9 +26,9 @@ declare namespace facebookSdk {
       subscribe(eventToSubscribeTo: 'auth.statusChange',
                 callback: (response: IAuthResponse) => any): void,
     },
-    getLoginStatus(callback: (response: IAuthResponse) => any, cache?: boolean): void
-    login(callback: (response: IAuthResponse) => void): void
-    logout(callback: (response: IAuthResponse) => void): void
+    getLoginStatus(callback?: (response: IAuthResponse) => any, cache?: boolean): void
+    login(callback?: (response: IAuthResponse) => void): void
+    logout(callback?: (response: IAuthResponse) => void): void
     init(params: {appId: string, xfbml: boolean, status?: boolean, version: string, cookie: boolean}): void,
   }
 }

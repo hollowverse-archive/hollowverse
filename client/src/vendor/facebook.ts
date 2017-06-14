@@ -1,42 +1,43 @@
 import {errors} from '../constants/errors'
+import {promisify} from '../utils/utils'
 
-export function getLoginStatus() {
-  return new Promise<facebookSdk.IAuthResponse>((resolve) => {
-    FB.getLoginStatus((response) => {
-      resolve(response)
-    })
-  })
+FB.getLoginStatus = promisify(FB.getLoginStatus)
+FB.login = promisify(FB.login)
+FB.logout = promisify(FB.logout)
+
+export async function getLoginStatus(): Promise<void> {
+  try {
+    return await FB.getLoginStatus()
+  } catch (err) {
+    throw err
+  }
 }
 
-export function login() {
-  return new Promise<facebookSdk.IAuthResponse>((resolve, reject) => {
-    FB.login((response) => {
-      if (response.authResponse) {
-        resolve(response)
-      } else {
-        reject(errors.facebookLoginError)
-      }
-    })
-  })
+export async function login(): Promise<void> {
+  try {
+    return await FB.login()
+  } catch (err) {
+    throw err
+  }
 }
 
-export function logout() {
-  return new Promise<facebookSdk.IAuthResponse>((resolve) => {
-    FB.logout((response) => {
-      resolve(response)
-    })
-  })
+export async function logout(): Promise<void> {
+  try {
+    return await FB.logout()
+  } catch (err) {
+    throw err
+  }
 }
 
-export function initSdk() {
-  return new Promise<void>((resolve) => {
+export function initSdk(): void {
+  try {
     FB.init({
       appId: '1151099935001443',
       xfbml: true,
       version: 'v2.8',
       cookie: true,
     })
-
-    resolve()
-  })
+  } catch (err) {
+    throw err
+  }
 }

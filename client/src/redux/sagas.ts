@@ -69,8 +69,7 @@ function* requestLogout() {
 
 function* requestUpdateLoginStatus() {
   try {
-    yield facebook.initSdk()
-
+    const sdk = yield facebook.initSdk()
     const facebookAuthResponse = yield facebook.getLoginStatus()
 
     if (facebookAuthResponse.status === 'connected') {
