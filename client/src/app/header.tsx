@@ -1,7 +1,7 @@
 import {css} from 'aphrodite/no-important'
 import * as React from 'react'
 import {connect} from 'react-redux'
-import {Link, RouteComponentProps} from 'react-router-dom'
+import {NavLink, Route, RouteComponentProps, withRouter} from 'react-router-dom'
 import {common} from '../common.styles'
 import {actions} from '../redux/actions'
 import {State} from '../redux/reducers'
@@ -27,18 +27,17 @@ type ActionCreators = typeof actionCreators
 type ComponentProps = ActionCreators & IProps & RouteComponentProps<any>
 
 class HeaderClass extends React.Component<ComponentProps, undefined> {
-
   render() {
     const {icon, action} = this.renderLoginVariants()
     return (
         <div className={css(common.palette, styles.navBar)}>
           {/*<i className={`fa fa-bars fa-2x ${css(styles.navBarIcon)}`}/>*/}
-          <Link
-            className={css(common.titleTypography, styles.textLogo)}
-            to='/'
-          >
-            HOLLOWVERSE
-          </Link>
+            <a
+              className={css(common.titleTypography, styles.textLogo)}
+              onClick={() => this.props.history.replace('/')}
+            >
+              HOLLOWVERSE
+            </a>
           {/*<i className={`${icon} ${css(styles.navBarIcon)}`} onClick={action}/>*/}
         </div>
     )
@@ -62,4 +61,4 @@ class HeaderClass extends React.Component<ComponentProps, undefined> {
 
 }
 
-export const Header = connect(mapStateToProps, actionCreators)(HeaderClass)
+export const Header = connect(mapStateToProps, actionCreators)(withRouter(HeaderClass))

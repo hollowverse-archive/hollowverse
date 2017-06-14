@@ -34,9 +34,10 @@ type ActionCreators = typeof actionCreators
 
 class AppClass extends React.Component<ActionCreators & IProps, undefined> {
   componentDidMount() {
-    this.props.requestUpdateLoginStatus()
+    // this.props.requestUpdateLoginStatus() // Not needed for V1.
     this.props.toggleWarning(true)
   }
+
   render() {
     return (
       <div className={css(styles.mainApp)}>
