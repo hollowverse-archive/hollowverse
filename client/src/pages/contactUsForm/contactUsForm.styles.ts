@@ -80,4 +80,7 @@ export const styles = StyleSheet.create({
       opacity: '0.70',
     },
   },
+  hide: {
+    display: 'none',
+  },
 })

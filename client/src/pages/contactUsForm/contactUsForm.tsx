@@ -20,6 +20,7 @@ interface IProps {
   nameInputValue: string,
   messageInputValue: string,
   isSubmitPending: boolean,
+  submitSuccess: boolean,
 }
 
 function mapStateToProps(state: State): IProps {
@@ -32,6 +33,7 @@ function mapStateToProps(state: State): IProps {
       'nameInputValue',
       'messageInputValue',
       'isSubmitPending',
+      'submitSuccess',
     ]),
   }
 }
@@ -44,6 +46,7 @@ const actionCreators = pick(actions, [
   'setNameInputValue',
   'setMessageInputValue',
   'setIsSubmitPending',
+  'setSubmitSuccess',
   'requestSubmitFormValues',
 ])
 
@@ -56,11 +59,13 @@ class ContactUsFormClass extends React.Component<ComponentProps, undefined> {
     const emailInputValid = this.emailInputValidation()
     const nameInputValid = this.nameInputValidation()
     const messageInputValid = this.messageInputValidation()
+    const submitSuccessTrue = this.submitSuccessValidation()
 
     return (
       <div className={css(styles.pageContactForm)}>
         <GlobalSpinner />
-        <div className={css(styles.formContainer)}>
+        {p.submitSuccess ? <div>Your message was sent successfully. We'll get back with you soon!</div> : ''}
+        <div className={css(styles.formContainer, submitSuccessTrue)}>
           <h1 className={css(common.titleTypography, styles.formTitle)}>Contact us</h1>
           <Form onSubmit={() => this.handleFormSubmit()} noValidate>
             <label className={css(common.textTypography, styles.contactForm)}>Email:</label>
@@ -168,8 +173,8 @@ class ContactUsFormClass extends React.Component<ComponentProps, undefined> {
       name: p.nameInputValue,
       message: p.messageInputValue,
     })
-    this.timeoutPlaceholder()
-
+    this.onFormSubmit()
+    // this.timeoutPlaceholder()
     p.setIsSubmitPending(true)
     p.setEmailInputValue('')
     p.setNameInputValue('')
@@ -179,17 +184,37 @@ class ContactUsFormClass extends React.Component<ComponentProps, undefined> {
     p.setMessageHasBlur(false)
   }
 
+  onFormSubmit() {
+    fetch('https://jsonplaceholder.typicode.com/posts/1').then((response) => {
+      const {props: p} = this
+      if (response.ok) {
+        p.setIsSubmitPending(false)
+        p.setSubmitSuccess(true)
+      }
+    }).catch((error) => {
+      alert(error)
+    })
+  }
+
+  submitSuccessValidation() {
+    if (this.props.submitSuccess === true) {
+      return styles.hide
+    } else {
+      return null
+    }
+  }
+
   submitValuesAction(formValues: IContactFormData) {
     const {props: p} = this
     p.requestSubmitFormValues(formValues)
   }
 
-  timeoutPlaceholder() {
-    const {props: p} = this
-    setTimeout(() => {
-      p.setIsSubmitPending(false)
-    }, 800)
-  }
+  // timeoutPlaceholder() {
+  //   const {props: p} = this
+  //   setTimeout(() => {
+  //     p.setIsSubmitPending(false)
+  //   }, 800)
+  // }
 }
 
 export const ContactUsForm = connect<IProps, ActionCreators, RouteComponentProps<any>>(
