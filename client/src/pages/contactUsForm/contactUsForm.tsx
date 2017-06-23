@@ -173,9 +173,9 @@ class ContactUsFormClass extends React.Component<ComponentProps, undefined> {
       name: p.nameInputValue,
       message: p.messageInputValue,
     })
-    this.onFormSubmit()
+    // this.onFormSubmit()
     // this.timeoutPlaceholder()
-    p.setIsSubmitPending(true)
+    // p.setIsSubmitPending(true)
     p.setEmailInputValue('')
     p.setNameInputValue('')
     p.setMessageInputValue('')
@@ -184,17 +184,17 @@ class ContactUsFormClass extends React.Component<ComponentProps, undefined> {
     p.setMessageHasBlur(false)
   }
 
-  onFormSubmit() {
-    fetch('https://jsonplaceholder.typicode.com/posts/1').then((response) => {
-      const {props: p} = this
-      if (response.ok) {
-        p.setIsSubmitPending(false)
-        p.setSubmitSuccess(true)
-      }
-    }).catch((error) => {
-      alert(error)
-    })
-  }
+  // onFormSubmit() {
+  //   fetch('https://jsonplaceholder.typicode.com/posts/1').then((response) => {
+  //     const {props: p} = this
+  //     if (response.ok) {
+  //       p.setIsSubmitPending(false)
+  //       p.setSubmitSuccess(true)
+  //     }
+  //   }).catch((error) => {
+  //     alert(error)
+  //   })
+  // }
 
   submitSuccessValidation() {
     if (this.props.submitSuccess === true) {

@@ -18,6 +18,7 @@ function* sagas() {
   yield takeEvery('requestUpdateLoginStatus', requestUpdateLoginStatus)
   yield takeEvery('requestNotablePerson', requestNotablePerson)
   yield takeEvery('requestUserData', requestUserData)
+  yield takeEvery('requestSubmitFormValues', requestSubmitFormValues)
 }
 
 function* requestSearchResults(action: IAction<string>) {
@@ -100,6 +101,17 @@ function* requestUserData(action: IAction<string>) {
     yield put(actions.setUserData(firebaseResponse))
   } catch (error) {
     throw error
+  }
+}
+
+function* requestSubmitFormValues() {
+  try {
+    yield put(actions.setSubmitSuccess(true))
+    yield put(actions.setIsSubmitPending(true))
+  } catch (error) {
+    throw error
+  } finally {
+    yield put(actions.setIsSubmitPending(false))
   }
 }
 
