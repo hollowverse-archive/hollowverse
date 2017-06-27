@@ -15,6 +15,7 @@ import {IAlgoliaSearchResults} from '../vendor/algolia'
 
 // Custom type definition of a Redux Action
 export interface IAction<PayloadType> { type: string, payload: PayloadType}
+export interface IForm<IContactFormData> { type: object, payload: IContactFormData}
 
 // The following are all the actions that can be triggered from within the Hollowverse application
 export const actions = {
