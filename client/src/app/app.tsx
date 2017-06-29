@@ -6,7 +6,7 @@ import {GlobalSpinner} from '../components/globalSpinner'
 import {Warning} from '../components/warning'
 import {actions} from '../redux/actions'
 import {State} from '../redux/reducers'
-import {pick} from '../utils/utils'
+import pick from 'lodash/pick'
 import {styles} from './app.styles'
 import {Header} from './header'
 

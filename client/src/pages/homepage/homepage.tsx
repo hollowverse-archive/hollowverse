@@ -7,7 +7,7 @@ import {Form} from '../../components/form'
 import {actions} from '../../redux/actions'
 import {State} from '../../redux/reducers'
 import * as selectors from '../../redux/selectors'
-import {pick} from '../../utils/utils'
+import pick from 'lodash/pick'
 import {IAlgoliaSearchResults} from '../../vendor/algolia'
 import {styles} from './homepage.styles'
 

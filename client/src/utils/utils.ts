@@ -1,5 +1,5 @@
 import * as cn from 'classnames'
-import {pick as _pick, sortBy as _sortBy} from 'lodash'
+import sortBy from 'lodash/sortBy'
 
 export function stringEnum<T extends string>(o: T[]): {[K in T]: K} {
   return o.reduce((res, key) => {
@@ -9,12 +9,8 @@ export function stringEnum<T extends string>(o: T[]): {[K in T]: K} {
   }, Object.create(null))
 }
 
-export function pick<T, K extends keyof T>(object: T, predicate: K[]): {[NAME in K]: T[NAME]} {
-  return _pick(object, predicate) as any
-}
-
 export function sortByDescending<T>(object: {[index: number]: T, length: number}, iteratee: string): T[] {
-  return _sortBy(object, iteratee).reverse()
+  return sortBy(object, iteratee).reverse()
 }
 
 export {cn}

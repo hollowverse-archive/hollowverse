@@ -5,7 +5,7 @@ import {Link} from 'react-router-dom'
 import {common} from '../common.styles'
 import {actions} from '../redux/actions'
 import {State} from '../redux/reducers'
-import {pick} from '../utils/utils'
+import pick from 'lodash/pick'
 import {styles} from './header.styles'
 
 interface IProps {

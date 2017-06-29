@@ -2,7 +2,7 @@ import * as React from 'react'
 import {connect} from 'react-redux'
 import {State} from '../../redux/reducers'
 import * as selectors from '../../redux/selectors'
-import {pick} from '../../utils/utils'
+import pick from 'lodash/pick'
 
 interface IProps {
   createProfileUrlInputValue: string

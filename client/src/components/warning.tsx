@@ -4,7 +4,7 @@ import {connect} from 'react-redux'
 import {common} from '../common.styles'
 import {actions} from '../redux/actions'
 import {State} from '../redux/reducers'
-import {pick} from '../utils/utils'
+import pick from 'lodash/pick'
 import {styles} from './warning.styles'
 
 interface IProps {
