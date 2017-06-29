@@ -69,8 +69,8 @@ export const styles = StyleSheet.create({
     display: 'flex',
     height: '2.2rem',
     justifyContent: 'center',
-    textDecoration: 'none',
     marginTop: '1.3rem',
+    textDecoration: 'none',
     width: '6rem',
     ':hover': {
       color: shadesOfWhite[5],
@@ -79,6 +79,9 @@ export const styles = StyleSheet.create({
     ':disabled': {
       opacity: '0.70',
     },
+  },
+  submitFail: {
+    color: 'red',
   },
   hide: {
     display: 'none',

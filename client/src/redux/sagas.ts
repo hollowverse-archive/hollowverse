@@ -113,6 +113,8 @@ function* requestSubmitFormValues(action: IForm<object>) {
     })
     if (response.ok) {
       yield put(actions.setSubmitSuccess(true))
+    } else {
+      yield put(actions.setSubmitFail(true))
     }
   } catch (error) {
     throw error

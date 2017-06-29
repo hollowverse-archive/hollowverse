@@ -21,6 +21,7 @@ interface IProps {
   messageInputValue: string,
   isSubmitPending: boolean,
   submitSuccess: boolean,
+  submitFail: boolean,
 }
 
 function mapStateToProps(state: State): IProps {
@@ -34,6 +35,7 @@ function mapStateToProps(state: State): IProps {
       'messageInputValue',
       'isSubmitPending',
       'submitSuccess',
+      'submitFail',
     ]),
   }
 }
@@ -47,6 +49,7 @@ const actionCreators = pick(actions, [
   'setMessageInputValue',
   'setIsSubmitPending',
   'setSubmitSuccess',
+  'setSubmitFail',
   'requestSubmitFormValues',
 ])
 
@@ -104,6 +107,7 @@ class ContactUsFormClass extends React.Component<ComponentProps, undefined> {
               />
             </div>
           </Form>
+          {p.submitFail ? <div className={css(styles.submitFail)}>Something went wrong, please try again!</div> : ''}
         </div>
       </div>
     )
@@ -174,16 +178,14 @@ class ContactUsFormClass extends React.Component<ComponentProps, undefined> {
       message: p.messageInputValue,
     })
 
-    p.setEmailInputValue('')
-    p.setNameInputValue('')
-    p.setMessageInputValue('')
     p.setEmailHasBlur(false)
     p.setNameHasBlur(false)
     p.setMessageHasBlur(false)
   }
 
   submitSuccessValidation() {
-    if (this.props.submitSuccess === true) {
+    const {props: p} = this
+    if (p.submitSuccess === true) {
       return styles.hide
     } else {
       return null

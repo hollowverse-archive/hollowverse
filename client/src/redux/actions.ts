@@ -46,6 +46,7 @@ export const actions = {
   setMessageInputValue: (payload: string) => ({type: 'setMessageInputValue', payload}),
   setIsSubmitPending: (payload: boolean) => ({type: 'setIsSubmitPending', payload}),
   setSubmitSuccess: (payload: boolean) => ({type: 'setSubmitSuccess', payload}),
+  setSubmitFail: (payload: boolean) => ({type: 'setSubmitFail', payload}),
   setNotablePerson: (payload: INotablePersonSchema | undefined) => ({type: 'setNotablePerson', payload}),
   setUserData: (payload: IUserSchema | undefined) => ({type: 'setUserData', payload}),
   toggleWarning: (payload: boolean) => ({type: 'toggleWarning', payload}),
