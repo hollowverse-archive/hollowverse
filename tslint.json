@@ -48,6 +48,7 @@
     "react-unused-props-and-state": false,
     "react-tsx-curly-spacing": false,
 
-    "no-any": false
+    "no-any": false,
+    "jsx-boolean-value": false
   }
 }
