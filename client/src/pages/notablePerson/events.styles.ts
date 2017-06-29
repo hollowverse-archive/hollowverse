@@ -1,7 +1,7 @@
-import {StyleSheet} from 'aphrodite/no-important'
-import {palette} from '../../common.styles'
+import { StyleSheet } from 'aphrodite/no-important';
+import { palette } from '../../common.styles';
 
-const {shadesOfBlack, shadesOfWhite} = palette
+const { shadesOfBlack, shadesOfWhite } = palette;
 
 export const styles = StyleSheet.create({
   eventsContainer: {
@@ -42,7 +42,6 @@ export const styles = StyleSheet.create({
     color: shadesOfBlack[1],
     fontSize: '1rem',
     fontWeight: 500,
-
   },
   userAvatar: {
     borderRadius: '20%',
@@ -50,4 +49,4 @@ export const styles = StyleSheet.create({
     marginRight: '0.2rem',
     verticalAlign: 'top',
   },
-})
+});

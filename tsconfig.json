@@ -1,7 +1,26 @@
 {
   "extends": "./node_modules/@hollowverse/common-config/tsconfig",
   "compilerOptions": {
-    "outDir": "public"
+    "strict": true,
+    "noEmitOnError": true,
+    "module": "esnext",
+    "target": "esnext",
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitThis": true,
+    "allowJs": false,
+    "checkJs": false,
+    "sourceMap": true,
+    "outDir": "lib",
+    "jsx": "preserve",
+    "plugins": [],
+    "baseUrl": ".",
+    "paths": {
+      "*": [
+        "*",
+        "src/*"
+      ]
+    }
   },
   "exclude": [
     "node_modules",

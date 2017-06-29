@@ -1,7 +1,7 @@
-import {StyleSheet} from 'aphrodite/no-important'
-import {palette} from '../common.styles'
+import { StyleSheet } from 'aphrodite/no-important';
+import { palette } from '../common.styles';
 
-const {shadesOfWhite} = palette
+const { shadesOfWhite } = palette;
 
 export const styles = StyleSheet.create({
   mainApp: {
@@ -12,4 +12,4 @@ export const styles = StyleSheet.create({
     flex: 1,
     height: '92.5vh',
   },
-})
+});

@@ -1,3 +1,3 @@
-import 'babel-polyfill'
-import './globalStyles.css'
-import './index'
+import 'babel-polyfill';
+import './globalStyles.css';
+import './index';

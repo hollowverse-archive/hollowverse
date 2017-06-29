@@ -1,6 +1,6 @@
-import * as CircularDependencyPlugin from 'circular-dependency-plugin'
-import * as ExtractTextPlugin from 'extract-text-webpack-plugin'
-import * as path from 'path'
+import * as CircularDependencyPlugin from 'circular-dependency-plugin';
+import * as ExtractTextPlugin from 'extract-text-webpack-plugin';
+import * as path from 'path';
 
 export default {
   entry: path.resolve(__dirname, 'src/webpackEntry.ts'),
@@ -18,26 +18,30 @@ export default {
       {
         test: /\.tsx?$/,
         include: path.resolve(__dirname, 'src'),
-        use: [{
-          loader: 'babel-loader',
-          options: {
-            presets: ['es2015'],
+        use: [
+          {
+            loader: 'babel-loader',
+            options: {
+              presets: ['es2015'],
+            },
           },
-        }, {
-          loader: 'ts-loader',
-        }],
+          {
+            loader: 'ts-loader',
+          },
+        ],
       },
 
       {
         test: /\.css$/,
         use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
-          use: [{
-            loader: 'css-loader',
-            options: {
-              minimize: true,
+          use: [
+            {
+              loader: 'css-loader',
+              options: {
+                minimize: true,
+              },
             },
-          },
           ],
         }),
       },
@@ -59,4 +63,4 @@ export default {
       failOnError: true,
     }),
   ],
-}
+};

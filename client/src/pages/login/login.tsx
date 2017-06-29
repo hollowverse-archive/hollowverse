@@ -1,11 +1,9 @@
-import * as React from 'react'
+import * as React from 'react';
 
 class CreateNewProfile extends React.Component<undefined, undefined> {
   render() {
-    return (
-      <div>Please login first</div>
-    )
+    return <div>Please login first</div>;
   }
 }
 
-export default CreateNewProfile
+export default CreateNewProfile;

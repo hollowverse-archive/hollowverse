@@ -17,12 +17,16 @@
   "license": "Unlicense",
   "homepage": "https://github.com/hollowverse/hollowverse#readme",
   "lint-staged": {
-    "*.{ts,tsx}": [
+    "**/*.{j,t}s{x,}": [
+      "prettier --write --single-quote --trailing-comma all",
       "yarn lint",
       "git add"
-    ]
+    ],
+    "**/**/*.{s,}css": "stylelint --syntax scss"
   },
-  "pre-commit": "lint-staged",
+  "pre-commit": [
+    "lint-staged"
+  ],
   "greenkeeper": {
     "ignore": []
   },
@@ -89,9 +93,12 @@
   "devDependencies": {
     "husky": "^0.13.3",
     "lint-staged": "^3.4.0",
+    "prettier": "^1.5.2",
     "ts-node": "^3.0.3",
     "tslint": "^5.4.2",
-    "tslint-config-standard": "^5.0.2",
+    "tslint-config-prettier": "^1.1.0",
+    "tslint-eslint-rules": "^4.1.1",
+    "tslint-microsoft-contrib": "^5.0.0",
     "tslint-react": "^3.0.0",
     "typescript": "^2.3.4"
   }

@@ -1,17 +1,17 @@
-import * as React from 'react'
-import * as ReactCSSTransitionGroup from 'react-addons-css-transition-group'
+import * as React from 'react';
+import * as ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 export class FadeInDown extends React.Component<{}, undefined> {
   render() {
     return (
       <ReactCSSTransitionGroup
-        transitionName='fadeInDown'
+        transitionName="fadeInDown"
         transitionEnterTimeout={100}
         transitionLeaveTimeout={100}
       >
         {this.props.children}
       </ReactCSSTransitionGroup>
-    )
+    );
   }
 }
 
@@ -19,21 +19,23 @@ export class FadeInUp extends React.Component<{}, undefined> {
   render() {
     return (
       <ReactCSSTransitionGroup
-        transitionName='fadeInUp'
+        transitionName="fadeInUp"
         transitionEnterTimeout={100}
         transitionLeaveTimeout={100}
       >
         {this.props.children}
       </ReactCSSTransitionGroup>
-    )
+    );
   }
 }
 
-interface IFadeInProps {timeout?: 100 | 200 | 300 | 400}
+interface IFadeInProps {
+  timeout?: 100 | 200 | 300 | 400;
+}
 export class FadeIn extends React.Component<IFadeInProps, undefined> {
   static defaultProps: IFadeInProps = {
     timeout: 100,
-  }
+  };
 
   render() {
     return (
@@ -44,6 +46,6 @@ export class FadeIn extends React.Component<IFadeInProps, undefined> {
       >
         {this.props.children}
       </ReactCSSTransitionGroup>
-    )
+    );
   }
 }
