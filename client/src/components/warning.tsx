@@ -2,8 +2,8 @@ import { css } from 'aphrodite/no-important';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { common } from '../common.styles';
-import { actions } from '../redux/actions';
-import { State } from '../redux/reducers';
+import { actions } from '../store/actions';
+import { State } from '../store/reducers';
 import pick from 'lodash/pick';
 import { styles } from './warning.styles';
 

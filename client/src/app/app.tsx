@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { GlobalSpinner } from '../components/globalSpinner';
 import { Warning } from '../components/warning';
-import { actions } from '../redux/actions';
-import { State } from '../redux/reducers';
+import { actions } from '../store/actions';
+import { State } from '../store/reducers';
 import pick from 'lodash/pick';
 import { styles } from './app.styles';
 import { Header } from './header';
@@ -33,6 +33,7 @@ class AppClass extends React.Component<ActionCreators & IProps, undefined> {
   }
   render() {
     const { props: p } = this;
+
     return (
       <div className={css(styles.mainApp)}>
         <GlobalSpinner />

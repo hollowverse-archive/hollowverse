@@ -9,8 +9,10 @@ import { AddNotablePerson } from './pages/addNotablePerson/addNotablePerson';
 import { Homepage } from './pages/homepage/homepage';
 import Login from './pages/login/login';
 import { NotablePerson } from './pages/notablePerson/notablePerson';
-import { history, store } from './redux/store';
+import { history, store } from './store/store';
 // import Search from "./page/search/search"
+
+import './globalStyles.css';
 
 ReactDOM.render(
   <Provider store={store}>
