@@ -24,9 +24,9 @@ function mapStateToProps(state: State): StateProps {
 
 type MergedProps = StateProps & DefaultDispatchProps;
 
-type Props = MergedProps & RouteComponentProps<{}>;
+type IProps = MergedProps & RouteComponentProps<{}>;
 
-class NotablePersonClass extends React.PureComponent<Props, {}> {
+class NotablePersonClass extends React.PureComponent<IProps, {}> {
   componentDidMount() {
     // TODO: We'll pass the route parameters to below function:
     requestNotablePerson('/notablePersons/np_48d700ee');
@@ -81,6 +81,6 @@ class NotablePersonClass extends React.PureComponent<Props, {}> {
   }
 }
 
-export const NotablePerson = connect<Props, StateProps>(mapStateToProps)(
+export const NotablePerson = connect<IProps, StateProps>(mapStateToProps)(
   NotablePersonClass,
 );
