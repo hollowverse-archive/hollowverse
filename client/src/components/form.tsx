@@ -4,9 +4,9 @@ interface IProps {
   onSubmit?: React.EventHandler<React.FormEvent<HTMLFormElement>>;
 }
 
-export class Form extends React.Component<
+export class Form extends React.PureComponent<
   IProps & React.HTMLAttributes<HTMLFormElement>,
-  any
+  {}
 > {
   render() {
     const { props: p } = this;
