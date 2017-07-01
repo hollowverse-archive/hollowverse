@@ -1,5 +1,9 @@
 {
   "compilerOptions": {
+    // It looks like TS >= 2.3 is having issues resolving type definitions
+    // bundled with npm packages unless this is set to "node" (although it
+    // is the default since 1.7)
+    "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
   
     "strict": true,
@@ -7,29 +11,17 @@
     "module": "esnext",
     "target": "esnext",
     "skipLibCheck": false,
+    "skipDefaultLibCheck": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noImplicitThis": true,
     "allowJs": true,
     "checkJs": false,
     "sourceMap": true,
-    "outDir": "lib",
-    "jsx": "preserve",
-    "plugins": [],
-    "baseUrl": ".",
 
-    // Allow absolute imports from 'src' dir,
-    // e.g. `import 'file';` instead of `'../../file';`
-    // This also has to be set in `webpack.config.json`, check `resolve.modules`
-    "paths": {
-      "*": [
-        "*",
-        "src/*"
-      ]
-    }
-  },
-  "exclude": [
-    "node_modules",
-    "functions/node_modules"
-  ]
+    // Do not transpile JSX with TypeScript, we will do that with Babel.
+    // This allows us to use babel-preset-react-optimize to perform optimizations
+    // on JSX. Otherwise Babel won't see any JSX and no optimizations will be applied.
+    "jsx": "react",
+    "plugins": []
+  }
 }
