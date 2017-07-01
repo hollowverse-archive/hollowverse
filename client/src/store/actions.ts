@@ -12,13 +12,16 @@ import { HvError } from '../../../typings/typeDefinitions';
 import { stringEnum } from '../utils/utils';
 import { IAlgoliaSearchResults } from '../vendor/algolia';
 
-// Custom type definition of a Redux Action
+/** Custom type definition of a Redux Action */
 export interface IAction<PayloadType> {
   type: string;
   payload: PayloadType;
 }
 
-// The following are all the actions that can be triggered from within the Hollowverse application
+/**
+ * The following are all the actions that can be triggered
+ * from within the Hollowverse application
+ */
 export const actions = {
   navigateToSearch: (payload: string) => {
     return push({
