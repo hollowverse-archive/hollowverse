@@ -9,7 +9,7 @@ interface IProps {
   data: IEventSchema[];
 }
 
-class EventsClass extends React.Component<IProps, undefined> {
+class EventsClass extends React.PureComponent<IProps, {}> {
   render() {
     return (
       <div className={css(styles.eventsContainer)}>

@@ -6,17 +6,21 @@ import * as selectors from '../store/selectors';
 import { FadeIn } from './animations';
 import { styles } from './globalSpinner.styles';
 
-interface IProps {
+import { DefaultDispatchProps } from '../store/types';
+
+interface StateProps {
   showGlobalSpinner: boolean;
 }
 
-function mapStateToProps(state: State): IProps {
+function mapStateToProps(state: State): StateProps {
   return {
     showGlobalSpinner: selectors.showGlobalSpinner(state),
   };
 }
 
-class GlobalSpinnerClass extends React.Component<IProps, undefined> {
+type IProps = StateProps & DefaultDispatchProps;
+
+class GlobalSpinnerClass extends React.PureComponent<IProps, {}> {
   container: HTMLDivElement;
 
   render() {

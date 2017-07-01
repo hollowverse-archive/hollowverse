@@ -4,33 +4,32 @@ import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
 import { INotablePersonSchema } from '../../../../typings/dataSchema';
 import { common } from '../../common.styles';
-import { actions } from '../../redux/actions';
-import { State } from '../../redux/reducers';
-import * as selectors from '../../redux/selectors';
-import pick from 'lodash/pick';
+import { requestNotablePerson } from '../../store/features/notablePerson/actions';
+import { State } from '../../store/reducers';
 import { Events } from './events';
 import { styles } from './notablePerson.styles';
 import { ShadowComponent } from './shadowComponent';
 
-interface IProps {
+import { DefaultDispatchProps } from '../../store/types';
+
+interface StateProps {
   notablePerson: INotablePersonSchema | undefined;
 }
 
-function mapStateToProps(state: State): IProps {
+function mapStateToProps(state: State): StateProps {
   return {
     notablePerson: state.notablePerson,
   };
 }
 
-const actionCreators = pick(actions, ['requestNotablePerson']);
+type MergedProps = StateProps & DefaultDispatchProps;
 
-type ActionCreators = typeof actionCreators;
-type ComponentProps = ActionCreators & IProps & RouteComponentProps<any>;
+type Props = MergedProps & RouteComponentProps<{}>;
 
-class NotablePersonClass extends React.Component<ComponentProps, undefined> {
+class NotablePersonClass extends React.PureComponent<Props, {}> {
   componentDidMount() {
-    const { props: p } = this; // TODO: We'll pass the route parameters to below function:
-    p.requestNotablePerson('/notablePersons/np_48d700ee');
+    // TODO: We'll pass the route parameters to below function:
+    requestNotablePerson('/notablePersons/np_48d700ee');
   }
 
   render() {
@@ -82,8 +81,6 @@ class NotablePersonClass extends React.Component<ComponentProps, undefined> {
   }
 }
 
-export const NotablePerson = connect<
-  IProps,
-  ActionCreators,
-  RouteComponentProps<any>
->(mapStateToProps, actionCreators)(NotablePersonClass);
+export const NotablePerson = connect<Props, StateProps>(mapStateToProps)(
+  NotablePersonClass,
+);

@@ -31,7 +31,7 @@
 //
 // type ActionCreators = typeof actionCreators
 //
-// class Search extends React.Component<IProps & ActionCreators, undefined> {
+// class Search extends React.PureComponent<IProps & ActionCreators, {}> {
 //   componentDidMount() {
 //     this.props.getSearchResults(this.props.searchTerm)
 //   }

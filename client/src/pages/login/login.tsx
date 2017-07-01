@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-class CreateNewProfile extends React.Component<undefined, undefined> {
+class CreateNewProfile extends React.PureComponent<undefined, {}> {
   render() {
     return <div>Please login first</div>;
   }

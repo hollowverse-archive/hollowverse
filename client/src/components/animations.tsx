@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
-export class FadeInDown extends React.Component<{}, undefined> {
+export class FadeInDown extends React.PureComponent<{}, {}> {
   render() {
     return (
       <ReactCSSTransitionGroup
@@ -15,7 +15,7 @@ export class FadeInDown extends React.Component<{}, undefined> {
   }
 }
 
-export class FadeInUp extends React.Component<{}, undefined> {
+export class FadeInUp extends React.PureComponent<{}, {}> {
   render() {
     return (
       <ReactCSSTransitionGroup
@@ -32,7 +32,7 @@ export class FadeInUp extends React.Component<{}, undefined> {
 interface IFadeInProps {
   timeout?: 100 | 200 | 300 | 400;
 }
-export class FadeIn extends React.Component<IFadeInProps, undefined> {
+export class FadeIn extends React.PureComponent<IFadeInProps, {}> {
   static defaultProps: IFadeInProps = {
     timeout: 100,
   };
