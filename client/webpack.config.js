@@ -237,7 +237,7 @@ const config = {
       ifReact(ifHot('react-hot-loader/patch')),
       ifPreact(ifDev('preact/devtools')),
       ifHot('webpack-hot-middleware/client'),
-      path.resolve(__dirname, 'src/index.tsx'),
+      path.resolve(__dirname, 'src/webpackEntry.ts'),
     ]),
   },
 
@@ -422,7 +422,7 @@ const config = {
       // Allow absolute imports from 'src' dir,
       // e.g. `import 'file';` instead of `'../../file';`
       // This also has to be set in `tsconfig.json`, check `compilerOptions.paths`
-      path.join(__dirname, 'src'),
+      // path.join(__dirname, 'src'),
 
       // Fallback to node_modules dir
       'node_modules',
