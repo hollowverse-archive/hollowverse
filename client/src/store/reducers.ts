@@ -10,7 +10,6 @@
 import { routerReducer, RouterState } from 'react-router-redux';
 import { Reducer } from 'redux';
 import { ActionTypes, IAction } from './actions';
-import LoginStatus = facebookSdk.LoginStatus;
 import { INotablePersonSchema, IUserSchema } from '../../../typings/dataSchema';
 import { HvError } from '../../../typings/typeDefinitions';
 import { IAlgoliaSearchResults } from '../vendor/algolia';
@@ -66,6 +65,52 @@ const initialState: State = {
   ...initialAppState,
   routing: undefined,
 };
+
+//
+// PRIVATE FUNCTIONS
+//
+//
+
+// For each Redux action, there would be at least one corresponding state key to be patched.
+//
+// For example, say you dispatch an action `setLoginStatus('connected')`, you
+// would have to have a reducer that will patch the state key `loginStatus` with the value `'connected'`.
+//
+// What this function does is: for any payload that simply needs to be inserted into the state without any logic
+// it will return a function that inserts that payload into the state and returns the new state.
+//
+// You can see how it's being used with the `singleActionReducers` object.
+//
+// We can do away with this function, but then we'll have a bunch of boilerplate for each key we patch.
+function createSingleActionSimpleReducer<PayloadType>(
+  stateKeyToPatch: keyof IAppState,
+) {
+  return (state: AppState, action: IAction<PayloadType>): AppState => {
+    return { ...state, [stateKeyToPatch]: action.payload };
+  };
+}
+
+// If you need to reduce a state property by using logic, you can use `createSingleActionReducer` below.
+// It accepts one argument, a `patchingFunction`.
+//
+// For example:
+//
+// someActionType: createSingleActionReducer<boolean>(function(action, state) {
+//   return {setIsLoginPending: !state.isLoginPending}
+// })
+// function createSingleActionReducer<PayloadType>(
+//   patchingFunction: (
+//     action: IAction<PayloadType>,
+//     state: AppState,
+//   ) => Partial<AppState>,
+// ) {
+//   return function singleActionReducer(
+//     action: IAction<PayloadType>,
+//     state: AppState,
+//   ) {
+//     return { ...state, ...patchingFunction(action, state) };
+//   };
+// }
 
 // We get the `ActionTypes` from `/redux/actions.ts` and for each one, we create an appropriate reducer.
 const singleActionReducers = {
@@ -136,59 +181,10 @@ const appReducer = (
 // that may be required by external modules.
 export const reducer: Reducer<State> = (
   state: State = initialState,
-  action: IAction<any>,
+  action: any,
 ): State => {
   return {
     ...appReducer(state, action),
     routing: routerReducer(state.routing, action),
   };
 };
-
-//
-// PRIVATE FUNCTIONS
-//
-//
-
-// For each Redux action, there would be at least one corresponding state key to be patched.
-//
-// For example, say you dispatch an action `setLoginStatus('connected')`, you
-// would have to have a reducer that will patch the state key `loginStatus` with the value `'connected'`.
-//
-// What this function does is: for any payload that simply needs to be inserted into the state without any logic
-// it will return a function that inserts that payload into the state and returns the new state.
-//
-// You can see how it's being used with the `singleActionReducers` object.
-//
-// We can do away with this function, but then we'll have a bunch of boilerplate for each key we patch.
-function createSingleActionSimpleReducer<PayloadType>(
-  stateKeyToPatch: keyof IAppState,
-) {
-  return function singleActionSimpleReducer(
-    state: AppState,
-    action: IAction<PayloadType>,
-  ): AppState {
-    return { ...state, [stateKeyToPatch]: action.payload };
-  };
-}
-
-// If you need to reduce a state property by using logic, you can use `createSingleActionReducer` below.
-// It accepts one argument, a `patchingFunction`.
-//
-// For example:
-//
-// someActionType: createSingleActionReducer<boolean>(function(action, state) {
-//   return {setIsLoginPending: !state.isLoginPending}
-// })
-function createSingleActionReducer<PayloadType>(
-  patchingFunction: (
-    action: IAction<PayloadType>,
-    state: AppState,
-  ) => Partial<AppState>,
-) {
-  return function singleActionReducer(
-    action: IAction<PayloadType>,
-    state: AppState,
-  ) {
-    return { ...state, ...patchingFunction(action, state) };
-  };
-}

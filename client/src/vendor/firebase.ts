@@ -97,6 +97,7 @@ export async function getData(
   try {
     const ref = firebaseDb.ref().child(child);
     const response = await ref.once('value');
+
     return response.val();
   } catch (err) {
     throw err;

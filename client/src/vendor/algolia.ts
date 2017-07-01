@@ -1,7 +1,7 @@
 import * as algoliasearch from 'algoliasearch';
 
 export interface IAlgoliaSearchResults {
-  hits: Array<{}>;
+  hits: object[];
 }
 
 interface IAlgoliaSearchIndex {

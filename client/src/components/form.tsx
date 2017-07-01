@@ -6,22 +6,26 @@ interface IProps {
 
 export class Form extends React.Component<
   IProps & React.HTMLAttributes<HTMLFormElement>,
-  undefined
+  any
 > {
   render() {
     const { props: p } = this;
     const { onSubmit, children, ...rest } = p;
 
     return (
-      <form onSubmit={event => this.onSubmit(event)} {...rest}>
+      <form onSubmit={this.onSubmit} {...rest}>
         {children}
       </form>
     );
   }
 
-  onSubmit(event: React.FormEvent<HTMLFormElement>) {
+  onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    this.props.onSubmit && this.props.onSubmit(event);
-  }
+    const { onSubmit } = this.props;
+
+    if (onSubmit) {
+      onSubmit(event);
+    }
+  };
 }

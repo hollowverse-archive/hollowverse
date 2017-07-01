@@ -5,7 +5,7 @@ import { styles as eventStyles } from './../notablePerson/events.styles';
 import { styles as npStyles } from './../notablePerson/notablePerson.styles';
 import { styles } from './shadowComponent.styles';
 
-class ShadowComponentClass extends React.Component<{}, undefined> {
+class ShadowComponentClass extends React.PureComponent<{}, {}> {
   render() {
     return (
       <div className={css(common.page)}>
@@ -43,7 +43,7 @@ class ShadowComponentClass extends React.Component<{}, undefined> {
     );
   }
   renderShadowNotablePersonEvents(n: number[]) {
-    return n.map((f, i) =>
+    return n.map((_, i) =>
       <div
         key={i}
         className={css(eventStyles.eventContent, styles.shadowContainer)}

@@ -20,7 +20,7 @@ type RenderFullPage = (
 
 // We are going to fill these out in the sections to follow
 let handleRender: HandleRender;
-handleRender = (req, res) => {
+handleRender = (_, res) => {
   const { html, css } = StyleSheetServer.renderStatic(() => {
     return renderToString(
       <Provider store={store}>
@@ -43,6 +43,7 @@ handleRender = (req, res) => {
 
 renderFullPage = elements => {
   const { html, css, preloadedState } = elements;
+
   return `
 <!DOCTYPE html>
 <html lang="en">
