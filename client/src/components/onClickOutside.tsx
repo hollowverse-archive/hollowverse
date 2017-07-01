@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as onClickOutside from 'react-onclickoutside';
+import onClickOutside from 'react-onclickoutside';
 
 interface IProps {
   handleClickOutside(event: React.MouseEvent<any>): void;
