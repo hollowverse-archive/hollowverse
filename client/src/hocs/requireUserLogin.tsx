@@ -1,40 +1,41 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { actions } from '../store/actions';
+import { requestLogin } from '../store/features/auth/actions';
 import { State } from '../store/reducers';
 import * as selectors from '../store/selectors';
-import pick from 'lodash/pick';
 
-interface IProps {
+import { DefaultDispatchProps } from '../store/types';
+
+interface StateProps {
   userIsLoggedIn: boolean;
 }
 
-function mapStateToProps(state: State): IProps {
+function mapStateToProps(state: State): StateProps {
   return {
     userIsLoggedIn: selectors.getUserIsLoggedIn(state),
   };
 }
 
-const actionCreators = pick(actions, ['requestLogin']);
-type ActionCreators = typeof actionCreators;
+type HOCProps = StateProps & DefaultDispatchProps;
 
-export function requireUserLogin(
-  Component: React.ComponentClass<any>,
-): React.ComponentClass<any> {
-  class RequireUserLogin extends React.Component<
-    IProps & ActionCreators,
-    undefined
-  > {
+export function requireUserLogin<OwnProps extends {}>(
+  Component: React.ComponentClass<OwnProps>,
+) {
+  class RequireUserLogin extends React.PureComponent<HOCProps & OwnProps, {}> {
+    handleLogin = () => {
+      this.props.dispatch(requestLogin(undefined));
+    };
+
     render() {
-      const { props: p } = this;
+      const { userIsLoggedIn } = this.props;
 
-      if (!p.userIsLoggedIn) {
+      if (!userIsLoggedIn) {
         return (
           <div className="padding8">
             <p>Please login first!</p>
 
             <p>
-              <button className="searchButton" onClick={() => p.requestLogin()}>
+              <button className="searchButton" onClick={this.handleLogin}>
                 Login with Facebook
               </button>
             </p>
@@ -48,5 +49,7 @@ export function requireUserLogin(
     }
   }
 
-  return connect(mapStateToProps, actionCreators)(RequireUserLogin);
+  return connect<HOCProps & OwnProps, StateProps>(mapStateToProps)(
+    RequireUserLogin,
+  );
 }
