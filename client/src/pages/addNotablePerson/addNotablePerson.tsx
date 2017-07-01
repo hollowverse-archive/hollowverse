@@ -1,20 +1,23 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { State } from '../../store/reducers';
-import * as selectors from '../../store/selectors';
 import pick from 'lodash/pick';
 
-interface IProps {
+import { DefaultDispatchProps } from '../../store/types';
+
+interface StateProps {
   createProfileUrlInputValue: string;
 }
 
-function mapStateToProps(state: State): IProps {
+function mapStateToProps(state: State): StateProps {
   return {
     ...pick(state, ['createProfileUrlInputValue']),
   };
 }
 
-class AddNotablePersonClass extends React.Component<IProps, undefined> {
+type Props = StateProps & DefaultDispatchProps;
+
+class AddNotablePersonClass extends React.PureComponent<Props, {}> {
   render() {
     const { props: p } = this;
 
@@ -32,7 +35,6 @@ class AddNotablePersonClass extends React.Component<IProps, undefined> {
                     readOnly
                     type="text"
                     value={p.createProfileUrlInputValue}
-                    onChange={({ target: { value } }) => null}
                     placeholder="Profile URL"
                   />
                   <span className="icon is-small">

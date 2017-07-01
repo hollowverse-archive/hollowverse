@@ -1,7 +1,6 @@
 import { css } from 'aphrodite/no-important';
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { common } from '../common.styles';
 import { actions } from '../store/actions';
 import { State } from '../store/reducers';
 import pick from 'lodash/pick';
@@ -19,7 +18,7 @@ const actionCreators = pick(actions, ['toggleWarning']);
 
 type ActionCreators = typeof actionCreators;
 
-class WarningClass extends React.Component<ActionCreators & IProps, undefined> {
+class WarningClass extends React.PureComponent<ActionCreators & IProps, {}> {
   render() {
     const { props: p } = this;
     if (p.displayWarning) {

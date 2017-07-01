@@ -20,10 +20,8 @@ const actionCreators = pick(actions, ['requestLogin', 'requestLogout']);
 
 type ActionCreators = typeof actionCreators;
 
-class HeaderClass extends React.Component<ActionCreators & IProps, undefined> {
+class HeaderClass extends React.PureComponent<ActionCreators & IProps, {}> {
   render() {
-    const { icon, action } = this.renderLoginVariants();
-
     return (
       <div className={css(common.palette, styles.navBar)}>
         {/*<i className={`fa fa-bars fa-2x ${css(styles.navBarIcon)}`}/>*/}
@@ -35,7 +33,7 @@ class HeaderClass extends React.Component<ActionCreators & IProps, undefined> {
     );
   }
 
-  renderLoginVariants(): { icon: string; action: () => void } {
+  renderLoginVariants(): { icon: string; action(): void } {
     const { props: p } = this;
 
     if (p.loginStatus === 'connected') {

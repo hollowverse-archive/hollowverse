@@ -1,7 +1,6 @@
 import { css } from 'aphrodite/no-important';
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { GlobalSpinner } from '../components/globalSpinner';
 import { Warning } from '../components/warning';
 import { actions } from '../store/actions';
@@ -26,14 +25,12 @@ const actionCreators = pick(actions, [
 
 type ActionCreators = typeof actionCreators;
 
-class AppClass extends React.Component<ActionCreators & IProps, undefined> {
+class AppClass extends React.PureComponent<ActionCreators & IProps, {}> {
   componentDidMount() {
     this.props.requestUpdateLoginStatus();
     this.props.toggleWarning(true);
   }
   render() {
-    const { props: p } = this;
-
     return (
       <div className={css(styles.mainApp)}>
         <GlobalSpinner />
