@@ -10,8 +10,6 @@ import { Events } from './events';
 import { styles } from './notablePerson.styles';
 import { ShadowComponent } from './shadowComponent';
 
-import { DefaultDispatchProps } from 'store/types';
-
 interface StateProps {
   notablePerson: INotablePersonSchema | undefined;
 }
@@ -22,7 +20,11 @@ function mapStateToProps(state: State): StateProps {
   };
 }
 
-type MergedProps = StateProps & DefaultDispatchProps;
+const actionCreators = {
+  requestNotablePerson,
+};
+
+type MergedProps = StateProps & typeof actionCreators;
 
 type IProps = MergedProps & RouteComponentProps<{}>;
 
@@ -30,7 +32,7 @@ class NotablePersonClass extends React.PureComponent<IProps, {}> {
   componentDidMount() {
     // tslint:disable-next-line no-suspicious-comment
     // TODO: We'll pass the route parameters to below function:
-    requestNotablePerson('/notablePersons/np_48d700ee');
+    this.props.requestNotablePerson('/notablePersons/np_48d700ee');
   }
 
   render() {
@@ -83,6 +85,7 @@ class NotablePersonClass extends React.PureComponent<IProps, {}> {
   }
 }
 
-export const NotablePerson = connect<IProps, StateProps>(mapStateToProps)(
-  NotablePersonClass,
-);
+export const NotablePerson = connect<IProps, StateProps, typeof actionCreators>(
+  mapStateToProps,
+  actionCreators,
+)(NotablePersonClass);

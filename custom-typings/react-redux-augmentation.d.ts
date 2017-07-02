@@ -13,7 +13,7 @@ type Factory<P> = React.ComponentType<P> | React.StatelessComponent<P>;
  */
 declare module 'react-redux' {
   /**
-   * An override for `react-redux`'s `connect()`.
+   * A better-typed variant of `react-redux`'s `connect()`.
    * Provides strict type checking and correctly removes connected props
    * from the wrapped component.
    * You have to pass at least the first to type parameters (`AllProps`, `StateProps`)
@@ -31,5 +31,21 @@ declare module 'react-redux' {
     component: Factory<AllProps>,
   ) => React.ComponentClass<
     Overwrite<AllProps, Partial<DispatchProps & StateProps>>
+  >;
+
+  /**
+   * A better-typed variant of `react-redux`'s `connect()` with the second argument
+   * being an object of action creates that gets automatically bound to dispatch
+   * and new bound functions are passed as props with same names as the object's keys.
+   * You have to pass at least 3 type parameters (`AllProps`, `StateProps`, `ActionCreators`)
+   * in order for TS to pick it up.
+   */
+  export function connect<AllProps, StateProps, ActionCreators, State = object>(
+    mapStateToProps: (state: State) => StateProps,
+    actionCreators?: ActionCreators,
+  ): (
+    component: Factory<AllProps>,
+  ) => React.ComponentClass<
+    Overwrite<AllProps, Partial<ActionCreators & StateProps>>
   >;
 }
