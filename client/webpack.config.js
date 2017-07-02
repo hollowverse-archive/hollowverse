@@ -372,6 +372,8 @@ const config = {
               silent: true,
               transpileOnly: !env.shouldTypeCheck,
               compilerOptions: {
+                module: 'esnext',
+                target: 'esnext',
                 jsx: 'preserve',
                 noEmitOnError: env.shouldTypeCheck,
               },

@@ -8,8 +8,8 @@
   
     "strict": true,
     "noEmitOnError": true,
-    "module": "esnext",
-    "target": "esnext",
+    "module": "commonjs",
+    "target": "es2015",
     "skipLibCheck": false,
     "skipDefaultLibCheck": true,
     "noUnusedLocals": true,
