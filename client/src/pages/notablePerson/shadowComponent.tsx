@@ -1,6 +1,6 @@
 import { css } from 'aphrodite/no-important';
 import * as React from 'react';
-import { common } from '../../common.styles';
+import { common } from 'common.styles';
 import { styles as eventStyles } from './../notablePerson/events.styles';
 import { styles as npStyles } from './../notablePerson/notablePerson.styles';
 import { styles } from './shadowComponent.styles';

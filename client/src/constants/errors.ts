@@ -1,4 +1,4 @@
-import { HvError } from '../../../typings/typeDefinitions';
+import { HvError } from 'typings/typeDefinitions';
 
 export const errors: { [code: string]: HvError } = {
   facebookLoginError: {

@@ -1,4 +1,4 @@
-import { errors } from '../constants/errors';
+import { errors } from 'constants/errors';
 
 export function getLoginStatus() {
   return new Promise<facebookSdk.IAuthResponse>(resolve => {

@@ -7,10 +7,10 @@
 // * Redux action types
 //
 import { push } from 'react-router-redux';
-import { INotablePersonSchema, IUserSchema } from '../../../typings/dataSchema';
-import { HvError } from '../../../typings/typeDefinitions';
-import { stringEnum } from '../utils/utils';
-import { IAlgoliaSearchResults } from '../vendor/algolia';
+import { INotablePersonSchema, IUserSchema } from 'typings/dataSchema';
+import { HvError } from 'typings/typeDefinitions';
+import { stringEnum } from 'utils/utils';
+import { IAlgoliaSearchResults } from 'vendor/algolia';
 
 /** Custom type definition of a Redux Action */
 export interface IAction<PayloadType> {

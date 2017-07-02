@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { State } from '../../store/reducers';
+import { State } from 'store/reducers';
 import pick from 'lodash/pick';
 
-import { DefaultDispatchProps } from '../../store/types';
+import { DefaultDispatchProps } from 'store/types';
 
 interface StateProps {
   createProfileUrlInputValue: string;

@@ -5,9 +5,9 @@
 // https://github.com/redux-saga/redux-saga
 //
 import { put, takeEvery } from 'redux-saga/effects';
-import { algoliaSearchIndex } from '../vendor/algolia';
-import * as facebook from '../vendor/facebook';
-import * as firebase from '../vendor/firebase';
+import { algoliaSearchIndex } from 'vendor/algolia';
+import * as facebook from 'vendor/facebook';
+import * as firebase from 'vendor/firebase';
 import { actions, IAction } from './actions';
 
 // These are the Redux actions that trigger the saga generators

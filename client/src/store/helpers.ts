@@ -8,7 +8,7 @@ import {
   PayloadsByActionType,
   Reducer,
   GenericAction,
-} from '../store/types';
+} from 'store/types';
 
 /**
  * A helper functions that creates an action of a specific type,

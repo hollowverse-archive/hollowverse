@@ -1,6 +1,6 @@
-import { IAlgoliaSearchResults } from '../vendor/algolia';
-import { HvError as AppError } from '../../../typings/typeDefinitions';
-import { INotablePersonSchema, IUserSchema } from '../../../typings/dataSchema';
+import { IAlgoliaSearchResults } from 'vendor/algolia';
+import { HvError as AppError } from 'typings/typeDefinitions';
+import { INotablePersonSchema, IUserSchema } from 'typings/dataSchema';
 
 export type StoreState = {
   // Search

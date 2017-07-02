@@ -2,13 +2,13 @@ import { css } from 'aphrodite/no-important';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
-import { common } from '../../common.styles';
-import { Form } from '../../components/form';
-import { DefaultDispatchProps } from '../../store/types';
-import { State } from '../../store/reducers';
-import * as selectors from '../../store/selectors';
+import { common } from 'common.styles';
+import { Form } from 'components/form';
+import { DefaultDispatchProps } from 'store/types';
+import { State } from 'store/reducers';
+import * as selectors from 'store/selectors';
 import pick from 'lodash/pick';
-import { IAlgoliaSearchResults } from '../../vendor/algolia';
+import { IAlgoliaSearchResults } from 'vendor/algolia';
 import { styles } from './homepage.styles';
 
 interface StateProps {
@@ -37,7 +37,7 @@ import {
   setSearchResults,
   setLastSearchTerm,
   navigateToSearch,
-} from '../../store/features/search/actions';
+} from 'store/features/search/actions';
 
 type MergedProps = StateProps & DefaultDispatchProps;
 type IProps = MergedProps & RouteComponentProps<{}>;

@@ -1,3 +1,3 @@
-import { createActionCreator } from '../../helpers';
+import { createActionCreator } from 'store/helpers';
 
 export const requestNotablePerson = createActionCreator('requestNotablePerson');

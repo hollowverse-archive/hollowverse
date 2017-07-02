@@ -1,4 +1,4 @@
-import { createActionCreator } from '../../helpers';
+import { createActionCreator } from 'store/helpers';
 
 export const requestLogin = createActionCreator('requestLogin');
 export const setLoginStatus = createActionCreator('setLoginStatus');

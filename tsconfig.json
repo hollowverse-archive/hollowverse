@@ -22,6 +22,20 @@
     // This allows us to use babel-preset-react-optimize to perform optimizations
     // on JSX. Otherwise Babel won't see any JSX and no optimizations will be applied.
     "jsx": "react",
-    "plugins": []
+    "plugins": [],
+
+    // Allow absolute imports from 'src' dir,
+    // e.g. `import 'file';` instead of `'../../file';`
+    // This also has to be set in `webpack.config.json`, check `resolve.modules`
+    "baseUrl": ".",
+
+    // Specifies how to resolve absolute imports relative to baseUrl
+    "paths": {
+      "*": [
+        "./*", // Try exact match first
+        "client/src/*", // If not found, try client/src
+        "server/src/*" // Finally try server/src
+      ]
+    }
   }
 }

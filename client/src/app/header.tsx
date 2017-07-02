@@ -2,9 +2,9 @@ import { css } from 'aphrodite/no-important';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { common } from '../common.styles';
-import { actions } from '../store/actions';
-import { State } from '../store/reducers';
+import { common } from 'common.styles';
+import { actions } from 'store/actions';
+import { State } from 'store/reducers';
 import pick from 'lodash/pick';
 import { styles } from './header.styles';
 

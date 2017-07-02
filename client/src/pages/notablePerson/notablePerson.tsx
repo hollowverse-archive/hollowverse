@@ -2,15 +2,15 @@ import { css } from 'aphrodite/no-important';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
-import { INotablePersonSchema } from '../../../../typings/dataSchema';
-import { common } from '../../common.styles';
-import { requestNotablePerson } from '../../store/features/notablePerson/actions';
-import { State } from '../../store/reducers';
+import { INotablePersonSchema } from 'typings/dataSchema';
+import { common } from 'common.styles';
+import { requestNotablePerson } from 'store/features/notablePerson/actions';
+import { State } from 'store/reducers';
 import { Events } from './events';
 import { styles } from './notablePerson.styles';
 import { ShadowComponent } from './shadowComponent';
 
-import { DefaultDispatchProps } from '../../store/types';
+import { DefaultDispatchProps } from 'store/types';
 
 interface StateProps {
   notablePerson: INotablePersonSchema | undefined;

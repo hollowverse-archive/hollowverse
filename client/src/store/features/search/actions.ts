@@ -1,4 +1,4 @@
-import { createActionCreator } from '../../helpers';
+import { createActionCreator } from 'store/helpers';
 
 export const setSearchInputValue = createActionCreator('setSearchInputValue');
 export const requestSearchResults = createActionCreator('requestSearchResults');

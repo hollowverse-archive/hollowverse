@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { requestLogin } from '../store/features/auth/actions';
-import { State } from '../store/reducers';
-import * as selectors from '../store/selectors';
+import { requestLogin } from 'store/features/auth/actions';
+import { State } from 'store/reducers';
+import * as selectors from 'store/selectors';
 
-import { DefaultDispatchProps } from '../store/types';
+import { DefaultDispatchProps } from 'store/types';
 
 interface StateProps {
   userIsLoggedIn: boolean;

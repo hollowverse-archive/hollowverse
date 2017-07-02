@@ -10,9 +10,9 @@
 import { routerReducer, RouterState } from 'react-router-redux';
 import { Reducer } from 'redux';
 import { ActionTypes, IAction } from './actions';
-import { INotablePersonSchema, IUserSchema } from '../../../typings/dataSchema';
-import { HvError } from '../../../typings/typeDefinitions';
-import { IAlgoliaSearchResults } from '../vendor/algolia';
+import { INotablePersonSchema, IUserSchema } from 'typings/dataSchema';
+import { HvError } from 'typings/typeDefinitions';
+import { IAlgoliaSearchResults } from 'vendor/algolia';
 
 // This interface defines the state properties of the Hollowverse app
 interface IAppState {

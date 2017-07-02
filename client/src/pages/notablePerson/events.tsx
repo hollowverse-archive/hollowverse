@@ -1,8 +1,8 @@
 import { css } from 'aphrodite/no-important';
 import * as React from 'react';
-import { IEventSchema } from '../../../../typings/dataSchema';
-import { common } from '../../common.styles';
-import { sortByDescending } from '../../utils/utils';
+import { IEventSchema } from 'typings/dataSchema';
+import { common } from 'common.styles';
+import { sortByDescending } from 'utils/utils';
 import { styles } from './events.styles';
 
 interface IProps {
