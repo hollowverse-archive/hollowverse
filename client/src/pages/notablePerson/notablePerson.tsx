@@ -26,7 +26,11 @@ const actionCreators = {
 
 type MergedProps = StateProps & typeof actionCreators;
 
-type IProps = MergedProps & RouteComponentProps<{}>;
+type Match = {
+  id: string;
+};
+
+type IProps = MergedProps & RouteComponentProps<Match>;
 
 class NotablePersonClass extends React.PureComponent<IProps, {}> {
   componentDidMount() {
