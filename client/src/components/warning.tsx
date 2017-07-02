@@ -19,6 +19,10 @@ const actionCreators = pick(actions, ['toggleWarning']);
 type ActionCreators = typeof actionCreators;
 
 class WarningClass extends React.PureComponent<ActionCreators & IProps, {}> {
+  handleClick = () => {
+    this.props.toggleWarning(false);
+  };
+
   render() {
     const { props: p } = this;
     if (p.displayWarning) {
@@ -29,7 +33,8 @@ class WarningClass extends React.PureComponent<ActionCreators & IProps, {}> {
           </p>
           <i
             className={`fa fa-times ${css(styles.closeButton)}`}
-            onClick={() => p.toggleWarning(false)}
+            role="button"
+            onClick={this.handleClick}
           />
         </div>
       );

@@ -28,6 +28,7 @@ type IProps = MergedProps & RouteComponentProps<{}>;
 
 class NotablePersonClass extends React.PureComponent<IProps, {}> {
   componentDidMount() {
+    // tslint:disable-next-line no-suspicious-comment
     // TODO: We'll pass the route parameters to below function:
     requestNotablePerson('/notablePersons/np_48d700ee');
   }
@@ -44,6 +45,7 @@ class NotablePersonClass extends React.PureComponent<IProps, {}> {
               width="150"
               height="150"
               src={photoUrl}
+              alt={name}
             />
             <div className={css(styles.notablePersonText)}>
               <h1 className={css(styles.notablePersonTitle)}>
