@@ -252,6 +252,7 @@ const config = {
       inline: true,
       contentBase: PUBLIC_PATH,
       hot: env.isHot,
+      historyApiFallback: true,
     }) || undefined,
 
   devtool: env.isDev ? 'cheap-module-source-map' : 'source-map',
