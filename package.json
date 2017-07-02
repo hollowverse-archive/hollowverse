@@ -11,7 +11,7 @@
     "server/express": "nodemon --exec ts-node -- server/src/index.tsx",
     "server/firebase": "yarn client/build && firebase serve",
     "precommit": "lint-staged",
-    "test": "yarn lint && yarn client/build",
+    "test": "yarn client/build",
     "commonpkg": "yarn add hollowverse/common-config && commonpkg"
   },
   "license": "Unlicense",
