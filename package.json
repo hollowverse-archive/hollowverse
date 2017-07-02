@@ -6,7 +6,7 @@
   "repository": "https://github.com/hollowverse/hollowverse.git",
   "scripts": {
     "client/dev": "DEBUG=build HOT=1 NODE_ENV=development webpack-dev-server --config client/webpack.config.js",
-    "client/build": "DEBUG=build NODE_ENV=production webpack --config client/webpack.config.js",
+    "client/build": "NO_PERF_CHECKS=1 DEBUG=build NODE_ENV=production webpack --config client/webpack.config.js",
     "client/stats": "NO_PERF_CHECKS=1 NODE_ENV=production webpack --config client/webpack.config.js --json > stats.json",
     "server/express": "nodemon --exec ts-node -- server/src/index.tsx",
     "server/firebase": "yarn client/build && firebase serve",
