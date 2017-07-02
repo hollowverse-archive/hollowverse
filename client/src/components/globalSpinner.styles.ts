@@ -1,4 +1,4 @@
-import {StyleSheet} from 'aphrodite/no-important'
+import { StyleSheet } from 'aphrodite/no-important';
 
 const spinnerKeyFrames = {
   '0%': {
@@ -7,7 +7,7 @@ const spinnerKeyFrames = {
   '100%': {
     transform: 'rotate(360deg)',
   },
-}
+};
 
 export const styles = StyleSheet.create({
   globalSpinnerContainer: {
@@ -42,4 +42,4 @@ export const styles = StyleSheet.create({
     top: 0,
     width: '10em',
   },
-})
+});

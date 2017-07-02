@@ -1,116 +1,123 @@
-import {css} from 'aphrodite/no-important'
-import * as React from 'react'
-import {connect} from 'react-redux'
-import {RouteComponentProps} from 'react-router-dom'
-import {common} from '../../common.styles'
-import {Form} from '../../components/form'
-import {actions} from '../../redux/actions'
-import {State} from '../../redux/reducers'
-import * as selectors from '../../redux/selectors'
-import {pick} from '../../utils/utils'
-import {IAlgoliaSearchResults} from '../../vendor/algolia'
-import {styles} from './homepage.styles'
+import { css } from 'aphrodite/no-important';
+import * as React from 'react';
+import { connect } from 'react-redux';
+import { RouteComponentProps } from 'react-router-dom';
+import { common } from 'common.styles';
+import { Form } from 'components/form';
+import { DefaultDispatchProps } from 'store/types';
+import { State } from 'store/reducers';
+import * as selectors from 'store/selectors';
+import pick from 'lodash/pick';
+import { IAlgoliaSearchResults } from 'vendor/algolia';
+import { styles } from './homepage.styles';
 
-interface IProps {
-  searchInputValue: string,
-  searchTerm: string,
-  searchResults: IAlgoliaSearchResults | undefined,
-  lastSearchTerm: string,
-  hasResults: boolean,
+interface StateProps {
+  searchInputValue: string;
+  searchTerm: string;
+  searchResults?: IAlgoliaSearchResults;
+  lastSearchTerm: string;
+  hasResults: boolean;
 }
 
-function mapStateToProps(state: State): IProps {
+function mapStateToProps(state: State): StateProps {
   return {
-    searchTerm: state.routing && state.routing.location && state.routing.location.search || '',
+    searchTerm:
+      (state.routing &&
+        state.routing.location &&
+        state.routing.location.search) ||
+      '',
     hasResults: selectors.hasResults(state),
-    ...pick(state, [
-      'searchResults',
-      'searchInputValue',
-      'lastSearchTerm',
-    ]),
-  }
+    ...pick(state, ['searchResults', 'searchInputValue', 'lastSearchTerm']),
+  };
 }
 
-const actionCreators = pick(actions, [
-  'setSearchInputValue',
-  'requestSearchResults',
-  'setSearchResults',
-  'setLastSearchTerm',
-  'navigateToSearch',
-])
+import {
+  setSearchInputValue,
+  requestSearchResults,
+  setSearchResults,
+  setLastSearchTerm,
+  navigateToSearch,
+} from 'store/features/search/actions';
 
-type ActionCreators = typeof actionCreators
-type ComponentProps = ActionCreators & IProps & RouteComponentProps<any>
+type MergedProps = StateProps & DefaultDispatchProps;
+type IProps = MergedProps & RouteComponentProps<{}>;
 
-class HomepageClass extends React.Component<ComponentProps, undefined> {
+class HomepageClass extends React.PureComponent<IProps, {}> {
   componentDidMount() {
-    this.search()
+    this.search();
   }
 
   componentDidUpdate() {
-    this.search()
+    this.search();
   }
 
   render() {
-    const {props: p} = this
+    const { props: p } = this;
 
     return (
       <div className={css(styles.pageHomepage)}>
         <div className={css(styles.searchContainer)}>
-          <h1 className={css(common.titleTypography, styles.title)}>Enter a name of a famous person</h1>
-          <Form className={css(styles.searchForm)} onSubmit={() => this.submitSearchTerm()}>
+          <h1 className={css(common.titleTypography, styles.title)}>
+            Enter a name of a famous person
+          </h1>
+          <Form className={css(styles.searchForm)} onSubmit={this.handleSubmit}>
             <p>
               <input
                 maxLength={50}
                 className={css(common.textTypography, styles.searchInput)}
-                type='text'
+                type="text"
                 value={p.searchInputValue}
-                onChange={({target: {value}}) => this.handleSearchInputChange(value)}
+                onChange={this.handleSearchInputChange}
               />
             </p>
             <div className={css(styles.searchButtonContainer)}>
-              <a
-                className={css(common.textTypography, common.palette, styles.searchButton)}
-                onClick={() => this.submitSearchTerm()}
+              <button
+                className={css(
+                  common.textTypography,
+                  common.palette,
+                  styles.searchButton,
+                )}
+                onClick={this.handleSubmit}
               >
                 Search
-              </a>
+              </button>
             </div>
           </Form>
         </div>
       </div>
-    )
+    );
   }
 
-  handleSearchInputChange(searchText: string) {
-    const {props: p} = this
+  handleSearchInputChange: React.ChangeEventHandler<HTMLInputElement> = ({
+    target: { value: searchText },
+  }) => {
+    const { hasResults, dispatch } = this.props;
 
-    p.setSearchInputValue(searchText)
+    dispatch(setSearchInputValue(searchText));
 
-    if (!p.hasResults) {
-      p.setSearchResults(undefined)
+    if (!hasResults) {
+      dispatch(setSearchResults(undefined));
     }
-  }
+  };
 
-  submitSearchTerm() {
-    const {props: p} = this
+  handleSubmit: React.FormEventHandler<HTMLElement> = _ => {
+    const { searchInputValue, dispatch } = this.props;
 
-    if (p.searchInputValue) {
-      p.navigateToSearch(p.searchInputValue)
+    if (searchInputValue) {
+      dispatch(navigateToSearch(searchInputValue));
     }
-  }
+  };
 
   search() {
-    const {props: p} = this
+    const { lastSearchTerm, searchTerm, dispatch } = this.props;
 
-    if (p.lastSearchTerm !== p.searchTerm && p.searchTerm !== '') {
-      p.setLastSearchTerm(p.searchTerm)
-      p.requestSearchResults(p.searchTerm)
+    if (lastSearchTerm !== searchTerm && searchTerm !== '') {
+      dispatch(setLastSearchTerm(searchTerm));
+      dispatch(requestSearchResults(searchTerm));
     }
   }
 }
 
-export const Homepage = connect<IProps, ActionCreators, RouteComponentProps<any>>(
-  mapStateToProps,
-  actionCreators,
-)(HomepageClass)
+export const Homepage = connect<IProps, StateProps>(mapStateToProps)(
+  HomepageClass,
+);

@@ -1,7 +1,7 @@
-import {StyleSheet} from 'aphrodite/no-important'
-import {palette} from '../../common.styles'
+import { StyleSheet } from 'aphrodite/no-important';
+import { palette } from 'common.styles';
 
-const {shadesOfWhite, shadesOfBlack} = palette
+const { shadesOfWhite, shadesOfBlack } = palette;
 
 export const styles = StyleSheet.create({
   pageHomepage: {
@@ -63,4 +63,4 @@ export const styles = StyleSheet.create({
       opacity: 0.9,
     },
   },
-})
+});
