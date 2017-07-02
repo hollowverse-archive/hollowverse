@@ -21,8 +21,8 @@ const normalize = require('postcss-normalize');
 const env = require('../env');
 
 const {
-  ifES5,
-  ifESNext,
+  ifEs5,
+  ifEsNext,
   ifLint,
   ifProd,
   ifDev,
@@ -41,7 +41,7 @@ if (env.isPreact) {
   log('Building with Preact instead of React');
 }
 
-if (env.isES5) {
+if (env.isEs5) {
   log('Building with babel-preset-es2015 instead of babel-preset-env');
 }
 
@@ -70,8 +70,8 @@ const cssModulesPattern = /\.module\.s?css$/;
 
 const babelConfig = {
   presets: compact([
-    ...ifES5(['es2015']),
-    ...ifESNext(
+    ...ifEs5(['es2015']),
+    ...ifEsNext(
       compact([
         ...ifProd([
           [
@@ -149,7 +149,7 @@ const svgoConfig = {
   ],
 };
 
-const createSVGIconLoaders = name => [
+const createSvgIconLoaders = name => [
   {
     loader: 'svg-sprite-loader',
     options: {
@@ -179,7 +179,7 @@ const sassLoaders = [
   },
 ];
 
-const globalCSSLoaders = [
+const globalCssLoaders = [
   {
     loader: 'css-loader',
     query: {
@@ -197,7 +197,7 @@ const globalCSSLoaders = [
   ...sassLoaders,
 ];
 
-const CSSModuleLoaders = [
+const CssModuleLoaders = [
   {
     loader: 'typings-for-css-modules-loader',
     options: {
@@ -221,12 +221,12 @@ const CSSModuleLoaders = [
   ...sassLoaders,
 ];
 
-const extractGlobalCSS = new ExtractTextPlugin({
+const extractGlobalCss = new ExtractTextPlugin({
   filename: '[name]_global.[contenthash].css',
   allChunks: true,
 });
 
-const extractCSSModules = new ExtractTextPlugin({
+const extractCssModules = new ExtractTextPlugin({
   filename: '[name]_local.[contenthash].css',
   allChunks: true,
 });
@@ -288,9 +288,9 @@ const config = {
       {
         test: cssModulesPattern,
         exclude: excludedPatterns,
-        use: extractCSSModules.extract({
+        use: extractCssModules.extract({
           fallback: 'style-loader',
-          use: CSSModuleLoaders,
+          use: CssModuleLoaders,
         }),
       },
 
@@ -298,9 +298,9 @@ const config = {
       {
         test: /\.s?css$/,
         exclude: [...excludedPatterns, cssModulesPattern],
-        use: extractGlobalCSS.extract({
+        use: extractGlobalCss.extract({
           fallback: 'style-loader',
-          use: globalCSSLoaders,
+          use: globalCssLoaders,
         }),
       },
 
@@ -401,7 +401,7 @@ const config = {
         test: /\.svg$/,
         exclude: excludedPatterns,
         include: [path.resolve(__dirname, 'src/icons')],
-        use: createSVGIconLoaders('icons.svg'),
+        use: createSvgIconLoaders('icons.svg'),
       },
     ]),
   },
@@ -474,8 +474,8 @@ const config = {
     }),
 
     // CSS
-    extractCSSModules,
-    extractGlobalCSS,
+    extractCssModules,
+    extractGlobalCss,
 
     // SVG sprites
     new SpriteLoaderPlugin(),
@@ -541,7 +541,7 @@ const config = {
       // new webpack.optimize.ModuleConcatenationPlugin(),
 
       // Minification
-      ...ifES5([
+      ...ifEs5([
         new webpack.optimize.UglifyJsPlugin({
           minimize: true,
           comments: false,
@@ -549,7 +549,7 @@ const config = {
         }),
       ]),
 
-      ...ifESNext([new BabiliPlugin()]),
+      ...ifEsNext([new BabiliPlugin()]),
 
       // Banner
       new webpack.BannerPlugin({
