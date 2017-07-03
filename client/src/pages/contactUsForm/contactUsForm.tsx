@@ -77,7 +77,7 @@ class ContactUsFormClass extends React.Component<IProps, {}> {
           <h1 className={css(common.titleTypography, styles.formTitle)}>
             Contact us
           </h1>
-          <Form onSubmit={() => this.handleFormSubmit()} noValidate>
+          <Form onSubmit={this.handleFormSubmit} noValidate>
             <label className={css(common.textTypography, styles.contactForm)}>
               Email:
             </label>
@@ -89,8 +89,8 @@ class ContactUsFormClass extends React.Component<IProps, {}> {
               )}
               type="email"
               value={p.emailInputValue}
-              onTextChange={value => this.handleEmailInputChange(value)}
-              onBlur={event => this.onEmailBlur(event)}
+              onTextChange={this.handleEmailInputChange}
+              onBlur={this.onEmailBlur}
             />
             <label className={css(common.textTypography, styles.contactForm)}>
               Name:
@@ -103,8 +103,8 @@ class ContactUsFormClass extends React.Component<IProps, {}> {
               )}
               type="text"
               value={p.nameInputValue}
-              onTextChange={value => this.handleNameInputChange(value)}
-              onBlur={event => this.onNameBlur(event)}
+              onTextChange={this.handleNameInputChange}
+              onBlur={this.onNameBlur}
             />
             <label className={css(common.textTypography, styles.contactForm)}>
               Message:
@@ -117,9 +117,8 @@ class ContactUsFormClass extends React.Component<IProps, {}> {
                 messageInputValid,
               )}
               value={p.messageInputValue}
-              onChange={({ target: { value } }) =>
-                this.handleMessageInputChange(value)}
-              onBlur={event => this.onMessageBlur(event)}
+              onChange={this.handleMessageInputChange}
+              onBlur={this.onMessageBlur}
             />
             {p.submitFail
               ? <div className={css(styles.submitFail)}>
@@ -148,22 +147,22 @@ class ContactUsFormClass extends React.Component<IProps, {}> {
     );
   }
 
-  onEmailBlur(_: any) {
+  onEmailBlur = (_: any) => {
     const { props: p } = this;
     p.setEmailHasBlur(true);
-  }
+  };
 
-  onNameBlur(_: any) {
+  onNameBlur = (_: any) => {
     const { props: p } = this;
     p.setNameHasBlur(true);
-  }
+  };
 
-  onMessageBlur(_: any) {
+  onMessageBlur = (_: any) => {
     const { props: p } = this;
     p.setMessageHasBlur(true);
-  }
+  };
 
-  emailInputValidation() {
+  emailInputValidation = () => {
     const { props: p } = this;
     if (p.emailHasBlur === true) {
       return !isValidEmail(p.emailInputValue)
@@ -172,9 +171,9 @@ class ContactUsFormClass extends React.Component<IProps, {}> {
     } else {
       return null;
     }
-  }
+  };
 
-  nameInputValidation() {
+  nameInputValidation = () => {
     const { props: p } = this;
     if (p.nameHasBlur === true) {
       return !hasName(p.nameInputValue)
@@ -183,9 +182,9 @@ class ContactUsFormClass extends React.Component<IProps, {}> {
     } else {
       return null;
     }
-  }
+  };
 
-  messageInputValidation() {
+  messageInputValidation = () => {
     const { props: p } = this;
     if (p.messageHasBlur === true) {
       return !hasSentence(p.messageInputValue)
@@ -194,24 +193,27 @@ class ContactUsFormClass extends React.Component<IProps, {}> {
     } else {
       return null;
     }
-  }
+  };
 
-  handleEmailInputChange(emailText: string) {
+  handleEmailInputChange = (emailText: string) => {
     const { props: p } = this;
     p.setEmailInputValue(emailText);
-  }
+  };
 
-  handleNameInputChange(nameText: string) {
+  handleNameInputChange = (nameText: string) => {
     const { props: p } = this;
     p.setNameInputValue(nameText);
-  }
+  };
 
-  handleMessageInputChange(messageText: string) {
+  handleMessageInputChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement>,
+  ) => {
+    const { target: { value: messageText } } = event;
     const { props: p } = this;
     p.setMessageInputValue(messageText);
-  }
+  };
 
-  handleFormSubmit() {
+  handleFormSubmit = () => {
     const { props: p } = this;
     this.submitValuesAction({
       email: p.emailInputValue,
@@ -222,21 +224,21 @@ class ContactUsFormClass extends React.Component<IProps, {}> {
     p.setEmailHasBlur(false);
     p.setNameHasBlur(false);
     p.setMessageHasBlur(false);
-  }
+  };
 
-  submitSuccessValidation() {
+  submitSuccessValidation = () => {
     const { props: p } = this;
     if (p.submitSuccess === true) {
       return styles.hide;
     } else {
       return null;
     }
-  }
+  };
 
-  submitValuesAction(formValues: IContactFormData) {
+  submitValuesAction = (formValues: IContactFormData) => {
     const { props: p } = this;
     p.requestSubmitFormValues(formValues);
-  }
+  };
 }
 
 export const ContactUsForm = connect<IProps, StateProps, ActionCreators>(
