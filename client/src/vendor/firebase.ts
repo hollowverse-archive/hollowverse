@@ -18,18 +18,6 @@ export async function login(
   payload: facebookSdk.IAuthResponse,
 ): Promise<firebase.User> {
   try {
-    const loginPromise = new Promise<firebase.User>(resolve => {
-      const unsubscribe = firebaseAuth.onAuthStateChanged(
-        (firebaseUser: firebase.User) => {
-          unsubscribe();
-
-          resolve(firebaseUser);
-        },
-      );
-    });
-
-    await loginPromise;
-
     const credential = firebase.auth.FacebookAuthProvider.credential(
       payload.authResponse.accessToken,
     );
@@ -46,9 +34,9 @@ export function logout() {
 
 export async function userExists(user: firebase.User) {
   const usersReference = firebaseDb.ref('users');
-  const snapshot = await usersReference.child(user.uid).once('value');
+  const userSnapshot = await usersReference.child(user.uid).once('value');
 
-  return snapshot.val() !== null;
+  return userSnapshot.val() !== null;
 }
 
 export function createUser(user: IUser) {
