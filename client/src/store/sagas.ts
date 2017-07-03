@@ -4,7 +4,7 @@
 // This file just contains Redux Sagas generators. For more information on Redux Sagas, see:
 // https://github.com/redux-saga/redux-saga
 //
-import { put, takeEvery } from 'redux-saga/effects';
+import { put, takeEvery, call } from 'redux-saga/effects';
 import { algoliaSearchIndex } from 'vendor/algolia';
 import * as facebook from 'vendor/facebook';
 import * as firebase from 'vendor/firebase';
@@ -66,7 +66,7 @@ function* requestLogout() {
 
 function* requestUpdateLoginStatus() {
   try {
-    yield facebook.initSdk();
+    yield call(facebook.initSdk);
 
     const facebookAuthResponse = yield facebook.getLoginStatus();
 
