@@ -9,7 +9,7 @@
 import { State } from './reducers';
 
 export function getNumberOfSearchHits(state: State) {
-  if (state.searchResults !== undefined) {
+  if (state.searchResults !== null) {
     return state.searchResults.hits.length;
   } else {
     return 0;

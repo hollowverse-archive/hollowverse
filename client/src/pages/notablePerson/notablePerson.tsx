@@ -11,7 +11,7 @@ import { styles } from './notablePerson.styles';
 import { ShadowComponent } from './shadowComponent';
 
 interface StateProps {
-  notablePerson: INotablePersonSchema | undefined;
+  notablePerson: INotablePersonSchema | null;
 }
 
 function mapStateToProps(state: State): StateProps {

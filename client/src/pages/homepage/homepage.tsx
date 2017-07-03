@@ -14,7 +14,7 @@ import { styles } from './homepage.styles';
 interface StateProps {
   searchInputValue: string;
   searchTerm: string;
-  searchResults?: IAlgoliaSearchResults;
+  searchResults: IAlgoliaSearchResults | null;
   lastSearchTerm: string;
   hasResults: boolean;
 }
