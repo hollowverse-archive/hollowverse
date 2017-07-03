@@ -1,4 +1,4 @@
-import { errors } from 'constants/errors';
+import { makeError } from 'constants/errors';
 
 export function getLoginStatus() {
   return new Promise<facebookSdk.IAuthResponse>(resolve => {
@@ -14,7 +14,7 @@ export function login() {
       if (response.authResponse) {
         resolve(response);
       } else {
-        reject(errors.facebookLoginError);
+        reject(makeError('facebookLoginError'));
       }
     });
   });
@@ -28,15 +28,11 @@ export function logout() {
   });
 }
 
-export function initSdk() {
-  return new Promise<void>(resolve => {
-    FB.init({
-      appId: '1151099935001443',
-      xfbml: true,
-      version: 'v2.8',
-      cookie: true,
-    });
-
-    resolve();
+export async function initSdk() {
+  FB.init({
+    appId: '1151099935001443',
+    xfbml: true,
+    version: 'v2.8',
+    cookie: true,
   });
 }

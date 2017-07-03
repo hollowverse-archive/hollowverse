@@ -1,11 +1,11 @@
 export interface IUser {
-  displayName: string | null,
-  id: string
+  displayName: string | null;
+  id: string;
 }
 
-interface IHvError {
-  code: string,
-  message: string // end-user friendly error message
+export abstract class HvError extends Error {
+  name: string;
+  code: string;
+  /** User-friendly error message */
+  message: string;
 }
-
-export type HvError = IHvError | undefined

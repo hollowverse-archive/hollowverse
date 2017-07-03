@@ -17,17 +17,17 @@ import { IAlgoliaSearchResults } from 'vendor/algolia';
 // This interface defines the state properties of the Hollowverse app
 interface IAppState {
   searchInputValue: string;
-  searchResults: IAlgoliaSearchResults | undefined;
+  searchResults: IAlgoliaSearchResults | null;
   isSearchPending: boolean;
   loginStatus: facebookSdk.LoginStatus;
   isLoginPending: boolean;
   isLogoutPending: boolean;
-  error: HvError;
+  error: HvError | null;
   isNavMenuOpen: boolean;
   lastSearchTerm: string;
   createProfileUrlInputValue: string;
-  notablePerson: INotablePersonSchema | undefined;
-  userData: IUserSchema | undefined;
+  notablePerson: INotablePersonSchema | null;
+  userData: IUserSchema | null;
   displayWarning: boolean;
 }
 
@@ -37,17 +37,17 @@ type AppState = Readonly<IAppState>;
 // Initialize the default state object
 const initialAppState: AppState = {
   searchInputValue: '',
-  searchResults: undefined,
+  searchResults: null,
   isSearchPending: false,
   loginStatus: 'unknown',
   isLoginPending: false,
   isLogoutPending: false,
-  error: undefined,
+  error: null,
   isNavMenuOpen: false,
   lastSearchTerm: '',
   createProfileUrlInputValue: '',
-  notablePerson: undefined,
-  userData: undefined,
+  notablePerson: null,
+  userData: null,
   displayWarning: false,
 };
 
