@@ -1,38 +1,34 @@
 import { makeError } from 'constants/errors';
+import { promisify } from 'utils/utils';
 
-export function getLoginStatus() {
-  return new Promise<facebookSdk.IAuthResponse>(resolve => {
-    FB.getLoginStatus(response => {
-      resolve(response);
-    });
-  });
+export const getLoginStatus = promisify(FB.getLoginStatus);
+
+const _login = promisify(FB.login);
+
+export async function login() {
+  const response = await _login();
+  if (response.authResponse) {
+    return response;
+  } else {
+    throw makeError('facebookLoginError');
+  }
 }
 
-export function login() {
-  return new Promise<facebookSdk.IAuthResponse>((resolve, reject) => {
-    FB.login(response => {
-      if (response.authResponse) {
-        resolve(response);
-      } else {
-        reject(makeError('facebookLoginError'));
+export const logout = promisify(FB.logout);
+
+export function initSdk() {
+  return new Promise(resolve => {
+    FB.Event.subscribe('auth.statusChange', response => {
+      if (response.status === 'connected') {
+        resolve();
       }
     });
-  });
-}
 
-export function logout() {
-  return new Promise<facebookSdk.IAuthResponse>(resolve => {
-    FB.logout(response => {
-      resolve(response);
+    FB.init({
+      appId: '1151099935001443',
+      xfbml: true,
+      version: 'v2.8',
+      cookie: true,
     });
-  });
-}
-
-export async function initSdk() {
-  FB.init({
-    appId: '1151099935001443',
-    xfbml: true,
-    version: 'v2.8',
-    cookie: true,
   });
 }

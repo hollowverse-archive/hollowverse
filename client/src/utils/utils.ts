@@ -16,4 +16,20 @@ export function sortByDescending<T>(
   return sortBy(object, iteratee).reverse();
 }
 
+export function promisify<R>(
+  fn: (cb: (result: R, err?: Error | null) => void) => void,
+) {
+  return () =>
+    new Promise<R>((resolve, reject) => {
+      const _fn: typeof fn = fn.bind(fn);
+      _fn((result, err) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(result);
+        }
+      });
+    });
+}
+
 export { cn };
