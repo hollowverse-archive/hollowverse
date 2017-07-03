@@ -18,6 +18,7 @@ export function sortByDescending<T>(
 
 export function isValidEmail(email: string): boolean {
   const emailPattern = /.+@.+\..+/;
+
   return emailPattern.test(email);
 }
 
@@ -35,6 +36,7 @@ export function hasSentence(message: string): boolean {
 export function hasName(name: string): boolean {
   const nameCharacter = name.charAt(0);
   const namePattern = /[^-_$!"\()[\]{}?+=%^&*:@~#';/,.<>\\|`\s]/g;
+
   return namePattern.test(nameCharacter);
 }
 
