@@ -8,7 +8,7 @@ import { put, takeEvery } from 'redux-saga/effects';
 import { algoliaSearchIndex } from 'vendor/algolia';
 import * as facebook from 'vendor/facebook';
 import * as firebase from 'vendor/firebase';
-import { actions, IAction } from './actions';
+import { actions, IAction, IForm } from './actions';
 
 // These are the Redux actions that trigger the saga generators
 function* sagas() {
@@ -18,6 +18,7 @@ function* sagas() {
   yield takeEvery('requestUpdateLoginStatus', requestUpdateLoginStatus);
   yield takeEvery('requestNotablePerson', requestNotablePerson);
   yield takeEvery('requestUserData', requestUserData);
+  yield takeEvery('requestSubmitFormValues', requestSubmitFormValues);
 }
 
 function* requestSearchResults(action: IAction<string>) {
@@ -97,6 +98,25 @@ function* requestUserData(action: IAction<string>) {
     yield put(actions.setUserData(firebaseResponse));
   } catch (error) {
     throw error;
+  }
+}
+
+function* requestSubmitFormValues(action: IForm<object>) {
+  try {
+    yield put(actions.setIsSubmitPending(true));
+    const response = yield fetch('https://jsonplaceholder.typicode.com/posts', {
+      method: 'POST',
+      body: JSON.stringify(action.payload),
+    });
+    if (response.ok) {
+      yield put(actions.setSubmitSuccess(true));
+    } else {
+      yield put(actions.setSubmitFail(true));
+    }
+  } catch (error) {
+    throw error;
+  } finally {
+    yield put(actions.setIsSubmitPending(false));
   }
 }
 

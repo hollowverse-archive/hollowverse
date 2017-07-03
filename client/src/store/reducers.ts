@@ -26,6 +26,15 @@ interface IAppState {
   isNavMenuOpen: boolean;
   lastSearchTerm: string;
   createProfileUrlInputValue: string;
+  emailInputValue: string;
+  nameInputValue: string;
+  messageInputValue: string;
+  emailHasBlur: boolean;
+  nameHasBlur: boolean;
+  messageHasBlur: boolean;
+  isSubmitPending: boolean;
+  submitSuccess: boolean;
+  submitFail: boolean;
   notablePerson: INotablePersonSchema | undefined;
   userData: IUserSchema | undefined;
   displayWarning: boolean;
@@ -46,6 +55,15 @@ const initialAppState: AppState = {
   isNavMenuOpen: false,
   lastSearchTerm: '',
   createProfileUrlInputValue: '',
+  emailHasBlur: false,
+  nameHasBlur: false,
+  messageHasBlur: false,
+  emailInputValue: '',
+  nameInputValue: '',
+  messageInputValue: '',
+  isSubmitPending: false,
+  submitSuccess: false,
+  submitFail: false,
   notablePerson: undefined,
   userData: undefined,
   displayWarning: false,
@@ -142,6 +160,33 @@ const singleActionReducers = {
   [ActionTypes.setCreateProfileUrlInputValue]: createSingleActionSimpleReducer<
     string
   >('createProfileUrlInputValue'),
+  [ActionTypes.setEmailHasBlur]: createSingleActionSimpleReducer<boolean>(
+    'emailHasBlur',
+  ),
+  [ActionTypes.setNameHasBlur]: createSingleActionSimpleReducer<boolean>(
+    'nameHasBlur',
+  ),
+  [ActionTypes.setMessageHasBlur]: createSingleActionSimpleReducer<boolean>(
+    'messageHasBlur',
+  ),
+  [ActionTypes.setEmailInputValue]: createSingleActionSimpleReducer<string>(
+    'emailInputValue',
+  ),
+  [ActionTypes.setNameInputValue]: createSingleActionSimpleReducer<string>(
+    'nameInputValue',
+  ),
+  [ActionTypes.setMessageInputValue]: createSingleActionSimpleReducer<string>(
+    'messageInputValue',
+  ),
+  [ActionTypes.setIsSubmitPending]: createSingleActionSimpleReducer<boolean>(
+    'isSubmitPending',
+  ),
+  [ActionTypes.setSubmitSuccess]: createSingleActionSimpleReducer<boolean>(
+    'submitSuccess',
+  ),
+  [ActionTypes.setSubmitFail]: createSingleActionSimpleReducer<boolean>(
+    'submitFail',
+  ),
   [ActionTypes.setNotablePerson]: createSingleActionSimpleReducer<
     INotablePersonSchema | undefined
   >('notablePerson'),
