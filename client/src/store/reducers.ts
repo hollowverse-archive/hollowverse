@@ -11,7 +11,6 @@ import { routerReducer, RouterState } from 'react-router-redux';
 import { Reducer } from 'redux';
 import { ActionTypes, IAction } from './actions';
 import { INotablePersonSchema, IUserSchema } from 'typings/dataSchema';
-import { IContactFormData } from 'typings/typeDefinitions';
 import { HvError } from 'typings/typeDefinitions';
 import { IAlgoliaSearchResults } from 'vendor/algolia';
 

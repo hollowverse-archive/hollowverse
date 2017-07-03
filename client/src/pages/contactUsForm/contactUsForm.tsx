@@ -7,12 +7,13 @@ import { common } from '../../common.styles';
 import { Form } from '../../components/form';
 import { GlobalSpinner } from '../../components/globalSpinner';
 import { Input } from '../../components/input';
-import { actions } from '../../redux/actions';
-import { State } from '../../redux/reducers';
-import { hasName, hasSentence, isValidEmail, pick } from '../../utils/utils';
+import { actions } from '../../store/actions';
+import { State } from '../../store/reducers';
+import { hasName, hasSentence, isValidEmail } from '../../utils/utils';
+import pick from 'lodash/pick';
 import { styles } from './contactUsForm.styles';
 
-interface IProps {
+interface StateProps {
   emailHasBlur: boolean;
   nameHasBlur: boolean;
   messageHasBlur: boolean;
@@ -24,7 +25,7 @@ interface IProps {
   submitFail: boolean;
 }
 
-function mapStateToProps(state: State): IProps {
+function mapStateToProps(state: State): StateProps {
   return {
     ...pick(state, [
       'emailHasBlur',
@@ -54,9 +55,9 @@ const actionCreators = pick(actions, [
 ]);
 
 type ActionCreators = typeof actionCreators;
-type ComponentProps = ActionCreators & IProps & RouteComponentProps<any>;
+type IProps = ActionCreators & StateProps & RouteComponentProps<any>;
 
-class ContactUsFormClass extends React.Component<ComponentProps, undefined> {
+class ContactUsFormClass extends React.Component<IProps, {}> {
   render() {
     const { props: p } = this;
     const emailInputValid = this.emailInputValidation();
@@ -68,7 +69,7 @@ class ContactUsFormClass extends React.Component<ComponentProps, undefined> {
       <div className={css(styles.pageContactForm)}>
         <GlobalSpinner />
         {p.submitSuccess
-          ? <div>
+          ? <div className={css(styles.messageSuccess)}>
               Your message was sent successfully. We'll get back with you soon!
             </div>
           : ''}
@@ -120,6 +121,11 @@ class ContactUsFormClass extends React.Component<ComponentProps, undefined> {
                 this.handleMessageInputChange(value)}
               onBlur={event => this.onMessageBlur(event)}
             />
+            {p.submitFail
+              ? <div className={css(styles.submitFail)}>
+                  Something went wrong,<br />please try again!
+                </div>
+              : ''}
             <div className={css(styles.submitButtonContainer)}>
               <input
                 className={css(
@@ -137,27 +143,22 @@ class ContactUsFormClass extends React.Component<ComponentProps, undefined> {
               />
             </div>
           </Form>
-          {p.submitFail
-            ? <div className={css(styles.submitFail)}>
-                Something went wrong, please try again!
-              </div>
-            : ''}
         </div>
       </div>
     );
   }
 
-  onEmailBlur(event: any) {
+  onEmailBlur(_: any) {
     const { props: p } = this;
     p.setEmailHasBlur(true);
   }
 
-  onNameBlur(event: any) {
+  onNameBlur(_: any) {
     const { props: p } = this;
     p.setNameHasBlur(true);
   }
 
-  onMessageBlur(event: any) {
+  onMessageBlur(_: any) {
     const { props: p } = this;
     p.setMessageHasBlur(true);
   }
@@ -238,8 +239,7 @@ class ContactUsFormClass extends React.Component<ComponentProps, undefined> {
   }
 }
 
-export const ContactUsForm = connect<
-  IProps,
-  ActionCreators,
-  RouteComponentProps<any>
->(mapStateToProps, actionCreators)(ContactUsFormClass);
+export const ContactUsForm = connect<IProps, StateProps, ActionCreators>(
+  mapStateToProps,
+  actionCreators,
+)(ContactUsFormClass);

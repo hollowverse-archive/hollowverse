@@ -8,7 +8,7 @@
 //
 import { push } from 'react-router-redux';
 import { INotablePersonSchema, IUserSchema } from 'typings/dataSchema';
-import { HvError } from 'typings/typeDefinitions';
+import { HvError, IContactFormData } from 'typings/typeDefinitions';
 import { stringEnum } from 'utils/utils';
 import { IAlgoliaSearchResults } from 'vendor/algolia';
 
@@ -101,6 +101,10 @@ export const actions = {
     payload,
   }),
   setSubmitFail: (payload: boolean) => ({ type: 'setSubmitFail', payload }),
+  requestSubmitFormValues: (payload: IContactFormData) => ({
+    type: 'requestSubmitFormValues',
+    payload,
+  }),
   setNotablePerson: (payload: INotablePersonSchema | undefined) => ({
     type: 'setNotablePerson',
     payload,

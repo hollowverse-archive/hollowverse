@@ -30,7 +30,7 @@ export const styles = StyleSheet.create({
   },
   submitButtonContainer: {
     display: 'flex',
-    marginTop: '1.5rem',
+    marginTop: '1rem',
     justifyContent: 'center',
   },
   formInput: {
@@ -69,7 +69,6 @@ export const styles = StyleSheet.create({
     display: 'flex',
     height: '2.2rem',
     justifyContent: 'center',
-    marginTop: '1.3rem',
     textDecoration: 'none',
     width: '6rem',
     ':hover': {
@@ -82,6 +81,15 @@ export const styles = StyleSheet.create({
   },
   submitFail: {
     color: 'red',
+    margin: '.5rem auto 0',
+    textAlign: 'center',
+    width: '80%',
+  },
+  messageSuccess: {
+    color: '#67B26F',
+    margin: '0 auto',
+    textAlign: 'center',
+    width: '75%',
   },
   hide: {
     display: 'none',
