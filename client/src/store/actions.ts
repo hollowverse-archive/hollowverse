@@ -12,6 +12,11 @@ import { HvError } from 'typings/typeDefinitions';
 import { stringEnum } from 'utils/utils';
 import { IAlgoliaSearchResults } from 'vendor/algolia';
 
+export interface IForm<IContactFormData> {
+  type: object;
+  payload: IContactFormData;
+}
+
 /** Custom type definition of a Redux Action */
 export interface IAction<PayloadType> {
   type: string;
@@ -69,6 +74,33 @@ export const actions = {
     type: 'setCreateProfileUrlInputValue',
     payload,
   }),
+  setEmailHasBlur: (payload: boolean) => ({ type: 'setEmailHasBlur', payload }),
+  setNameHasBlur: (payload: boolean) => ({ type: 'setNameHasBlur', payload }),
+  setMessageHasBlur: (payload: boolean) => ({
+    type: 'setMessageHasBlur',
+    payload,
+  }),
+  setEmailInputValue: (payload: string) => ({
+    type: 'setEmailInputValue',
+    payload,
+  }),
+  setNameInputValue: (payload: string) => ({
+    type: 'setNameInputValue',
+    payload,
+  }),
+  setMessageInputValue: (payload: string) => ({
+    type: 'setMessageInputValue',
+    payload,
+  }),
+  setIsSubmitPending: (payload: boolean) => ({
+    type: 'setIsSubmitPending',
+    payload,
+  }),
+  setSubmitSuccess: (payload: boolean) => ({
+    type: 'setSubmitSuccess',
+    payload,
+  }),
+  setSubmitFail: (payload: boolean) => ({ type: 'setSubmitFail', payload }),
   setNotablePerson: (payload: INotablePersonSchema | undefined) => ({
     type: 'setNotablePerson',
     payload,

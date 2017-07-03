@@ -21,7 +21,7 @@ export function getUserIsLoggedIn(state: State) {
 }
 
 export function showGlobalSpinner(state: State) {
-  return state.isLogoutPending || state.isLoginPending;
+  return state.isLogoutPending || state.isLoginPending || state.isSubmitPending;
 }
 
 export function hasResults(state: State) {
