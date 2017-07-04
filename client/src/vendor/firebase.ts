@@ -14,7 +14,7 @@ export const firebaseApp = firebase.initializeApp(firebaseConfig);
 export const firebaseAuth = firebaseApp.auth();
 export const firebaseDb = firebaseApp.database();
 
-export async function login(
+export function login(
   payload: facebookSdk.IAuthResponse,
 ): Promise<firebase.User> {
   try {
@@ -22,7 +22,9 @@ export async function login(
       payload.authResponse.accessToken,
     );
 
-    return firebaseAuth.signInWithCredential(credential);
+    return firebaseAuth.signInWithCredential(credential) as Promise<
+      firebase.User
+    >;
   } catch (err) {
     throw makeError('facebookLoginError');
   }
