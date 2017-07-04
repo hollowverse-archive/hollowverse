@@ -7,7 +7,7 @@ export const messagesByCode = {
     'We could not get you logged-in successfully. Please try again, and we will be on the case!',
 };
 
-type ErrorCode = keyof typeof messagesByCode;
+export type ErrorCode = keyof typeof messagesByCode;
 
 /**
  * A custom error class for app-specific errors
@@ -22,15 +22,4 @@ export class HvError extends Error implements IHvError {
   name = 'HollowverseError';
   code: ErrorCode;
   message: string;
-}
-
-/**
- * A helper function to create an custom error
- * instance given a valid error code
- */
-export function makeError(code: ErrorCode): HvError {
-  const error = new HvError(messagesByCode[code]);
-  error.code = code;
-
-  return error;
 }

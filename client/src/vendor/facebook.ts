@@ -1,5 +1,4 @@
-import { makeError } from 'constants/errors';
-import { promisify } from 'utils/utils';
+import { promisify, makeError } from 'utils/utils';
 
 export const getLoginStatus = promisify(FB.getLoginStatus);
 

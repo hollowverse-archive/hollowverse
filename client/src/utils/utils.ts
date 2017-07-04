@@ -1,5 +1,6 @@
 import * as cn from 'classnames';
 import sortBy from 'lodash/sortBy';
+import { ErrorCode, messagesByCode, HvError } from 'constants/errors';
 
 export function stringEnum<T extends string>(o: T[]): { [K in T]: K } {
   return o.reduce((res, key) => {
@@ -30,6 +31,17 @@ export function promisify<R>(
         }
       });
     });
+}
+
+/**
+ * A helper function to create an custom error
+ * instance given a valid error code
+ */
+export function makeError(code: ErrorCode): HvError {
+  const error = new HvError(messagesByCode[code]);
+  error.code = code;
+
+  return error;
 }
 
 export { cn };

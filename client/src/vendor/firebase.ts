@@ -1,6 +1,6 @@
 import * as firebase from 'firebase';
 import { IUser } from 'typings/typeDefinitions';
-import { makeError } from 'constants/errors';
+import { makeError } from 'utils/utils';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyDeZnov5HXrnlYKwvyUYlnoiwTDYljpz5U',
