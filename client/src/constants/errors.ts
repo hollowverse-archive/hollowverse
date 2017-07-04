@@ -11,10 +11,12 @@ type ErrorCode = keyof typeof messagesByCode;
 
 /**
  * A custom error class for app-specific errors
- * like authetnication and data fetching errors.
+ * like authentication and data fetching errors.
  *
  * It is always a good practice to throw actual
- * Error objects so we can get stack traces.
+ * Error objects so we can get stack traces in cases
+ * where we throw an error and forget to catch it somewhere
+ * in our code.
  */
 export class HvError extends Error implements AbstractHvError {
   name = 'HollowverseError';
