@@ -4,7 +4,7 @@ export const messagesByCode = {
   facebookLoginError:
     'We could not complete login to Hollowverse through Facebook',
   firebaseLoginError:
-    'We could get you logged-in successfully. Please try again, and we will be on the case!',
+    'We could not get you logged-in successfully. Please try again, and we will be on the case!',
 };
 
 type ErrorCode = keyof typeof messagesByCode;
