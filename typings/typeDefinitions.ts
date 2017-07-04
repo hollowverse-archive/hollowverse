@@ -3,7 +3,7 @@ export interface IUser {
   id: string;
 }
 
-export abstract class HvError extends Error {
+export interface HvError extends Error {
   name: string;
   code: string;
   /** User-friendly error message */

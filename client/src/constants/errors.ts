@@ -1,4 +1,4 @@
-import { HvError as AbstractHvError } from 'typings/typeDefinitions';
+import { HvError as IHvError } from 'typings/typeDefinitions';
 
 export const messagesByCode = {
   facebookLoginError:
@@ -18,7 +18,7 @@ type ErrorCode = keyof typeof messagesByCode;
  * where we throw an error and forget to catch it somewhere
  * in our code.
  */
-export class HvError extends Error implements AbstractHvError {
+export class HvError extends Error implements IHvError {
   name = 'HollowverseError';
   code: ErrorCode;
   message: string;
