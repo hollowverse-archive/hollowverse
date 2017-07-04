@@ -1,20 +1,50 @@
-import * as cn from 'classnames'
-import {pick as _pick, sortBy as _sortBy} from 'lodash'
+import * as cn from 'classnames';
+import sortBy from 'lodash/sortBy';
+import { messagesByCode } from 'constants/errors';
+import { ErrorCode, HvError } from 'typings/typeDefinitions';
 
-export function stringEnum<T extends string>(o: T[]): {[K in T]: K} {
+export function stringEnum<T extends string>(o: T[]): { [K in T]: K } {
   return o.reduce((res, key) => {
-    res[key] = key
+    res[key] = key;
 
-    return res
-  }, Object.create(null))
+    return res;
+  }, Object.create(null));
 }
 
-export function pick<T, K extends keyof T>(object: T, predicate: K[]): {[NAME in K]: T[NAME]} {
-  return _pick(object, predicate) as any
+export function sortByDescending<T>(
+  object: { [index: number]: T; length: number },
+  iteratee: string,
+): T[] {
+  return sortBy(object, iteratee).reverse();
 }
 
-export function sortByDescending<T>(object: {[index: number]: T, length: number}, iteratee: string): T[] {
-  return _sortBy(object, iteratee).reverse()
+export function promisify<R>(
+  fn: (cb: (result: R, err?: Error | null) => void) => void,
+) {
+  return () =>
+    new Promise<R>((resolve, reject) => {
+      const _fn: typeof fn = fn.bind(fn);
+      _fn((result, err) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(result);
+        }
+      });
+    });
 }
 
-export {cn}
+/**
+ * A helper function to create an custom error
+ * instance given a valid error code
+ */
+export function makeError(code: ErrorCode): HvError {
+  const message = messagesByCode[code];
+  const error = new Error(message) as HvError;
+  error.name = 'HollowverseError';
+  error.code = code;
+
+  return error;
+}
+
+export { cn };

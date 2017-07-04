@@ -1,10 +1,41 @@
 {
-  "extends": "./node_modules/@hollowverse/common-config/tsconfig",
   "compilerOptions": {
-    "outDir": "public"
-  },
-  "exclude": [
-    "node_modules",
-    "functions/node_modules"
-  ]
+    // It looks like TS >= 2.3 is having issues resolving type definitions
+    // bundled with npm packages unless this is set to "node" (although it
+    // is the default since 1.7)
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+  
+    "strict": true,
+    "noEmitOnError": true,
+    "module": "commonjs",
+    "target": "es2015",
+    "skipLibCheck": false,
+    "skipDefaultLibCheck": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "allowJs": true,
+    "checkJs": false,
+    "sourceMap": true,
+
+    // Do not transpile JSX with TypeScript, we will do that with Babel.
+    // This allows us to use babel-preset-react-optimize to perform optimizations
+    // on JSX. Otherwise Babel won't see any JSX and no optimizations will be applied.
+    "jsx": "react",
+    "plugins": [],
+
+    // Allow absolute imports from 'src' dir,
+    // e.g. `import 'file';` instead of `'../../file';`
+    // This also has to be set in `webpack.config.json`, check `resolve.modules`
+    "baseUrl": ".",
+
+    // Specifies how to resolve absolute imports relative to baseUrl
+    "paths": {
+      "*": [
+        "./*", // Try exact match first
+        "client/src/*", // If not found, try client/src
+        "server/src/*" // Finally try server/src
+      ]
+    }
+  }
 }

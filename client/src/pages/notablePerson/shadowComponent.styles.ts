@@ -1,7 +1,7 @@
-import {StyleSheet} from 'aphrodite/no-important'
-import {palette} from '../../common.styles'
+import { StyleSheet } from 'aphrodite/no-important';
+import { palette } from 'common.styles';
 
-const {shadesOfBlack} = palette
+const { shadesOfBlack } = palette;
 
 export const styles = StyleSheet.create({
   shadowTopContainer: {
@@ -51,7 +51,7 @@ export const styles = StyleSheet.create({
     height: '0.65rem',
     width: '13.5%',
   },
-})
+});
 
 /* For future use.
 const mockAnimation = {

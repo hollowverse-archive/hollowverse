@@ -1,7 +1,7 @@
-import {StyleSheet} from 'aphrodite/no-important'
-import {palette} from '../common.styles'
+import { StyleSheet } from 'aphrodite/no-important';
+import { palette } from 'common.styles';
 
-const {shadesOfBlack} = palette
+const { shadesOfBlack } = palette;
 
 export const styles = StyleSheet.create({
   warningBar: {
@@ -27,4 +27,4 @@ export const styles = StyleSheet.create({
     alignSelft: 'center',
     textDecoration: 'none',
   },
-})
+});

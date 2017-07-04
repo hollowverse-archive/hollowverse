@@ -1,4 +1,4 @@
-import {StyleSheet} from 'aphrodite/no-important'
+import { StyleSheet } from 'aphrodite/no-important';
 
 // You can import these to your styles to create accents,
 // colors go from dark to light in index.
@@ -13,14 +13,8 @@ export const palette = {
     '#fcfcfc',
     '#ffffff',
   ],
-  shadesOfWhite: [
-    '#E6E6E6',
-    '#f0f0f0',
-    '#f5f5f5',
-    '#fcfcfc',
-    '#ffffff',
-  ],
-}
+  shadesOfWhite: ['#E6E6E6', '#f0f0f0', '#f5f5f5', '#fcfcfc', '#ffffff'],
+};
 
 // Global styles- use in your classes whenever you can
 export const common = StyleSheet.create({
@@ -41,4 +35,4 @@ export const common = StyleSheet.create({
     fontWeight: 400,
     fontSize: '1rem',
   },
-})
+});

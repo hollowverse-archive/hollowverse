@@ -1,0 +1,14 @@
+{
+  "extends": [
+    "airbnb/base",
+    "prettier",
+    "prettier/react"
+  ],
+  "parser": "babel-eslint",
+  "plugins": [
+    "react"
+  ],
+  "rules": {
+    "no-console": 0
+  }
+}

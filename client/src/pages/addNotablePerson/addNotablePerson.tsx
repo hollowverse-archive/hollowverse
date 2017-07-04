@@ -1,44 +1,44 @@
-import * as React from 'react'
-import {connect} from 'react-redux'
-import {State} from '../../redux/reducers'
-import * as selectors from '../../redux/selectors'
-import {pick} from '../../utils/utils'
+import * as React from 'react';
+import { connect } from 'react-redux';
+import { State } from 'store/reducers';
+import pick from 'lodash/pick';
 
-interface IProps {
-  createProfileUrlInputValue: string
+import { DefaultDispatchProps } from 'store/types';
+
+interface StateProps {
+  createProfileUrlInputValue: string;
 }
 
-function mapStateToProps(state: State): IProps {
+function mapStateToProps(state: State): StateProps {
   return {
-    ...pick(state, [
-      'createProfileUrlInputValue',
-    ]),
-  }
+    ...pick(state, ['createProfileUrlInputValue']),
+  };
 }
 
-class AddNotablePersonClass extends React.Component<IProps, undefined> {
+type Props = StateProps & DefaultDispatchProps;
+
+class AddNotablePersonClass extends React.PureComponent<Props, {}> {
   render() {
-    const {props: p} = this
+    const { props: p } = this;
 
     return (
-      <div className='pageCreateProfile'>
-        <section className='hero is-light overflowHidden elementSpacingTopHalf'>
-          <div className='hero-body fontAwesomeBackgroundImageWrapper'>
-            <div className='container fontAwesomeBackgroundImageInner'>
-              <h1 className='title'>Admin</h1>
+      <div className="pageCreateProfile">
+        <section className="hero is-light overflowHidden elementSpacingTopHalf">
+          <div className="hero-body fontAwesomeBackgroundImageWrapper">
+            <div className="container fontAwesomeBackgroundImageInner">
+              <h1 className="title">Admin</h1>
 
-              <div className='field'>
-                <p className='control has-icon'>
+              <div className="field">
+                <p className="control has-icon">
                   <input
-                    className='input'
+                    className="input"
                     readOnly
-                    type='text'
+                    type="text"
                     value={p.createProfileUrlInputValue}
-                    onChange={({target: {value}}) => null}
-                    placeholder='Profile URL'
+                    placeholder="Profile URL"
                   />
-                  <span className='icon is-small'>
-                    <i className='fa fa-link'/>
+                  <span className="icon is-small">
+                    <i className="fa fa-link" />
                   </span>
                 </p>
               </div>
@@ -46,10 +46,8 @@ class AddNotablePersonClass extends React.Component<IProps, undefined> {
           </div>
         </section>
       </div>
-    )
+    );
   }
 }
 
-export const AddNotablePerson = connect(
-  mapStateToProps,
-)(AddNotablePersonClass)
+export const AddNotablePerson = connect(mapStateToProps)(AddNotablePersonClass);

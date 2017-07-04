@@ -1,7 +1,7 @@
-import {StyleSheet} from 'aphrodite/no-important'
-import {palette} from '../../common.styles'
+import { StyleSheet } from 'aphrodite/no-important';
+import { palette } from 'common.styles';
 
-const {shadesOfBlack} = palette
+const { shadesOfBlack } = palette;
 
 export const styles = StyleSheet.create({
   notablePersonTitleContainer: {
@@ -53,4 +53,4 @@ export const styles = StyleSheet.create({
     padding: '1rem 1rem',
     margin: '0.8rem 0.8rem',
   },
-})
+});
