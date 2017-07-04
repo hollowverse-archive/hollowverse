@@ -1,6 +1,7 @@
 import * as cn from 'classnames';
 import sortBy from 'lodash/sortBy';
-import { ErrorCode, messagesByCode, HvError } from 'constants/errors';
+import { messagesByCode } from 'constants/errors';
+import { ErrorCode, HvError } from 'typings/typeDefinitions';
 
 export function stringEnum<T extends string>(o: T[]): { [K in T]: K } {
   return o.reduce((res, key) => {
@@ -38,7 +39,9 @@ export function promisify<R>(
  * instance given a valid error code
  */
 export function makeError(code: ErrorCode): HvError {
-  const error = new HvError(messagesByCode[code]);
+  const message = messagesByCode[code];
+  const error = new Error(message) as HvError;
+  error.name = 'HollowverseError';
   error.code = code;
 
   return error;
