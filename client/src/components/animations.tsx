@@ -29,11 +29,11 @@ export class FadeInUp extends React.PureComponent<{}, {}> {
   }
 }
 
-interface IFadeInProps {
+interface FadeInProps {
   timeout?: 100 | 200 | 300 | 400;
 }
-export class FadeIn extends React.PureComponent<IFadeInProps, {}> {
-  static defaultProps: IFadeInProps = {
+export class FadeIn extends React.PureComponent<FadeInProps, {}> {
+  static defaultProps: FadeInProps = {
     timeout: 100,
   };
 

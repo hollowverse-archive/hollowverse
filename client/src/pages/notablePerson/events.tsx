@@ -1,15 +1,15 @@
 import { css } from 'aphrodite/no-important';
 import * as React from 'react';
-import { IEventSchema } from 'typings/dataSchema';
+import { EventSchema } from 'typings/dataSchema';
 import { common } from 'common.styles';
 import { sortByDescending } from 'utils/utils';
 import { styles } from './events.styles';
 
-interface IProps {
-  data: IEventSchema[];
+interface Props {
+  data: EventSchema[];
 }
 
-class EventsClass extends React.PureComponent<IProps, {}> {
+class EventsClass extends React.PureComponent<Props, {}> {
   render() {
     return (
       <div className={css(styles.eventsContainer)}>

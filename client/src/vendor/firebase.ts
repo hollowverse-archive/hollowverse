@@ -1,5 +1,5 @@
 import * as firebase from 'firebase';
-import { IUser } from 'typings/typeDefinitions';
+import { User } from 'typings/typeDefinitions';
 import { makeError } from 'utils/utils';
 
 const firebaseConfig = {
@@ -15,7 +15,7 @@ export const firebaseAuth = firebaseApp.auth();
 export const firebaseDb = firebaseApp.database();
 
 export function login(
-  payload: facebookSdk.IAuthResponse,
+  payload: facebookSdk.AuthResponse,
 ): Promise<firebase.User> {
   try {
     const credential = firebase.auth.FacebookAuthProvider.credential(
@@ -41,7 +41,7 @@ export async function userExists(user: firebase.User) {
   return userSnapshot.val() !== null;
 }
 
-export function createUser(user: IUser) {
+export function createUser(user: User) {
   const usersReference = firebaseDb.ref('users');
 
   return usersReference.child(user.id).set({
@@ -50,7 +50,7 @@ export function createUser(user: IUser) {
 }
 
 export async function loginOrRegister(
-  facebookAuthResponse: facebookSdk.IAuthResponse,
+  facebookAuthResponse: facebookSdk.AuthResponse,
 ): Promise<void> {
   if (facebookAuthResponse.status === 'connected') {
     const firebaseUser = await login(facebookAuthResponse);

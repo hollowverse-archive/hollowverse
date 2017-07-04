@@ -22,7 +22,6 @@
     // This allows us to use babel-preset-react-optimize to perform optimizations
     // on JSX. Otherwise Babel won't see any JSX and no optimizations will be applied.
     "jsx": "react",
-    "plugins": [],
 
     // Allow absolute imports from 'src' dir,
     // e.g. `import 'file';` instead of `'../../file';`

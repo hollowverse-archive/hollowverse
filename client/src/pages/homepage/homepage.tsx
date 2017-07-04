@@ -8,13 +8,13 @@ import { DefaultDispatchProps } from 'store/types';
 import { State } from 'store/reducers';
 import * as selectors from 'store/selectors';
 import pick from 'lodash/pick';
-import { IAlgoliaSearchResults } from 'vendor/algolia';
+import { AlgoliaSearchResults } from 'vendor/algolia';
 import { styles } from './homepage.styles';
 
 interface StateProps {
   searchInputValue: string;
   searchTerm: string;
-  searchResults: IAlgoliaSearchResults | null;
+  searchResults: AlgoliaSearchResults | null;
   lastSearchTerm: string;
   hasResults: boolean;
 }

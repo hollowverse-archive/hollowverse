@@ -9,15 +9,15 @@
 //
 import { routerReducer, RouterState } from 'react-router-redux';
 import { Reducer } from 'redux';
-import { ActionTypes, IAction } from './actions';
-import { INotablePersonSchema, IUserSchema } from 'typings/dataSchema';
+import { ActionTypes, Action } from './actions';
+import { NotablePersonSchema, UserSchema } from 'typings/dataSchema';
 import { HvError } from 'typings/typeDefinitions';
-import { IAlgoliaSearchResults } from 'vendor/algolia';
+import { AlgoliaSearchResults } from 'vendor/algolia';
 
-// This interface defines the state properties of the Hollowverse app
-interface IAppState {
+// Make it an immutable type
+type AppState = Readonly<{
   searchInputValue: string;
-  searchResults: IAlgoliaSearchResults | null;
+  searchResults: AlgoliaSearchResults | null;
   isSearchPending: boolean;
   loginStatus: facebookSdk.LoginStatus;
   isLoginPending: boolean;
@@ -26,13 +26,10 @@ interface IAppState {
   isNavMenuOpen: boolean;
   lastSearchTerm: string;
   createProfileUrlInputValue: string;
-  notablePerson: INotablePersonSchema | null;
-  userData: IUserSchema | null;
+  notablePerson: NotablePersonSchema | null;
+  userData: UserSchema | null;
   displayWarning: boolean;
-}
-
-// Make it an immutable type
-type AppState = Readonly<IAppState>;
+}>;
 
 // Initialize the default state object
 const initialAppState: AppState = {
@@ -53,12 +50,12 @@ const initialAppState: AppState = {
 
 // IRootState contains IAppState as well as other state keys that are required by external
 // modules
-interface IRootState extends IAppState {
+interface RootState extends AppState {
   routing: RouterState | undefined;
 }
 
 // Make it an immutable type
-export type State = Readonly<IRootState>;
+export type State = Readonly<RootState>;
 
 // This is the root initial state of the whole application
 const initialState: State = {
@@ -83,9 +80,9 @@ const initialState: State = {
 //
 // We can do away with this function, but then we'll have a bunch of boilerplate for each key we patch.
 function createSingleActionSimpleReducer<PayloadType>(
-  stateKeyToPatch: keyof IAppState,
+  stateKeyToPatch: keyof AppState,
 ) {
-  return (state: AppState, action: IAction<PayloadType>): AppState => {
+  return (state: AppState, action: Action<PayloadType>): AppState => {
     return { ...state, [stateKeyToPatch]: action.payload };
   };
 }
@@ -118,7 +115,7 @@ const singleActionReducers = {
     'searchInputValue',
   ),
   [ActionTypes.setSearchResults]: createSingleActionSimpleReducer<
-    IAlgoliaSearchResults | undefined
+    AlgoliaSearchResults | undefined
   >('searchResults'),
   [ActionTypes.setIsSearchPending]: createSingleActionSimpleReducer<boolean>(
     'isSearchPending',
@@ -143,10 +140,10 @@ const singleActionReducers = {
     string
   >('createProfileUrlInputValue'),
   [ActionTypes.setNotablePerson]: createSingleActionSimpleReducer<
-    INotablePersonSchema | undefined
+    NotablePersonSchema | undefined
   >('notablePerson'),
   [ActionTypes.setUserData]: createSingleActionSimpleReducer<
-    IUserSchema | undefined
+    UserSchema | undefined
   >('userData'),
   [ActionTypes.toggleWarning]: createSingleActionSimpleReducer<boolean>(
     'displayWarning',
@@ -163,11 +160,11 @@ const singleActionReducers = {
 // `appReducer` is for Hollowverse state only. It is not the root reducer of the app.
 const appReducer = (
   state: AppState = initialAppState,
-  action: IAction<any>,
+  action: Action<any>,
 ): AppState => {
   const actionReducer = singleActionReducers[action.type] as (
     state: AppState,
-    action: IAction<any>,
+    action: Action<any>,
   ) => AppState;
 
   /* tslint:disable:strict-type-predicates */

@@ -9,12 +9,12 @@ import pick from 'lodash/pick';
 import { styles } from './app.styles';
 import { Header } from './header';
 
-interface IProps {
+interface Props {
   loginStatus: facebookSdk.LoginStatus;
   displayWarning: boolean;
 }
 
-function mapStateToProps(state: State): IProps {
+function mapStateToProps(state: State): Props {
   return pick(state, ['loginStatus', 'displayWarning']);
 }
 
@@ -25,7 +25,7 @@ const actionCreators = pick(actions, [
 
 type ActionCreators = typeof actionCreators;
 
-class AppClass extends React.PureComponent<ActionCreators & IProps, {}> {
+class AppClass extends React.PureComponent<ActionCreators & Props, {}> {
   componentDidMount() {
     this.props.requestUpdateLoginStatus();
     this.props.toggleWarning(true);

@@ -8,11 +8,11 @@ import { State } from 'store/reducers';
 import pick from 'lodash/pick';
 import { styles } from './header.styles';
 
-interface IProps {
+interface Props {
   loginStatus: facebookSdk.LoginStatus;
 }
 
-function mapStateToProps(state: State): IProps {
+function mapStateToProps(state: State): Props {
   return pick(state, ['loginStatus']);
 }
 
@@ -20,7 +20,7 @@ const actionCreators = pick(actions, ['requestLogin', 'requestLogout']);
 
 type ActionCreators = typeof actionCreators;
 
-class HeaderClass extends React.PureComponent<ActionCreators & IProps, {}> {
+class HeaderClass extends React.PureComponent<ActionCreators & Props, {}> {
   render() {
     return (
       <div className={css(common.palette, styles.navBar)}>

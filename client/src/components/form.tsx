@@ -1,11 +1,11 @@
 import * as React from 'react';
 
-interface IProps {
+interface Props {
   onSubmit?: React.EventHandler<React.FormEvent<HTMLFormElement>>;
 }
 
 export class Form extends React.PureComponent<
-  IProps & React.HTMLAttributes<HTMLFormElement>,
+  Props & React.HTMLAttributes<HTMLFormElement>,
   {}
 > {
   render() {

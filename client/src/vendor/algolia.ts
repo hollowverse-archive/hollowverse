@@ -1,13 +1,13 @@
 import * as algoliasearch from 'algoliasearch';
 
-export interface IAlgoliaSearchResults {
+export interface AlgoliaSearchResults {
   hits: object[];
 }
 
-interface IAlgoliaSearchIndex {
+interface AlgoliaSearchIndex {
   search(
     params: algoliasearch.AlgoliaQueryParameters,
-  ): Promise<IAlgoliaSearchResults>;
+  ): Promise<AlgoliaSearchResults>;
 }
 
 const algoliasearchClient = algoliasearch(
@@ -15,6 +15,6 @@ const algoliasearchClient = algoliasearch(
   '4d7b78dec6513ecc3c1b0ddaf9a68a78',
 );
 
-export const algoliaSearchIndex: IAlgoliaSearchIndex = algoliasearchClient.initIndex(
+export const algoliaSearchIndex: AlgoliaSearchIndex = algoliasearchClient.initIndex(
   'getstarted_actors',
 );
