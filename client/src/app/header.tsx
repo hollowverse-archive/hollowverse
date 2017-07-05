@@ -3,8 +3,8 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { common } from 'common.styles';
-import { actions } from 'store/actions';
-import { State } from 'store/reducers';
+import { requestLogin, requestLogout } from 'store/features/auth/actions';
+import { StoreState } from 'store/types';
 import pick from 'lodash/pick';
 import { styles } from './header.styles';
 
@@ -12,11 +12,14 @@ interface Props {
   loginStatus: facebookSdk.LoginStatus;
 }
 
-function mapStateToProps(state: State): Props {
+function mapStateToProps(state: StoreState): Props {
   return pick(state, ['loginStatus']);
 }
 
-const actionCreators = pick(actions, ['requestLogin', 'requestLogout']);
+const actionCreators = {
+  requestLogin,
+  requestLogout,
+};
 
 type ActionCreators = typeof actionCreators;
 
@@ -39,12 +42,12 @@ class HeaderClass extends React.PureComponent<ActionCreators & Props, {}> {
     if (p.loginStatus === 'connected') {
       return {
         icon: 'fa fa-sign-in fa-2x',
-        action: () => p.requestLogout(),
+        action: () => p.requestLogout(undefined),
       };
     } else {
       return {
         icon: 'fa fa-sign-out fa-2x',
-        action: () => p.requestLogin(),
+        action: () => p.requestLogin(undefined),
       };
     }
   }

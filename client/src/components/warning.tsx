@@ -1,8 +1,8 @@
 import { css } from 'aphrodite/no-important';
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { actions } from 'store/actions';
-import { State } from 'store/reducers';
+import { toggleWarning } from 'store/features/ui/actions';
+import { StoreState } from 'store/types';
 import pick from 'lodash/pick';
 import { styles } from './warning.styles';
 
@@ -10,11 +10,13 @@ interface Props {
   displayWarning: boolean;
 }
 
-function mapStateToProps(state: State): Props {
+function mapStateToProps(state: StoreState): Props {
   return pick(state, ['displayWarning']);
 }
 
-const actionCreators = pick(actions, ['toggleWarning']);
+const actionCreators = {
+  toggleWarning,
+};
 
 type ActionCreators = typeof actionCreators;
 

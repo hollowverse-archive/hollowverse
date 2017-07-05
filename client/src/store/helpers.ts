@@ -42,10 +42,9 @@ export function createActionCreator<T extends ActionType>(
 export function handleActions<Key extends StoreKey>(
   map: ActionToReducerMap<Key>,
   defaultState: StoreState[Key],
-): Reducer<StoreState[Key], ActionType> {
+): Reducer<StoreState[Key]> {
   return (state: StoreState[Key], action: Action<ActionType>) => {
-    const reducer: Reducer<StoreState[Key], typeof action['type']> | undefined =
-      map[action.type];
+    const reducer: Reducer<StoreState[Key]> | undefined = map[action.type];
     if (reducer !== undefined) {
       return reducer(state, action);
     }
@@ -83,4 +82,18 @@ export function isActionOfType<T extends ActionType>(
   type: T,
 ): action is Action<T> {
   return type === action.type;
+}
+
+/** Creates a reducer that handles a single action for an individual state entry.  */
+export function handleAction<
+  S extends object = StoreState,
+  A extends ActionType = ActionType
+>(actionType: A) {
+  return (state: S[keyof S], action: GenericAction): typeof state => {
+    if (isActionOfType(action, actionType) && action.payload !== undefined) {
+      return action.payload;
+    }
+
+    return state;
+  };
 }

@@ -8,7 +8,20 @@ import { put, takeEvery } from 'redux-saga/effects';
 import { algoliaSearchIndex } from 'vendor/algolia';
 import * as facebook from 'vendor/facebook';
 import * as firebase from 'vendor/firebase';
-import { actions, Action } from './actions';
+import { Action } from 'store/types';
+import {
+  setIsSearchPending,
+  setSearchResults,
+  setSearchError,
+} from 'store/features/search/actions';
+import {
+  setIsLoginPending,
+  setLoginStatus,
+  setIsLogoutPending,
+  setUserData,
+} from 'store/features/auth/actions';
+import { setNotablePerson } from 'store/features/notablePerson/actions';
+import { setError } from 'store/features/ui/actions';
 
 // These are the Redux actions that trigger the saga generators
 function* sagas() {
@@ -20,47 +33,46 @@ function* sagas() {
   yield takeEvery('requestUserData', requestUserData);
 }
 
-function* requestSearchResults(action: Action<string>) {
+function* requestSearchResults(action: Action<'requestSearchResults'>) {
   try {
-    yield put(actions.setIsSearchPending(true));
-
+    yield put(setIsSearchPending(true));
     const searchResults = yield algoliaSearchIndex.search(action.payload);
+    yield put(setSearchResults(searchResults));
 
-    yield put(actions.setSearchResults(searchResults));
   } catch (error) {
-    yield put(actions.setSearchError(error));
+    yield put(setSearchError(error));
   } finally {
-    yield put(actions.setIsSearchPending(false));
+    yield put(setIsSearchPending(false));
   }
 }
 
 function* requestLogin() {
   try {
-    yield put(actions.setIsLoginPending(true));
+    yield put(setIsLoginPending(true));
 
     const facebookAuthResponse = yield facebook.login();
 
     yield firebase.loginOrRegister(facebookAuthResponse);
 
-    yield put(actions.setLoginStatus('connected'));
+    yield put(setLoginStatus('connected'));
   } catch (error) {
-    yield put(actions.setError(error));
+    yield put(setError(error));
   } finally {
-    yield put(actions.setIsLoginPending(false));
+    yield put(setIsLoginPending(false));
   }
 }
 
 function* requestLogout() {
   try {
-    yield put(actions.setIsLogoutPending(true));
+    yield put(setIsLogoutPending(true));
 
     yield [facebook.logout(), firebase.logout()];
 
-    yield put(actions.setLoginStatus('unknown'));
+    yield put(setLoginStatus('unknown'));
   } catch (error) {
-    yield put(actions.setError(error));
+    yield put(setError(error));
   } finally {
-    yield put(actions.setIsLogoutPending(false));
+    yield put(setIsLogoutPending(false));
   }
 }
 
@@ -71,30 +83,30 @@ function* requestUpdateLoginStatus() {
     const facebookAuthResponse = yield facebook.getLoginStatus();
 
     if (facebookAuthResponse.status === 'connected') {
-      yield put(actions.setIsLoginPending(true));
+      yield put(setIsLoginPending(true));
       yield firebase.loginOrRegister(facebookAuthResponse);
-      yield put(actions.setLoginStatus('connected'));
+      yield put(setLoginStatus('connected'));
     }
   } catch (error) {
-    yield put(actions.setError(error));
+    yield put(setError(error));
   } finally {
-    yield put(actions.setIsLoginPending(false));
+    yield put(setIsLoginPending(false));
   }
 }
 
-function* requestNotablePerson(action: Action<string>) {
+function* requestNotablePerson(action: Action<'requestNotablePerson'>) {
   try {
     const firebaseResponse = yield firebase.getData(action.payload);
-    yield put(actions.setNotablePerson(firebaseResponse));
+    yield put(setNotablePerson(firebaseResponse));
   } catch (error) {
     throw error;
   }
 }
 
-function* requestUserData(action: Action<string>) {
+function* requestUserData(action: Action<'requestUserData'>) {
   try {
     const firebaseResponse = yield firebase.getData(`/users/${action.payload}`);
-    yield put(actions.setUserData(firebaseResponse));
+    yield put(setUserData(firebaseResponse));
   } catch (error) {
     throw error;
   }

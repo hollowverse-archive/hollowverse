@@ -1,11 +1,12 @@
+import { RouterState } from 'react-router-redux';
 import { AlgoliaSearchResults } from 'vendor/algolia';
-import { HvError as AppError } from 'typings/typeDefinitions';
+import { HvError } from 'typings/typeDefinitions';
 import { NotablePersonSchema, UserSchema } from 'typings/dataSchema';
 
-export type StoreState = {
+export type AppState = {
   // Search
   searchInputValue: string;
-  searchResults: AlgoliaSearchResults | undefined;
+  searchResults: AlgoliaSearchResults | null;
   isSearchPending: boolean;
   lastSearchTerm: string;
 
@@ -15,7 +16,7 @@ export type StoreState = {
   isLogoutPending: boolean;
 
   // General
-  error: AppError;
+  error: HvError | null;
   displayWarning: boolean;
   isNavMenuOpen: boolean;
 
@@ -23,18 +24,28 @@ export type StoreState = {
   createProfileUrlInputValue: string;
 
   // Notable Person
-  notablePerson: NotablePersonSchema | undefined;
+  notablePerson: NotablePersonSchema | null;
 
   // User
-  userData: UserSchema | undefined;
+  userData: UserSchema | null;
 };
+
+interface RoutingState {
+  routing: RouterState | undefined;
+}
+
+/**
+ * RootState contains AppState as well as other state keys that are
+ * required by external modules
+ */
+export type StoreState = Readonly<AppState & RoutingState>;
 
 export type StoreKey = keyof StoreState;
 
 /** A map of all app actions to their corresponding payloads */
 export type PayloadsByActionType = {
   // General
-  setError: AppError;
+  setError: HvError;
   toggleWarning: boolean;
 
   // Search
@@ -42,7 +53,7 @@ export type PayloadsByActionType = {
   requestSearchResults: string;
   setIsSearchPending: boolean;
   setSearchError: string;
-  setSearchResults: AlgoliaSearchResults | undefined;
+  setSearchResults: AlgoliaSearchResults | null;
   setLastSearchTerm: string;
   navigateToSearch: string;
 
@@ -65,6 +76,7 @@ export type PayloadsByActionType = {
   setNotablePerson: NotablePersonSchema;
 
   // User
+  requestUserData: void;
   setUserData: UserSchema;
 };
 
@@ -119,17 +131,27 @@ export type ActionCreator<T extends ActionType> = (
 
 export type GenericActionCreator = ActionCreator<ActionType>;
 
-export type Reducer<S, A extends ActionType> = (
-  state: S,
-  action: Action<A>,
-) => S;
+export type Reducer<S> = (state: S, action: GenericAction) => S;
 
-export type ReducerMap = {
-  [Key in StoreKey]: Reducer<StoreState[Key], ActionType>
+export type ReducerMap<State extends object = StoreState> = {
+  // tslint:disable-next-line no-suspicious-comment
+  // @FIXME: Remove `any` from mapped type.
+  //
+  // TS does not currently narrow down generic type parameters
+  // So `Reducer<State[Key]>` is equivalent to `Reducer<keyof State>`
+  // which means we cannot safely inform TS that this state entry should
+  // only accept a reducer with a compatible return type.
+  //
+  // If `any` is removed in TS <= 2.4, the type checker will try to match
+  // **each** reducer's return type with **every** type in the entire state
+  // and the types won't be compatible.
+  //
+  // Refer to this issue: https://github.com/Microsoft/TypeScript/issues/10717
+  [Key in keyof State]: Reducer<State[Key]> | any
 };
 
 export type ActionToReducerMap<Key extends StoreKey> = {
-  [A in ActionType]: Reducer<StoreState[Key], A>
+  [A in ActionType]: Reducer<StoreState[Key]>
 };
 
 /**
