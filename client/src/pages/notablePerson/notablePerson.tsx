@@ -2,7 +2,7 @@ import { css } from 'aphrodite/no-important';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
-import { INotablePersonSchema } from 'typings/dataSchema';
+import { NotablePersonSchema } from 'typings/dataSchema';
 import { common } from 'common.styles';
 import { requestNotablePerson } from 'store/features/notablePerson/actions';
 import { State } from 'store/reducers';
@@ -11,7 +11,7 @@ import { styles } from './notablePerson.styles';
 import { ShadowComponent } from './shadowComponent';
 
 interface StateProps {
-  notablePerson: INotablePersonSchema | null;
+  notablePerson: NotablePersonSchema | null;
 }
 
 function mapStateToProps(state: State): StateProps {

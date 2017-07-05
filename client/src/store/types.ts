@@ -1,11 +1,11 @@
-import { IAlgoliaSearchResults } from 'vendor/algolia';
+import { AlgoliaSearchResults } from 'vendor/algolia';
 import { HvError as AppError } from 'typings/typeDefinitions';
-import { INotablePersonSchema, IUserSchema } from 'typings/dataSchema';
+import { NotablePersonSchema, UserSchema } from 'typings/dataSchema';
 
 export type StoreState = {
   // Search
   searchInputValue: string;
-  searchResults: IAlgoliaSearchResults | undefined;
+  searchResults: AlgoliaSearchResults | undefined;
   isSearchPending: boolean;
   lastSearchTerm: string;
 
@@ -23,10 +23,10 @@ export type StoreState = {
   createProfileUrlInputValue: string;
 
   // Notable Person
-  notablePerson: INotablePersonSchema | undefined;
+  notablePerson: NotablePersonSchema | undefined;
 
   // User
-  userData: IUserSchema | undefined;
+  userData: UserSchema | undefined;
 };
 
 export type StoreKey = keyof StoreState;
@@ -42,7 +42,7 @@ export type PayloadsByActionType = {
   requestSearchResults: string;
   setIsSearchPending: boolean;
   setSearchError: string;
-  setSearchResults: IAlgoliaSearchResults | undefined;
+  setSearchResults: AlgoliaSearchResults | undefined;
   setLastSearchTerm: string;
   navigateToSearch: string;
 
@@ -62,10 +62,10 @@ export type PayloadsByActionType = {
 
   // Notable person
   requestNotablePerson: string;
-  setNotablePerson: INotablePersonSchema;
+  setNotablePerson: NotablePersonSchema;
 
   // User
-  setUserData: IUserSchema;
+  setUserData: UserSchema;
 };
 
 /**

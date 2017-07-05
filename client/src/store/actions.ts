@@ -7,13 +7,13 @@
 // * Redux action types
 //
 import { push } from 'react-router-redux';
-import { INotablePersonSchema, IUserSchema } from 'typings/dataSchema';
+import { NotablePersonSchema, UserSchema } from 'typings/dataSchema';
 import { HvError } from 'typings/typeDefinitions';
 import { stringEnum } from 'utils/utils';
-import { IAlgoliaSearchResults } from 'vendor/algolia';
+import { AlgoliaSearchResults } from 'vendor/algolia';
 
 /** Custom type definition of a Redux Action */
-export interface IAction<PayloadType> {
+export interface Action<PayloadType> {
   type: string;
   payload: PayloadType;
 }
@@ -48,7 +48,7 @@ export const actions = {
     payload,
   }),
   setSearchError: (payload: string) => ({ type: 'setSearchError', payload }),
-  setSearchResults: (payload: IAlgoliaSearchResults | undefined) => ({
+  setSearchResults: (payload: AlgoliaSearchResults | undefined) => ({
     type: 'setSearchResults',
     payload,
   }),
@@ -69,11 +69,11 @@ export const actions = {
     type: 'setCreateProfileUrlInputValue',
     payload,
   }),
-  setNotablePerson: (payload: INotablePersonSchema | undefined) => ({
+  setNotablePerson: (payload: NotablePersonSchema | undefined) => ({
     type: 'setNotablePerson',
     payload,
   }),
-  setUserData: (payload: IUserSchema | undefined) => ({
+  setUserData: (payload: UserSchema | undefined) => ({
     type: 'setUserData',
     payload,
   }),

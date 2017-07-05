@@ -6,11 +6,11 @@ import { State } from 'store/reducers';
 import pick from 'lodash/pick';
 import { styles } from './warning.styles';
 
-interface IProps {
+interface Props {
   displayWarning: boolean;
 }
 
-function mapStateToProps(state: State): IProps {
+function mapStateToProps(state: State): Props {
   return pick(state, ['displayWarning']);
 }
 
@@ -18,7 +18,7 @@ const actionCreators = pick(actions, ['toggleWarning']);
 
 type ActionCreators = typeof actionCreators;
 
-class WarningClass extends React.PureComponent<ActionCreators & IProps, {}> {
+class WarningClass extends React.PureComponent<ActionCreators & Props, {}> {
   handleClick = () => {
     this.props.toggleWarning(false);
   };

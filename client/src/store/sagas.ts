@@ -8,7 +8,7 @@ import { put, takeEvery } from 'redux-saga/effects';
 import { algoliaSearchIndex } from 'vendor/algolia';
 import * as facebook from 'vendor/facebook';
 import * as firebase from 'vendor/firebase';
-import { actions, IAction } from './actions';
+import { actions, Action } from './actions';
 
 // These are the Redux actions that trigger the saga generators
 function* sagas() {
@@ -20,7 +20,7 @@ function* sagas() {
   yield takeEvery('requestUserData', requestUserData);
 }
 
-function* requestSearchResults(action: IAction<string>) {
+function* requestSearchResults(action: Action<string>) {
   try {
     yield put(actions.setIsSearchPending(true));
 
@@ -82,7 +82,7 @@ function* requestUpdateLoginStatus() {
   }
 }
 
-function* requestNotablePerson(action: IAction<string>) {
+function* requestNotablePerson(action: Action<string>) {
   try {
     const firebaseResponse = yield firebase.getData(action.payload);
     yield put(actions.setNotablePerson(firebaseResponse));
@@ -91,7 +91,7 @@ function* requestNotablePerson(action: IAction<string>) {
   }
 }
 
-function* requestUserData(action: IAction<string>) {
+function* requestUserData(action: Action<string>) {
   try {
     const firebaseResponse = yield firebase.getData(`/users/${action.payload}`);
     yield put(actions.setUserData(firebaseResponse));

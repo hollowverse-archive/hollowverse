@@ -4,7 +4,7 @@ import * as path from 'path';
 import * as React from 'react';
 import { renderToString } from 'react-dom/server';
 import { Provider } from 'react-redux';
-import { App } from 'client/src/app/app';
+import { App } from '../../client/src/app/app';
 import { store } from './redux.store';
 
 const app = Express();

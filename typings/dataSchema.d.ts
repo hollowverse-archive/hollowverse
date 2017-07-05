@@ -1,26 +1,26 @@
-export interface IDatabaseSchema {
-  notablePersons: INotablePersonSchema,
-  users: IUserSchema,
+export interface DatabaseSchema {
+  notablePersons: NotablePersonSchema;
+  users: UserSchema;
 }
 
-export interface INotablePersonSchema {
-  name: string,
-  photoUrl: string,
-  labels: string[],
-  events: IEventSchema[],
+export interface NotablePersonSchema {
+  name: string;
+  photoUrl: string;
+  labels: string[];
+  events: EventSchema[];
 }
 
-export interface IEventSchema {
-  id: number,
-  quote: string,
-  sourceName: string,
-  sourceUrl: string,
-  userId: string,
-  userComment: string,
-  postedAt: number,
+export interface EventSchema {
+  id: number;
+  quote: string;
+  sourceName: string;
+  sourceUrl: string;
+  userId: string;
+  userComment: string;
+  postedAt: number;
 }
 
-export interface IUserSchema {
-  displayName: string,
-  userAvatar: string,
+export interface UserSchema {
+  displayName: string;
+  userAvatar: string;
 }
