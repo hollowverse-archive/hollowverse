@@ -8,3 +8,4 @@ export const requestUpdateLoginStatus = createActionCreator(
 export const setIsLoginPending = createActionCreator('setIsLoginPending');
 export const setIsLogoutPending = createActionCreator('setIsLogoutPending');
 export const requestLogout = createActionCreator('requestLogout');
+export const setUserData = createActionCreator('setUserData');

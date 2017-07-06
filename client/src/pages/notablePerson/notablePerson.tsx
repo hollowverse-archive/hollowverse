@@ -5,7 +5,7 @@ import { RouteComponentProps } from 'react-router-dom';
 import { NotablePersonSchema } from 'typings/dataSchema';
 import { common } from 'common.styles';
 import { requestNotablePerson } from 'store/features/notablePerson/actions';
-import { State } from 'store/reducers';
+import { StoreState as State } from 'store/types';
 import { Events } from './events';
 import { styles } from './notablePerson.styles';
 import { ShadowComponent } from './shadowComponent';

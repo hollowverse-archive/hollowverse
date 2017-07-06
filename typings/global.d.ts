@@ -1,10 +1,3 @@
-/* tslint:disable:interface-name */
-interface Window {
-  __REDUX_DEVTOOLS_EXTENSION_COMPOSE__: <E>(a: E) => E;
-  __PRELOADED_STATE__: {};
-}
-/* tslint:enable:interface-name */
-
 declare const FB: facebookSdk.Fb;
 declare namespace facebookSdk {
   type LoginStatus = 'connected' | 'not_authorized' | 'unknown';

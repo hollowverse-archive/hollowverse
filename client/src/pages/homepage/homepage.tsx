@@ -5,7 +5,7 @@ import { RouteComponentProps } from 'react-router-dom';
 import { common } from 'common.styles';
 import { Form } from 'components/form';
 import { DefaultDispatchProps } from 'store/types';
-import { State } from 'store/reducers';
+import { StoreState as State } from 'store/types';
 import * as selectors from 'store/selectors';
 import pick from 'lodash/pick';
 import { AlgoliaSearchResults } from 'vendor/algolia';
@@ -96,7 +96,7 @@ class HomepageClass extends React.PureComponent<IProps, {}> {
     dispatch(setSearchInputValue(searchText));
 
     if (!hasResults) {
-      dispatch(setSearchResults(undefined));
+      dispatch(setSearchResults(null));
     }
   };
 

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { State } from 'store/reducers';
+import { StoreState as State } from 'store/types';
 import pick from 'lodash/pick';
 
 import { DefaultDispatchProps } from 'store/types';
