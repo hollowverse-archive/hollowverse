@@ -237,6 +237,7 @@ const config = {
       ifReact(ifHot('react-hot-loader/patch')),
       ifPreact(ifDev('preact/devtools')),
       ifHot('webpack-hot-middleware/client'),
+      ifProd('regenerator-runtime/runtime'),
       path.resolve(__dirname, 'src/webpackEntry.ts'),
     ]),
   },
