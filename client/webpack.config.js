@@ -57,7 +57,12 @@ if (!env.shouldTypeCheck) {
   log('Skipping type checking!');
 }
 
-const BUILD_PATH = path.resolve(__dirname, '../public');
+const CUSTOM_BUILD_PATH = process.env.BUILD_PATH ? path.resolve(process.cwd(), process.env.BUILD_PATH) : undefined;
+
+const BUILD_PATH =
+  CUSTOM_BUILD_PATH ||
+  path.resolve(__dirname, '../public');
+
 const PUBLIC_PATH = env.isProd ? '' : '/';
 
 const excludedPatterns = compact([
