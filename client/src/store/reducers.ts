@@ -4,19 +4,22 @@ import { handleAction } from 'store/helpers';
 import { combineReducers, Reducer as GenericReducer } from 'redux';
 
 const appReducers: ReducerMap<AppState> = {
-  displayWarning: handleAction('toggleWarning'),
-  userData: handleAction('setUserData'),
-  notablePerson: handleAction('setNotablePerson'),
-  createProfileUrlInputValue: handleAction('setCreateProfileUrlInputValue'),
-  lastSearchTerm: handleAction('setLastSearchTerm'),
-  isNavMenuOpen: handleAction('setIsNavMenuOpen'),
-  error: handleAction('setError'),
-  isLogoutPending: handleAction('setIsLogoutPending'),
-  isLoginPending: handleAction('setIsLoginPending'),
-  loginStatus: handleAction('setLoginStatus'),
-  isSearchPending: handleAction('setIsSearchPending'),
-  searchResults: handleAction('setSearchResults'),
-  searchInputValue: handleAction('setSearchInputValue'),
+  displayWarning: handleAction<'displayWarning'>('toggleWarning', false),
+  userData: handleAction<'userData'>('setUserData', null),
+  notablePerson: handleAction<'notablePerson'>('setNotablePerson', null),
+  createProfileUrlInputValue: handleAction<'createProfileUrlInputValue'>(
+    'setCreateProfileUrlInputValue',
+    '',
+  ),
+  lastSearchTerm: handleAction<'lastSearchTerm'>('setLastSearchTerm', ''),
+  isNavMenuOpen: handleAction<'isNavMenuOpen'>('setIsNavMenuOpen', false),
+  error: handleAction<'error'>('setError', null),
+  isLogoutPending: handleAction<'isLogoutPending'>('setIsLogoutPending', false),
+  isLoginPending: handleAction<'isLoginPending'>('setIsLoginPending', false),
+  loginStatus: handleAction<'loginStatus'>('setLoginStatus', 'unknown'),
+  isSearchPending: handleAction<'isSearchPending'>('setIsSearchPending', false),
+  searchResults: handleAction<'searchResults'>('setSearchResults', null),
+  searchInputValue: handleAction<'searchInputValue'>('setSearchInputValue', ''),
 };
 
 /**

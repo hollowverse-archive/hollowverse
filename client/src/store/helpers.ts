@@ -86,14 +86,15 @@ export function isActionOfType<T extends ActionType>(
 
 /** Creates a reducer that handles a single action for an individual state entry.  */
 export function handleAction<
-  S extends object = StoreState,
+  K extends keyof S = keyof S,
+  S = StoreState,
   A extends ActionType = ActionType
->(actionType: A) {
-  return (state: S[keyof S], action: GenericAction): typeof state => {
+>(actionType: A, defaultState: S[K]) {
+  return (state: S[K], action: GenericAction) => {
     if (isActionOfType(action, actionType) && action.payload !== undefined) {
       return action.payload;
     }
 
-    return state;
+    return state || defaultState;
   };
 }
