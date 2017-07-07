@@ -22,6 +22,9 @@ RUN apt-get install -y nodejs yarn
 ADD package.json ./
 ADD yarn.lock ./
 
+RUN node --version
+RUN yarn --version
+
 RUN yarn
 
 ADD . ./
