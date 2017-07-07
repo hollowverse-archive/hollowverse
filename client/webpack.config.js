@@ -190,7 +190,7 @@ const globalCssLoaders = [
   {
     loader: 'postcss-loader',
     options: {
-      plugins: [normalize(), autoprefixer()],
+      plugins: [normalize({ forceImport: true }), autoprefixer()],
       sourceMap: true,
     },
   },
