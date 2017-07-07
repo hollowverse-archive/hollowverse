@@ -197,7 +197,7 @@ const globalCssLoaders = [
   ...sassLoaders,
 ];
 
-const CssModuleLoaders = [
+const cssModuleLoaders = [
   {
     loader: 'typings-for-css-modules-loader',
     options: {
@@ -290,7 +290,7 @@ const config = {
         exclude: excludedPatterns,
         use: extractCssModules.extract({
           fallback: 'style-loader',
-          use: CssModuleLoaders,
+          use: cssModuleLoaders,
         }),
       },
 
