@@ -540,7 +540,7 @@ const config = {
       new webpack.optimize.OccurrenceOrderPlugin(true),
 
       // Scope hoisting a la Rollup (Webpack 3+)
-      // new webpack.optimize.ModuleConcatenationPlugin(),
+      new webpack.optimize.ModuleConcatenationPlugin(),
 
       // Minification
       ...ifEs5([
