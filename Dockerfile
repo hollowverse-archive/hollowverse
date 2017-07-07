@@ -5,7 +5,7 @@ RUN apt-get -y install curl
 
 # Install nvm
 RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.2/install.sh | bash
-RUN export NVM_DIR="$HOME/.nvm"
+ENV NVM_DIR "$HOME/.nvm"
 RUN [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 
 # Use latest version of Node.js
