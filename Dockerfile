@@ -19,12 +19,13 @@ RUN apt-get install -y nodejs yarn
 
 # Add package.json and yarn.lock before our code so that Docker
 # can cache this layer if our dependencies do not change
-ADD package.json ./
-ADD yarn.lock ./
+RUN mkdir /hollowverse
+ADD package.json /hollowverse
+ADD yarn.lock /hollowverse
 
 RUN node --version
 RUN yarn --version
 
-RUN yarn
+RUN cd /hollowverse && yarn
 
-ADD . ./
+ADD . /hollowverse
