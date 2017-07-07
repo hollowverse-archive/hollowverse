@@ -14,10 +14,6 @@ script:
 notifications:
   email: false
 
-branches:
-  only:
-  - master
-
 env:
   global:
     secure: Dm2vO/0oDey5eRomOIXtx1E7j+rY0gZeU4tfRN5z54gvNKcwhZaS/ks2Fu40S680965YOCZFlGNN7eF3zjsAtjCz+cNJfczXp/g1c/Vx6TDHEIGAs7AjG14Rbf0Ap4SfziqlGa+oZMR04KsfN+5O5W+oFtI6mgpu82wLOTbWorxfz2OSPxnSRLQFrS1Zn7NBpnnFwqC7u4e6z/ka3oO597eKwfpYsonQbJeTL64HZ+CT7ryTYbf3OI3spUfMepfhCmxd8l0xr9gdXjAQXZTEKTFvZyb2A/6Xc7BXg3r7+Bk2673nKUDRApH5D3nMKUSyLhoAZhpdCP4nbBaPFBFAtcjJHM1jftN6eV4Tm+APMiRHUGfgYQayNudrm//XaQt+QQOrtMnkrKD+6cPhpzTT3zyIn6V3uzRVxHwa+EQvUikWY/6vzi5E1WNm0raUPYlLrzpmjoBaZGNLlY0poA8yzP7LjrpfsHkaOfsoGIMsZ5vdzNCVdb4Qss0vFp/G0tF49ymuyGHfxnWRbUB1CxgMlaPKX2AYuhSqNJGmkYOELcgWgjAoo45lsuqBFWczRWJRu7NjL9bMvs2bSlzRWiDjEdQwBqFJ2FcYUUGw/UqJ5HgxK3+jgHGGBXfltLzqAo4yBoIhdkkAIhwB93b8LypzmEnWnEXB6p/YM6DgAfhNMBU=
