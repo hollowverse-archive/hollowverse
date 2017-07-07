@@ -52,7 +52,7 @@ class HomepageClass extends React.PureComponent<IProps, {}> {
   }
 
   render() {
-    const { props: p } = this;
+    const { searchInputValue } = this.props;
 
     return (
       <div className={css(styles.pageHomepage)}>
@@ -66,7 +66,7 @@ class HomepageClass extends React.PureComponent<IProps, {}> {
                 maxLength={50}
                 className={css(common.textTypography, styles.searchInput)}
                 type="text"
-                value={p.searchInputValue}
+                value={searchInputValue}
                 onChange={this.handleSearchInputChange}
               />
             </p>

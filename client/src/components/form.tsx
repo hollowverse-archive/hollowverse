@@ -9,8 +9,7 @@ export class Form extends React.PureComponent<
   {}
 > {
   render() {
-    const { props: p } = this;
-    const { onSubmit, children, ...rest } = p;
+    const { onSubmit, children, ...rest } = this.props;
 
     return (
       <form onSubmit={this.onSubmit} {...rest}>
