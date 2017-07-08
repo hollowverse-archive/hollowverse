@@ -195,14 +195,14 @@ const globalCssLoaders = [
   {
     loader: 'postcss-loader',
     options: {
-      plugins: [normalize(), autoprefixer()],
+      plugins: [normalize({ forceImport: true }), autoprefixer()],
       sourceMap: true,
     },
   },
   ...sassLoaders,
 ];
 
-const CssModuleLoaders = [
+const cssModuleLoaders = [
   {
     loader: 'typings-for-css-modules-loader',
     options: {
@@ -296,7 +296,7 @@ const config = {
         exclude: excludedPatterns,
         use: extractCssModules.extract({
           fallback: 'style-loader',
-          use: CssModuleLoaders,
+          use: cssModuleLoaders,
         }),
       },
 
