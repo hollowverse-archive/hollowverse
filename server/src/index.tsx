@@ -1,17 +1,17 @@
-import * as Express from 'express';
+import * as express from 'express';
 import * as path from 'path';
 
-const app = Express();
+const app = express();
 
 const PORT = process.env.PORT || 3000;
 const PUBLIC_PATH = process.env.PUBLIC_PATH
   ? path.resolve(process.cwd(), process.env.PUBLIC_PATH)
   : path.resolve(__dirname, '../../public');
 
-app.get('/', (_, res) => {
-  return res.sendFile(path.resolve(PUBLIC_PATH, 'index.html'));
-});
+const indexFile = path.resolve(PUBLIC_PATH, 'index.html');
 
-app.use(Express.static(path.resolve(PUBLIC_PATH)));
+app.use(express.static(PUBLIC_PATH));
+
+app.use((_, res) => res.sendFile(indexFile));
 
 app.listen(PORT);
