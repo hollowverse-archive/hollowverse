@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { Route } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import { ConnectedRouter } from 'react-router-redux';
 import { App } from './app/app';
 // import { requireUserLogin } from './hocs/requireUserLogin';
@@ -16,12 +16,14 @@ ReactDOM.render(
   <Provider store={store}>
     <ConnectedRouter history={history}>
       <App>
-        <Route exact path="/" component={Homepage} />
-        <Route exact path="/notable-person/:slug" component={NotablePerson} />
-        {/*<Route path='/create-profile' component={CreateProfile}/>*/}
-        {/*<Route path="/create-profile" component={requireUserLogin(CreateProfile)}/>*/}
-        {/*<Route path="/search" component={Search}/>*/}
-        {/*<Route path="/login" component={Login}/>*/}
+        <Switch>
+          {/*<Route path='/create-profile' component={CreateProfile}/>*/}
+          {/*<Route path="/create-profile" component={requireUserLogin(CreateProfile)}/>*/}
+          {/*<Route path="/search" component={Search}/>*/}
+          {/*<Route path="/login" component={Login}/>*/}
+          <Route path="/:slug" component={NotablePerson} />
+          <Route path="/" component={Homepage} />
+        </Switch>
       </App>
     </ConnectedRouter>
   </Provider>,
