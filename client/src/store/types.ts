@@ -72,6 +72,10 @@ export type PayloadsByActionType = {
   setCreateProfileUrlInputValue: string;
 
   // Notable person
+  /**
+   * The slug used to request the notable person's data
+   * @example: `Tom_Hanks`
+   */
   requestNotablePerson: string;
   setNotablePerson: NotablePersonSchema;
 
@@ -120,8 +124,8 @@ export type Dispatch<T extends ActionType> = (
 /**
  * A Generic dispatch function.
  * Used when we do not care about the action type
- * but it still requiers that the type of action is one of
- * the app actions defined above.
+ * but it still requires that the type of action is one of
+ * the action types defined above.
  */
 export type GenericDispatch = Dispatch<ActionType>;
 
@@ -134,7 +138,7 @@ export type GenericActionCreator = ActionCreator<ActionType>;
 export type Reducer<S> = (state: S, action: GenericAction) => S;
 
 export type ReducerMap<State extends object = StoreState> = {
-  // tslint:disable-next-line no-suspicious-comment
+  [// tslint:disable-next-line no-suspicious-comment
   // @FIXME: Remove `any` from mapped type.
   //
   // TS does not currently narrow down generic type parameters
@@ -147,7 +151,7 @@ export type ReducerMap<State extends object = StoreState> = {
   // and the types won't be compatible.
   //
   // Refer to this issue: https://github.com/Microsoft/TypeScript/issues/10717
-  [Key in keyof State]: Reducer<State[Key]> | any
+  Key in keyof State]: Reducer<State[Key]> | any
 };
 
 export type ActionToReducerMap<Key extends StoreKey> = {

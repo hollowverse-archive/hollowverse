@@ -17,7 +17,7 @@ ReactDOM.render(
     <ConnectedRouter history={history}>
       <App>
         <Route exact path="/" component={Homepage} />
-        <Route exact path="/notable-person/:id" component={NotablePerson} />
+        <Route exact path="/notable-person/:slug" component={NotablePerson} />
         {/*<Route path='/create-profile' component={CreateProfile}/>*/}
         {/*<Route path="/create-profile" component={requireUserLogin(CreateProfile)}/>*/}
         {/*<Route path="/search" component={Search}/>*/}

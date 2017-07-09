@@ -4,6 +4,7 @@ import { EventSchema } from 'typings/dataSchema';
 import { common } from 'common.styles';
 import { sortByDescending } from 'utils/utils';
 import { styles } from './events.styles';
+import { doesEventHaveQuote } from 'utils/utils';
 
 interface Props {
   data: EventSchema[];
@@ -22,32 +23,43 @@ class EventsClass extends React.PureComponent<Props, {}> {
     if (this.props.data && this.props.data.length > 0) {
       const events = this.props.data;
 
-      return sortByDescending(events, 'postedAt').map(event =>
-        <div
-          className={css(common.textTypography, styles.eventContent)}
-          key={event.id}
-        >
-          <a className={css(styles.sourceTypography)} href={event.sourceUrl}>
-            <p>
-              {event.sourceName}
-            </p>
-          </a>
-          <div className={css(styles.quoteContainer)}>
-            <p className={css(styles.quotedText)}>
-              {event.quote}
+      return sortByDescending(events, 'postedAt').map(event => {
+        let quote;
+        if (doesEventHaveQuote(event)) {
+          quote = (
+            <div
+              className={css(common.textTypography, styles.eventContent)}
+              key={event.quote}
+            >
+              <a
+                className={css(styles.sourceTypography)}
+                href={event.sourceUrl}
+              >
+                <p>
+                  {event.sourceName}
+                </p>
+              </a>
+              <div className={css(styles.quoteContainer)}>
+                <p className={css(styles.quotedText)}>
+                  {event.quote}
+                </p>
+              </div>
+            </div>
+          );
+        }
+
+        return (
+          <div
+            className={css(common.textTypography, styles.eventContent)}
+            key={event.userComment}
+          >
+            {quote}
+            <p className={css(styles.userComment)}>
+              {event.userComment}
             </p>
           </div>
-          <p className={css(styles.userComment)}>
-            {event.userComment}
-          </p>
-          {/*<div className={css(styles.userContainer)}>
-              <img className={css(styles.userAvatar)} src={event.userAvatar} />
-              <p className={css(styles.username)}>
-                {event.userDisplayName}
-              </p>
-            </div>*/}
-        </div>,
-      );
+        );
+      });
     } else {
       return undefined;
     }

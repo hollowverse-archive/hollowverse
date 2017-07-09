@@ -8,6 +8,7 @@ import { put, takeEvery } from 'redux-saga/effects';
 import { algoliaSearchIndex } from 'vendor/algolia';
 import * as facebook from 'vendor/facebook';
 import * as firebase from 'vendor/firebase';
+import { fetchNotablePersonDataBySlug } from 'vendor/firebase';
 import { Action } from 'store/types';
 import {
   setIsSearchPending,
@@ -38,7 +39,6 @@ function* requestSearchResults(action: Action<'requestSearchResults'>) {
     yield put(setIsSearchPending(true));
     const searchResults = yield algoliaSearchIndex.search(action.payload);
     yield put(setSearchResults(searchResults));
-
   } catch (error) {
     yield put(setSearchError(error));
   } finally {
@@ -96,8 +96,10 @@ function* requestUpdateLoginStatus() {
 
 function* requestNotablePerson(action: Action<'requestNotablePerson'>) {
   try {
-    const firebaseResponse = yield firebase.getData(action.payload);
-    yield put(setNotablePerson(firebaseResponse));
+    const slug = action.payload;
+    const response = yield fetchNotablePersonDataBySlug(slug);
+
+    yield put(setNotablePerson(response));
   } catch (error) {
     throw error;
   }
