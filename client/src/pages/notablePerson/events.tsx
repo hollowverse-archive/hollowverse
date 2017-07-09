@@ -27,10 +27,7 @@ class EventsClass extends React.PureComponent<Props, {}> {
         let quote;
         if (doesEventHaveQuote(event)) {
           quote = (
-            <div
-              className={css(common.textTypography, styles.eventContent)}
-              key={event.quote}
-            >
+            <div className={css(common.textTypography, styles.eventContent)}>
               <a
                 className={css(styles.sourceTypography)}
                 href={event.sourceUrl}
