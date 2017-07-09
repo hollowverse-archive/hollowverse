@@ -2,9 +2,8 @@ import { css } from 'aphrodite/no-important';
 import * as React from 'react';
 import { EventSchema } from 'typings/dataSchema';
 import { common } from 'common.styles';
-import { sortByDescending } from 'utils/utils';
+import { sortByDescending, doesEventHaveQuote } from 'utils/utils';
 import { styles } from './events.styles';
-import { doesEventHaveQuote } from 'utils/utils';
 
 interface Props {
   data: EventSchema[];
