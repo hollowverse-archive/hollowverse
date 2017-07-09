@@ -138,7 +138,7 @@ export type GenericActionCreator = ActionCreator<ActionType>;
 export type Reducer<S> = (state: S, action: GenericAction) => S;
 
 export type ReducerMap<State extends object = StoreState> = {
-  [// tslint:disable-next-line no-suspicious-comment
+  // tslint:disable-next-line no-suspicious-comment
   // @FIXME: Remove `any` from mapped type.
   //
   // TS does not currently narrow down generic type parameters
@@ -151,7 +151,7 @@ export type ReducerMap<State extends object = StoreState> = {
   // and the types won't be compatible.
   //
   // Refer to this issue: https://github.com/Microsoft/TypeScript/issues/10717
-  Key in keyof State]: Reducer<State[Key]> | any
+  [Key in keyof State]: Reducer<State[Key]> | any
 };
 
 export type ActionToReducerMap<Key extends StoreKey> = {
