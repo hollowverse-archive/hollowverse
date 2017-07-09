@@ -10,7 +10,7 @@ const cors = createCorsMiddleware({ origin: true });
 admin.initializeApp(functions.config().firebase);
 
 /**
- * A cloud function that fetchs data for a notable person by their slug.
+ * A cloud function that fetches data for a notable person by their slug.
  * The client should make a request to this function's URL with the slug as
  * a query.
  * @example `GET /fetchDataBySlug?slug=Tom_Hanks`
