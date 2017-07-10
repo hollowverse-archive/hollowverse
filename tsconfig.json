@@ -36,5 +36,8 @@
         "server/src/*" // Finally try server/src
       ]
     }
-  }
+  },
+  "exclude": [
+    "./functions/**/*"
+  ]
 }
