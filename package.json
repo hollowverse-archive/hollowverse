@@ -10,6 +10,9 @@
     "client/stats": "NO_PERF_CHECKS=1 NODE_ENV=production webpack --config client/webpack.config.js --json > stats.json",
     "server/express": "nodemon --exec ts-node -- server/src/index.tsx",
     "server/firebase": "yarn client/build && firebase serve",
+    "functions/build": "tsc --project ./functions/src && cp ./functions/src/package.json ./functions/dist/",
+    "functions/install": "cd functions/dist && yarn",
+    "functions/deploy": "yarn functions/build && yarn functions/install && firebase deploy --only functions",
     "precommit": "lint-staged",
     "test": "yarn client/build",
     "commonpkg": "yarn add hollowverse/common-config && commonpkg"
