@@ -15,7 +15,7 @@ server.get('/:oldUrl', (req, res) => {
   const oldSlug = req.params.oldUrl;
   const newSlug = redirectionMap.get(oldSlug);
   if (newSlug !== undefined) {
-    const url = new URL(newSlug, 'https://x.hollowverse.com');
+    const url = new URL(newSlug, 'https://hollowverse.com');
     res.redirect(url.toString());
   } else {
     proxyServer.web(req, res);
