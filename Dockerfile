@@ -9,6 +9,11 @@ ADD yarn.lock /hollowverse
 RUN node --version
 RUN yarn --version
 
-RUN cd /hollowverse && yarn
+# Set working directory to project root so
+# all the following commands are run relative to
+# it
+WORKDIR /hollowverse
 
-ADD . /hollowverse
+RUN yarn
+
+ADD . .
