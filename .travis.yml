@@ -6,11 +6,8 @@ services:
 before_script:
   - docker build -t hollowverse/hollowverse .
 
-script:
-  - docker run hollowverse/hollowverse /bin/sh -c "cd /hollowverse && yarn test && yarn deploy"
-
-after_scuess:
-  - docker run -e FIREBASE_TOKEN -e TRAVIS_BRANCH -e TRAVIS_PULL_REQUEST hollowverse/hollowverse /bin/sh -c "cd /hollowverse && ./scripts/travis-deploy.sh"
+script: 
+  - docker run hollowverse/hollowverse /bin/sh -c "cd /hollowverse && yarn test"
 
 notifications:
   email: false
