@@ -72,3 +72,4 @@ public/*
 client/.babelrc
 
 functions/dist
+functions/*/yarn.lock
