@@ -2,7 +2,6 @@ import * as cn from 'classnames';
 import sortBy from 'lodash/sortBy';
 import { messagesByCode } from 'constants/errors';
 import { ErrorCode, HvError } from 'typings/typeDefinitions';
-import { EventSchema, EventWithQuoteSchema } from 'typings/dataSchema';
 
 export function stringEnum<T extends string>(o: T[]): { [K in T]: K } {
   return o.reduce((res, key) => {
@@ -46,16 +45,6 @@ export function makeError(code: ErrorCode): HvError {
   error.code = code;
 
   return error;
-}
-
-/**
- * A type guard that guarantees that an Event has a quote, providing
- * better control flow analysis and type checking for TypeScript.
- */
-export function doesEventHaveQuote(
-  ev: EventSchema,
-): ev is EventWithQuoteSchema {
-  return (ev as EventWithQuoteSchema).quote !== undefined;
 }
 
 export { cn };

@@ -10,22 +10,15 @@ export interface NotablePersonSchema {
   events: EventSchema[];
 }
 
-type BaseEventSchema = {
+type EventSchema = {
   id: number;
   userId: string;
   userComment: string;
   postedAt: number;
-};
-
-type QuoteSchema = {
   quote: string;
   sourceName: string;
   sourceUrl: string;
 };
-
-export type EventWithQuoteSchema = BaseEventSchema & QuoteSchema;
-
-export type EventSchema = BaseEventSchema | EventWithQuoteSchema;
 
 export interface UserSchema {
   displayName: string;
