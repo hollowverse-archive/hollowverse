@@ -57,8 +57,13 @@ if (!env.shouldTypeCheck) {
   log('Skipping type checking!');
 }
 
-const BUILD_PATH = path.resolve(__dirname, '../public');
-const PUBLIC_PATH = env.isProd ? '' : '/';
+const CUSTOM_BUILD_PATH = process.env.BUILD_PATH
+  ? path.resolve(process.cwd(), process.env.BUILD_PATH)
+  : undefined;
+
+const BUILD_PATH = CUSTOM_BUILD_PATH || path.resolve(__dirname, '../public');
+
+const PUBLIC_PATH = '/';
 
 const excludedPatterns = compact([
   /node_modules/,
@@ -190,14 +195,14 @@ const globalCssLoaders = [
   {
     loader: 'postcss-loader',
     options: {
-      plugins: [normalize(), autoprefixer()],
+      plugins: [normalize({ forceImport: true }), autoprefixer()],
       sourceMap: true,
     },
   },
   ...sassLoaders,
 ];
 
-const CssModuleLoaders = [
+const cssModuleLoaders = [
   {
     loader: 'typings-for-css-modules-loader',
     options: {
@@ -237,6 +242,7 @@ const config = {
       ifReact(ifHot('react-hot-loader/patch')),
       ifPreact(ifDev('preact/devtools')),
       ifHot('webpack-hot-middleware/client'),
+      ifProd('regenerator-runtime/runtime'),
       path.resolve(__dirname, 'src/webpackEntry.ts'),
     ]),
   },
@@ -290,7 +296,7 @@ const config = {
         exclude: excludedPatterns,
         use: extractCssModules.extract({
           fallback: 'style-loader',
-          use: CssModuleLoaders,
+          use: cssModuleLoaders,
         }),
       },
 
