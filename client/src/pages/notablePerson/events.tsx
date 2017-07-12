@@ -25,27 +25,23 @@ class EventsClass extends React.PureComponent<Props, {}> {
       return sortByDescending(events, 'postedAt').map(event =>
         <div
           className={css(common.textTypography, styles.eventContent)}
-          key={event.id}
+          key={event.userComment}
         >
-          <a className={css(styles.sourceTypography)} href={event.sourceUrl}>
-            <p>
-              {event.sourceName}
-            </p>
-          </a>
-          <div className={css(styles.quoteContainer)}>
-            <p className={css(styles.quotedText)}>
-              {event.quote}
-            </p>
+          <div className={css(common.textTypography, styles.eventContent)}>
+            <a className={css(styles.sourceTypography)} href={event.sourceUrl}>
+              <p>
+                {event.sourceName}
+              </p>
+            </a>
+            <div className={css(styles.quoteContainer)}>
+              <p className={css(styles.quotedText)}>
+                {event.quote}
+              </p>
+            </div>
           </div>
           <p className={css(styles.userComment)}>
             {event.userComment}
           </p>
-          {/*<div className={css(styles.userContainer)}>
-              <img className={css(styles.userAvatar)} src={event.userAvatar} />
-              <p className={css(styles.username)}>
-                {event.userDisplayName}
-              </p>
-            </div>*/}
         </div>,
       );
     } else {

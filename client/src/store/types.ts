@@ -72,6 +72,10 @@ export type PayloadsByActionType = {
   setCreateProfileUrlInputValue: string;
 
   // Notable person
+  /**
+   * The slug used to request the notable person's data
+   * @example: `Tom_Hanks`
+   */
   requestNotablePerson: string;
   setNotablePerson: NotablePersonSchema;
 
@@ -120,8 +124,8 @@ export type Dispatch<T extends ActionType> = (
 /**
  * A Generic dispatch function.
  * Used when we do not care about the action type
- * but it still requiers that the type of action is one of
- * the app actions defined above.
+ * but it still requires that the type of action is one of
+ * the action types defined above.
  */
 export type GenericDispatch = Dispatch<ActionType>;
 
