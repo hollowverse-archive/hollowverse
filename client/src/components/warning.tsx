@@ -26,8 +26,8 @@ class WarningClass extends React.PureComponent<ActionCreators & Props, {}> {
   };
 
   render() {
-    const { props: p } = this;
-    if (p.displayWarning) {
+    const { displayWarning } = this.props;
+    if (displayWarning) {
       return (
         <div className={css(styles.warningBar)}>
           <p className={css(styles.warningMessage)}>

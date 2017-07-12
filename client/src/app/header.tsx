@@ -37,17 +37,17 @@ class HeaderClass extends React.PureComponent<ActionCreators & Props, {}> {
   }
 
   renderLoginVariants(): { icon: string; action(): void } {
-    const { props: p } = this;
+    const { loginStatus } = this.props;
 
-    if (p.loginStatus === 'connected') {
+    if (loginStatus === 'connected') {
       return {
         icon: 'fa fa-sign-in fa-2x',
-        action: () => p.requestLogout(undefined),
+        action: () => this.props.requestLogout(undefined),
       };
     } else {
       return {
         icon: 'fa fa-sign-out fa-2x',
-        action: () => p.requestLogin(undefined),
+        action: () => this.props.requestLogin(undefined),
       };
     }
   }

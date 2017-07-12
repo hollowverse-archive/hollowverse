@@ -24,11 +24,11 @@ class GlobalSpinnerClass extends React.PureComponent<IProps, {}> {
   container: HTMLDivElement;
 
   render() {
-    const { props: p } = this;
+    const { showGlobalSpinner } = this.props;
 
     return (
       <FadeIn timeout={300}>
-        {p.showGlobalSpinner &&
+        {showGlobalSpinner &&
           <div className={css(styles.globalSpinnerContainer)}>
             <div className={css(styles.globalSpinner)} />
           </div>}
