@@ -13,7 +13,7 @@
     "functions/install-src-deps": "cd ./functions/src && yarn",
     "functions/build": "tsc --project ./functions/src && cp ./functions/src/package.json ./functions/dist/",
     "functions/install": "cd functions/dist && yarn",
-    "functions/deploy": "yarn functions/install-src-deps && yarn functions/build && yarn functions/install && firebase deploy --only functions",
+    "deploy": "yarn functions/install-src-deps && yarn functions/build && yarn functions/install && firebase deploy",
     "travis/deploy": "ts-node ./scripts/travis.ts",
     "precommit": "lint-staged",
     "test": "yarn client/build",
