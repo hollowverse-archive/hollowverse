@@ -24,19 +24,20 @@ const actionCreators = {
   requestNotablePerson,
 };
 
-type MergedProps = StateProps & typeof actionCreators;
+type ActionCreators = typeof actionCreators;
+
+type MergedProps = StateProps & ActionCreators;
 
 type Match = {
-  id: string;
+  slug: string;
 };
 
 type IProps = MergedProps & RouteComponentProps<Match>;
 
 class NotablePersonClass extends React.PureComponent<IProps, {}> {
   componentDidMount() {
-    // tslint:disable-next-line no-suspicious-comment
-    // TODO: We'll pass the route parameters to below function:
-    this.props.requestNotablePerson('/notablePersons/np_48d700ee');
+    const { slug } = this.props.match.params;
+    this.props.requestNotablePerson(slug);
   }
 
   render() {
@@ -78,8 +79,8 @@ class NotablePersonClass extends React.PureComponent<IProps, {}> {
 
   renderLabels(labels: string[]) {
     if (labels && labels.length > 0) {
-      return labels.map((label, i) =>
-        <span className={css(styles.notablePersonLabel)} key={i}>
+      return labels.map(label =>
+        <span className={css(styles.notablePersonLabel)} key={label}>
           {label}
         </span>,
       );
@@ -89,7 +90,7 @@ class NotablePersonClass extends React.PureComponent<IProps, {}> {
   }
 }
 
-export const NotablePerson = connect<IProps, StateProps, typeof actionCreators>(
+export const NotablePerson = connect<IProps, StateProps, ActionCreators>(
   mapStateToProps,
   actionCreators,
 )(NotablePersonClass);
