@@ -36,5 +36,9 @@
         "server/src/*" // Finally try server/src
       ]
     }
-  }
+  },
+  "exclude": [
+    "node_modules",
+    "functions"
+  ]
 }
