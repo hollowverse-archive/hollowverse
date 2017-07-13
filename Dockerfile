@@ -17,3 +17,5 @@ WORKDIR /hollowverse
 RUN yarn
 
 ADD . .
+
+ENTRYPOINT yarn start
