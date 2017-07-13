@@ -15,6 +15,7 @@
     "functions/install": "cd functions/dist && yarn",
     "functions/deploy": "yarn functions/install-src-deps && yarn functions/build && yarn functions/install && firebase deploy --only functions",
     "travis/deploy": "ts-node ./scripts/travis.ts",
+    "proxy": "nodemon --exec ts-node -- --project . redirectionProxy/redirectionProxy.ts",
     "precommit": "lint-staged",
     "test": "yarn client/build",
     "commonpkg": "yarn add hollowverse/common-config && commonpkg"
