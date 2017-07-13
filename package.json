@@ -18,7 +18,9 @@
     "proxy": "nodemon --exec ts-node -- --project . redirectionProxy/redirectionProxy.ts",
     "precommit": "lint-staged",
     "test": "yarn client/build",
-    "commonpkg": "yarn add hollowverse/common-config && commonpkg"
+    "commonpkg": "yarn add hollowverse/common-config && commonpkg",
+    "prestart": "yarn client/build",
+    "start": "npm run -p server/express proxy"
   },
   "license": "Unlicense",
   "homepage": "https://github.com/hollowverse/hollowverse#readme",
@@ -145,6 +147,7 @@
     "lint-staged": "^4.0.1",
     "name-all-modules-plugin": "^1.0.1",
     "node-sass": "^4.5.3",
+    "npm-run": "^4.1.2",
     "postcss": "^5.2.17",
     "postcss-loader": "^2.0.6",
     "postcss-normalize": "^4.0.0",
@@ -169,5 +172,8 @@
     "typings-for-css-modules-loader": "^1.5.0",
     "webpack-dev-middleware": "^1.11.0",
     "webpack-hot-middleware": "^2.18.2"
+  },
+  "engines": {
+    "node": ">= 8.1"
   }
 }
