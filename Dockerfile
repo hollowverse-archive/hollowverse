@@ -18,4 +18,4 @@ RUN yarn
 
 ADD . .
 
-ENTRYPOINT yarn start
+CMD yarn start
