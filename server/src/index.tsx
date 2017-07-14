@@ -4,9 +4,10 @@ import * as path from 'path';
 const app = express();
 
 const PORT = process.env.PORT || 3000;
-const PUBLIC_PATH = process.env.PUBLIC_PATH
-  ? path.resolve(process.cwd(), process.env.PUBLIC_PATH)
-  : path.resolve(__dirname, '../../public');
+const PUBLIC_PATH = path.resolve(
+  process.cwd(),
+  process.env.PUBLIC_PATH || './public',
+);
 
 const indexFile = path.resolve(PUBLIC_PATH, 'index.html');
 
