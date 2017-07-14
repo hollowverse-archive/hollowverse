@@ -1,5 +1,18 @@
 runtime: custom
 env: flex
+
+skip_files:
+  - functions/dist
+  - functions/src/yarn.lock
+  - public
+  - designDocs
+  - node_modules
+  - .log
+  - .vscode
+  - stats.json
+  - client/.babelrc
+  - .git
+
 resources:
   cpu: 2
   memory_gb: 2.3
