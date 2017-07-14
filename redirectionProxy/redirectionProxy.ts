@@ -32,12 +32,12 @@ const staticFiles = new Set(fs.readdirSync(PUBLIC_PATH));
  */
 server.get('/:path', (req, res, next) => {
   // '/:path' matches: /Tom_Hanks, /tom-hanks, /app.js, /michael-jackson, ashton-kutcher...
-  const path: string = req.params.path;
-  const redirectionPath = redirectionMap.get(path);
+  const reqPath: string = req.params.path;
+  const redirectionPath = redirectionMap.get(reqPath);
   if (redirectionPath !== undefined) {
     // /tom-hanks => redirect to Tom_Hanks
     res.redirect(redirectionPath);
-  } else if (newPaths.has(path) || staticFiles.has(path)) {
+  } else if (newPaths.has(reqPath) || staticFiles.has(reqPath)) {
     // /Tom_Hanks, /app.js, /vendor.js => new hollowverse
     proxyServer.web(req, res, {
       target: NEW_SERVER_ADDRESS,
