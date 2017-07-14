@@ -18,4 +18,10 @@ RUN yarn
 
 ADD . .
 
+RUN yarn client/build
+
+RUN mkdir -p /hollowverse/functions/dist
+RUN yarn functions/prepare
+RUN yarn functions/build
+
 CMD yarn start
