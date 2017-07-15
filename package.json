@@ -13,7 +13,7 @@
     "functions/prepare": "cd ./functions/src && yarn",
     "functions/install": "cp ./functions/src/package.json ./functions/dist/ && cd functions/dist && yarn",
     "functions/build": "tsc --project ./functions/src && yarn functions/install",
-    "deploy": "yarn functions/install-src-deps && yarn functions/build && yarn functions/install && firebase deploy",
+    "deploy": "yarn functions/prepare && yarn functions/build && yarn functions/install && firebase deploy",
     "travis/deploy": "ts-node ./scripts/travis.ts",
     "proxy": "ts-node redirectionProxy/redirectionProxy.ts --project .",
     "precommit": "lint-staged",
