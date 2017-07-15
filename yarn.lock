@@ -148,6 +148,12 @@
     "@types/html-minifier" "*"
     "@types/webpack" "*"
 
+"@types/http-proxy@^1.12.0":
+  version "1.12.0"
+  resolved "https://registry.yarnpkg.com/@types/http-proxy/-/http-proxy-1.12.0.tgz#4c635e37f2ccaa508e8e15b09e044a51bef3ee75"
+  dependencies:
+    "@types/node" "*"
+
 "@types/lodash@^4.14.68":
   version "4.14.68"
   resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.68.tgz#754fbab68bd2bbb69547dc8ce7574f7012eed7f6"
