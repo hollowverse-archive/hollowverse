@@ -3,7 +3,7 @@ import * as path from 'path';
 
 const app = express();
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.STATIC_SEVER_PORT || 3000;
 const PUBLIC_PATH = path.resolve(
   process.cwd(),
   process.env.PUBLIC_PATH || './public',
