@@ -1,20 +1,22 @@
-sudo: required
+sudo: false
 
-services:
-  - docker
+deploy:
+  provider: gae
+  keyfile: gae-client-secret.json
+  project: hollowverse-c9cad
+  version: $TRAVIS_BRANCH
+  no_promote: true # Do not route all traffic to this version
+  on:
+    all_branches: true
 
-before_script:
-  - docker build -t hollowverse/hollowverse .
+script:
+  - echo "No script to run"
 
-script: 
-  - docker run hollowverse/hollowverse /bin/sh -c "exit 0"
-
-after_success:
-  - docker run -e TRAVIS_BRANCH -e TRAVIS_PULL_REQUEST -e FIREBASE_TOKEN hollowverse/hollowverse /bin/sh -c "cd /hollowverse && yarn travis/deploy"
+before_install:
+  # Decrypt the credentials we added to the repo using the key we added with the Travis command line tool
+  - openssl aes-256-cbc -K $encrypted_744738cd0ff8_key -iv $encrypted_744738cd0ff8_iv
+    -in gae-client-secret.json.enc -out gae-client-secret.json -d
 
 notifications:
   email: false
 
-env:
-  global:
-    secure: Dm2vO/0oDey5eRomOIXtx1E7j+rY0gZeU4tfRN5z54gvNKcwhZaS/ks2Fu40S680965YOCZFlGNN7eF3zjsAtjCz+cNJfczXp/g1c/Vx6TDHEIGAs7AjG14Rbf0Ap4SfziqlGa+oZMR04KsfN+5O5W+oFtI6mgpu82wLOTbWorxfz2OSPxnSRLQFrS1Zn7NBpnnFwqC7u4e6z/ka3oO597eKwfpYsonQbJeTL64HZ+CT7ryTYbf3OI3spUfMepfhCmxd8l0xr9gdXjAQXZTEKTFvZyb2A/6Xc7BXg3r7+Bk2673nKUDRApH5D3nMKUSyLhoAZhpdCP4nbBaPFBFAtcjJHM1jftN6eV4Tm+APMiRHUGfgYQayNudrm//XaQt+QQOrtMnkrKD+6cPhpzTT3zyIn6V3uzRVxHwa+EQvUikWY/6vzi5E1WNm0raUPYlLrzpmjoBaZGNLlY0poA8yzP7LjrpfsHkaOfsoGIMsZ5vdzNCVdb4Qss0vFp/G0tF49ymuyGHfxnWRbUB1CxgMlaPKX2AYuhSqNJGmkYOELcgWgjAoo45lsuqBFWczRWJRu7NjL9bMvs2bSlzRWiDjEdQwBqFJ2FcYUUGw/UqJ5HgxK3+jgHGGBXfltLzqAo4yBoIhdkkAIhwB93b8LypzmEnWnEXB6p/YM6DgAfhNMBU=
