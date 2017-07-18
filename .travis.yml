@@ -14,8 +14,11 @@ script:
 
 before_install:
   # Decrypt the credentials we added to the repo using the key we added with the Travis command line tool
-  - openssl aes-256-cbc -K $encrypted_744738cd0ff8_key -iv $encrypted_744738cd0ff8_iv
-    -in gae-client-secret.json.enc -out gae-client-secret.json -d
+  - if [[ $TRAVIS_PULL_REQUEST == "false" ]]; then 
+      openssl aes-256-cbc -K $encrypted_744738cd0ff8_key -iv $encrypted_744738cd0ff8_iv
+        -in gae-client-secret.json.enc -out gae-client-secret.json -d
+      ;
+    fi
 
 notifications:
   email: false
