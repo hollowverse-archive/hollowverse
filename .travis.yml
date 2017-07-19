@@ -1,22 +1,19 @@
-sudo: false
+sudo: true
 
-deploy:
-  provider: gae
-  keyfile: gae-client-secret.json
-  project: hollowverse-c9cad
-  version: $TRAVIS_BRANCH
-  no_promote: true # Do not route all traffic to this version
-  on:
-    all_branches: true
+services:
+  - docker
 
 script:
   - echo "No script to run"
 
-before_install:
-  # Decrypt the credentials we added to the repo using the key we added with the Travis command line tool
+after_success:
   - if [[ $TRAVIS_PULL_REQUEST == "false" ]]; then 
-      openssl aes-256-cbc -K $encrypted_744738cd0ff8_key -iv $encrypted_744738cd0ff8_iv
-        -in gae-client-secret.json.enc -out gae-client-secret.json -d
+      docker run \
+          -e BRANCH=$TRAVIS_BRANCH \
+          -e $PROJECT=hollowverse-c9cad \
+          -e $encrypted_744738cd0ff8_iv \
+          -e $encrypted_744738cd0ff8_key \
+        forabi/hollowverse-gae
       ;
     fi
 
