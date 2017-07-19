@@ -4,11 +4,16 @@ services:
 script:
   - if [[ $TRAVIS_PULL_REQUEST == "false" ]]; then 
       docker run
+          # Mount the project source inside the container at /hollowverse
           -v $(pwd):/hollowverse
-          -e BRANCH=$TRAVIS_BRANCH
+
+          # Pass the following environment variables to the container
+          -e BRANCH=$TRAVIS_BRANCH 
           -e PROJECT=hollowverse-c9cad
           -e IV=$encrypted_744738cd0ff8_iv
           -e KEY=$encrypted_744738cd0ff8_key
+
+        # Use this image for the container
         forabi/hollowverse-gae
       ;
     fi
