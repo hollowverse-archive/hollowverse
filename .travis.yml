@@ -4,15 +4,13 @@ services:
   - docker
 
 script:
-  - echo "No script to run"
-
-after_success:
   - if [[ $TRAVIS_PULL_REQUEST == "false" ]]; then 
-      docker run \
-          -e BRANCH=$TRAVIS_BRANCH \
-          -e $PROJECT=hollowverse-c9cad \
-          -e $encrypted_744738cd0ff8_iv \
-          -e $encrypted_744738cd0ff8_key \
+      docker run
+          -v $(pwd):/hollowverse
+          -e BRANCH=$TRAVIS_BRANCH
+          -e PROJECT=hollowverse-c9cad
+          -e IV=$encrypted_744738cd0ff8_iv
+          -e KEY=$encrypted_744738cd0ff8_key
         forabi/hollowverse-gae
       ;
     fi
