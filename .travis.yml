@@ -4,11 +4,11 @@ services:
 script:
   - if [[ $TRAVIS_PULL_REQUEST == "false" ]]; then 
       docker run
-          -v $(pwd):/hollowverse
-          -e BRANCH=$TRAVIS_BRANCH
-          -e PROJECT=hollowverse-c9cad
-          -e IV=$encrypted_744738cd0ff8_iv
-          -e KEY=$encrypted_744738cd0ff8_key
+        -v $(pwd):/hollowverse
+        -e BRANCH=$TRAVIS_BRANCH
+        -e PROJECT=hollowverse-c9cad
+        -e IV=$encrypted_744738cd0ff8_iv
+        -e KEY=$encrypted_744738cd0ff8_key
         hollowverse/hollowverse-gae
       ;
     fi
