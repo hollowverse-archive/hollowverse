@@ -9,6 +9,7 @@ script:
         -e PROJECT=hollowverse-c9cad
         -e IV=$encrypted_744738cd0ff8_iv
         -e KEY=$encrypted_744738cd0ff8_key
+        -e SERVICE_ACCOUNT=$GAE_SERVICE_ACCOUNT
         hollowverse/hollowverse-gae
       ;
     fi
