@@ -1,3 +1,6 @@
+/** A constant defined in Webpack config to use for development-specific logic */
+declare const __DEBUG__: boolean;
+
 declare const FB: facebookSdk.Fb;
 declare namespace facebookSdk {
   type LoginStatus = 'connected' | 'not_authorized' | 'unknown';

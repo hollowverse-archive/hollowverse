@@ -3,9 +3,7 @@ import 'firebase/auth';
 import 'firebase/database';
 
 import { User } from 'typings/typeDefinitions';
-import { NotablePersonSchema } from 'typings/dataSchema';
 import { makeError } from 'utils/utils';
-import { CLOUD_FUNCTIONS_BASE } from 'constants/firebase';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyDeZnov5HXrnlYKwvyUYlnoiwTDYljpz5U',
@@ -81,15 +79,4 @@ export async function getData(
   const response = await ref.once('value');
 
   return response.val();
-}
-
-export async function fetchNotablePersonDataBySlug(
-  slug: string,
-): Promise<NotablePersonSchema> {
-  const url = new URL('/fetchDataBySlug', CLOUD_FUNCTIONS_BASE);
-  url.searchParams.append('slug', slug);
-
-  const data = await fetch(url.toString());
-
-  return data.json();
 }

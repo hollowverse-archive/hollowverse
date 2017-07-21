@@ -8,7 +8,7 @@ import { put, takeEvery } from 'redux-saga/effects';
 import { algoliaSearchIndex } from 'vendor/algolia';
 import * as facebook from 'vendor/facebook';
 import * as firebase from 'vendor/firebase';
-import { fetchNotablePersonDataBySlug } from 'vendor/firebase';
+import { fetchNotablePersonDataBySlug } from 'api';
 import { Action } from 'store/types';
 import {
   setIsSearchPending,
