@@ -122,7 +122,7 @@
   dependencies:
     "@types/node" "*"
 
-"@types/express@*", "@types/express@^4.0.33", "@types/express@^4.0.36":
+"@types/express@*", "@types/express@^4.0.36":
   version "4.0.36"
   resolved "https://registry.yarnpkg.com/@types/express/-/express-4.0.36.tgz#14eb47de7ecb10319f0a2fb1cf971aa8680758c2"
   dependencies:
@@ -160,15 +160,11 @@
   dependencies:
     "@types/node" "*"
 
-"@types/jsonwebtoken@^7.1.32", "@types/jsonwebtoken@^7.1.33":
+"@types/jsonwebtoken@^7.1.33":
   version "7.2.2"
   resolved "https://registry.yarnpkg.com/@types/jsonwebtoken/-/jsonwebtoken-7.2.2.tgz#9a433e7d7b5afed4deb63e9742b18a671f2e312f"
   dependencies:
     "@types/node" "*"
-
-"@types/lodash@^4.14.34":
-  version "4.14.70"
-  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.70.tgz#37bda4acfb3bb79143009cc9d00abd559f7dca30"
 
 "@types/lodash@^4.14.68":
   version "4.14.68"
@@ -265,12 +261,6 @@
   dependencies:
     "@types/express-serve-static-core" "*"
     "@types/mime" "*"
-
-"@types/sha1@^1.1.0":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@types/sha1/-/sha1-1.1.0.tgz#461eb18906d25e8d07c4678a0ed4f9ca07e46dd9"
-  dependencies:
-    "@types/node" "*"
 
 "@types/shelljs@^0.7.2":
   version "0.7.2"
@@ -1952,10 +1942,6 @@ char-spinner@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/char-spinner/-/char-spinner-1.0.1.tgz#e6ea67bd247e107112983b7ab0479ed362800081"
 
-"charenc@>= 0.0.1":
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/charenc/-/charenc-0.0.2.tgz#c0a1d2f3a7092e03774bfa83f14c0fc5790a8667"
-
 chokidar@^1.4.3, chokidar@^1.6.0, chokidar@^1.6.1:
   version "1.7.0"
   resolved "https://registry.yarnpkg.com/chokidar/-/chokidar-1.7.0.tgz#798e689778151c8076b4b360e5edd28cda2bb468"
@@ -2463,10 +2449,6 @@ cross-spawn@^5.0.1:
     lru-cache "^4.0.1"
     shebang-command "^1.2.0"
     which "^1.2.9"
-
-"crypt@>= 0.0.1":
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/crypt/-/crypt-0.0.2.tgz#88d7ff7ec0dfb86f713dc87bbb42d044d3e6c41b"
 
 cryptiles@2.x.x:
   version "2.0.5"
@@ -3462,7 +3444,7 @@ express@4.15.2:
     utils-merge "1.0.0"
     vary "~1.1.0"
 
-express@^4.0.33, express@^4.13.3, express@^4.15.2:
+express@^4.13.3, express@^4.15.2:
   version "4.15.3"
   resolved "https://registry.yarnpkg.com/express/-/express-4.15.3.tgz#bab65d0f03aa80c358408972fc700f916944b662"
   dependencies:
@@ -3669,19 +3651,6 @@ firebase-admin@^5.0.1:
     faye-websocket "0.9.3"
     jsonwebtoken "7.1.9"
     node-forge "0.7.1"
-
-firebase-functions@^0.6.0:
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/firebase-functions/-/firebase-functions-0.6.0.tgz#e0e30b744fd1b86f1e24089225d29a4a8e64ab54"
-  dependencies:
-    "@types/express" "^4.0.33"
-    "@types/jsonwebtoken" "^7.1.32"
-    "@types/lodash" "^4.14.34"
-    "@types/sha1" "^1.1.0"
-    express "^4.0.33"
-    jsonwebtoken "^7.1.9"
-    lodash "^4.6.1"
-    sha1 "^1.1.1"
 
 firebase-tools@^3.9.1:
   version "3.9.1"
@@ -5006,7 +4975,7 @@ jsonwebtoken@^5.4.0:
     ms "^0.7.1"
     xtend "^4.0.1"
 
-jsonwebtoken@^7.1.9, jsonwebtoken@^7.3.0:
+jsonwebtoken@^7.3.0:
   version "7.4.1"
   resolved "https://registry.yarnpkg.com/jsonwebtoken/-/jsonwebtoken-7.4.1.tgz#7ca324f5215f8be039cd35a6c45bb8cb74a448fb"
   dependencies:
@@ -7715,13 +7684,6 @@ sha.js@^2.4.0, sha.js@^2.4.8:
   resolved "https://registry.yarnpkg.com/sha.js/-/sha.js-2.4.8.tgz#37068c2c476b6baf402d14a49c67f597921f634f"
   dependencies:
     inherits "^2.0.1"
-
-sha1@^1.1.1:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/sha1/-/sha1-1.1.1.tgz#addaa7a93168f393f19eb2b15091618e2700f848"
-  dependencies:
-    charenc ">= 0.0.1"
-    crypt ">= 0.0.1"
 
 shallow-clone@^0.1.2:
   version "0.1.2"
