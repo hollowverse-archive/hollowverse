@@ -2,9 +2,6 @@ runtime: custom
 env: flex
 
 skip_files:
-  - letsEncrypt
-  - functions/dist
-  - functions/src/yarn.lock
   - public
   - designDocs
   - node_modules
