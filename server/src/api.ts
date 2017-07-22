@@ -32,13 +32,30 @@ api.get('/notablePersons/:slug', async (req, res, next) => {
     if (data !== null) {
       res.send(data);
     } else {
-      res.status(404);
-      res.send({ error: 'Not Found' });
+      // Forward to the next non-error request handler
+      next();
     }
   } catch (e) {
     res.status(500);
     next(e);
   }
 });
+
+api.use(
+  // Non-error request handler
+  (_, res, __) => {
+    res.status(404);
+    res.send({ error: 'Not Found' });
+  },
+);
+
+// @NOTE: The array is used to trick TypeScript into inferring the right signature
+api.use([
+  // Error handler signature with 4 parameters
+  (_, __, res, ___) => {
+    res.status(500);
+    res.send({ error: 'Server Error' });
+  },
+]);
 
 export { api };
