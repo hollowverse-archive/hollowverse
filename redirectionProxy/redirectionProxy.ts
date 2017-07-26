@@ -7,8 +7,9 @@ const server = express();
 
 // tslint:disable no-http-string no-suspicious-comment
 // @TODO: replace 'http://hollowverse.com' with old server address
-const OLD_SERVER_ADDRESS = process.env.OLD_SERVER || 'http://hollowverse.com';
-const NEW_SERVER_ADDRESS = process.env.NEW_SERVER || 'http://localhost:3000';
+const OLD_SERVER_ADDRESS =
+  process.env.OLD_SERVER || 'http://d30rfyh3y5ki02.cloudfront.net/';
+const NEW_SERVER_ADDRESS = process.env.NEW_SERVER || 'http://localhost:3000/';
 // tslint:enable no-http-string no-suspicious-comment
 const PUBLIC_PATH = path.resolve(
   process.cwd(),
@@ -51,7 +52,10 @@ server.get('/:path', (req, res, next) => {
 
 // Fallback to old hollowverse
 server.use((req, res) =>
-  proxyServer.web(req, res, { target: OLD_SERVER_ADDRESS }),
+  proxyServer.web(req, res, {
+    target: OLD_SERVER_ADDRESS,
+    changeOrigin: true,
+  }),
 );
 
 server.listen(PROXY_PORT);
