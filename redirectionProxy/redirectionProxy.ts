@@ -8,7 +8,7 @@ const server = express();
 // tslint:disable no-http-string no-suspicious-comment
 // @TODO: replace 'http://hollowverse.com' with old server address
 const OLD_SERVER_ADDRESS =
-  process.env.OLD_SERVER || 'http://d30rfyh3y5ki02.cloudfront.net/';
+  process.env.OLD_SERVER || 'http://dw5a6b9vjmt7w.cloudfront.net/';
 const NEW_SERVER_ADDRESS = process.env.NEW_SERVER || 'http://localhost:3000/';
 // tslint:enable no-http-string no-suspicious-comment
 const PUBLIC_PATH = path.resolve(
@@ -37,7 +37,7 @@ server.get('/:path', (req, res, next) => {
   const redirectionPath = redirectionMap.get(reqPath);
   if (redirectionPath !== undefined) {
     // /tom-hanks => redirect to Tom_Hanks
-    res.redirect(redirectionPath);
+    res.redirect(`/${redirectionPath}`);
   } else if (newPaths.has(reqPath) || staticFiles.has(reqPath)) {
     // /Tom_Hanks, /app.js, /vendor.js => new hollowverse
     proxyServer.web(req, res, {
