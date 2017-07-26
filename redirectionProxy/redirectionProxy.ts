@@ -18,7 +18,7 @@ const PROXY_PORT = process.env.PORT || 8080;
 
 const proxyServer = httpProxy.createProxyServer();
 
-const redirectionMap = new Map([['tom-hanks', 'Tom_Hanks']]);
+const redirectionMap = new Map<string, string>([]);
 
 const newPaths = new Set(redirectionMap.values());
 const staticFiles = new Set(fs.readdirSync(PUBLIC_PATH));
