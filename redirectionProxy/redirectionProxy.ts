@@ -3,6 +3,8 @@ import * as httpProxy from 'http-proxy';
 import * as fs from 'fs';
 import * as path from 'path';
 
+import { letsEncrypt } from './letsEncrypt';
+
 const server = express();
 
 // tslint:disable no-http-string no-suspicious-comment
@@ -23,6 +25,8 @@ const redirectionMap = new Map<string, string>([]);
 
 const newPaths = new Set(redirectionMap.values());
 const staticFiles = new Set(fs.readdirSync(PUBLIC_PATH));
+
+server.use('/.well-known', letsEncrypt);
 
 /*
  * As the proxy is placed in front of the old version, we need to allow
