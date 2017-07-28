@@ -19,4 +19,4 @@ automatic_scaling:
 
 resources:
   cpu: 1
-  memory_gb: 0.3
+  memory_gb: 0.9
