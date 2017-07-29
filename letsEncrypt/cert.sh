@@ -22,3 +22,6 @@ cd .certbot/config/live/$DOMAIN/
 # Convert private key to GAE-compatible format
 openssl rsa -in privkey.pem -out rsa.pem
 
+# TODO: upload fullchain.pem and privkey.pem to GAE
+
+# TODO: update SSL configuration to use this certificate if needed
