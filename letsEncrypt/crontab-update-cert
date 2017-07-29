@@ -1,1 +1,1 @@
-@daily /bin/sh /cert.sh
+0 0,12 * * * certbot renew
