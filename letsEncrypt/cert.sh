@@ -3,14 +3,9 @@
 DOMAIN='hollowverse.com'
 EMAIL='msafi@msafi.com'
 
-mkdir -p .certbot/config .certbot/work .certbot/logs
-
 certbot certonly \
   --agree-tos \
   --email $EMAIL \
-  --config-dir ./.certbot/config \
-  --work-dir ./.certbot/work \
-  --logs-dir ./.certbot/logs \
   --noninteractive \
   --webroot \
   --webroot-path ./public \
