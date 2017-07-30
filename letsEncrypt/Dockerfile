@@ -33,7 +33,7 @@ ADD . .
 #
 # NOTE: Although the decrypted key is not stored in the repository,
 # it will be available at deploy time.
-ADD ../gae-client-secret.json .
+ADD ./gae-client-secret.json .
 
 # Schedule certificate generation 30 minutes from now to make sure
 # the service is deployed before running the command
