@@ -22,3 +22,6 @@ gcloud auth activate-service-account $SERVICE_ACCOUNT --key-file /gae-client-sec
 # Upload fullchain.pem and rsa.pem to GAE
 # Disabled as the certificate is already uploaded in GAE, we just need to update it regularly
 # gcloud beta app ssl-certificates create --display-name $CERT_NAME --certificate ./fullchain.pem --private-key ./rsa.pem
+
+# Instead, update the current one
+gcloud beta app ssl-certificates update $CERT_ID --certificate ./fullchain.pem --private-key ./rsa.pem
