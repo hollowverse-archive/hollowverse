@@ -21,6 +21,3 @@ gcloud auth activate-service-account $SERVICE_ACCOUNT --key-file /gae-client-sec
 
 # Upload fullchain.pem and rsa.pem to GAE
 gcloud beta app ssl-certificates create --display-name $CERT_NAME --certificate ./fullchain.pem --private-key ./rsa.pem
-
-# Use the new certificate for hollowverse.com
-gcloud beta app domain-mappings create $DOMAIN --certificate-id lets-encrypt
