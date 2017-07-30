@@ -26,7 +26,7 @@ RUN npm install -g http-server
 # This directory will contain domain vertification files
 RUN mkdir -p ./public
 
-# Add the certificate genenration script and crontab file to the container
+# Add the certificate genenration and update scripts and crontab file to the container
 ADD . .
 
 # Add service account key required to update the certificate
