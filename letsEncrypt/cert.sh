@@ -11,7 +11,7 @@ certbot certonly \
   -d $DOMAIN
 
 # This directory contains the certificate files, including the private key
-cd .certbot/config/live/$DOMAIN/
+cd /etc/letsencrypt/live/$DOMAIN/
 
 # Convert private key to GAE-compatible format
 openssl rsa -in privkey.pem -out rsa.pem
