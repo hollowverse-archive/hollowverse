@@ -2,6 +2,9 @@
 
 source ./env.sh
 
+# Exit early on any command failure
+set -e
+
 certbot certonly \
   --agree-tos \
   --email $EMAIL \
@@ -9,7 +12,6 @@ certbot certonly \
   --webroot \
   --webroot-path ./public \
   -d $DOMAIN
-
 
 # This directory contains the certificate files, including the private key
 cd /etc/letsencrypt/live/$DOMAIN/
