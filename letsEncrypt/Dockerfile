@@ -33,6 +33,8 @@ ADD . .
 #
 # NOTE: Although the decrypted key is not stored in the repository,
 # it will be available at deploy time.
+# This is added explicitly so the build fails early if
+# the file does not exist
 ADD ./gae-client-secret.json .
 
 # Schedule certificate generation 30 minutes from now to make sure
