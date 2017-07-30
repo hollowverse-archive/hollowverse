@@ -8,5 +8,6 @@ automatic_scaling:
   max_num_instances: 1
 
 env_variables:
+  SERVICE_ACCOUNT: 'travis@hollowverse-c9cad.iam.gserviceaccount.com'
   DOMAIN: 'hollowverse.com'
   EMAIL: 'msafi@msafi.com'

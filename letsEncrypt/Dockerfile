@@ -9,7 +9,17 @@ RUN add-apt-repository -y ppa:certbot/certbot
 # Add Node.js source, needed to spin up a simple static file server
 RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -
 
-RUN apt-get update && apt-get install -y certbot nodejs cron at
+# Add the Cloud SDK distribution URI as a package source
+RUN \
+  export CLOUD_SDK_REPO="cloud-sdk-$(lsb_release -c -s)" \
+  && \
+  echo "deb http://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" | \
+    tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
+
+# Import the Google Cloud public key
+RUN curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
+
+RUN apt-get update && apt-get install -y certbot nodejs cron at google-cloud-sdk
 
 RUN npm install -g http-server
 
@@ -18,6 +28,12 @@ RUN mkdir -p ./public
 
 # Add the certificate genenration script and crontab file to the container
 ADD . .
+
+# Add service account key required to update the certificate
+#
+# NOTE: Although the decrypted key is not stored in the repository,
+# it will be available at deploy time.
+ADD ../gae-client-secret.json .
 
 # Schedule certificate generation 30 minutes from now to make sure
 # the service is deployed before running the command

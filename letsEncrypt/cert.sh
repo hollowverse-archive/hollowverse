@@ -14,6 +14,10 @@ cd .certbot/config/live/$DOMAIN/
 # Convert private key to GAE-compatible format
 openssl rsa -in privkey.pem -out rsa.pem
 
-# TODO: upload fullchain.pem and privkey.pem to GAE
+gcloud auth activate-service-account $SERVICE_ACCOUNT --key-file gae-client-secret.json
 
-# TODO: update SSL configuration to use this certificate if needed
+# Upload fullchain.pem and rsa.pem to GAE
+gcloud beta app ssl-certificates create --display-name lets-encrypt --certificate ./fullchain.pem --private-key ./rsa.pem
+
+# Use the new certificate for hollowverse.com
+gcloud beta app domain-mappings create hollowverse.com --certificate-id lets-encrypt
