@@ -1,4 +1,7 @@
 #! /bin/sh
+
+source ./env.sh
+
 certbot renew
 
 # This directory contains the certificate files, including the private key

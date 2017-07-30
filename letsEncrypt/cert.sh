@@ -1,5 +1,7 @@
 #! /bin/sh
 
+source ./env.sh
+
 certbot certonly \
   --agree-tos \
   --email $EMAIL \
