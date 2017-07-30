@@ -1,8 +1,5 @@
 #! /bin/sh
 
-DOMAIN='hollowverse.com'
-EMAIL='msafi@msafi.com'
-
 certbot certonly \
   --agree-tos \
   --email $EMAIL \
