@@ -19,6 +19,13 @@ const PROXY_PORT = process.env.PORT || 8080;
 
 const proxyServer = httpProxy.createProxyServer();
 
+// Make sure all forwarded URLs end with / to avoid redirects
+proxyServer.on('proxyReq', (proxyReq: any) => {
+  if (!(proxyReq.path as string).endsWith('/')) {
+    proxyReq.path = `${proxyReq.path}/`;
+  }
+});
+
 const redirectionMap = new Map<string, string>([]);
 
 const newPaths = new Set(redirectionMap.values());
