@@ -42,7 +42,7 @@ ADD ./gae-client-secret.json .
 
 # Schedule certificate generation 30 minutes from now to make sure
 # the service is deployed before running the command
-RUN echo 'node ./cert.js' | at now + 30 minutes
+RUN echo 'node /cert.js' | at now + 30 minutes
 
 # Schedule renewal using a cron job
 RUN crontab crontab-update-cert
