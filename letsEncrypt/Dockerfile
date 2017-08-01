@@ -47,5 +47,8 @@ RUN echo 'node ./cert.js' | at now + 30 minutes
 # Schedule renewal using a cron job
 RUN crontab crontab-update-cert
 
+# Install dependencies for cert.js script
+RUN npm install
+
 # Serve public files to allow Let's Encrypt to verify domain ownership
 CMD http-server ./public -p 8080
