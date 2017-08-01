@@ -4,7 +4,7 @@
   "private": true,
   "description": "Let's Encrypt service for Hollowverse",
   "main": "index.js",
-  "license": "MIT",
+  "license": "Unlicense",
   "dependencies": {
     "shelljs": "^0.7.8"
   }
