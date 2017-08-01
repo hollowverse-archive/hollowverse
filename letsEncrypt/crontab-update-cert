@@ -1,1 +1,1 @@
-0 0,12 * * * /cert.sh
+0 0,12 * * * node /cert.js
