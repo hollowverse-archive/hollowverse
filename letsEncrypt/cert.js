@@ -25,26 +25,33 @@ shelljs.exec(
 );
 
 // Find the certificate ID that matches the certificate display name
-const CERT_ID = shelljs
-  .exec(`gcloud beta app ssl-certificates list --filter ${CERT_NAME} --limit 1`)
-  .stdout.split('\n')[1] // Take the second line of output (the first one is column headings)
-  .match(/^([0-9]+)\s/i)[1] // Get the certificate ID
-  .trim();
+const result = shelljs.exec(
+  `gcloud beta app ssl-certificates list --filter ${CERT_NAME} --limit 1`,
+);
 
-// Upload fullchain.pem and rsa.pem to GAE
-if (CERT_ID.length === 0) {
-  // Create a new certificate if no matching certificate ID is found
-  shelljs.exec(`
-    gcloud beta app ssl-certificates create \
-    --display-name ${CERT_NAME} \
-    --certificate ./fullchain.pem \
-    --private-key ./rsa.pem 
-  `);
+if (result.code === 0) {
+  const CERT_ID = result.stdout
+    .split('\n')[1] // Take the second line of output (the first one is column headings)
+    .match(/^([0-9]+)\s/i)[1] // Get the certificate ID
+    .trim();
+
+  // Upload fullchain.pem and rsa.pem to GAE
+  if (CERT_ID.length === 0) {
+    // Create a new certificate if no matching certificate ID is found
+    shelljs.exec(`
+      gcloud beta app ssl-certificates create \
+      --display-name ${CERT_NAME} \
+      --certificate ./fullchain.pem \
+      --private-key ./rsa.pem 
+    `);
+  } else {
+    // Otherwise, update the existing one
+    shelljs.exec(`
+      gcloud beta app ssl-certificates update ${CERT_ID} \
+      --certificate ./fullchain.pem \
+      --private-key ./rsa.pem
+    `);
+  }
 } else {
-  // Otherwise, update the existing one
-  shelljs.exec(`
-    gcloud beta app ssl-certificates update ${CERT_ID} \
-    --certificate ./fullchain.pem \
-    --private-key ./rsa.pem
-  `);
+  console.error(`Failed to get the certificate list: ${result.stderr}`);
 }
