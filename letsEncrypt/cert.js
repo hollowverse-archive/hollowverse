@@ -1,4 +1,6 @@
 #! /bin/node
+
+// @ts-check
 const shelljs = require('shelljs');
 
 const { EMAIL, DOMAIN, CERT_NAME, SERVICE_ACCOUNT } = require('./config');
@@ -30,13 +32,18 @@ const result = shelljs.exec(
 );
 
 if (result.code === 0) {
-  const CERT_ID = result.stdout
-    .split('\n')[1] // Take the second line of output (the first one is column headings)
-    .match(/^([0-9]+)\s/i)[1] // Get the certificate ID
-    .trim();
+  let certId;
+  const certLine = result.stdout.split('\n')[1]; // Take the second line of output (the first one is column headings)
+  
+  if (certLine) {
+    const matches = certLine.match(/^([0-9]+)\s/i);
+    if (matches && matches[1]) {
+      certId = matches[1];
+    }
+  }
 
   // Upload fullchain.pem and rsa.pem to GAE
-  if (CERT_ID.length === 0) {
+  if (!certId) {
     // Create a new certificate if no matching certificate ID is found
     shelljs.exec(`
       gcloud beta app ssl-certificates create \
@@ -47,7 +54,7 @@ if (result.code === 0) {
   } else {
     // Otherwise, update the existing one
     shelljs.exec(`
-      gcloud beta app ssl-certificates update ${CERT_ID} \
+      gcloud beta app ssl-certificates update ${certId} \
       --certificate ./fullchain.pem \
       --private-key ./rsa.pem
     `);
