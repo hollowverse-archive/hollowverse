@@ -7,8 +7,9 @@ const server = express();
 
 // tslint:disable no-http-string no-suspicious-comment
 // @TODO: replace 'http://hollowverse.com' with old server address
-const OLD_SERVER_ADDRESS = process.env.OLD_SERVER || 'http://hollowverse.com';
-const NEW_SERVER_ADDRESS = process.env.NEW_SERVER || 'http://localhost:3000';
+const OLD_SERVER_ADDRESS =
+  process.env.OLD_SERVER || 'http://dw5a6b9vjmt7w.cloudfront.net/';
+const NEW_SERVER_ADDRESS = process.env.NEW_SERVER || 'http://localhost:3000/';
 // tslint:enable no-http-string no-suspicious-comment
 const PUBLIC_PATH = path.resolve(
   process.cwd(),
@@ -18,7 +19,14 @@ const PROXY_PORT = process.env.PORT || 8080;
 
 const proxyServer = httpProxy.createProxyServer();
 
-const redirectionMap = new Map([['tom-hanks', 'Tom_Hanks']]);
+// Make sure all forwarded URLs end with / to avoid redirects
+proxyServer.on('proxyReq', (proxyReq: any) => {
+  if (!(proxyReq.path as string).endsWith('/')) {
+    proxyReq.path = `${proxyReq.path}/`;
+  }
+});
+
+const redirectionMap = new Map<string, string>([]);
 
 const newPaths = new Set(redirectionMap.values());
 const staticFiles = new Set(fs.readdirSync(PUBLIC_PATH));
@@ -36,7 +44,7 @@ server.get('/:path', (req, res, next) => {
   const redirectionPath = redirectionMap.get(reqPath);
   if (redirectionPath !== undefined) {
     // /tom-hanks => redirect to Tom_Hanks
-    res.redirect(redirectionPath);
+    res.redirect(`/${redirectionPath}`);
   } else if (newPaths.has(reqPath) || staticFiles.has(reqPath)) {
     // /Tom_Hanks, /app.js, /vendor.js => new hollowverse
     proxyServer.web(req, res, {
@@ -51,7 +59,10 @@ server.get('/:path', (req, res, next) => {
 
 // Fallback to old hollowverse
 server.use((req, res) =>
-  proxyServer.web(req, res, { target: OLD_SERVER_ADDRESS }),
+  proxyServer.web(req, res, {
+    target: OLD_SERVER_ADDRESS,
+    changeOrigin: true,
+  }),
 );
 
 server.listen(PROXY_PORT);
