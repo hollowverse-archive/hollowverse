@@ -24,6 +24,9 @@ RUN apt-get update && apt-get install -y certbot nodejs cron at google-cloud-sdk
 # Launch at daemon to run tasks scheduled using at
 RUN atd
 
+# Launch cron service to activate scheduled renewals
+RUN service cron start
+
 RUN npm install -g http-server
 
 # This directory will contain domain vertification files
