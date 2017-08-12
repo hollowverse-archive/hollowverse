@@ -1,5 +1,9 @@
 declare module 'sumo-logger' {
-  export type SumoLoggerOptions = {
+  export = SumoLogger;
+}
+
+declare namespace SumoLogger {
+  type SumoLoggerOptions = {
     /**
      * To send your logs, the script must know which HTTP Source to use.
      * Pass this value (which you can get from the Collectors page) in
@@ -61,7 +65,7 @@ declare module 'sumo-logger' {
     sourceName?: string;
   };
 
-  export type PerMessageOptions = {
+  type PerMessageOptions = {
     /**
      * Defaults to `new Date()` called when processing the log call.
      * Use this when the event being logged occurred
@@ -75,45 +79,43 @@ declare module 'sumo-logger' {
     /** Override client URL set in the config call. (Node version only) */
     url: string;
   };
+}
+
+/**
+ * You must have an HTTP source created in your Sumo Logic account to use this SDK.
+ * To create one, log into Sumo Logic, go to the Collectors page and either create
+ * a new Hosted Collector or add a new HTTP source to an existing Hosted Collector.
+ */
+declare class SumoLogger {
+  constructor(options: SumoLogger.SumoLoggerOptions);
 
   /**
-   * You must have an HTTP source created in your Sumo Logic account to use this SDK.
-   * To create one, log into Sumo Logic, go to the Collectors page and either create
-   * a new Hosted Collector or add a new HTTP source to an existing Hosted Collector.
+   * **(Vanilla JS lib only)**
+   * Set the configuration for sending logs. Options are listed in the next section.
+   * In the Node.js module, configuration options are sent when instantiating the object.
    */
-  class SumoLogger {
-    constructor(options: SumoLoggerOptions);
+  config?(options: SumoLogger.SumoLoggerOptions): void;
 
-    /**
-     * **(Vanilla JS lib only)**
-     * Set the configuration for sending logs. Options are listed in the next section.
-     * In the Node.js module, configuration options are sent when instantiating the object.
-     */
-    config?(options: SumoLoggerOptions): void;
+  /**
+   * Set a log message to be sent.
+   * All logs are sent as JSON objects.
+   * If you call `log()` with just a string, the string is included as a field called msg.
+   * If you call the function with a JSON object, each field in the object is included as a separate field.
+   * Fields called `sessionId`, `url`, and `timestamp` are sent in both cases.
+   */
+  log(message: string, options?: SumoLogger.PerMessageOptions): void;
 
-    /**
-     * Set a log message to be sent.
-     * All logs are sent as JSON objects.
-     * If you call `log()` with just a string, the string is included as a field called msg.
-     * If you call the function with a JSON object, each field in the object is included as a separate field.
-     * Fields called `sessionId`, `url`, and `timestamp` are sent in both cases.
-     */
-    log(message: string, options?: PerMessageOptions): void;
+  /**
+   * Set a log message to be sent.
+   * All logs are sent as JSON objects.
+   * If you call `log()` with just a string, the string is included as a field called msg.
+   * If you call the function with a JSON object, each field in the object is included as a separate field.
+   * Fields called `sessionId`, `url`, and `timestamp` are sent in both cases.
+   */
+  log<T extends object>(event: Partial<SumoLogger.PerMessageOptions> & T): void;
 
-    /**
-     * Set a log message to be sent.
-     * All logs are sent as JSON objects.
-     * If you call `log()` with just a string, the string is included as a field called msg.
-     * If you call the function with a JSON object, each field in the object is included as a separate field.
-     * Fields called `sessionId`, `url`, and `timestamp` are sent in both cases.
-     */
-    log<T extends object>(event: Partial<PerMessageOptions> & T): void;
-
-    /** Force any pending logs to be sent immediately. This is mainly for use in a
-     * logOut/`window.onBeforeUnload` flow to ensure that any remaining queued
-     * messages are sent to Sumo Logic. */
-    flushLogs(): void;
-  }
-
-  export default SumoLogger;
+  /** Force any pending logs to be sent immediately. This is mainly for use in a
+   * logOut/`window.onBeforeUnload` flow to ensure that any remaining queued
+   * messages are sent to Sumo Logic. */
+  flushLogs(): void;
 }

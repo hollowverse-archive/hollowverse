@@ -1,4 +1,4 @@
-import SumoLogger from 'sumo-logger';
+import * as SumoLogger from 'sumo-logger';
 
 import * as fs from 'fs';
 import * as path from 'path';
@@ -8,7 +8,7 @@ import { LogPayload, LogType } from './types';
 
 import noop from 'lodash/noop';
 
-const SECRETS_FILE_PATH = path.join(process.cwd(), 'sumo.json');
+const SECRETS_FILE_PATH = path.join(process.cwd(), 'secrets', 'sumo.json');
 const sumoSecrets = JSON.parse(String(fs.readFileSync(SECRETS_FILE_PATH)));
 
 const COLLECTOR_ID: string = sumoSecrets.collectorId;
