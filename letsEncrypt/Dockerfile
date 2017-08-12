@@ -46,12 +46,10 @@ ADD . .
 # Schedule renewal using a cron job
 RUN crontab crontab-update-cert
 
-# 1) Start cron and at daemons to enable schedule tasks 
+# 1) Start cron and at daemons to enable scheduled tasks 
 #
 # 2) Schedule certificate generation 15 minutes from now to make sure
 # the service is deployed before running the command
 #
-# 3) Schedule cron jobs to renew the certificate
-#
-# 4) Serve public files to allow Let's Encrypt to verify domain ownership
+# 3) Serve public files to allow Let's Encrypt to verify domain ownership
 CMD cron start && atd && (echo 'node /cert.js' | at now + 15 minutes) && http-server ./public -p 8080
