@@ -3,6 +3,8 @@ import * as httpProxy from 'http-proxy';
 import * as fs from 'fs';
 import * as path from 'path';
 
+import { log } from './logger/logger';
+
 const server = express();
 
 // tslint:disable no-http-string no-suspicious-comment
@@ -41,6 +43,9 @@ const staticFiles = new Set(fs.readdirSync(PUBLIC_PATH));
 server.get('/:path', (req, res, next) => {
   // '/:path' matches: /Tom_Hanks, /tom-hanks, /app.js, /michael-jackson, ashton-kutcher...
   const reqPath: string = req.params.path;
+
+  log('PAGE_REQUESTED', { url: reqPath });
+
   const redirectionPath = redirectionMap.get(reqPath);
   if (redirectionPath !== undefined) {
     // /tom-hanks => redirect to Tom_Hanks
