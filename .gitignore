@@ -75,4 +75,5 @@ functions/dist
 functions/*/yarn.lock
 
 gae-client-secret.json
-secrets/
+secrets/**/*
+!secrets/**/*.enc
