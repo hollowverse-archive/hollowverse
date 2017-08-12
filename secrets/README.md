@@ -23,14 +23,29 @@ This is the structure of the file:
 ## How to add or update an encrypted file
 The encrypted files should be replaced with new ones when needed.
 
-To replace or add a new encrypted secret, place the unencrypted secret file in this folder and use the [Travis CLI tool](https://github.com/travis-ci/travis.rb) to encrypt the file:
+To replace or add a new encrypted secret, place the unencrypted secret file in this folder and use OpenSSL to encrypt the file:
 
-```
-travis encrypt-file sumo.json
-```
+1. First generate a random 256-bit AES key to use for encryption (refer to [OpenSSL documentation](https://wiki.openssl.org/index.php/Enc) for details).
+    ```
+    openssl enc -aes-256-cbc -P -pass pass:'' -md sha1
+    ```
+    This will output the new key components:
+    ```
+    salt=<salt value>
+    key=<key value>
+    iv =<IV value>
+    ```
+    The salt is used to randomize the key, and it is not required for encryption.
+2. Use the generated key to encrypt the file:
+    ```
+    openssl aes-256-cbc -in ./sumo.json -out sumo.json.enc -K <key value> -iv <IV value>
+    ```
+    This will output the encrypted file to `sumo.json.enc`.
+3. Save the key and IV values in Travis settings of your project as secure variables. Let's assume they are saved as `ENC_KEY_SUMO` and `ENC_IV_SUMO`.
+4. Add the decryption command to your deploy environment, making sure to use the secure variables instead of exposing the key values directly:
+    ```
+    openssl aes-256-cbc -in ./sumo.json -out sumo.json.enc -K $ENC_KEY_SUMO -iv $ENC_IV_SUMO
+    ```
+    Since these are store as secure variables, Travis will make sure they are never display in the build logs. They will show up as `[secure]` instead of the actual value.
 
-This will output the encrypted file to `sumo.json.enc`. The CLI tool will ask to confirm replace if a file with the same name exists.
-
-Take note of the output of the previous command and update your decryption commands to use the new encryption key values (e.g. `$encrypted_744738cd0ff8_key`, `$encrypted_74f95b343f57_iv`) to decrypt the new file on CI.
-
-Refer to [Travis documentation on encrypting sensitive files](https://docs.travis-ci.com/user/encrypting-files/) for more details.
+Repeat the previous steps every time you need to replace the update file.
