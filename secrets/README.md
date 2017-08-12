@@ -2,10 +2,10 @@
 
 This folder contains secrets (private keys, JWT tokens, secret URLs) used for authenticating to various services used by Hollowverse. This files should be decrypted on the CI before deploying the project to Google Cloud Platform. The encryption key is stored in Travis secure environment variables.
 
-## `gcloud.travis.enc`
+## `gcloud.travis.json.enc`
 Key for Google Cloud Platform service account created for deployment tasks, used in Travis to authenticate `gcloud` in order to deploy the project to App Engine.
 
-## `gcloud.letsEncrypt.enc`
+## `gcloud.letsEncrypt.json.enc`
 
 Key for Google Cloud Platform service account created for the [`lets-encrypt`](../letsEncrypt) tasks, used to authenticate `gcloud` in order to create or update the SSL certificate settings in App Engine.
 
