@@ -46,6 +46,6 @@ To replace or add a new encrypted secret, place the unencrypted secret file in t
     ```
     openssl aes-256-cbc -in ./sumo.json -out sumo.json.enc -K $ENC_KEY_SUMO -iv $ENC_IV_SUMO
     ```
-    Since these are store as secure variables, Travis will make sure they are never display in the build logs. They will show up as `[secure]` instead of the actual value.
+    Since these are store as secure variables, Travis will make sure they are never displayed in the build logs. They will show up as `[secure]` instead of the actual value.
 
 Repeat the previous steps every time you need to replace the update file.
