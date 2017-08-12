@@ -130,6 +130,7 @@
     "redux-saga": "^0.15.4",
     "shelljs": "^0.7.8",
     "style-loader": "^0.18.2",
+    "sumo-logger": "^1.0.1",
     "ts-loader": "^2.2.2",
     "webpack": "^3.1.0",
     "webpack-dev-server": "^2.5.1"
