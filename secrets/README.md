@@ -31,4 +31,6 @@ travis encrypt-file sumo.json
 
 This will output the encrypted file to `sumo.json.enc`. The CLI tool will ask to confirm replace if a file with the same name exists.
 
+Take note of the output of the previous command and update your decryption commands to use the new encryption key values (e.g. `$encrypted_744738cd0ff8_key`, `$encrypted_74f95b343f57_iv`) to decrypt the new file on CI.
+
 Refer to [Travis documentation on encrypting sensitive files](https://docs.travis-ci.com/user/encrypting-files/) for more details.
