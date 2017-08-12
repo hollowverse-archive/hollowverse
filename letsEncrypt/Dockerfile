@@ -21,16 +21,16 @@ RUN curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
 
 RUN apt-get update && apt-get install -y certbot nodejs cron at google-cloud-sdk
 
-# Launch at daemon to run tasks scheduled using at
-RUN atd
-
 RUN npm install -g http-server
+
+# Add package.json so this layer can be cached independently
+ADD ./package.json .
+
+# Install dependencies for cert.js script
+RUN npm install
 
 # This directory will contain domain vertification files
 RUN mkdir -p ./public
-
-# Add the certificate genenration and update scripts and crontab file to the container
-ADD . .
 
 # Add service account key required to update the certificate
 #
@@ -40,15 +40,16 @@ ADD . .
 # the file does not exist
 ADD ./gae-client-secret.json .
 
-# Schedule certificate generation 30 minutes from now to make sure
-# the service is deployed before running the command
-RUN echo 'node /cert.js' | at now + 30 minutes
+# Add the certificate genenration and update scripts and crontab file to the container
+ADD . .
 
 # Schedule renewal using a cron job
 RUN crontab crontab-update-cert
 
-# Install dependencies for cert.js script
-RUN npm install
-
-# Serve public files to allow Let's Encrypt to verify domain ownership
-CMD http-server ./public -p 8080
+# 1) Start cron and at daemons to enable scheduled tasks 
+#
+# 2) Schedule certificate generation 15 minutes from now to make sure
+# the service is deployed before running the command
+#
+# 3) Serve public files to allow Let's Encrypt to verify domain ownership
+CMD cron start && atd && (echo 'node /cert.js' | at now + 15 minutes) && http-server ./public -p 8080
