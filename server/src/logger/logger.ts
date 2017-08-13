@@ -6,7 +6,7 @@ import { URL } from 'url';
 
 import { LogPayload, LogType } from './types';
 
-import noop from 'lodash/noop';
+import { noop } from 'lodash';
 
 const SECRETS_FILE_PATH = path.join(process.cwd(), 'secrets', 'sumo.json');
 const sumoSecrets = JSON.parse(String(fs.readFileSync(SECRETS_FILE_PATH)));

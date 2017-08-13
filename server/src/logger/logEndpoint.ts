@@ -18,7 +18,8 @@ logEndpoint.post('/', async (req, res) => {
   const body = req.body;
   if (isBodyValid(body)) {
     log(body.event, body.payload);
-    res.send(201); // 201 Created
+    res.status(201); // 201 Created
+    res.send({});
   } else {
     res.status(400);
     res.send({ error: 'Invalid Body' });
