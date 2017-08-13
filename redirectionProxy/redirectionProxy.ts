@@ -4,6 +4,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 import { log } from 'server/src/logger/logger';
+import { logEndpoint } from 'server/src/logger/logEndpoint';
 
 const server = express();
 
@@ -32,6 +33,9 @@ const redirectionMap = new Map<string, string>([]);
 
 const newPaths = new Set(redirectionMap.values());
 const staticFiles = new Set(fs.readdirSync(PUBLIC_PATH));
+
+/** Short-circuit the redirection proxy to expose the /log endpoint */
+server.use('/log', logEndpoint);
 
 /*
  * As the proxy is placed in front of the old version, we need to allow
