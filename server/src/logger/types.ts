@@ -12,7 +12,8 @@ export type LogType = keyof PayloadsByType;
 export type LogPayload<T extends LogType> = PayloadsByType[T];
 
 export type LogEvent<T extends LogType> = {
-  ip: string;
   event: T;
   payload: LogPayload<T>;
 };
+
+export type LogRequestBody<T extends LogType> = LogEvent<T>;

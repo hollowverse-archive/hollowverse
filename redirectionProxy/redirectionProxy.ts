@@ -3,7 +3,7 @@ import * as httpProxy from 'http-proxy';
 import * as fs from 'fs';
 import * as path from 'path';
 
-import { log } from './logger/logger';
+import { log } from 'server/src/logger/logger';
 
 const server = express();
 
