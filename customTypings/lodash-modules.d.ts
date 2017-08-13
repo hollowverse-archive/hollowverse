@@ -15,9 +15,15 @@ declare module 'lodash/mapValues' {
 }
 
 declare module 'lodash/pick' {
-  function pick<K extends string, T extends Record<K, any>>(obj: T, ...args: K[]): Pick<T, K>
-  function pick<K extends string, T extends Record<K, any>>(obj: T, keys: K[]): Pick<T, K>
-  
+  function pick<K extends string, T extends Record<K, any>>(
+    obj: T,
+    ...args: K[]
+  ): Pick<T, K>;
+  function pick<K extends string, T extends Record<K, any>>(
+    obj: T,
+    keys: K[],
+  ): Pick<T, K>;
+
   export default pick;
 }
 
