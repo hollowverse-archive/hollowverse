@@ -32,7 +32,7 @@ process.on('beforeExit', () => {
  * A wrapper around `SummoLogger.log` to enforce strict type checking
  * for an event's type and payload.
  */
-export function log<T extends LogType>(type: LogType, data: LogPayload<T>) {
+export function log<T extends LogType>(type: T, data: LogPayload<T>) {
   // Push a message to be logged
   sumoLogger.log({
     type,
