@@ -74,7 +74,6 @@ client/.babelrc
 functions/dist
 functions/*/yarn.lock
 
-gae-client-secret.json
 secrets/**/*
 !secrets/**/*.enc
 !secrets/README.md
