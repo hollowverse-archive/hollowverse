@@ -271,6 +271,12 @@
   version "7.10.0"
   resolved "https://registry.yarnpkg.com/@types/stylelint/-/stylelint-7.10.0.tgz#ee61a44394e46a6fdd0b301254403dbebd34626b"
 
+"@types/sumo-logger@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@types/sumo-logger/-/sumo-logger-1.0.0.tgz#08c2cc0012796bd631ce7ec2266d1694aad91f4f"
+  dependencies:
+    "@types/node" "*"
+
 "@types/tapable@*":
   version "0.2.3"
   resolved "https://registry.yarnpkg.com/@types/tapable/-/tapable-0.2.3.tgz#0888b0f20cc7e58e1c22a1888b4e963eefaa810a"
