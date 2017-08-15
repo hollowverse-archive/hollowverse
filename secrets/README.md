@@ -25,24 +25,18 @@ The encrypted files should be replaced with new ones when needed.
 
 To replace or add a new encrypted secret, place the unencrypted secret file in this folder and use OpenSSL to encrypt the file:
 
-1. First generate a random 256-bit AES key to use for encryption (refer to [OpenSSL documentation](https://wiki.openssl.org/index.php/Enc) for details).
+1. The following command will encrypt the file `sumo.json`, the encrypted output will be save to `sumo.json.enc`, encoded in base64:
     ```
-    openssl enc -aes-256-cbc -P -pass pass:'' -md sha1
+    openssl aes-256-cbc -p -pass pass:'' -in ./sumo.json -out sumo.json.enc -base64
     ```
-    This will output the new key components:
+    It will also print the components of the key that was used to do the encryption:
     ```
     salt=<salt value>
     key=<key value>
     iv =<IV value>
     ```
-    The salt is used to randomize the key, and it is not required for encryption.
-2. Use the generated key to encrypt the file:
-    ```
-    openssl aes-256-cbc -in ./sumo.json -out sumo.json.enc -K <key value> -iv <IV value> -base64
-    ```
-    This will output the encrypted file to `sumo.json.enc`, encoded in base64.
-3. Save the key and IV values in Travis settings of your project as secure variables. Let's assume they are saved as `ENC_KEY_SUMO` and `ENC_IV_SUMO`.
-4. Add the decryption command to your deploy environment, making sure to use the secure variables instead of exposing the key values directly:
+2. Save the key and IV values in Travis settings of your project as secure variables. Let's assume they are saved as `ENC_KEY_SUMO` and `ENC_IV_SUMO`. The salt is used to randomize the key, and you don't have to store it because it will be stored by OpenSSL as part of the encrypted file.
+3. Add the decryption command to your deploy environment, making sure to use the secure variables instead of exposing the key values directly:
     ```
     openssl aes-256-cbc -in ./sumo.json -out sumo.json.enc -K $ENC_KEY_SUMO -iv $ENC_IV_SUMO -base64
     ```
