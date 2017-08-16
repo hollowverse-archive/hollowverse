@@ -42,7 +42,7 @@ To replace or add a new encrypted secret, place the unencrypted secret file in t
     ```
     Since these are store as secure variables, Travis will make sure they are never displayed in the build logs. They will show up as `[secure]` instead of the actual value.
 
-Repeat the previous steps every time you need to replace the update file.
+Repeat the previous steps every time you need to update a secret file.
 
 ### Why we are not using Travis CLI to encrypt files
 A previous implementation used Travis CLI to do the encryption.
