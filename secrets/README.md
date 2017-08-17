@@ -10,7 +10,7 @@ Key for Google Cloud Platform service account created for deployment tasks, used
 Key for Google Cloud Platform service account created for the [`lets-encrypt`](../letsEncrypt) App Engine service, used to authenticate `gcloud` in order to create or update the SSL certificate settings in App Engine.
 
 ## `sumo.json.enc`
-A JSON file used containing the Colllector ID used to instantiate a `SumoLogger` instance on the server, to send logs to [Sumo Logic](https://www.sumologic.com/). The HTTP collector ID should be treated as a secret since it is publicly accessible and anyone can send logs to the collector endpoint.
+A JSON file used containing the [Colllector ID](https://help.sumologic.com/Start-Here/02Getting-Started/Glossary#section_2) used to instantiate a `SumoLogger` instance on the server, to send logs to [Sumo Logic](https://www.sumologic.com/). The HTTP collector ID should be treated as a secret since it is publicly accessible and anyone can send logs to the collector endpoint.
 
 This is the structure of the file:
 
@@ -38,7 +38,7 @@ To replace or add a new encrypted secret, place the unencrypted secret file in t
 2. Save the key and IV values in Travis settings of your project as secure variables. Let's assume they are saved as `ENC_KEY_SUMO` and `ENC_IV_SUMO`. The salt is used to randomize the key, and you don't have to store it because it will be stored by OpenSSL as part of the encrypted file.
 3. Add the decryption command to your deploy environment, making sure to use the secure variables instead of exposing the key values directly:
     ```
-    openssl aes-256-cbc -in ./sumo.json -out sumo.json.enc -K $ENC_KEY_SUMO -iv $ENC_IV_SUMO -base64
+    openssl aes-256-cbc -in ./sumo.json.enc -out sumo.json -K $ENC_KEY_SUMO -iv $ENC_IV_SUMO -base64 -d
     ```
     Since these are store as secure variables, Travis will make sure they are never displayed in the build logs. They will show up as `[secure]` instead of the actual value.
 
