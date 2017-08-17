@@ -14,7 +14,7 @@ logEndpoint.use((_, res, next) => {
   next();
 });
 
-logEndpoint.post('/', async (req, res) => {
+logEndpoint.post('/', (req, res) => {
   const body = req.body;
   if (isBodyValid(body)) {
     log(body.event, body.payload);
