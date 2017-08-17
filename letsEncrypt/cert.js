@@ -3,7 +3,7 @@
 // @ts-check
 const shelljs = require('shelljs');
 
-const { EMAIL, DOMAIN, CERT_NAME, SERVICE_ACCOUNT } = require('./config');
+const { EMAIL, DOMAIN, CERT_NAME } = require('./config');
 
 shelljs.exec(`
   certbot certonly \
@@ -23,7 +23,7 @@ shelljs.exec('openssl rsa -in privkey.pem -out rsa.pem');
 
 // Authenticate to Google Cloud Platform
 shelljs.exec(
-  `gcloud auth activate-service-account ${SERVICE_ACCOUNT} --key-file /gae-client-secret.json`,
+  `gcloud auth activate-service-account --key-file /gcloud.letsEncrypt.json`,
 );
 
 // Find the certificate ID that matches the certificate display name
@@ -34,7 +34,7 @@ const result = shelljs.exec(
 if (result.code === 0) {
   let certId;
   const certLine = result.stdout.split('\n')[1]; // Take the second line of output (the first one is column headings)
-  
+
   if (certLine) {
     const matches = certLine.match(/^([0-9]+)\s/i);
     if (matches && matches[1]) {

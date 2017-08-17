@@ -38,7 +38,7 @@ RUN mkdir -p ./public
 # it will be available at deploy time.
 # This is added explicitly so the build fails early if
 # the file does not exist
-ADD ./gae-client-secret.json .
+ADD ./gcloud.letsEncrypt.json .
 
 # Add the certificate genenration and update scripts and crontab file to the container
 ADD . .
