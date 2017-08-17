@@ -38,7 +38,7 @@ To replace or add a new encrypted secret, place the unencrypted secret file in t
 2. Save the key and IV values in Travis settings of your project as secure variables. Let's assume they are saved as `ENC_KEY_SUMO` and `ENC_IV_SUMO`. The salt is used to randomize the key, and you don't have to store it because it will be stored by OpenSSL as part of the encrypted file.
 3. Add the decryption command to your deploy environment, making sure to use the secure variables instead of exposing the key values directly:
     ```
-    openssl aes-256-cbc -in ./sumo.json.enc -out sumo.json -K $ENC_KEY_SUMO -iv $ENC_IV_SUMO -base64 -d
+    openssl aes-256-cbc -in ./sumo.json.enc -out sumo.json -K $ENC_KEY_SUMO -iv $ENC_IV_SUMO -base64 -d -pass pass:''
     ```
     Since these are store as secure variables, Travis will make sure they are never displayed in the build logs. They will show up as `[secure]` instead of the actual value.
 
