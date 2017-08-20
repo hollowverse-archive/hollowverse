@@ -34,7 +34,7 @@ To replace or add a new encrypted secret, place the unencrypted secret file in t
 2. Save the password in Travis settings of your project as a secure variable. Let's assume it is saved as `ENC_PASS_SUMO`.
 3. Add the decryption command to your deploy environment, making sure to use the secure variables instead of exposing the password directly:
     ```
-    openssl aes-256-cbc -in ./sumo.json.enc -out sumo.json -base64 -d -pass pass:'$password'
+    openssl aes-256-cbc -in ./sumo.json.enc -out sumo.json -base64 -d -pass pass:'$ENC_PASS_SUMO'
     ```
     Since the password is stored as secure variables, Travis will make sure it is never displayed in the build logs. It will show up as `[secure]` instead of the actual value.
 
