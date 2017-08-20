@@ -25,22 +25,18 @@ The encrypted files should be replaced with new ones when needed.
 
 To replace or add a new encrypted secret, place the unencrypted secret file in this folder and use OpenSSL to encrypt the file:
 
-1. The following command will encrypt the file `sumo.json`, the encrypted output will be saved to `sumo.json.enc`, encoded in base64:
+1. Generate a long, random password or passphrase, preferably using a password manager.
+2. The following command will encrypt the file `sumo.json`, the encrypted output will be saved to `sumo.json.enc`, encoded in base64 (replace <password> with the value generated in the previous step):
     ```
-    openssl aes-256-cbc -p -pass pass:'' -in ./sumo.json -out sumo.json.enc -base64
+    openssl aes-256-cbc -pass pass:'<password>' -in ./sumo.json -out sumo.json.enc -base64
     ```
-    It will also print the components of the key that was used to do the encryption:
+    .
+2. Save the password in Travis settings of your project as a secure variable. Let's assume it is saved as `ENC_PASS_SUMO`.
+3. Add the decryption command to your deploy environment, making sure to use the secure variables instead of exposing the password directly:
     ```
-    salt=<salt value>
-    key=<key value>
-    iv =<IV value>
+    openssl aes-256-cbc -in ./sumo.json.enc -out sumo.json -base64 -d -pass pass:'$password'
     ```
-2. Save the key and IV values in Travis settings of your project as secure variables. Let's assume they are saved as `ENC_KEY_SUMO` and `ENC_IV_SUMO`. The salt is used to randomize the key, and you don't have to store it because it will be stored by OpenSSL as part of the encrypted file.
-3. Add the decryption command to your deploy environment, making sure to use the secure variables instead of exposing the key values directly:
-    ```
-    openssl aes-256-cbc -in ./sumo.json.enc -out sumo.json -K $ENC_KEY_SUMO -iv $ENC_IV_SUMO -base64 -d -pass pass:''
-    ```
-    Since these are store as secure variables, Travis will make sure they are never displayed in the build logs. They will show up as `[secure]` instead of the actual value.
+    Since the password is stored as secure variables, Travis will make sure it is never displayed in the build logs. It will show up as `[secure]` instead of the actual value.
 
 Repeat the previous steps every time you need to update a secret file.
 
