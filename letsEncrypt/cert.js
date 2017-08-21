@@ -68,7 +68,7 @@ function main() {
     },
 
     // Convert private key to GAE-compatible format
-    'openssl rsa -in privkey.pem -out rsa.pem',
+    'openssl rsa -in ./privkey.pem -out ./rsa.pem',
 
     /**
      * Checks if a certificate listing is stored in App Engine settings and if so,
