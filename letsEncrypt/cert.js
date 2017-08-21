@@ -63,7 +63,7 @@ function main() {
 
     () => {
       // This directory contains the certificate files, including the private key
-      shelljs.cd(DOMAIN_PATH);
+      shelljs.cd(`/etc/letsencrypt/live/${DOMAIN}/`);
       return 0;
     },
 
