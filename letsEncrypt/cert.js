@@ -41,7 +41,7 @@ function executeCommands(commands) {
 
 const { EMAIL, DOMAIN, CERT_NAME, STORAGE_BUCKET_ID } = require('./config');
 
-const DOMAIN_PATH = `/etc/letsencrypt/live/${DOMAIN}/`;
+const SYNC_ROOT = `/etc/letsencrypt/`;
 
 function main() {
   const code = executeCommands([
@@ -49,7 +49,7 @@ function main() {
     'gcloud auth activate-service-account --key-file /gcloud.letsEncrypt.json',
 
     // Restore previous certificate files from Cloud Storage (if any)
-    `gsutil rsync -r ${DOMAIN_PATH} gs://${STORAGE_BUCKET_ID}`,
+    `gsutil rsync -r ${SYNC_ROOT} gs://${STORAGE_BUCKET_ID}`,
 
     // Create or update Let's Encrypt certificate if needed
     `certbot certonly \
@@ -120,7 +120,7 @@ function main() {
     },
 
     // Upload the newly created certificate files in Cloud Storage (if any)
-    `gsutil rsync -r ${DOMAIN_PATH} gs://${STORAGE_BUCKET_ID}`,
+    `gsutil rsync -r ${SYNC_ROOT} gs://${STORAGE_BUCKET_ID}`,
   ]);
 
   process.exit(code);
