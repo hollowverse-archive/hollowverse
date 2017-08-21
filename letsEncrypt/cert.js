@@ -39,12 +39,17 @@ function executeCommands(commands) {
   return code;
 }
 
-const { EMAIL, DOMAIN, CERT_NAME } = require('./config');
+const { EMAIL, DOMAIN, CERT_NAME, STORAGE_BUCKET_ID } = require('./config');
+
+const DOMAIN_PATH = `/etc/letsencrypt/live/${DOMAIN}/`;
 
 function main() {
   const code = executeCommands([
     // Authenticate to Google Cloud Platform
     'gcloud auth activate-service-account --key-file /gcloud.letsEncrypt.json',
+
+    // Restore previous certificate files from Cloud Storage (if any)
+    `gsutil rsync -r ${DOMAIN_PATH} gs://${STORAGE_BUCKET_ID}`,
 
     // Create or update Let's Encrypt certificate if needed
     `certbot certonly \
@@ -113,6 +118,9 @@ function main() {
       console.error(`Failed to get the certificate list: ${result.stderr}`);
       return result.code;
     },
+
+    // Upload the newly created certificate files in Cloud Storage (if any)
+    `gsutil rsync -r ${DOMAIN_PATH} gs://${STORAGE_BUCKET_ID}`,
   ]);
 
   process.exit(code);
