@@ -119,7 +119,7 @@ function main() {
       return result.code;
     },
 
-    // Upload the newly created certificate files in Cloud Storage (if any)
+    // Upload the newly created certificate files to Cloud Storage (if any)
     `gsutil rsync -r ${SYNC_ROOT} gs://${STORAGE_BUCKET_ID}`,
   ]);
 
