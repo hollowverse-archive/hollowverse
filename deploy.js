@@ -30,10 +30,6 @@ const secrets = [
 ];
 
 async function main() {
-  if (BRANCH !== 'master') {
-    process.exit(0);
-  }
-
   const code = await executeCommands([
     () => writeEnvFile('default', shelljs.env, './env.json'),
     () => decryptSecrets(secrets, './secrets'),
