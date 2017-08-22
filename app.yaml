@@ -2,7 +2,6 @@ runtime: custom
 env: flex
 
 skip_files:
-  - letsEncrypt
   - functions/dist
   - functions/src/yarn.lock
   - public
@@ -13,6 +12,7 @@ skip_files:
   - stats.json
   - client/.babelrc
   - .git
+  - deploy.js
 
 automatic_scaling:
   min_num_instances: 2
