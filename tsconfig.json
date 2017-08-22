@@ -15,8 +15,9 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "allowJs": true,
-    "checkJs": false,
+    "checkJs": true,
     "sourceMap": true,
+    "maxNodeModuleJsDepth": 2, // Allow TypeScript to consume JS files in node_modules to infer types
 
     // Do not transpile JSX with TypeScript, we will do that with Babel.
     // This allows us to use babel-preset-react-optimize to perform optimizations
