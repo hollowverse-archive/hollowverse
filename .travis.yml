@@ -4,7 +4,7 @@ services:
 script:
   - if [[ $TRAVIS_PULL_REQUEST == "false" ]]; then 
       docker run
-        -v $(pwd):/hollowverse
+        -v $(pwd):/repo
         -e BRANCH=$TRAVIS_BRANCH
         -e PROJECT=hollowverse-c9cad
         -e ENC_KEY_SUMO
