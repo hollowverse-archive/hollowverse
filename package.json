@@ -38,9 +38,6 @@
   "pre-commit": [
     "lint-staged"
   ],
-  "greenkeeper": {
-    "ignore": []
-  },
   "browserslist": [
     "last 5 Chrome versions",
     "last 5 Firefox versions",
