@@ -16,7 +16,6 @@
     "deploy": "yarn functions/prepare && yarn functions/build && yarn functions/install && firebase deploy",
     "travis/deploy": "ts-node ./scripts/travis.ts",
     "proxy": "ts-node redirectionProxy/redirectionProxy.ts --project .",
-    "precommit": "lint-staged",
     "test": "yarn client/build",
     "start": "run-p server/express proxy"
   },
@@ -143,7 +142,6 @@
     "babili-webpack-plugin": "^0.1.2",
     "debug": "^2.6.8",
     "html-webpack-plugin": "^2.29.0",
-    "husky": "^0.14.3",
     "istanbul-instrumenter-loader": "^2.0.0",
     "lint-staged": "^4.0.1",
     "name-all-modules-plugin": "^1.0.1",
