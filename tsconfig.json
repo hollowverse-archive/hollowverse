@@ -1,29 +1,6 @@
 {
+  "extends": "./node_modules/@hollowverse/common/tsconfig.json",
   "compilerOptions": {
-    // It looks like TS >= 2.3 is having issues resolving type definitions
-    // bundled with npm packages unless this is set to "node" (although it
-    // is the default since 1.7)
-    "moduleResolution": "node",
-    "allowSyntheticDefaultImports": true,
-  
-    "strict": true,
-    "noEmitOnError": true,
-    "module": "commonjs",
-    "target": "es2015",
-    "skipLibCheck": false,
-    "skipDefaultLibCheck": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "allowJs": true,
-    "checkJs": true,
-    "sourceMap": true,
-    "maxNodeModuleJsDepth": 2, // Allow TypeScript to consume JS files in node_modules to infer types
-
-    // Do not transpile JSX with TypeScript, we will do that with Babel.
-    // This allows us to use babel-preset-react-optimize to perform optimizations
-    // on JSX. Otherwise Babel won't see any JSX and no optimizations will be applied.
-    "jsx": "react",
-
     // Allow absolute imports from 'src' dir,
     // e.g. `import 'file';` instead of `'../../file';`
     // This also has to be set in `webpack.config.json`, check `resolve.modules`
@@ -37,9 +14,5 @@
         "server/src/*" // Finally try server/src
       ]
     }
-  },
-  "exclude": [
-    "node_modules",
-    "functions"
-  ]
+  }
 }
