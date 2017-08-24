@@ -46,7 +46,6 @@
     "IE >= 11",
     "not OperaMini all"
   ],
-  "commonpkg": "@hollowverse/common-config",
   "dependencies": {
     "@types/algoliasearch": "^3.18.1",
     "@types/aphrodite": "^0.5.6",
