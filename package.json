@@ -48,7 +48,6 @@
   ],
   "commonpkg": "@hollowverse/common-config",
   "dependencies": {
-    "@hollowverse/common-config": "hollowverse/common-config",
     "@types/algoliasearch": "^3.18.1",
     "@types/aphrodite": "^0.5.6",
     "@types/autoprefixer": "^6.7.2",
@@ -134,6 +133,7 @@
     "webpack-dev-server": "^2.5.1"
   },
   "devDependencies": {
+    "@hollowverse/common": "https://github.com/hollowverse/common",
     "@types/debug": "^0.0.29",
     "@types/stylelint": "^7.10.0",
     "autoprefixer": "^7.1.2",
