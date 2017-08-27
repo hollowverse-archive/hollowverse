@@ -59,7 +59,7 @@ if (!env.shouldTypeCheck) {
 
 const BUILD_PATH = path.resolve(
   process.cwd(),
-  process.env.BUILD_PATH || './public',
+  process.env.BUILD_PATH || './client/dist',
 );
 
 const PUBLIC_PATH = '/';

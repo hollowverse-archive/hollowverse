@@ -2,9 +2,9 @@ runtime: custom
 env: flex
 
 skip_files:
-  - public
-  - designDocs
   - node_modules
+  - client/src
+  - server/src
   - .log
   - .vscode
   - stats.json

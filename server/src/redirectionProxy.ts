@@ -3,20 +3,19 @@ import * as httpProxy from 'http-proxy';
 import * as fs from 'fs';
 import * as path from 'path';
 
-import { log } from '../server/src/logger/logger';
-import { logEndpoint } from '../server/src/logger/logEndpoint';
+import { log } from './logger/logger';
+import { logEndpoint } from './logger/logEndpoint';
 
 const server = express();
 
-// tslint:disable no-http-string no-suspicious-comment
-// @TODO: replace 'http://hollowverse.com' with old server address
+// tslint:disable no-http-string
 const OLD_SERVER_ADDRESS =
   process.env.OLD_SERVER || 'http://dw5a6b9vjmt7w.cloudfront.net/';
 const NEW_SERVER_ADDRESS = process.env.NEW_SERVER || 'http://localhost:3000/';
-// tslint:enable no-http-string no-suspicious-comment
+// tslint:enable no-http-string
 const PUBLIC_PATH = path.resolve(
   process.cwd(),
-  process.env.PUBLIC_PATH || 'public',
+  process.env.PUBLIC_PATH || 'client/dist',
 );
 const PROXY_PORT = process.env.PORT || 8080;
 
@@ -26,7 +25,7 @@ const proxyServer = httpProxy.createProxyServer();
 proxyServer.on('proxyReq', (proxyReq: any) => {
   if (
     !(proxyReq.path as string).endsWith('/') &&
-    !(proxyReq.path as string).match(/\/.+\.[a-z]{2,4}$/ig)
+    !(proxyReq.path as string).match(/\/.+\.[a-z]{2,4}$/gi)
   ) {
     proxyReq.path = `${proxyReq.path}/`;
   }
