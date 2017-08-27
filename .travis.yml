@@ -10,6 +10,7 @@ script:
         -e ENC_PASS_SUMO
         -e ENC_PASS_TRAVIS
         -e ENC_PASS_LETS_ENCRYPT
+        -e IS_PULL_REQUEST=$TRAVIS_PULL_REQUEST
         hollowverse/hollowverse-gae
       ;
     fi

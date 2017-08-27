@@ -3,6 +3,7 @@
 const shelljs = require('shelljs');
 const decryptSecrets = require('@hollowverse/common/helpers/decryptSecrets');
 const executeCommands = require('@hollowverse/common/helpers/executeCommands');
+const executeCommandsInParallel = require('@hollowverse/common/helpers/executeCommandsInParallel');
 const retryCommand = require('@hollowverse/common/helpers/retryCommand');
 const writeEnvFile = require('@hollowverse/common/helpers/writeEnvFile');
 
@@ -10,9 +11,12 @@ const {
   ENC_PASS_LETS_ENCRYPT,
   ENC_PASS_TRAVIS,
   ENC_PASS_SUMO,
+  IS_PULL_REQUEST = true,
   PROJECT,
   BRANCH,
 } = shelljs.env;
+
+const isPullRequest = Boolean(IS_PULL_REQUEST);
 
 const secrets = [
   {
@@ -30,7 +34,17 @@ const secrets = [
 ];
 
 async function main() {
-  const code = await executeCommands([
+  const buildCommands = [
+    () =>
+      executeCommandsInParallel([
+        'yarn client/build',
+
+        // @TODO: Add server/build command
+        'yarn server/build',
+      ]),
+  ];
+
+  const deploymentCommands = [
     () => writeEnvFile('default', shelljs.env, './env.json'),
     () => decryptSecrets(secrets, './secrets'),
     `gcloud auth activate-service-account --key-file secrets/gcloud.travis.json`,
@@ -43,7 +57,13 @@ async function main() {
       retryCommand(
         `gcloud app deploy app.yaml dispatch.yaml --project ${PROJECT} --version ${BRANCH} --quiet`,
       ),
-  ]);
+  ];
+
+  const commands = isPullRequest
+    ? buildCommands
+    : [...buildCommands, ...deploymentCommands];
+
+  const code = await executeCommands(commands);
 
   process.exit(code);
 }
