@@ -9,7 +9,6 @@
     "client/build": "NO_PERF_CHECKS=1 DEBUG=build NODE_ENV=production webpack --config client/webpack.config.js",
     "client/stats": "NO_PERF_CHECKS=1 NODE_ENV=production webpack --config client/webpack.config.js --json > stats.json",
     "server/express": "ts-node server/src/server.ts",
-    "server/firebase": "yarn client/build && firebase serve",
     "proxy": "ts-node redirectionProxy/redirectionProxy.ts --project .",
     "test": "yarn client/build",
     "start": "run-p server/express proxy",
