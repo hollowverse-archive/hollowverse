@@ -10,6 +10,7 @@ skip_files:
   - stats.json
   - client/.babelrc
   - .git
+  - deploy.js
 
 automatic_scaling:
   min_num_instances: 2
