@@ -1,14 +1,5 @@
 {
   "extends": [
-    "airbnb/base",
-    "prettier",
-    "prettier/react"
-  ],
-  "parser": "babel-eslint",
-  "plugins": [
-    "react"
-  ],
-  "rules": {
-    "no-console": 0
-  }
+    "./node_modules/@hollowverse/common/.eslintrc.json"
+  ]
 }

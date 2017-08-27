@@ -4,15 +4,12 @@ services:
 script:
   - if [[ $TRAVIS_PULL_REQUEST == "false" ]]; then 
       docker run
-        -v $(pwd):/hollowverse
+        -v $(pwd):/repo
         -e BRANCH=$TRAVIS_BRANCH
         -e PROJECT=hollowverse-c9cad
-        -e ENC_KEY_SUMO
-        -e ENC_IV_SUMO
-        -e ENC_KEY_TRAVIS_SERVICE_ACCOUNT
-        -e ENC_IV_TRAVIS_SERVICE_ACCOUNT
-        -e ENC_KEY_LETS_ENCRYPT_SERVICE_ACCOUNT
-        -e ENC_IV_LETS_ENCRYPT_SERVICE_ACCOUNT
+        -e ENC_PASS_SUMO
+        -e ENC_PASS_TRAVIS
+        -e ENC_PASS_LETS_ENCRYPT
         hollowverse/hollowverse-gae
       ;
     fi
