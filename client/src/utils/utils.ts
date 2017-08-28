@@ -1,7 +1,7 @@
 import * as cn from 'classnames';
 import sortBy from 'lodash/sortBy';
 import { messagesByCode } from 'constants/errors';
-import { ErrorCode, HvError } from 'typings/typeDefinitions';
+import { ErrorCode, HvError } from 'common/types/typeDefinitions';
 
 export function stringEnum<T extends string>(o: T[]): { [K in T]: K } {
   return o.reduce((res, key) => {

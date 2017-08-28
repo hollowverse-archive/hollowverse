@@ -1,8 +1,16 @@
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
+    "moduleResolution": "node",
     "target": "esnext",
-    "module": "es2015",
+    "module": "esnext",
+
+    "jsx": "preserve",
+
+    "skipLibCheck": true,
+
+    "allowJs": false,
+    "checkJs": false,
 
     // Allow absolute imports from 'src' dir,
     // e.g. `import 'file';` instead of `'../../file';`
@@ -14,12 +22,11 @@
       "*": [
         "./*", // Try exact match first
         "src/*", // If not found, try client/src,
-        "../*"
+        "../*" // Finally, try in project root
       ]
     }
   },
   "exclude": [
-    "*/**/node_modules",
     "*/**/dist"
   ]
 }

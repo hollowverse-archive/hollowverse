@@ -1,12 +1,10 @@
 import { css } from 'aphrodite/no-important';
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { StoreState as State } from 'store/types';
+import { StoreState as State, DefaultDispatchProps } from 'store/types';
 import * as selectors from 'store/selectors';
 import { FadeIn } from './animations';
 import { styles } from './globalSpinner.styles';
-
-import { DefaultDispatchProps } from 'store/types';
 
 interface StateProps {
   showGlobalSpinner: boolean;

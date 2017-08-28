@@ -35,11 +35,7 @@ const secrets = [
 
 async function main() {
   const buildCommands = [
-    () =>
-      executeCommandsInParallel([
-        'cd client && yarn build',
-        'cd server && yarn build',
-      ]),
+    () => executeCommandsInParallel(['yarn client/build', 'yarn server/build']),
   ];
 
   const deploymentCommands = [
