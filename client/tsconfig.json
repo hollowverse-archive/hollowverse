@@ -1,6 +1,9 @@
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
+    "target": "esnext",
+    "module": "es2015",
+
     // Allow absolute imports from 'src' dir,
     // e.g. `import 'file';` instead of `'../../file';`
     // This also has to be set in `webpack.config.json`, check `resolve.modules`
@@ -10,8 +13,13 @@
     "paths": {
       "*": [
         "./*", // Try exact match first
-        "src/*" // If not found, try client/src
+        "src/*", // If not found, try client/src,
+        "../*"
       ]
     }
-  }
+  },
+  "exclude": [
+    "*/**/node_modules",
+    "*/**/dist"
+  ]
 }

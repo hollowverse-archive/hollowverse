@@ -15,7 +15,7 @@ const NEW_SERVER_ADDRESS = process.env.NEW_SERVER || 'http://localhost:3000/';
 // tslint:enable no-http-string
 const PUBLIC_PATH = path.resolve(
   process.cwd(),
-  process.env.PUBLIC_PATH || 'client/dist',
+  process.env.PUBLIC_PATH || './client/dist',
 );
 const PROXY_PORT = process.env.PORT || 8080;
 

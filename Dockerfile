@@ -19,10 +19,6 @@ COPY env.json ./
 COPY package.json yarn.lock ./
 RUN yarn --prod
 
-# Set up server
-COPY ./server/package.json ./server/yarn.lock ./server/
-RUN yarn --prod
-
 RUN mkdir ./server/dist
 COPY ./server/dist/**/* ./server/dist/
 
@@ -30,5 +26,4 @@ COPY ./server/dist/**/* ./server/dist/
 RUN mkdir client/dist
 COPY ./client/dist/**/* ./client/dist/
 
-WORKDIR /hollowverse/server
 CMD yarn start
