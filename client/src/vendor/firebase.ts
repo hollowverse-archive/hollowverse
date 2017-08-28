@@ -2,8 +2,8 @@ import * as firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/database';
 
-import { User } from 'typings/typeDefinitions';
-import { NotablePersonSchema } from 'typings/dataSchema';
+import { User } from 'common/types/typeDefinitions';
+import { NotablePersonSchema } from 'common/types/dataSchema';
 import { makeError } from 'utils/utils';
 import { CLOUD_FUNCTIONS_BASE } from 'constants/firebase';
 

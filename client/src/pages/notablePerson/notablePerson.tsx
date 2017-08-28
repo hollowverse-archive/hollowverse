@@ -2,7 +2,7 @@ import { css } from 'aphrodite/no-important';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
-import { NotablePersonSchema } from 'typings/dataSchema';
+import { NotablePersonSchema } from 'common/types/dataSchema';
 import { common } from 'common.styles';
 import { requestNotablePerson } from 'store/features/notablePerson/actions';
 import { StoreState as State } from 'store/types';
