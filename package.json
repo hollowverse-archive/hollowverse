@@ -12,7 +12,8 @@
     "server/new-server/dev": "ts-node server/src/newServer.ts --project ./server",
     "server/proxy": "node server/dist/redirectionProxy.js",
     "server/proxy/dev": "ts-node server/src/redirectionProxy.ts --project ./server",
-    "server/build": "tsc",
+    "server/build": "tsc --project ./server",
+    "server/clean": "rm -rf ./server/dist",
     "start": "run-p server/new-server server/proxy",
     "validate-file-names": "validate-file-names",
     "lint-staged": "lint-staged"

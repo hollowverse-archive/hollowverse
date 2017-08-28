@@ -2,10 +2,8 @@
   "extends": "../tsconfig.json",
   "compilerOptions": {
     "module": "commonjs",
-    "outDir": "dist"
-  },
-  "exclude": [
-    "*/**/node_modules",
-    "*/**/dist"
-  ]
+    "outDir": "dist",
+    "checkJs": false,
+    "skipLibCheck": true
+  }
 }
