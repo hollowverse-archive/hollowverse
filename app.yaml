@@ -5,10 +5,10 @@ skip_files:
   - node_modules
   - client/src
   - server/src
+  - client/.babelrc
+  - stats.json
   - .log
   - .vscode
-  - stats.json
-  - client/.babelrc
   - .git
   - deploy.js
 

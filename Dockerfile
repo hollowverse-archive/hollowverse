@@ -10,7 +10,7 @@ RUN mkdir /hollowverse /hollowverse/secrets /hollowverse/client /hollowverse/ser
 WORKDIR /hollowverse
 
 # Copy runtime secrets
-COPY ./secrets/**/* ./secrets/
+COPY ./secrets/ ./secrets/
 
 # Copy envirnonment file written by deploy.js
 COPY env.json ./
@@ -20,10 +20,10 @@ COPY package.json yarn.lock ./
 RUN yarn --prod
 
 RUN mkdir ./server/dist
-COPY ./server/dist/**/* ./server/dist/
+COPY ./server/dist ./server/dist/
 
 # Set up client
 RUN mkdir client/dist
-COPY ./client/dist/**/* ./client/dist/
+COPY ./client/dist ./client/dist/
 
 CMD yarn start
