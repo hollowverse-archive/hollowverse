@@ -14,10 +14,8 @@ RUN yarn --version
 # it
 WORKDIR /hollowverse
 
-RUN yarn
+RUN yarn --prod
 
 ADD . .
-
-RUN yarn client/build
 
 CMD yarn start
