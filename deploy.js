@@ -3,7 +3,6 @@
 const shelljs = require('shelljs');
 const decryptSecrets = require('@hollowverse/common/helpers/decryptSecrets');
 const executeCommands = require('@hollowverse/common/helpers/executeCommands');
-const executeCommandsInParallel = require('@hollowverse/common/helpers/executeCommandsInParallel');
 const retryCommand = require('@hollowverse/common/helpers/retryCommand');
 const writeEnvFile = require('@hollowverse/common/helpers/writeEnvFile');
 
@@ -34,9 +33,7 @@ const secrets = [
 ];
 
 async function main() {
-  const buildCommands = [
-    () => executeCommandsInParallel(['yarn client/build', 'yarn server/build']),
-  ];
+  const buildCommands = ['yarn server/build', 'yarn client/build'];
 
   const deploymentCommands = [
     () => writeEnvFile('default', shelljs.env, './env.json'),
