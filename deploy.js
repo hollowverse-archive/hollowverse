@@ -37,10 +37,8 @@ async function main() {
   const buildCommands = [
     () =>
       executeCommandsInParallel([
-        'yarn client/build',
-
-        // @TODO: Add server/build command
-        'yarn server/build',
+        'cd client && yarn build',
+        'cd server && yarn build',
       ]),
   ];
 
