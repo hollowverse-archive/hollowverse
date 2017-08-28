@@ -10,7 +10,7 @@
     "paths": {
       "*": [
         "./*", // Try exact match first
-        "client/src/*" // If not found, try client/src
+        "src/*" // If not found, try client/src
       ]
     }
   }

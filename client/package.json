@@ -2,6 +2,11 @@
   "name": "hollowverse-client",
   "version": "1.0.0",
   "private": true,
+  "scripts": {
+    "dev": "DEBUG=build HOT=1 NODE_ENV=development webpack-dev-server",
+    "build": "NO_PERF_CHECKS=1 DEBUG=build NODE_ENV=production webpack",
+    "stats": "NO_PERF_CHECKS=1 NODE_ENV=production webpack --json > stats.json"
+  },
   "dependencies": {
     "algoliasearch": "^3.24.0",
     "aphrodite": "^1.2.1",
@@ -27,14 +32,11 @@
     "@types/algoliasearch": "^3.18.1",
     "@types/aphrodite": "^0.5.6",
     "@types/autoprefixer": "^6.7.2",
-    "@types/body-parser": "^1.16.4",
     "@types/chalk": "^0.4.31",
     "@types/classnames": "2.2.0",
     "@types/extract-text-webpack-plugin": "^2.0.1",
     "@types/html-webpack-plugin": "^2.28.0",
-    "@types/http-proxy": "^1.12.0",
     "@types/lodash": "^4.14.68",
-    "@types/node": "^8.0.8",
     "@types/query-string": "^4.3.1",
     "@types/react": "^15.0.34",
     "@types/react-addons-css-transition-group": "^15.0.3",
