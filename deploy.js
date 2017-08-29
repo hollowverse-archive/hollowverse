@@ -9,12 +9,12 @@ const writeEnvFile = require('@hollowverse/common/helpers/writeEnvFile');
 const {
   ENC_PASS_TRAVIS,
   ENC_PASS_SUMO,
-  IS_PULL_REQUEST = true,
+  IS_PULL_REQUEST,
   PROJECT,
   BRANCH,
 } = shelljs.env;
 
-const isPullRequest = Boolean(IS_PULL_REQUEST);
+const isPullRequest = IS_PULL_REQUEST !== 'false';
 
 const secrets = [
   {
@@ -45,9 +45,13 @@ async function main() {
       ),
   ];
 
-  const commands = isPullRequest
-    ? buildCommands
-    : [...buildCommands, ...deploymentCommands];
+  let commands;
+  if (isPullRequest === false) {
+    commands = [...buildCommands, ...deploymentCommands];
+  } else {
+    commands = buildCommands;
+    console.info('Skipping deployment commands in PRs');
+  }
 
   const code = await executeCommands(commands);
 
