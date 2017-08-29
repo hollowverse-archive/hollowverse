@@ -7,7 +7,6 @@ const retryCommand = require('@hollowverse/common/helpers/retryCommand');
 const writeEnvFile = require('@hollowverse/common/helpers/writeEnvFile');
 
 const {
-  ENC_PASS_LETS_ENCRYPT,
   ENC_PASS_TRAVIS,
   ENC_PASS_SUMO,
   IS_PULL_REQUEST = true,
@@ -18,10 +17,6 @@ const {
 const isPullRequest = Boolean(IS_PULL_REQUEST);
 
 const secrets = [
-  {
-    password: ENC_PASS_LETS_ENCRYPT,
-    decryptedFilename: 'gcloud.letsEncrypt.json',
-  },
   {
     password: ENC_PASS_TRAVIS,
     decryptedFilename: 'gcloud.travis.json',
