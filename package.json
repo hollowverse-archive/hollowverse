@@ -47,7 +47,6 @@
   ],
   "dependencies": {
     "@hollowverse/common": "https://github.com/hollowverse/common",
-    "@types/debug": "^0.0.30",
     "algoliasearch": "^3.24.0",
     "aphrodite": "^1.2.1",
     "babel-preset-minify": "^0.2.0",
@@ -84,6 +83,7 @@
     "@types/body-parser": "^1.16.4",
     "@types/chalk": "^0.4.31",
     "@types/classnames": "2.2.0",
+    "@types/debug": "^0.0.30",
     "@types/express": "^4.0.36",
     "@types/extract-text-webpack-plugin": "^2.0.1",
     "@types/firebase": "^2.4.32",
