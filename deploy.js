@@ -1,4 +1,4 @@
-#! /bin/node
+#! /usr/bin/env node
 
 const shelljs = require('shelljs');
 const decryptSecrets = require('@hollowverse/common/helpers/decryptSecrets');
