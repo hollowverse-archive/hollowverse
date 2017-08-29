@@ -5,7 +5,7 @@ script:
   - docker run
     -v $(pwd):/repo
     -e BRANCH=$TRAVIS_BRANCH
-    -e PROJECT=hollowverse-c9cad
+    -e PROJECT
     -e ENC_PASS_SUMO
     -e ENC_PASS_TRAVIS
     -e ENC_PASS_LETS_ENCRYPT
