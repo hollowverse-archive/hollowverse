@@ -28,7 +28,7 @@ const secrets = [
 ];
 
 async function main() {
-  const buildCommands = ['yarn server/build', 'yarn client/build'];
+  const buildCommands = ['yarn test', 'yarn server/build', 'yarn client/build'];
 
   const deploymentCommands = [
     () => writeEnvFile('default', shelljs.env, './env.json'),

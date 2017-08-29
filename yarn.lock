@@ -4,7 +4,7 @@
 
 "@hollowverse/common@https://github.com/hollowverse/common":
   version "1.2.0"
-  resolved "https://github.com/hollowverse/common#ebe6ad3435c64332ef26e2696c78435db0d1e814"
+  resolved "https://github.com/hollowverse/common#0e5316ad67152b46b9245e9f271f0b37fd91d31c"
   dependencies:
     minimatch "^3.0.4"
     shelljs "^0.7.8"
