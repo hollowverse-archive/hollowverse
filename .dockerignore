@@ -1,4 +1,5 @@
 ./.git/*
 ./.vscode/*
 **/node_modules/*
-letsEncrypt
+secrets/**/*.enc
+secrets/gcloud.travis.json

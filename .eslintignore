@@ -1,2 +1,3 @@
-functions/dist
-public/
+client/dist/
+server/dist/
+node_modules/

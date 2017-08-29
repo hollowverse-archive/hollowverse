@@ -1,6 +1,6 @@
 import { css } from 'aphrodite/no-important';
 import * as React from 'react';
-import { EventSchema } from 'typings/dataSchema';
+import { EventSchema } from 'common/types/dataSchema';
 import { common } from 'common.styles';
 import { sortByDescending } from 'utils/utils';
 import { styles } from './events.styles';

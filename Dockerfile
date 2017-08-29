@@ -1,27 +1,29 @@
 FROM node:latest
 
-# Add package.json and yarn.lock before our code so that Docker
-# can cache this layer if our dependencies do not change
-RUN mkdir /hollowverse
-ADD package.json /hollowverse
-ADD yarn.lock /hollowverse
+ENV NODE_ENV=production
 
-RUN node --version
-RUN yarn --version
+RUN mkdir /hollowverse /hollowverse/secrets /hollowverse/client /hollowverse/server
 
 # Set working directory to project root so
 # all the following commands are run relative to
 # it
 WORKDIR /hollowverse
 
-RUN yarn
+# Copy runtime secrets
+COPY ./secrets/ ./secrets/
 
-ADD . .
+# Copy envirnonment file written by deploy.js
+COPY env.json ./
 
-RUN yarn client/build
+# Install shared production dependencies
+COPY package.json yarn.lock ./
+RUN yarn --prod
 
-RUN mkdir -p /hollowverse/functions/dist
-RUN yarn functions/prepare
-RUN yarn functions/build
+RUN mkdir ./server/dist
+COPY ./server/dist ./server/dist/
+
+# Set up client
+RUN mkdir client/dist
+COPY ./client/dist ./client/dist/
 
 CMD yarn start

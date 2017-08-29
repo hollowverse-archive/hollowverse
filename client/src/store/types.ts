@@ -1,7 +1,7 @@
 import { RouterState } from 'react-router-redux';
 import { AlgoliaSearchResults } from 'vendor/algolia';
-import { HvError } from 'typings/typeDefinitions';
-import { NotablePersonSchema, UserSchema } from 'typings/dataSchema';
+import { HvError } from 'common/types/typeDefinitions';
+import { NotablePersonSchema, UserSchema } from 'common/types/dataSchema';
 
 export type AppState = {
   // Search
@@ -137,6 +137,7 @@ export type GenericActionCreator = ActionCreator<ActionType>;
 
 export type Reducer<S> = (state: S, action: GenericAction) => S;
 
+// prettier-ignore
 export type ReducerMap<State extends object = StoreState> = {
   // tslint:disable-next-line no-suspicious-comment
   // @FIXME: Remove `any` from mapped type.

@@ -1,4 +1,4 @@
-import { ErrorCode } from 'typings/typeDefinitions';
+import { ErrorCode } from 'common/types/typeDefinitions';
 
 export const messagesByCode: Record<ErrorCode, string> = {
   facebookLoginError:

@@ -59,7 +59,7 @@ if (!env.shouldTypeCheck) {
 
 const BUILD_PATH = path.resolve(
   process.cwd(),
-  process.env.BUILD_PATH || './public',
+  process.env.BUILD_PATH || './client/dist',
 );
 
 const PUBLIC_PATH = '/';
@@ -254,6 +254,7 @@ const config = {
 
   devServer:
     ifDev({
+      port: process.env.STATIC_SERVER_PORT || 3000,
       inline: true,
       contentBase: PUBLIC_PATH,
       hot: env.isHot,
@@ -377,9 +378,6 @@ const config = {
               silent: true,
               transpileOnly: !env.shouldTypeCheck,
               compilerOptions: {
-                module: 'esnext',
-                target: 'esnext',
-                jsx: 'preserve',
                 noEmitOnError: env.shouldTypeCheck,
               },
             },

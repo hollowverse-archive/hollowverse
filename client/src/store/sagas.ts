@@ -8,6 +8,7 @@ import { put, takeEvery } from 'redux-saga/effects';
 import { algoliaSearchIndex } from 'vendor/algolia';
 import * as facebook from 'vendor/facebook';
 import * as firebase from 'vendor/firebase';
+//tslint:disable-next-line no-duplicate-imports
 import { fetchNotablePersonDataBySlug } from 'vendor/firebase';
 import { Action } from 'store/types';
 import {
