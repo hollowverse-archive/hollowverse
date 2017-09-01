@@ -41,7 +41,10 @@ async function main() {
     },
     () =>
       retryCommand(
-        `gcloud app deploy app.yaml dispatch.yaml --project ${PROJECT} --version ${BRANCH} --quiet`,
+        `gcloud app deploy app.yaml dispatch.yaml --project ${PROJECT} --version ${BRANCH} --quiet ${BRANCH ===
+        'master'
+          ? '--promote'
+          : '--no-promote'}`,
       ),
   ];
 
