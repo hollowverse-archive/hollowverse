@@ -12,8 +12,9 @@ const server = express();
 
 // Redirect HTTP requests to HTTPS
 server.use((req, res, next) => {
+  // Get the request protocol from Google App Engine
   const protocol = req.header('X-FORWARDED-PROTO');
-  if (typeof protocol === 'string' && protocol === 'http') {
+  if (protocol === 'http') {
     const newURL = new URL(req.url, 'https://hollowverse.com');
     res.redirect(newURL.toString());
   } else {
