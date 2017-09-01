@@ -39,13 +39,21 @@ async function main() {
       shelljs.rm('./secrets/gcloud.travis.json*');
       return 0;
     },
-    () =>
-      retryCommand(
-        `gcloud app deploy app.yaml dispatch.yaml --project ${PROJECT} --version ${BRANCH} --quiet ${BRANCH ===
-        'master'
-          ? '--promote'
-          : '--no-promote'}`,
-      ),
+    () => {
+      const yamlFiles = ['app.yaml'];
+      let promoteFlag = '--no-promote';
+
+      if (BRANCH === 'master') {
+        yamlFiles.push('dispatch.yaml');
+        promoteFlag = '--promote';
+      }
+
+      return retryCommand(
+        `gcloud app deploy ${yamlFiles.join(
+          ' ',
+        )} --project ${PROJECT} --version ${BRANCH} ${promoteFlag} --quiet`,
+      );
+    },
   ];
 
   let commands;
