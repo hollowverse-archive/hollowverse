@@ -9,11 +9,28 @@ import { health } from './health';
 
 const server = express();
 
-const maxAge = 18000;
+// Redirect HTTP requests to HTTPS
+server.use((req, res, next) => {
+  const protocol = req.header('X-FORWARDED-PROTO');
+  if (typeof protocol === 'string' && protocol === 'http') {
+    // tslint:disable-next-line no-http-string
+    const newURL = new URL(req.url, 'https://hollowverse.com');
+    res.redirect(newURL.toString());
+  } else {
+    next();
+  }
+});
 
-server.post('/enable-https', (_, res) => {
-  res.setHeader('Strict-Transport-Security', `max-age=${maxAge}`);
-  res.status(201).send('Created');
+// Enable HTTP Strict Transport Security
+// This tells the browser to rewrite all subsequent http:// URLs to
+// https:// so that we can skip the redirection request overhead.
+const MAX_HSTS_AGE = 18000;
+server.use((_, res, next) => {
+  res.setHeader(
+    'Strict-Transport-Security',
+    `max-age=${MAX_HSTS_AGE}; preload`,
+  );
+  next();
 });
 
 // tslint:disable no-http-string
