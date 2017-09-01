@@ -2,6 +2,7 @@ import * as express from 'express';
 import * as httpProxy from 'http-proxy';
 import * as fs from 'fs';
 import * as path from 'path';
+import { URL } from 'url';
 
 import { log } from './logger/logger';
 import { logEndpoint } from './logger/logEndpoint';
@@ -13,7 +14,6 @@ const server = express();
 server.use((req, res, next) => {
   const protocol = req.header('X-FORWARDED-PROTO');
   if (typeof protocol === 'string' && protocol === 'http') {
-    // tslint:disable-next-line no-http-string
     const newURL = new URL(req.url, 'https://hollowverse.com');
     res.redirect(newURL.toString());
   } else {
