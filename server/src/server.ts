@@ -10,6 +10,9 @@ import { health } from './health';
 
 const server = express();
 
+/** Health checks for Google App Engine */
+server.use('/_health', health);
+
 // Redirect HTTP requests to HTTPS
 server.use((req, res, next) => {
   // Get the request protocol from Google App Engine
@@ -61,9 +64,6 @@ const redirectionMap = new Map<string, string>([]);
 
 const newPaths = new Set(redirectionMap.values());
 const staticFiles = new Set(fs.readdirSync(PUBLIC_PATH));
-
-/** Health checks for Google App Engine */
-server.use('/_health', health);
 
 /** Short-circuit the redirection proxy to expose the /log endpoint */
 server.use('/log', logEndpoint);
