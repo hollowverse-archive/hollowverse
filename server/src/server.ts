@@ -6,12 +6,12 @@ import { URL } from 'url';
 
 import { log } from './logger/logger';
 import { logEndpoint } from './logger/logEndpoint';
-import { health } from './health';
+// import { health } from './health';
 
 const server = express();
 
 /** Health checks for Google App Engine */
-server.use('/_health', health);
+// server.use('/_health', health);
 
 // Redirect HTTP requests to HTTPS
 server.use((req, res, next) => {
