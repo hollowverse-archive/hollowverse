@@ -9,6 +9,13 @@ import { health } from './health';
 
 const server = express();
 
+const maxAge = 18000;
+
+server.post('/enable-https', (_, res) => {
+  res.setHeader('Strict-Transport-Security', `max-age=${maxAge}`);
+  res.status(201).send('Created');
+});
+
 // tslint:disable no-http-string
 const OLD_SERVER_ADDRESS =
   process.env.OLD_SERVER || 'http://dw5a6b9vjmt7w.cloudfront.net/';
