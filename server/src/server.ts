@@ -5,7 +5,6 @@ import * as path from 'path';
 
 import { log } from './logger/logger';
 import { logEndpoint } from './logger/logEndpoint';
-import { health } from './health';
 
 const server = express();
 
@@ -43,9 +42,6 @@ const redirectionMap = new Map<string, string>([]);
 
 const newPaths = new Set(redirectionMap.values());
 const staticFiles = new Set(fs.readdirSync(PUBLIC_PATH));
-
-/** Health checks for Google App Engine */
-server.use('/_health', health);
 
 /** Short-circuit the redirection proxy to expose the /log endpoint */
 server.use('/log', logEndpoint);
