@@ -6,7 +6,6 @@ import { URL } from 'url';
 
 import { log } from './logger/logger';
 import { logEndpoint } from './logger/logEndpoint';
-import { health } from './health';
 
 const server = express();
 
