@@ -15,7 +15,7 @@
     "server/static-server/dev": "nodemon --watch server/src --ext ts,tsx,json --exec 'ts-node server/src/staticServer.ts --project ./server'",
     "server": "node server/dist/server.js",
     "server/dev": "nodemon --watch server/src --ext ts,tsx,json --exec 'ts-node server/src/server.ts --project ./server'",
-    "server/build": "cd server && tsc --project .",
+    "server/build": "tsc --project ./server",
     "server/clean": "rm -rf ./server/dist",
     "start": "run-p server/static-server server",
     "validate-file-names": "validate-file-names",
