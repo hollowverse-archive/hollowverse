@@ -40,18 +40,10 @@ async function main() {
       return 0;
     },
     () => {
-      const yamlFiles = ['app.yaml'];
-      let promoteFlag = '--no-promote';
-
-      if (BRANCH === 'master') {
-        yamlFiles.push('dispatch.yaml');
-        promoteFlag = '--promote';
-      }
+      const promoteFlag = '--no-promote';
 
       return retryCommand(
-        `gcloud app deploy ${yamlFiles.join(
-          ' ',
-        )} --project ${PROJECT} --version ${BRANCH} ${promoteFlag} --quiet`,
+        `gcloud app deploy dispatch.yaml app.yaml --project ${PROJECT} --version ${BRANCH} ${promoteFlag} --quiet`,
       );
     },
   ];
