@@ -20,5 +20,8 @@ resources:
   cpu: 1
   memory_gb: 0.9
 
-health_check:
-  enable_health_check: false
+liveness_check:
+  path: '/liveness_check'
+
+readiness_check:
+  path: '/readiness_check'
