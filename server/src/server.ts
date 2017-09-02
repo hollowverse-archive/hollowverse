@@ -10,7 +10,7 @@ import { logEndpoint } from './logger/logEndpoint';
 
 const server = express();
 
-/** Health checks for Google App Engine */
+// Health checks for Google App Engine
 // server.use('/_health', health);
 
 // Redirect HTTP requests to HTTPS
@@ -28,11 +28,11 @@ server.use((req, res, next) => {
 // Enable HTTP Strict Transport Security
 // This tells the browser to rewrite all subsequent http:// URLs to
 // https:// so that we can skip the redirection request overhead.
-const MAX_HSTS_AGE = 18000;
+const HSTS_MAX_AGE = 18000;
 server.use((_, res, next) => {
   res.setHeader(
     'Strict-Transport-Security',
-    `max-age=${MAX_HSTS_AGE}; preload`,
+    `max-age=${HSTS_MAX_AGE}; preload`,
   );
   next();
 });
