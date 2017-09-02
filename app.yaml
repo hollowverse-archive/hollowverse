@@ -19,9 +19,3 @@ automatic_scaling:
 resources:
   cpu: 1
   memory_gb: 0.9
-
-liveness_check:
-  path: '/liveness_check'
-
-readiness_check:
-  path: '/readiness_check'
