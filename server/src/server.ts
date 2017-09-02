@@ -45,7 +45,7 @@ const newPaths = new Set(redirectionMap.values());
 const staticFiles = new Set(fs.readdirSync(PUBLIC_PATH));
 
 /** Health checks for Google App Engine */
-server.use('/_health', health);
+server.use(health);
 
 /** Short-circuit the redirection proxy to expose the /log endpoint */
 server.use('/log', logEndpoint);

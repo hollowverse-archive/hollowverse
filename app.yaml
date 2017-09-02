@@ -21,7 +21,7 @@ resources:
   memory_gb: 0.9
 
 liveness_check:
-  path: '/_health/liveness_check'
+  path: '/liveness_check'
 
 readiness_check:
-  path: '/_health/readiness_check'
+  path: '/readiness_check'
