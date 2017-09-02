@@ -65,16 +65,14 @@ const redirectionMap = new Map<string, string>([]);
 const newPaths = new Set(redirectionMap.values());
 const staticFiles = new Set(fs.readdirSync(PUBLIC_PATH));
 
-/** Short-circuit the redirection proxy to expose the /log endpoint */
+// Short-circuit the redirection proxy to expose the /log endpoint
 server.use('/log', logEndpoint);
 
-/*
- * As the proxy is placed in front of the old version, we need to allow
- * requests to static assets to be directed to the new app.
- * The new proxy will check if the request is for a static file, and redirect accordingly.
- * As ":/path" matches routes on both new and old servers, the new proxy also has
- * to know  the new app paths to avoid redirection loops.
- */
+// As the proxy is placed in front of the old version, we need to allow
+// requests to static assets to be directed to the new app.
+// The new proxy will check if the request is for a static file, and redirect accordingly.
+// As ":/path" matches routes on both new and old servers, the new proxy also has
+// to know  the new app paths to avoid redirection loops.
 server.get('/:path', (req, res, next) => {
   // '/:path' matches: /Tom_Hanks, /tom-hanks, /app.js, /michael-jackson, ashton-kutcher...
   const reqPath: string = req.params.path;
