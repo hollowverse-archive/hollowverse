@@ -28,7 +28,7 @@ server.use((req, res, next) => {
 // Enable HTTP Strict Transport Security
 // This tells the browser to rewrite all subsequent http:// URLs to
 // https:// so that we can skip the redirection request overhead.
-const HSTS_MAX_AGE = 18000;
+const HSTS_MAX_AGE = 1800;
 server.use((_, res, next) => {
   res.setHeader(
     'Strict-Transport-Security',
