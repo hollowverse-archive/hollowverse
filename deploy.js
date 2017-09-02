@@ -39,13 +39,10 @@ async function main() {
       shelljs.rm('./secrets/gcloud.travis.json*');
       return 0;
     },
-    () => {
-      const promoteFlag = '--no-promote';
-
-      return retryCommand(
-        `gcloud app deploy dispatch.yaml app.yaml --project ${PROJECT} --version ${BRANCH} ${promoteFlag} --quiet`,
-      );
-    },
+    () =>
+      retryCommand(
+        `gcloud app deploy app.yaml dispatch.yaml --project ${PROJECT} --version ${BRANCH} --no-promote --quiet`,
+      ),
   ];
 
   let commands;
