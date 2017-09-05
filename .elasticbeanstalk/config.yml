@@ -1,0 +1,15 @@
+global:
+  application_name: hollowverse
+  branch: null
+  default_ec2_keyname: null
+  default_platform: arn:aws:elasticbeanstalk:us-east-1::platform/Docker running on
+    64bit Amazon Linux/2.7.3
+  default_region: us-east-1
+  include_git_submodules: true
+  instance_profile: null
+  platform_name: null
+  platform_version: null
+  profile: null
+  repository: hollowverse
+  sc: git
+  workspace_type: Application
