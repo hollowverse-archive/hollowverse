@@ -28,9 +28,12 @@ async function main() {
     console.info('Skipping deployment commands in PRs');
   }
 
-  const code = await executeCommands(commands);
-
-  process.exit(code);
+  try {
+    await executeCommands(commands);
+  } catch (e) {
+    console.error('Build/deployment failed:', e);
+    process.exit(1);
+  }
 }
 
 main();
