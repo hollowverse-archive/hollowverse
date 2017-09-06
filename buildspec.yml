@@ -22,5 +22,5 @@ artifacts:
     - secrets/**/*
     - common/**/*
     - yarn.lock
-    - package.lock
+    - package.json
     - Dockerfile
