@@ -1,8 +1,6 @@
 version: 0.2
 
 env:
-  variables:
-    BRANCH: "master"
   parameter-store:
     ENC_PASS_SUMO: "ENC_PASS_SUMO"
 
