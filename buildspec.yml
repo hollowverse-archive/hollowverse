@@ -1,9 +1,19 @@
 version: 0.2
 
+env:
+  variables:
+    BRANCH: "master"
+  parameter-store:
+    ENC_PASS_SUMO: "ENC_PASS_SUMO"
+
 phases:
   build:
     commands:
-      - node deploy.js
+      - docker run
+        -v $(pwd):/repo
+        -e BRANCH
+        -e ENC_PASS_SUMO
+        hollowverse/hollowverse-gae
 
 artifacts:
   files:
