@@ -4,7 +4,7 @@ const shelljs = require('shelljs');
 const decryptSecrets = require('@hollowverse/common/helpers/decryptSecrets');
 const executeCommands = require('@hollowverse/common/helpers/executeCommands');
 
-const { ENC_PASS_SUMO, IS_PULL_REQUEST } = shelljs.env;
+const { ENC_PASS_SUMO, IS_PULL_REQUEST = 'false' } = shelljs.env;
 
 const isPullRequest = IS_PULL_REQUEST !== 'false';
 
