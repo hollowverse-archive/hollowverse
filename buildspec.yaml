@@ -1,0 +1,13 @@
+phases:
+  build:
+    commands:
+      - node deploy.js
+artifacts:
+  files:
+    - client/dist/**/*
+    - server/dist/**/*
+    - secrets/**/*
+    - common/**/*
+    - yarn.lock
+    - package.lock
+    - Dockerfile
