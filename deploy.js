@@ -18,10 +18,7 @@ const secrets = [
 async function main() {
   const buildCommands = ['yarn test', 'yarn server/build', 'yarn client/build'];
 
-  const deploymentCommands = [
-    () => decryptSecrets(secrets, './secrets'),
-    // @TODO: deploy with AWS CLI
-  ];
+  const deploymentCommands = [() => decryptSecrets(secrets, './secrets')];
 
   let commands;
   if (isPullRequest === false) {
