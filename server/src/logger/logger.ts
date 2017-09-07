@@ -17,7 +17,7 @@ const COLLECTOR_ID: string = sumoSecrets.collectorId;
 const RECEIVER_URL =
   'https://endpoint2.collection.us2.sumologic.com/receiver/v1/http/';
 
-const { BRANCH = 'master', COMMIT_ID } = env;
+const { BRANCH, COMMIT_ID } = env;
 
 const sumoLogger = new SumoLogger({
   endpoint: new URL(COLLECTOR_ID, RECEIVER_URL).toString(),
