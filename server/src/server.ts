@@ -7,12 +7,7 @@ import { URL } from 'url';
 import { log } from './logger/logger';
 import { logEndpoint } from './logger/logEndpoint';
 
-import { health } from './health';
-
 const server = express();
-
-// Health checks for Google App Engine
-server.use(health);
 
 // Redirect HTTP requests to HTTPS
 server.use((req, res, next) => {

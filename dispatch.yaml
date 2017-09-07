@@ -1,3 +1,0 @@
-dispatch:
-  - url: "*/.well-known/*"
-    service: lets-encrypt

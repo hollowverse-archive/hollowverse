@@ -53,3 +53,5 @@ client/.babelrc
 
 secrets/**/*
 !secrets/**/*.enc
+
+.elasticbeanstalk

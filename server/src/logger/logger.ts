@@ -6,8 +6,6 @@ import { URL } from 'url';
 
 import { LogPayload, LogType } from './types';
 
-import env from '../env';
-
 import { noop } from 'lodash';
 
 const SECRETS_FILE_PATH = path.join(process.cwd(), 'secrets', 'sumo.json');
@@ -17,13 +15,13 @@ const COLLECTOR_ID: string = sumoSecrets.collectorId;
 const RECEIVER_URL =
   'https://endpoint2.collection.us2.sumologic.com/receiver/v1/http/';
 
-const { branch } = env;
+const { BRANCH = 'master' } = process.env;
 
 const sumoLogger = new SumoLogger({
   endpoint: new URL(COLLECTOR_ID, RECEIVER_URL).toString(),
   onSuccess: noop,
-  sourceName: 'App Engine Server',
-  sourceCategory: `branch/${branch}`,
+  sourceName: 'Elastic Beanstalk Server',
+  sourceCategory: `branch/${BRANCH}`,
   onError() {
     console.error('Error');
   },

@@ -2,6 +2,3 @@
 ./.vscode/*
 **/node_modules/*
 secrets/**/*.enc
-secrets/gcloud.travis.json
-server/src/*
-client/src/*
