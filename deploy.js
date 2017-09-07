@@ -3,8 +3,14 @@
 const shelljs = require('shelljs');
 const decryptSecrets = require('@hollowverse/common/helpers/decryptSecrets');
 const executeCommands = require('@hollowverse/common/helpers/executeCommands');
+const writeJSONFile = require('@hollowverse/common/helpers/writeJSONFile');
 
-const { ENC_PASS_SUMO, IS_PULL_REQUEST } = shelljs.env;
+const {
+  ENC_PASS_SUMO,
+  IS_PULL_REQUEST,
+  CODEBUILD_SOURCE_VERSION,
+  CODEBUILD_RESOLVED_SOURCE_VERSION,
+} = shelljs.env;
 
 const isPullRequest = IS_PULL_REQUEST !== 'false';
 
@@ -17,7 +23,14 @@ const secrets = [
 
 async function main() {
   const buildCommands = ['yarn test', 'yarn server/build', 'yarn client/build'];
-  const deploymentCommands = [() => decryptSecrets(secrets, './secrets')];
+  const deploymentCommands = [
+    () =>
+      writeJSONFile('env.json', {
+        BRANCH: CODEBUILD_SOURCE_VERSION,
+        COMMIT_ID: CODEBUILD_RESOLVED_SOURCE_VERSION,
+      }),
+    () => decryptSecrets(secrets, './secrets'),
+  ];
 
   let isDeployment = false;
   if (isPullRequest === false) {

@@ -22,5 +22,6 @@ artifacts:
     - common/**/*
     - yarn.lock
     - package.json
+    - env.json
     - Dockerfile
     - .dockerignore

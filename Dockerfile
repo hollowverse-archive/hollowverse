@@ -25,4 +25,7 @@ COPY ./server/dist ./server/dist/
 RUN mkdir client/dist
 COPY ./client/dist ./client/dist/
 
+# Copy environment file, generated at build time by deploy.js
+COPY ./env.json ./
+
 CMD yarn start
