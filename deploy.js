@@ -17,19 +17,23 @@ const secrets = [
 
 async function main() {
   const buildCommands = ['yarn test', 'yarn server/build', 'yarn client/build'];
-
   const deploymentCommands = [() => decryptSecrets(secrets, './secrets')];
 
-  let commands;
+  let isDeployment = false;
   if (isPullRequest === false) {
-    commands = [...buildCommands, ...deploymentCommands];
-  } else {
-    commands = buildCommands;
     console.info('Skipping deployment commands in PRs');
+  } else if (secrets.some(secret => secret.password === undefined)) {
+    console.info(
+      'Skipping deployment commands because some secrets are not provided available',
+    );
+  } else {
+    isDeployment = true;
   }
 
   try {
-    await executeCommands(commands);
+    await executeCommands(
+      isDeployment ? [...buildCommands, ...deploymentCommands] : buildCommands,
+    );
   } catch (e) {
     console.error('Build/deployment failed:', e);
     process.exit(1);
