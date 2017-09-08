@@ -2,20 +2,17 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 /**
- * This file should contain information about Google App Engine configuration
- * for this server. This includes the service and branch name and possibly
- * the instance name.
- * This is working around the fact that App Engine does not provide this information
- * as environment variables for Docker-based runtimes.
- * The file should be written on CI and deployed with the app so that it can
+ * This file should contain information about AWS Beanstalk configuration
+ * for this server. This includes the commit ID and branch name and possibly
+ * other information.
+ * The file should be written on CodeBuild and deployed with the app so that it can
  * be accessed at runtime.
  */
 const ENV_FILE_PATH = path.join(process.cwd(), 'env.json');
 
 type EnvDescriptor = {
-  branch?: string;
-  service?: string;
-  project?: string;
+  BRANCH?: string;
+  COMMIT_ID?: string;
 };
 
 function tryGetEnv(): EnvDescriptor {
@@ -28,8 +25,7 @@ function tryGetEnv(): EnvDescriptor {
 
 const env = {
   // Provide some default values in case the file does not exist
-  project: 'hollowverse-c9cad',
   ...tryGetEnv(),
 };
 
-export default env;
+export { env };
