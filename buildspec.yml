@@ -12,6 +12,8 @@ phases:
         -e BRANCH
         -e ENC_PASS_SUMO
         -e IS_PULL_REQUEST
+        -e CODEBUILD_SOURCE_VERSION
+        -e CODEBUILD_RESOLVED_SOURCE_VERSION
         hollowverse/hollowverse-gae
 
 artifacts:
