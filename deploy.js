@@ -33,7 +33,7 @@ async function main() {
   ];
 
   let isDeployment = false;
-  if (isPullRequest === false) {
+  if (isPullRequest === true) {
     console.info('Skipping deployment commands in PRs');
   } else if (secrets.some(secret => secret.password === undefined)) {
     console.info(
