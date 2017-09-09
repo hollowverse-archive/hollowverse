@@ -13,8 +13,9 @@ const server = express();
 server.use((req, res, next) => {
   // Get the request protocol from Google App Engine
   const protocol = req.header('X-FORWARDED-PROTO');
+  const host = req.header('X-FORWARED-HOST');
   if (protocol === 'http') {
-    const newURL = new URL(req.url, 'https://thehollowverse.com');
+    const newURL = new URL(req.url, `https://${host}`);
     res.redirect(newURL.toString());
   } else {
     next();
