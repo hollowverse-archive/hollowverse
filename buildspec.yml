@@ -11,7 +11,9 @@ phases:
         -v $(pwd):/repo
         -e BRANCH
         -e ENC_PASS_SUMO
-        -e IS_PULL_REQUEST
+        -e IS_PULL_REQUEST=false
+        -e CODEBUILD_SOURCE_VERSION
+        -e CODEBUILD_RESOLVED_SOURCE_VERSION
         hollowverse/hollowverse-gae
 
 artifacts:
@@ -22,5 +24,6 @@ artifacts:
     - common/**/*
     - yarn.lock
     - package.json
+    - env.json
     - Dockerfile
     - .dockerignore

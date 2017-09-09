@@ -14,6 +14,9 @@ WORKDIR /hollowverse
 # Copy runtime secrets
 COPY ./secrets/ ./secrets/
 
+# Copy environment file, generated at build time by deploy.js
+COPY ./env.json ./
+
 # Install shared production dependencies
 COPY package.json yarn.lock ./
 RUN yarn --prod
