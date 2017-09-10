@@ -36,7 +36,7 @@ server.use((_, res, next) => {
 
 // tslint:disable no-http-string
 const OLD_SERVER_ADDRESS =
-  process.env.OLD_SERVER || 'http://live.hollowverse.com/';
+  process.env.OLD_SERVER || 'http://dw5a6b9vjmt7w.cloudfront.net/';
 const NEW_SERVER_ADDRESS = process.env.NEW_SERVER || 'http://localhost:3000/';
 // tslint:enable no-http-string
 const PUBLIC_PATH = path.resolve(
