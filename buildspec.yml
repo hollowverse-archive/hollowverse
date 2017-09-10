@@ -1,5 +1,11 @@
 version: 0.2
 
+eb_codebuild_settings:
+  CodeBuildServiceRole: arn:aws:iam::901881000271:role/service-role/HollowverseCodeBuildRole
+  ComputeType: BUILD_GENERAL1_SMALL
+  Image: aws/codebuild/docker:1.12.1
+  Timeout: 10
+
 env:
   parameter-store:
     ENC_PASS_SUMO: "ENC_PASS_SUMO"
