@@ -15,7 +15,6 @@ phases:
     commands:
       - docker run
         -v $(pwd):/repo
-        -e BRANCH
         -e ENC_PASS_SUMO
         -e IS_PULL_REQUEST=false
         -e CODEBUILD_SOURCE_VERSION
