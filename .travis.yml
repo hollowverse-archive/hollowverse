@@ -6,7 +6,7 @@ script:
     -v $(pwd):/repo
     -e BRANCH=$TRAVIS_BRANCH
     -e IS_PULL_REQUEST=$TRAVIS_PULL_REQUEST
-    hollowverse/hollowverse-gae
+    hollowverse/build-env
 
 notifications:
   email: false
