@@ -3,7 +3,8 @@
 const shelljs = require('shelljs');
 const decryptSecrets = require('@hollowverse/common/helpers/decryptSecrets');
 const executeCommands = require('@hollowverse/common/helpers/executeCommands');
-const writeJSONFile = require('@hollowverse/common/helpers/writeJSONFile');
+const writeJsonFile = require('@hollowverse/common/helpers/writeJsonFile');
+const createZipFile = require('@hollowverse/common/helpers/createZipFile');
 
 const {
   ENC_PASS_SUMO,
@@ -25,11 +26,28 @@ async function main() {
   const buildCommands = ['yarn test', 'yarn server/build', 'yarn client/build'];
   const deploymentCommands = [
     () =>
-      writeJSONFile('env.json', {
+      writeJsonFile('env.json', {
         BRANCH: CODEBUILD_SOURCE_VERSION,
         COMMIT_ID: CODEBUILD_RESOLVED_SOURCE_VERSION,
       }),
     () => decryptSecrets(secrets, './secrets'),
+    () =>
+      createZipFile(
+        'build.zip',
+        [
+          'client/dist/**/*',
+          'server/dist/**/*',
+          'secrets/**/*',
+          'common/**/*',
+          'yarn.lock',
+          'package.json',
+          'env.json',
+          'Dockerfile',
+          '.dockerignore',
+        ],
+        ['secrets/**/*.enc'],
+      ),
+    'eb deploy --staged',
   ];
 
   let isDeployment = false;
