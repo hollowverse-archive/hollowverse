@@ -6,6 +6,8 @@ script:
     -v $(pwd):/repo
     -e BRANCH=$TRAVIS_BRANCH
     -e COMMIT_ID=$TRAVIS_COMMIT
+    -e AWS_ACCESS_KEY_ID
+    -e AWS_SECRET_ACCESS_KEY
     -e IS_PULL_REQUEST=$TRAVIS_PULL_REQUEST
     hollowverse/build-env
 
