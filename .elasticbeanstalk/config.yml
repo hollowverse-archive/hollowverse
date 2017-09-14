@@ -1,0 +1,2 @@
+deploy:
+  artifact: build.zip
