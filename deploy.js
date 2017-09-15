@@ -2,6 +2,7 @@
 
 const shelljs = require('shelljs');
 const decryptSecrets = require('@hollowverse/common/helpers/decryptSecrets');
+const executeCommand = require('@hollowverse/common/helpers/executeCommand');
 const executeCommands = require('@hollowverse/common/helpers/executeCommands');
 const writeJsonFile = require('@hollowverse/common/helpers/writeJsonFile');
 const createZipFile = require('@hollowverse/common/helpers/createZipFile');
@@ -42,6 +43,14 @@ async function main() {
         ],
         ['secrets/**/*.enc'],
       ),
+    // Use the Elastic Beanstalk environment of this branch (create it if necessary)
+    () => {
+      const environments = shelljs.exec('eb list').stdout.trim().split('\n');
+      if (environments.indexOf(BRANCH) === -1) {
+        return executeCommand(`eb create ${BRANCH}`);
+      }
+      return undefined;
+    },
     `eb use ${BRANCH}`,
     'eb deploy --staged',
   ];
