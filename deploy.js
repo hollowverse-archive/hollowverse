@@ -2,14 +2,17 @@
 
 const shelljs = require('shelljs');
 const decryptSecrets = require('@hollowverse/common/helpers/decryptSecrets');
+const executeCommand = require('@hollowverse/common/helpers/executeCommand');
 const executeCommands = require('@hollowverse/common/helpers/executeCommands');
-const writeJSONFile = require('@hollowverse/common/helpers/writeJSONFile');
+const writeJsonFile = require('@hollowverse/common/helpers/writeJsonFile');
+const createZipFile = require('@hollowverse/common/helpers/createZipFile');
 
 const {
   ENC_PASS_SUMO,
   IS_PULL_REQUEST,
-  CODEBUILD_SOURCE_VERSION,
-  CODEBUILD_RESOLVED_SOURCE_VERSION,
+  PROJECT,
+  BRANCH,
+  COMMIT_ID,
 } = shelljs.env;
 
 const isPullRequest = IS_PULL_REQUEST !== 'false';
@@ -21,15 +24,43 @@ const secrets = [
   },
 ];
 
+const ebEnvironmentName = `${PROJECT}-${BRANCH}`;
+
 async function main() {
   const buildCommands = ['yarn test', 'yarn server/build', 'yarn client/build'];
   const deploymentCommands = [
     () =>
-      writeJSONFile('env.json', {
-        BRANCH: CODEBUILD_SOURCE_VERSION,
-        COMMIT_ID: CODEBUILD_RESOLVED_SOURCE_VERSION,
+      writeJsonFile('env.json', {
+        BRANCH,
+        COMMIT_ID,
       }),
     () => decryptSecrets(secrets, './secrets'),
+    () =>
+      createZipFile(
+        'build.zip',
+        [
+          'client/dist/**/*',
+          'server/dist/**/*',
+          'secrets/**/*',
+          'common/**/*',
+          'yarn.lock',
+          'package.json',
+          'env.json',
+          'Dockerfile',
+          '.dockerignore',
+        ],
+        ['secrets/**/*.enc'],
+      ),
+    // Use the Elastic Beanstalk environment of this branch (create it if necessary)
+    () => {
+      const environments = shelljs.exec('eb list').stdout.trim().split('\n');
+      if (environments.indexOf(ebEnvironmentName) === -1) {
+        return executeCommand(`eb create ${ebEnvironmentName}`);
+      }
+      return undefined;
+    },
+    `eb use ${ebEnvironmentName}`,
+    'eb deploy --staged',
   ];
 
   let isDeployment = false;

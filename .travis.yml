@@ -4,8 +4,12 @@ services:
 script:
   - docker run
     -v $(pwd):/repo
+    -e PROJECT=hollowverse
     -e BRANCH=$TRAVIS_BRANCH
+    -e COMMIT_ID=$TRAVIS_COMMIT
     -e IS_PULL_REQUEST=$TRAVIS_PULL_REQUEST
+    -e AWS_ACCESS_KEY_ID
+    -e AWS_SECRET_ACCESS_KEY
     hollowverse/build-env
 
 notifications:

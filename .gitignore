@@ -54,4 +54,9 @@ client/.babelrc
 secrets/**/*
 !secrets/**/*.enc
 
-.elasticbeanstalk
+build.zip
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
