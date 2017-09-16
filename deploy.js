@@ -7,7 +7,13 @@ const executeCommands = require('@hollowverse/common/helpers/executeCommands');
 const writeJsonFile = require('@hollowverse/common/helpers/writeJsonFile');
 const createZipFile = require('@hollowverse/common/helpers/createZipFile');
 
-const { ENC_PASS_SUMO, IS_PULL_REQUEST, BRANCH, COMMIT_ID } = shelljs.env;
+const {
+  ENC_PASS_SUMO,
+  IS_PULL_REQUEST,
+  PROJECT,
+  BRANCH,
+  COMMIT_ID,
+} = shelljs.env;
 
 const isPullRequest = IS_PULL_REQUEST !== 'false';
 
@@ -17,6 +23,8 @@ const secrets = [
     decryptedFilename: 'sumo.json',
   },
 ];
+
+const ebEnvironmentName = `${PROJECT}-${BRANCH}`;
 
 async function main() {
   const buildCommands = ['yarn test', 'yarn server/build', 'yarn client/build'];
@@ -46,12 +54,12 @@ async function main() {
     // Use the Elastic Beanstalk environment of this branch (create it if necessary)
     () => {
       const environments = shelljs.exec('eb list').stdout.trim().split('\n');
-      if (environments.indexOf(BRANCH) === -1) {
-        return executeCommand(`eb create ${BRANCH}`);
+      if (environments.indexOf(ebEnvironmentName) === -1) {
+        return executeCommand(`eb create ${ebEnvironmentName}`);
       }
       return undefined;
     },
-    `eb use ${BRANCH}`,
+    `eb use ${ebEnvironmentName}`,
     'eb deploy --staged',
   ];
 
