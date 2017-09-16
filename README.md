@@ -15,7 +15,7 @@ The project is powered by a JavaScript/TypeScript stack running on Amazon Web Se
 
 ## Contributing
 
-If you're interested in contributing to the project in any capacity (design, code, testing, ideas, etc), we would be happy to talk to you or guide you. Join us on our Discord chat server and let's talk!
+If you're interested in contributing to the project in any capacity (design, code, testing, ideas, etc), we would be happy to talk to you or guide you. Join us on our [Discord chat server](https://discord.gg/rx3HRzh) and let's talk!
 
 ## More information
 
