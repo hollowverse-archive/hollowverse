@@ -3,42 +3,19 @@
 [![Build Status](https://travis-ci.org/hollowverse/hollowverse.svg?branch=master)](https://travis-ci.org/hollowverse/hollowverse)
 [![Discord Badge](https://img.shields.io/discord/308394001789353985.svg)](https://discordapp.com/invite/KmnPYnu)
 
-Politics, religions, and ideas.
+Hollowverse is a website that focuses on the profound ideas of influential individuals.
 
-## Getting started
+What you see today on [Hollowverse.com](https://hollowverse.com) is the legacy website that was built years ago using a simple WordPress CMS and editorial content. We are rebuilding the website using a newer technology stack and a user-generated content model.
 
-### Prerequisites
+To learn more about the new Hollowverse product, see our [Product Description](https://github.com/hollowverse/hollowverse/wiki/Product-Description) wiki page.
 
-* Install latest stable [Node.js](https://nodejs.org/en/)
-* Install [Yarn](https://yarnpkg.com/lang/en/docs/install/) globally.
-* Install dependencies: `yarn install` in this directory
+## Technology choices
 
-### Front-end
+The project is powered by a JavaScript/TypeScript stack running on Amazon Web Services. We use Node.js, Express, and PostgreSQL for the back-end. React and its ecosystem tools for the front-end.
 
-* Start webpack-dev-server: `yarn client/dev`
+## Contributing
 
-This will provide a dev version of the front-end on `localhost:8080` and rebuild it on changes.
-
-### Back-end
-
-* Start the server via nodemon: `yarn server/express`
-
-This will run the server straight from the source in `./server/src`. Nodemon will automatically refresh it on changes.
-
-### Building in production mode
-
-* Build assets in production mode and run Firebase Hosting locally: `yarn server/firebase`
-
-This will build the JavaScript bundle in production mode and then execute `firebase serve`.
-
-## Built with
-
-* [TypeScript](https://www.typescriptlang.org/) - strongly typed language compiled to JavaScript
-* [React](https://facebook.github.io/react/) - front-end library for building UI
-* [Redux](http://redux.js.org/) - state container for structuring business logic in a predictable way
-* [Aphrodite](https://github.com/Khan/aphrodite) - CSS in JS solution
-* [Firebase](https://firebase.google.com/) - tools and infrastructure for the server side, abstraction over the Google Cloud Platform
-* [Webpack](https://webpack.github.io/) - module bundler for concatenating and minifying JavaScript
+If you're interested in contributing to the project in any capacity (design, code, testing, ideas, etc), we would be happy to talk to you or guide you. Join us on our [Discord chat server](https://discord.gg/rx3HRzh) and let's talk!
 
 ## More information
 
