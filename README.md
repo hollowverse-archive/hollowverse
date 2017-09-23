@@ -11,7 +11,7 @@ To learn more about the new Hollowverse product, see our [Product Description](h
 
 ## Technology choices
 
-The project is powered by a JavaScript/TypeScript stack running on Amazon Web Services. We use Node.js, Express, and PostgreSQL for the back-end. React and its ecosystem tools for the front-end.
+The project is powered by a JavaScript/TypeScript stack running on Amazon Web Services. We use Node.js, Express, and SQL for the back-end. React and its ecosystem tools for the front-end.
 
 ## Contributing
 
