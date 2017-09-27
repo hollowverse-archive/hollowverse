@@ -41,6 +41,7 @@ import {
 type MergedProps = StateProps & DefaultDispatchProps;
 type IProps = MergedProps & RouteComponentProps<{}>;
 
+/** Home page of website */
 class HomepageClass extends React.PureComponent<IProps, {}> {
   componentDidMount() {
     this.search();

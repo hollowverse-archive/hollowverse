@@ -9,6 +9,7 @@ interface Props {
   data: EventSchema[];
 }
 
+/** An event about a notable person */
 class EventsClass extends React.PureComponent<Props, {}> {
   render() {
     return (

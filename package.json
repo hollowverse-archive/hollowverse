@@ -7,7 +7,7 @@
   "scripts": {
     "test": "run-p validate-file-names lint-js lint-ts",
     "lint-js": "eslint '**/*.js{,x}'",
-    "lint-ts": "tslint './*.ts' 'server/src/*.ts{,x}'",
+    "lint-ts": "tslint './*.ts' 'server/src/*.ts{,x}' --project .",
     "client/dev": "DEBUG=build HOT=1 NODE_ENV=development webpack-dev-server --config client/webpack.config.js",
     "client/build": "NO_PERF_CHECKS=1 DEBUG=build NODE_ENV=production webpack --config client/webpack.config.js",
     "client/clean": "rm -rf ./client/dist",

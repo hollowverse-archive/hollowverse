@@ -26,6 +26,7 @@ const actionCreators = {
 
 type ActionCreators = typeof actionCreators;
 
+/** App wrapper, includes elements that should be visible on every page, like the header */
 class AppClass extends React.PureComponent<ActionCreators & Props, {}> {
   componentDidMount() {
     this.props.requestUpdateLoginStatus(undefined);

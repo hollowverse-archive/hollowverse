@@ -92,11 +92,11 @@ server.get('/:path', (req, res, next) => {
 });
 
 // Fallback to old hollowverse
-server.use((req, res) =>
+server.use((req, res) => {
   proxyServer.web(req, res, {
     target: OLD_SERVER_ADDRESS,
     changeOrigin: true,
-  }),
-);
+  });
+});
 
 server.listen(PROXY_PORT);

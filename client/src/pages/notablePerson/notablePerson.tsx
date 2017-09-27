@@ -34,6 +34,7 @@ type Match = {
 
 type IProps = MergedProps & RouteComponentProps<Match>;
 
+/** A public figure or an influential person */
 class NotablePersonClass extends React.PureComponent<IProps, {}> {
   componentDidMount() {
     const { slug } = this.props.match.params;
