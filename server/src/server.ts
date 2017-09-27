@@ -34,6 +34,7 @@ server.use((_, res, next) => {
   next();
 });
 
+// Add version details to custom header
 server.use((_, res, next) => {
   res.setHeader('X-Hollowverse-Environment', `${env.BRANCH}/${env.COMMIT_ID}`);
   next();
