@@ -6,6 +6,7 @@ import { URL } from 'url';
 
 import { log } from './logger/logger';
 import { logEndpoint } from './logger/logEndpoint';
+import { env } from './env';
 
 const server = express();
 
@@ -29,6 +30,15 @@ server.use((_, res, next) => {
   res.setHeader(
     'Strict-Transport-Security',
     `max-age=${HSTS_MAX_AGE}; preload`,
+  );
+  next();
+});
+
+// Add version details to custom header
+server.use((_, res, next) => {
+  res.setHeader(
+    'X-Hollowverse-Actual-Environment',
+    `${env.BRANCH}/${env.COMMIT_ID}`,
   );
   next();
 });
