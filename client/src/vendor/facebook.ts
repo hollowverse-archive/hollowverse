@@ -15,7 +15,7 @@ export async function login() {
 
 export const logout = promisify(FB.logout);
 
-export function initSdk() {
+export async function initSdk() {
   return new Promise(resolve => {
     FB.Event.subscribe('auth.statusChange', response => {
       if (response.status === 'connected') {

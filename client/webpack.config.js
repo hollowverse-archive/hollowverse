@@ -348,7 +348,7 @@ const config = {
               options: {
                 emitErrors: env.isProd,
                 failOnHint: env.isProd,
-                typeCheck: false,
+                typeCheck: env.isProd,
                 fix: false,
               },
             },

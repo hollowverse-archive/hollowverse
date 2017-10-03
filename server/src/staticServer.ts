@@ -14,6 +14,8 @@ const indexFile = path.resolve(PUBLIC_PATH, 'index.html');
 
 staticServer.use(express.static(PUBLIC_PATH));
 
-staticServer.use((_, res) => res.sendFile(indexFile));
+staticServer.use((_, res) => {
+  res.sendFile(indexFile);
+});
 
 staticServer.listen(PORT);

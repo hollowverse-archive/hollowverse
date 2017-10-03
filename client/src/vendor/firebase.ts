@@ -19,7 +19,7 @@ export const firebaseApp = firebase.initializeApp(firebaseConfig);
 export const firebaseAuth = firebaseApp.auth();
 export const firebaseDb = firebaseApp.database();
 
-export function login(
+export async function login(
   payload: facebookSdk.AuthResponse,
 ): Promise<firebase.User> {
   try {
@@ -35,7 +35,7 @@ export function login(
   }
 }
 
-export function logout() {
+export async function logout() {
   return firebaseAuth.signOut();
 }
 
@@ -46,7 +46,7 @@ export async function userExists(user: firebase.User) {
   return userSnapshot.val() !== null;
 }
 
-export function createUser(user: User) {
+export async function createUser(user: User) {
   const usersReference = firebaseDb.ref('users');
 
   return usersReference.child(user.id).set({

@@ -4,6 +4,7 @@ interface Props {
   onSubmit?: React.EventHandler<React.FormEvent<HTMLFormElement>>;
 }
 
+/** A regular `<form>` with overridden `onSubmit` handler */
 export class Form extends React.PureComponent<
   Props & React.HTMLAttributes<HTMLFormElement>,
   {}

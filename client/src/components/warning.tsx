@@ -20,6 +20,7 @@ const actionCreators = {
 
 type ActionCreators = typeof actionCreators;
 
+/** An alert box */
 class WarningClass extends React.PureComponent<ActionCreators & Props, {}> {
   handleClick = () => {
     this.props.toggleWarning(false);
