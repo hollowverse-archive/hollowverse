@@ -23,6 +23,7 @@ const actionCreators = {
 
 type ActionCreators = typeof actionCreators;
 
+/** Header component shown on every page */
 class HeaderClass extends React.PureComponent<ActionCreators & Props, {}> {
   render() {
     return (

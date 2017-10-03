@@ -5,6 +5,7 @@ import { styles as eventStyles } from './../notablePerson/events.styles';
 import { styles as npStyles } from './../notablePerson/notablePerson.styles';
 import { styles } from './shadowComponent.styles';
 
+/** Placeholder component used in place of the actual component while data is being loaded */
 class ShadowComponentClass extends React.PureComponent<{}, {}> {
   render() {
     return (

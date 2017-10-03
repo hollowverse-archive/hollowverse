@@ -21,7 +21,7 @@ export function sortByDescending<T>(
 export function promisify<R>(
   fn: (cb: (result: R, err?: Error | null) => void) => void,
 ) {
-  return () =>
+  return async () =>
     new Promise<R>((resolve, reject) => {
       const _fn: typeof fn = fn.bind(fn);
       _fn((result, err) => {

@@ -18,6 +18,7 @@ function mapStateToProps(state: State): StateProps {
 
 type IProps = StateProps & DefaultDispatchProps;
 
+/** Used when loading data for a new page */
 class GlobalSpinnerClass extends React.PureComponent<IProps, {}> {
   container: HTMLDivElement;
 
