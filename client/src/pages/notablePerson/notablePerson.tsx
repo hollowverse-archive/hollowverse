@@ -9,6 +9,7 @@ export default graphql<NotablePersonQuery>(gql`
       name
       photoUrl
       events {
+        id
         quote
       }
     }
@@ -21,7 +22,7 @@ export default graphql<NotablePersonQuery>(gql`
       <div>
         <img alt={name} src={photoUrl} />
         <h2>{name}</h2>
-        {events.map(event => <li>{event.quote}</li>)}
+        {events.map(event => <li key={event.id}>{event.quote}</li>)}
       </div>
     );
   }

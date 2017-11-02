@@ -450,6 +450,11 @@ const config = {
     // Environment
     new webpack.DefinePlugin({
       __DEBUG__: JSON.stringify(env.isDev),
+      API_ENDPOINT: JSON.stringify(
+        env.isProd
+          ? 'https://api.hollowverse.com/graphql'
+          : 'http://localhost:8080/graphql',
+      ),
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
       isHot: JSON.stringify(env.isHot),
     }),
