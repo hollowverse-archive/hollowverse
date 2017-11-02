@@ -135,7 +135,7 @@ const babelLoader = {
 
 const svgoConfig = {
   plugins: [
-    { removeXMLNS: true },
+    { removeXMLNS: false },
     { cleanupIDs: false },
     { convertShapeToPath: false },
     { removeEmptyContainers: false },
