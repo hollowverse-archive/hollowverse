@@ -13,6 +13,7 @@ const path = require('path');
 const fs = require('fs');
 const debug = require('debug');
 const compact = require('lodash/compact');
+const mapValues = require('lodash/mapValues');
 
 const autoprefixer = require('autoprefixer');
 const stylelint = require('stylelint');
@@ -94,7 +95,7 @@ const babelConfig = {
           {
             modules: false,
             loose: true,
-            debug: env.isDev,
+            debug: false,
             targets: {
               browsers: pkg.browserslist,
             },
@@ -448,16 +449,19 @@ const config = {
     new webpack.NoEmitOnErrorsPlugin(), // Required to fail the build on errors
 
     // Environment
-    new webpack.DefinePlugin({
-      __DEBUG__: JSON.stringify(env.isDev),
-      API_ENDPOINT: JSON.stringify(
-        env.isProd
-          ? 'https://api.hollowverse.com/graphql'
-          : 'http://localhost:8080/graphql',
+    new webpack.DefinePlugin(
+      mapValues(
+        {
+          __DEBUG__: env.isDev,
+          API_ENDPOINT: env.isProd
+            ? 'https://api.hollowverse.com/graphql'
+            : 'http://localhost:8080/graphql',
+          'process.env.NODE_ENV': process.env.NODE_ENV,
+          isHot: env.isHot,
+        },
+        v => JSON.stringify(v),
       ),
-      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
-      isHot: JSON.stringify(env.isHot),
-    }),
+    ),
 
     // HTML index
     new WebpackHTMLPlugin({
