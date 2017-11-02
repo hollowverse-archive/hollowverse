@@ -182,6 +182,7 @@ const sassLoaders = [
     loader: 'sass-loader',
     options: {
       sourceMap: true,
+      includePaths: [path.resolve(__dirname, 'src')],
     },
   },
 ];
@@ -243,7 +244,6 @@ const config = {
     app: compact([
       ifReact(ifHot('react-hot-loader/patch')),
       ifPreact(ifDev('preact/devtools')),
-      ifHot('webpack-hot-middleware/client'),
       ifProd('regenerator-runtime/runtime'),
       path.resolve(__dirname, 'src/webpackEntry.ts'),
     ]),
@@ -297,20 +297,24 @@ const config = {
       {
         test: cssModulesPattern,
         exclude: excludedPatterns,
-        use: extractCssModules.extract({
-          fallback: 'style-loader',
-          use: cssModuleLoaders,
-        }),
+        use: env.isDev
+          ? ['style-loader', ...cssModuleLoaders]
+          : extractCssModules.extract({
+              fallback: 'style-loader',
+              use: cssModuleLoaders,
+            }),
       },
 
       // Global CSS
       {
         test: /\.s?css$/,
         exclude: [...excludedPatterns, cssModulesPattern],
-        use: extractGlobalCss.extract({
-          fallback: 'style-loader',
-          use: globalCssLoaders,
-        }),
+        use: env.isDev
+          ? ['style-loader', ...globalCssLoaders]
+          : extractGlobalCss.extract({
+              fallback: 'style-loader',
+              use: globalCssLoaders,
+            }),
       },
 
       // ESLint
