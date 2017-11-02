@@ -1,0 +1,46 @@
+@import 'variables.scss';
+
+$avatar-size: 120px;
+
+.person-details {
+  position: relative;
+
+  &-avatar {
+    width: $avatar-size;
+    height: $avatar-size;
+    border-radius: calc($avatar-size / 2);
+    user-select: none;
+    margin: 0 auto 20px;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  &-caption {
+    color: $color-text-light;
+    font-size: 12px;
+    text-align: center;
+  }
+
+  &-name {
+    color: $color-text-default;
+    font-size: 30px;
+    font-weight: bold;
+    line-height: 25px;
+    margin: 10px 0;
+    text-align: center;
+  }
+
+  &-labels {
+    text-align: center;
+    margin: 20px auto;
+  }
+
+  &-about {
+    clear: both;
+  }
+
+  p {
+    margin: 10px 0;
+  }
+}

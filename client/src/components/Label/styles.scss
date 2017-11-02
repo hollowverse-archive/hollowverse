@@ -1,0 +1,27 @@
+/**
+ * Styles of Label
+ */
+@import 'variables.scss';
+
+.label {
+  display: inline-block;
+  position: relative;
+  color: #fff;
+  background-color: $color-pink;
+  margin: 0 5px 5px 0;
+  font-size: 12px;
+  padding: 5px 10px 5px 20px;
+  border-radius: 3px;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 8px;
+    width: 4px;
+    height: 4px;
+    margin-top: -2px;
+    border-radius: 2px;
+    background-color: #fff;
+  }
+}

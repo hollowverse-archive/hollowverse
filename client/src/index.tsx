@@ -4,7 +4,7 @@ import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 import { ApolloProvider } from 'react-apollo';
 import { client } from './apolloClient';
 
-import { App } from 'components/app/app';
+import { App } from 'components/App';
 
 import NotablePersonPage from 'pages/notablePerson/notablePerson';
 
@@ -28,7 +28,7 @@ if (module.hot) {
   // @ts-ignore
   module.hot.accept();
   // @ts-ignore
-  module.hot.accept('components/app/app', renderApp);
+  module.hot.accept('components/App', renderApp);
 }
 
 renderApp();

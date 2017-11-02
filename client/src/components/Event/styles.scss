@@ -1,0 +1,104 @@
+/**
+ * Styles of Event
+ */
+@import 'variables.scss';
+
+.event {
+  margin: 40px auto 60px;
+
+  &-content {
+    position: relative;
+    padding: 5px 0 5px 15px;
+    border-left: 5px solid $color-pink;
+
+    .self & {
+      border-left-color: $color-yellow;
+    }
+  }
+
+  &-caption {
+    font-size: 12px;
+    color: $color-text-light;
+    margin-bottom: 5px;
+  }
+
+  &-date {
+    float: right;
+    font-size: 12px;
+    color: $color-text-light;
+  }
+
+  &-text {
+    font-size: 17px;
+  }
+
+  &-source {
+    font-size: 12px;
+    color: $color-text-light;
+    margin: 5px 0;
+
+    a {
+      color: $color-text-light;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  }
+
+  &-user-comment {
+    position: relative;
+    font-size: 14px;
+    font-style: italic;
+    margin: 10px 0 0 20px;
+    padding: 15px;
+    color: #fff;
+    border-radius: 4px;
+    background-color: $color-pink;
+
+    .self & {
+      color: $color-text-default;
+      background-color: $color-yellow;
+
+      &::after {
+        // background-image: url('../../shared/assets/quote-arrow-yellow.svg');
+      }
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      width: 12px;
+      height: 10px;
+      right: 15px;
+      top: -10px;
+      // background: url('../../shared/assets/quote-arrow-pink.svg') 50% 50% no-repeat;
+    }
+  }
+
+  &-user-name {
+    position: absolute;
+    font-size: 13px;
+    right: 75px;
+    bottom: -22px;
+    font-style: normal;
+    font-weight: bold;
+    color: $color-text-light;
+  }
+
+  &-user-avatar {
+    position: absolute;
+    bottom: -25px;
+    right: 15px;
+    width: 50px;
+    height: 50px;
+    border-radius: 25px;
+    border: 2px solid #fff;
+    background-color: $color-pink;
+    overflow: hidden;
+
+    .self & {
+      background-color: $color-yellow;
+    }
+  }
+}
