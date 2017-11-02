@@ -156,6 +156,13 @@ const svgoConfig = {
   ],
 };
 
+const svgLoaders = [
+  {
+    loader: 'svgo-loader',
+    options: svgoConfig,
+  },
+];
+
 const createSvgIconLoaders = name => [
   {
     loader: 'svg-sprite-loader',
@@ -165,11 +172,9 @@ const createSvgIconLoaders = name => [
       runtimeCompat: false,
     },
   },
-  {
-    loader: 'svgo-loader',
-    options: svgoConfig,
-  },
+  ...svgLoaders,
 ];
+
 
 const sassLoaders = [
   {
@@ -414,6 +419,14 @@ const config = {
         exclude: excludedPatterns,
         include: [path.resolve(__dirname, 'src/icons')],
         use: createSvgIconLoaders('icons.svg'),
+      },
+
+      // SVG assets
+      {
+        test: /\.svg$/,
+        exclude: excludedPatterns,
+        include: [path.resolve(__dirname, 'src/assets')],
+        use: svgLoaders,
       },
     ]),
   },

@@ -13,16 +13,13 @@ type EventProps = {
   isQuoteByNotablePerson: boolean;
   sourceName: string;
   sourceUrl: string;
-  comments: [
-    {
-      owner: {
-        name: string;
-        photoUrl: string;
-      };
-      text: string;
-      postedAt: Date;
-    }
-  ];
+  comments: Array<{
+    owner: {
+      name: string;
+      photoUrl: string | null;
+    };
+    text: string;
+  }> | null;
 };
 
 const Event = (props: EventProps) => (
@@ -41,14 +38,14 @@ const Event = (props: EventProps) => (
         </div>
       )}
     </div>
-    {props.comments.map(({ owner, text }) => (
+    {props.comments && props.comments.map(({ owner, text }) => (
       <div className="event-user-comment">
         {text}
         <div className="event-user-name">{owner.name}</div>
         <img
           className="event-user-avatar"
           alt={owner.name}
-          src={owner.photoUrl}
+          src={owner.photoUrl || 'potato'}
         />
       </div>
     ))}

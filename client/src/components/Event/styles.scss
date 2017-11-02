@@ -61,7 +61,7 @@
       background-color: $color-yellow;
 
       &::after {
-        // background-image: url('../../shared/assets/quote-arrow-yellow.svg');
+        background-image: url('~file-loader!assets/quote-arrow-yellow.svg');
       }
     }
 
@@ -72,7 +72,7 @@
       height: 10px;
       right: 15px;
       top: -10px;
-      // background: url('../../shared/assets/quote-arrow-pink.svg') 50% 50% no-repeat;
+      background: url('~file-loader!assets/quote-arrow-pink.svg') 50% 50% no-repeat;
     }
   }
 
