@@ -1,20 +1,25 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { HashRouter as Router, Route, Switch } from 'react-router-dom';
+import { ApolloProvider } from 'react-apollo';
+import { client } from './apolloClient';
 
 import { App } from 'components/app/app';
 
-import { NotablePersonPage } from 'pages/notablePerson/notablePerson';
+import NotablePersonPage from 'pages/notablePerson/notablePerson';
 
 const renderApp = () =>
   ReactDOM.render(
-    <Router>
-      <App>
-        <Switch>
-          <Route path="/:slug" component={NotablePersonPage} />
-        </Switch>
-      </App>
-    </Router>,
+    // @ts-ignore
+    <ApolloProvider client={client}>
+      <Router>
+        <App>
+          <Switch>
+            <Route path="/:slug" component={NotablePersonPage} />
+          </Switch>
+        </App>
+      </Router>
+    </ApolloProvider>,
     document.getElementById('app'),
   );
 
