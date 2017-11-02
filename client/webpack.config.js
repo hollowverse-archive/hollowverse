@@ -6,7 +6,7 @@ const WebpackHTMLPlugin = require('html-webpack-plugin');
 
 const SpriteLoaderPlugin = require('svg-sprite-loader/plugin');
 const NameAllModulesPlugin = require('name-all-modules-plugin');
-const BabiliPlugin = require('babili-webpack-plugin');
+const BabelMinifyPlugin = require('babel-minify-webpack-plugin');
 const PreloadWebpackPlugin = require('preload-webpack-plugin');
 
 const path = require('path');
@@ -80,7 +80,7 @@ const babelConfig = {
       compact([
         ...ifProd([
           [
-            'babili',
+            'minify',
             {
               removeConsole: true,
               removeDebugger: true,
@@ -119,7 +119,7 @@ const babelConfig = {
   sourceMaps: 'both',
 };
 
-// Write .babelrc to disk so that it can be used by BabiliPlugin and other plugins
+// Write .babelrc to disk so that it can be used by BabelMinifyPlugin and other plugins
 // that do not allow programmatic configuration via JS
 fs.writeFileSync(
   path.resolve(__dirname, '.babelrc'),
@@ -565,7 +565,7 @@ const config = {
         }),
       ]),
 
-      ...ifEsNext([new BabiliPlugin()]),
+      ...ifEsNext([new BabelMinifyPlugin()]),
 
       // Banner
       new webpack.BannerPlugin({
