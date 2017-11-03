@@ -23,6 +23,7 @@ export default graphql<NotablePersonQuery>(gql`
         isQuoteByNotablePerson
         sourceUrl
         comments {
+          id
           owner {
             id
             name

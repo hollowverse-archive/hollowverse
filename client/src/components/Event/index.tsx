@@ -14,6 +14,7 @@ type EventProps = {
   sourceName: string;
   sourceUrl: string;
   comments: Array<{
+    id: string;
     owner: {
       name: string;
       photoUrl: string | null;
@@ -25,7 +26,11 @@ type EventProps = {
 const Event = (props: EventProps) => (
   <div className={classNames('event', { self: props.isQuoteByNotablePerson })}>
     <div className="event-content">
-      <div className="event-date">{props.postedAt}</div>
+      {props.happenedOn ? (
+        <div className="event-date">
+          {props.happenedOn.toLocaleDateString('en-US')}
+        </div>
+      ) : null}
       {props.isQuoteByNotablePerson && props.notablePerson ? (
         <div className="event-caption">{props.notablePerson.name} said:</div>
       ) : null}
@@ -37,8 +42,8 @@ const Event = (props: EventProps) => (
       ) : null}
     </div>
     {props.comments
-      ? props.comments.map(({ owner, text }) => (
-          <div className="event-user-comment">
+      ? props.comments.map(({ id, owner, text }) => (
+          <div key={id} className="event-user-comment">
             {text}
             <div className="event-user-name">{owner.name}</div>
             {owner.photoUrl ? (
