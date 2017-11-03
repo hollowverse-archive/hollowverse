@@ -3,7 +3,7 @@ import Label from '../Label';
 import './styles.scss';
 
 type PersonDetailsProps = {
-  summary?: string;
+  summary: string | null;
   name: string;
   photoUrl: string;
   labels: Array<{ text: string; id: string }>;
@@ -27,7 +27,11 @@ const PersonDetails = ({
     <div className="person-details-labels">
       {labels.map(({ id, text }) => <Label key={id} text={text} />)}
     </div>
-    <div className="person-details-about">{summary}</div>
+    {summary && (
+      <div className="person-details-about">
+        {summary.split('\n').map((p, i) => <p key={i}>{p}</p>)}
+      </div>
+    )}
   </div>
 );
 

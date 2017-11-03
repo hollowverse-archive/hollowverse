@@ -10,6 +10,7 @@ export default graphql<NotablePersonQuery>(gql`
     notablePerson(slug: "Tom_Hanks") {
       name
       photoUrl
+      summary
       labels {
         id
         text
@@ -35,11 +36,16 @@ export default graphql<NotablePersonQuery>(gql`
 `)(({ data }) => {
   if (data && data.notablePerson) {
     const { notablePerson } = data;
-    const { name, photoUrl, events, labels } = notablePerson;
+    const { name, photoUrl, events, labels, summary } = notablePerson;
 
     return (
       <div>
-        <PersonDetails name={name} labels={labels} photoUrl={photoUrl} />
+        <PersonDetails
+          name={name}
+          labels={labels}
+          photoUrl={photoUrl}
+          summary={summary}
+        />
         {events.map(event => (
           <Event
             key={event.id}
