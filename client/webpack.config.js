@@ -175,7 +175,6 @@ const createSvgIconLoaders = name => [
   ...svgLoaders,
 ];
 
-
 const sassLoaders = [
   {
     loader: 'resolve-url-loader',
@@ -470,9 +469,7 @@ const config = {
       mapValues(
         {
           __DEBUG__: env.isDev,
-          API_ENDPOINT: env.isProd
-            ? 'https://api.hollowverse.com/graphql'
-            : 'http://localhost:8080/graphql',
+          API_ENDPOINT: process.env.API_ENDPOINT,
           'process.env.NODE_ENV': process.env.NODE_ENV,
           isHot: env.isHot,
         },
