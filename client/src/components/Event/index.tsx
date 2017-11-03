@@ -16,7 +16,7 @@ type EventProps = {
   comments: Array<{
     owner: {
       name: string;
-      photoUrl: string | null;
+      photoUrl: string;
     };
     text: string;
   }> | null;
@@ -38,17 +38,18 @@ const Event = (props: EventProps) => (
         </div>
       )}
     </div>
-    {props.comments && props.comments.map(({ owner, text }) => (
-      <div className="event-user-comment">
-        {text}
-        <div className="event-user-name">{owner.name}</div>
-        <img
-          className="event-user-avatar"
-          alt={owner.name}
-          src={owner.photoUrl || 'potato'}
-        />
-      </div>
-    ))}
+    {props.comments &&
+      props.comments.map(({ owner, text }) => (
+        <div className="event-user-comment">
+          {text}
+          <div className="event-user-name">{owner.name}</div>
+          <img
+            className="event-user-avatar"
+            alt={owner.name}
+            src={owner.photoUrl}
+          />
+        </div>
+      ))}
   </div>
 );
 
