@@ -66,6 +66,7 @@
     "graphql": "^0.11.7",
     "graphql-tag": "^2.5.0",
     "history": "^4.6.3",
+    "http-proxy": "^1.16.2",
     "lodash": "^4.17.4",
     "npm-run-all": "^4.0.2",
     "preact": "^8.1.0",
