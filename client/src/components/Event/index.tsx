@@ -29,7 +29,7 @@ const Event = (props: EventProps) => (
     <div className="event-content">
       {props.happenedOn ? (
         <div className="event-date">
-          {formatDate(props.happenedOn, 'MMMM D, YYYY')}
+          {formatDate(props.happenedOn, 'MMM D, YYYY')}
         </div>
       ) : null}
       {props.isQuoteByNotablePerson && props.notablePerson ? (
