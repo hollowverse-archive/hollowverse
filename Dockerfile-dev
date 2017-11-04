@@ -3,19 +3,9 @@ FROM node:8.9-alpine
 RUN apk update -q && apk add git -q
 
 ENV NODE_ENV=development
-ENV WP_DEV_SERVER_HOST=0.0.0.0
 
 # Port for main server
 ENV PORT=8080
-
-# Proxy server
-EXPOSE 8080
-
-# Proxy server debugger
-EXPOSE 9231
-
-# Webpack development server
-EXPOSE 3000
 
 VOLUME /code
 VOLUME /code/node_modules
