@@ -2,8 +2,8 @@ version: "3.3"
 
 services:
   hollowverse_website:
-    external_links:
-      - api
+    networks:
+      - api_hollowverse-network
     restart: always
     build:
       dockerfile: Dockerfile-dev
@@ -21,8 +21,11 @@ services:
         source: nm
         target: /code/node_modules
     environment:
-      - API_ENDPOINT=http://127.0.0.1:8080
+      - API_ENDPOINT=http://api:8080
 
 volumes:
   nm:
 
+networks:
+  api_hollowverse-network:
+    external: true
