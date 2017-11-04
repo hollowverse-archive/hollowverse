@@ -43,10 +43,11 @@ export default graphql<NotablePersonQuery>(
     }),
   },
 )(({ data }) => {
+  if (!data || data.error || data.notablePerson === null) {
+    return <div>Error loading</div>;
+  }
+
   if (data && data.notablePerson) {
-    if (data.error) {
-      // TODO
-    }
     const { notablePerson } = data;
     const { name, photoUrl, events, labels, summary } = notablePerson;
 
