@@ -4,6 +4,8 @@ RUN apk update -q && apk add git -q
 
 ENV NODE_ENV=development
 ENV WP_DEV_SERVER_HOST=0.0.0.0
+
+# Port for main server
 ENV PORT=8080
 
 # Proxy server
