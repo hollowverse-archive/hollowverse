@@ -5,12 +5,13 @@ import { NotablePersonQuery } from '../../../graphqlOperationResultTypes';
 import Event from 'components/Event';
 import PersonDetails from 'components/PersonDetails';
 
+import { prettifyUrl } from 'helpers/url';
+
 export default graphql<NotablePersonQuery>(gql`
   query NotablePerson {
     notablePerson(slug: "Tom_Hanks") {
       name
       photoUrl
-      summary
       labels {
         id
         text
@@ -23,7 +24,6 @@ export default graphql<NotablePersonQuery>(gql`
         isQuoteByNotablePerson
         sourceUrl
         comments {
-          id
           owner {
             id
             name
@@ -36,8 +36,11 @@ export default graphql<NotablePersonQuery>(gql`
   }
 `)(({ data }) => {
   if (data && data.notablePerson) {
+    if (data.error) {
+      // TODO
+    }
     const { notablePerson } = data;
-    const { name, photoUrl, events, labels, summary } = notablePerson;
+    const { name, photoUrl, events, labels } = notablePerson;
 
     return (
       <div>
@@ -45,7 +48,7 @@ export default graphql<NotablePersonQuery>(gql`
           name={name}
           labels={labels}
           photoUrl={photoUrl}
-          summary={summary}
+          summary={'summary'}
         />
         {events.map(event => (
           <Event
@@ -54,10 +57,7 @@ export default graphql<NotablePersonQuery>(gql`
             notablePerson={notablePerson}
             postedAt={new Date(event.postedAt)}
             happenedOn={event.happenedOn ? new Date(event.happenedOn) : null}
-            sourceName={new URL(event.sourceUrl).hostname.replace(
-              /^www\./i,
-              '',
-            )}
+            sourceName={prettifyUrl(event.sourceUrl)}
           />
         ))}
       </div>

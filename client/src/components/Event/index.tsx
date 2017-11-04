@@ -1,6 +1,7 @@
 import * as React from 'react';
 import * as classNames from 'classnames';
 import './styles.scss';
+import formatDate from 'date-fns/format';
 
 type EventProps = {
   quote: string;
@@ -14,7 +15,7 @@ type EventProps = {
   sourceName: string;
   sourceUrl: string;
   comments: Array<{
-    id: string;
+    id?: string;
     owner: {
       name: string;
       photoUrl: string | null;
@@ -28,7 +29,7 @@ const Event = (props: EventProps) => (
     <div className="event-content">
       {props.happenedOn ? (
         <div className="event-date">
-          {props.happenedOn.toLocaleDateString('en-US')}
+          {formatDate(props.happenedOn, 'MMMM D, YYYY')}
         </div>
       ) : null}
       {props.isQuoteByNotablePerson && props.notablePerson ? (
