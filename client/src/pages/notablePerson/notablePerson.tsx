@@ -12,6 +12,7 @@ export default graphql<NotablePersonQuery>(gql`
     notablePerson(slug: "Tom_Hanks") {
       name
       photoUrl
+      summary
       labels {
         id
         text
@@ -40,7 +41,7 @@ export default graphql<NotablePersonQuery>(gql`
       // TODO
     }
     const { notablePerson } = data;
-    const { name, photoUrl, events, labels } = notablePerson;
+    const { name, photoUrl, events, labels, summary } = notablePerson;
 
     return (
       <div>
@@ -48,7 +49,7 @@ export default graphql<NotablePersonQuery>(gql`
           name={name}
           labels={labels}
           photoUrl={photoUrl}
-          summary={'summary'}
+          summary={summary}
         />
         {events.map(event => (
           <Event
