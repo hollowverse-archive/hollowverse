@@ -1,0 +1,28 @@
+version: "3.3"
+
+services:
+  hollowverse_website:
+    external_links:
+      - api
+    restart: always
+    build:
+      dockerfile: Dockerfile-dev
+      context: .
+    ports:
+      - 3001:8080 # Proxy Server
+      - 3000:3000 # Webpack Dev Server
+      - 9231:9231 # Proxy Server Debugger
+    volumes:
+      - type: bind
+        source: .
+        target: /code
+      
+      - type: volume
+        source: nm
+        target: /code/node_modules
+    environment:
+      - API_ENDPOINT=http://127.0.0.1:8080
+
+volumes:
+  nm:
+
