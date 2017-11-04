@@ -7,35 +7,42 @@ import PersonDetails from 'components/PersonDetails';
 
 import { prettifyUrl } from 'helpers/url';
 
-export default graphql<NotablePersonQuery>(gql`
-  query NotablePerson {
-    notablePerson(slug: "Tom_Hanks") {
-      name
-      photoUrl
-      summary
-      labels {
-        id
-        text
-      }
-      events {
-        id
-        quote
-        postedAt
-        happenedOn
-        isQuoteByNotablePerson
-        sourceUrl
-        comments {
-          owner {
-            id
-            name
-            photoUrl
-          }
+export default graphql<NotablePersonQuery>(
+  gql`
+    query NotablePerson($slug: String!) {
+      notablePerson(slug: $slug) {
+        name
+        photoUrl
+        summary
+        labels {
+          id
           text
+        }
+        events {
+          id
+          quote
+          postedAt
+          happenedOn
+          isQuoteByNotablePerson
+          sourceUrl
+          comments {
+            owner {
+              id
+              name
+              photoUrl
+            }
+            text
+          }
         }
       }
     }
-  }
-`)(({ data }) => {
+  `,
+  {
+    options: ({ match: { params: { slug } } }: any) => ({
+      variables: { slug },
+    }),
+  },
+)(({ data }) => {
   if (data && data.notablePerson) {
     if (data.error) {
       // TODO
