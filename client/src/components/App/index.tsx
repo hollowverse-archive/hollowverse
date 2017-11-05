@@ -2,6 +2,7 @@ import * as React from 'react';
 import NavBar from 'components/NavBar';
 import './styles.scss';
 
+/** Main app component */
 export class App extends React.Component<{}, {}> {
   render() {
     return (
