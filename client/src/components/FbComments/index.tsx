@@ -8,6 +8,7 @@ type P = {
   numPosts?: number;
 };
 
+/** Facebook Comments Plugin */
 class FbComments extends React.Component<P, {}> {
   render() {
     const { url, numPosts = 5 } = this.props;
