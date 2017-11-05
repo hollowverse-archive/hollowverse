@@ -21,7 +21,7 @@
     "server/static-server": "node server/dist/staticServer.js",
     "server/static-server/dev": "nodemon --watch server/src --ext ts,tsx,json --exec 'ts-node server/src/staticServer.ts --project ./server'",
     "server": "node server/dist/server.js",
-    "server/dev": "nodemon --watch server/src --ext ts,tsx,json --exec 'node --inspect=0.0.0.0:${SERVER_DEBUG_PORT:-9231} -r 'ts-node/register' server/src/server.ts'",
+    "server/dev": "NEW_SERVER=http://localhost:${WEBPACK_DEV_PORT:-3001} nodemon --watch server/src --ext ts,tsx,json --exec 'node --inspect=0.0.0.0:${SERVER_DEBUG_PORT:-9231} -r 'ts-node/register' server/src/server.ts'",
     "server/build": "tsc --project ./server",
     "server/clean": "rm -rf ./server/dist",
     "dev": "run-p client/dev server/dev",

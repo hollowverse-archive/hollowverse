@@ -3,7 +3,7 @@ import * as path from 'path';
 
 const staticServer = express();
 
-const PORT = process.env.STATIC_SERVER_PORT || 3000;
+const PORT = process.env.STATIC_SERVER_PORT || 3001;
 
 const PUBLIC_PATH = path.resolve(
   process.cwd(),

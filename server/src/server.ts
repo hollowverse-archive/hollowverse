@@ -46,13 +46,13 @@ server.use((_, res, next) => {
 // tslint:disable no-http-string
 const OLD_SERVER_ADDRESS =
   process.env.OLD_SERVER || 'http://dw5a6b9vjmt7w.cloudfront.net/';
-const NEW_SERVER_ADDRESS = process.env.NEW_SERVER || 'http://localhost:3000/';
+const NEW_SERVER_ADDRESS = process.env.NEW_SERVER || 'http://localhost:3001/';
 // tslint:enable no-http-string
 const PUBLIC_PATH = path.resolve(
   process.cwd(),
   process.env.PUBLIC_PATH || './client/dist',
 );
-const PROXY_PORT = process.env.PORT || 8080;
+const PROXY_PORT = process.env.PORT || 8081;
 
 const proxyServer = httpProxy.createProxyServer();
 
@@ -66,7 +66,7 @@ proxyServer.on('proxyReq', (proxyReq: any) => {
   }
 });
 
-const redirectionMap = new Map<string, string>([]);
+const redirectionMap = new Map<string, string>([['tom-hanks', 'Tom_Hanks']]);
 
 const newPaths = new Set(redirectionMap.values());
 const staticFiles = new Set(fs.readdirSync(PUBLIC_PATH));

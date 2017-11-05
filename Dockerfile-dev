@@ -4,12 +4,9 @@ RUN apk update -q && apk add git -q
 
 ENV NODE_ENV=development
 
-# Port for main server
-ENV PORT=8080
-
 VOLUME /code
 VOLUME /code/node_modules
 
 WORKDIR /code
 
-CMD yarn && yarn client/dev
+CMD yarn && yarn dev
