@@ -1,4 +1,4 @@
-FROM node-8.9:alpine
+FROM node:8.9-alpine
 
 RUN apk update -q && apk add git -q
 
