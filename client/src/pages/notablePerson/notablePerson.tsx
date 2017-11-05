@@ -4,6 +4,7 @@ import gql from 'graphql-tag';
 import { NotablePersonQuery } from '../../../graphqlOperationResultTypes';
 import Event from 'components/Event';
 import PersonDetails from 'components/PersonDetails';
+import { LoadableFbComments } from 'components/FbComments/loadable';
 
 import { prettifyUrl } from 'helpers/url';
 
@@ -69,6 +70,7 @@ export default graphql<NotablePersonQuery>(
             sourceName={prettifyUrl(event.sourceUrl)}
           />
         ))}
+        <LoadableFbComments url={'https://hollowverse.com/tom-hanks'} />
       </div>
     );
   }

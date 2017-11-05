@@ -58,6 +58,7 @@
   ],
   "dependencies": {
     "@hollowverse/common": "https://github.com/hollowverse/common",
+    "@types/react-loadable": "^4.0.4",
     "apollo-client-preset": "^1.0.1",
     "babel-polyfill": "^6.23.0",
     "body-parser": "^1.17.2",
@@ -77,6 +78,7 @@
     "react-addons-css-transition-group": "^15.6.0",
     "react-apollo": "^2.0.0",
     "react-dom": "^15.6.1",
+    "react-loadable": "^5.3.1",
     "react-redux": "^5.0.5",
     "react-router": "^4.0.0",
     "react-router-dom": "^4.0.0",
