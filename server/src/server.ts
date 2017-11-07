@@ -52,7 +52,7 @@ const PUBLIC_PATH = path.resolve(
   process.cwd(),
   process.env.PUBLIC_PATH || './client/dist',
 );
-const PROXY_PORT = process.env.PORT || 8081;
+const PROXY_PORT = process.env.PORT || 8080;
 
 const proxyServer = httpProxy.createProxyServer();
 
