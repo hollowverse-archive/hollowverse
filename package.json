@@ -116,6 +116,7 @@
     "@types/shelljs": "^0.7.2",
     "@types/stylelint": "^7.10.0",
     "@types/sumo-logger": "^1.0.0",
+    "apollo-codegen": "^0.17.2",
     "autoprefixer": "^7.1.2",
     "babel-eslint": "^7.2.3",
     "babel-loader": "^7.1.1",
