@@ -66,7 +66,7 @@ proxyServer.on('proxyReq', (proxyReq: any) => {
   }
 });
 
-const redirectionMap = new Map<string, string>([['tom-hanks', 'Tom_Hanks']]);
+const redirectionMap = new Map<string, string>([]);
 
 const newPaths = new Set(redirectionMap.values());
 const staticFiles = new Set(fs.readdirSync(PUBLIC_PATH));
