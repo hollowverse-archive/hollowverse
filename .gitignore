@@ -53,6 +53,7 @@ client/.babelrc
 
 secrets/**/*
 !secrets/**/*.enc
+!secrets/**/*.d.ts
 
 build.zip
 
