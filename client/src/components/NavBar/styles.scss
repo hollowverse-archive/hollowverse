@@ -15,6 +15,11 @@
   color: $color-text-default;
   background-color: #fff;
 
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+
   &-btn {
     position: absolute;
     top: 0;
@@ -33,11 +38,11 @@
 
   &-btn.menu {
     left: 0;
-    // background-image: url('../../shared/assets/icn-menu.svg');
+    background-image: url('~file-loader!assets/iconMenu.svg');
   }
 
   &-btn.search {
     right: 0;
-    // background-image: url('../../shared/assets/icn-search.svg');
+    background-image: url('~file-loader!assets/iconSearch.svg');
   }
 }
