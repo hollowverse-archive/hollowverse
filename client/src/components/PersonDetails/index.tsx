@@ -10,7 +10,7 @@ type PersonDetailsProps = {
   labels: Array<{ text: string; id: string }>;
 };
 
-const PersonDetails = ({
+export const PersonDetails = ({
   summary,
   name,
   photoUrl,
@@ -32,5 +32,3 @@ const PersonDetails = ({
     )}
   </div>
 );
-
-export default PersonDetails;

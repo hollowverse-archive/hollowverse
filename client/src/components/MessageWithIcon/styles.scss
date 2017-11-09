@@ -1,0 +1,33 @@
+@import 'variables.scss';
+
+.error-message {
+  margin: auto;
+  text-align: center;
+
+  &-caption {
+    font-size: 22px;
+    color: $color-text-default;
+  }
+
+  &-description {
+    margin-top: 5px;
+    color: $color-text-light;
+  }
+
+  &-button {
+    font-size: 14px;
+    padding: 10px 20px;
+    color: $color-blue;
+    margin: 40px 0;
+    border: 1px solid rgba(75, 49, 246, 0.8);
+    border-radius: 5px;
+    background-color: white;
+    cursor: pointer;
+    user-select: none;
+
+    &:hover {
+      border-color: $color-blue;
+      background-color: rgba(75, 49, 246, 0.04);
+    }
+  }
+}

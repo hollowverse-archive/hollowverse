@@ -24,7 +24,7 @@ type EventProps = {
   }> | null;
 };
 
-const Event = (props: EventProps) => (
+export const Event = (props: EventProps) => (
   <div className={classNames('event', { self: props.isQuoteByNotablePerson })}>
     <div className="event-content">
       {props.happenedOn ? (
@@ -59,5 +59,3 @@ const Event = (props: EventProps) => (
       : null}
   </div>
 );
-
-export default Event;

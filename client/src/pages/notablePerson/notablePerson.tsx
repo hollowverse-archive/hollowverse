@@ -2,9 +2,13 @@ import * as React from 'react';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import { NotablePersonQuery } from '../../../graphqlOperationResultTypes';
-import Event from 'components/Event';
-import PersonDetails from 'components/PersonDetails';
+import { Event } from 'components/Event';
+import { PersonDetails } from 'components/PersonDetails';
 import { LoadableFbComments } from 'components/FbComments/loadable';
+import { MessageWithIcon } from 'components/MessageWithIcon';
+import { SvgIcon } from 'components/SvgIcon';
+
+import warningIcon from 'icons/warning.svg';
 
 import { prettifyUrl } from 'helpers/url';
 
@@ -15,6 +19,7 @@ export default graphql<NotablePersonQuery>(
         name
         photoUrl
         summary
+        commentsUrl
         labels {
           id
           text
@@ -44,17 +49,28 @@ export default graphql<NotablePersonQuery>(
     }),
   },
 )(({ data }) => {
-  if (!data || data.error || data.notablePerson === null) {
-    return <div>Error loading</div>;
-  }
-
-  if (data.loading) {
+  if (data === undefined) {
+    return <div>What?</div>;
+  } else if (data.error) {
+    return (
+      <MessageWithIcon
+        caption={data.error.name}
+        description={data.error.message}
+        icon={<SvgIcon {...warningIcon} size={100} />}
+      />
+    );
+  } else if (data.loading) {
     // @TODO
-  }
-
-  if (data && data.notablePerson) {
+  } else if (data && data.notablePerson) {
     const { notablePerson } = data;
-    const { name, photoUrl, events, labels, summary } = notablePerson;
+    const {
+      name,
+      photoUrl,
+      events,
+      labels,
+      summary,
+      commentsUrl,
+    } = notablePerson;
 
     return (
       <div>
@@ -74,10 +90,8 @@ export default graphql<NotablePersonQuery>(
             sourceName={prettifyUrl(event.sourceUrl)}
           />
         ))}
-        <LoadableFbComments url={'http://hollowverse.com/tom-hanks/'} />
+        <LoadableFbComments url={commentsUrl} />
       </div>
     );
   }
-
-  return <div>Loading...</div>;
 });
