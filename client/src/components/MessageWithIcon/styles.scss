@@ -5,20 +5,21 @@
   text-align: center;
 
   &-caption {
-    font-size: 22px;
-    color: $color-text-default;
+    font-size: x-large;
+    color: $color-text-light;
+    padding: 5px 0;
   }
 
   &-description {
+    color: $color-text-default;
     margin-top: 5px;
-    color: $color-text-light;
   }
 
   &-button {
     font-size: 14px;
     padding: 10px 20px;
     color: $color-blue;
-    margin: 40px 0;
+    margin: 20px 0;
     border: 1px solid rgba(75, 49, 246, 0.8);
     border-radius: 5px;
     background-color: white;

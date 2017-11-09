@@ -12,6 +12,8 @@ import warningIcon from 'icons/warning.svg';
 
 import { prettifyUrl } from 'helpers/url';
 
+const reload = () => location.reload();
+
 export default graphql<NotablePersonQuery>(
   gql`
     query NotablePerson($slug: String!) {
@@ -49,19 +51,38 @@ export default graphql<NotablePersonQuery>(
     }),
   },
 )(({ data }) => {
-  if (data === undefined) {
-    return <div>What?</div>;
+  if (!data) {
+    return (
+      <MessageWithIcon
+        caption="Oops!"
+        description="We hit an unexpected error, please try again later"
+        actionText="Retry"
+        onActionClick={reload}
+        icon={<SvgIcon {...warningIcon} size={100} />}
+      />
+    );
+  } else if (data && data.loading) {
+    // @TODO
+    return <div>Loading...</div>;
   } else if (data.error) {
     return (
       <MessageWithIcon
         caption={data.error.name}
         description={data.error.message}
+        actionText="Retry"
+        onActionClick={reload}
         icon={<SvgIcon {...warningIcon} size={100} />}
       />
     );
-  } else if (data.loading) {
-    // @TODO
-  } else if (data && data.notablePerson) {
+  } else if (!data.notablePerson) {
+    return (
+      <MessageWithIcon
+        caption="Not Found"
+        description="We do not have a page for this notable person"
+        icon={<SvgIcon {...warningIcon} size={100} />}
+      />
+    );
+  } else {
     const { notablePerson } = data;
     const {
       name,
