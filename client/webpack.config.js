@@ -254,7 +254,7 @@ const config = {
 
   devServer:
     ifDev({
-      port: process.env.STATIC_SERVER_PORT || 3000,
+      port: process.env.WEBPACK_DEV_PORT || 3001,
       inline: true,
       contentBase: PUBLIC_PATH,
       hot: env.isHot,
