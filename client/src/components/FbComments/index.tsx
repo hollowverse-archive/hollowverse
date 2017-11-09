@@ -16,7 +16,6 @@ class FbComments extends React.Component<P, {}> {
     return (
       <div
         className="fb-comments"
-        style={{ display: 'flex', justifyContent: 'center' }}
         data-href={url}
         data-width="100%"
         data-numposts={numPosts}
