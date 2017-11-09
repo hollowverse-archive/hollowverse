@@ -7,7 +7,7 @@ Hollowverse is a website that focuses on the profound ideas of influential indiv
 
 What you see today on [Hollowverse.com](https://hollowverse.com) is the legacy website that was built years ago using a simple WordPress CMS and editorial content. We are rebuilding the website using a newer technology stack and a user-generated content model.
 
-To learn more about the new Hollowverse product, see our [Product Description](https://github.com/hollowverse/hollowverse/wiki/Product-Description) wiki page.
+To learn more about the new Hollowverse product, see our [Product Description](https://github.com/hollowverse/hollowverse/wiki/Home) wiki page.
 
 ## Technology choices
 
