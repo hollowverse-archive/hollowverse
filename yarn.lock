@@ -4,7 +4,7 @@
 
 "@hollowverse/common@https://github.com/hollowverse/common":
   version "1.2.0"
-  resolved "https://github.com/hollowverse/common#e2f1e0f8228d67aa2500421fc535a6862eeab203"
+  resolved "https://github.com/hollowverse/common#04802ad8708c809d62eb524dc9e6e630176e9bbe"
   dependencies:
     glob "^7.1.2"
     jszip "^3.1.4"

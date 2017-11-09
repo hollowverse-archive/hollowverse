@@ -1,5 +1,6 @@
 import * as React from 'react';
-import Label from '../Label';
+import { Label } from 'components/Label';
+import { Image } from 'components/Image';
 import './styles.scss';
 
 type PersonDetailsProps = {
@@ -16,10 +17,7 @@ const PersonDetails = ({
   labels,
 }: PersonDetailsProps) => (
   <div className="person-details">
-    <div
-      className="person-details-avatar"
-      style={{ backgroundImage: `url(${photoUrl})` }}
-    />
+    <Image className="person-details-avatar" src={photoUrl} alt={name} />
     <div className="person-details-caption">
       Religion, politics, and ideas of
     </div>

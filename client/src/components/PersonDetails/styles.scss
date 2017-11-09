@@ -9,9 +9,10 @@
     border-radius: 50%;
     user-select: none;
     margin: 0 auto 20px;
-    background-position: 50% 50%;
-    background-repeat: no-repeat;
-    background-size: cover;
+
+    // stylelint-disable-next-line plugin/no-unsupported-browser-features
+    object-fit: cover;
+    display: block;
   }
 
   &-caption {

@@ -48,6 +48,10 @@ export default graphql<NotablePersonQuery>(
     return <div>Error loading</div>;
   }
 
+  if (data.loading) {
+    // @TODO
+  }
+
   if (data && data.notablePerson) {
     const { notablePerson } = data;
     const { name, photoUrl, events, labels, summary } = notablePerson;
@@ -70,7 +74,7 @@ export default graphql<NotablePersonQuery>(
             sourceName={prettifyUrl(event.sourceUrl)}
           />
         ))}
-        <LoadableFbComments url={'https://hollowverse.com/tom-hanks'} />
+        <LoadableFbComments url={'http://hollowverse.com/tom-hanks/'} />
       </div>
     );
   }
