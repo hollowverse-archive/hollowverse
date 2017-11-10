@@ -9,13 +9,19 @@ export async function importGlobalScript(url: string) {
     }
 
     const script = document.createElement('script');
+
     script.onload = () => {
       alreadyLoaded.add(url);
       resolve();
     };
+
     script.onerror = event => {
+      document.body.removeChild(script);
+      alreadyLoaded.delete(url);
+
       reject(event.error);
     };
+
     script.src = url;
 
     document.body.appendChild(script);
