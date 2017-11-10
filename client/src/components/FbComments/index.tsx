@@ -46,7 +46,7 @@ const attrName = 'fb-xfbml-state';
 /** Facebook Comments Plugin */
 export class FbComments extends React.Component<P, S> {
   static defaultProps: Partial<P> = {
-    timeout: null,
+    timeout: 20000,
   };
 
   state: S = {
