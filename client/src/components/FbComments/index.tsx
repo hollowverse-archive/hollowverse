@@ -41,10 +41,10 @@ type S = {
   timedOut: boolean;
 };
 
-const attrName = 'fb-xfbml-state';
+const OBSERVED_FB_ATTR_NAME = 'fb-xfbml-state';
 
 /** Facebook Comments Plugin */
-export class FbComments extends React.Component<P, S> {
+export class FbComments extends React.PureComponent<P, S> {
   static defaultProps: Partial<P> = {
     timeout: 20000,
   };
@@ -68,9 +68,9 @@ export class FbComments extends React.Component<P, S> {
         this.commentsObserver = new MutationObserver(mutations => {
           mutations.forEach(mutation => {
             if (
-              mutation.attributeName === attrName &&
-              mutation.target.attributes.getNamedItem(attrName).value ===
-                'rendered'
+              mutation.attributeName === OBSERVED_FB_ATTR_NAME &&
+              mutation.target.attributes.getNamedItem(OBSERVED_FB_ATTR_NAME)
+                .value === 'rendered'
             ) {
               resolve();
               if (this.commentsObserver) {
@@ -83,7 +83,7 @@ export class FbComments extends React.Component<P, S> {
         this.commentsObserver.observe(this.target, {
           childList: false,
           attributeOldValue: false,
-          attributeFilter: [attrName],
+          attributeFilter: [OBSERVED_FB_ATTR_NAME],
         });
       }
     });
