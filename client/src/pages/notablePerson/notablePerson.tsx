@@ -15,7 +15,9 @@ import warningIconSymbol from 'icons/warning.svg';
 
 const warningIcon = <SvgIcon {...warningIconSymbol} size={100} />;
 
-const reload = () => location.reload();
+const reload = () => {
+  location.reload();
+};
 
 export default graphql<NotablePersonQuery>(
   gql`
@@ -65,7 +67,6 @@ export default graphql<NotablePersonQuery>(
       />
     );
   } else if (data && data.loading) {
-    // @TODO
     return <div>Loading...</div>;
   } else if (data.error && data.error.networkError) {
     return (
@@ -127,8 +128,6 @@ export default graphql<NotablePersonQuery>(
         <OptionalIntersectionObserver rootMargin="0% 0% 25% 0%" triggerOnce>
           {inView => {
             if (inView) {
-              console.log('Loading Facebook comments...');
-
               return <LoadableFbComments url={commentsUrl} />;
             } else {
               return null;
