@@ -149,14 +149,6 @@
     "@types/react" "*"
     "@types/react-router" "*"
 
-"@types/react-router-redux@^5.0.3":
-  version "5.0.7"
-  resolved "https://registry.yarnpkg.com/@types/react-router-redux/-/react-router-redux-5.0.7.tgz#271b6ae9a4217d1f715b5aba2553d6c7111f3115"
-  dependencies:
-    "@types/history" "*"
-    "@types/react" "*"
-    redux "^3.7.2"
-
 "@types/react-router@*", "@types/react-router@^4.0.12":
   version "4.0.15"
   resolved "https://registry.yarnpkg.com/@types/react-router/-/react-router-4.0.15.tgz#be8aaefc20afd968a5dbcffcf09060e6c2e8746e"
@@ -6904,7 +6896,7 @@ redux-saga@^0.15.4:
   version "0.15.6"
   resolved "https://registry.yarnpkg.com/redux-saga/-/redux-saga-0.15.6.tgz#8638dc522de6c6c0a496fe8b2b5466287ac2dc4d"
 
-redux@^3.6.0, redux@^3.7.1, redux@^3.7.2:
+redux@^3.6.0, redux@^3.7.1:
   version "3.7.2"
   resolved "https://registry.yarnpkg.com/redux/-/redux-3.7.2.tgz#06b73123215901d25d065be342eb026bc1c8537b"
   dependencies:
@@ -7956,9 +7948,9 @@ svg-tags@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/svg-tags/-/svg-tags-1.0.0.tgz#58f71cee3bd519b59d4b2a843b6c7de64ac04764"
 
-svgo-loader@1.*:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/svgo-loader/-/svgo-loader-1.2.1.tgz#e255cdebf56753ff83bd28d1d7a20762c0df5130"
+svgo-loader@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/svgo-loader/-/svgo-loader-2.0.0.tgz#df8e8032d69b8ae693e134fc1020ab40263a435a"
   dependencies:
     loader-utils "^1.0.3"
 
