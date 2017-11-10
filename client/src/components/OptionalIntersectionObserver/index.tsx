@@ -10,7 +10,7 @@ const Shim = ({ children }: IntersectionObserverProps) => {
   );
 };
 
-/** A wrapper around `react-intesection-observer` that conditionally loads
+/** A wrapper around `react-intersection-observer` that conditionally loads
  * the library only in browsers that support `IntersectionObserver`.
  * 
  * For browsers without `IntersectionObserver` support, it just renders the children
