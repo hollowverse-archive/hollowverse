@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as classNames from 'classnames';
+import cc from 'classcat';
 import './styles.scss';
 import formatDate from 'date-fns/format';
 
@@ -25,7 +25,7 @@ type EventProps = {
 };
 
 export const Event = (props: EventProps) => (
-  <div className={classNames('event', { self: props.isQuoteByNotablePerson })}>
+  <div className={cc({ event: true, self: props.isQuoteByNotablePerson })}>
     <div className="event-content">
       {props.happenedOn ? (
         <div className="event-date">

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as cx from 'classnames';
+import cc from 'classcat';
 
 import './styles.scss';
 
@@ -19,7 +19,8 @@ export const MessageWithIcon = ({
   actionText,
 }: Props) => (
   <div
-    className={cx('message', {
+    className={cc({
+      message: true,
       'has-description': typeof description === 'string',
     })}
   >
