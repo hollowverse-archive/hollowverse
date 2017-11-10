@@ -3,6 +3,7 @@
 .message {
   margin: auto;
   text-align: center;
+  min-height: 150px;
 
   &-caption {
     color: $color-text-light;
