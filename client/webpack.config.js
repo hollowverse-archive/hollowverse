@@ -556,6 +556,23 @@ const config = {
         },
       }),
 
+      // This chunk contains Apollo Client libraries
+      new webpack.optimize.CommonsChunkPlugin({
+        name: 'apollo',
+        minChunks(module) {
+          if (module.context !== undefined) {
+            const relative = path.relative('./node_modules', module.context);
+
+            return (
+              module.context.indexOf('node_modules') !== -1 &&
+              relative.match(/^apollo/i)
+            );
+          }
+
+          return false;
+        },
+      }),
+
       new webpack.optimize.CommonsChunkPlugin({
         async: true,
         minChunks: Infinity,
