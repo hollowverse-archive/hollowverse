@@ -7,10 +7,13 @@ import { PersonDetails } from 'components/PersonDetails';
 import { LoadableFbComments } from 'components/FbComments/loadable';
 import { MessageWithIcon } from 'components/MessageWithIcon';
 import { SvgIcon } from 'components/SvgIcon';
-
-import warningIcon from 'icons/warning.svg';
+import { OptionalIntersectionObserver } from 'components/OptionalIntersectionObserver';
 
 import { prettifyUrl } from 'helpers/url';
+
+import warningIconSymbol from 'icons/warning.svg';
+
+const warningIcon = <SvgIcon {...warningIconSymbol} size={100} />;
 
 const reload = () => location.reload();
 
@@ -55,15 +58,25 @@ export default graphql<NotablePersonQuery>(
     return (
       <MessageWithIcon
         caption="Oops!"
-        description="We hit an unexpected error, please try again later"
+        description="Something's wrong on our end. Please try again later."
         actionText="Retry"
         onActionClick={reload}
-        icon={<SvgIcon {...warningIcon} size={100} />}
+        icon={warningIcon}
       />
     );
   } else if (data && data.loading) {
     // @TODO
     return <div>Loading...</div>;
+  } else if (data.error && data.error.networkError) {
+    return (
+      <MessageWithIcon
+        caption="Are you connected to the internet?"
+        description="Please check that you are connected to the internet and try again"
+        actionText="Retry"
+        onActionClick={reload}
+        icon={warningIcon}
+      />
+    );
   } else if (data.error) {
     return (
       <MessageWithIcon
@@ -71,7 +84,7 @@ export default graphql<NotablePersonQuery>(
         description={data.error.message}
         actionText="Retry"
         onActionClick={reload}
-        icon={<SvgIcon {...warningIcon} size={100} />}
+        icon={warningIcon}
       />
     );
   } else if (!data.notablePerson) {
@@ -79,7 +92,7 @@ export default graphql<NotablePersonQuery>(
       <MessageWithIcon
         caption="Not Found"
         description="We do not have a page for this notable person"
-        icon={<SvgIcon {...warningIcon} size={100} />}
+        icon={warningIcon}
       />
     );
   } else {
@@ -111,7 +124,17 @@ export default graphql<NotablePersonQuery>(
             sourceName={prettifyUrl(event.sourceUrl)}
           />
         ))}
-        <LoadableFbComments url={commentsUrl} />
+        <OptionalIntersectionObserver rootMargin="0% 0% 25% 0%" triggerOnce>
+          {inView => {
+            if (inView) {
+              console.log('Loading Facebook comments...');
+
+              return <LoadableFbComments url={commentsUrl} />;
+            } else {
+              return null;
+            }
+          }}
+        </OptionalIntersectionObserver>
       </div>
     );
   }

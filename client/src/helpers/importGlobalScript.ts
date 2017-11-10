@@ -9,7 +9,10 @@ export async function importGlobalScript(url: string) {
     }
 
     const script = document.createElement('script');
-    script.onload = resolve;
+    script.onload = () => {
+      alreadyLoaded.add(url);
+      resolve();
+    };
     script.onerror = event => {
       reject(event.error);
     };
