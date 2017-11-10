@@ -4,8 +4,9 @@ import gql from 'graphql-tag';
 import { NotablePersonQuery } from '../../../graphqlOperationResultTypes';
 import { Event } from 'components/Event';
 import { PersonDetails } from 'components/PersonDetails';
-import { LoadableFbComments } from 'components/FbComments/loadable';
+import { FbComments } from 'components/FbComments';
 import { MessageWithIcon } from 'components/MessageWithIcon';
+import { LoadingSpinner } from 'components/LoadingSpinner';
 import { SvgIcon } from 'components/SvgIcon';
 import { OptionalIntersectionObserver } from 'components/OptionalIntersectionObserver';
 
@@ -128,7 +129,14 @@ export default graphql<NotablePersonQuery>(
         <OptionalIntersectionObserver rootMargin="0% 0% 25% 0%" triggerOnce>
           {inView => {
             if (inView) {
-              return <LoadableFbComments url={commentsUrl} />;
+              return (
+                <FbComments url={commentsUrl}>
+                  <MessageWithIcon
+                    caption="Loading Facebook comments..."
+                    icon={<LoadingSpinner size={50} />}
+                  />
+                </FbComments>
+              );
             } else {
               return null;
             }
