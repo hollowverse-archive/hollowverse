@@ -10,13 +10,6 @@ import { delay } from 'helpers/time';
 
 import warningIcon from 'icons/warning.svg';
 
-const errorComponent = (
-  <MessageWithIcon
-    caption="Error loading Facebook comments"
-    icon={<SvgIcon {...warningIcon} size={50} />}
-  />
-);
-
 const loadingComponent = (
   <MessageWithIcon
     caption="Loading Facebook comments..."
@@ -88,29 +81,45 @@ export class FbComments extends React.PureComponent<P, S> {
       }
     });
 
-  componentDidMount() {
-    const promises = [
-      importGlobalScript(
-        'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.10',
-      )
-        .then(this.observeCommentsRendered)
-        .then(() => {
-          this.setState({ isLoading: false });
-        }),
-    ];
+  tryLoading = () => {
+    this.setState({ isLoading: true, hasError: false, timedOut: false }, () => {
+      const promises = [
+        importGlobalScript(
+          'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.10',
+        )
+          .then(this.observeCommentsRendered)
+          .then(() => {
+            this.setState({ isLoading: false });
+          }),
+      ];
 
-    const { timeout } = this.props;
-    if (timeout !== null) {
-      promises.push(
-        delay(timeout).then(() => {
-          this.setState({ isLoading: false, hasError: true, timedOut: true });
-        }),
-      );
-    }
+      const { timeout } = this.props;
+      if (timeout !== null) {
+        promises.push(
+          delay(timeout).then(() => {
+            this.setState(state => {
+              if (state.isLoading) {
+                return {
+                  isLoading: false,
+                  hasError: true,
+                  timedOut: true,
+                };
+              }
 
-    Promise.race(promises).catch(() => {
-      this.setState({ isLoading: false, hasError: true });
+              return undefined;
+            });
+          }),
+        );
+      }
+
+      Promise.race(promises).catch(() => {
+        this.setState({ isLoading: false, hasError: true });
+      });
     });
+  };
+
+  componentDidMount() {
+    this.tryLoading();
   }
 
   componentWillMount() {
@@ -124,7 +133,14 @@ export class FbComments extends React.PureComponent<P, S> {
     const { hasError, isLoading, timedOut } = this.state;
 
     if (hasError || timedOut) {
-      return errorComponent;
+      return (
+        <MessageWithIcon
+          caption="Error loading Facebook comments"
+          icon={<SvgIcon {...warningIcon} size={50} />}
+          actionText="Retry"
+          onActionClick={this.tryLoading}
+        />
+      );
     }
 
     return (
