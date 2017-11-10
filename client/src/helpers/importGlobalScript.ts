@@ -1,10 +1,8 @@
-const isAlreadyLoaded = (url: string) => {
-  return document.querySelector(`script[src="${url}"]`) !== null;
-};
+const alreadyLoaded = new Set<string>();
 
 export async function importGlobalScript(url: string) {
   return new Promise((resolve, reject) => {
-    if (isAlreadyLoaded(url)) {
+    if (alreadyLoaded.has(url)) {
       resolve();
 
       return;
@@ -12,6 +10,7 @@ export async function importGlobalScript(url: string) {
 
     const script = document.createElement('script');
     script.onload = () => {
+      alreadyLoaded.add(url);
       resolve();
     };
     script.onerror = event => {
