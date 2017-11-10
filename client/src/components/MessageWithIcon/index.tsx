@@ -1,4 +1,6 @@
 import * as React from 'react';
+import * as cx from 'classnames';
+
 import './styles.scss';
 
 type Props = {
@@ -18,7 +20,13 @@ export const MessageWithIcon = ({
 }: Props) => (
   <div className="error-message">
     {icon}
-    <div className="error-message-caption">{caption}</div>
+    <div
+      className={cx('error-message-caption', {
+        'has-description': typeof actionText === 'string',
+      })}
+    >
+      {caption}
+    </div>
     {description ? (
       <div className="error-message-description">{description}</div>
     ) : null}

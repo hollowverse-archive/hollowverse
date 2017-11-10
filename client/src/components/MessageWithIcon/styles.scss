@@ -5,13 +5,18 @@
   text-align: center;
 
   &-caption {
-    font-size: x-large;
     color: $color-text-light;
+    font-size: 16px;
     padding: 5px 0;
   }
 
-  &-description {
+  &-caption.has-description {
     color: $color-text-default;
+    font-weight: bold;
+  }
+
+  &-description {
+    color: $color-text-light;
     margin-top: 5px;
   }
 
