@@ -131,6 +131,7 @@ export class FbComments extends React.PureComponent<P, S> {
       <div>
         {isLoading ? loadingComponent : null}
         <div
+          style={{ visibility: isLoading ? 'hidden' : 'visible' }}
           className="fb-comments"
           data-href={url}
           data-width="100%"
