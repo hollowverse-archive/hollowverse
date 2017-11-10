@@ -10,7 +10,7 @@
     padding: 5px 0;
   }
 
-  &-caption.has-description {
+  .has-description &-caption {
     color: $color-text-default;
     font-weight: bold;
   }
@@ -22,9 +22,9 @@
 
   &-button {
     font-size: 14px;
-    padding: 10px 20px;
+    padding: 5px 10px;
+    margin: 10px 0;
     color: $color-blue;
-    margin: 20px 0;
     border: 1px solid rgba(75, 49, 246, 0.8);
     border-radius: 5px;
     background-color: white;
@@ -34,6 +34,11 @@
     &:hover {
       border-color: $color-blue;
       background-color: rgba(75, 49, 246, 0.04);
+    }
+
+    .has-description & {
+      padding: 10px 20px;
+      margin: 20px 0;
     }
   }
 }
