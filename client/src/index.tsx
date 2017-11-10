@@ -10,6 +10,7 @@ import NotablePersonPage from 'pages/notablePerson/notablePerson';
 
 const renderApp = () =>
   ReactDOM.render(
+    // @ts-ignore
     <ApolloProvider client={client}>
       <Router>
         <App>
