@@ -2,9 +2,8 @@ import * as React from 'react';
 import Loadable from 'react-loadable';
 import { importGlobalScript } from 'helpers/importGlobalScript';
 import { MessageWithIcon } from 'components/MessageWithIcon';
-import { SvgIcon } from 'components/SvgIcon';
+import { LoadingSpinner } from 'components/LoadingSpinner';
 
-import warningIcon from 'icons/warning.svg';
 export const LoadableFbComments = Loadable({
   async loader() {
     await importGlobalScript(
@@ -17,7 +16,7 @@ export const LoadableFbComments = Loadable({
   loading: () => (
     <MessageWithIcon
       caption="Loading Facebook comments..."
-      icon={<SvgIcon {...warningIcon} size={100} />}
+      icon={<LoadingSpinner />}
     />
   ),
 });

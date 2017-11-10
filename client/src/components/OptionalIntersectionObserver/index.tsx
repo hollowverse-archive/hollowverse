@@ -2,9 +2,7 @@ import * as React from 'react';
 import Loadable from 'react-loadable';
 import { IntersectionObserverProps } from 'react-intersection-observer';
 import { MessageWithIcon } from 'components/MessageWithIcon';
-import { SvgIcon } from 'components/SvgIcon';
-
-import loadingIcon from 'icons/warning.svg';
+import { LoadingSpinner } from 'components/LoadingSpinner';
 
 const Shim = ({ children }: IntersectionObserverProps) => {
   return (
@@ -48,9 +46,6 @@ export const OptionalIntersectionObserver = Loadable({
   },
 
   loading: () => (
-    <MessageWithIcon
-      caption="Loading..."
-      icon={<SvgIcon {...loadingIcon} size={100} />}
-    />
+    <MessageWithIcon caption="Loading..." icon={<LoadingSpinner />} />
   ),
 });
