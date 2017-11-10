@@ -6,6 +6,7 @@ import { importGlobalScript } from 'helpers/importGlobalScript';
 import { MessageWithIcon } from 'components/MessageWithIcon';
 import { LoadingSpinner } from 'components/LoadingSpinner';
 import { SvgIcon } from 'components/SvgIcon';
+import { delay } from 'helpers/time';
 
 import warningIcon from 'icons/warning.svg';
 
@@ -26,73 +27,103 @@ const loadingComponent = (
 type P = {
   url: string;
   numPosts?: number;
+
+  /**
+   * Time in milliseconds after which loading is considered to have failed
+   * Defaults to `6000`. If `null`, loading never times out.
+   */
+  timeout?: number | null;
 };
 
 type S = {
   isLoading: boolean;
   hasError: boolean;
+  timedOut: boolean;
 };
 
 const attrName = 'fb-xfbml-state';
 
 /** Facebook Comments Plugin */
 export class FbComments extends React.Component<P, S> {
+  static defaultProps: Partial<P> = {
+    timeout: null,
+  };
+
   state: S = {
     isLoading: true,
     hasError: false,
+    timedOut: false,
   };
 
   target: HTMLDivElement | null;
-  mo: MutationObserver | null = null;
+  commentsObserver: MutationObserver | null = null;
 
   setTarget = (node: HTMLDivElement | null) => (this.target = node);
 
-  observeCommentsRendered = () => {
-    if (MutationObserver === undefined) {
-      this.setState({ isLoading: false, hasError: false });
-    } else if (this.target) {
-      this.mo = new MutationObserver(mutations => {
-        mutations.forEach(mutation => {
-          if (
-            mutation.attributeName === attrName &&
-            mutation.target.attributes.getNamedItem(attrName).value ===
-              'rendered'
-          ) {
-            this.setState({ isLoading: false, hasError: false });
-          }
+  observeCommentsRendered = async () =>
+    new Promise(resolve => {
+      if (MutationObserver === undefined) {
+        resolve();
+      } else if (this.target) {
+        this.commentsObserver = new MutationObserver(mutations => {
+          mutations.forEach(mutation => {
+            if (
+              mutation.attributeName === attrName &&
+              mutation.target.attributes.getNamedItem(attrName).value ===
+                'rendered'
+            ) {
+              resolve();
+              if (this.commentsObserver) {
+                this.commentsObserver.disconnect();
+              }
+            }
+          });
         });
-      });
 
-      this.mo.observe(this.target, {
-        childList: false,
-        attributeOldValue: false,
-        attributeFilter: [attrName],
-      });
-    }
-  };
+        this.commentsObserver.observe(this.target, {
+          childList: false,
+          attributeOldValue: false,
+          attributeFilter: [attrName],
+        });
+      }
+    });
 
-  async componentDidMount() {
-    try {
-      await importGlobalScript(
+  componentDidMount() {
+    const promises = [
+      importGlobalScript(
         'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.10',
+      )
+        .then(this.observeCommentsRendered)
+        .then(() => {
+          this.setState({ isLoading: false });
+        }),
+    ];
+
+    const { timeout } = this.props;
+    if (timeout !== null) {
+      promises.push(
+        delay(timeout).then(() => {
+          this.setState({ isLoading: false, hasError: true, timedOut: true });
+        }),
       );
-      this.observeCommentsRendered();
-    } catch (e) {
-      this.setState({ isLoading: false, hasError: true });
     }
+
+    Promise.race(promises).catch(() => {
+      this.setState({ isLoading: false, hasError: true });
+    });
   }
 
   componentWillMount() {
-    if (this.mo !== null) {
-      this.mo.disconnect();
+    if (this.commentsObserver !== null) {
+      this.commentsObserver.disconnect();
     }
   }
 
   render() {
     const { url, numPosts = 5 } = this.props;
-    const { hasError, isLoading } = this.state;
+    const { hasError, isLoading, timedOut } = this.state;
 
-    if (hasError) {
+    if (hasError || timedOut) {
       return errorComponent;
     }
 
