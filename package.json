@@ -13,7 +13,7 @@
     "client/build": "API_ENDPOINT=https://api.hollowverse.com/graphql run-s client/graphql/build client/webpack/build",
     "client/dev": "API_ENDPOINT=${API_ENDPOINT:-http://localhost:8080/graphql} run-p 'client/*/dev'",
     "client/clean": "rm -rf ./client/dist",
-    "client/stats": "NO_PERF_CHECKS=1 NODE_ENV=production webpack --config client/webpack.config.js --json > stats.json",
+    "client/stats": "STATS=1 NO_PERF_CHECKS=1 NODE_ENV=production webpack --config client/webpack.config.js --json > stats.json",
     "client/graphql/schema": "apollo-codegen introspect-schema ${API_ENDPOINT} --output ./graphqlSchema.json",
     "client/graphql/types": "apollo-codegen generate 'client/src/**/*.ts{,x}' --target typescript --output client/graphqlOperationResultTypes.ts",
     "client/graphql/dev": "nodemon --watch client/src --ext ts,tsx --exec 'run-s client/graphql/schema client/graphql/types'",

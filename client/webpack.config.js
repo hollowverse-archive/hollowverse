@@ -275,7 +275,8 @@ const config = {
 
   devtool: env.isDev ? 'cheap-module-source-map' : 'source-map',
 
-  stats: 'errors-only',
+  // Stats require that this property contains details about assets
+  stats: env.isStats ? undefined : 'errors-only',
 
   // Enforce performance limits for production build if PERF flag is set
   performance:
@@ -532,45 +533,26 @@ const config = {
       // This chunk contains all vendor code, except React and related libraries
       new webpack.optimize.CommonsChunkPlugin({
         name: 'vendor',
-        minChunks(module) {
-          return (
-            module.context && module.context.indexOf('node_modules') !== -1
-          );
-        },
+        minChunks: module => /node_modules/.test(module.context),
+      }),
+
+      // This chunk contains Apollo Client libraries
+      //
+      // Wondering why we need to match for `/p?react/i` too?
+      // See https://github.com/webpack/webpack/issues/4638#issuecomment-292583989
+      new webpack.optimize.CommonsChunkPlugin({
+        name: 'apollo',
+        minChunks: module =>
+          /node_modules/.test(module.context) &&
+          (/p?react/i.test(module.context) || /apollo/i.test(module.context)),
       }),
 
       // This chunk contains React/Preact and all related libraries
       new webpack.optimize.CommonsChunkPlugin({
         name: 'react',
-        minChunks(module) {
-          if (module.context !== undefined) {
-            const relative = path.relative('./node_modules', module.context);
-
-            return (
-              module.context.indexOf('node_modules') !== -1 &&
-              relative.match(/^p?react/i)
-            );
-          }
-
-          return false;
-        },
-      }),
-
-      // This chunk contains Apollo Client libraries
-      new webpack.optimize.CommonsChunkPlugin({
-        name: 'apollo',
-        minChunks(module) {
-          if (module.context !== undefined) {
-            const relative = path.relative('./node_modules', module.context);
-
-            return (
-              module.context.indexOf('node_modules') !== -1 &&
-              relative.match(/^apollo/i)
-            );
-          }
-
-          return false;
-        },
+        minChunks: module =>
+          /node_modules/.test(module.context) &&
+          /p?react/i.test(module.context),
       }),
 
       new webpack.optimize.CommonsChunkPlugin({
