@@ -24,7 +24,7 @@ export const MessageWithIcon = ({
       'has-description': typeof description === 'string',
     })}
   >
-    {icon}
+    <div className="message-icon">{icon}</div>
     <div className="message-caption">{caption}</div>
     {description ? (
       <div className="message-description">{description}</div>
