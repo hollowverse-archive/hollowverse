@@ -266,9 +266,16 @@ const config = {
       contentBase: PUBLIC_PATH,
       hot: env.isHot,
       historyApiFallback: true,
+      noInfo: true,
+      quiet: false,
+      stats: {
+        colors: true,
+      },
     }) || undefined,
 
   devtool: env.isDev ? 'cheap-module-source-map' : 'source-map',
+
+  stats: 'errors-only',
 
   // Enforce performance limits for production build if PERF flag is set
   performance:
