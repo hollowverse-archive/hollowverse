@@ -983,10 +983,6 @@ babel-plugin-syntax-object-rest-spread@^6.8.0:
   version "6.13.0"
   resolved "https://registry.yarnpkg.com/babel-plugin-syntax-object-rest-spread/-/babel-plugin-syntax-object-rest-spread-6.13.0.tgz#fd6536f2bce13836ffa3a5458c4903a597bb3bf5"
 
-babel-plugin-syntax-optional-catch-binding@7.0.0-alpha.16:
-  version "7.0.0-alpha.16"
-  resolved "https://registry.yarnpkg.com/babel-plugin-syntax-optional-catch-binding/-/babel-plugin-syntax-optional-catch-binding-7.0.0-alpha.16.tgz#b1325e8e64e0472b21206e359ffd6bc3f4dbd621"
-
 babel-plugin-syntax-trailing-function-commas@^6.22.0:
   version "6.22.0"
   resolved "https://registry.yarnpkg.com/babel-plugin-syntax-trailing-function-commas/-/babel-plugin-syntax-trailing-function-commas-6.22.0.tgz#ba0360937f8d06e40180a43fe0d5616fff532cf3"
@@ -1220,12 +1216,6 @@ babel-plugin-transform-object-rest-spread@^6.22.0:
   dependencies:
     babel-plugin-syntax-object-rest-spread "^6.8.0"
     babel-runtime "^6.26.0"
-
-babel-plugin-transform-optional-catch-binding@^7.0.0-alpha.16:
-  version "7.0.0-alpha.16"
-  resolved "https://registry.yarnpkg.com/babel-plugin-transform-optional-catch-binding/-/babel-plugin-transform-optional-catch-binding-7.0.0-alpha.16.tgz#a8e5134b4261f1ec396547f1e2867c52149d5e93"
-  dependencies:
-    babel-plugin-syntax-optional-catch-binding "7.0.0-alpha.16"
 
 babel-plugin-transform-property-literals@^6.8.5:
   version "6.8.5"

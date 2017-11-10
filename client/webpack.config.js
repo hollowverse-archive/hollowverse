@@ -109,7 +109,6 @@ const babelConfig = {
   ]),
   plugins: compact([
     'syntax-dynamic-import',
-    'transform-optional-catch-binding',
     ...ifProd([
       // Compile gql`query { ... }` at build time to avoid runtime parsing overhead
       'graphql-tag',

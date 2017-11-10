@@ -13,7 +13,7 @@ export const LoadableFbComments = Loadable({
       await importGlobalScript(
         'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.10',
       );
-    } catch {
+    } catch (e) {
       throw new Error();
     }
 
