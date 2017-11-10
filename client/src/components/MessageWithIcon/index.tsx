@@ -18,24 +18,20 @@ export const MessageWithIcon = ({
   onActionClick,
   actionText,
 }: Props) => (
-  <div className="error-message">
+  <div className="message">
     {icon}
     <div
-      className={cx('error-message-caption', {
+      className={cx('message-caption', {
         'has-description': typeof actionText === 'string',
       })}
     >
       {caption}
     </div>
     {description ? (
-      <div className="error-message-description">{description}</div>
+      <div className="message-description">{description}</div>
     ) : null}
     {onActionClick && (
-      <button
-        type="button"
-        className="error-message-button"
-        onClick={onActionClick}
-      >
+      <button type="button" className="message-button" onClick={onActionClick}>
         {actionText}
       </button>
     )}
