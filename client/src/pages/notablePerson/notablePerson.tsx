@@ -1,7 +1,7 @@
 import * as React from 'react';
 import gql from 'graphql-tag';
-import { client } from 'graphqlClient';
-import { NotablePersonQuery } from '../../../graphqlOperationResultTypes';
+import { client } from 'api/client';
+import { NotablePersonQuery } from 'api/types';
 import { Event } from 'components/Event';
 import { PersonDetails } from 'components/PersonDetails';
 import { FbComments } from 'components/FbComments';
