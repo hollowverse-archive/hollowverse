@@ -3,12 +3,12 @@ import * as httpProxy from 'http-proxy';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as helmet from 'helmet';
+import * as moment from 'moment';
 
 import { log } from './logger/logger';
 import { logEndpoint } from './logger/logEndpoint';
 import { env } from './env';
 import { redirectToHttps } from './redirectToHttps';
-import * as moment from 'moment';
 
 const server = express();
 
