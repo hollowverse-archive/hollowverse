@@ -35,11 +35,6 @@ const excludedPatterns = compact([
   ifProd(/\.test\.jsx?$/),
 ]);
 
-const BUILD_PATH = path.resolve(
-  process.cwd(),
-  process.env.BUILD_PATH || './client/dist',
-);
-
 const PUBLIC_PATH = '/';
 
 const clientSpecificConfig = {
@@ -55,7 +50,6 @@ const clientSpecificConfig = {
 
   output: {
     filename: ifProd('[name]_[chunkhash].js') || '[name]_[hash].js',
-    path: BUILD_PATH,
     publicPath: PUBLIC_PATH,
   },
 

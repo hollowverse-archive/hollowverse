@@ -225,6 +225,11 @@ const extractCssModules = new ExtractTextPlugin({
   allChunks: true,
 });
 
+const BUILD_PATH = path.resolve(
+  process.cwd(),
+  process.env.BUILD_PATH || './client/dist',
+);
+
 const config = {
   devServer:
     ifDev({
@@ -241,6 +246,10 @@ const config = {
     }) || undefined,
 
   devtool: env.isDev ? 'cheap-module-source-map' : 'source-map',
+
+  output: {
+    path: BUILD_PATH,
+  },
 
   module: {
     rules: compact([
