@@ -60,10 +60,6 @@
   "dependencies": {
     "@hollowverse/common": "https://github.com/hollowverse/common",
     "@types/react-loadable": "^4.0.4",
-    "apollo-cache-inmemory": "^1.1.0",
-    "apollo-client": "^2.0.2",
-    "apollo-link": "^1.0.0",
-    "apollo-link-http": "^1.1.0",
     "babel-polyfill": "^7.0.0-beta.3",
     "body-parser": "^1.17.2",
     "classcat": "^1.0.1",
@@ -81,7 +77,6 @@
     "preact-compat": "^3.16.0",
     "react": "^15.6.1",
     "react-addons-css-transition-group": "^15.6.0",
-    "react-apollo": "^2.0.0",
     "react-dom": "^15.6.1",
     "react-intersection-observer": "^2.0.1",
     "react-loadable": "^5.3.1",
