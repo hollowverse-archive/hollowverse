@@ -40,14 +40,6 @@ const query = gql`
         happenedOn
         isQuoteByNotablePerson
         sourceUrl
-        comments {
-          owner {
-            id
-            name
-            photoUrl
-          }
-          text
-        }
       }
     }
   }

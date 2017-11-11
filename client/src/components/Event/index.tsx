@@ -14,14 +14,6 @@ type EventProps = {
   isQuoteByNotablePerson: boolean;
   sourceName: string;
   sourceUrl: string;
-  comments: Array<{
-    id?: string;
-    owner: {
-      name: string;
-      photoUrl: string | null;
-    };
-    text: string;
-  }> | null;
 };
 
 export const Event = (props: EventProps) => (
@@ -42,20 +34,5 @@ export const Event = (props: EventProps) => (
         </div>
       ) : null}
     </div>
-    {props.comments
-      ? props.comments.map(({ id, owner, text }) => (
-          <div key={id} className="event-user-comment">
-            {text}
-            <div className="event-user-name">{owner.name}</div>
-            {owner.photoUrl ? (
-              <img
-                className="event-user-avatar"
-                alt={owner.name}
-                src={owner.photoUrl}
-              />
-            ) : null}
-          </div>
-        ))
-      : null}
   </div>
 );
