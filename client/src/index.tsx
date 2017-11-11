@@ -1,8 +1,6 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { ApolloProvider } from 'react-apollo';
-import { client } from './apolloClient';
+import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 
 import { App } from 'components/App';
 
@@ -10,16 +8,13 @@ import NotablePersonPage from 'pages/notablePerson/notablePerson';
 
 const renderApp = () =>
   ReactDOM.render(
-    // @ts-ignore
-    <ApolloProvider client={client}>
-      <Router>
-        <App>
-          <Switch>
-            <Route path="/:slug" component={NotablePersonPage} />
-          </Switch>
-        </App>
-      </Router>
-    </ApolloProvider>,
+    <Router>
+      <App>
+        <Switch>
+          <Route path="/:slug" component={NotablePersonPage} />
+        </Switch>
+      </App>
+    </Router>,
     document.getElementById('app'),
   );
 

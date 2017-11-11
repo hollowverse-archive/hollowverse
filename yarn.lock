@@ -4763,7 +4763,7 @@ graphql-config@^1.0.5:
     minimatch "^3.0.4"
     rimraf "^2.6.1"
 
-graphql-request@^1.2.0:
+graphql-request@^1.2.0, graphql-request@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/graphql-request/-/graphql-request-1.4.0.tgz#f5b067c83070296d93fb45760e83dfad0d9f537a"
   dependencies:

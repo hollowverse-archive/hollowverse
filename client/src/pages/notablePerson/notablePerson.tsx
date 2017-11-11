@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
+import { client } from 'graphqlClient';
 import { NotablePersonQuery } from '../../../graphqlOperationResultTypes';
 import { Event } from 'components/Event';
 import { PersonDetails } from 'components/PersonDetails';
@@ -9,6 +9,8 @@ import { MessageWithIcon } from 'components/MessageWithIcon';
 import { LoadingSpinner } from 'components/LoadingSpinner';
 import { SvgIcon } from 'components/SvgIcon';
 import { OptionalIntersectionObserver } from 'components/OptionalIntersectionObserver';
+import { withRouter } from 'react-router-dom';
+import Loadable from 'react-loadable';
 
 import { prettifyUrl } from 'helpers/url';
 
@@ -20,76 +22,39 @@ const reload = () => {
   location.reload();
 };
 
-export default graphql<NotablePersonQuery>(
-  gql`
-    query NotablePerson($slug: String!) {
-      notablePerson(slug: $slug) {
-        name
-        photoUrl
-        summary
-        commentsUrl
-        labels {
-          id
-          text
-        }
-        events {
-          id
-          quote
-          postedAt
-          happenedOn
-          isQuoteByNotablePerson
-          sourceUrl
-          comments {
-            owner {
-              id
-              name
-              photoUrl
-            }
-            text
+const query = gql`
+  query NotablePerson($slug: String!) {
+    notablePerson(slug: $slug) {
+      name
+      photoUrl
+      summary
+      commentsUrl
+      labels {
+        id
+        text
+      }
+      events {
+        id
+        quote
+        postedAt
+        happenedOn
+        isQuoteByNotablePerson
+        sourceUrl
+        comments {
+          owner {
+            id
+            name
+            photoUrl
           }
+          text
         }
       }
     }
-  `,
-  {
-    options: ({ match: { params: { slug } } }: any) => ({
-      variables: { slug },
-    }),
-  },
-)(({ data }) => {
-  if (!data) {
-    return (
-      <MessageWithIcon
-        caption="Oops!"
-        description="Something's wrong on our end. Please try again later."
-        actionText="Retry"
-        onActionClick={reload}
-        icon={warningIcon}
-      />
-    );
-  } else if (data && data.loading) {
-    return <div>Loading...</div>;
-  } else if (data.error && data.error.networkError) {
-    return (
-      <MessageWithIcon
-        caption="Are you connected to the internet?"
-        description="Please check that you are connected to the internet and try again"
-        actionText="Retry"
-        onActionClick={reload}
-        icon={warningIcon}
-      />
-    );
-  } else if (data.error) {
-    return (
-      <MessageWithIcon
-        caption={data.error.name}
-        description={data.error.message}
-        actionText="Retry"
-        onActionClick={reload}
-        icon={warningIcon}
-      />
-    );
-  } else if (!data.notablePerson) {
+  }
+`;
+
+const createPageWithData = (data: NotablePersonQuery) => () => {
+  if (!data.notablePerson) {
     return (
       <MessageWithIcon
         caption="Not Found"
@@ -145,4 +110,35 @@ export default graphql<NotablePersonQuery>(
       </div>
     );
   }
+};
+
+const createLoadablePage = ({ slug }: { slug: string }) =>
+  Loadable({
+    async loader() {
+      const data = await client.request<NotablePersonQuery>(query, { slug });
+
+      return createPageWithData(data);
+    },
+
+    loading(props) {
+      if (props.error) {
+        return (
+          <MessageWithIcon
+            caption="Are you connected to the internet?"
+            description="Please check that you are connected to the internet and try again"
+            actionText="Retry"
+            onActionClick={reload}
+            icon={warningIcon}
+          />
+        );
+      }
+
+      return <div>Loading...</div>;
+    },
+  });
+
+export default withRouter(({ match: { params: { slug } } }) => {
+  const LoadablePage = createLoadablePage({ slug });
+
+  return <LoadablePage />;
 });
