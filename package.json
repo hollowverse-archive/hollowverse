@@ -8,12 +8,12 @@
     "test": "run-p validate-file-names lint-js lint-ts",
     "lint-js": "eslint '**/*.js{,x}'",
     "lint-ts": "tslint './*.ts' 'server/src/*.ts{,x}' --project .",
-    "client/webpack/dev": "HOT=1 NODE_ENV=development webpack-dev-server --config client/webpack.config.js",
-    "client/webpack/build": "NO_PERF_CHECKS=1 NODE_ENV=production webpack --config client/webpack.config.js",
+    "client/webpack/dev": "HOT=1 NODE_ENV=development webpack-dev-server --config client/webpack.config.client.js",
+    "client/webpack/build": "NO_PERF_CHECKS=1 NODE_ENV=production webpack --config client/webpack.config.client.js",
     "client/build": "API_ENDPOINT=${API_ENDPOINT:-https://api.hollowverse.com/graphql} run-s client/graphql/build client/webpack/build",
     "client/dev": "API_ENDPOINT=${API_ENDPOINT:-http://localhost:8080/graphql} run-p 'client/*/dev'",
     "client/clean": "rm -rf ./client/dist",
-    "client/stats": "STATS=1 NO_PERF_CHECKS=1 NODE_ENV=production webpack --config client/webpack.config.js --json > stats.json",
+    "client/stats": "STATS=1 NO_PERF_CHECKS=1 NODE_ENV=production webpack --config client/webpack.config.client.js --json > stats.json",
     "client/graphql/schema": "apollo-codegen introspect-schema ${API_ENDPOINT} --output ./graphqlSchema.json",
     "client/graphql/types": "apollo-codegen generate 'client/src/{**,!api}/*.ts{,x}' --target typescript --output client/src/api/types.ts",
     "client/graphql/dev": "nodemon --watch client/src --ext ts,tsx --exec 'run-s client/graphql/schema client/graphql/types'",
@@ -117,6 +117,7 @@
     "@types/shelljs": "^0.7.2",
     "@types/stylelint": "^7.10.0",
     "@types/sumo-logger": "^1.0.0",
+    "@types/webpack": "^3.8.1",
     "apollo-codegen": "^0.17.1",
     "autoprefixer": "^7.1.2",
     "babel-core": "6",
@@ -186,7 +187,8 @@
     "webpack": "^3.1.0",
     "webpack-dev-middleware": "^1.11.0",
     "webpack-dev-server": "^2.5.1",
-    "webpack-hot-middleware": "^2.18.2"
+    "webpack-hot-middleware": "^2.18.2",
+    "webpack-merge": "^4.1.1"
   },
   "engines": {
     "node": ">= 8.1"
