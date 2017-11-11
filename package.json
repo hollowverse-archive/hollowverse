@@ -62,6 +62,7 @@
     "firebase": "^4.3.0",
     "helmet": "^3.9.0",
     "history": "^4.6.3",
+    "http-proxy": "^1.16.2",
     "http-server": "^0.10.0",
     "lodash": "^4.17.4",
     "moment": "^2.19.1",
