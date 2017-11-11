@@ -10,7 +10,7 @@
     "lint-ts": "tslint './*.ts' 'server/src/*.ts{,x}' --project .",
     "client/webpack/dev": "HOT=1 NODE_ENV=development webpack-dev-server --config client/webpack.config.js",
     "client/webpack/build": "NO_PERF_CHECKS=1 NODE_ENV=production webpack --config client/webpack.config.js",
-    "client/build": "API_ENDPOINT=https://api.hollowverse.com/graphql run-s client/graphql/build client/webpack/build",
+    "client/build": "API_ENDPOINT=${API_ENDPOINT:-https://api.hollowverse.com/graphql} run-s client/graphql/build client/webpack/build",
     "client/dev": "API_ENDPOINT=${API_ENDPOINT:-http://localhost:8080/graphql} run-p 'client/*/dev'",
     "client/clean": "rm -rf ./client/dist",
     "client/stats": "STATS=1 NO_PERF_CHECKS=1 NODE_ENV=production webpack --config client/webpack.config.js --json > stats.json",
