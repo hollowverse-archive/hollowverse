@@ -84,6 +84,7 @@ const babelConfig = {
             {
               removeConsole: true,
               removeDebugger: true,
+              simplifyComparisons: false, // Buggy
               mangle: false, // Buggy
               simplify: false, // Buggy
             },
@@ -91,21 +92,22 @@ const babelConfig = {
           ifReact('react-optimize'),
         ]),
         [
-          'env',
+          '@babel/env',
           {
             modules: false,
             loose: true,
-            debug: false,
+            debug: env.isDebug,
             targets: {
               browsers: pkg.browserslist,
             },
-            useBuiltIns: true,
+            useBuiltIns: 'entry',
+            shippedProposals: false,
           },
         ],
       ]),
     ),
-    'react',
-    'stage-3',
+    '@babel/react',
+    '@babel/stage-3',
   ]),
   plugins: compact([
     'syntax-dynamic-import',
@@ -116,7 +118,7 @@ const babelConfig = {
       'transform-inline-environment-variables',
     ]),
   ]),
-  sourceMaps: 'both',
+  sourceMap: 'both',
 };
 
 // Write .babelrc to disk so that it can be used by BabelMinifyPlugin and other plugins

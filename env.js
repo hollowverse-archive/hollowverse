@@ -17,6 +17,7 @@ exports.isEsNext = !exports.isEs5;
 exports.isPerf = !Number(process.env.NO_PERF_CHECKS);
 exports.shouldLint = !Number(process.env.NO_LINT);
 exports.shouldTypeCheck = !Number(process.env.NO_TYPE_CHECK);
+exports.isDebug = Boolean(Number(process.env.DEBUG));
 
 const createConditionalWithFallback = (
   condition,
@@ -40,3 +41,4 @@ exports.ifEsNext = createConditionalWithFallback(exports.isEsNext);
 exports.ifCi = createConditionalWithFallback(exports.isCi);
 exports.ifPerf = createConditionalWithFallback(exports.isPerf);
 exports.ifStats = createConditionalWithFallback(exports.isStats);
+exports.ifDebug = createConditionalWithFallback(exports.isDebug);
