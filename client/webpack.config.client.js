@@ -155,7 +155,7 @@ const clientSpecificConfig = {
     ifReact(ifHot('react-hot-loader/patch')),
     ifPreact(ifDev('preact/devtools')),
     ifProd('regenerator-runtime/runtime'),
-    path.resolve(__dirname, 'src/webpackEntry.ts'),
+    path.resolve(__dirname, 'src/clientEntry.ts'),
   ]),
 
   output: {

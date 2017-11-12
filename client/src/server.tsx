@@ -1,13 +1,12 @@
 import 'regenerator-runtime/runtime';
 import 'babel-polyfill';
 
-import './globalStyles.scss';
-
 import * as React from 'react';
 import { renderToString as render } from 'react-dom/server';
 import { StaticRouter } from 'react-router';
 // import createHistory from 'history/createMemoryHistory';
 import { flushChunkNames } from 'react-universal-component/server';
+
 import { URL } from 'url';
 
 declare var global: NodeJS.Global & { URL: typeof URL };

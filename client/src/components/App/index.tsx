@@ -2,8 +2,10 @@ import * as React from 'react';
 import NavBar from 'components/NavBar';
 import { Route, Switch } from 'react-router-dom';
 
-import NotablePersonPage from 'pages/notablePerson/notablePerson';
+import './styles.global.scss';
 import './styles.scss';
+
+import NotablePersonPage from 'pages/notablePerson/notablePerson';
 
 /** Main app component */
 export class App extends React.PureComponent<{}, {}> {
