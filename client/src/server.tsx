@@ -1,5 +1,6 @@
 import 'regenerator-runtime/runtime';
 import 'babel-polyfill';
+import { Request, Response } from 'express';
 
 import * as React from 'react';
 import * as serializeJavaScript from 'serialize-javascript';
@@ -17,7 +18,10 @@ import template from 'lodash/template';
 
 const compiledTemplate = template(html);
 
-export default ({ clientStats }: any) => async (req: any, res: any) => {
+export default ({ clientStats }: any) => async (
+  req: Request,
+  res: Response,
+) => {
   try {
     const { Resolved, data } = await Resolver.resolve(() => {
       const context = {};
