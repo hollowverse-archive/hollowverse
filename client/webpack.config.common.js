@@ -3,8 +3,6 @@ const WriteFilePlugin = require('write-file-webpack-plugin');
 
 const CircularDependencyPlugin = require('circular-dependency-plugin');
 
-// const PreloadWebpackPlugin = require('preload-webpack-plugin');
-
 const path = require('path');
 const fs = require('fs');
 const debug = require('debug');
@@ -222,12 +220,6 @@ const config = {
         v => JSON.stringify(v),
       ),
     ),
-
-    // new PreloadWebpackPlugin({
-    //   rel: 'preload',
-    //   as: 'script',
-    //   include: 'asyncChunks',
-    // }),
 
     new CircularDependencyPlugin({
       exclude: /a\.js|node_modules/,

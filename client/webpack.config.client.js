@@ -2,12 +2,10 @@
 const webpack = require('webpack');
 const webpackMerge = require('webpack-merge');
 
-// const WebpackHTMLPlugin = require('html-webpack-plugin');
 const ExtractCssChunks = require('extract-css-chunks-webpack-plugin');
 
-// const NameAllModulesPlugin = require('name-all-modules-plugin');
-// const BabelMinifyPlugin = require('babel-minify-webpack-plugin');
-// const PreloadWebpackPlugin = require('preload-webpack-plugin');
+const NameAllModulesPlugin = require('name-all-modules-plugin');
+const BabelMinifyPlugin = require('babel-minify-webpack-plugin');
 
 const path = require('path');
 const compact = require('lodash/compact');
@@ -20,8 +18,8 @@ const env = require('../env');
 const common = require('./webpack.config.common');
 
 const {
-  // ifEs5,
-  // ifEsNext,
+  ifEs5,
+  ifEsNext,
   // ifLint,
   ifProd,
   ifDev,
@@ -31,49 +29,49 @@ const {
   ifPerf,
 } = env;
 
-// const pkg = require('../package.json');
+const pkg = require('../package.json');
 
-const svgoConfig = {
-  plugins: [
-    { removeXMLNS: false },
-    { cleanupIDs: false },
-    { convertShapeToPath: false },
-    { removeEmptyContainers: false },
-    { removeViewBox: false },
-    { mergePaths: false },
-    { convertStyleToAttrs: false },
-    { convertPathData: false },
-    { convertTransform: false },
-    { removeUnknownsAndDefaults: false },
-    { collapseGroups: false },
-    { moveGroupAttrsToElems: false },
-    { moveElemsAttrsToGroup: false },
-    { cleanUpEnableBackground: false },
-    { removeHiddenElems: false },
-    { removeNonInheritableGroupAttrs: false },
-    { removeUselessStrokeAndFill: false },
-    { transformsWithOnePath: false },
-  ],
-};
+// const svgoConfig = {
+//   plugins: [
+//     { removeXMLNS: false },
+//     { cleanupIDs: false },
+//     { convertShapeToPath: false },
+//     { removeEmptyContainers: false },
+//     { removeViewBox: false },
+//     { mergePaths: false },
+//     { convertStyleToAttrs: false },
+//     { convertPathData: false },
+//     { convertTransform: false },
+//     { removeUnknownsAndDefaults: false },
+//     { collapseGroups: false },
+//     { moveGroupAttrsToElems: false },
+//     { moveElemsAttrsToGroup: false },
+//     { cleanUpEnableBackground: false },
+//     { removeHiddenElems: false },
+//     { removeNonInheritableGroupAttrs: false },
+//     { removeUselessStrokeAndFill: false },
+//     { transformsWithOnePath: false },
+//   ],
+// };
 
-const svgLoaders = [
-  {
-    loader: 'svgo-loader',
-    options: svgoConfig,
-  },
-];
+// const svgLoaders = [
+//   {
+//     loader: 'svgo-loader',
+//     options: svgoConfig,
+//   },
+// ];
 
-const createSvgIconLoaders = name => [
-  {
-    loader: 'svg-sprite-loader',
-    options: {
-      extract: true,
-      spriteFilename: name,
-      runtimeCompat: false,
-    },
-  },
-  ...svgLoaders,
-];
+// const createSvgIconLoaders = name => [
+//   {
+//     loader: 'svg-sprite-loader',
+//     options: {
+//       extract: true,
+//       spriteFilename: name,
+//       runtimeCompat: false,
+//     },
+//   },
+//   ...svgLoaders,
+// ];
 
 const sassLoaders = [
   {
@@ -148,7 +146,7 @@ const excludedPatterns = compact([
 
 // const cssModulesPattern = /\.module\.s?css$/;
 
-const PUBLIC_PATH = '/';
+const PUBLIC_PATH = '/static/';
 
 const clientSpecificConfig = {
   name: 'client',
@@ -275,116 +273,59 @@ const clientSpecificConfig = {
   },
 
   plugins: compact([
-    // HTML index
-    // new WebpackHTMLPlugin({
-    //   filename: 'index.html',
-    //   template: path.resolve(__dirname, 'src/index.html'),
-    //   inject: 'body',
-    //   minify: env.isProd
-    //     ? {
-    //         html5: true,
-    //         collapseBooleanAttributes: true,
-    //         collapseInlineTagWhitespace: true,
-    //         collapseWhitespace: true,
-    //       }
-    //     : false,
-    // }),
-
     // CSS
     // extractCssModules,
     extractCssChunks,
 
-    // new PreloadWebpackPlugin({
-    //   rel: 'preload',
-    //   as: 'script',
-    //   include: 'asyncChunks',
-    // }),
-
     // Required for debugging in development and for long-term caching in production
-    // new webpack.NamedModulesPlugin(),
-
-    new webpack.optimize.CommonsChunkPlugin({
-      names: ['bootstrap'], // needed to put webpack bootstrap code before chunks
-      filename: '[name].js',
-      minChunks: Infinity,
-    }),
+    new webpack.NamedModulesPlugin(),
 
     // SVG sprites
     // new SpriteLoaderPlugin(),
 
     // Production-only
-    // ...ifProd([
-    //   // Chunks
+    ...ifProd([
+      // Chunks
 
-    //   // See https://medium.com/webpack/predictable-long-term-caching-with-webpack-d3eee1d3fa31
-    //   new webpack.NamedChunksPlugin(),
-    //   new NameAllModulesPlugin(),
+      // See https://medium.com/webpack/predictable-long-term-caching-with-webpack-d3eee1d3fa31
+      new webpack.NamedChunksPlugin(),
+      new NameAllModulesPlugin(),
 
-    //   // The order of the following instances is important
-    //   // This chunk contains all vendor code, except React and related libraries
-    //   new webpack.optimize.CommonsChunkPlugin({
-    //     name: 'vendor',
-    //     minChunks: module => /node_modules/.test(module.context),
-    //   }),
+      // The order of the following instances is important
+      // This chunk contains all vendor code, except React and related libraries
+      new webpack.optimize.CommonsChunkPlugin({
+        name: 'vendor',
+        minChunks: module => /node_modules/.test(module.context),
+      }),
 
-    //   // This chunk contains Apollo Client libraries
-    //   //
-    //   // Wondering why we need to match for `/p?react/i` too?
-    //   // See https://github.com/webpack/webpack/issues/4638#issuecomment-292583989
-    //   new webpack.optimize.CommonsChunkPlugin({
-    //     name: 'apollo',
-    //     minChunks: module =>
-    //       /node_modules/.test(module.context) &&
-    //       (/p?react/i.test(module.context) || /apollo/i.test(module.context)),
-    //   }),
+      new webpack.optimize.OccurrenceOrderPlugin(true),
 
-    //   // This chunk contains React/Preact and all related libraries
-    //   new webpack.optimize.CommonsChunkPlugin({
-    //     name: 'react',
-    //     minChunks: module =>
-    //       /node_modules/.test(module.context) &&
-    //       /p?react/i.test(module.context),
-    //   }),
+      // Scope hoisting a la Rollup (Webpack 3+)
+      new webpack.optimize.ModuleConcatenationPlugin(),
 
-    //   new webpack.optimize.CommonsChunkPlugin({
-    //     async: true,
-    //     minChunks: Infinity,
-    //   }),
+      // Minification
+      ...ifEs5([
+        new webpack.optimize.UglifyJsPlugin({
+          minimize: true,
+          comments: false,
+          sourceMap: true,
+        }),
+      ]),
 
-    //   // Make a separate manifest chunk for better long-term caching
-    //   new webpack.optimize.CommonsChunkPlugin({
-    //     name: 'manifest',
-    //     minChunks: Infinity,
-    //   }),
+      ...ifEsNext([new BabelMinifyPlugin()]),
 
-    //   // Merge modules duplicated across multiple chunks
-    //   // new webpack.optimize.AggressiveMergingPlugin({
-    //   //   moveToParents: true,
-    //   // }),
+      // Banner
+      new webpack.BannerPlugin({
+        entryOnly: true,
+        banner: `${pkg.name} hash:[hash], chunkhash:[chunkhash], name:[name]`,
+      }),
+    ]),
 
-    //   new webpack.optimize.OccurrenceOrderPlugin(true),
-
-    //   // Scope hoisting a la Rollup (Webpack 3+)
-    //   new webpack.optimize.ModuleConcatenationPlugin(),
-
-    //   // Minification
-    //   ...ifEs5([
-    //     new webpack.optimize.UglifyJsPlugin({
-    //       minimize: true,
-    //       comments: false,
-    //       sourceMap: true,
-    //     }),
-    //   ]),
-
-    //   ...ifEsNext([new BabelMinifyPlugin()]),
-
-    //   // Banner
-    //   new webpack.BannerPlugin({
-    //     entryOnly: true,
-    //     banner: `${pkg.displayName ||
-    //       pkg.name} hash:[hash], chunkhash:[chunkhash], name:[name]`,
-    //   }),
-    // ]),
+    // Contains all Webpack bootstraping logic
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'bootstrap',
+      minChunks: Infinity,
+    }),
   ]),
 };
 
