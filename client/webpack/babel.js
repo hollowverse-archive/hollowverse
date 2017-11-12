@@ -30,6 +30,7 @@ module.exports = {
             debug: isDebug,
             targets: {
               browsers: pkg.browserslist,
+              node: 'current',
             },
             useBuiltIns: true,
           },
