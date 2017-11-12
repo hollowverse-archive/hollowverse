@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import defaultLoadingIcon from 'file-loader!assets/spinner.svg';
+// import defaultLoadingIcon from 'file-loader!assets/spinner.svg';
 
 type Props = {
   loadingIcon?: string;
@@ -9,7 +9,7 @@ type Props = {
 
 export const LoadingSpinner = ({
   size = 50,
-  loadingIcon = defaultLoadingIcon,
+  loadingIcon = 'defaultLoadingIcon',
 }: Props) => (
   <img height={size} src={loadingIcon} role="presentation" alt={undefined} />
 );

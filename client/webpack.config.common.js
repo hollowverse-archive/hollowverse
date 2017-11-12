@@ -1,19 +1,15 @@
 const webpack = require('webpack');
+const WriteFilePlugin = require('write-file-webpack-plugin');
 
 const CircularDependencyPlugin = require('circular-dependency-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-const SpriteLoaderPlugin = require('svg-sprite-loader/plugin');
-const PreloadWebpackPlugin = require('preload-webpack-plugin');
+// const PreloadWebpackPlugin = require('preload-webpack-plugin');
 
 const path = require('path');
 const fs = require('fs');
 const debug = require('debug');
 const compact = require('lodash/compact');
 const mapValues = require('lodash/mapValues');
-
-const autoprefixer = require('autoprefixer');
-const normalize = require('postcss-normalize');
 
 const env = require('../env');
 
@@ -51,8 +47,6 @@ const excludedPatterns = compact([
   ifProd(/\.test\.jsx?$/),
 ]);
 
-const cssModulesPattern = /\.module\.s?css$/;
-
 const babelConfig = {
   presets: compact([
     ...ifEs5(['es2015']),
@@ -62,7 +56,7 @@ const babelConfig = {
           [
             'minify',
             {
-              removeConsole: true,
+              removeConsole: false,
               removeDebugger: true,
               simplifyComparisons: false, // Buggy
               mangle: false, // Buggy
@@ -72,7 +66,7 @@ const babelConfig = {
           ifReact('react-optimize'),
         ]),
         [
-          '@babel/env',
+          'env',
           {
             modules: false,
             loose: true,
@@ -80,16 +74,16 @@ const babelConfig = {
             targets: {
               browsers: pkg.browserslist,
             },
-            useBuiltIns: 'entry',
-            shippedProposals: false,
+            useBuiltIns: true,
           },
         ],
       ]),
     ),
-    '@babel/react',
-    '@babel/stage-3',
+    'react',
+    'stage-3',
   ]),
   plugins: compact([
+    'universal-import',
     'syntax-dynamic-import',
     ...ifProd([
       // Compile gql`query { ... }` at build time to avoid runtime parsing overhead
@@ -98,7 +92,7 @@ const babelConfig = {
       'transform-inline-environment-variables',
     ]),
   ]),
-  sourceMap: 'both',
+  sourceMaps: 'both',
 };
 
 // Write .babelrc to disk so that it can be used by BabelMinifyPlugin and other plugins
@@ -114,116 +108,6 @@ const babelLoader = {
   loader: 'babel-loader',
   options: babelConfig,
 };
-
-const svgoConfig = {
-  plugins: [
-    { removeXMLNS: false },
-    { cleanupIDs: false },
-    { convertShapeToPath: false },
-    { removeEmptyContainers: false },
-    { removeViewBox: false },
-    { mergePaths: false },
-    { convertStyleToAttrs: false },
-    { convertPathData: false },
-    { convertTransform: false },
-    { removeUnknownsAndDefaults: false },
-    { collapseGroups: false },
-    { moveGroupAttrsToElems: false },
-    { moveElemsAttrsToGroup: false },
-    { cleanUpEnableBackground: false },
-    { removeHiddenElems: false },
-    { removeNonInheritableGroupAttrs: false },
-    { removeUselessStrokeAndFill: false },
-    { transformsWithOnePath: false },
-  ],
-};
-
-const svgLoaders = [
-  {
-    loader: 'svgo-loader',
-    options: svgoConfig,
-  },
-];
-
-const createSvgIconLoaders = name => [
-  {
-    loader: 'svg-sprite-loader',
-    options: {
-      extract: true,
-      spriteFilename: name,
-      runtimeCompat: false,
-    },
-  },
-  ...svgLoaders,
-];
-
-const sassLoaders = [
-  {
-    loader: 'resolve-url-loader',
-    options: {
-      sourceMap: true,
-    },
-  },
-  {
-    loader: 'sass-loader',
-    options: {
-      sourceMap: true,
-      includePaths: [path.resolve(__dirname, 'src')],
-    },
-  },
-];
-
-const globalCssLoaders = [
-  {
-    loader: 'css-loader',
-    query: {
-      minimize: env.isProd,
-      sourceMap: true,
-    },
-  },
-  {
-    loader: 'postcss-loader',
-    options: {
-      plugins: [normalize({ forceImport: true }), autoprefixer()],
-      sourceMap: true,
-    },
-  },
-  ...sassLoaders,
-];
-
-const cssModuleLoaders = [
-  {
-    loader: 'typings-for-css-modules-loader',
-    options: {
-      namedExport: true,
-      module: true,
-      localIdentName: '[name]_[local]_[hash:base64:5]',
-      minimize: env.isProd,
-      sourceMap: true,
-    },
-  },
-  {
-    loader: 'postcss-loader',
-    options: {
-      sourceMap: true,
-      plugins: [
-        // @WARN Do not include `normalize`
-        autoprefixer,
-      ],
-    },
-  },
-  ...sassLoaders,
-];
-
-const extractGlobalCss = new ExtractTextPlugin({
-  filename: '[name]_global.[contenthash].css',
-  allChunks: true,
-});
-
-const extractCssModules = new ExtractTextPlugin({
-  filename: '[name]_local.[contenthash].css',
-  allChunks: true,
-});
 
 const BUILD_PATH = path.resolve(
   process.cwd(),
@@ -253,30 +137,6 @@ const config = {
 
   module: {
     rules: compact([
-      // CSS Modules
-      {
-        test: cssModulesPattern,
-        exclude: excludedPatterns,
-        use: env.isDev
-          ? ['style-loader', ...cssModuleLoaders]
-          : extractCssModules.extract({
-              fallback: 'style-loader',
-              use: cssModuleLoaders,
-            }),
-      },
-
-      // Global CSS
-      {
-        test: /\.s?css$/,
-        exclude: [...excludedPatterns, cssModulesPattern],
-        use: env.isDev
-          ? ['style-loader', ...globalCssLoaders]
-          : extractGlobalCss.extract({
-              fallback: 'style-loader',
-              use: globalCssLoaders,
-            }),
-      },
-
       // Babel
       {
         test: /\.jsx?$/,
@@ -312,22 +172,6 @@ const config = {
           },
         ]),
       },
-
-      // SVG Icons
-      {
-        test: /\.svg$/,
-        exclude: excludedPatterns,
-        include: [path.resolve(__dirname, 'src/icons')],
-        use: createSvgIconLoaders('icons.svg'),
-      },
-
-      // SVG assets
-      {
-        test: /\.svg$/,
-        exclude: excludedPatterns,
-        include: [path.resolve(__dirname, 'src/assets')],
-        use: svgLoaders,
-      },
     ]),
   },
 
@@ -356,6 +200,7 @@ const config = {
   },
 
   plugins: compact([
+    new WriteFilePlugin(),
     // Development
     // Do not watch files in node_modules as this causes a huge overhead
     new webpack.WatchIgnorePlugin([/node_modules/]),
@@ -378,23 +223,16 @@ const config = {
       ),
     ),
 
-    new PreloadWebpackPlugin({
-      rel: 'preload',
-      as: 'script',
-      include: 'asyncChunks',
-    }),
+    // new PreloadWebpackPlugin({
+    //   rel: 'preload',
+    //   as: 'script',
+    //   include: 'asyncChunks',
+    // }),
 
     new CircularDependencyPlugin({
       exclude: /a\.js|node_modules/,
       failOnError: true,
     }),
-
-    // CSS
-    extractCssModules,
-    extractGlobalCss,
-
-    // SVG sprites
-    new SpriteLoaderPlugin(),
   ]),
 };
 

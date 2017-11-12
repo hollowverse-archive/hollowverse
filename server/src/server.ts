@@ -10,6 +10,15 @@ import { logEndpoint } from './logger/logEndpoint';
 import { env } from './env';
 import { redirectToHttps } from './redirectToHttps';
 
+const {
+  // tslint:disable-next-line no-http-string
+  OLD_SERVER_ADDRESS = 'http://dw5a6b9vjmt7w.cloudfront.net/',
+  // tslint:disable-next-line no-http-string
+  NEW_SERVER_ADDRESS = 'http://localhost:3001/',
+  PUBLIC_PATH = './client/dist',
+  PORT = 8080,
+} = process.env;
+
 const server = express();
 
 server.use(redirectToHttps);
@@ -52,17 +61,6 @@ server.use((_, res, next) => {
   next();
 });
 
-// tslint:disable no-http-string
-const OLD_SERVER_ADDRESS =
-  process.env.OLD_SERVER || 'http://dw5a6b9vjmt7w.cloudfront.net/';
-const NEW_SERVER_ADDRESS = process.env.NEW_SERVER || 'http://localhost:3001/';
-// tslint:enable no-http-string
-const PUBLIC_PATH = path.resolve(
-  process.cwd(),
-  process.env.PUBLIC_PATH || './client/dist',
-);
-const PROXY_PORT = process.env.PORT || 8080;
-
 const proxyServer = httpProxy.createProxyServer();
 
 // Make sure all forwarded URLs end with / to avoid redirects
@@ -78,7 +76,9 @@ proxyServer.on('proxyReq', (proxyReq: any) => {
 const redirectionMap = new Map<string, string>([]);
 
 const newPaths = new Set(redirectionMap.values());
-const staticFiles = new Set(fs.readdirSync(PUBLIC_PATH));
+const staticFiles = new Set(
+  fs.readdirSync(path.resolve(process.cwd(), PUBLIC_PATH)),
+);
 
 // Short-circuit the redirection proxy to expose the /log endpoint
 server.use('/log', logEndpoint);
@@ -118,4 +118,4 @@ server.use((req, res) => {
   });
 });
 
-server.listen(PROXY_PORT);
+server.listen(PORT);

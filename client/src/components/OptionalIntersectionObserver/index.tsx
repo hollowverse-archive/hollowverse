@@ -6,7 +6,7 @@ import { LoadingSpinner } from 'components/LoadingSpinner';
 
 const Shim = ({ children }: IntersectionObserverProps) => {
   return (
-    <div>Shim {typeof children === 'function' ? children(true) : children}</div>
+    <div>{typeof children === 'function' ? children(true) : children}</div>
   );
 };
 

@@ -5,10 +5,10 @@ import * as React from 'react';
 import { importGlobalScript } from 'helpers/importGlobalScript';
 import { MessageWithIcon } from 'components/MessageWithIcon';
 import { LoadingSpinner } from 'components/LoadingSpinner';
-import { SvgIcon } from 'components/SvgIcon';
+// import { SvgIcon } from 'components/SvgIcon';
 import { delay } from 'helpers/time';
 
-import warningIcon from 'icons/warning.svg';
+// import warningIcon from 'icons/warning.svg';
 
 const loadingComponent = (
   <MessageWithIcon
@@ -43,7 +43,7 @@ export class FbComments extends React.PureComponent<P, S> {
   };
 
   state: S = {
-    isLoading: true,
+    isLoading: false,
     hasError: false,
     timedOut: false,
   };
@@ -136,7 +136,6 @@ export class FbComments extends React.PureComponent<P, S> {
       return (
         <MessageWithIcon
           caption="Error loading Facebook comments"
-          icon={<SvgIcon {...warningIcon} size={50} />}
           actionText="Retry"
           onActionClick={this.tryLoading}
         />
@@ -146,6 +145,12 @@ export class FbComments extends React.PureComponent<P, S> {
     return (
       <div>
         {isLoading ? loadingComponent : null}
+        <noscript>
+          <MessageWithIcon
+            caption="JavaScript is disabled"
+            description="Enable JavaScript in your browser settings and reload this page to see Facebook comments"
+          />
+        </noscript>
         <div
           style={{ visibility: isLoading ? 'hidden' : 'visible' }}
           className="fb-comments"
