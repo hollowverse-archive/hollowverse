@@ -122,7 +122,7 @@ export class FbComments extends React.PureComponent<P, S> {
     this.tryLoading();
   }
 
-  componentWillMount() {
+  componentWillUnmount() {
     if (this.commentsObserver !== null) {
       this.commentsObserver.disconnect();
     }
