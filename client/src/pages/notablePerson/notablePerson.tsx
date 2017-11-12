@@ -9,7 +9,7 @@ import { MessageWithIcon } from 'components/MessageWithIcon';
 // import { SvgIcon } from 'components/SvgIcon';
 import { OptionalIntersectionObserver } from 'components/OptionalIntersectionObserver';
 import { withRouter } from 'react-router-dom';
-import * as Resolver from 'react-resolver';
+import { resolve } from 'react-resolver';
 
 import { prettifyUrl } from 'helpers/url';
 
@@ -44,7 +44,12 @@ const query = gql`
   }
 `;
 
-class Page extends React.Component<any, any> {
+type OwnProps = {};
+type ResolvedProps = {
+  data?: NotablePersonQuery;
+};
+
+class Page extends React.Component<OwnProps & ResolvedProps, {}> {
   render() {
     const { data } = this.props;
     if (!data) {
@@ -101,7 +106,7 @@ class Page extends React.Component<any, any> {
   }
 }
 
-const ResolvedPage = Resolver.resolve('data', async ({ slug }: any) => {
+const ResolvedPage = resolve('data', async ({ slug }) => {
   return client.request<NotablePersonQuery>(query, { slug });
 })(Page);
 
