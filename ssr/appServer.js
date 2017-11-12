@@ -42,9 +42,24 @@ const done = () =>
 // else {
 webpack([clientConfig, serverConfig]).run((err, stats) => {
   if (err) {
-    console.error(err);
-    throw err;
+    console.error(err.stack || err);
+    if (err.details) {
+      console.error(err.details);
+    }
+    throw new Error();
   }
+
+  const info = stats.toJson();
+
+  if (stats.hasErrors()) {
+    console.error(info.errors);
+    throw new Error();
+  }
+
+  if (stats.hasWarnings()) {
+    console.warn(info.warnings);
+  }
+
   const clientStats = stats.toJson().children[0];
   const serverRender = require('../client/dist/main.js').default;
 
