@@ -1,3 +1,5 @@
+declare const __DEBUG__: boolean;
+
 declare const FB: facebookSdk.Fb;
 declare namespace facebookSdk {
   type LoginStatus = 'connected' | 'not_authorized' | 'unknown';

@@ -50,7 +50,10 @@ export default ({ clientStats }: any) => async (req: any, res: any) => {
 
     res.send(
       compiledTemplate({
-        data: serializeJavaScript(data, { isJSON: true }),
+        data: serializeJavaScript(data, {
+          isJSON: true,
+          space: __DEBUG__ ? 2 : 0,
+        }),
         app,
         js,
         styles,

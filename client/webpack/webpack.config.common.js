@@ -52,7 +52,7 @@ const babelConfig = {
           [
             'minify',
             {
-              removeConsole: false,
+              removeConsole: true,
               removeDebugger: true,
               simplifyComparisons: false, // Buggy
               mangle: false, // Buggy
