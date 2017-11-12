@@ -17,13 +17,13 @@ build([clientConfig, serverConfig])
 
     app.use(noFavicon());
 
-    // Server client build like usual
+    // Serve client build like usual
     // This must be defined before the SSR middleware so that
-    // requests to static files, e.g. /static/app.js are not
+    // requests to static files, e.g. /static/app.js, are not
     // routed to React Router
     app.use(publicPath, express.static(outputPath));
 
-    // Server React Router middleware from the SSR build
+    // Serve React Router middleware from the SSR build
     const serverRender = require('../client/dist/main.js').default; // eslint-disable-line global-require
     const clientStats = stats.toJson().children[0];
     app.use(serverRender({ clientStats }));
