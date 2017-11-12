@@ -67,6 +67,9 @@ export default ({ clientStats }: any) => async (req: any, res: any) => {
           <body>
             <div id="app">${app}</div>
             ${cssHash}
+            <script>window.__REACT_RESOLVER_PAYLOAD__ = ${JSON.stringify(
+              data,
+            )}</script>
 
             ${js}
           </body>
