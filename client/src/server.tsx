@@ -53,8 +53,9 @@ export default ({ clientStats }: any) => async (req: any, res: any) => {
       `<!doctype html>
         <html>
           <head>
+            <title>Hollowverse</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
             <meta charset="utf-8">
-            <title>react-universal-component-boilerplate</title>
             <style>
               #app {
                 height: 100%;
