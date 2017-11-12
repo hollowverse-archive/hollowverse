@@ -2,20 +2,21 @@ import 'regenerator-runtime/runtime';
 import 'babel-polyfill';
 
 import * as React from 'react';
+import * as serializeJavaScript from 'serialize-javascript';
 import { renderToString as render } from 'react-dom/server';
 import { StaticRouter } from 'react-router';
 // import createHistory from 'history/createMemoryHistory';
 import { flushChunkNames } from 'react-universal-component/server';
 
-import { URL } from 'url';
-
-declare var global: NodeJS.Global & { URL: typeof URL };
-
-global.URL = URL;
-
 import flushChunks from 'webpack-flush-chunks';
 import { App } from './components/App';
 import { Resolver } from 'react-resolver';
+
+import html from './index.html';
+
+import template from 'lodash/template';
+
+const compiledTemplate = template(html);
 
 export default ({ clientStats }: any) => async (req: any, res: any) => {
   try {
@@ -49,33 +50,16 @@ export default ({ clientStats }: any) => async (req: any, res: any) => {
     console.log('STYLESHEETS SERVED', stylesheets);
 
     res.send(
-      `<!doctype html>
-        <html>
-          <head>
-            <title>Hollowverse</title>
-            <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-            <meta charset="utf-8">
-            <style>
-              #app {
-                height: 100%;
-                min-height: 100%;
-              }
-            </style>
-            ${styles}
-          </head>
-          <body>
-            <div id="app">${app}</div>
-            ${cssHash}
-            <script>window.__REACT_RESOLVER_PAYLOAD__ = ${JSON.stringify(
-              data,
-            )}</script>
-
-            ${js}
-          </body>
-        </html>`,
+      compiledTemplate({
+        data: serializeJavaScript(data, { isJSON: true }),
+        app,
+        js,
+        styles,
+        cssHash,
+      }),
     );
   } catch (e) {
     console.error(e);
-    res.status(500).send(e);
+    res.status(500).send('Error');
   }
 };

@@ -19,10 +19,13 @@ exports.shouldLint = !Number(process.env.NO_LINT);
 exports.shouldTypeCheck = !Number(process.env.NO_TYPE_CHECK);
 exports.isDebug = Boolean(Number(process.env.DEBUG));
 
+/**
+ * @param condition {boolean}
+ */
 const createConditionalWithFallback = (
   condition,
   defaultFallback = undefined,
-) => (p, fallback = defaultFallback) => {
+) => (/** @type {Array | object | string} */ p, fallback = defaultFallback) => {
   if (Array.isArray(p)) {
     return condition ? compact(p) : fallback || [];
   }

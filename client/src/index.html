@@ -10,10 +10,16 @@
         min-height: 100%;
       }
     </style>
+    ${styles}
   </head>
   <body>
     <div id="app">
-      
+      ${app}
     </div>
+    <script>
+      window.__REACT_RESOLVER_PAYLOAD__ = ${data};
+    </script>
+    ${js}
+    ${cssHash}
   </body>
 </html>

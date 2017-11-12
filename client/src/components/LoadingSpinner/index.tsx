@@ -9,7 +9,5 @@ type Props = {
 
 export const LoadingSpinner = ({
   size = 50,
-  loadingIcon = 'defaultLoadingIcon',
-}: Props) => (
-  <img height={size} src={loadingIcon} role="presentation" alt={undefined} />
-);
+}: // loadingIcon = '',
+Props) => <img height={size} role="presentation" alt={undefined} />;

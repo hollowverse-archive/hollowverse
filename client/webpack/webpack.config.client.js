@@ -11,10 +11,16 @@ const path = require('path');
 const compact = require('lodash/compact');
 
 // const stylelint = require('stylelint');
-const autoprefixer = require('autoprefixer');
-const normalize = require('postcss-normalize');
 
-const env = require('../env');
+const env = require('./env');
+const { createGlobalCssLoaders, createCssModulesLoaders } = require('./shared');
+const {
+  srcDirectory,
+  pkg,
+  publicPath,
+  excludedPatterns,
+  cssModulesPattern,
+} = require('./variables');
 const common = require('./webpack.config.common');
 
 const {
@@ -28,8 +34,6 @@ const {
   ifHot,
   ifPerf,
 } = env;
-
-const pkg = require('../package.json');
 
 // const svgoConfig = {
 //   plugins: [
@@ -73,80 +77,12 @@ const pkg = require('../package.json');
 //   ...svgLoaders,
 // ];
 
-const sassLoaders = [
-  {
-    loader: 'resolve-url-loader',
-    options: {
-      sourceMap: true,
-    },
-  },
-  {
-    loader: 'sass-loader',
-    options: {
-      sourceMap: true,
-      includePaths: [path.resolve(__dirname, 'src')],
-    },
-  },
-];
-
-const globalCssLoaders = [
-  {
-    loader: 'css-loader',
-    query: {
-      minimize: env.isProd,
-      sourceMap: true,
-    },
-  },
-  {
-    loader: 'postcss-loader',
-    options: {
-      plugins: [normalize({ forceImport: true }), autoprefixer()],
-      sourceMap: true,
-    },
-  },
-  ...sassLoaders,
-];
-
-// const cssModuleLoaders = [
-//   {
-//     loader: 'typings-for-css-modules-loader',
-//     options: {
-//       namedExport: true,
-//       module: true,
-//       localIdentName: '[name]_[local]_[hash:base64:5]',
-//       minimize: env.isProd,
-//       sourceMap: true,
-//     },
-//   },
-//   {
-//     loader: 'postcss-loader',
-//     options: {
-//       sourceMap: true,
-//       plugins: [
-//         // @WARN Do not include `normalize`
-//         autoprefixer,
-//       ],
-//     },
-//   },
-//   ...sassLoaders,
-// ];
-
 const extractCssChunks = new ExtractCssChunks();
 
 // const extractCssModules = new ExtractCssChunks({
 //   filename: '[name]_local.[contenthash].css',
 //   allChunks: true,
 // });
-
-const excludedPatterns = compact([
-  /node_modules/,
-  ifProd(/\.test\.tsx?$/),
-  ifProd(/\.test\.jsx?$/),
-]);
-
-// const cssModulesPattern = /\.module\.s?css$/;
-
-const PUBLIC_PATH = '/static/';
 
 const clientSpecificConfig = {
   name: 'client',
@@ -155,13 +91,13 @@ const clientSpecificConfig = {
     ifReact(ifHot('react-hot-loader/patch')),
     ifPreact(ifDev('preact/devtools')),
     ifProd('regenerator-runtime/runtime'),
-    path.resolve(__dirname, 'src/clientEntry.ts'),
+    path.resolve(srcDirectory, 'clientEntry.ts'),
   ]),
 
   output: {
     filename: '[name].[chunkhash].js',
     chunkFilename: '[name].[chunkhash].js',
-    publicPath: PUBLIC_PATH,
+    publicPath,
   },
 
   // Producing build stats require that this property contains details about assets
@@ -235,23 +171,20 @@ const clientSpecificConfig = {
       // ),
 
       // CSS Modules
-      // {
-      //   test: cssModulesPattern,
-      //   exclude: excludedPatterns,
-      //   use: env.isDev
-      //     ? ['style-loader', ...cssModuleLoaders]
-      //     : extractCssModules.extract({
-      //         fallback: 'style-loader',
-      //         use: cssModuleLoaders,
-      //       }),
-      // },
+      {
+        test: cssModulesPattern,
+        exclude: excludedPatterns,
+        use: ExtractCssChunks.extract({
+          use: createCssModulesLoaders(false),
+        }),
+      },
 
       // Global CSS
       {
         test: /\.s?css$/,
-        exclude: [...excludedPatterns /* cssModulesPattern */],
+        exclude: [...excludedPatterns, cssModulesPattern],
         use: ExtractCssChunks.extract({
-          use: globalCssLoaders,
+          use: createGlobalCssLoaders(false),
         }),
       },
 
@@ -259,7 +192,7 @@ const clientSpecificConfig = {
       // {
       //   test: /\.svg$/,
       //   exclude: excludedPatterns,
-      //   include: [path.resolve(__dirname, 'src/icons')],
+      //   include: [path.resolve(srcDirectory, 'icons')],
       //   use: createSvgIconLoaders('icons.svg'),
       // },
 
@@ -267,7 +200,7 @@ const clientSpecificConfig = {
       // {
       //   test: /\.svg$/,
       //   exclude: excludedPatterns,
-      //   include: [path.resolve(__dirname, 'src/assets')],
+      //   include: [path.resolve(srcDirectory, 'assets')],
       //   use: svgLoaders,
       // },
     ]),
@@ -307,6 +240,7 @@ const clientSpecificConfig = {
       // Minification
       ...ifEs5([
         new webpack.optimize.UglifyJsPlugin({
+          // @ts-ignore
           minimize: true,
           comments: false,
           sourceMap: true,

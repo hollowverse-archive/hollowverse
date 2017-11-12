@@ -1,75 +1,38 @@
 const express = require('express');
-const webpack = require('webpack');
 const noFavicon = require('express-no-favicons');
-// const webpackDevMiddleware = require('webpack-dev-middleware');
-// const webpackHotMiddleware = require('webpack-hot-middleware');
-// const webpackHotServerMiddleware = require('webpack-hot-server-middleware');
 
-// tslint:disable no-require-imports no-var-requires
-const clientConfig = require('../client/webpack.config.client');
-const serverConfig = require('../client/webpack.config.server');
+const clientConfig = require('../client/webpack/webpack.config.client');
+const serverConfig = require('../client/webpack/webpack.config.server');
+const build = require('../client/webpack/builder');
 
-const publicPath = clientConfig.output.publicPath;
-const outputPath = clientConfig.output.path;
-// const DEV = process.env.NODE_ENV === 'development';
+const { publicPath, path: outputPath } = clientConfig.output;
 
-const app = express();
+const { PORT = 3005 } = process.env;
 
-app.use(noFavicon());
+build([clientConfig, serverConfig])
+  .then(stats => {
+    console.info(stats.stats.toString());
 
-let isBuilt = false;
+    const app = express();
 
-const done = () =>
-  !isBuilt &&
-  app.listen(3005, () => {
-    isBuilt = true;
-    console.log('BUILD COMPLETE -- Listening @ http://localhost:3005');
+    app.use(noFavicon());
+
+    // Server client build like usual
+    // This must be defined before the SSR middleware so that
+    // requests to static files, e.g. /static/app.js are not
+    // routed to React Router
+    app.use(publicPath, express.static(outputPath));
+
+    // Server React Router middleware from the SSR build
+    const serverRender = require('../client/dist/main.js').default; // eslint-disable-line global-require
+    const clientStats = stats.toJson().children[0];
+    app.use(serverRender({ clientStats }));
+
+    app.listen(PORT, () => {
+      console.info(`App server is listening on port ${PORT}`);
+    });
+  })
+  .catch(err => {
+    console.error(err);
+    process.exit(1);
   });
-
-// if (DEV) {
-//   const compiler = webpack([clientConfig, serverConfig]);
-
-//   // @ts-ignore
-//   const clientCompiler = compiler.compilers[0];
-//   const options = { publicPath, stats: { colors: true } };
-
-//   app.use(webpackDevMiddleware(compiler, options));
-//   app.use(webpackHotMiddleware(clientCompiler));
-//   app.use(webpackHotServerMiddleware(compiler));
-
-//   compiler.plugin('done', done);
-// }
-// else {
-webpack([clientConfig, serverConfig]).run((err, stats) => {
-  if (err) {
-    console.error(err.stack || err);
-    if (err.details) {
-      console.error(err.details);
-    }
-    throw new Error();
-  }
-
-  const info = stats.toJson();
-
-  if (stats.hasErrors()) {
-    console.error(info.errors);
-    throw new Error();
-  }
-
-  if (stats.hasWarnings()) {
-    console.warn(info.warnings);
-  }
-
-  const clientStats = stats.toJson().children[0];
-  const serverRender = require('../client/dist/main.js').default;
-
-  app.use(publicPath, express.static(outputPath));
-  app.use(serverRender({ clientStats }));
-
-  done();
-});
-// }
-
-process.on('unhandledRejection', err => {
-  console.error(err);
-});

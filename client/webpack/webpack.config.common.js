@@ -6,14 +6,12 @@ const CircularDependencyPlugin = require('circular-dependency-plugin');
 const path = require('path');
 const fs = require('fs');
 const debug = require('debug');
-const compact = require('lodash/compact');
-const mapValues = require('lodash/mapValues');
+const { compact, mapValues } = require('lodash');
 
-const env = require('../env');
+const env = require('./env');
+const { pkg, srcDirectory, distDirectory } = require('./variables');
 
 const { ifEs5, ifEsNext, ifProd, ifDev, ifReact, ifPreact, ifHot } = env;
-
-const pkg = require('../package.json');
 
 const log = debug('build');
 
@@ -96,7 +94,7 @@ const babelConfig = {
 // Write .babelrc to disk so that it can be used by BabelMinifyPlugin and other plugins
 // that do not allow programmatic configuration via JS
 fs.writeFileSync(
-  path.resolve(__dirname, '.babelrc'),
+  path.resolve(srcDirectory, '.babelrc'),
   JSON.stringify(babelConfig, undefined, 2),
 );
 
@@ -106,11 +104,6 @@ const babelLoader = {
   loader: 'babel-loader',
   options: babelConfig,
 };
-
-const BUILD_PATH = path.resolve(
-  process.cwd(),
-  process.env.BUILD_PATH || './client/dist',
-);
 
 const config = {
   devServer:
@@ -130,7 +123,7 @@ const config = {
   devtool: env.isDev ? 'cheap-module-source-map' : 'source-map',
 
   output: {
-    path: BUILD_PATH,
+    path: distDirectory,
   },
 
   module: {
@@ -190,7 +183,7 @@ const config = {
       // Allow absolute imports from 'src' dir,
       // e.g. `import 'file';` instead of `'../../file';`
       // This also has to be set in `tsconfig.json`, check `compilerOptions.paths`
-      path.join(__dirname, 'src'),
+      srcDirectory,
 
       // Fallback to node_modules dir
       'node_modules',

@@ -48,7 +48,7 @@ class Page extends React.Component<any, any> {
   render() {
     const { data } = this.props;
     if (!data) {
-      return <div>lodaing...</div>;
+      return null;
     }
     if (!data.notablePerson) {
       return (
@@ -102,14 +102,9 @@ class Page extends React.Component<any, any> {
 }
 
 const ResolvedPage = Resolver.resolve('data', async ({ slug }: any) => {
-  console.log('Querying api', slug);
-  const data = await client.request<NotablePersonQuery>(query, { slug });
-  console.log(data);
-
-  return data;
+  return client.request<NotablePersonQuery>(query, { slug });
 })(Page);
 
-export default withRouter(({ match: { params: { slug } } }) => {
-  console.log('SLUG', slug);
-  return <ResolvedPage slug={slug} />;
-});
+export default withRouter(({ match: { params: { slug } } }) => (
+  <ResolvedPage slug={slug} />
+));

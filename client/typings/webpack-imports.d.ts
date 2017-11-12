@@ -25,6 +25,11 @@ declare module 'file-loader!*' {
   export default url;
 }
 
+declare module '*.html' {
+  const str: string;
+  export default str;
+}
+
 declare module '!!svg-react-loader*' {
   import * as React from 'react';
   type Props = React.SVGAttributes<SVGSVGElement>;
