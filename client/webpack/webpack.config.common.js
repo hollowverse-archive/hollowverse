@@ -1,126 +1,44 @@
 const webpack = require('webpack');
-const WriteFilePlugin = require('write-file-webpack-plugin');
 
 const CircularDependencyPlugin = require('circular-dependency-plugin');
 
-const path = require('path');
-const fs = require('fs');
-const debug = require('debug');
 const { compact, mapValues } = require('lodash');
 
-const env = require('./env');
-const { pkg, srcDirectory, distDirectory } = require('./variables');
+const {
+  srcDirectory,
+  distDirectory,
+  excludedPatterns,
+} = require('./variables');
 
-const { ifEs5, ifEsNext, ifProd, ifDev, ifReact, ifPreact, ifHot } = env;
-
-const log = debug('build');
-
-if (env.isPreact) {
-  log('Building with Preact instead of React');
-}
-
-if (env.isEs5) {
-  log('Building with babel-preset-es2015 instead of babel-preset-env');
-}
-
-if (!env.shouldLint) {
-  log('Linting is disabled');
-}
-
-if (!env.isPerf) {
-  log('Skipping performance checks!');
-}
-
-if (!env.shouldTypeCheck) {
-  log('Skipping type checking!');
-}
-
-const PUBLIC_PATH = '/';
-
-const excludedPatterns = compact([
-  /node_modules/,
-  ifProd(/\.test\.tsx?$/),
-  ifProd(/\.test\.jsx?$/),
-]);
-
-const babelConfig = {
-  presets: compact([
-    ...ifEs5(['es2015']),
-    ...ifEsNext(
-      compact([
-        ...ifProd([
-          [
-            'minify',
-            {
-              removeConsole: true,
-              removeDebugger: true,
-              simplifyComparisons: false, // Buggy
-              mangle: false, // Buggy
-              simplify: false, // Buggy
-            },
-          ],
-          ifReact('react-optimize'),
-        ]),
-        [
-          'env',
-          {
-            modules: false,
-            loose: true,
-            debug: env.isDebug,
-            targets: {
-              browsers: pkg.browserslist,
-            },
-            useBuiltIns: true,
-          },
-        ],
-      ]),
-    ),
-    'react',
-    'stage-3',
-  ]),
-  plugins: compact([
-    'universal-import',
-    'syntax-dynamic-import',
-    ...ifProd([
-      // Compile gql`query { ... }` at build time to avoid runtime parsing overhead
-      'graphql-tag',
-      'transform-node-env-inline',
-      'transform-inline-environment-variables',
-    ]),
-  ]),
-  sourceMaps: 'both',
-};
-
-// Write .babelrc to disk so that it can be used by BabelMinifyPlugin and other plugins
-// that do not allow programmatic configuration via JS
-fs.writeFileSync(
-  path.resolve(srcDirectory, '.babelrc'),
-  JSON.stringify(babelConfig, undefined, 2),
-);
-
-log(babelConfig);
+const {
+  ifReact,
+  ifPreact,
+  ifHot,
+  isHot,
+  isDev,
+  shouldTypeCheck,
+} = require('./env');
 
 const babelLoader = {
   loader: 'babel-loader',
-  options: babelConfig,
 };
 
 const config = {
-  devServer:
-    ifDev({
-      port: process.env.WEBPACK_DEV_PORT || 3001,
-      inline: true,
-      contentBase: PUBLIC_PATH,
-      hot: env.isHot,
-      historyApiFallback: true,
-      noInfo: true,
-      quiet: false,
-      stats: {
-        colors: true,
-      },
-    }) || undefined,
+  // devServer:
+  //   ifDev({
+  //     port: process.env.WEBPACK_DEV_PORT || 3001,
+  //     inline: true,
+  //     contentBase: publicPath,
+  //     hot: env.isHot,
+  //     historyApiFallback: true,
+  //     noInfo: true,
+  //     quiet: false,
+  //     stats: {
+  //       colors: true,
+  //     },
+  //   }) || undefined,
 
-  devtool: env.isDev ? 'cheap-module-source-map' : 'source-map',
+  devtool: isDev ? 'cheap-module-source-map' : 'source-map',
 
   output: {
     path: distDirectory,
@@ -155,9 +73,9 @@ const config = {
             loader: 'ts-loader',
             options: {
               silent: true,
-              transpileOnly: !env.shouldTypeCheck,
+              transpileOnly: !shouldTypeCheck,
               compilerOptions: {
-                noEmitOnError: env.shouldTypeCheck,
+                noEmitOnError: shouldTypeCheck,
               },
             },
           },
@@ -167,17 +85,16 @@ const config = {
   },
 
   resolve: {
-    alias: Object.assign(
-      {
-        // Replace lodash with lodash-es for better tree shaking
-        lodash: 'lodash-es',
-      },
+    alias: {
+      // Replace lodash with lodash-es for better tree shaking
+      lodash: 'lodash-es',
+
       // That's all what we need to use Preact instead of React
-      ifPreact({
+      ...ifPreact({
         react: 'preact-compat',
         'react-dom': 'preact-compat',
       }),
-    ),
+    },
     extensions: ['.tsx', '.ts', '.js'],
     modules: [
       // Allow absolute imports from 'src' dir,
@@ -191,7 +108,6 @@ const config = {
   },
 
   plugins: compact([
-    new WriteFilePlugin(),
     // Development
     // Do not watch files in node_modules as this causes a huge overhead
     new webpack.WatchIgnorePlugin([/node_modules/]),
@@ -205,10 +121,10 @@ const config = {
     new webpack.DefinePlugin(
       mapValues(
         {
-          __DEBUG__: env.isDev,
+          __DEBUG__: isDev,
           API_ENDPOINT: process.env.API_ENDPOINT,
           'process.env.NODE_ENV': process.env.NODE_ENV,
-          isHot: env.isHot,
+          isHot,
         },
         v => JSON.stringify(v),
       ),
