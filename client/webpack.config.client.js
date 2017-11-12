@@ -164,7 +164,8 @@ const clientSpecificConfig = {
     publicPath: PUBLIC_PATH,
   },
 
-  // Stats require that this property contains details about assets
+  // Producing build stats require that this property contains details about assets
+  // Setting it to `undefined` keeps the default, which is to produce stats.
   stats: env.isStats ? undefined : 'errors-only',
 
   // Enforce performance limits for production build if PERF flag is set
