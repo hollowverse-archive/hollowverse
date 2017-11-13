@@ -6,7 +6,7 @@ import { importGlobalScript } from 'helpers/importGlobalScript';
 import { MessageWithIcon } from 'components/MessageWithIcon';
 import { LoadingSpinner } from 'components/LoadingSpinner';
 import { SvgIcon } from 'components/SvgIcon';
-import { delay } from 'helpers/time';
+import { delay } from 'helpers/delay';
 
 import warningIcon from 'icons/warning.svg';
 
@@ -122,7 +122,7 @@ export class FbComments extends React.PureComponent<P, S> {
     this.tryLoading();
   }
 
-  componentWillMount() {
+  componentWillUnmount() {
     if (this.commentsObserver !== null) {
       this.commentsObserver.disconnect();
     }
