@@ -14,14 +14,17 @@ import { Resolver } from 'react-resolver';
 
 import html from './index.html';
 
-import template from 'lodash/template';
+import { template } from 'lodash';
 
-const compiledTemplate = template(html);
+const interpolateTemplate = template(html);
 
-export default ({ clientStats }: any) => async (
-  req: Request,
-  res: Response,
-) => {
+import { Stats } from 'webpack';
+
+export const createServerRenderMiddleware = ({
+  clientStats,
+}: {
+  clientStats: Stats;
+}) => async (req: Request, res: Response) => {
   try {
     const { Resolved, data } = await Resolver.resolve(() => {
       const context = {};
@@ -53,7 +56,7 @@ export default ({ clientStats }: any) => async (
     console.log('STYLESHEETS SERVED', stylesheets);
 
     res.send(
-      compiledTemplate({
+      interpolateTemplate({
         data: serializeJavaScript(data, {
           isJSON: true,
           space: __DEBUG__ ? 2 : 0,

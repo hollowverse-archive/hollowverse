@@ -1,14 +1,9 @@
-const webpack = require('webpack');
+import * as webpack from 'webpack';
 
-const build = configs =>
-  new Promise((resolve, reject) => {
+export const build = (configs: webpack.Configuration[]) =>
+  new Promise<webpack.Stats>((resolve, reject) => {
     webpack(configs).run((err, stats) => {
       if (err) {
-        console.error(err.stack || err);
-        if (err.details) {
-          console.error(err.details);
-        }
-
         reject(err);
 
         return;
@@ -24,5 +19,3 @@ const build = configs =>
       resolve(stats);
     });
   });
-
-module.exports = build;
