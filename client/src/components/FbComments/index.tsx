@@ -6,9 +6,9 @@ import { importGlobalScript } from 'helpers/importGlobalScript';
 import { MessageWithIcon } from 'components/MessageWithIcon';
 import { LoadingSpinner } from 'components/LoadingSpinner';
 // import { SvgIcon } from 'components/SvgIcon';
-import { delay } from 'helpers/time';
 
 // import warningIcon from 'icons/warning.svg';
+import { delay } from 'helpers/delay';
 
 const loadingComponent = (
   <MessageWithIcon

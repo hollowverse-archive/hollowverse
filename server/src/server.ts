@@ -29,7 +29,7 @@ server.use(
       // Enable HTTP Strict Transport Security
       // This tells the browser to rewrite all subsequent http:// URLs to
       // https:// so that we can skip the redirection request overhead.
-      maxAge: moment.duration(5, 'hours').asSeconds(),
+      maxAge: moment.duration(60, 'days').asSeconds(),
       includeSubdomains: true,
       preload: true,
     },

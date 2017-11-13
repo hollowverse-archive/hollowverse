@@ -76,6 +76,7 @@
     "lodash": "^4.17.4",
     "moment": "^2.19.1",
     "npm-run-all": "^4.0.2",
+    "http-server": "^0.10.0",
     "preact": "^8.1.0",
     "preact-compat": "^3.16.0",
     "react": "^15.6.1",
