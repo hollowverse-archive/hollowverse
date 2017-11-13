@@ -12,7 +12,7 @@ import { OptionalIntersectionObserver } from 'components/OptionalIntersectionObs
 import { withRouter } from 'react-router-dom';
 import Loadable from 'react-loadable';
 
-import { prettifyUrl } from 'helpers/url';
+import { prettifyUrl } from 'helpers/prettifyUrl';
 
 import warningIconSymbol from 'icons/warning.svg';
 
