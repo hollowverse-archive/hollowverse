@@ -49,7 +49,7 @@ type ResolvedProps = {
   data?: NotablePersonQuery;
 };
 
-class Page extends React.Component<OwnProps & ResolvedProps, {}> {
+class Page extends React.PureComponent<OwnProps & ResolvedProps, {}> {
   render() {
     const { data } = this.props;
     if (!data) {
