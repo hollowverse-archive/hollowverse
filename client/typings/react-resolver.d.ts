@@ -1,8 +1,5 @@
 declare module 'react-resolver' {
   import { ComponentClass, StatelessComponent, Factory } from 'react';
-
-  interface AnyComponent<P> extends ComponentClass<P> {}
-
   type AnyComponent<P> = ComponentClass<P> | StatelessComponent<P>;
 
   export class Resolver {
@@ -17,6 +14,13 @@ declare module 'react-resolver' {
   }
 
   type ResolveFn<Props, V> = (props: Props) => Promise<V>;
+
+  /** Use this for gaining access to a context as a prop without the boilerplate of setting `contextTypes`. */
+  export function context<K, V = any>(
+    prop: K,
+  ): <OwnProps>(
+    component: AnyComponent<OwnProps>,
+  ) => StatelessComponent<OwnProps & Record<typeof prop, V>>;
 
   export function resolve<
     OwnProps,
