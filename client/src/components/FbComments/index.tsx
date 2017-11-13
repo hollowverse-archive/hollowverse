@@ -147,8 +147,8 @@ export class FbComments extends React.PureComponent<P, S> {
         {isLoading ? loadingComponent : null}
         <noscript>
           <MessageWithIcon
-            caption="JavaScript is disabled"
-            description="Enable JavaScript in your browser settings and reload this page to see Facebook comments"
+            caption="Unable to load comments"
+            description="Enable JavaScript in your browser settings and reload this page to see comments"
           />
         </noscript>
         <div
