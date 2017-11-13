@@ -11,7 +11,7 @@ import { OptionalIntersectionObserver } from 'components/OptionalIntersectionObs
 import { withRouter } from 'react-router-dom';
 import { resolve } from 'react-resolver';
 
-import { prettifyUrl } from 'helpers/url';
+import { prettifyUrl } from 'helpers/prettifyUrl';
 
 // import warningIconSymbol from 'icons/warning.svg';
 
