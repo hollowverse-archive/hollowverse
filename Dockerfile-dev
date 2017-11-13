@@ -9,4 +9,4 @@ VOLUME /code/node_modules
 
 WORKDIR /code
 
-CMD yarn && yarn dev
+CMD yarn && yarn client/dev

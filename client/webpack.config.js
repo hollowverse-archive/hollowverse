@@ -6,13 +6,14 @@ const WebpackHTMLPlugin = require('html-webpack-plugin');
 
 const SpriteLoaderPlugin = require('svg-sprite-loader/plugin');
 const NameAllModulesPlugin = require('name-all-modules-plugin');
-const BabiliPlugin = require('babili-webpack-plugin');
+const BabelMinifyPlugin = require('babel-minify-webpack-plugin');
 const PreloadWebpackPlugin = require('preload-webpack-plugin');
 
 const path = require('path');
 const fs = require('fs');
 const debug = require('debug');
 const compact = require('lodash/compact');
+const mapValues = require('lodash/mapValues');
 
 const autoprefixer = require('autoprefixer');
 const stylelint = require('stylelint');
@@ -79,10 +80,11 @@ const babelConfig = {
       compact([
         ...ifProd([
           [
-            'babili',
+            'minify',
             {
               removeConsole: true,
               removeDebugger: true,
+              simplifyComparisons: false, // Buggy
               mangle: false, // Buggy
               simplify: false, // Buggy
             },
@@ -90,33 +92,36 @@ const babelConfig = {
           ifReact('react-optimize'),
         ]),
         [
-          'env',
+          '@babel/env',
           {
             modules: false,
             loose: true,
-            debug: env.isDev,
+            debug: env.isDebug,
             targets: {
               browsers: pkg.browserslist,
             },
-            useBuiltIns: true,
+            useBuiltIns: 'entry',
+            shippedProposals: false,
           },
         ],
       ]),
     ),
-    'react',
-    'stage-3',
+    '@babel/react',
+    '@babel/stage-3',
   ]),
   plugins: compact([
     'syntax-dynamic-import',
     ...ifProd([
+      // Compile gql`query { ... }` at build time to avoid runtime parsing overhead
+      'graphql-tag',
       'transform-node-env-inline',
       'transform-inline-environment-variables',
     ]),
   ]),
-  sourceMaps: 'both',
+  sourceMap: 'both',
 };
 
-// Write .babelrc to disk so that it can be used by BabiliPlugin and other plugins
+// Write .babelrc to disk so that it can be used by BabelMinifyPlugin and other plugins
 // that do not allow programmatic configuration via JS
 fs.writeFileSync(
   path.resolve(__dirname, '.babelrc'),
@@ -132,7 +137,7 @@ const babelLoader = {
 
 const svgoConfig = {
   plugins: [
-    { removeXMLNS: true },
+    { removeXMLNS: false },
     { cleanupIDs: false },
     { convertShapeToPath: false },
     { removeEmptyContainers: false },
@@ -153,6 +158,13 @@ const svgoConfig = {
   ],
 };
 
+const svgLoaders = [
+  {
+    loader: 'svgo-loader',
+    options: svgoConfig,
+  },
+];
+
 const createSvgIconLoaders = name => [
   {
     loader: 'svg-sprite-loader',
@@ -162,10 +174,7 @@ const createSvgIconLoaders = name => [
       runtimeCompat: false,
     },
   },
-  {
-    loader: 'svgo-loader',
-    options: svgoConfig,
-  },
+  ...svgLoaders,
 ];
 
 const sassLoaders = [
@@ -179,6 +188,7 @@ const sassLoaders = [
     loader: 'sass-loader',
     options: {
       sourceMap: true,
+      includePaths: [path.resolve(__dirname, 'src')],
     },
   },
 ];
@@ -240,7 +250,6 @@ const config = {
     app: compact([
       ifReact(ifHot('react-hot-loader/patch')),
       ifPreact(ifDev('preact/devtools')),
-      ifHot('webpack-hot-middleware/client'),
       ifProd('regenerator-runtime/runtime'),
       path.resolve(__dirname, 'src/webpackEntry.ts'),
     ]),
@@ -259,9 +268,17 @@ const config = {
       contentBase: PUBLIC_PATH,
       hot: env.isHot,
       historyApiFallback: true,
+      noInfo: true,
+      quiet: false,
+      stats: {
+        colors: true,
+      },
     }) || undefined,
 
   devtool: env.isDev ? 'cheap-module-source-map' : 'source-map',
+
+  // Stats require that this property contains details about assets
+  stats: env.isStats ? undefined : 'errors-only',
 
   // Enforce performance limits for production build if PERF flag is set
   performance:
@@ -294,20 +311,24 @@ const config = {
       {
         test: cssModulesPattern,
         exclude: excludedPatterns,
-        use: extractCssModules.extract({
-          fallback: 'style-loader',
-          use: cssModuleLoaders,
-        }),
+        use: env.isDev
+          ? ['style-loader', ...cssModuleLoaders]
+          : extractCssModules.extract({
+              fallback: 'style-loader',
+              use: cssModuleLoaders,
+            }),
       },
 
       // Global CSS
       {
         test: /\.s?css$/,
         exclude: [...excludedPatterns, cssModulesPattern],
-        use: extractGlobalCss.extract({
-          fallback: 'style-loader',
-          use: globalCssLoaders,
-        }),
+        use: env.isDev
+          ? ['style-loader', ...globalCssLoaders]
+          : extractGlobalCss.extract({
+              fallback: 'style-loader',
+              use: globalCssLoaders,
+            }),
       },
 
       // ESLint
@@ -408,6 +429,14 @@ const config = {
         include: [path.resolve(__dirname, 'src/icons')],
         use: createSvgIconLoaders('icons.svg'),
       },
+
+      // SVG assets
+      {
+        test: /\.svg$/,
+        exclude: excludedPatterns,
+        include: [path.resolve(__dirname, 'src/assets')],
+        use: svgLoaders,
+      },
     ]),
   },
 
@@ -446,11 +475,17 @@ const config = {
     new webpack.NoEmitOnErrorsPlugin(), // Required to fail the build on errors
 
     // Environment
-    new webpack.DefinePlugin({
-      __DEBUG__: JSON.stringify(env.isDev),
-      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
-      isHot: JSON.stringify(env.isHot),
-    }),
+    new webpack.DefinePlugin(
+      mapValues(
+        {
+          __DEBUG__: env.isDev,
+          API_ENDPOINT: process.env.API_ENDPOINT,
+          'process.env.NODE_ENV': process.env.NODE_ENV,
+          isHot: env.isHot,
+        },
+        v => JSON.stringify(v),
+      ),
+    ),
 
     // HTML index
     new WebpackHTMLPlugin({
@@ -500,28 +535,26 @@ const config = {
       // This chunk contains all vendor code, except React and related libraries
       new webpack.optimize.CommonsChunkPlugin({
         name: 'vendor',
-        minChunks(module) {
-          return (
-            module.context && module.context.indexOf('node_modules') !== -1
-          );
-        },
+        minChunks: module => /node_modules/.test(module.context),
+      }),
+
+      // This chunk contains Apollo Client libraries
+      //
+      // Wondering why we need to match for `/p?react/i` too?
+      // See https://github.com/webpack/webpack/issues/4638#issuecomment-292583989
+      new webpack.optimize.CommonsChunkPlugin({
+        name: 'apollo',
+        minChunks: module =>
+          /node_modules/.test(module.context) &&
+          (/p?react/i.test(module.context) || /apollo/i.test(module.context)),
       }),
 
       // This chunk contains React/Preact and all related libraries
       new webpack.optimize.CommonsChunkPlugin({
         name: 'react',
-        minChunks(module) {
-          if (module.context !== undefined) {
-            const relative = path.relative('./node_modules', module.context);
-
-            return (
-              module.context.indexOf('node_modules') !== -1 &&
-              relative.match(/^p?react/i)
-            );
-          }
-
-          return false;
-        },
+        minChunks: module =>
+          /node_modules/.test(module.context) &&
+          /p?react/i.test(module.context),
       }),
 
       new webpack.optimize.CommonsChunkPlugin({
@@ -554,7 +587,7 @@ const config = {
         }),
       ]),
 
-      ...ifEsNext([new BabiliPlugin()]),
+      ...ifEsNext([new BabelMinifyPlugin()]),
 
       // Banner
       new webpack.BannerPlugin({

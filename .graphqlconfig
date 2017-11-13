@@ -1,0 +1,9 @@
+{
+  "schemaPath": "graphqlSchema.json",
+  "extensions": {
+    "endpoints": {
+      "dev": "http://localhost:8080/graphql",
+      "prod": "https://api.hollowverse.com/graphql"
+    }
+  }
+}

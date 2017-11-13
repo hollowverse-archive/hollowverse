@@ -27,12 +27,13 @@ declare namespace facebookSdk {
     ): void;
     login(callback: (response: AuthResponse) => void): void;
     logout(callback: (response: AuthResponse) => void): void;
-    init(params: {
-      appId: string;
-      xfbml: boolean;
+    init(params?: {
+      appId?: string;
+      xfbml?: boolean;
+      autoLogAppEvents?: boolean;
       status?: boolean;
-      version: string;
-      cookie: boolean;
+      version?: string;
+      cookie?: boolean;
     }): void;
   }
 }

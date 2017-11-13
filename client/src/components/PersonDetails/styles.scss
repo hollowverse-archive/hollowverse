@@ -1,0 +1,45 @@
+@import 'variables.scss';
+
+.person-details {
+  position: relative;
+
+  &-avatar {
+    width: $avatar-size;
+    height: $avatar-size;
+    border-radius: 50%;
+    user-select: none;
+    margin: 0 auto 20px;
+
+    // stylelint-disable-next-line plugin/no-unsupported-browser-features
+    object-fit: cover;
+    display: block;
+  }
+
+  &-caption {
+    color: $color-text-light;
+    font-size: 12px;
+    text-align: center;
+  }
+
+  &-name {
+    color: $color-text-default;
+    font-size: 30px;
+    font-weight: bold;
+    line-height: 25px;
+    margin: 10px 0;
+    text-align: center;
+  }
+
+  &-labels {
+    text-align: center;
+    margin: 20px auto;
+  }
+
+  &-about {
+    clear: both;
+  }
+
+  p {
+    margin: 10px 0;
+  }
+}
