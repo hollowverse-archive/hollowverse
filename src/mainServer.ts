@@ -1,21 +1,17 @@
 import * as express from 'express';
 import * as httpProxy from 'http-proxy';
-import * as fs from 'fs';
-import * as path from 'path';
 import * as helmet from 'helmet';
 import * as moment from 'moment';
 
 import { log } from './logger/logger';
-import { logEndpoint } from './logger/logEndpoint';
+import { logEndpoint } from './middleware/logEndpoint';
 import { env } from './env';
-import { redirectToHttps } from './redirectToHttps';
+import { redirectToHttps } from './middleware/redirectToHttps';
 
 const {
   // tslint:disable-next-line no-http-string
   OLD_SERVER_ADDRESS = 'http://dw5a6b9vjmt7w.cloudfront.net/',
-  // tslint:disable-next-line no-http-string
-  NEW_SERVER_ADDRESS = 'http://localhost:3001/',
-  PUBLIC_PATH = './client/dist',
+  APP_SERVER_PORT = 3001,
   PORT = 8080,
 } = process.env;
 
@@ -73,12 +69,9 @@ proxyServer.on('proxyReq', (proxyReq: any) => {
   }
 });
 
-const redirectionMap = new Map<string, string>([]);
+const redirectionMap = new Map<string, string>([['tom-hanks', 'Tom_Hanks']]);
 
 const newPaths = new Set(redirectionMap.values());
-const staticFiles = new Set(
-  fs.readdirSync(path.resolve(process.cwd(), PUBLIC_PATH)),
-);
 
 // Short-circuit the redirection proxy to expose the /log endpoint
 server.use('/log', logEndpoint);
@@ -86,6 +79,15 @@ server.use('/log', logEndpoint);
 // As the proxy is placed in front of the old version, we need to allow
 // requests to static assets to be directed to the new app.
 // The new proxy will check if the request is for a static file, and redirect accordingly.
+// Examples: /static/app.js, /static/vendor.js => new hollowverse
+server.get('/static/*', (req, res) => {
+  proxyServer.web(req, res, {
+    // tslint:disable-next-line no-http-string
+    target: `http://localhost:${APP_SERVER_PORT}`,
+    changeOrigin: true,
+  });
+});
+
 // Because ":/path" matches routes on both new and old servers, the new proxy also has
 // to know the new app paths to avoid redirection loops.
 server.get('/:path', (req, res, next) => {
@@ -98,10 +100,11 @@ server.get('/:path', (req, res, next) => {
   if (redirectionPath !== undefined) {
     // /tom-hanks => redirect to Tom_Hanks
     res.redirect(`/${redirectionPath}`);
-  } else if (newPaths.has(reqPath) || staticFiles.has(reqPath)) {
-    // /Tom_Hanks, /app.js, /vendor.js => new hollowverse
+  } else if (newPaths.has(reqPath)) {
+    // /Tom_Hanks => new hollowverse
     proxyServer.web(req, res, {
-      target: NEW_SERVER_ADDRESS,
+      // tslint:disable-next-line no-http-string
+      target: `http://localhost:${APP_SERVER_PORT}`,
       changeOrigin: true,
     });
   } else {

@@ -1,6 +1,7 @@
 const webpack = require('webpack');
 
 const CircularDependencyPlugin = require('circular-dependency-plugin');
+// const WriteFilePlugin = require('write-file-webpack-plugin');
 
 const { compact, mapValues } = require('lodash');
 
@@ -109,10 +110,9 @@ const config = {
 
   plugins: compact([
     // Development
+    // new WriteFilePlugin(),
     // Do not watch files in node_modules as this causes a huge overhead
     new webpack.WatchIgnorePlugin([/node_modules/]),
-
-    ifHot(new webpack.HotModuleReplacementPlugin()),
 
     // Error handling
     new webpack.NoEmitOnErrorsPlugin(), // Required to fail the build on errors

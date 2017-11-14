@@ -44,6 +44,6 @@ export function log<T extends LogType>(type: T, data: LogPayload<T>) {
     type,
     // tslint:disable-next-line no-suspicious-comment
     // @FIXME: Type cast to work around TS issue
-    ...data as object,
+    ...(data as object),
   });
 }

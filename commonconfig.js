@@ -1,7 +1,8 @@
 module.exports = {
   ignoredPatterns: [
     '*/**/typings/*',
-    'client/src/components/**',
+    'src/app/components/**',
+    'src/app/pages/**',
     '_*.scss',
     'Dockerfile*',
     'docker-compose.yml',

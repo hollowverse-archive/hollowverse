@@ -1,7 +1,7 @@
-import * as webpack from 'webpack';
+const webpack = require('webpack');
 
-export const build = (configs: webpack.Configuration[]) =>
-  new Promise<webpack.Stats>((resolve, reject) => {
+module.exports.build = configs =>
+  new Promise((resolve, reject) => {
     webpack(configs).run((err, stats) => {
       if (err) {
         reject(err);

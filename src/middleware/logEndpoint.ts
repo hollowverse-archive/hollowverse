@@ -1,8 +1,8 @@
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
 
-import { isBodyValid } from './utils';
-import { log } from './logger';
+import { isBodyValid } from '../logger/utils';
+import { log } from '../logger/logger';
 
 const logEndpoint = express();
 

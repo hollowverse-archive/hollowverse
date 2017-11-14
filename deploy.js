@@ -27,7 +27,7 @@ const secrets = [
 const ebEnvironmentName = `${PROJECT}-${BRANCH}`;
 
 async function main() {
-  const buildCommands = ['yarn test', 'yarn server/build', 'yarn client/build'];
+  const buildCommands = ['yarn test', 'yarn build'];
   const deploymentCommands = [
     () =>
       writeJsonFile('env.json', {
@@ -39,10 +39,8 @@ async function main() {
       createZipFile(
         'build.zip',
         [
-          'client/dist/**/*',
-          'server/dist/**/*',
+          'dist/**/*',
           'secrets/**/*',
-          'common/**/*',
           'yarn.lock',
           'package.json',
           'env.json',
@@ -53,7 +51,10 @@ async function main() {
       ),
     // Use the Elastic Beanstalk environment of this branch (create it if necessary)
     () => {
-      const environments = shelljs.exec('eb list').stdout.trim().split('\n');
+      const environments = shelljs
+        .exec('eb list')
+        .stdout.trim()
+        .split('\n');
       if (environments.indexOf(ebEnvironmentName) === -1) {
         return executeCommand(`eb create ${ebEnvironmentName}`);
       }

@@ -12,7 +12,6 @@ const compact = require('lodash/compact');
 
 // const stylelint = require('stylelint');
 
-const env = require('./env');
 const { createGlobalCssLoaders, createCssModulesLoaders } = require('./shared');
 const {
   srcDirectory,
@@ -33,7 +32,9 @@ const {
   ifPreact,
   ifHot,
   ifPerf,
-} = env;
+  isProd,
+  isStats,
+} = require('./env');
 
 // const svgoConfig = {
 //   plugins: [
@@ -77,17 +78,13 @@ const {
 //   ...svgLoaders,
 // ];
 
-const extractCssChunks = new ExtractCssChunks();
-
-// const extractCssModules = new ExtractCssChunks({
-//   filename: '[name]_local.[contenthash].css',
-//   allChunks: true,
-// });
-
 const clientSpecificConfig = {
   name: 'client',
   target: 'web',
   entry: compact([
+    ifHot(
+      'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000&reload=false&quiet=false&noInfo=false',
+    ),
     ifReact(ifHot('react-hot-loader/patch')),
     ifPreact(ifDev('preact/devtools')),
     ifProd('regenerator-runtime/runtime'),
@@ -102,7 +99,7 @@ const clientSpecificConfig = {
 
   // Producing build stats require that this property contains details about assets
   // Setting it to `undefined` keeps the default, which is to produce stats.
-  stats: env.isStats ? undefined : 'errors-only',
+  stats: isStats ? undefined : 'errors-only',
 
   // Enforce performance limits for production build if PERF flag is set
   performance:
@@ -209,13 +206,18 @@ const clientSpecificConfig = {
   plugins: compact([
     // CSS
     // extractCssModules,
-    extractCssChunks,
+    new ExtractCssChunks(),
 
     // Required for debugging in development and for long-term caching in production
     new webpack.NamedModulesPlugin(),
 
     // SVG sprites
     // new SpriteLoaderPlugin(),
+
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'vendor',
+      minChunks: module => /node_modules/.test(module.context),
+    }),
 
     // Production-only
     ...ifProd([
@@ -224,13 +226,6 @@ const clientSpecificConfig = {
       // See https://medium.com/webpack/predictable-long-term-caching-with-webpack-d3eee1d3fa31
       new webpack.NamedChunksPlugin(),
       new NameAllModulesPlugin(),
-
-      // The order of the following instances is important
-      // This chunk contains all vendor code, except React and related libraries
-      new webpack.optimize.CommonsChunkPlugin({
-        name: 'vendor',
-        minChunks: module => /node_modules/.test(module.context),
-      }),
 
       new webpack.optimize.OccurrenceOrderPlugin(true),
 
@@ -258,9 +253,12 @@ const clientSpecificConfig = {
 
     // Contains all Webpack bootstraping logic
     new webpack.optimize.CommonsChunkPlugin({
-      name: 'bootstrap',
+      names: ['bootstrap'],
+      filename: isProd ? '[name].[chunkhash].js' : '[name].js',
       minChunks: Infinity,
     }),
+
+    ifHot(new webpack.HotModuleReplacementPlugin()),
   ]),
 };
 

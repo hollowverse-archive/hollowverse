@@ -5,22 +5,27 @@ import { Resolver } from 'react-resolver';
 
 import { App } from 'components/App';
 
-const renderApp = () =>
+const renderApp = (NewApp: typeof App = App) =>
   Resolver.render(
     () => (
       <Router>
-        <App />
+        <NewApp />
       </Router>
     ),
     document.getElementById('app'),
   );
 
-// @ts-ignore
+declare const module: {
+  hot?: { accept(path?: string, cb?: () => void): void };
+};
+
 if (module.hot) {
-  // @ts-ignore
   module.hot.accept();
-  // @ts-ignore
-  module.hot.accept('components/App', renderApp);
+  module.hot.accept('components/App', () => {
+    // tslint:disable-next-line no-require-imports
+    const { App: NewApp } = require('components/App');
+    renderApp(NewApp);
+  });
 }
 
 domready(renderApp);

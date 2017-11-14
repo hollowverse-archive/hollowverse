@@ -81,7 +81,7 @@ class Page extends React.PureComponent<OwnProps & ResolvedProps, {}> {
             photoUrl={photoUrl}
             summary={summary}
           />
-          {events.map((event: any) => (
+          {events.map(event => (
             <Event
               key={event.id}
               {...event}
