@@ -47,7 +47,7 @@ async function main() {
           'Dockerfile',
           '.dockerignore',
         ],
-        ['secrets/**/*.enc'],
+        ['secrets/**/*.enc', 'secrets/**/*.d.ts'],
       ),
     // Use the Elastic Beanstalk environment of this branch (create it if necessary)
     () => {
