@@ -4,7 +4,7 @@ const { pkg } = require('./variables');
 
 const { ifEs5, ifEsNext, ifProd, ifReact, isDebug } = require('./env');
 
-module.exports = {
+module.exports.createBabelConfig = (isServer = false) => ({
   presets: compact([
     ...ifEs5(['es2015']),
     ...ifEsNext(
@@ -28,10 +28,13 @@ module.exports = {
             modules: false,
             loose: true,
             debug: isDebug,
-            targets: {
-              browsers: pkg.browserslist,
-              node: 'current',
-            },
+            targets: isServer
+              ? {
+                  node: 'current',
+                }
+              : {
+                  browsers: pkg.browserslist,
+                },
             useBuiltIns: true,
           },
         ],
@@ -51,4 +54,4 @@ module.exports = {
     ]),
   ]),
   sourceMaps: 'both',
-};
+});

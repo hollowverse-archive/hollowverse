@@ -11,18 +11,7 @@ const {
   excludedPatterns,
 } = require('./variables');
 
-const {
-  ifReact,
-  ifPreact,
-  ifHot,
-  isHot,
-  isDev,
-  shouldTypeCheck,
-} = require('./env');
-
-const babelLoader = {
-  loader: 'babel-loader',
-};
+const { ifPreact, isHot, isDev } = require('./env');
 
 const config = {
   // devServer:
@@ -47,13 +36,6 @@ const config = {
 
   module: {
     rules: compact([
-      // Babel
-      {
-        test: /\.jsx?$/,
-        exclude: excludedPatterns,
-        use: compact([ifReact(ifHot('react-hot-loader/webpack')), babelLoader]),
-      },
-
       // Read source maps produced by TypeScript and Babel and merge
       // them with Webpack's source maps
       {
@@ -61,26 +43,6 @@ const config = {
         exclude: excludedPatterns,
         use: ['source-map-loader'],
         enforce: 'pre',
-      },
-
-      // TypeScript
-      {
-        test: /\.tsx?$/,
-        exclude: excludedPatterns,
-        use: compact([
-          ifReact(ifHot('react-hot-loader/webpack')),
-          babelLoader,
-          {
-            loader: 'ts-loader',
-            options: {
-              silent: true,
-              transpileOnly: !shouldTypeCheck,
-              compilerOptions: {
-                noEmitOnError: shouldTypeCheck,
-              },
-            },
-          },
-        ]),
       },
     ]),
   },

@@ -10,9 +10,11 @@ const BabelMinifyPlugin = require('babel-minify-webpack-plugin');
 const path = require('path');
 const compact = require('lodash/compact');
 
-// const stylelint = require('stylelint');
-
-const { createGlobalCssLoaders, createCssModulesLoaders } = require('./shared');
+const {
+  createGlobalCssLoaders,
+  createCssModulesLoaders,
+  createScriptRules,
+} = require('./shared');
 const {
   srcDirectory,
   pkg,
@@ -113,59 +115,8 @@ const clientSpecificConfig = {
 
   module: {
     rules: compact([
-      // // Stylelint
-      // ifLint(
-      //   ifProd({
-      //     test: /\.s?css$/,
-      //     exclude: excludedPatterns,
-      //     enforce: 'pre',
-      //     use: {
-      //       loader: 'postcss-loader',
-      //       options: {
-      //         plugins: [stylelint],
-      //       },
-      //     },
-      //   }),
-      // ),
-
-      // // ESLint
-      // ifLint(
-      //   ifProd({
-      //     test: /\.jsx?$/,
-      //     exclude: excludedPatterns,
-      //     enforce: 'pre',
-      //     use: [
-      //       {
-      //         loader: 'eslint-loader',
-      //         query: {
-      //           failOnError: env.isProd,
-      //           failOnWarning: env.isProd,
-      //           fix: env.isProd,
-      //         },
-      //       },
-      //     ],
-      //   }),
-      // ),
-
-      // // TSLint
-      // ifLint(
-      //   ifProd({
-      //     test: /\.tsx?$/,
-      //     exclude: excludedPatterns,
-      //     enforce: 'pre',
-      //     use: [
-      //       {
-      //         loader: 'tslint-loader',
-      //         options: {
-      //           emitErrors: env.isProd,
-      //           failOnHint: env.isProd,
-      //           typeCheck: env.isProd,
-      //           fix: false,
-      //         },
-      //       },
-      //     ],
-      //   }),
-      // ),
+      // JavaScript and TypeScript
+      ...createScriptRules(false),
 
       // CSS Modules
       {

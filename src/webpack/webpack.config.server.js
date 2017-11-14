@@ -3,6 +3,7 @@ const path = require('path');
 const webpackMerge = require('webpack-merge');
 const common = require('./webpack.config.common');
 const nodeExternals = require('webpack-node-externals');
+const compact = require('lodash/compact');
 
 const {
   srcDirectory,
@@ -10,7 +11,11 @@ const {
   cssModulesPattern,
 } = require('./variables');
 const { isProd } = require('./env');
-const { createGlobalCssLoaders, createCssModulesLoaders } = require('./shared');
+const {
+  createGlobalCssLoaders,
+  createCssModulesLoaders,
+  createScriptRules,
+} = require('./shared');
 
 const serverSpecificConfig = {
   name: 'server',
@@ -27,7 +32,10 @@ const serverSpecificConfig = {
     libraryTarget: 'commonjs2',
   },
   module: {
-    rules: [
+    rules: compact([
+      // JavaScript and TypeScript
+      ...createScriptRules(true),
+
       // CSS Modules
       {
         test: cssModulesPattern,
@@ -53,7 +61,7 @@ const serverSpecificConfig = {
           },
         },
       },
-    ],
+    ]),
   },
   plugins: [
     new webpack.optimize.LimitChunkCountPlugin({
