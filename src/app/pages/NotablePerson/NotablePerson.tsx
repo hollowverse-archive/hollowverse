@@ -49,7 +49,10 @@ type ResolvedProps = {
   data?: NotablePersonQuery;
 };
 
-class Page extends React.PureComponent<OwnProps & ResolvedProps, {}> {
+class NotablePersonPage extends React.PureComponent<
+  OwnProps & ResolvedProps,
+  {}
+> {
   render() {
     const { data } = this.props;
     if (!data) {
@@ -108,7 +111,7 @@ class Page extends React.PureComponent<OwnProps & ResolvedProps, {}> {
 
 const ResolvedPage = resolve('data', async ({ slug }) => {
   return client.request<NotablePersonQuery>(query, { slug });
-})(Page);
+})(NotablePersonPage);
 
 export default withRouter(({ match: { params: { slug } } }) => (
   <ResolvedPage slug={slug} />

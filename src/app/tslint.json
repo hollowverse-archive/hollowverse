@@ -4,6 +4,7 @@
     "match-default-export-name": false,
     "no-multiline-string": false,
     "no-submodule-imports": false,
-    "no-implicit-dependencies": false
+    "no-implicit-dependencies": false,
+    "completed-docs": false
   }
 }
