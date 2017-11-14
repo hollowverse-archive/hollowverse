@@ -7,13 +7,6 @@ import * as clientConfig from './webpack/webpack.config.client';
 import * as serverConfig from './webpack/webpack.config.server';
 import { isProd } from './webpack/env';
 
-// tslint:disable no-implicit-dependencies
-import * as webpack from 'webpack';
-import * as webpackDevMiddleware from 'webpack-dev-middleware';
-import * as webpackHotMiddleware from 'webpack-hot-middleware';
-import * as webpackHotServerMiddleware from 'webpack-hot-server-middleware';
-// tslint:disable enable-implicit-dependencies
-
 const logger = loglevel.getLogger('Web App Server');
 
 const { publicPath, path: distDirectory } = clientConfig.output;
@@ -41,7 +34,7 @@ if (isProd) {
   app.use(publicPath, express.static(distDirectory));
 
   // Serve server rendering middleware from the SSR build
-  // tslint:disable no-require-imports no-var-requires no-implicit-dependencies
+  // tslint:disable no-require-imports no-var-requires
   const { createServerRenderMiddleware } = require('./app/main.js');
   const stats = require('./stats.json');
   // tslint:enable no-require-imports no-var-requires
@@ -51,6 +44,13 @@ if (isProd) {
 
   startServer();
 } else {
+  // tslint:disable no-require-imports no-var-requires no-implicit-dependencies
+  const webpack = require('webpack');
+  const webpackDevMiddleware = require('webpack-dev-middleware');
+  const webpackHotMiddleware = require('webpack-hot-middleware');
+  const webpackHotServerMiddleware = require('webpack-hot-server-middleware');
+  // tslint:enable no-require-imports no-var-requires no-implicit-dependencies
+
   const compiler = webpack([clientConfig, serverConfig]);
 
   // @ts-ignore
