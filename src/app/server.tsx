@@ -1,24 +1,22 @@
-import 'regenerator-runtime/runtime';
-import 'babel-polyfill';
 import { Request, Response } from 'express';
-
 import * as React from 'react';
 import * as serializeJavaScript from 'serialize-javascript';
 import { renderToString as render } from 'react-dom/server';
 import { StaticRouter } from 'react-router';
-import { flushChunkNames } from 'react-universal-component/server';
-
-import flushChunks from 'webpack-flush-chunks';
-import { App } from './components/App';
 import { Resolver } from 'react-resolver';
-
-import html from './index.html';
-
 import { template } from 'lodash';
+import { flushChunkNames } from 'react-universal-component/server';
+import flushChunks from 'webpack-flush-chunks';
+import * as loglevel from 'loglevel';
+import { Stats } from 'webpack';
+
+import { App } from './components/App';
+import html from './index.html';
 
 const interpolateTemplate = template(html);
 
-import { Stats } from 'webpack';
+const logger = loglevel.getLogger('SSR');
+logger.setLevel(__DEBUG__ ? logger.levels.DEBUG : logger.levels.INFO);
 
 export const createServerRenderMiddleware = ({
   clientStats,
@@ -36,8 +34,6 @@ export const createServerRenderMiddleware = ({
       );
     });
 
-    console.log(data);
-
     const app = render(<Resolved />);
 
     const chunkNames = flushChunkNames();
@@ -50,10 +46,10 @@ export const createServerRenderMiddleware = ({
       stylesheets,
     } = flushChunks(clientStats, { chunkNames });
 
-    console.log('PATH', req.path);
-    console.log('DYNAMIC CHUNK NAMES RENDERED', chunkNames);
-    console.log('SCRIPTS SERVED', scripts);
-    console.log('STYLESHEETS SERVED', stylesheets);
+    logger.debug(`Request path: ${req.path}`);
+    logger.debug('Dynamic chunk names rendered', chunkNames);
+    logger.debug('Scripts served:', scripts);
+    logger.debug('Stylesheets served:', stylesheets);
 
     res.send(
       interpolateTemplate({
@@ -68,7 +64,7 @@ export const createServerRenderMiddleware = ({
       }),
     );
   } catch (e) {
-    console.error(e);
+    logger.error(e);
     res.status(500).send('Error');
   }
 };

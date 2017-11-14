@@ -5,7 +5,7 @@ import { Resolver } from 'react-resolver';
 
 import { App } from 'components/App';
 
-const renderApp = (NewApp: typeof App = App) =>
+const renderApp = (NewApp: typeof App = App) => {
   Resolver.render(
     () => (
       <Router>
@@ -14,6 +14,7 @@ const renderApp = (NewApp: typeof App = App) =>
     ),
     document.getElementById('app'),
   );
+};
 
 declare const module: {
   hot?: { accept(path?: string, cb?: () => void): void };
