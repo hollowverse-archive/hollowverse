@@ -55,6 +55,7 @@ secrets/**/*
 !secrets/**/*.d.ts
 
 build.zip
+build
 
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
