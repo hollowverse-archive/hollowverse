@@ -1,5 +1,3 @@
-// tslint:disable:no-console
-
 const clientConfig = require('./src/webpack/webpack.config.client');
 const serverConfig = require('./src/webpack/webpack.config.server');
 const { build } = require('./src/webpack/builder');
@@ -16,6 +14,7 @@ if (isProd) {
 
       console.log(stats.toString());
 
+      // Build stats are required for SSR middleware at runtime
       return writeFile(
         './dist/stats.json',
         JSON.stringify(stats.toJson(), undefined, 2),
@@ -28,7 +27,7 @@ if (isProd) {
 } else {
   console.warn(
     'This script should only be used to build a production build. ' +
-      'Run yarn server/dev for development, or set NODE_ENV to "production"',
+      'Run `yarn dev` for development, or set NODE_ENV to "production"',
   );
   process.exit(1);
 }

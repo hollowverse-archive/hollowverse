@@ -27,7 +27,6 @@ const common = require('./webpack.config.common');
 const {
   ifEs5,
   ifEsNext,
-  // ifLint,
   ifProd,
   ifDev,
   ifReact,

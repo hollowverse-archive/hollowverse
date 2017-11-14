@@ -15,7 +15,6 @@ exports.isPreact = !exports.isReact;
 exports.isEs5 = Boolean(process.env.ES5);
 exports.isEsNext = !exports.isEs5;
 exports.isPerf = !Number(process.env.NO_PERF_CHECKS);
-exports.shouldLint = !Number(process.env.NO_LINT);
 exports.shouldTypeCheck = !Number(process.env.NO_TYPE_CHECK);
 exports.isDebug = Boolean(Number(process.env.DEBUG));
 
@@ -39,7 +38,6 @@ exports.ifDev = createConditionalWithFallback(exports.isDev);
 exports.ifReact = createConditionalWithFallback(exports.isReact);
 exports.ifPreact = createConditionalWithFallback(exports.isPreact);
 exports.ifEs5 = createConditionalWithFallback(exports.isEs5);
-exports.ifLint = createConditionalWithFallback(exports.shouldLint);
 exports.ifEsNext = createConditionalWithFallback(exports.isEsNext);
 exports.ifCi = createConditionalWithFallback(exports.isCi);
 exports.ifPerf = createConditionalWithFallback(exports.isPerf);
