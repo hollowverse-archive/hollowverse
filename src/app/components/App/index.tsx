@@ -5,7 +5,7 @@ import { Route, Switch } from 'react-router-dom';
 import './styles.global.scss';
 import './styles.scss';
 
-import NotablePersonPage from 'pages/notablePerson/notablePerson';
+import NotablePersonPage from 'pages/NotablePerson/NotablePerson';
 
 /** Main app component */
 export class App extends React.PureComponent<{}, {}> {

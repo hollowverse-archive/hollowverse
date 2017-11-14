@@ -7,10 +7,12 @@ import * as clientConfig from './webpack/webpack.config.client';
 import * as serverConfig from './webpack/webpack.config.server';
 import { isProd } from './webpack/env';
 
+// tslint:disable no-implicit-dependencies
 import * as webpack from 'webpack';
 import * as webpackDevMiddleware from 'webpack-dev-middleware';
 import * as webpackHotMiddleware from 'webpack-hot-middleware';
 import * as webpackHotServerMiddleware from 'webpack-hot-server-middleware';
+// tslint:disable enable-implicit-dependencies
 
 const logger = loglevel.getLogger('Web App Server');
 
