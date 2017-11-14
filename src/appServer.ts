@@ -3,13 +3,10 @@ import * as noFavicon from 'express-no-favicons';
 import * as loglevel from 'loglevel';
 import { once } from 'lodash';
 
-import * as clientConfig from './webpack/webpack.config.client';
-import * as serverConfig from './webpack/webpack.config.server';
 import { isProd } from './webpack/env';
+import { distDirectory, publicPath } from './webpack/variables';
 
 const logger = loglevel.getLogger('Web App Server');
-
-const { publicPath, path: distDirectory } = clientConfig.output;
 
 const { APP_SERVER_PORT = 3001 } = process.env;
 
@@ -49,6 +46,9 @@ if (isProd) {
   const webpackDevMiddleware = require('webpack-dev-middleware');
   const webpackHotMiddleware = require('webpack-hot-middleware');
   const webpackHotServerMiddleware = require('webpack-hot-server-middleware');
+  // tslint:enable no-implicit-dependencies
+  const clientConfig = require('./webpack/webpack.config.client');
+  const serverConfig = require('./webpack/webpack.config.server');
   // tslint:enable no-require-imports no-var-requires no-implicit-dependencies
 
   const compiler = webpack([clientConfig, serverConfig]);
