@@ -2,16 +2,18 @@ declare module 'react-resolver' {
   import { ComponentClass, StatelessComponent, Factory } from 'react';
   type AnyComponent<P> = ComponentClass<P> | StatelessComponent<P>;
 
-  export class Resolver {
-    static async resolve<P, D>(
+  type Resolver = {
+    resolve<P, D>(
       factory: Factory<P>,
     ): Promise<{
       data: D;
       Resolved: StatelessComponent<P>;
     }>;
 
-    static render<P>(factory: Factory<P>, root: Node | null): void;
-  }
+    render<P>(factory: Factory<P>, root: Node | null): void;
+  };
+
+  export const Resolver: Resolver;
 
   type ResolveFn<Props, V> = (props: Props) => Promise<V>;
 
