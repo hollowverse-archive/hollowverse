@@ -8,7 +8,6 @@ exports.isDevelopment =
 exports.isDev = exports.isDevelopment;
 exports.isProd = exports.isProduction;
 exports.isHot = Boolean(Number(process.env.HOT));
-exports.isStats = Boolean(Number(process.env.STATS));
 exports.isBrowser = !process && typeof window !== 'undefined';
 exports.isReact = Boolean(Number(process.env.REACT));
 exports.isPreact = !exports.isReact;
@@ -41,5 +40,4 @@ exports.ifEs5 = createConditionalWithFallback(exports.isEs5);
 exports.ifEsNext = createConditionalWithFallback(exports.isEsNext);
 exports.ifCi = createConditionalWithFallback(exports.isCi);
 exports.ifPerf = createConditionalWithFallback(exports.isPerf);
-exports.ifStats = createConditionalWithFallback(exports.isStats);
 exports.ifDebug = createConditionalWithFallback(exports.isDebug);

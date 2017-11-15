@@ -34,7 +34,6 @@ const {
   ifHot,
   ifPerf,
   isProd,
-  isStats,
 } = require('./env');
 
 // const svgoConfig = {
@@ -98,9 +97,7 @@ const clientSpecificConfig = {
     publicPath,
   },
 
-  // Producing build stats require that this property contains details about assets
-  // Setting it to `undefined` keeps the default, which is to produce stats.
-  stats: isStats ? undefined : 'errors-only',
+  stats: 'errors-only',
 
   // Enforce performance limits for production build if PERF flag is set
   performance:
