@@ -22,8 +22,8 @@ const serverSpecificConfig = {
   target: 'node',
   externals: [
     nodeExternals({
-      modulesDir: path.resolve(srcDirectory, '..', '..', 'node_modules'),
-      whitelist: !/\.bin|react-universal-component|webpack-flush-chunks/,
+      modulesDir: path.resolve(process.cwd(), 'node_modules'),
+      whitelist: [/^react-universal-component/, /^webpack-flush-chunks/],
     }),
   ],
   entry: [path.resolve(srcDirectory, 'serverEntry.ts')],
