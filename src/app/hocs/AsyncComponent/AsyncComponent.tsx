@@ -23,6 +23,18 @@ type State = {
   timedOut: boolean;
 };
 
+/**
+ * This component is used to execute an arbitrary asynchronous function (`props.load`)
+ * **on the client** before rendering a component.
+ * Unlike packages like `react-universal-component` and `react-loadable`, it is not
+ * intended for executing the `load` function _synchronously_ on the server.
+ * Instead, when called on the server, it acts like any regular React component and
+ * will just return whatever its `children` function returns for `isLoading = false`,
+ * i.e. the `load` function will never be called on the server.
+ * 
+ * Example use cases include: showing a loading indicator while importing the
+ * Facebook comments plugin on the client and then waiting for comments to be rendered.
+ */
 export class AsyncComponent extends React.PureComponent<AsyncProps, State> {
   static defaultProps: Partial<AsyncProps> = {
     timeout: null,
@@ -72,8 +84,6 @@ export class AsyncComponent extends React.PureComponent<AsyncProps, State> {
   }
 
   render() {
-    console.log('AsyncComponent.render', this.state);
-
     return this.props.children({ ...this.state, retry: this.tryLoading });
   }
 }
