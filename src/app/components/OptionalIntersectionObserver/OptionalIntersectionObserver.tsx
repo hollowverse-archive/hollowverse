@@ -1,14 +1,8 @@
 import * as React from 'react';
 import Loadable from 'react-loadable';
-import { IntersectionObserverProps } from 'react-intersection-observer';
 import { MessageWithIcon } from 'components/MessageWithIcon';
 import { LoadingSpinner } from 'components/LoadingSpinner';
-
-const Shim = ({ children }: IntersectionObserverProps) => {
-  return (
-    <div>{typeof children === 'function' ? children(true) : children}</div>
-  );
-};
+import { Shim } from './ReactIntersectionObserverShim';
 
 /** A wrapper around `react-intersection-observer` that conditionally loads
  * the library only in browsers that support `IntersectionObserver`.

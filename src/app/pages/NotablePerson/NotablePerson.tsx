@@ -7,7 +7,7 @@ import { PersonDetails } from 'components/PersonDetails';
 import { FbComments } from 'components/FbComments';
 import { MessageWithIcon } from 'components/MessageWithIcon';
 // import { SvgIcon } from 'components/SvgIcon';
-import { OptionalIntersectionObserver } from 'components/OptionalIntersectionObserver';
+import { OptionalIntersectionObserver } from 'components/OptionalIntersectionObserver/OptionalIntersectionObserver';
 import { withRouter } from 'react-router-dom';
 import { resolve } from 'react-resolver';
 
