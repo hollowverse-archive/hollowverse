@@ -1,9 +1,16 @@
 declare module 'react-universal-component' {
   import * as React from 'react';
 
+  type ComponentType<P> =
+    | React.ComponentType<P>
+    | React.StatelessComponent<P>
+    | React.ComponentClass<P>
+    | React.Component<P>;
+
   type AsyncComponentSpec<P> =
-    | (Promise<React.Component<P>>)
-    | ((props: P) => Promise<React.Component<P>>);
+    | (PromiseLike<ComponentType<P>>)
+    | ((props: P) => PromiseLike<ComponentType<P>>)
+    | PromiseLike<{ default: AsyncComponentSpec<P> }>;
 
   type Info = {
     /** Whether the component just mounted */
@@ -47,9 +54,11 @@ declare module 'react-universal-component' {
     onError: (error: Error) => void;
   };
 
-  class UniversalComponent<P> extends React.Component<P & UniversalProps, {}> {
-    static preload(): void;
-  }
+  type UniversalComponent<P> = React.StatelessComponent<
+    P & Partial<UniversalProps>
+  > & {
+    preload(): void;
+  };
 
   type Module =
     | {
@@ -63,20 +72,20 @@ declare module 'react-universal-component' {
 
   export default function universal<P, Export extends Module>(
     asyncComponent: AsyncComponentSpec<P>,
-    options: Partial<{
+    options?: Partial<{
       /**
      * The component class or function corresponding to your stateless component
      * that displays while the primary import is loading.
      * While testing out this package, you can leave it out as a simple default one is used.
      */
-      loading: React.Component<P> | JSX.Element;
+      loading: ComponentType<P> | JSX.Element;
 
       /**
      * The component that displays if there are any errors that occur during
      * your aynschronous import. While testing out this package,
      * you can leave it out as a simple default one is used.
      */
-      error: React.Component<P> | JSX.Element;
+      error: ComponentType<P> | JSX.Element;
 
       /**
      * Lets you specify the export from the module you want to be your component
@@ -84,7 +93,7 @@ declare module 'react-universal-component' {
      * It can be a string corresponding to the export key, or a function that's
      * passed the entire module and returns the export that will become the component.
      */
-      key: string | ((module: Export) => React.Component<P>);
+      key: string | ((module: Export) => ComponentType<P>);
 
       /**
      * Allows you to specify a maximum amount of time before the error component
