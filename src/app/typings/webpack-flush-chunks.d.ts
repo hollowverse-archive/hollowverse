@@ -9,9 +9,9 @@ declare module 'webpack-flush-chunks' {
       after?: string[];
 
       /**
-     * Required only if you want to serve raw CSS.
-     * 
-     */
+       * Required only if you want to serve raw CSS.
+       * 
+       */
       outputPath?: string;
     },
   ): {
