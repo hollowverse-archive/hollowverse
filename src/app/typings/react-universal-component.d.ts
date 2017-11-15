@@ -85,7 +85,7 @@ declare module 'react-universal-component' {
      * your aynschronous import. While testing out this package,
      * you can leave it out as a simple default one is used.
      */
-      error: ComponentType<P> | JSX.Element;
+      error: ComponentType<P & { error: Error }> | JSX.Element;
 
       /**
      * Lets you specify the export from the module you want to be your component
