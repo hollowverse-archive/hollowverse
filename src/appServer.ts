@@ -13,13 +13,13 @@ const { APP_SERVER_PORT = 3001 } = process.env;
 
 logger.setLevel(logger.levels.INFO);
 
-const app = express();
+const appServer = express();
 
 // Ignore requests for favicons
-app.use(noFavicon());
+appServer.use(noFavicon());
 
 const startServer = () => {
-  app.listen(APP_SERVER_PORT, () => {
+  appServer.listen(APP_SERVER_PORT, () => {
     logger.info(`App server is listening on port ${APP_SERVER_PORT}`);
   });
 };
@@ -29,7 +29,7 @@ if (isProd) {
   // This must be defined before the SSR middleware so that
   // requests to static files, e.g. /static/app.js, are not
   // processed by the server rendering middleware below
-  app.use(
+  appServer.use(
     publicPath,
     express.static(distDirectory, {
       maxAge: moment.duration(24, 'hours').asMilliseconds(),
@@ -44,9 +44,7 @@ if (isProd) {
   // tslint:enable no-require-imports no-var-requires
 
   const clientStats = stats.children[0];
-  app.use(createServerRenderMiddleware({ clientStats }));
-
-  startServer();
+  appServer.use(createServerRenderMiddleware({ clientStats }));
 } else {
   // tslint:disable no-require-imports no-var-requires no-implicit-dependencies
   const webpack = require('webpack');
@@ -64,14 +62,16 @@ if (isProd) {
   const clientCompiler = compiler.compilers[0];
   const options = { publicPath, stats: { colors: true } };
 
-  app.use(webpackDevMiddleware(compiler, options));
-  app.use(webpackHotMiddleware(clientCompiler));
+  appServer.use(webpackDevMiddleware(compiler, options));
+  appServer.use(webpackHotMiddleware(clientCompiler));
 
   // @ts-ignore
-  app.use(webpackHotServerMiddleware(compiler));
+  appServer.use(webpackHotServerMiddleware(compiler));
 
   // `done` will fire multiple times, on every code change, but
   // `startServer` should only be called once after the first
   // compilation is finished
   compiler.plugin('done', once(startServer));
 }
+
+export { appServer };

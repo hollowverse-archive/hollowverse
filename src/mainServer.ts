@@ -7,11 +7,11 @@ import { log } from './logger/logger';
 import { logEndpoint } from './middleware/logEndpoint';
 import { env } from './env';
 import { redirectToHttps } from './middleware/redirectToHttps';
+import { appServer } from './appServer';
 
 const {
   // tslint:disable-next-line no-http-string
   OLD_SERVER_ADDRESS = 'http://dw5a6b9vjmt7w.cloudfront.net/',
-  APP_SERVER_PORT = 3001,
   PORT = 8080,
 } = process.env;
 
@@ -51,12 +51,8 @@ server.use('/log', logEndpoint);
 // requests to static assets to be directed to the new app.
 // The new proxy will check if the request is for a static file, and redirect accordingly.
 // Examples: /static/app.js, /static/vendor.js => new hollowverse
-server.get('/static/*', (req, res) => {
-  proxyServer.web(req, res, {
-    // tslint:disable-next-line no-http-string
-    target: `http://localhost:${APP_SERVER_PORT}`,
-    changeOrigin: true,
-  });
+server.get('/static/*', (req, res, next) => {
+  appServer(req, res, next);
 });
 
 // Because ":/path" matches routes on both new and old servers, the new proxy also has
@@ -73,11 +69,7 @@ server.get('/:path', (req, res, next) => {
     res.redirect(`/${redirectionPath}`);
   } else if (newPaths.has(reqPath)) {
     // /Tom_Hanks => new hollowverse
-    proxyServer.web(req, res, {
-      // tslint:disable-next-line no-http-string
-      target: `http://localhost:${APP_SERVER_PORT}`,
-      changeOrigin: true,
-    });
+    appServer(req, res, next);
   } else {
     // /michael-jackson, ashton-kutcher, / => old hollowverse
     next();
