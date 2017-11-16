@@ -2,7 +2,6 @@ import * as express from 'express';
 import * as noFavicon from 'express-no-favicons';
 import * as loglevel from 'loglevel';
 import { once } from 'lodash';
-import * as shrinkRay from 'shrink-ray';
 import * as moment from 'moment';
 
 import { isProd } from './webpack/env';
@@ -26,9 +25,6 @@ const startServer = () => {
 };
 
 if (isProd) {
-  // Enable gzip and brotli compression
-  app.use(shrinkRay());
-
   // Serve client build like usual
   // This must be defined before the SSR middleware so that
   // requests to static files, e.g. /static/app.js, are not
