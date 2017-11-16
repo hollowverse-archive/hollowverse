@@ -1,11 +1,9 @@
 declare module 'shrink-ray' {
-  import { RequestHandler } from 'express';
+  import { RequestHandler, Request, Response } from 'express';
   import * as zlib from 'zlib';
-  type FilterFunction = (req, res) => boolean;
+  type FilterFunction = (req: Request, res: Response) => boolean;
 
   type Options = Partial<{
-    filter: FilterFunction;
-    cache(req, res): boolean;
     cacheSize: number;
     threshold: number;
     zlib: Partial<{
@@ -37,6 +35,8 @@ declare module 'shrink-ray' {
       mode: 0 | 1 | 2;
       quality: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11;
     };
+    filter: FilterFunction;
+    cache(req: Request, res: Response): boolean;
   }>;
 
   interface CreateMiddleware {
