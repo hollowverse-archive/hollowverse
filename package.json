@@ -22,7 +22,7 @@
     "server/build": "tsc --project ./src",
     "build": "npm-run-all -s clean -p app/build server/build",
     "start": "run-p server/main-server/start",
-    "dev": "run-p server/main-server/dev server/app-server/dev",
+    "dev": "run-p server/app-server/dev",
     "clean": "rm -rf ./dist && mkdir -p ./dist",
     "validate-file-names": "validate-file-names",
     "lint-staged": "lint-staged"
