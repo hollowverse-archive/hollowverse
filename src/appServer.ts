@@ -36,7 +36,7 @@ if (isProd) {
 
     // Configure Cache-Control header
     express.static(distDirectory, {
-      maxAge: moment.duration(3, 'days').asMilliseconds(),
+      maxAge: moment.duration(30, 'days').asMilliseconds(),
 
       // Safe to use the `immutable` directive because filenames
       // contain unique, content-based hashes
