@@ -202,7 +202,7 @@ const clientSpecificConfig = {
       // Banner
       new webpack.BannerPlugin({
         entryOnly: true,
-        banner: `${pkg.name} hash:[hash], chunkhash:[chunkhash], name:[name]`,
+        banner: `${pkg.name} chunkhash:[chunkhash]`,
       }),
     ]),
 
