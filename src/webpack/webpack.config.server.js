@@ -40,7 +40,7 @@ const serverSpecificConfig = {
       {
         test: cssModulesPattern,
         exclude: excludedPatterns,
-        use: createCssModulesLoaders(false),
+        use: createCssModulesLoaders(true),
       },
 
       // Global CSS
