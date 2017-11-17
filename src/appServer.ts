@@ -5,6 +5,7 @@ import { once } from 'lodash';
 import * as moment from 'moment';
 import * as shrinkRay from 'shrink-ray';
 
+import { securityMiddleware } from './middleware/security';
 import { isProd } from './webpack/env';
 import { distDirectory, publicPath } from './webpack/variables';
 
@@ -18,6 +19,8 @@ const appServer = express();
 
 // Ignore requests for favicons
 appServer.use(noFavicon());
+
+appServer.use(...securityMiddleware);
 
 const startServer = () => {
   appServer.listen(APP_SERVER_PORT, () => {
