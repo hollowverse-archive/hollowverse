@@ -50,7 +50,9 @@ exports.createCssModulesLoaders = (isServer = false) => [
       minimize: isProd,
       sourceMap: true,
       modules: true,
-      localIdentName: '[name]__[local]--[hash:base64:5]',
+      localIdentName: isProd
+        ? '[hash:base64:5]'
+        : '[name]__[local]--[hash:base64:5]',
     },
   },
   {
