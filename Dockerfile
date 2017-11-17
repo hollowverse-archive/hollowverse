@@ -1,6 +1,11 @@
 FROM node:8.9-alpine
 
-RUN apk update -q && apk add git -q
+RUN apk update -q
+
+RUN apk add -q --no-cache git
+
+# Native dependencies required to compile the shrink-ray package
+RUN apk add -q --no-cache make gcc g++ python
 
 ENV NODE_ENV=production
 ENV PORT=8080

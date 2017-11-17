@@ -3,6 +3,7 @@ import * as noFavicon from 'express-no-favicons';
 import * as loglevel from 'loglevel';
 import { once } from 'lodash';
 import * as moment from 'moment';
+import * as shrinkRay from 'shrink-ray';
 
 import { isProd } from './webpack/env';
 import { distDirectory, publicPath } from './webpack/variables';
@@ -29,13 +30,19 @@ if (isProd) {
   // This must be defined before the SSR middleware so that
   // requests to static files, e.g. /static/app.js, are not
   // processed by the server rendering middleware below
-  appServer.use(
-    publicPath,
+  appServer.use(publicPath, [
+    // Enable gzip and brotli compression
+    shrinkRay(),
+
+    // Configure Cache-Control header
     express.static(distDirectory, {
-      maxAge: moment.duration(24, 'hours').asMilliseconds(),
+      maxAge: moment.duration(3, 'days').asMilliseconds(),
+
+      // Safe to use the `immutable` directive because filenames
+      // contain unique, content-based hashes
       immutable: true,
     }),
-  );
+  ]);
 
   // Serve server rendering middleware from the SSR build
   // tslint:disable no-require-imports no-var-requires
