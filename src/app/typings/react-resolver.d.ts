@@ -18,7 +18,7 @@ declare module 'react-resolver' {
   type ResolveFn<Props, V> = (props: Props) => Promise<V>;
 
   /** Use this for gaining access to a context as a prop without the boilerplate of setting `contextTypes`. */
-  export function context<K, V = any>(
+  export function context<K extends string, V = any>(
     prop: K,
   ): <OwnProps>(
     component: AnyComponent<OwnProps>,
@@ -33,7 +33,7 @@ declare module 'react-resolver' {
     prop: K,
     resolveFn: ResolveFn<OwnProps & MoreProps, V>,
   ): (
-    component: AnyComponent<OwnProps & { [K]?: V }>,
+    component: AnyComponent<OwnProps & { [C in K]?: V }>,
   ) => StatelessComponent<OwnProps & MoreProps>;
   export function resolve<
     OwnProps,
@@ -47,6 +47,8 @@ declare module 'react-resolver' {
       >
     },
   ): (
-    component: AnyComponent<OwnProps & { [K]?: V }>,
+    component: AnyComponent<
+      OwnProps & { [K in keyof ResolvableProps]?: ResolvableProps[K] }
+    >,
   ) => StatelessComponent<OwnProps & MoreProps>;
 }
