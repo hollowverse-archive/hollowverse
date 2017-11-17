@@ -1,8 +1,8 @@
 import * as React from 'react';
-import './NavBar.scss';
+import styles from './NavBar.module.scss';
 
 export const NavBar = (props: { title: string }) => (
-  <div className="navbar">
+  <div className={styles.navbar}>
     <a href="/">{props.title}</a>
   </div>
 );

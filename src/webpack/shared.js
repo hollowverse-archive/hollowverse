@@ -30,6 +30,7 @@ exports.createGlobalCssLoaders = (isServer = false) => [
     query: {
       minimize: isProd,
       sourceMap: true,
+      modules: false,
     },
   },
   {

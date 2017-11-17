@@ -1,7 +1,7 @@
 import * as React from 'react';
 import cc from 'classcat';
 
-import './MessageWithIcon.scss';
+import styles from './MessageWithIcon.module.scss';
 
 type Props = {
   caption: string;
@@ -20,17 +20,21 @@ export const MessageWithIcon = ({
 }: Props) => (
   <div
     className={cc({
-      message: true,
-      'has-description': typeof description === 'string',
+      [styles.message]: true,
+      [styles['has-description']]: typeof description === 'string',
     })}
   >
-    <div className="message-icon">{icon}</div>
-    <div className="message-caption">{caption}</div>
+    <div className={styles['message-icon']}>{icon}</div>
+    <div className={styles['message-caption']}>{caption}</div>
     {description ? (
-      <div className="message-description">{description}</div>
+      <div className={styles['message-description']}>{description}</div>
     ) : null}
     {onActionClick && (
-      <button type="button" className="message-button" onClick={onActionClick}>
+      <button
+        type="button"
+        className={styles['message-button']}
+        onClick={onActionClick}
+      >
         {actionText}
       </button>
     )}

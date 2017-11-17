@@ -36,6 +36,14 @@ const {
   isProd,
 } = require('./env');
 
+const extractGlobalCss = new ExtractCssChunks({
+  filename: isProd ? '[name].global.[contenthash].css' : '[name].global.css',
+});
+
+const extractLocalCss = new ExtractCssChunks({
+  filename: isProd ? '[name].local.[contenthash].css' : '[name].local.css',
+});
+
 // const svgoConfig = {
 //   plugins: [
 //     { removeXMLNS: false },
@@ -118,7 +126,7 @@ const clientSpecificConfig = {
       {
         test: cssModulesPattern,
         exclude: excludedPatterns,
-        use: ExtractCssChunks.extract({
+        use: extractLocalCss.extract({
           use: createCssModulesLoaders(false),
         }),
       },
@@ -127,7 +135,7 @@ const clientSpecificConfig = {
       {
         test: /\.s?css$/,
         exclude: [...excludedPatterns, cssModulesPattern],
-        use: ExtractCssChunks.extract({
+        use: extractGlobalCss.extract({
           use: createGlobalCssLoaders(false),
         }),
       },
@@ -152,8 +160,8 @@ const clientSpecificConfig = {
 
   plugins: compact([
     // CSS
-    // extractCssModules,
-    new ExtractCssChunks(),
+    extractGlobalCss,
+    extractLocalCss,
 
     // Required for debugging in development and for long-term caching in production
     new webpack.NamedModulesPlugin(),

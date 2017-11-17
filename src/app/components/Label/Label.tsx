@@ -1,6 +1,6 @@
 import * as React from 'react';
-import './Label.scss';
+import styles from './Label.module.scss';
 
 export const Label = (props: { text: string }) => (
-  <div className="label">{props.text}</div>
+  <div className={styles.label}>{props.text}</div>
 );

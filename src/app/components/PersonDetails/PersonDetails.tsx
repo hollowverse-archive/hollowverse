@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Label } from 'components/Label/Label';
-import './PersonDetails.scss';
+import styles from './PersonDetails.module.scss';
 
 type PersonDetailsProps = {
   summary: string | null;
@@ -15,17 +15,21 @@ export const PersonDetails = ({
   photoUrl,
   labels,
 }: PersonDetailsProps) => (
-  <div className="person-details">
-    <img className="person-details-avatar" src={photoUrl} alt={name} />
-    <div className="person-details-caption">
+  <div className={styles['person-details']}>
+    <img
+      className={styles['person-details-avatar']}
+      src={photoUrl}
+      alt={name}
+    />
+    <div className={styles['person-details-caption']}>
       Religion, politics, and ideas of
     </div>
-    <div className="person-details-name">{name}</div>
-    <div className="person-details-labels">
+    <div className={styles['person-details-name']}>{name}</div>
+    <div className={styles['person-details-labels']}>
       {labels.map(({ id, text }) => <Label key={id} text={text} />)}
     </div>
     {summary && (
-      <div className="person-details-about">
+      <div className={styles['person-details-about']}>
         {summary.split('\n').map((p, i) => <p key={i}>{p}</p>)}
       </div>
     )}
