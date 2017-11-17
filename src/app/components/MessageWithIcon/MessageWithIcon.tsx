@@ -1,7 +1,7 @@
 import * as React from 'react';
 import cc from 'classcat';
 
-import './styles.scss';
+import './MessageWithIcon.scss';
 
 type Props = {
   caption: string;

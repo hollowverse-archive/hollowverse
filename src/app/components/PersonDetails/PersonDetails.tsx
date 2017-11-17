@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { Label } from 'components/Label';
-import './styles.scss';
+import { Label } from 'components/Label/Label';
+import './PersonDetails.scss';
 
 type PersonDetailsProps = {
   summary: string | null;

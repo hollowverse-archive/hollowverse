@@ -10,7 +10,7 @@ import flushChunks from 'webpack-flush-chunks';
 import * as loglevel from 'loglevel';
 import { Stats } from 'webpack';
 
-import { App } from './components/App';
+import { App } from './components/App/App';
 import html from './index.html';
 
 const interpolateTemplate = template(html);

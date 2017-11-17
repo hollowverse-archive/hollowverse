@@ -22,12 +22,6 @@ appServer.use(noFavicon());
 
 appServer.use(...securityMiddleware);
 
-const startServer = () => {
-  appServer.listen(APP_SERVER_PORT, () => {
-    logger.info(`App server is listening on port ${APP_SERVER_PORT}`);
-  });
-};
-
 if (isProd) {
   // Serve client build like usual
   // This must be defined before the SSR middleware so that
@@ -56,6 +50,12 @@ if (isProd) {
   const clientStats = stats.children[0];
   appServer.use(createServerRenderMiddleware({ clientStats }));
 } else {
+  const startServer = () => {
+    appServer.listen(APP_SERVER_PORT, () => {
+      logger.info(`App server is listening on port ${APP_SERVER_PORT}`);
+    });
+  };
+
   // tslint:disable no-require-imports no-var-requires no-implicit-dependencies
   const webpack = require('webpack');
   const webpackDevMiddleware = require('webpack-dev-middleware');

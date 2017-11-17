@@ -1,6 +1,3 @@
-/**
- * FbComments Component
- */
 import * as React from 'react';
 
 import { delay } from 'helpers/delay';

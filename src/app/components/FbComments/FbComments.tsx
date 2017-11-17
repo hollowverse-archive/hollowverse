@@ -3,8 +3,8 @@
  */
 import * as React from 'react';
 import { importGlobalScript } from 'helpers/importGlobalScript';
-import { MessageWithIcon } from 'components/MessageWithIcon';
-import { LoadingSpinner } from 'components/LoadingSpinner';
+import { MessageWithIcon } from 'components/MessageWithIcon/MessageWithIcon';
+import { LoadingSpinner } from 'components/LoadingSpinner/LoadingSpinner';
 // import { SvgIcon } from 'components/SvgIcon';
 
 // import warningIcon from 'icons/warning.svg';

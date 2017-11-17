@@ -1,6 +1,6 @@
 import * as React from 'react';
 import cc from 'classcat';
-import './styles.scss';
+import './Event.scss';
 import formatDate from 'date-fns/format';
 
 type EventProps = {

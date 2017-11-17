@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Loadable from 'react-loadable';
-import { MessageWithIcon } from 'components/MessageWithIcon';
-import { LoadingSpinner } from 'components/LoadingSpinner';
+import { MessageWithIcon } from 'components/MessageWithIcon/MessageWithIcon';
+import { LoadingSpinner } from 'components/LoadingSpinner/LoadingSpinner';
 import { Shim } from './ReactIntersectionObserverShim';
 
 /** A wrapper around `react-intersection-observer` that conditionally loads
