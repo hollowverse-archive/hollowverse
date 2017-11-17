@@ -1,8 +1,6 @@
-branch-defaults:
-  ssr:
-    environment: hollowverse-new-app
 deploy:
   artifact: build.zip
+
 global:
   application_name: hollowverse
   default_region: us-east-1
