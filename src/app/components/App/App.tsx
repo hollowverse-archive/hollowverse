@@ -2,7 +2,7 @@ import * as React from 'react';
 import { NavBar } from 'components/NavBar/NavBar';
 import { Route, Switch } from 'react-router-dom';
 
-import './styles.global.scss';
+import './App.global.scss';
 import classes from './App.module.scss';
 
 import NotablePersonPage from 'pages/NotablePerson/NotablePerson';
