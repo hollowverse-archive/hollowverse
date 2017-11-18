@@ -33,9 +33,11 @@ const serverSpecificConfig = {
       'babel-polyfill',
 
       // @ts-ignore
-      v =>
-        v.indexOf('babel-plugin-universal-import') === 0 ||
-        v.indexOf('react-universal-component') === 0,
+      moduleName =>
+        [
+          'babel-plugin-universal-import',
+          'react-universal-component',
+        ].some(match => moduleName.includes(match)),
     ],
   }),
   module: {

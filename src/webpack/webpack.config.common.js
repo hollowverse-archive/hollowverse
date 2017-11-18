@@ -7,7 +7,7 @@ const { compact, mapValues } = require('lodash');
 
 const { srcDirectory, excludedPatterns } = require('./variables');
 
-const { ifPreact, isHot, isDev } = require('./env');
+const { ifPreact, isHot, isDev, isDebug } = require('./env');
 
 const config = {
   // devServer:
@@ -75,7 +75,7 @@ const config = {
     new webpack.DefinePlugin(
       mapValues(
         {
-          __DEBUG__: isDev,
+          __DEBUG__: isDev || isDebug,
           API_ENDPOINT: process.env.API_ENDPOINT,
           'process.env.NODE_ENV': process.env.NODE_ENV,
           isHot,

@@ -9,19 +9,7 @@ module.exports.createBabelConfig = (isServer = false) => ({
     ...ifEs5(['es2015']),
     ...ifEsNext(
       compact([
-        ...ifProd([
-          [
-            'minify',
-            {
-              removeConsole: true,
-              removeDebugger: true,
-              simplifyComparisons: false, // Buggy
-              mangle: false, // Buggy
-              simplify: false, // Buggy
-            },
-          ],
-          ifReact('react-optimize'),
-        ]),
+        ...ifProd([ifReact('react-optimize')]),
         [
           'env',
           {
