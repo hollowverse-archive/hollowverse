@@ -5,11 +5,7 @@ const CircularDependencyPlugin = require('circular-dependency-plugin');
 
 const { compact, mapValues } = require('lodash');
 
-const {
-  srcDirectory,
-  distDirectory,
-  excludedPatterns,
-} = require('./variables');
+const { srcDirectory, excludedPatterns } = require('./variables');
 
 const { ifPreact, isHot, isDev } = require('./env');
 
@@ -29,10 +25,6 @@ const config = {
   //   }) || undefined,
 
   devtool: isDev ? 'cheap-module-source-map' : 'source-map',
-
-  output: {
-    path: distDirectory,
-  },
 
   module: {
     rules: compact([
@@ -58,7 +50,7 @@ const config = {
         'react-dom': 'preact-compat',
       }),
     },
-    extensions: ['.tsx', '.ts', '.js'],
+    extensions: ['.tsx', '.ts', '.js', '.css', '.scss', '.module.scss'],
     modules: [
       // Allow absolute imports from 'src' dir,
       // e.g. `import 'file';` instead of `'../../file';`

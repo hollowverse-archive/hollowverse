@@ -1,3 +1,4 @@
+import * as path from 'path';
 import * as express from 'express';
 import * as noFavicon from 'express-no-favicons';
 import * as loglevel from 'loglevel';
@@ -7,7 +8,11 @@ import * as shrinkRay from 'shrink-ray';
 
 import { securityMiddleware } from './middleware/security';
 import { isProd } from './webpack/env';
-import { distDirectory, publicPath } from './webpack/variables';
+import {
+  clientDistDirectory,
+  serverDistDirectory,
+  publicPath,
+} from './webpack/variables';
 
 const logger = loglevel.getLogger('Web App Server');
 
@@ -32,7 +37,7 @@ if (isProd) {
     shrinkRay(),
 
     // Configure Cache-Control header
-    express.static(distDirectory, {
+    express.static(clientDistDirectory, {
       maxAge: moment.duration(30, 'days').asMilliseconds(),
 
       // Safe to use the `immutable` directive because filenames
@@ -42,8 +47,11 @@ if (isProd) {
   ]);
 
   // Serve server rendering middleware from the SSR build
-  // tslint:disable no-require-imports no-var-requires
-  const { createServerRenderMiddleware } = require('./app/main.js');
+  // tslint:disable no-require-imports no-var-requires non-literal-require
+  const { createServerRenderMiddleware } = require(path.join(
+    serverDistDirectory,
+    'main.js',
+  ));
   const stats = require('./stats.json');
   // tslint:enable no-require-imports no-var-requires
 

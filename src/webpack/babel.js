@@ -2,7 +2,7 @@ const { compact } = require('lodash');
 
 const { pkg } = require('./variables');
 
-const { ifEs5, ifEsNext, ifProd, ifReact, isDebug } = require('./env');
+const { ifEs5, ifEsNext, ifProd, isProd, ifReact, isDebug } = require('./env');
 
 module.exports.createBabelConfig = (isServer = false) => ({
   presets: compact([
@@ -44,7 +44,12 @@ module.exports.createBabelConfig = (isServer = false) => ({
     'stage-3',
   ]),
   plugins: compact([
-    'universal-import',
+    [
+      'universal-import',
+      {
+        disableWarnings: isProd,
+      },
+    ],
     'syntax-dynamic-import',
     ...ifProd([
       // Compile gql`query { ... }` at build time to avoid runtime parsing overhead

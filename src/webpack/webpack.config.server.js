@@ -7,6 +7,7 @@ const compact = require('lodash/compact');
 
 const {
   srcDirectory,
+  serverDistDirectory,
   excludedPatterns,
   cssModulesPattern,
 } = require('./variables');
@@ -20,17 +21,23 @@ const {
 const serverSpecificConfig = {
   name: 'server',
   target: 'node',
-  externals: [
-    nodeExternals({
-      modulesDir: path.resolve(process.cwd(), 'node_modules'),
-      whitelist: [/^react-universal-component/, /^webpack-flush-chunks/],
-    }),
-  ],
   entry: [path.resolve(srcDirectory, 'serverEntry.ts')],
   output: {
     filename: '[name].js',
     libraryTarget: 'commonjs2',
+    path: serverDistDirectory,
   },
+  externals: nodeExternals({
+    whitelist: [
+      '.bin',
+      'babel-polyfill',
+
+      // @ts-ignore
+      v =>
+        v.indexOf('babel-plugin-universal-import') === 0 ||
+        v.indexOf('react-universal-component') === 0,
+    ],
+  }),
   module: {
     rules: compact([
       // JavaScript and TypeScript

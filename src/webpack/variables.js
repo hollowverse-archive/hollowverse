@@ -2,10 +2,14 @@ const path = require('path');
 
 exports.publicPath = '/static/';
 exports.srcDirectory = path.resolve(__dirname, '..', 'app');
-exports.distDirectory = path.resolve(
+
+const distDirectory = path.resolve(
   process.cwd(),
-  process.env.BUILD_PATH || './dist/app',
+  process.env.BUILD_PATH || './dist',
 );
+
+exports.clientDistDirectory = path.join(distDirectory, 'client');
+exports.serverDistDirectory = path.join(distDirectory, 'server');
 
 exports.excludedPatterns = [/node_modules/];
 exports.cssModulesPattern = /\.module\.s?css$/;

@@ -6872,9 +6872,9 @@ react-router@^4.0.0, react-router@^4.2.0:
     prop-types "^15.5.4"
     warning "^3.0.0"
 
-react-universal-component@^2.5.5:
-  version "2.5.5"
-  resolved "https://registry.yarnpkg.com/react-universal-component/-/react-universal-component-2.5.5.tgz#b98ff648b52f773cba2f8bcda8cb62379082f52f"
+react-universal-component@^2.6.0:
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/react-universal-component/-/react-universal-component-2.6.0.tgz#b4f554a816ef942e13947b12c73f32e50adebb14"
   dependencies:
     hoist-non-react-statics "^2.2.1"
     prop-types "^15.5.10"

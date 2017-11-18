@@ -6,6 +6,7 @@ import './App.global.scss';
 import classes from './App.module.scss';
 
 import NotablePersonPage from 'pages/NotablePerson/NotablePerson';
+import TestPage from 'pages/TestPage/Loadable';
 
 /** Main app component */
 export class App extends React.PureComponent<{}, {}> {
@@ -15,6 +16,7 @@ export class App extends React.PureComponent<{}, {}> {
         <NavBar title="Hollowverse" />
         <div className={classes['app-view']}>
           <Switch>
+            <Route path="/Najwa_Karam" component={TestPage} />
             <Route path="/:slug" component={NotablePersonPage} />
           </Switch>
         </div>

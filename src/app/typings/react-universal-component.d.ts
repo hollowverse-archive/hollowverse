@@ -7,11 +7,6 @@ declare module 'react-universal-component' {
     | React.ComponentClass<P>
     | React.Component<P>;
 
-  type AsyncComponentSpec<P> =
-    | (PromiseLike<ComponentType<P>>)
-    | ((props: P) => PromiseLike<ComponentType<P>>)
-    | PromiseLike<{ default: AsyncComponentSpec<P> }>;
-
   type Info = {
     /** Whether the component just mounted */
     isMount: boolean;
@@ -60,18 +55,24 @@ declare module 'react-universal-component' {
     preload(): void;
   };
 
-  type Module =
+  type Module<P> =
     | {
-        default: any;
+        default?: P;
         [x: string]: any;
       }
     | {
-        exports: any;
+        exports?: P;
         [x: string]: any;
       };
 
-  export default function universal<P, Export extends Module>(
-    asyncComponent: AsyncComponentSpec<P>,
+  export default function universal<
+    P,
+    C extends ComponentType<P>,
+    Export extends Module<P>
+  >(
+    asyncComponent:
+      | (PromiseLike<Module<C>>)
+      | ((props: P) => PromiseLike<Module<C>>),
     options?: Partial<{
       /**
        * The component class or function corresponding to your stateless component
@@ -93,7 +94,7 @@ declare module 'react-universal-component' {
        * It can be a string corresponding to the export key, or a function that's
        * passed the entire module and returns the export that will become the component.
        */
-      key: string | ((module: Export) => ComponentType<P>);
+      key: string | ((module: Module<C>) => ComponentType<P>);
 
       /**
        * Allows you to specify a maximum amount of time before the error component

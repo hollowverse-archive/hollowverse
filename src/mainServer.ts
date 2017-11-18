@@ -7,6 +7,7 @@ import { env } from './env';
 import { redirectToHttps } from './middleware/redirectToHttps';
 import { appServer } from './appServer';
 import { securityMiddleware } from './middleware/security';
+import { redirectionMap } from './redirectionMap';
 
 const {
   // tslint:disable-next-line no-http-string
@@ -40,8 +41,6 @@ proxyServer.on('proxyReq', (proxyReq: any) => {
     proxyReq.path = `${proxyReq.path}/`;
   }
 });
-
-const redirectionMap = new Map<string, string>([['tom-hanks', 'Tom_Hanks']]);
 
 const newPaths = new Set(redirectionMap.values());
 

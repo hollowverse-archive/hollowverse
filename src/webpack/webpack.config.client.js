@@ -17,6 +17,7 @@ const {
 } = require('./shared');
 const {
   srcDirectory,
+  clientDistDirectory,
   pkg,
   publicPath,
   excludedPatterns,
@@ -40,9 +41,7 @@ const extractGlobalCss = new ExtractCssChunks({
   filename: isProd ? '[name].global.[contenthash].css' : '[name].global.css',
 });
 
-const extractLocalCss = new ExtractCssChunks({
-  filename: isProd ? '[name].local.[contenthash].css' : '[name].local.css',
-});
+const extractLocalCss = new ExtractCssChunks();
 
 // const svgoConfig = {
 //   plugins: [
@@ -100,8 +99,9 @@ const clientSpecificConfig = {
   ]),
 
   output: {
-    filename: '[name].[chunkhash].js',
-    chunkFilename: '[name].[chunkhash].js',
+    filename: isProd ? '[name].[chunkhash].js' : '[name].js',
+    chunkFilename: isProd ? '[name].[chunkhash].js' : '[name].js',
+    path: clientDistDirectory,
     publicPath,
   },
 

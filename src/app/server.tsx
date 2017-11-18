@@ -51,6 +51,8 @@ export const createServerRenderMiddleware = ({
     logger.debug('Scripts served:', scripts);
     logger.debug('Stylesheets served:', stylesheets);
 
+    logger.info((clientStats as any).assetsByChunkName);
+
     res.send(
       interpolateTemplate({
         data: serializeJavaScript(data, {
