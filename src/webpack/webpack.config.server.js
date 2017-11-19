@@ -30,14 +30,14 @@ const serverSpecificConfig = {
     path: serverDistDirectory,
   },
 
-  // By default, webpack will consume and bundle all `require` calls
-  // externals` specifies which packages should *not* be bundled by webpack,
-  // the following packages are already installed on the server, so we should
-  // not need them bundled. This also reduces the build time for the server bundle.
+  // By default, webpack will consume and bundle all `require` calls.
+  // `externals` specifies which packages should *not* be bundled by webpack,
+  // the following packages are already installed on the server, so they do
+  // not need to be bundled. This also reduces the build time for the server bundle.
   // The `webpack-node-externals` packages will exclude all packages in `node_modules`
   // so they are not bundled.
   externals: nodeExternals({
-    // `whitelist` specifies which packages should be bundled
+    // `whitelist` exludes node modules so they _are_ bundled with webpack
     whitelist: [
       '.bin',
       'babel-polyfill',
