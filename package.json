@@ -21,7 +21,7 @@
     "server/main-server/start": "node dist/mainServer.js",
     "server/build": "tsc --project ./src",
     "build": "npm-run-all -s clean -p app/build server/build",
-    "start": "run-p server/main-server/start",
+    "start": "NODE_ENV=production run-p server/main-server/start",
     "dev": "NODE_ENV=development run-p server/app-server/dev",
     "clean": "rm -rf ./dist && mkdir -p ./dist",
     "validate-file-names": "validate-file-names",
