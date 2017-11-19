@@ -36,7 +36,12 @@ exports.createGlobalCssLoaders = (isServer = false) => [
   {
     loader: 'postcss-loader',
     options: {
-      plugins: [normalize({ forceImport: true }), autoprefixer()],
+      plugins: [
+        // Minimal cross-browser CSS resets, only contains resets relevant
+        // for the targeted browsers as specified in `"browserslist"` in `package.json`
+        normalize({ forceImport: true }),
+        autoprefixer(),
+      ],
       sourceMap: true,
     },
   },
@@ -45,11 +50,15 @@ exports.createGlobalCssLoaders = (isServer = false) => [
 
 exports.createCssModulesLoaders = (isServer = false) => [
   {
+    // We do not need to generate any CSS files for the server bundle,
+    // we only need the class names. That is what 'css-loader/locals' does.
     loader: isServer ? 'css-loader/locals' : 'css-loader',
     query: {
       minimize: isProd,
       sourceMap: true,
       modules: true,
+
+      // Shorten the class name in production bundles to save some bytes
       localIdentName: isProd
         ? '[hash:base64:5]'
         : '[name]__[local]--[hash:base64:5]',

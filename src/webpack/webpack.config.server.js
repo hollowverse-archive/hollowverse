@@ -23,11 +23,21 @@ const serverSpecificConfig = {
   target: 'node',
   entry: [path.resolve(srcDirectory, 'serverEntry.ts')],
   output: {
+    // The file name should not contain any dynamic values, because
+    // the require call is hardcoded in `appServer.ts`
     filename: '[name].js',
     libraryTarget: 'commonjs2',
     path: serverDistDirectory,
   },
+
+  // By default, webpack will consume and bundle all `require` calls
+  // externals` specifies which packages should *not* be bundled by webpack,
+  // the following packages are already installed on the server, so we should
+  // not need them bundled. This also reduces the build time for the server bundle.
+  // The `webpack-node-externals` packages will exclude all packages in `node_modules`
+  // so they are not bundled.
   externals: nodeExternals({
+    // `whitelist` specifies which packages should be bundled
     whitelist: [
       '.bin',
       'babel-polyfill',
@@ -35,9 +45,16 @@ const serverSpecificConfig = {
       // @ts-ignore
       moduleName =>
         [
+          // These packages need to be bundled so that they
+          // know they are running in the context of webpack runtime
           'babel-plugin-universal-import',
           'webpack-flush-chunks',
           'react-universal-component',
+
+          // All aliased packages should be bundled.
+          // Example: when using preact instead of React, require('react') should be bundled.
+          // Otherwise, the call to require('react') will resolve to the actual
+          // `react` package
           ...Object.keys(common.resolve.alias),
         ].some(match => moduleName.includes(match)),
     ],
@@ -75,6 +92,7 @@ const serverSpecificConfig = {
     ]),
   },
   plugins: [
+    // We only need one JS file on the server
     new webpack.optimize.LimitChunkCountPlugin({
       maxChunks: 1,
     }),
