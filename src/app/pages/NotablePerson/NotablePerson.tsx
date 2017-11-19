@@ -10,6 +10,7 @@ import { MessageWithIcon } from 'components/MessageWithIcon/MessageWithIcon';
 import { OptionalIntersectionObserver } from 'components/OptionalIntersectionObserver/OptionalIntersectionObserver';
 import { withRouter } from 'react-router-dom';
 import { resolve } from 'react-resolver';
+import { Result, isErrorResult } from 'helpers/results';
 
 import { prettifyUrl } from 'helpers/prettifyUrl';
 
@@ -46,18 +47,22 @@ const query = gql`
 
 type OwnProps = {};
 type ResolvedProps = {
-  data?: NotablePersonQuery;
+  queryResult: Result<NotablePersonQuery>;
 };
 
-class NotablePersonPage extends React.PureComponent<
-  OwnProps & ResolvedProps,
-  {}
-> {
+class NotablePersonPage extends React.PureComponent<OwnProps & ResolvedProps> {
   render() {
-    const { data } = this.props;
-    if (!data) {
-      return null;
+    const { queryResult } = this.props;
+    if (isErrorResult(queryResult)) {
+      return (
+        <MessageWithIcon
+          caption="Are you connected to the internet?"
+          description="Please check your connection and try again"
+        />
+      );
     }
+
+    const { data } = queryResult;
     if (!data.notablePerson) {
       return (
         <MessageWithIcon
@@ -109,8 +114,18 @@ class NotablePersonPage extends React.PureComponent<
   }
 }
 
-const ResolvedPage = resolve('data', async ({ slug }) => {
-  return client.request<NotablePersonQuery>(query, { slug });
+const ResolvedPage = resolve('queryResult', async ({ slug }) => {
+  try {
+    const data = await client.request<NotablePersonQuery>(query, { slug });
+
+    return {
+      data,
+    };
+  } catch (error) {
+    return {
+      error: error,
+    };
+  }
 })(NotablePersonPage);
 
 export default withRouter(({ match: { params: { slug } } }) => (

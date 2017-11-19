@@ -33,7 +33,7 @@ declare module 'react-resolver' {
     prop: K,
     resolveFn: ResolveFn<OwnProps & MoreProps, V>,
   ): (
-    component: AnyComponent<OwnProps & { [C in K]?: V }>,
+    component: AnyComponent<OwnProps & { [C in K]: V }>,
   ) => StatelessComponent<OwnProps & MoreProps>;
   export function resolve<
     OwnProps,
