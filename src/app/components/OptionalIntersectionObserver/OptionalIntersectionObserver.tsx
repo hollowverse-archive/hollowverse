@@ -1,8 +1,9 @@
 import * as React from 'react';
-import Loadable from 'react-loadable';
 import { MessageWithIcon } from 'components/MessageWithIcon/MessageWithIcon';
 import { LoadingSpinner } from 'components/LoadingSpinner/LoadingSpinner';
 import { Shim } from './ReactIntersectionObserverShim';
+import { IntersectionObserverProps } from 'react-intersection-observer';
+import universal from 'react-universal-component';
 
 /** A wrapper around `react-intersection-observer` that conditionally loads
  * the library only in browsers that support `IntersectionObserver`.
@@ -25,21 +26,30 @@ import { Shim } from './ReactIntersectionObserverShim';
  * the load of non-critical resources until they are (almost) visible on the page, and
  * older browsers can still load these resources, albeit in a less efficient way.
  */
-export const OptionalIntersectionObserver = Loadable({
-  async loader() {
-    const supportsIntersectionObserver =
-      'IntersectionObserver' in global &&
-      'IntersectionObserverEntry' in global &&
-      'intersectionRatio' in IntersectionObserverEntry.prototype;
+export const OptionalIntersectionObserver = universal<
+  IntersectionObserverProps
+>(
+  {
+    async load() {
+      const supportsIntersectionObserver =
+        'IntersectionObserver' in global &&
+        'IntersectionObserverEntry' in global &&
+        'intersectionRatio' in IntersectionObserverEntry.prototype;
 
-    if (supportsIntersectionObserver) {
-      return import('react-intersection-observer');
-    }
+      if (supportsIntersectionObserver) {
+        return import('react-intersection-observer');
+      }
 
-    return Shim;
+      return Shim;
+    },
   },
+  {
+    loading: p => {
+      if (__SERVER__) {
+        return <Shim {...p} />;
+      }
 
-  loading: () => (
-    <MessageWithIcon caption="Loading..." icon={<LoadingSpinner />} />
-  ),
-});
+      return <MessageWithIcon caption="Loading..." icon={<LoadingSpinner />} />;
+    },
+  },
+);

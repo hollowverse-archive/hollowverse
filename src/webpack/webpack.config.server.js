@@ -37,6 +37,9 @@ const serverSpecificConfig = {
         [
           'babel-plugin-universal-import',
           'react-universal-component',
+          'preact',
+          'preact-compat',
+          'lodash-es',
         ].some(match => moduleName.includes(match)),
     ],
   }),
@@ -75,6 +78,11 @@ const serverSpecificConfig = {
   plugins: [
     new webpack.optimize.LimitChunkCountPlugin({
       maxChunks: 1,
+    }),
+
+    // Environment
+    new webpack.DefinePlugin({
+      __SERVER__: true,
     }),
   ],
 };

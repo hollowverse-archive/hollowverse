@@ -89,9 +89,7 @@ const clientSpecificConfig = {
   name: 'client',
   target: 'web',
   entry: compact([
-    ifHot(
-      'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000&reload=false&quiet=false&noInfo=false',
-    ),
+    ifHot('webpack-hot-middleware/client'),
     ifReact(ifHot('react-hot-loader/patch')),
     ifPreact(ifDev('preact/devtools')),
     ifProd('regenerator-runtime/runtime'),
@@ -214,6 +212,11 @@ const clientSpecificConfig = {
     }),
 
     ifHot(new webpack.HotModuleReplacementPlugin()),
+
+    // Environment
+    new webpack.DefinePlugin({
+      __SERVER__: false,
+    }),
   ]),
 };
 
