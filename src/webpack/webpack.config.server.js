@@ -36,10 +36,9 @@ const serverSpecificConfig = {
       moduleName =>
         [
           'babel-plugin-universal-import',
+          'webpack-flush-chunks',
           'react-universal-component',
-          'preact',
-          'preact-compat',
-          'lodash-es',
+          ...Object.keys(common.resolve.alias),
         ].some(match => moduleName.includes(match)),
     ],
   }),
