@@ -24,6 +24,17 @@ declare module 'react-resolver' {
     component: AnyComponent<OwnProps>,
   ) => StatelessComponent<OwnProps & Record<typeof prop, V>>;
 
+  /**
+   * Use `@client(LoaderComponent)` (or `client(LoaderComponent)(YourComponent)`)
+   * for when you want to skip server-side rendering of part of your view and
+   * perform it only on the client.
+   */
+  export function client(
+    loadingComponent: AnyComponent<any>,
+  ): <OwnProps>(
+    component: AnyComponent<OwnProps>,
+  ) => StatelessComponent<OwnProps>;
+
   export function resolve<
     OwnProps,
     K extends string,
