@@ -19,6 +19,7 @@ module.exports.createBabelConfig = (isServer = false) => ({
             targets: isServer
               ? {
                   node: 'current',
+                  browsers: [],
                 }
               : {
                   browsers: pkg.browserslist,
