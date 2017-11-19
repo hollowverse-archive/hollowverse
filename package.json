@@ -31,7 +31,7 @@
   "homepage": "https://github.com/hollowverse/hollowverse#readme",
   "lint-staged": {
     "**/*.{j,t}s{x,}": [
-      "prettier --write --single-quote --trailing-comma all",
+      "prettier --write",
       "git add"
     ],
     "**/*.js{x,}": [
@@ -39,7 +39,7 @@
     ],
     "**/**/*.{s,}css": [
       "stylelint --syntax scss",
-      "prettier --write --single-quote --trailing-comma all",
+      "prettier --write",
       "git add"
     ]
   },
