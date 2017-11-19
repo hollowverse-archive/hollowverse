@@ -67,8 +67,8 @@ declare module 'react-universal-component' {
 
   export default function universal<
     P,
-    C extends ComponentType<P>,
-    Export extends Module<P>
+    C extends ComponentType<P> = ComponentType<P>,
+    Export extends Module<P> = Module<P>
   >(
     asyncComponent:
       | (PromiseLike<Module<C>>)
