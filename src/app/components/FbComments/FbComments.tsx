@@ -5,9 +5,12 @@ import * as React from 'react';
 import { importGlobalScript } from 'helpers/importGlobalScript';
 import { MessageWithIcon } from 'components/MessageWithIcon/MessageWithIcon';
 import { LoadingSpinner } from 'components/LoadingSpinner/LoadingSpinner';
-// import { SvgIcon } from 'components/SvgIcon';
+import { SvgIcon } from 'components/SvgIcon/SvgIcon';
 
-// import warningIcon from 'icons/warning.svg';
+import warningIconUrl from 'icons/warning.svg';
+
+const warningIcon = <SvgIcon url={warningIconUrl} />;
+
 import { AsyncComponent } from 'hocs/AsyncComponent/AsyncComponent';
 
 const loadingComponent = (
@@ -83,6 +86,7 @@ export class FbComments extends React.PureComponent<P> {
               <MessageWithIcon
                 caption="Error loading Facebook comments"
                 actionText="Retry"
+                icon={warningIcon}
                 onActionClick={retry}
               />
             );
@@ -95,6 +99,7 @@ export class FbComments extends React.PureComponent<P> {
                 <MessageWithIcon
                   caption="Unable to load comments"
                   description="Enable JavaScript in your browser settings and reload this page to see comments"
+                  icon={warningIcon}
                 />
               </noscript>
               <div

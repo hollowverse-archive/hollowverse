@@ -45,48 +45,6 @@ const extractGlobalCss = new ExtractCssChunks({
 
 const extractLocalCss = new ExtractCssChunks();
 
-// const svgoConfig = {
-//   plugins: [
-//     { removeXMLNS: false },
-//     { cleanupIDs: false },
-//     { convertShapeToPath: false },
-//     { removeEmptyContainers: false },
-//     { removeViewBox: false },
-//     { mergePaths: false },
-//     { convertStyleToAttrs: false },
-//     { convertPathData: false },
-//     { convertTransform: false },
-//     { removeUnknownsAndDefaults: false },
-//     { collapseGroups: false },
-//     { moveGroupAttrsToElems: false },
-//     { moveElemsAttrsToGroup: false },
-//     { cleanUpEnableBackground: false },
-//     { removeHiddenElems: false },
-//     { removeNonInheritableGroupAttrs: false },
-//     { removeUselessStrokeAndFill: false },
-//     { transformsWithOnePath: false },
-//   ],
-// };
-
-// const svgLoaders = [
-//   {
-//     loader: 'svgo-loader',
-//     options: svgoConfig,
-//   },
-// ];
-
-// const createSvgIconLoaders = name => [
-//   {
-//     loader: 'svg-sprite-loader',
-//     options: {
-//       extract: true,
-//       spriteFilename: name,
-//       runtimeCompat: false,
-//     },
-//   },
-//   ...svgLoaders,
-// ];
-
 const clientSpecificConfig = {
   name: 'client',
   target: 'web',
@@ -138,22 +96,6 @@ const clientSpecificConfig = {
           use: createGlobalCssLoaders(false),
         }),
       },
-
-      // // SVG Icons
-      // {
-      //   test: /\.svg$/,
-      //   exclude: excludedPatterns,
-      //   include: [path.resolve(srcDirectory, 'icons')],
-      //   use: createSvgIconLoaders('icons.svg'),
-      // },
-
-      // // SVG assets
-      // {
-      //   test: /\.svg$/,
-      //   exclude: excludedPatterns,
-      //   include: [path.resolve(srcDirectory, 'assets')],
-      //   use: svgLoaders,
-      // },
     ]),
   },
 

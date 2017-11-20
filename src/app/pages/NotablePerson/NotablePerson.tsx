@@ -6,7 +6,7 @@ import { Event } from 'components/Event/Event';
 import { PersonDetails } from 'components/PersonDetails/PersonDetails';
 import { FbComments } from 'components/FbComments/FbComments';
 import { MessageWithIcon } from 'components/MessageWithIcon/MessageWithIcon';
-// import { SvgIcon } from 'components/SvgIcon/SvgIcon';
+import { SvgIcon } from 'components/SvgIcon/SvgIcon';
 import { OptionalIntersectionObserver } from 'components/OptionalIntersectionObserver/OptionalIntersectionObserver';
 import { withRouter } from 'react-router-dom';
 import { resolve } from 'react-resolver';
@@ -14,9 +14,9 @@ import { Result, isErrorResult } from 'helpers/results';
 
 import { prettifyUrl } from 'helpers/prettifyUrl';
 
-// import warningIconSymbol from 'icons/warning.svg';
+import warningIconUrl from 'icons/warning.svg';
 
-// const warningIcon = <SvgIcon {...warningIconSymbol} size={100} />;
+const warningIcon = <SvgIcon url={warningIconUrl} size={100} />;
 
 const reload = () => {
   location.reload();
@@ -58,7 +58,7 @@ class NotablePersonPage extends React.PureComponent<OwnProps & ResolvedProps> {
         <MessageWithIcon
           caption="Are you connected to the internet?"
           description="Please check your connection and try again"
-          // icon={<SvgIcon {...warningIcon} />}
+          icon={warningIcon}
           onActionClick={reload}
         />
       );
@@ -70,6 +70,7 @@ class NotablePersonPage extends React.PureComponent<OwnProps & ResolvedProps> {
         <MessageWithIcon
           caption="Not Found"
           description="We do not have a page for this notable person"
+          icon={warningIcon}
         />
       );
     } else {

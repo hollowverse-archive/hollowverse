@@ -1,27 +1,70 @@
 const webpack = require('webpack');
+const path = require('path');
 
 const CircularDependencyPlugin = require('circular-dependency-plugin');
 
 const { compact, mapValues } = require('lodash');
 
-const { srcDirectory, excludedPatterns } = require('./variables');
+const { srcDirectory, excludedPatterns, publicPath } = require('./variables');
 
-const { ifPreact, isHot, isDev, isDebug } = require('./env');
+const { ifPreact, isHot, isDev, isDebug, ifDev } = require('./env');
+
+const svgoConfig = {
+  plugins: [
+    { removeXMLNS: false },
+    { cleanupIDs: false },
+    { convertShapeToPath: false },
+    { removeEmptyContainers: false },
+    { removeViewBox: false },
+    { mergePaths: false },
+    { convertStyleToAttrs: false },
+    { convertPathData: false },
+    { convertTransform: false },
+    { removeUnknownsAndDefaults: false },
+    { collapseGroups: false },
+    { moveGroupAttrsToElems: false },
+    { moveElemsAttrsToGroup: false },
+    { cleanUpEnableBackground: false },
+    { removeHiddenElems: false },
+    { removeNonInheritableGroupAttrs: false },
+    { removeUselessStrokeAndFill: false },
+    { transformsWithOnePath: false },
+  ],
+};
+
+const svgLoaders = [
+  {
+    loader: 'svgo-loader',
+    options: svgoConfig,
+  },
+];
+
+// const createSvgIconLoaders = (/** @type {string} */ name) => [
+//   {
+//     loader: 'svg-sprite-loader',
+//     options: {
+//       extract: true,
+//       spriteFilename: name,
+//       runtimeCompat: false,
+//     },
+//   },
+//   ...svgLoaders,
+// ];
 
 const config = {
-  // devServer:
-  //   ifDev({
-  //     port: process.env.WEBPACK_DEV_PORT || 3001,
-  //     inline: true,
-  //     contentBase: publicPath,
-  //     hot: env.isHot,
-  //     historyApiFallback: true,
-  //     noInfo: true,
-  //     quiet: false,
-  //     stats: {
-  //       colors: true,
-  //     },
-  //   }) || undefined,
+  devServer:
+    ifDev({
+      port: process.env.WEBPACK_DEV_PORT || 3001,
+      inline: true,
+      contentBase: publicPath,
+      hot: isHot,
+      historyApiFallback: true,
+      noInfo: true,
+      quiet: false,
+      stats: {
+        colors: true,
+      },
+    }) || undefined,
 
   devtool: isDev ? 'cheap-module-source-map' : 'source-map',
 
@@ -34,6 +77,14 @@ const config = {
         exclude: excludedPatterns,
         use: ['source-map-loader'],
         enforce: 'pre',
+      },
+
+      // // SVG assets
+      {
+        test: /\.svg$/,
+        exclude: excludedPatterns,
+        include: [path.resolve(srcDirectory)],
+        use: ['url-loader', ...svgLoaders],
       },
     ]),
   },
@@ -57,7 +108,7 @@ const config = {
       srcDirectory,
 
       // Fallback to node_modules dir
-      'node_modules',
+      path.join(process.cwd(), 'node_modules'),
     ],
   },
 
@@ -83,7 +134,7 @@ const config = {
     ),
 
     new CircularDependencyPlugin({
-      exclude: /a\.js|node_modules/,
+      exclude: /node_modules/,
       failOnError: true,
     }),
   ]),

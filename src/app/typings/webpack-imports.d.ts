@@ -11,8 +11,8 @@ declare module '*.module.scss' {
 }
 
 declare module 'icons/*.svg' {
-  const symbol: SpriteSymbol;
-  export default symbol;
+  const url: string;
+  export default url;
 }
 
 declare module 'svg-sprite-loader!*.svg' {
