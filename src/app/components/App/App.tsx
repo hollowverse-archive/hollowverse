@@ -5,7 +5,7 @@ import { Route, Switch } from 'react-router-dom';
 import './App.global.scss';
 import classes from './App.module.scss';
 
-import NotablePersonPage from 'pages/NotablePerson/NotablePerson';
+import NotablePersonPage from 'pages/NotablePerson/LoadableNotablePerson';
 import TestPage from 'pages/TestPage/Loadable';
 
 /** Main app component */

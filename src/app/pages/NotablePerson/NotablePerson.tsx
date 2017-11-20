@@ -6,7 +6,7 @@ import { Event } from 'components/Event/Event';
 import { PersonDetails } from 'components/PersonDetails/PersonDetails';
 import { FbComments } from 'components/FbComments/FbComments';
 import { MessageWithIcon } from 'components/MessageWithIcon/MessageWithIcon';
-// import { SvgIcon } from 'components/SvgIcon';
+// import { SvgIcon } from 'components/SvgIcon/SvgIcon';
 import { OptionalIntersectionObserver } from 'components/OptionalIntersectionObserver/OptionalIntersectionObserver';
 import { withRouter } from 'react-router-dom';
 import { resolve } from 'react-resolver';
@@ -18,9 +18,9 @@ import { prettifyUrl } from 'helpers/prettifyUrl';
 
 // const warningIcon = <SvgIcon {...warningIconSymbol} size={100} />;
 
-// const reload = () => {
-//   location.reload();
-// };
+const reload = () => {
+  location.reload();
+};
 
 const query = gql`
   query NotablePerson($slug: String!) {
@@ -58,6 +58,8 @@ class NotablePersonPage extends React.PureComponent<OwnProps & ResolvedProps> {
         <MessageWithIcon
           caption="Are you connected to the internet?"
           description="Please check your connection and try again"
+          // icon={<SvgIcon {...warningIcon} />}
+          onActionClick={reload}
         />
       );
     }
