@@ -1,4 +1,3 @@
-// const SpriteLoaderPlugin = require('svg-sprite-loader/plugin');
 const webpack = require('webpack');
 const webpackMerge = require('webpack-merge');
 
@@ -128,9 +127,6 @@ const clientSpecificConfig = {
 
     // Required for debugging in development and for long-term caching in production
     new webpack.NamedModulesPlugin(),
-
-    // SVG sprites
-    // new SpriteLoaderPlugin(),
 
     // NOTE: Only one instance of CommonsChunkPlugin can be used
     // with server-side renderning

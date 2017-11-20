@@ -9,48 +9,6 @@ const { srcDirectory, excludedPatterns, publicPath } = require('./variables');
 
 const { ifPreact, isHot, isDev, isDebug, ifDev } = require('./env');
 
-const svgoConfig = {
-  plugins: [
-    { removeXMLNS: false },
-    { cleanupIDs: false },
-    { convertShapeToPath: false },
-    { removeEmptyContainers: false },
-    { removeViewBox: false },
-    { mergePaths: false },
-    { convertStyleToAttrs: false },
-    { convertPathData: false },
-    { convertTransform: false },
-    { removeUnknownsAndDefaults: false },
-    { collapseGroups: false },
-    { moveGroupAttrsToElems: false },
-    { moveElemsAttrsToGroup: false },
-    { cleanUpEnableBackground: false },
-    { removeHiddenElems: false },
-    { removeNonInheritableGroupAttrs: false },
-    { removeUselessStrokeAndFill: false },
-    { transformsWithOnePath: false },
-  ],
-};
-
-const svgLoaders = [
-  {
-    loader: 'svgo-loader',
-    options: svgoConfig,
-  },
-];
-
-// const createSvgIconLoaders = (/** @type {string} */ name) => [
-//   {
-//     loader: 'svg-sprite-loader',
-//     options: {
-//       extract: true,
-//       spriteFilename: name,
-//       runtimeCompat: false,
-//     },
-//   },
-//   ...svgLoaders,
-// ];
-
 const config = {
   devServer:
     ifDev({
@@ -79,12 +37,39 @@ const config = {
         enforce: 'pre',
       },
 
-      // // SVG assets
+      // SVG assets
       {
         test: /\.svg$/,
         exclude: excludedPatterns,
         include: [path.resolve(srcDirectory)],
-        use: ['url-loader', ...svgLoaders],
+        use: [
+          'url-loader',
+          {
+            loader: 'svgo-loader',
+            options: {
+              plugins: [
+                { removeXMLNS: false },
+                { cleanupIDs: false },
+                { convertShapeToPath: false },
+                { removeEmptyContainers: false },
+                { removeViewBox: false },
+                { mergePaths: false },
+                { convertStyleToAttrs: false },
+                { convertPathData: false },
+                { convertTransform: false },
+                { removeUnknownsAndDefaults: false },
+                { collapseGroups: false },
+                { moveGroupAttrsToElems: false },
+                { moveElemsAttrsToGroup: false },
+                { cleanUpEnableBackground: false },
+                { removeHiddenElems: false },
+                { removeNonInheritableGroupAttrs: false },
+                { removeUselessStrokeAndFill: false },
+                { transformsWithOnePath: false },
+              ],
+            },
+          },
+        ],
       },
     ]),
   },
