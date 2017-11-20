@@ -55,11 +55,19 @@ if (isProd) {
     serverDistDirectory,
     'main.js',
   ));
+
+  let iconStats;
+  try {
+    iconStats = require(path.join(clientDistDirectory, 'iconStats.json'));
+  } catch (e) {
+    iconStats = undefined;
+  }
+
   const stats = require('./stats.json');
   // tslint:enable no-require-imports no-var-requires
 
   const clientStats = stats.children[0];
-  appServer.use(createServerRenderMiddleware({ clientStats }));
+  appServer.use(createServerRenderMiddleware({ clientStats, iconStats }));
 } else {
   const startServer = () => {
     appServer.listen(APP_SERVER_PORT, () => {

@@ -11,17 +11,25 @@ import * as loglevel from 'loglevel';
 import { Stats } from 'webpack';
 
 import { App } from './components/App/App';
-import html from './index.html';
+import html from './index.server.html';
 
 const interpolateTemplate = template(html);
 
 const logger = loglevel.getLogger('SSR');
 logger.setLevel(__DEBUG__ ? logger.levels.DEBUG : logger.levels.INFO);
 
+type IconStats = {
+  outputFilePrefix: string;
+  html: string[];
+  files: string[];
+};
+
 export const createServerRenderMiddleware = ({
   clientStats,
+  iconStats,
 }: {
   clientStats: Stats;
+  iconStats: IconStats | undefined;
 }) => async (req: Request, res: Response) => {
   try {
     const { Resolved, data } = await Resolver.resolve(() => {
@@ -50,6 +58,9 @@ export const createServerRenderMiddleware = ({
     logger.debug('Dynamic chunk names rendered', chunkNames);
     logger.debug('Scripts served:', scripts);
     logger.debug('Stylesheets served:', stylesheets);
+    logger.debug('icon stats:', iconStats);
+
+    const icons = iconStats ? iconStats.html.join(' ') : '';
 
     res.send(
       interpolateTemplate({
@@ -58,6 +69,7 @@ export const createServerRenderMiddleware = ({
           space: __DEBUG__ ? 2 : 0,
         }),
         app,
+        icons,
         js,
         styles,
         cssHash,

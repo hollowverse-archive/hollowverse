@@ -3,6 +3,7 @@ const webpack = require('webpack');
 const webpackMerge = require('webpack-merge');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 const ExtractCssChunks = require('extract-css-chunks-webpack-plugin');
 
 const NameAllModulesPlugin = require('name-all-modules-plugin');
@@ -161,8 +162,26 @@ const clientSpecificConfig = {
     extractGlobalCss,
     extractLocalCss,
 
+    new FaviconsWebpackPlugin({
+      logo: path.join(srcDirectory, 'assets', 'favicon.png'),
+      emitStats: true,
+      statsFilename: 'iconStats.json',
+      title: 'Hollowverse',
+      inject: true,
+    }),
+
     new HtmlWebpackPlugin({
-      template: path.join(srcDirectory, 'index.client.html'),
+      template: path.join(srcDirectory, 'index.html'),
+      filename: 'index.html',
+      inject: 'body',
+      minify: isProd
+        ? {
+            html5: true,
+            collapseBooleanAttributes: true,
+            collapseInlineTagWhitespace: true,
+            collapseWhitespace: true,
+          }
+        : false,
     }),
 
     // Required for debugging in development and for long-term caching in production
