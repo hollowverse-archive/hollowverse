@@ -64,6 +64,10 @@ export const createServerRenderMiddleware = ({
 
     res.send(
       interpolateTemplate({
+        // In order to protect from XSS attacks, make sure to use `serialize-javascript`
+        // to serialize all data. `JSON.stringify` won't protect from XSS.
+        // If `data` contains "</script><script>alert('Haha! Pwned!')</script>",
+        // `JSON.stringify` won't help.
         data: serializeJavaScript(data, {
           isJSON: true,
           space: __DEBUG__ ? 2 : 0,
