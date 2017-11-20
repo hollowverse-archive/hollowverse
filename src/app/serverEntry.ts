@@ -1,5 +1,3 @@
-import 'regenerator-runtime/runtime';
-
 import { URL } from 'url';
 import { createServerRenderMiddleware } from 'server';
 
