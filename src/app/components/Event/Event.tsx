@@ -2,7 +2,7 @@ import * as React from 'react';
 import cc from 'classcat';
 import formatDate from 'date-fns/format';
 
-import styles from './Event.module.scss';
+import * as classes from './Event.module.scss';
 
 type EventProps = {
   quote: string;
@@ -20,24 +20,24 @@ type EventProps = {
 export const Event = (props: EventProps) => (
   <div
     className={cc({
-      [styles.event]: true,
-      [styles.self]: props.isQuoteByNotablePerson,
+      [classes.event]: true,
+      [classes.self]: props.isQuoteByNotablePerson,
     })}
   >
-    <div className={styles['event-content']}>
+    <div className={classes.eventContent}>
       {props.happenedOn ? (
-        <div className={styles['event-date']}>
+        <div className={classes.eventDate}>
           {formatDate(props.happenedOn, 'MMM D, YYYY')}
         </div>
       ) : null}
       {props.isQuoteByNotablePerson && props.notablePerson ? (
-        <div className={styles['event-caption']}>
+        <div className={classes.eventCaption}>
           {props.notablePerson.name} said:
         </div>
       ) : null}
-      <div className={styles['event-text']}>{props.quote}</div>
+      <div className={classes.eventText}>{props.quote}</div>
       {props.sourceName ? (
-        <div className={styles['event-source']}>
+        <div className={classes.eventSource}>
           Source: <a href={props.sourceUrl}>{props.sourceName}</a>
         </div>
       ) : null}
