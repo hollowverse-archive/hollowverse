@@ -6,12 +6,11 @@ import { importGlobalScript } from 'helpers/importGlobalScript';
 import { MessageWithIcon } from 'components/MessageWithIcon/MessageWithIcon';
 import { LoadingSpinner } from 'components/LoadingSpinner/LoadingSpinner';
 import { SvgIcon } from 'components/SvgIcon/SvgIcon';
+import { AsyncComponent } from 'hocs/AsyncComponent/AsyncComponent';
 
 import warningIconUrl from 'icons/warning.svg';
 
 const warningIcon = <SvgIcon url={warningIconUrl} />;
-
-import { AsyncComponent } from 'hocs/AsyncComponent/AsyncComponent';
 
 const loadingComponent = (
   <MessageWithIcon
