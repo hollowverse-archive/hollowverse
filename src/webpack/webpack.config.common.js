@@ -43,7 +43,7 @@ const config = {
         exclude: excludedPatterns,
         include: [path.resolve(srcDirectory)],
         use: [
-          'url-loader',
+          'file-loader',
           {
             loader: 'svgo-loader',
             options: {
