@@ -37,7 +37,7 @@ const serverSpecificConfig = {
   // The `webpack-node-externals` package will exclude all packages in `node_modules`
   // so they are not bundled.
   externals: nodeExternals({
-    // `whitelist` exludes node modules so they _are_ bundled with webpack
+    // `whitelist` excludes node modules so they _are_ bundled with webpack
     whitelist: [
       '.bin',
       'babel-polyfill',
