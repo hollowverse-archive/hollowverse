@@ -63,6 +63,7 @@
     "classcat": "^1.0.1",
     "date-fns": "^1.29.0",
     "dom-ready": "^1.0.6",
+    "domready": "^1.0.8",
     "express": "^4.15.2",
     "express-no-favicons": "^0.0.1",
     "graphql": "^0.11.7",
