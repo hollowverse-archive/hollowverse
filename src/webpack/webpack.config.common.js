@@ -2,12 +2,22 @@ const webpack = require('webpack');
 const path = require('path');
 
 const CircularDependencyPlugin = require('circular-dependency-plugin');
+const BabelMinifyPlugin = require('babel-minify-webpack-plugin');
 
 const { compact, mapValues } = require('lodash');
 
 const { srcDirectory, excludedPatterns, publicPath } = require('./variables');
 
-const { ifPreact, isHot, isDev, isDebug, ifDev } = require('./env');
+const {
+  ifPreact,
+  isHot,
+  isDev,
+  isDebug,
+  ifDev,
+  ifProd,
+  ifEs5,
+  ifEsNext,
+} = require('./env');
 
 const config = {
   devServer:
@@ -122,6 +132,25 @@ const config = {
         v => JSON.stringify(v),
       ),
     ),
+
+    ...ifProd([
+      new webpack.optimize.OccurrenceOrderPlugin(true),
+
+      // Scope hoisting a la Rollup (Webpack 3+)
+      new webpack.optimize.ModuleConcatenationPlugin(),
+
+      // Minification
+      ...ifEs5([
+        new webpack.optimize.UglifyJsPlugin({
+          // @ts-ignore
+          minimize: true,
+          comments: false,
+          sourceMap: true,
+        }),
+      ]),
+
+      ...ifEsNext([new BabelMinifyPlugin()]),
+    ]),
 
     new CircularDependencyPlugin({
       exclude: /node_modules/,

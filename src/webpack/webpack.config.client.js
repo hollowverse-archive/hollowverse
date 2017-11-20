@@ -6,7 +6,6 @@ const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 const ExtractCssChunks = require('extract-css-chunks-webpack-plugin');
 
 const NameAllModulesPlugin = require('name-all-modules-plugin');
-const BabelMinifyPlugin = require('babel-minify-webpack-plugin');
 
 const path = require('path');
 const compact = require('lodash/compact');
@@ -27,8 +26,6 @@ const {
 const common = require('./webpack.config.common');
 
 const {
-  ifEs5,
-  ifEsNext,
   ifProd,
   ifDev,
   ifReact,
@@ -138,27 +135,9 @@ const clientSpecificConfig = {
     // Production-only
     ...ifProd([
       // Chunks
-
       // See https://medium.com/webpack/predictable-long-term-caching-with-webpack-d3eee1d3fa31
       new webpack.NamedChunksPlugin(),
       new NameAllModulesPlugin(),
-
-      new webpack.optimize.OccurrenceOrderPlugin(true),
-
-      // Scope hoisting a la Rollup (Webpack 3+)
-      new webpack.optimize.ModuleConcatenationPlugin(),
-
-      // Minification
-      ...ifEs5([
-        new webpack.optimize.UglifyJsPlugin({
-          // @ts-ignore
-          minimize: true,
-          comments: false,
-          sourceMap: true,
-        }),
-      ]),
-
-      ...ifEsNext([new BabelMinifyPlugin()]),
 
       // Banner
       new webpack.BannerPlugin({
