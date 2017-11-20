@@ -49,7 +49,7 @@
   ],
   "browserslist": [
     "last 5 Chrome versions",
-    "last 5 Firefox versions",
+    "last 4 Firefox versions",
     "last 2 Safari versions",
     "last 2 Edge versions",
     "last 2 Opera versions",
