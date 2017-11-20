@@ -2,6 +2,7 @@
 const webpack = require('webpack');
 const webpackMerge = require('webpack-merge');
 
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractCssChunks = require('extract-css-chunks-webpack-plugin');
 
 const NameAllModulesPlugin = require('name-all-modules-plugin');
@@ -159,6 +160,10 @@ const clientSpecificConfig = {
     // CSS
     extractGlobalCss,
     extractLocalCss,
+
+    new HtmlWebpackPlugin({
+      template: path.join(srcDirectory, 'index.client.html'),
+    }),
 
     // Required for debugging in development and for long-term caching in production
     new webpack.NamedModulesPlugin(),

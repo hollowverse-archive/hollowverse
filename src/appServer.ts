@@ -43,6 +43,9 @@ if (isProd) {
       // Safe to use the `immutable` directive because filenames
       // contain unique, content-based hashes
       immutable: true,
+
+      // Do not send index.html when requesting /
+      index: false,
     }),
   ]);
 
