@@ -126,7 +126,7 @@ const ResolvedPage = resolve('queryResult', async ({ slug }) => {
     };
   } catch (error) {
     return {
-      error: error,
+      error,
     };
   }
 })(NotablePersonPage);
