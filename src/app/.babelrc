@@ -1,0 +1,5 @@
+{
+  "presets": [
+    "../webpack/babel.client.js"
+  ]
+}

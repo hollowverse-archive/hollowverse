@@ -1,0 +1,12 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "module": "commonjs",
+    "outDir": "../dist",
+    "checkJs": false,
+    "skipLibCheck": true
+  },
+  "exclude": [
+    "app" // "app" will be processed by Webpack
+  ]
+}
