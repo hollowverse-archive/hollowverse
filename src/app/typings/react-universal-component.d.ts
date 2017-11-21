@@ -67,20 +67,6 @@ declare module 'react-universal-component' {
 
   type Options<P, C, Export> = Partial<{
     /**
-     * The component class or function corresponding to your stateless component
-     * that displays while the primary import is loading.
-     * While testing out this package, you can leave it out as a simple default one is used.
-     */
-    loading(p: P): JSX.Element | ComponentType<P>;
-
-    /**
-     * The component that displays if there are any errors that occur during
-     * your aynschronous import. While testing out this package,
-     * you can leave it out as a simple default one is used.
-     */
-    error(p: P): JSX.Element | ComponentType<P & { error: Error }>;
-
-    /**
      * Lets you specify the export from the module you want to be your component
      * if it's not `default` in ES6 or `module.exports` in ES5.
      * It can be a string corresponding to the export key, or a function that's
@@ -148,6 +134,20 @@ declare module 'react-universal-component' {
       module: Export,
       options: { isSync: boolean; isServer: boolean },
     ): void;
+
+    /**
+     * The component class or function corresponding to your stateless component
+     * that displays while the primary import is loading.
+     * While testing out this package, you can leave it out as a simple default one is used.
+     */
+    loading(p: P): JSX.Element | ComponentType<P>;
+
+    /**
+     * The component that displays if there are any errors that occur during
+     * your aynschronous import. While testing out this package,
+     * you can leave it out as a simple default one is used.
+     */
+    error(p: P): JSX.Element | ComponentType<P & { error: Error }>;
   }>;
 
   export default function universal<
@@ -155,20 +155,12 @@ declare module 'react-universal-component' {
     C extends ComponentType<P> = ComponentType<P>,
     Export extends Module<P> = Module<P>
   >(
-    asyncComponent:
+    loadSpec:
       | PromiseLike<Module<C>>
-      | ((props: P) => PromiseLike<Module<C>>),
-    options?: Options<P, C, Export>,
-  ): UniversalComponent<P>;
-
-  export default function universal<
-    P,
-    C extends ComponentType<P> = ComponentType<P>,
-    Export extends Module<P> = Module<P>
-  >(
-    loadSpec: {
-      load(props: P): PromiseLike<Module<C>>;
-    },
+      | ((props: P) => PromiseLike<Module<C>>)
+      | {
+          load(props: P): PromiseLike<Module<C>>;
+        },
     options?: Options<P, C, Export>,
   ): UniversalComponent<P>;
 }
