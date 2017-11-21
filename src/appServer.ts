@@ -1,6 +1,5 @@
 import * as path from 'path';
 import * as express from 'express';
-import * as noFavicon from 'express-no-favicons';
 import * as loglevel from 'loglevel';
 import { once } from 'lodash';
 import * as moment from 'moment';
@@ -21,9 +20,6 @@ const { APP_SERVER_PORT = 3001 } = process.env;
 logger.setLevel(logger.levels.INFO);
 
 const appServer = express();
-
-// Ignore requests for favicons
-appServer.use(noFavicon());
 
 appServer.use(...securityMiddleware);
 
