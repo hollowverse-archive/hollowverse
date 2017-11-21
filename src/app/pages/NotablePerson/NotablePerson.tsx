@@ -58,6 +58,7 @@ class NotablePersonPage extends React.PureComponent<OwnProps & ResolvedProps> {
         <MessageWithIcon
           caption="Are you connected to the internet?"
           description="Please check your connection and try again"
+          actionText="Retry"
           icon={warningIcon}
           onActionClick={reload}
         />
