@@ -1,6 +1,17 @@
 import * as React from 'react';
+import cc from 'classcat';
+
 import * as classes from './Label.module.scss';
 
-export const Label = (props: { text: string }) => (
-  <div className={classes.label}>{props.text}</div>
+type Props = {
+  text: string;
+  size?: 'small' | 'normal';
+};
+
+export const Label = ({ text, size = 'normal' }: Props) => (
+  <div
+    className={cc({ [classes.label]: true, [classes.small]: size === 'small' })}
+  >
+    {text}
+  </div>
 );

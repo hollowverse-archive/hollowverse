@@ -13,6 +13,6 @@ export const Card = (props: Props) => (
       <div className={classes.cardSubtitle}>{props.subtitle}</div>
       <div className={classes.cardTitle}>{props.title}</div>
     </a>
-    {props.children}
+    <div className={classes.cardContent}>{props.children}</div>
   </div>
 );

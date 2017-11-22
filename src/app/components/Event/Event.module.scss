@@ -1,16 +1,10 @@
 @import 'variables.scss';
 
 .event {
-  margin: 40px auto 60px;
+  margin: 20px 0;
 
   &-content {
     position: relative;
-    padding: 5px 0 5px 15px;
-    border-left: 5px solid $color-pink;
-
-    .self & {
-      border-left-color: $color-yellow;
-    }
   }
 
   &-caption {

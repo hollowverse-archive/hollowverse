@@ -12,6 +12,7 @@ import { withRouter } from 'react-router-dom';
 import { resolve } from 'react-resolver';
 import { Result, isErrorResult } from 'helpers/results';
 import { Card } from 'components/Card/Card';
+import { Quote } from 'components/Quote/Quote';
 
 import { prettifyUrl } from 'helpers/prettifyUrl';
 
@@ -105,7 +106,11 @@ class NotablePersonPage extends React.PureComponent<OwnProps & ResolvedProps> {
                   event.happenedOn ? new Date(event.happenedOn) : null
                 }
                 sourceName={prettifyUrl(event.sourceUrl)}
-              />
+              >
+                <Quote quoteBy={name} photoUrl={photoUrl}>
+                  {event.quote}
+                </Quote>
+              </Event>
             ))}
           </Card>
           <OptionalIntersectionObserver rootMargin="0% 0% 25% 0%" triggerOnce>
