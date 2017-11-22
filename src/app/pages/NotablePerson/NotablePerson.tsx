@@ -11,6 +11,7 @@ import { OptionalIntersectionObserver } from 'components/OptionalIntersectionObs
 import { withRouter } from 'react-router-dom';
 import { resolve } from 'react-resolver';
 import { Result, isErrorResult } from 'helpers/results';
+import { Card } from 'components/Card/Card';
 
 import { prettifyUrl } from 'helpers/prettifyUrl';
 
@@ -93,16 +94,20 @@ class NotablePersonPage extends React.PureComponent<OwnProps & ResolvedProps> {
             photoUrl={photoUrl}
             summary={summary}
           />
-          {events.map(event => (
-            <Event
-              key={event.id}
-              {...event}
-              notablePerson={notablePerson}
-              postedAt={new Date(event.postedAt)}
-              happenedOn={event.happenedOn ? new Date(event.happenedOn) : null}
-              sourceName={prettifyUrl(event.sourceUrl)}
-            />
-          ))}
+          <Card title="Quotes" subtitle={name} moreLink="./quotes">
+            {events.map(event => (
+              <Event
+                key={event.id}
+                {...event}
+                notablePerson={notablePerson}
+                postedAt={new Date(event.postedAt)}
+                happenedOn={
+                  event.happenedOn ? new Date(event.happenedOn) : null
+                }
+                sourceName={prettifyUrl(event.sourceUrl)}
+              />
+            ))}
+          </Card>
           <OptionalIntersectionObserver rootMargin="0% 0% 25% 0%" triggerOnce>
             {inView => {
               if (inView) {

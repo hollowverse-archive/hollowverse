@@ -2,10 +2,11 @@
 
 .person-details {
   position: relative;
+  margin-bottom: 25px;
 
   &-avatar {
-    width: $avatar-size;
-    height: $avatar-size;
+    width: $person-avatar-size;
+    height: $person-avatar-size;
     border-radius: 50%;
     user-select: none;
     margin: 0 auto 20px;

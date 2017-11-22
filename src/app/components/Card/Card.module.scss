@@ -1,0 +1,37 @@
+@import 'variables.scss';
+
+.card {
+  margin: 10px -5px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.04);
+  border-radius: 3px;
+  padding: 15px;
+
+  &-title {
+    font-size: 32px;
+    line-height: 24px;
+    font-weight: bold;
+    display: inline-block;
+    color: $color-text-default;
+    text-decoration: none;
+    margin: 10px 0 15px;
+
+    &:hover {
+      color: $color-blue;
+    }
+  }
+
+  &-subtitle {
+    font-size: 12px;
+    font-weight: normal;
+    display: block;
+    color: $color-text-light;
+    text-decoration: none;
+  }
+
+  &-more {
+    display: inline-block;
+    text-decoration: none;
+    color: $color-blue;
+  }
+}
