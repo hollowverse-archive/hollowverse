@@ -1,6 +1,8 @@
 import * as React from 'react';
 import formatDate from 'date-fns/format';
 
+import { Label } from 'components/Label/Label';
+
 import * as classes from './Event.module.scss';
 
 type EventProps = {
@@ -14,6 +16,10 @@ type EventProps = {
   isQuoteByNotablePerson: boolean;
   sourceName: string;
   sourceUrl: string;
+  labels: Array<{
+    id: string;
+    text: string;
+  }>;
   children?: JSX.Element | JSX.Element[] | string;
 };
 
@@ -22,6 +28,11 @@ export const Event = (props: EventProps) => (
     <div className={classes.eventContent}>
       {props.children}
       <div className={classes.eventMeta}>
+        <span>
+          {props.labels.map(label => (
+            <Label key={label.id} size="small" text={label.text} />
+          ))}
+        </span>
         {props.happenedOn ? (
           <span className={classes.eventDate}>
             {formatDate(props.happenedOn, 'MMM D, YYYY')}

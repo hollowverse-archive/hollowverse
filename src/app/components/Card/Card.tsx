@@ -2,8 +2,8 @@ import * as React from 'react';
 import * as classes from './Card.module.scss';
 
 type Props = {
-  title: string;
-  subtitle?: string;
+  title: string | JSX.Element;
+  subtitle?: string | JSX.Element;
   moreLink: string;
   children: JSX.Element[] | JSX.Element;
 };

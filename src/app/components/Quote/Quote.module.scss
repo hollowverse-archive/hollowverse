@@ -2,6 +2,8 @@
 
 .quote {
   position: relative;
+  font-size: 98%;
+  line-height: 130%;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -14,7 +16,7 @@
   &::before {
     content: '”';
     position: absolute;
-    top: 0;
+    top: 35px;
     right: 10px;
     font-size: 80px;
     font-family: Georgia, 'Times New Roman', Times, serif;

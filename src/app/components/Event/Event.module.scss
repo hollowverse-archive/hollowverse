@@ -3,43 +3,13 @@
 .event {
   margin: 20px 0;
 
-  &-content {
-    position: relative;
-  }
-
-  &-caption {
-    font-size: 12px;
-    color: $color-text-light;
-    margin-bottom: 5px;
-  }
-
-  &-date {
-    font-size: 12px;
-    color: $color-text-light;
-  }
-
-  &-text {
-    font-size: 17px;
-  }
-
-  &-source {
-    font-size: 12px;
-    color: $color-text-light;
-    margin: 5px 0;
-
-    a {
-      color: $color-text-light;
-      text-decoration: none;
-    }
-    a:hover {
-      text-decoration: underline;
-    }
-  }
-
   &-meta {
     font-size: 12px;
     color: $color-text-light;
     margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
 
     span {
       white-space: nowrap;
@@ -53,6 +23,7 @@
 
     a:hover {
       color: $color-blue;
+      text-decoration: underline;
     }
 
     > * + *::before {

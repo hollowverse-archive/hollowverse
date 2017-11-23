@@ -9,15 +9,23 @@
 
   &-content > * {
     margin: 20px 0;
+    list-style: none;
+  }
+
+  a,
+  a:hover {
+    text-decoration: none;
   }
 
   &-title {
-    font-size: 32px;
-    line-height: 24px;
-    font-weight: bold;
-    display: inline-block;
+    &,
+    & * {
+      font-size: 32px;
+      line-height: 24px;
+      font-weight: bold;
+    }
+    display: block;
     color: $color-text-default;
-    text-decoration: none;
     margin: 10px 0 15px;
 
     &:hover {
@@ -30,12 +38,10 @@
     font-weight: normal;
     display: block;
     color: $color-text-light;
-    text-decoration: none;
   }
 
   &-more {
     display: inline-block;
-    text-decoration: none;
     color: $color-blue;
   }
 }

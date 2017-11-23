@@ -20,7 +20,7 @@ export const PersonDetails = ({
     <div className={classes.personDetailsCaption}>
       Religion, politics, and ideas of
     </div>
-    <div className={classes.personDetailsName}>{name}</div>
+    <h1 className={classes.personDetailsName}>{name}</h1>
     <div className={classes.personDetailsLabels}>
       {labels.map(({ id, text }) => <Label key={id} text={text} />)}
     </div>

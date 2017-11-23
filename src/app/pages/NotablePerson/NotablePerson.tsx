@@ -95,22 +95,22 @@ class NotablePersonPage extends React.PureComponent<OwnProps & ResolvedProps> {
             photoUrl={photoUrl}
             summary={summary}
           />
-          <Card title="Quotes" subtitle={name} moreLink="./quotes">
+          <Card title={<h2>Quotes</h2>} subtitle={name} moreLink="./quotes">
             {events.map(event => (
-              <Event
-                key={event.id}
-                {...event}
-                notablePerson={notablePerson}
-                postedAt={new Date(event.postedAt)}
-                happenedOn={
-                  event.happenedOn ? new Date(event.happenedOn) : null
-                }
-                sourceName={prettifyUrl(event.sourceUrl)}
-              >
-                <Quote quoteBy={name} photoUrl={photoUrl}>
-                  {event.quote}
-                </Quote>
-              </Event>
+              <li key={event.id}>
+                <Event
+                  {...event}
+                  notablePerson={notablePerson}
+                  postedAt={new Date(event.postedAt)}
+                  happenedOn={
+                    event.happenedOn ? new Date(event.happenedOn) : null
+                  }
+                  sourceName={prettifyUrl(event.sourceUrl)}
+                  labels={labels}
+                >
+                  <Quote photoUrl={photoUrl}>{event.quote}</Quote>
+                </Event>
+              </li>
             ))}
           </Card>
           <OptionalIntersectionObserver rootMargin="0% 0% 25% 0%" triggerOnce>
