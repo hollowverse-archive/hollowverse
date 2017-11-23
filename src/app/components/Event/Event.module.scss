@@ -26,11 +26,23 @@
       text-decoration: underline;
     }
 
-    > * + *::before {
+    > * {
+      margin: 5px 0;
+    }
+
+    > :not(.labels) > * + *::before {
       content: '\00B7';
       padding-left: 8px;
       margin-right: 8px;
       color: $color-text-light;
+    }
+
+    & .labels {
+      margin-right: auto;
+    }
+
+    & > :not(.labels) {
+      margin-left: auto;
     }
   }
 }
