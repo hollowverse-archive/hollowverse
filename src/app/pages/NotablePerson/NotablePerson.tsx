@@ -40,6 +40,10 @@ const query = gql`
         type
         quote
         isQuoteByNotablePerson
+        labels {
+          id
+          text
+        }
         sourceUrl
         entityUrl
         entityName
@@ -109,7 +113,7 @@ class NotablePersonPage extends React.PureComponent<OwnProps & ResolvedProps> {
                     event.happenedOn ? new Date(event.happenedOn) : null
                   }
                   sourceName={prettifyUrl(event.sourceUrl)}
-                  labels={[...labels, ...labels]}
+                  labels={event.labels}
                 >
                   {event.quote ? (
                     <Quote photoUrl={photoUrl}>{event.quote}</Quote>
