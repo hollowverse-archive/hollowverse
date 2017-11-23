@@ -37,11 +37,14 @@ const query = gql`
       }
       events {
         id
+        type
         quote
-        postedAt
-        happenedOn
         isQuoteByNotablePerson
         sourceUrl
+        entityUrl
+        entityName
+        postedAt
+        happenedOn
       }
     }
   }
@@ -106,9 +109,11 @@ class NotablePersonPage extends React.PureComponent<OwnProps & ResolvedProps> {
                     event.happenedOn ? new Date(event.happenedOn) : null
                   }
                   sourceName={prettifyUrl(event.sourceUrl)}
-                  labels={labels}
+                  labels={[...labels, ...labels]}
                 >
-                  <Quote photoUrl={photoUrl}>{event.quote}</Quote>
+                  {event.quote ? (
+                    <Quote photoUrl={photoUrl}>{event.quote}</Quote>
+                  ) : null}
                 </Event>
               </li>
             ))}
