@@ -3,6 +3,8 @@ import formatDate from 'date-fns/format';
 
 import { Label } from 'components/Label/Label';
 
+import { prettifyUrl } from 'helpers/prettifyUrl';
+
 import * as classes from './Event.module.scss';
 
 type EventProps = {
@@ -14,6 +16,8 @@ type EventProps = {
   } | null;
   sourceName: string;
   sourceUrl: string;
+  entityName?: string | null;
+  entityUrl?: string | null;
   labels: Array<{
     id: string;
     text: string;
@@ -26,18 +30,28 @@ export const Event = (props: EventProps) => (
     <div className={classes.eventContent}>
       {props.children}
       <div className={classes.eventMeta}>
+        {props.entityUrl && props.entityName ? (
+          <span>
+            <a title={props.entityName} href={props.entityUrl}>
+              {prettifyUrl(props.entityUrl)}
+            </a>
+          </span>
+        ) : null}
         {props.sourceName ? (
-          <span className={classes.eventSource}>
+          <span>
             Source: <a href={props.sourceUrl}>{props.sourceName}</a>
           </span>
         ) : null}
         {props.happenedOn ? (
-          <span className={classes.eventDate}>
-            {formatDate(props.happenedOn, 'MMM D, YYYY')}
-          </span>
+          <span>{formatDate(props.happenedOn, 'MMM D, YYYY')}</span>
         ) : null}
         {props.labels.map(label => (
-          <Label className={classes.label} key={label.id} size="small" text={label.text} />
+          <Label
+            className={classes.label}
+            key={label.id}
+            size="small"
+            text={label.text}
+          />
         ))}
       </div>
     </div>

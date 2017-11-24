@@ -16,7 +16,7 @@ const loadingComponent = (
   />
 );
 
-type P = {
+type Props = React.HTMLAttributes<HTMLDivElement> & {
   url: string;
   numPosts?: number;
 };
@@ -24,7 +24,7 @@ type P = {
 const OBSERVED_FB_ATTR_NAME = 'fb-xfbml-state';
 
 /** Facebook Comments Plugin */
-export class FbComments extends React.PureComponent<P> {
+export class FbComments extends React.PureComponent<Props> {
   target: HTMLDivElement | null;
   commentsObserver: MutationObserver | null = null;
 
@@ -72,44 +72,46 @@ export class FbComments extends React.PureComponent<P> {
   }
 
   render() {
-    const { url, numPosts = 5 } = this.props;
+    const { url, numPosts = 5, ...rest } = this.props;
 
     return (
-      <AsyncComponent load={this.load}>
-        {({ hasError, isLoading, timedOut, retry }) => {
-          if (hasError || timedOut) {
-            return (
-              <MessageWithIcon
-                caption="Error loading Facebook comments"
-                actionText="Retry"
-                icon={warningIcon}
-                onActionClick={retry}
-              />
-            );
-          }
-
-          return (
-            <div>
-              {isLoading ? loadingComponent : null}
-              <noscript>
+      <div {...rest}>
+        <AsyncComponent load={this.load}>
+          {({ hasError, isLoading, timedOut, retry }) => {
+            if (hasError || timedOut) {
+              return (
                 <MessageWithIcon
-                  caption="Unable to load comments"
-                  description="Enable JavaScript in your browser settings and reload this page to see comments"
+                  caption="Error loading Facebook comments"
+                  actionText="Retry"
                   icon={warningIcon}
+                  onActionClick={retry}
                 />
-              </noscript>
-              <div
-                style={{ visibility: isLoading ? 'hidden' : 'visible' }}
-                className="fb-comments"
-                data-href={url}
-                data-width="100%"
-                data-numposts={numPosts}
-                ref={this.setTarget}
-              />
-            </div>
-          );
-        }}
-      </AsyncComponent>
+              );
+            }
+
+            return (
+              <div>
+                {isLoading ? loadingComponent : null}
+                <noscript>
+                  <MessageWithIcon
+                    caption="Unable to load comments"
+                    description="Enable JavaScript in your browser settings and reload this page to see comments"
+                    icon={warningIcon}
+                  />
+                </noscript>
+                <div
+                  style={{ visibility: isLoading ? 'hidden' : 'visible' }}
+                  className="fb-comments"
+                  data-href={url}
+                  data-width="100%"
+                  data-numposts={numPosts}
+                  ref={this.setTarget}
+                />
+              </div>
+            );
+          }}
+        </AsyncComponent>
+      </div>
     );
   }
 }

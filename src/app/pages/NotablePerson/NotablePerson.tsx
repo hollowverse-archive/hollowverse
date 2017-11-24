@@ -18,6 +18,8 @@ import { prettifyUrl } from 'helpers/prettifyUrl';
 
 import warningIconUrl from 'icons/warning.svg';
 
+import * as classes from './NotablePerson.module.scss';
+
 const warningIcon = <SvgIcon url={warningIconUrl} size={100} />;
 
 const reload = () => {
@@ -150,7 +152,13 @@ class NotablePersonPage extends React.PureComponent<OwnProps & ResolvedProps> {
                     sourceName={prettifyUrl(donation.sourceUrl)}
                     labels={donation.labels}
                   >
-                    <h3>{donation.entityName}</h3>
+                    <h3 className={classes.eventTitle}>
+                      {donation.entityUrl ? (
+                        <a href={donation.entityUrl}>{donation.entityName}</a>
+                      ) : (
+                        donation.entityName
+                      )}
+                    </h3>
                     {donation.quote ? (
                       <Quote photoUrl={photoUrl}>{donation.quote}</Quote>
                     ) : null}
@@ -162,7 +170,9 @@ class NotablePersonPage extends React.PureComponent<OwnProps & ResolvedProps> {
           <OptionalIntersectionObserver rootMargin="0% 0% 25% 0%" triggerOnce>
             {inView => {
               if (inView) {
-                return <FbComments url={commentsUrl} />;
+                return (
+                  <FbComments className={classes.comments} url={commentsUrl} />
+                );
               } else {
                 return null;
               }

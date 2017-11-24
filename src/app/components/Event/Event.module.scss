@@ -6,7 +6,6 @@
   &-meta {
     font-size: 12px;
     color: $color-text-light;
-    margin-top: 10px;
     display: flex;
     flex-wrap: wrap;
     align-items: baseline;
@@ -23,13 +22,12 @@
     }
 
     > * {
-      margin: 5px 0;
-      margin-right: 8px;
+      margin: 5px 5px 5px 0;
     }
-    
+
     > * + *:not(.label)::before {
       content: '\00B7';
-      padding-left: 8px;
+      padding-right: 5px;
       color: $color-text-light;
     }
   }

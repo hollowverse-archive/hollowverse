@@ -9,10 +9,8 @@ type Props = {
 };
 export const Card = (props: Props) => (
   <div className={classes.card}>
-    <a href={props.moreLink}>
-      <div className={classes.cardSubtitle}>{props.subtitle}</div>
-      <div className={classes.cardTitle}>{props.title}</div>
-    </a>
+    <div className={classes.cardSubtitle}>{props.subtitle}</div>
+    <div className={classes.cardTitle}>{props.title}</div>
     <div className={classes.cardContent}>{props.children}</div>
   </div>
 );
