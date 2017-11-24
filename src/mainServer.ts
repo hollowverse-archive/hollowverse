@@ -51,9 +51,7 @@ server.use('/log', logEndpoint);
 // requests to static assets to be directed to the new app.
 // The new proxy will check if the request is for a static file, and redirect accordingly.
 // Examples: /static/app.js, /static/vendor.js => new hollowverse
-server.get('/static/*', (req, res, next) => {
-  appServer(req, res, next);
-});
+server.get('/static/*', appServer);
 
 // Because ":/path" matches routes on both new and old servers, the new proxy also has
 // to know the new app paths to avoid redirection loops.
