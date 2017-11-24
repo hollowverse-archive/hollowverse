@@ -36,11 +36,9 @@ export const Event = (props: EventProps) => (
             {formatDate(props.happenedOn, 'MMM D, YYYY')}
           </span>
         ) : null}
-        <span className={classes.labels}>
-          {props.labels.map(label => (
-            <Label key={label.id} size="small" text={label.text} />
-          ))}
-        </span>
+        {props.labels.map(label => (
+          <Label className={classes.label} key={label.id} size="small" text={label.text} />
+        ))}
       </div>
     </div>
   </div>

@@ -11,10 +11,6 @@
     flex-wrap: wrap;
     align-items: baseline;
 
-    span {
-      white-space: nowrap;
-    }
-
     a {
       color: $color-text-light;
       text-decoration: none;
@@ -28,12 +24,12 @@
 
     > * {
       margin: 5px 0;
+      margin-right: 8px;
     }
-
-    > * + *::before {
+    
+    > * + *:not(.label)::before {
       content: '\00B7';
       padding-left: 8px;
-      margin-right: 8px;
       color: $color-text-light;
     }
   }
