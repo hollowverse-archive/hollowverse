@@ -6,26 +6,31 @@
   &-meta {
     font-size: 12px;
     color: $color-text-light;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
 
     a {
       color: $color-text-light;
       text-decoration: none;
       white-space: nowrap;
-    }
 
-    a:hover {
-      color: $color-blue;
-      text-decoration: underline;
+      &:hover {
+        text-decoration: underline;
+      }
     }
 
     > * {
       margin: 5px 5px 5px 0;
     }
 
-    > *:not(.label):not(:last-child)::after {
+    .label-list {
+      list-style: none;
+      display: inline;
+
+      .label-list-item {
+        display: inline-block;
+      }
+    }
+
+    > *:not(:last-child)::after {
       content: '\00B7';
       padding-left: 5px;
       color: $color-text-light;

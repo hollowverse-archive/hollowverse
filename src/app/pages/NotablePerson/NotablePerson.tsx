@@ -69,6 +69,7 @@ type ResolvedProps = {
 };
 
 class NotablePersonPage extends React.PureComponent<OwnProps & ResolvedProps> {
+  // tslint:disable-next-line:max-func-body-length
   render() {
     const { queryResult } = this.props;
     if (isErrorResult(queryResult)) {
@@ -113,58 +114,60 @@ class NotablePersonPage extends React.PureComponent<OwnProps & ResolvedProps> {
             summary={summary}
           />
           {quotes.length > 0 ? (
-            <Card title={<h2>Quotes</h2>} subtitle={name} moreLink="./quotes">
-              {quotes.map(quote => (
-                <li key={quote.id}>
-                  <Event
-                    {...quote}
-                    notablePerson={notablePerson}
-                    postedAt={new Date(quote.postedAt)}
-                    happenedOn={
-                      quote.happenedOn ? new Date(quote.happenedOn) : null
-                    }
-                    sourceName={prettifyUrl(quote.sourceUrl)}
-                    labels={quote.labels}
-                  >
-                    {quote.quote ? (
-                      <Quote photoUrl={photoUrl}>{quote.quote}</Quote>
-                    ) : null}
-                  </Event>
-                </li>
-              ))}
+            <Card title={<h2>Quotes</h2>} subtitle={name}>
+              <ul className={classes.list}>
+                {quotes.map(quote => (
+                  <li key={quote.id}>
+                    <Event
+                      {...quote}
+                      notablePerson={notablePerson}
+                      postedAt={new Date(quote.postedAt)}
+                      happenedOn={
+                        quote.happenedOn ? new Date(quote.happenedOn) : null
+                      }
+                      sourceName={prettifyUrl(quote.sourceUrl)}
+                      labels={quote.labels}
+                    >
+                      {quote.quote ? (
+                        <Quote photoUrl={photoUrl}>{quote.quote}</Quote>
+                      ) : null}
+                    </Event>
+                  </li>
+                ))}
+              </ul>
             </Card>
           ) : null}
           {donations.length > 0 ? (
-            <Card
-              title={<h2>Donations</h2>}
-              subtitle={name}
-              moreLink="./quotes"
-            >
-              {donations.map(donation => (
-                <li key={donation.id}>
-                  <Event
-                    {...donation}
-                    notablePerson={notablePerson}
-                    postedAt={new Date(donation.postedAt)}
-                    happenedOn={
-                      donation.happenedOn ? new Date(donation.happenedOn) : null
-                    }
-                    sourceName={prettifyUrl(donation.sourceUrl)}
-                    labels={donation.labels}
-                  >
-                    <h3 className={classes.eventTitle}>
-                      {donation.entityUrl ? (
-                        <a href={donation.entityUrl}>{donation.entityName}</a>
-                      ) : (
-                        donation.entityName
-                      )}
-                    </h3>
-                    {donation.quote ? (
-                      <Quote photoUrl={photoUrl}>{donation.quote}</Quote>
-                    ) : null}
-                  </Event>
-                </li>
-              ))}
+            <Card title={<h2>Donations</h2>} subtitle={name}>
+              <ul className={classes.list}>
+                {donations.map(donation => (
+                  <li key={donation.id}>
+                    <Event
+                      {...donation}
+                      notablePerson={notablePerson}
+                      postedAt={new Date(donation.postedAt)}
+                      happenedOn={
+                        donation.happenedOn
+                          ? new Date(donation.happenedOn)
+                          : null
+                      }
+                      sourceName={prettifyUrl(donation.sourceUrl)}
+                      labels={donation.labels}
+                    >
+                      <h3 className={classes.eventTitle}>
+                        {donation.entityUrl ? (
+                          <a href={donation.entityUrl}>{donation.entityName}</a>
+                        ) : (
+                          donation.entityName
+                        )}
+                      </h3>
+                      {donation.quote ? (
+                        <Quote photoUrl={photoUrl}>{donation.quote}</Quote>
+                      ) : null}
+                    </Event>
+                  </li>
+                ))}
+              </ul>
             </Card>
           ) : null}
           <OptionalIntersectionObserver rootMargin="0% 0% 25% 0%" triggerOnce>

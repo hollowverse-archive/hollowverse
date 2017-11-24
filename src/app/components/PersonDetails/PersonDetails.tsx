@@ -18,13 +18,19 @@ export const PersonDetails = ({
 }: PersonDetailsProps) => (
   <div className={classes.personDetails}>
     <Image className={classes.personDetailsAvatar} src={photoUrl} alt={name} />
-    <div className={classes.personDetailsCaption}>
-      Religion, politics, and ideas of
-    </div>
-    <h1 className={classes.personDetailsName}>{name}</h1>
-    <div className={classes.personDetailsLabels}>
-      {labels.map(({ id, text }) => <Label key={id} text={text} />)}
-    </div>
+    <h1 className={classes.personDetailsName}>
+      <div className={classes.personDetailsCaption}>
+        Religion, politics, and ideas of
+      </div>
+      {name}
+    </h1>
+    <ul aria-label="Labels" className={classes.personDetailsLabels}>
+      {labels.map(({ id, text }) => (
+        <li className={classes.labelListItem} key={id}>
+          <Label text={text} />
+        </li>
+      ))}
+    </ul>
     {summary && (
       <div className={classes.personDetailsAbout}>
         {summary.split('\n').map((p, i) => <p key={i}>{p}</p>)}

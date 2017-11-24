@@ -20,6 +20,7 @@
     color: $color-text-light;
     font-size: 12px;
     text-align: center;
+    font-weight: normal;
   }
 
   &-name {
@@ -34,6 +35,10 @@
   &-labels {
     text-align: center;
     margin: 20px auto;
+  }
+
+  .label-list-item {
+    display: inline;
   }
 
   &-about {
