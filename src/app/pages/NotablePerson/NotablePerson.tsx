@@ -110,48 +110,55 @@ class NotablePersonPage extends React.PureComponent<OwnProps & ResolvedProps> {
             photoUrl={photoUrl}
             summary={summary}
           />
-          <Card title={<h2>Quotes</h2>} subtitle={name} moreLink="./quotes">
-            {quotes.map(quote => (
-              <li key={quote.id}>
-                <Event
-                  {...quote}
-                  notablePerson={notablePerson}
-                  postedAt={new Date(quote.postedAt)}
-                  happenedOn={
-                    quote.happenedOn ? new Date(quote.happenedOn) : null
-                  }
-                  sourceName={prettifyUrl(quote.sourceUrl)}
-                  labels={quote.labels}
-                >
-                  {quote.quote ? (
-                    <Quote photoUrl={photoUrl}>{quote.quote}</Quote>
-                  ) : null}
-                </Event>
-              </li>
-            ))}
-          </Card>
-
-          <Card title={<h2>Donations</h2>} subtitle={name} moreLink="./quotes">
-            {donations.map(donation => (
-              <li key={donation.id}>
-                <Event
-                  {...donation}
-                  notablePerson={notablePerson}
-                  postedAt={new Date(donation.postedAt)}
-                  happenedOn={
-                    donation.happenedOn ? new Date(donation.happenedOn) : null
-                  }
-                  sourceName={prettifyUrl(donation.sourceUrl)}
-                  labels={donation.labels}
-                >
-                  <h3>{donation.entityName}</h3>
-                  {donation.quote ? (
-                    <Quote photoUrl={photoUrl}>{donation.quote}</Quote>
-                  ) : null}
-                </Event>
-              </li>
-            ))}
-          </Card>
+          {quotes.length > 0 ? (
+            <Card title={<h2>Quotes</h2>} subtitle={name} moreLink="./quotes">
+              {quotes.map(quote => (
+                <li key={quote.id}>
+                  <Event
+                    {...quote}
+                    notablePerson={notablePerson}
+                    postedAt={new Date(quote.postedAt)}
+                    happenedOn={
+                      quote.happenedOn ? new Date(quote.happenedOn) : null
+                    }
+                    sourceName={prettifyUrl(quote.sourceUrl)}
+                    labels={quote.labels}
+                  >
+                    {quote.quote ? (
+                      <Quote photoUrl={photoUrl}>{quote.quote}</Quote>
+                    ) : null}
+                  </Event>
+                </li>
+              ))}
+            </Card>
+          ) : null}
+          {donations.length > 0 ? (
+            <Card
+              title={<h2>Donations</h2>}
+              subtitle={name}
+              moreLink="./quotes"
+            >
+              {donations.map(donation => (
+                <li key={donation.id}>
+                  <Event
+                    {...donation}
+                    notablePerson={notablePerson}
+                    postedAt={new Date(donation.postedAt)}
+                    happenedOn={
+                      donation.happenedOn ? new Date(donation.happenedOn) : null
+                    }
+                    sourceName={prettifyUrl(donation.sourceUrl)}
+                    labels={donation.labels}
+                  >
+                    <h3>{donation.entityName}</h3>
+                    {donation.quote ? (
+                      <Quote photoUrl={photoUrl}>{donation.quote}</Quote>
+                    ) : null}
+                  </Event>
+                </li>
+              ))}
+            </Card>
+          ) : null}
           <OptionalIntersectionObserver rootMargin="0% 0% 25% 0%" triggerOnce>
             {inView => {
               if (inView) {
