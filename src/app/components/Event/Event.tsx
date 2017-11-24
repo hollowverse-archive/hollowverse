@@ -18,7 +18,7 @@ type EventProps = {
     id: string;
     text: string;
   }>;
-  children?: JSX.Element | JSX.Element[] | string | null;
+  children?: JSX.Element | null | Array<JSX.Element | null> | string;
 };
 
 export const Event = (props: EventProps) => (
@@ -26,23 +26,21 @@ export const Event = (props: EventProps) => (
     <div className={classes.eventContent}>
       {props.children}
       <div className={classes.eventMeta}>
-        <div className={classes.labels}>
+        {props.sourceName ? (
+          <span className={classes.eventSource}>
+            Source: <a href={props.sourceUrl}>{props.sourceName}</a>
+          </span>
+        ) : null}
+        {props.happenedOn ? (
+          <span className={classes.eventDate}>
+            {formatDate(props.happenedOn, 'MMM D, YYYY')}
+          </span>
+        ) : null}
+        <span className={classes.labels}>
           {props.labels.map(label => (
             <Label key={label.id} size="small" text={label.text} />
           ))}
-        </div>
-        <div>
-          {props.happenedOn ? (
-            <span className={classes.eventDate}>
-              {formatDate(props.happenedOn, 'MMM D, YYYY')}
-            </span>
-          ) : null}
-          {props.sourceName ? (
-            <span className={classes.eventSource}>
-              Source: <a href={props.sourceUrl}>{props.sourceName}</a>
-            </span>
-          ) : null}
-        </div>
+        </span>
       </div>
     </div>
   </div>

@@ -25,6 +25,20 @@ const reload = () => {
 };
 
 const query = gql`
+  fragment commonEventProps on NotablePersonEvent {
+    id
+    type
+    quote
+    isQuoteByNotablePerson
+    labels {
+      id
+      text
+    }
+    sourceUrl
+    postedAt
+    happenedOn
+  }
+
   query NotablePerson($slug: String!) {
     notablePerson(slug: $slug) {
       name
@@ -35,20 +49,13 @@ const query = gql`
         id
         text
       }
-      events {
-        id
-        type
-        quote
-        isQuoteByNotablePerson
-        labels {
-          id
-          text
-        }
-        sourceUrl
+      quotes: events(query: { type: quote }) {
+        ...commonEventProps
+      }
+      donations: events(query: { type: donation }) {
+        ...commonEventProps
         entityUrl
         entityName
-        postedAt
-        happenedOn
       }
     }
   }
@@ -88,7 +95,8 @@ class NotablePersonPage extends React.PureComponent<OwnProps & ResolvedProps> {
       const {
         name,
         photoUrl,
-        events,
+        quotes,
+        donations,
         labels,
         summary,
         commentsUrl,
@@ -103,20 +111,42 @@ class NotablePersonPage extends React.PureComponent<OwnProps & ResolvedProps> {
             summary={summary}
           />
           <Card title={<h2>Quotes</h2>} subtitle={name} moreLink="./quotes">
-            {events.map(event => (
-              <li key={event.id}>
+            {quotes.map(quote => (
+              <li key={quote.id}>
                 <Event
-                  {...event}
+                  {...quote}
                   notablePerson={notablePerson}
-                  postedAt={new Date(event.postedAt)}
+                  postedAt={new Date(quote.postedAt)}
                   happenedOn={
-                    event.happenedOn ? new Date(event.happenedOn) : null
+                    quote.happenedOn ? new Date(quote.happenedOn) : null
                   }
-                  sourceName={prettifyUrl(event.sourceUrl)}
-                  labels={event.labels}
+                  sourceName={prettifyUrl(quote.sourceUrl)}
+                  labels={quote.labels}
                 >
-                  {event.quote ? (
-                    <Quote photoUrl={photoUrl}>{event.quote}</Quote>
+                  {quote.quote ? (
+                    <Quote photoUrl={photoUrl}>{quote.quote}</Quote>
+                  ) : null}
+                </Event>
+              </li>
+            ))}
+          </Card>
+
+          <Card title={<h2>Donations</h2>} subtitle={name} moreLink="./quotes">
+            {donations.map(donation => (
+              <li key={donation.id}>
+                <Event
+                  {...donation}
+                  notablePerson={notablePerson}
+                  postedAt={new Date(donation.postedAt)}
+                  happenedOn={
+                    donation.happenedOn ? new Date(donation.happenedOn) : null
+                  }
+                  sourceName={prettifyUrl(donation.sourceUrl)}
+                  labels={donation.labels}
+                >
+                  <h3>{donation.entityName}</h3>
+                  {donation.quote ? (
+                    <Quote photoUrl={photoUrl}>{donation.quote}</Quote>
                   ) : null}
                 </Event>
               </li>
