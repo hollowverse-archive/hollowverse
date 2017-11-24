@@ -1,0 +1,18 @@
+@import 'variables.scss';
+
+.image {
+  &.is-loading, &.has-error {
+    background-size: 50%;
+    background-repeat: no-repeat;
+    background-color: $color-border-light;
+    background-position: center;
+  }
+
+  &.has-error {
+    background-image: url('icons/warning.svg');
+  }
+
+  &.is-loading {
+    // background-image: url('assets/spinner.svg');
+  }
+}

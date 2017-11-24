@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Label } from 'components/Label/Label';
+import { Image } from 'components/Image/Image';
 import * as classes from './PersonDetails.module.scss';
 
 type PersonDetailsProps = {
@@ -16,7 +17,7 @@ export const PersonDetails = ({
   labels,
 }: PersonDetailsProps) => (
   <div className={classes.personDetails}>
-    <img className={classes.personDetailsAvatar} src={photoUrl} alt={name} />
+    <Image className={classes.personDetailsAvatar} src={photoUrl} alt={name} />
     <div className={classes.personDetailsCaption}>
       Religion, politics, and ideas of
     </div>
