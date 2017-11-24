@@ -5,49 +5,47 @@
   "main": "index.js",
   "repository": "https://github.com/hollowverse/hollowverse.git",
   "scripts": {
-    "test": "common-run-p validate-file-names lint-js lint-ts lint-css",
-    "lint-css": "common-stylelint --syntax scss 'src/app/**/*.scss'",
-    "lint-js": "common-eslint '**/*.js{,x}'",
-    "lint-ts": "common-tslint './*.ts' 'src/**/*.ts{,x}' --project .",
+    "test": "run-p validate-file-names lint-js lint-ts lint-css",
+    "lint-css": "stylelint --syntax scss 'src/app/**/*.scss'",
+    "lint-js": "eslint '**/*.js{,x}'",
+    "lint-ts": "tslint './*.ts' 'src/**/*.ts{,x}' --project .",
     "app/webpack/build": "NO_PERF_CHECKS=1 NODE_ENV=production node ./build.js",
-    "app/build": "API_ENDPOINT=${API_ENDPOINT:-https://api.hollowverse.com/graphql} common-run-s app/graphql/build app/webpack/build",
-    "app/graphql/schema": "apollo-codegen introspect-schema ${API_ENDPOINT} --output ./graphqlSchema.json",
-    "app/graphql/types": "apollo-codegen generate 'src/app/{**,!api}/*.ts{,x}' --target typescript --output src/app/api/types.ts",
-    "app/graphql/dev": "nodemon --watch src/app --ext ts,tsx --exec 'common-run-s app/graphql/schema app/graphql/types'",
-    "app/graphql/build": "common-run-s app/graphql/schema app/graphql/types",
-    "server/app-server/dev": "APP_SERVER_PORT=${APP_SERVER_PORT:-3001} HOT=1 NODE_ENV=development API_ENDPOINT=${API_ENDPOINT:-http://localhost:8080/graphql} node -r 'ts-node/register' src/appServer.ts",
+    "app/build":
+      "API_ENDPOINT=${API_ENDPOINT:-https://api.hollowverse.com/graphql} run-s app/graphql/build app/webpack/build",
+    "app/graphql/schema":
+      "apollo-codegen introspect-schema ${API_ENDPOINT} --output ./graphqlSchema.json",
+    "app/graphql/types":
+      "apollo-codegen generate 'src/app/{**,!api}/*.ts{,x}' --target typescript --output src/app/api/types.ts",
+    "app/graphql/dev":
+      "nodemon --watch src/app --ext ts,tsx --exec 'run-s app/graphql/schema app/graphql/types'",
+    "app/graphql/build": "run-s app/graphql/schema app/graphql/types",
+    "server/app-server/dev":
+      "APP_SERVER_PORT=${APP_SERVER_PORT:-3001} HOT=1 NODE_ENV=development API_ENDPOINT=${API_ENDPOINT:-http://localhost:8080/graphql} node -r '@hollowverse/common/vendor/ts-node/register' src/appServer.ts",
     "server/app-server/start": "node dist/appServer.js",
-    "server/main-server/dev": "PORT=${PORT:-8081} nodemon --watch src --ignore src/app --ignore src/webpack --ext ts,tsx,json --exec 'node --inspect=0.0.0.0:${SERVER_DEBUG_PORT:-9231} -r 'ts-node/register' src/mainServer.ts'",
+    "server/main-server/dev":
+      "PORT=${PORT:-8081} nodemon --watch src --ignore src/app --ignore src/webpack --ext ts,tsx,json --exec 'node --inspect=0.0.0.0:${SERVER_DEBUG_PORT:-9231} -r '@hollowverse/common/vendor/ts-node/register' src/mainServer.ts'",
     "server/main-server/start": "node dist/mainServer.js",
-    "server/build": "common-tsc --project ./src",
-    "build": "common-npm-run-all -s clean -p app/build server/build",
-    "start": "NODE_ENV=production common-run-p server/main-server/start",
-    "dev": "NODE_ENV=development common-run-p server/app-server/dev",
+    "server/build": "tsc --project ./src",
+    "build": "npm-run-all -s clean -p app/build server/build",
+    "start": "NODE_ENV=production run-p server/main-server/start",
+    "dev": "NODE_ENV=development run-p server/app-server/dev",
     "clean": "rm -rf ./dist && mkdir -p ./dist",
     "validate-file-names": "validate-file-names",
-    "lint-staged": "common-lint-staged",
-    "common-prettier": "common-prettier --write"
+    "lint-staged": "lint-staged",
+    "common-prettier": "prettier --write"
   },
   "license": "Unlicense",
   "homepage": "https://github.com/hollowverse/hollowverse#readme",
   "lint-staged": {
-    "**/*.{j,t}s{x,}": [
-      "common-prettier --write",
-      "git add"
-    ],
-    "**/*.js{x,}": [
-      "eslint"
-    ],
+    "**/*.{j,t}s{x,}": ["prettier --write", "git add"],
+    "**/*.js{x,}": ["eslint"],
     "**/**/*.{s,}css": [
-      "common-stylelint --syntax scss",
-      "common-prettier --write",
+      "stylelint --syntax scss",
+      "prettier --write",
       "git add"
     ]
   },
-  "pre-commit": [
-    "validate-file-names",
-    "lint-staged"
-  ],
+  "pre-commit": ["validate-file-names", "lint-staged"],
   "browserslist": [
     "last 5 Chrome versions",
     "last 4 Firefox versions",
@@ -114,7 +112,6 @@
     "apollo-codegen": "^0.17.1",
     "autoprefixer": "^7.1.2",
     "babel-core": "6",
-    "babel-eslint": "^7.2.3",
     "babel-loader": "7",
     "babel-minify-webpack-plugin": "^0.2.0",
     "babel-plugin-graphql-tag": "^1.3.0",
@@ -137,7 +134,6 @@
     "file-loader": "^1.1.5",
     "html-loader": "^0.5.1",
     "html-webpack-plugin": "^2.30.1",
-    "lint-staged": "^4.0.3",
     "lodash-es": "^4.17.4",
     "name-all-modules-plugin": "^1.0.1",
     "node-sass": "^4.5.3",
@@ -154,7 +150,6 @@
     "svgo": "^1.0.3",
     "svgo-loader": "^2.0.0",
     "ts-loader": "^2.3.4",
-    "ts-node": "^3.2.0",
     "typings-for-css-modules-loader": "^1.7.0",
     "url-loader": "^0.6.2",
     "webpack": "^3.1.0",
