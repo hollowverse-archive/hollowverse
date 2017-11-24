@@ -25,9 +25,9 @@
       margin: 5px 5px 5px 0;
     }
 
-    > * + *:not(.label)::before {
+    > *:not(.label):not(:last-child)::after {
       content: '\00B7';
-      padding-right: 5px;
+      padding-left: 5px;
       color: $color-text-light;
     }
   }
