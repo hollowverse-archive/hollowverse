@@ -1,13 +1,27 @@
 module.exports = {
-  ignoredPatterns: [
-    '*/**/typings/*',
-    'src/app/components/**',
-    'src/app/pages/**',
-    'src/app/hocs/**',
-    '_*.scss',
-    'Dockerfile*',
-    'docker-compose.yml',
-    '**/LICENSE.md',
-    '**/README.md',
+  rules: [
+    {
+      validation: 'camelCase',
+      patterns: ['*/**'],
+    },
+    {
+      validation: 'PascalCase',
+      patterns: [
+        'src/app/components/**',
+        'src/app/pages/**',
+        'src/app/hocs/**',
+      ],
+    },
+    {
+      validation: 'ignore',
+      patterns: [
+        '*/**/typings/*',
+        '_*.scss',
+        'Dockerfile*',
+        'docker-compose.yml',
+        '**/LICENSE.md',
+        '**/README.md',
+      ],
+    },
   ],
 };
