@@ -8798,10 +8798,6 @@ v8flags@^3.0.0:
   dependencies:
     homedir-polyfill "^1.0.1"
 
-validate-filenames@hollowverse/validate-filenames:
-  version "0.0.0"
-  resolved "https://codeload.github.com/hollowverse/validate-filenames/tar.gz/23f79cfeaa7d97799e1f135c2d62c0fe2e29d4aa"
-
 validate-npm-package-license@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/validate-npm-package-license/-/validate-npm-package-license-3.0.1.tgz#2804babe712ad3379459acfbe24746ab2c303fbc"
