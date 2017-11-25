@@ -9,7 +9,7 @@
     "lint-css": "stylelint --syntax scss 'src/app/**/*.scss'",
     "lint-js": "eslint '**/*.js{,x}'",
     "lint-ts": "tslint './*.ts' 'src/**/*.ts{,x}' --project .",
-    "app/webpack/build": "NODE_ENV=production node ./build.js",
+    "app/webpack/build": "NODE_ENV=production NO_PERF_CHECKS=1 node ./build.js",
     "app/build": "API_ENDPOINT=${API_ENDPOINT:-https://api.hollowverse.com/graphql} run-s app/graphql/build app/webpack/build",
     "app/graphql/schema": "apollo-codegen introspect-schema ${API_ENDPOINT} --output ./graphqlSchema.json",
     "app/graphql/types": "apollo-codegen generate 'src/app/{**,!api}/*.ts{,x}' --target typescript --output src/app/api/types.ts",
