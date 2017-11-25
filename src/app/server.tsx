@@ -52,6 +52,7 @@ export const createServerRenderMiddleware = ({
       cssHash,
       scripts,
       stylesheets,
+      publicPath,
     } = flushChunks(clientStats, { chunkNames });
 
     logger.debug(`Request path: ${req.path}`);
@@ -59,6 +60,19 @@ export const createServerRenderMiddleware = ({
     logger.debug('Scripts served:', scripts);
     logger.debug('Stylesheets served:', stylesheets);
     logger.debug('icon stats:', iconStats);
+    logger.debug('Public path:', publicPath);
+
+    // Tell browsers to start fetching scripts and stylesheets as soon as they
+    // parse the HTTP headers of the page
+    res.setHeader(
+      'Link',
+      [
+        ...stylesheets.map(
+          link => `<${publicPath}/${link}>; rel=preload; as=style`,
+        ),
+        ...scripts.map(src => `<${publicPath}/${src}>; rel=preload; as=script`),
+      ].join(','),
+    );
 
     const icons = iconStats ? iconStats.html.join(' ') : '';
 
