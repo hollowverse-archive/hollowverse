@@ -7,6 +7,7 @@ type Props = {
   moreLink?: string;
   children: JSX.Element[] | JSX.Element;
 };
+
 export const Card = (props: Props) => (
   <div className={classes.card}>
     <div className={classes.cardSubtitle}>{props.subtitle}</div>

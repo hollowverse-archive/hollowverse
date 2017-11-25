@@ -81,7 +81,7 @@ export class FbComments extends React.PureComponent<Props> {
             if (hasError || timedOut) {
               return (
                 <MessageWithIcon
-                  caption="Error loading Facebook comments"
+                  caption="Error loading comments"
                   actionText="Retry"
                   icon={warningIcon}
                   onActionClick={retry}

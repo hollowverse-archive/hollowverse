@@ -27,6 +27,8 @@ export class Image extends React.PureComponent<Props> {
     const { src } = this.props;
     if (src) {
       img.src = src;
+    } else {
+      reject(new Error());
     }
   });
 
@@ -55,7 +57,7 @@ export class Image extends React.PureComponent<Props> {
 
           const { style } = rest;
       
-          return <div
+          return <span
             style={style}
             className={cc([
               className,

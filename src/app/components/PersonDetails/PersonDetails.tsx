@@ -33,7 +33,7 @@ export const PersonDetails = ({
     </ul>
     {summary && (
       <div className={classes.personDetailsAbout}>
-        {summary.split('\n').map((p, i) => <p key={i}>{p}</p>)}
+        {summary.split('\n').map((paragraph, i) => <p key={i}>{paragraph}</p>)}
       </div>
     )}
   </div>
