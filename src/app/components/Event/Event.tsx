@@ -45,13 +45,15 @@ export const Event = (props: EventProps) => (
         {props.happenedOn ? (
           <span>{formatDate(props.happenedOn, 'MMM D, YYYY')}</span>
         ) : null}
-        <ul aria-label="Event labels" className={classes.labelList}>
-          {props.labels.map(label => (
-            <li key={label.id} className={classes.labelListItem}>
-              <Label size="small" text={label.text} />
-            </li>
-          ))}
-        </ul>
+        {props.labels.length > 0 ? (
+          <ul aria-label="Event labels" className={classes.labelList}>
+            {props.labels.map(label => (
+              <li key={label.id} className={classes.labelListItem}>
+                <Label size="small" text={label.text} />
+              </li>
+            ))}
+          </ul>
+        ) : null}
       </div>
     </div>
   </div>
