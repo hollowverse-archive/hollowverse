@@ -56,8 +56,8 @@ const query = gql`
       }
       donations: events(query: { type: donation }) {
         ...commonEventProps
-        entityUrl
-        entityName
+        organizationWebsiteUrl
+        organizationName
       }
     }
   }
@@ -155,10 +155,12 @@ class NotablePersonPage extends React.PureComponent<OwnProps & ResolvedProps> {
                       labels={donation.labels}
                     >
                       <h3 className={classes.eventTitle}>
-                        {donation.entityUrl ? (
-                          <a href={donation.entityUrl}>{donation.entityName}</a>
+                        {donation.organizationWebsiteUrl ? (
+                          <a href={donation.organizationWebsiteUrl}>
+                            {donation.organizationName}
+                          </a>
                         ) : (
-                          donation.entityName
+                          donation.organizationName
                         )}
                       </h3>
                       {donation.quote ? (

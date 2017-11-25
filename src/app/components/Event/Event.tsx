@@ -16,8 +16,8 @@ type EventProps = {
   } | null;
   sourceName: string;
   sourceUrl: string;
-  entityName?: string | null;
-  entityUrl?: string | null;
+  organizationName?: string | null;
+  organizationWebsiteUrl?: string | null;
   labels: Array<{
     id: string;
     text: string;
@@ -30,10 +30,13 @@ export const Event = (props: EventProps) => (
     <div className={classes.eventContent}>
       {props.children}
       <div className={classes.eventMeta}>
-        {props.entityUrl && props.entityName ? (
+        {props.organizationWebsiteUrl && props.organizationName ? (
           <span>
-            <a title={props.entityName} href={props.entityUrl}>
-              {prettifyUrl(props.entityUrl)}
+            <a
+              title={props.organizationName}
+              href={props.organizationWebsiteUrl}
+            >
+              {prettifyUrl(props.organizationWebsiteUrl)}
             </a>
           </span>
         ) : null}
