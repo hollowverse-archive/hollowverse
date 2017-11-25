@@ -10,4 +10,12 @@
 
 .list {
   display: block;
+
+  & > * {
+    margin-top: 5px;
+  }
+
+  & > * + * {
+    margin-bottom: 35px;
+  }
 }
