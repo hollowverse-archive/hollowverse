@@ -68,7 +68,7 @@ export const createServerRenderMiddleware = ({
       'Link',
       [
         ...stylesheets.map(
-          link => `<${publicPath}/${link}>; rel=preload; as=style`,
+          src => `<${publicPath}/${src}>; rel=preload; as=style`,
         ),
         ...scripts.map(src => `<${publicPath}/${src}>; rel=preload; as=script`),
       ].join(','),
