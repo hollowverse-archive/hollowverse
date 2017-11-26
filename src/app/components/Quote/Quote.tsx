@@ -5,7 +5,6 @@ import * as classes from './Quote.module.scss';
 type Props = {
   children: string;
   photoUrl: string;
-  size?: 'small' | 'normal';
 };
 
 export const Quote = ({ children, photoUrl }: Props) => (
