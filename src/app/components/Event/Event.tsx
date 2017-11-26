@@ -46,7 +46,9 @@ export const Event = (props: EventProps) => (
           </span>
         ) : null}
         {props.happenedOn ? (
-          <span>{formatDate(props.happenedOn, 'MMM D, YYYY')}</span>
+          <time dateTime={props.happenedOn.toISOString()}>
+            {formatDate(props.happenedOn, 'MMM D, YYYY')}
+          </time>
         ) : null}
         {props.labels.length > 0 ? (
           <ul aria-label="Event labels" className={classes.labelList}>
