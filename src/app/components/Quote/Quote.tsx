@@ -15,6 +15,6 @@ export const Quote = ({ children, photoUrl }: Props) => (
       alt={undefined}
       src={photoUrl}
     />
-    {children}
+    <blockquote>{children}</blockquote>
   </div>
 );
