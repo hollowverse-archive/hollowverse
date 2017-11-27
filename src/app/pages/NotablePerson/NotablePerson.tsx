@@ -11,10 +11,14 @@ import { OptionalIntersectionObserver } from 'components/OptionalIntersectionObs
 import { withRouter } from 'react-router-dom';
 import { resolve } from 'react-resolver';
 import { Result, isErrorResult } from 'helpers/results';
+import { Card } from 'components/Card/Card';
+import { Quote } from 'components/Quote/Quote';
 
 import { prettifyUrl } from 'helpers/prettifyUrl';
 
 import warningIconUrl from 'icons/warning.svg';
+
+import * as classes from './NotablePerson.module.scss';
 
 const warningIcon = <SvgIcon url={warningIconUrl} size={100} />;
 
@@ -23,6 +27,20 @@ const reload = () => {
 };
 
 const query = gql`
+  fragment commonEventProps on NotablePersonEvent {
+    id
+    type
+    quote
+    isQuoteByNotablePerson
+    labels {
+      id
+      text
+    }
+    sourceUrl
+    postedAt
+    happenedOn
+  }
+
   query NotablePerson($slug: String!) {
     notablePerson(slug: $slug) {
       name
@@ -33,13 +51,13 @@ const query = gql`
         id
         text
       }
-      events {
-        id
-        quote
-        postedAt
-        happenedOn
-        isQuoteByNotablePerson
-        sourceUrl
+      quotes: events(query: { type: quote }) {
+        ...commonEventProps
+      }
+      donations: events(query: { type: donation }) {
+        ...commonEventProps
+        organizationWebsiteUrl
+        organizationName
       }
     }
   }
@@ -51,6 +69,7 @@ type ResolvedProps = {
 };
 
 class NotablePersonPage extends React.PureComponent<OwnProps & ResolvedProps> {
+  // tslint:disable-next-line:max-func-body-length
   render() {
     const { queryResult } = this.props;
     if (isErrorResult(queryResult)) {
@@ -58,6 +77,7 @@ class NotablePersonPage extends React.PureComponent<OwnProps & ResolvedProps> {
         <MessageWithIcon
           caption="Are you connected to the internet?"
           description="Please check your connection and try again"
+          actionText="Retry"
           icon={warningIcon}
           onActionClick={reload}
         />
@@ -78,7 +98,8 @@ class NotablePersonPage extends React.PureComponent<OwnProps & ResolvedProps> {
       const {
         name,
         photoUrl,
-        events,
+        quotes,
+        donations,
         labels,
         summary,
         commentsUrl,
@@ -92,20 +113,71 @@ class NotablePersonPage extends React.PureComponent<OwnProps & ResolvedProps> {
             photoUrl={photoUrl}
             summary={summary}
           />
-          {events.map(event => (
-            <Event
-              key={event.id}
-              {...event}
-              notablePerson={notablePerson}
-              postedAt={new Date(event.postedAt)}
-              happenedOn={event.happenedOn ? new Date(event.happenedOn) : null}
-              sourceName={prettifyUrl(event.sourceUrl)}
-            />
-          ))}
+          {quotes.length > 0 ? (
+            <Card title={<h2>Quotes</h2>} subtitle={name}>
+              <ul className={classes.list}>
+                {quotes.map(quote => (
+                  <li key={quote.id}>
+                    <Event
+                      {...quote}
+                      notablePerson={notablePerson}
+                      postedAt={new Date(quote.postedAt)}
+                      happenedOn={
+                        quote.happenedOn ? new Date(quote.happenedOn) : null
+                      }
+                      sourceName={prettifyUrl(quote.sourceUrl)}
+                      labels={quote.labels}
+                    >
+                      {quote.quote ? (
+                        <Quote photoUrl={photoUrl}>{quote.quote}</Quote>
+                      ) : null}
+                    </Event>
+                  </li>
+                ))}
+              </ul>
+            </Card>
+          ) : null}
+          {donations.length > 0 ? (
+            <Card title={<h2>Donations</h2>} subtitle={name}>
+              <ul className={classes.list}>
+                {donations.map(donation => (
+                  <li key={donation.id}>
+                    <Event
+                      {...donation}
+                      notablePerson={notablePerson}
+                      postedAt={new Date(donation.postedAt)}
+                      happenedOn={
+                        donation.happenedOn
+                          ? new Date(donation.happenedOn)
+                          : null
+                      }
+                      sourceName={prettifyUrl(donation.sourceUrl)}
+                      labels={donation.labels}
+                    >
+                      <h3 className={classes.eventTitle}>
+                        {donation.organizationWebsiteUrl ? (
+                          <a href={donation.organizationWebsiteUrl}>
+                            {donation.organizationName}
+                          </a>
+                        ) : (
+                          donation.organizationName
+                        )}
+                      </h3>
+                      {donation.quote ? (
+                        <Quote photoUrl={photoUrl}>{donation.quote}</Quote>
+                      ) : null}
+                    </Event>
+                  </li>
+                ))}
+              </ul>
+            </Card>
+          ) : null}
           <OptionalIntersectionObserver rootMargin="0% 0% 25% 0%" triggerOnce>
             {inView => {
               if (inView) {
-                return <FbComments url={commentsUrl} />;
+                return (
+                  <FbComments className={classes.comments} url={commentsUrl} />
+                );
               } else {
                 return null;
               }
