@@ -91,7 +91,7 @@
     "webpack-flush-chunks": "^1.2.1"
   },
   "devDependencies": {
-    "@hollowverse/validate-filenames": "^1.3.2",
+    "@hollowverse/validate-filenames": "^1.3.3",
     "@types/autoprefixer": "^6.7.2",
     "@types/body-parser": "^1.16.4",
     "@types/domready": "^0.0.29",
