@@ -59,7 +59,7 @@ export const createServerRenderMiddleware = ({
     logger.debug('Dynamic chunk names rendered', chunkNames);
     logger.debug('Scripts served:', scripts);
     logger.debug('Stylesheets served:', stylesheets);
-    logger.debug('icon stats:', iconStats);
+    logger.debug('Icon stats:', iconStats);
     logger.debug('Public path:', publicPath);
 
     // Tell browsers to start fetching scripts and stylesheets as soon as they

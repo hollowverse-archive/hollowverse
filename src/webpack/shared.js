@@ -6,7 +6,7 @@ const { createBabelConfig } = require('./babel');
 
 const { srcDirectory, excludedPatterns } = require('./variables');
 
-const { ifReact, ifHot, isProd, shouldTypeCheck } = require('./env');
+const { ifReact, ifHot, isProd, shouldTypeCheck, ifProd } = require('./env');
 
 const sassLoaders = [
   {
@@ -56,7 +56,9 @@ exports.createCssModulesLoaders = (isServer = false) => [
     // For the server bundle, we do not want to generate any CSS files,
     // we are only interested in the class name to use in the SSR markup.
     // That's what css-loader/locals does.
-    loader: isServer ? 'css-loader/locals' : 'typings-for-css-modules-loader',
+    loader: isServer
+      ? 'css-loader/locals'
+      : ifProd('typings-for-css-modules-loader') || 'css-loader',
     query: {
       minimize: isProd,
       sourceMap: true,

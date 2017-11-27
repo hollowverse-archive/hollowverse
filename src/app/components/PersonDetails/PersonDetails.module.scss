@@ -2,10 +2,11 @@
 
 .person-details {
   position: relative;
+  margin-bottom: 25px;
 
   &-avatar {
-    width: $avatar-size;
-    height: $avatar-size;
+    width: $person-avatar-size;
+    height: $person-avatar-size;
     border-radius: 50%;
     user-select: none;
     margin: 0 auto 20px;
@@ -19,6 +20,7 @@
     color: $color-text-light;
     font-size: 12px;
     text-align: center;
+    font-weight: normal;
   }
 
   &-name {
@@ -35,8 +37,12 @@
     margin: 20px auto;
   }
 
+  .label-list-item {
+    display: inline;
+  }
+
   &-about {
-    clear: both;
+    font-size: 16px;
   }
 
   p {

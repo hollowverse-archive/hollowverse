@@ -1,46 +1,65 @@
 import * as React from 'react';
-import cc from 'classcat';
 import formatDate from 'date-fns/format';
+
+import { Label } from 'components/Label/Label';
+
+import { prettifyUrl } from 'helpers/prettifyUrl';
 
 import * as classes from './Event.module.scss';
 
 type EventProps = {
-  quote: string;
   postedAt: Date | null;
   happenedOn: Date | null;
   notablePerson: {
     name: string;
     photoUrl: string;
   } | null;
-  isQuoteByNotablePerson: boolean;
   sourceName: string;
   sourceUrl: string;
+  organizationName?: string | null;
+  organizationWebsiteUrl?: string | null;
+  labels: Array<{
+    id: string;
+    text: string;
+  }>;
+  children?: JSX.Element | null | Array<JSX.Element | null> | string;
 };
 
 export const Event = (props: EventProps) => (
-  <div
-    className={cc({
-      [classes.event]: true,
-      [classes.self]: props.isQuoteByNotablePerson,
-    })}
-  >
+  <div className={classes.event}>
     <div className={classes.eventContent}>
-      {props.happenedOn ? (
-        <div className={classes.eventDate}>
-          {formatDate(props.happenedOn, 'MMM D, YYYY')}
-        </div>
-      ) : null}
-      {props.isQuoteByNotablePerson && props.notablePerson ? (
-        <div className={classes.eventCaption}>
-          {props.notablePerson.name} said:
-        </div>
-      ) : null}
-      <div className={classes.eventText}>{props.quote}</div>
-      {props.sourceName ? (
-        <div className={classes.eventSource}>
-          Source: <a href={props.sourceUrl}>{props.sourceName}</a>
-        </div>
-      ) : null}
+      {props.children}
+      <div className={classes.eventMeta}>
+        {props.organizationWebsiteUrl && props.organizationName ? (
+          <span>
+            <a
+              title={props.organizationName}
+              href={props.organizationWebsiteUrl}
+            >
+              {prettifyUrl(props.organizationWebsiteUrl)}
+            </a>
+          </span>
+        ) : null}
+        {props.sourceName ? (
+          <span>
+            Source: <a href={props.sourceUrl}>{props.sourceName}</a>
+          </span>
+        ) : null}
+        {props.happenedOn ? (
+          <time dateTime={props.happenedOn.toISOString()}>
+            {formatDate(props.happenedOn, 'MMM D, YYYY')}
+          </time>
+        ) : null}
+        {props.labels.length > 0 ? (
+          <ul aria-label="Event labels" className={classes.labelList}>
+            {props.labels.map(label => (
+              <li key={label.id} className={classes.labelListItem}>
+                <Label size="small" text={label.text} />
+              </li>
+            ))}
+          </ul>
+        ) : null}
+      </div>
     </div>
   </div>
 );

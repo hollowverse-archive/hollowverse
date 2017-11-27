@@ -1,45 +1,40 @@
 @import 'variables.scss';
 
 .event {
-  margin: 40px auto 60px;
+  margin: 20px 0;
 
-  &-content {
-    position: relative;
-    padding: 5px 0 5px 15px;
-    border-left: 5px solid $color-pink;
-
-    .self & {
-      border-left-color: $color-yellow;
-    }
-  }
-
-  &-caption {
+  &-meta {
     font-size: 12px;
     color: $color-text-light;
-    margin-bottom: 5px;
-  }
-
-  &-date {
-    float: right;
-    font-size: 12px;
-    color: $color-text-light;
-  }
-
-  &-text {
-    font-size: 17px;
-  }
-
-  &-source {
-    font-size: 12px;
-    color: $color-text-light;
-    margin: 5px 0;
 
     a {
       color: $color-text-light;
       text-decoration: none;
+      white-space: nowrap;
+
+      &:hover {
+        text-decoration: underline;
+      }
     }
-    a:hover {
-      text-decoration: underline;
+
+    > * {
+      margin: 5px 5px 5px 0;
+    }
+
+    .label-list {
+      list-style: none;
+      display: inline;
+
+      .label-list-item {
+        display: inline-block;
+        text-transform: lowercase;
+      }
+    }
+
+    > *:not(:last-child)::after {
+      content: '\00B7';
+      padding-left: 5px;
+      color: $color-text-light;
     }
   }
 }
