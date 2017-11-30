@@ -129,7 +129,9 @@ class Page extends React.PureComponent<OwnProps & ResolvedProps> {
                       labels={quote.labels}
                     >
                       {quote.quote ? (
-                        <Quote photoUrl={photoUrl}>{quote.quote}</Quote>
+                        <Quote photoUrl={photoUrl} sourceUrl={quote.sourceUrl}>
+                          {quote.quote}
+                        </Quote>
                       ) : null}
                     </Event>
                   </li>

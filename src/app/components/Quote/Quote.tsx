@@ -5,9 +5,10 @@ import * as classes from './Quote.module.scss';
 type Props = {
   children: string;
   photoUrl: string;
+  sourceUrl?: string;
 };
 
-export const Quote = ({ children, photoUrl }: Props) => (
+export const Quote = ({ children, photoUrl, sourceUrl }: Props) => (
   <div className={classes.quote}>
     <img
       className={classes.quoteAvatar}
@@ -15,6 +16,6 @@ export const Quote = ({ children, photoUrl }: Props) => (
       alt={undefined}
       src={photoUrl}
     />
-    <blockquote>{children}</blockquote>
+    <blockquote cite={sourceUrl}>{children}</blockquote>
   </div>
 );
