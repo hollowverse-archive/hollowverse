@@ -2,10 +2,9 @@
 # yarn lockfile v1
 
 
-"@hollowverse/common@github:hollowverse/common":
-  version "1.2.0"
-  uid "3f37e0eec1fa2048f962489ef4e8cb85417b21f7"
-  resolved "https://codeload.github.com/hollowverse/common/tar.gz/3f37e0eec1fa2048f962489ef4e8cb85417b21f7"
+"@hollowverse/common@hollowverse/common":
+  version "2.0.0"
+  resolved "https://codeload.github.com/hollowverse/common/tar.gz/d8cf1ac24ad75840f7c523193c99289c5c4fd8be"
   dependencies:
     glob "^7.1.2"
     jszip "^3.1.4"
