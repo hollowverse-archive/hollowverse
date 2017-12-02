@@ -1,3 +1,5 @@
 import universal from 'react-universal-component';
 
-export default universal(import('./NotablePerson'));
+export const LoadableNotablePerson = universal(import('./NotablePerson'), {
+  key: module => module.NotablePerson,
+});
