@@ -5,7 +5,7 @@ import { Route, Switch } from 'react-router-dom';
 import './App.global.scss';
 import * as classes from './App.module.scss';
 
-import NotablePersonPage from 'pages/NotablePerson/LoadableNotablePerson';
+import { NotablePerson } from 'pages/NotablePerson/LoadableNotablePerson';
 
 /** Main app component */
 export class App extends React.PureComponent<{}, {}> {
@@ -15,7 +15,7 @@ export class App extends React.PureComponent<{}, {}> {
         <NavBar title="Hollowverse" />
         <div className={classes.appView}>
           <Switch>
-            <Route path="/:slug" component={NotablePersonPage} />
+            <Route path="/:slug" component={NotablePerson} />
           </Switch>
         </div>
       </div>

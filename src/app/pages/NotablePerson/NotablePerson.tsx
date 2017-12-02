@@ -68,7 +68,7 @@ type ResolvedProps = {
   queryResult: Result<NotablePersonQuery>;
 };
 
-class NotablePersonPage extends React.PureComponent<OwnProps & ResolvedProps> {
+class Page extends React.PureComponent<OwnProps & ResolvedProps> {
   // tslint:disable-next-line:max-func-body-length
   render() {
     const { queryResult } = this.props;
@@ -201,8 +201,8 @@ const ResolvedPage = resolve('queryResult', async ({ slug }) => {
       error,
     };
   }
-})(NotablePersonPage);
+})(Page);
 
-export default withRouter(({ match: { params: { slug } } }) => (
+export const NotablePerson = withRouter(({ match: { params: { slug } } }) => (
   <ResolvedPage slug={slug} />
 ));

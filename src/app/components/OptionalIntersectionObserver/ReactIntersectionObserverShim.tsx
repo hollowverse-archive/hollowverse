@@ -6,5 +6,3 @@ export const Shim = ({ children }: IntersectionObserverProps) => {
     <div>{typeof children === 'function' ? children(true) : children}</div>
   );
 };
-
-export default Shim;

@@ -7,10 +7,12 @@ declare module 'webpack-hot-server-middleware' {
     chunkName: string;
 
     /** object Mixed in with clientStats & serverStats and passed to the serverRenderer. */
-    serverRendererOptions: T & {
-      clientStats: Stats;
-      serverStats: Stats;
-    };
+    serverRendererOptions: T;
+
+    createHandler(
+      error: boolean,
+      serverRenderer: RequestHandler,
+    ): RequestHandler;
   }>;
 
   declare function webpackHotServerMiddleware<T>(
