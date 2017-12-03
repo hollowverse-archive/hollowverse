@@ -10,6 +10,7 @@ const {
   serverDistDirectory,
   excludedPatterns,
   cssModulesPattern,
+  publicPath,
 } = require('./variables');
 const { isProd } = require('./env');
 const {
@@ -28,6 +29,7 @@ const serverSpecificConfig = {
     filename: '[name].js',
     libraryTarget: 'commonjs2',
     path: serverDistDirectory,
+    publicPath,
   },
 
   // By default, webpack will consume and bundle all `require` calls.
