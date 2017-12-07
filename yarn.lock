@@ -155,6 +155,12 @@
     "@types/glob" "*"
     "@types/node" "*"
 
+"@types/shrink-ray@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@types/shrink-ray/-/shrink-ray-0.1.0.tgz#c833f7d501620047b67ad9a3b8e71af42117a05d"
+  dependencies:
+    "@types/express" "*"
+
 "@types/source-map@*":
   version "0.5.1"
   resolved "https://registry.yarnpkg.com/@types/source-map/-/source-map-0.5.1.tgz#7e74db5d06ab373a712356eebfaea2fad0ea2367"
