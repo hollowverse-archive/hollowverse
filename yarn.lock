@@ -114,6 +114,12 @@
   dependencies:
     "@types/react" "*"
 
+"@types/react-resolver@^3.1.0":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@types/react-resolver/-/react-resolver-3.1.0.tgz#432d91a5bf37f553fbbfe57442980b112558e8b5"
+  dependencies:
+    "@types/react" "*"
+
 "@types/react-router-dom@^4.0.5":
   version "4.0.7"
   resolved "https://registry.yarnpkg.com/@types/react-router-dom/-/react-router-dom-4.0.7.tgz#65b192f7a5dbd1c05a8d04cc5863c9775705a435"
