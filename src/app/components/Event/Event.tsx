@@ -12,7 +12,6 @@ type EventProps = {
   happenedOn: Date | null;
   notablePerson: {
     name: string;
-    photoUrl: string;
   } | null;
   sourceName: string;
   sourceUrl: string;
