@@ -8937,8 +8937,8 @@ webpack-hot-middleware@^2.18.2:
     strip-ansi "^3.0.0"
 
 webpack-hot-server-middleware@^0.3.0:
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/webpack-hot-server-middleware/-/webpack-hot-server-middleware-0.3.0.tgz#47f54884f73181ce4a207f3f7bcc929374083d26"
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/webpack-hot-server-middleware/-/webpack-hot-server-middleware-0.3.1.tgz#93045ec4aae2a4e10998accd6338f5d8482b30dd"
   dependencies:
     debug "^2.2.0"
     require-from-string "^1.2.1"
