@@ -31,9 +31,10 @@ export class FbComments extends React.PureComponent<Props> {
   setTarget = (node: HTMLDivElement | null) => (this.target = node);
 
   load = async () => {
-    return importGlobalScript(
+    await importGlobalScript(
       'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.10',
-    ).then(this.observeCommentsRendered);
+    );
+    await this.observeCommentsRendered();
   };
 
   observeCommentsRendered = async () => {

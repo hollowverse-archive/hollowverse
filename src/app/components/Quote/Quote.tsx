@@ -4,10 +4,11 @@ import * as classes from './Quote.module.scss';
 
 type Props = {
   children: string;
+  sourceUrl?: string;
   photoUrl?: string | null;
 };
 
-export const Quote = ({ children, photoUrl }: Props) => (
+export const Quote = ({ children, photoUrl, sourceUrl }: Props) => (
   <div className={classes.quote}>
     {photoUrl ? (
       <img
@@ -17,6 +18,6 @@ export const Quote = ({ children, photoUrl }: Props) => (
         src={photoUrl}
       />
     ) : null}
-    <blockquote>{children}</blockquote>
+    <blockquote cite={sourceUrl}>{children}</blockquote>
   </div>
 );

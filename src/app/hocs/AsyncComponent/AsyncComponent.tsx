@@ -39,7 +39,7 @@ type State<T> = {
  * is compatible with anything
  * See https://github.com/Microsoft/TypeScript/issues/18807
  */
-export class AsyncComponent<T> extends React.PureComponent<
+export class AsyncComponent<T = any> extends React.PureComponent<
   AsyncProps<T>,
   State<T>
 > {
