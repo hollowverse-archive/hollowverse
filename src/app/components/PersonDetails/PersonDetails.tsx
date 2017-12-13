@@ -6,7 +6,7 @@ import * as classes from './PersonDetails.module.scss';
 type PersonDetailsProps = {
   summary: string | null;
   name: string;
-  photoUrl: string;
+  photoUrl: string | null;
   labels: Array<{ text: string; id: string }>;
 };
 
@@ -17,7 +17,13 @@ export const PersonDetails = ({
   labels,
 }: PersonDetailsProps) => (
   <div className={classes.personDetails}>
-    <Image className={classes.personDetailsAvatar} src={photoUrl} alt={name} />
+    {photoUrl ? (
+      <Image
+        className={classes.personDetailsAvatar}
+        src={photoUrl}
+        alt={name}
+      />
+    ) : null}
     <h1 className={classes.personDetailsName}>
       <div className={classes.personDetailsCaption}>
         Religion, politics, and ideas of
