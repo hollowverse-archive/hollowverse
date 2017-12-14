@@ -40,9 +40,5 @@ textarea {
 a {
   text-decoration-skip: ink;
   transition: color 0.2s ease-in-out;
-  color: $color-text-default;
-
-  &:hover {
-    color: $color-blue;
-  }
+  color: $color-blue;
 }

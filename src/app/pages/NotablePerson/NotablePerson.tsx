@@ -18,6 +18,7 @@ import warningIconUrl from 'icons/warning.svg';
 import * as classes from './NotablePerson.module.scss';
 import { Card } from 'components/Card/Card';
 import { Quote } from 'components/Quote/Quote';
+import { prettifyUrl } from 'helpers/prettifyUrl';
 
 const warningIcon = <SvgIcon url={warningIconUrl} size={100} />;
 
@@ -86,33 +87,95 @@ class Page extends React.PureComponent<OwnProps & ResolvedProps> {
         editorialSummary,
       } = notablePerson;
 
+      const sources = new Map<
+        string,
+        { index: number; sourceTitle: string | null; ref: string }
+      >();
+      let lastIndex = -1;
+
       return (
         <div>
           <PersonDetails name={name} photoUrl={photoUrl} summary={summary} />
           {editorialSummary ? (
             <Card className={cc([classes.card, classes.editorialSummary])}>
-              {editorialSummary.nodes.map(node => {
-                if (node.type === EditorialSummaryNodeType.break) {
-                  return <br />;
-                } else if (node.type === EditorialSummaryNodeType.heading) {
-                  return <h2>{node.text}</h2>;
-                } else if (node.type === EditorialSummaryNodeType.quote) {
-                  return (
-                    <Quote size="large" cite={node.sourceUrl || undefined}>
-                      {node.text}
-                    </Quote>
-                  );
-                } else {
-                  return <span>{node.text}</span>;
-                }
-              })}
+              {editorialSummary.nodes.map(
+                ({ text, type, sourceUrl, sourceTitle }) => {
+                  let source;
+                  if (sourceUrl) {
+                    source = sources.get(sourceUrl);
+                    if (!source) {
+                      lastIndex = lastIndex + 1;
+                      sources.set(sourceUrl, {
+                        index: lastIndex,
+                        sourceTitle,
+                        ref: `ref_${lastIndex}`,
+                      });
+                      source = sources.get(sourceUrl);
+                    }
+                  }
+
+                  if (type === EditorialSummaryNodeType.break) {
+                    return <br />;
+                  } else if (type === EditorialSummaryNodeType.heading) {
+                    return <h2>{text}</h2>;
+                  } else if (type === EditorialSummaryNodeType.quote) {
+                    return (
+                      <Quote size="large" cite={sourceUrl || undefined}>
+                        {text}
+                        {source ? (
+                          <sup>
+                            <a href={`#source_${source.index}`}>
+                              {source.index + 1}
+                            </a>
+                          </sup>
+                        ) : null}
+                      </Quote>
+                    );
+                  } else {
+                    return (
+                      <span id={source ? source.ref : undefined}>
+                        {text}
+                        {source ? (
+                          <sup>
+                            <a href={`#source_${source.index}`}>
+                              {source.index + 1}
+                            </a>
+                          </sup>
+                        ) : null}
+                      </span>
+                    );
+                  }
+                },
+              )}
+              <hr />
+              <h3>Sources</h3>
+              <small>
+                <ol className={classes.sourceList}>
+                  {Array.from(
+                    sources.entries(),
+                  ).map(([sourceUrl, { sourceTitle, ref, index }]) => (
+                    <li id={`source_${index}`}>
+                      <a href={sourceUrl}>{sourceTitle}</a>{' '}
+                      {prettifyUrl(sourceUrl)}
+                      <a
+                        className={classes.backLink}
+                        href={`#${ref}`}
+                        role="button"
+                        aria-label="Go back to reference"
+                      >
+                        ↩
+                      </a>
+                    </li>
+                  ))}
+                </ol>
+              </small>
               <hr />
               <small>
                 This article was written by {editorialSummary.author}
                 {editorialSummary.lastUpdatedOn ? (
                   <span>
                     {' '}
-                     and was last updated on{' '}
+                    and was last updated on{' '}
                     {formatDate(
                       new Date(editorialSummary.lastUpdatedOn),
                       'MMMM D, YYYY',
