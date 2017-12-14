@@ -11,7 +11,7 @@
   }
 
   position: relative;
-  padding-left: calc(1em + #{$quoation-mark-margin});
+  padding: 0 calc(1em + #{$quoation-mark-margin});
   margin-top: $top-offset;
 
   &::before,
