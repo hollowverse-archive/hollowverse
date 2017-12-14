@@ -54,7 +54,10 @@ export const Post = ({
           ) : null}
           {sourceName ? (
             <span>
-              Source: <a href={sourceUrl}>{sourceName}</a>
+              Source:{' '}
+              <a href={sourceUrl} title={sourceName}>
+                {sourceName}
+              </a>
             </span>
           ) : null}
         </div>
