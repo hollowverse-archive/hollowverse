@@ -11,9 +11,9 @@ import { LoadableNotablePerson } from 'pages/NotablePerson/LoadableNotablePerson
 export class App extends React.PureComponent<{}, {}> {
   render() {
     return (
-      <div className={classes.app}>
+      <div className={classes.root}>
         <NavBar title="Hollowverse" />
-        <div className={classes.appView}>
+        <div className={classes.view}>
           <Switch>
             <Route path="/:slug" component={LoadableNotablePerson} />
           </Switch>

@@ -121,15 +121,16 @@ class Page extends React.PureComponent<OwnProps & ResolvedProps> {
               <h2>Quotes</h2>
               {quotes.map(quote => (
                 <li key={quote.id}>
-                  <Card>
+                  <Card className={classes.card}>
                     <Post
-                      {...quote}
-                      notablePerson={notablePerson}
+                      title={<h3>{notablePerson.name}</h3>}
+                      photoUrl={notablePerson.photoUrl}
                       postedAt={new Date(quote.postedAt)}
                       happenedOn={
                         quote.happenedOn ? new Date(quote.happenedOn) : null
                       }
                       sourceName={prettifyUrl(quote.sourceUrl)}
+                      sourceUrl={quote.sourceUrl}
                       labels={quote.labels}
                     >
                       {quote.quote}

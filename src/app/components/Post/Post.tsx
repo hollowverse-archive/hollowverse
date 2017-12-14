@@ -10,10 +10,8 @@ import * as classes from './Post.module.scss';
 type PostProps = {
   postedAt: Date | null;
   happenedOn: Date | null;
-  notablePerson: {
-    name: string;
-    photoUrl: string | null;
-  };
+  title: string | JSX.Element;
+  photoUrl: string | null;
   sourceName: string;
   sourceUrl: string;
   organizationName?: string | null;
@@ -26,7 +24,8 @@ type PostProps = {
 };
 
 export const Post = ({
-  notablePerson,
+  photoUrl,
+  title,
   sourceName,
   labels,
   sourceUrl,
@@ -37,26 +36,28 @@ export const Post = ({
 }: PostProps) => (
   <div className={classes.root}>
     <div className={classes.header}>
-      {notablePerson.photoUrl ? (
+      {photoUrl ? (
         <img
           className={classes.avatar}
-          src={notablePerson.photoUrl}
+          src={photoUrl}
           alt={undefined}
           role="presentation"
         />
       ) : null}
-      <div className={classes.personName}>{notablePerson.name}</div>
-      <div className={classes.metadata}>
-        {happenedOn ? (
-          <time dateTime={happenedOn.toISOString()}>
-            {formatDate(happenedOn, 'MMM D, YYYY')}
-          </time>
-        ) : null}
-        {sourceName ? (
-          <span>
-            Source: <a href={sourceUrl}>{sourceName}</a>
-          </span>
-        ) : null}
+      <div className={classes.headerText}>
+        <div className={classes.title}>{title}</div>
+        <div className={classes.metadata}>
+          {happenedOn ? (
+            <time dateTime={happenedOn.toISOString()}>
+              {formatDate(happenedOn, 'MMM D, YYYY')}
+            </time>
+          ) : null}
+          {sourceName ? (
+            <span>
+              Source: <a href={sourceUrl}>{sourceName}</a>
+            </span>
+          ) : null}
+        </div>
       </div>
     </div>
     <div className={classes.content}>{children}</div>
@@ -68,7 +69,6 @@ export const Post = ({
           </a>
         </span>
       ) : null}
-
       {labels.length > 0 ? (
         <ul aria-label="Post labels" className={classes.labelList}>
           {labels.map(label => (

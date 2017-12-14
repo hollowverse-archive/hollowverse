@@ -5,11 +5,16 @@
 .list {
   display: block;
 
-  // & > * {
-  //   margin-top: 35px;
-  // }
+  li {
+    display: block;
+  }
 
-  // & > * + * {
-  //   margin-bottom: 35px;
-  // }
+  & > * + * {
+    margin: 15px 0;
+  }
+}
+
+.card {
+  margin-left: -10px;
+  margin-right: -10px;
 }
