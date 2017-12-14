@@ -4,8 +4,8 @@
   $quoation-mark-margin: 5px;
   $top-offset: 10px;
 
-  .large {
-    font-size: 20px;
+  &.large {
+    font-size: 1.3em;
     font-weight: 300;
     line-height: 1.5;
   }

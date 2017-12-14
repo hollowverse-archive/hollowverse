@@ -22,6 +22,10 @@
   align-items: center;
   justify-content: center;
 
+  > * {
+    padding: 8px;
+  }
+
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.07);
 
   @keyframes appear {
@@ -39,8 +43,32 @@
   }
 
   .search {
-    min-width: 75%;
-    text-align: center;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    > * {
+      height: 100%;
+      width: 100%;
+    }
+
+    .search-form {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .search-input {
+      width: 100%;
+      max-width: 75%;
+      height: 100%;
+      padding: 0 30px;
+      border: 1px solid transparent;
+      border-radius: 3px;
+      background: $color-background-light;
+      text-align: center;
+    }
   }
 
   .title {

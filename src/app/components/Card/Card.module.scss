@@ -7,9 +7,35 @@
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.04);
   border-radius: 3px;
   padding: 15px;
+  line-height: 1.5;
 
   a,
   a:hover {
     text-decoration: none;
+  }
+
+  hr {
+    height: 1px;
+    background-color: $color-border-light;
+    margin: 19px 0 20px 0;
+  }
+
+  small {
+    font-size: 13px;
+    line-height: 1.4;
+    margin-bottom: 10px;
+    color: $color-text-light;
+  }
+
+  > * {
+    display: block;
+  }
+
+  h2 {
+    font-size: 20px;
+  }
+
+  > * + * {
+    margin: 10px 0;
   }
 }

@@ -1,7 +1,9 @@
 import * as React from 'react';
+import cc from 'classcat';
+import formatDate from 'date-fns/format';
 import gql from 'graphql-tag';
 import { client } from 'api/client';
-import { NotablePersonQuery } from 'api/types';
+import { NotablePersonQuery, EditorialSummaryNodeType } from 'api/types';
 import { PersonDetails } from 'components/PersonDetails/PersonDetails';
 import { FbComments } from 'components/FbComments/FbComments';
 import { MessageWithIcon } from 'components/MessageWithIcon/MessageWithIcon';
@@ -14,6 +16,8 @@ import { Result, isErrorResult } from 'helpers/results';
 import warningIconUrl from 'icons/warning.svg';
 
 import * as classes from './NotablePerson.module.scss';
+import { Card } from 'components/Card/Card';
+import { Quote } from 'components/Quote/Quote';
 
 const warningIcon = <SvgIcon url={warningIconUrl} size={100} />;
 
@@ -74,16 +78,57 @@ class Page extends React.PureComponent<OwnProps & ResolvedProps> {
       );
     } else {
       const { notablePerson } = data;
-      const { name, photoUrl, summary, commentsUrl } = notablePerson;
+      const {
+        name,
+        photoUrl,
+        summary,
+        commentsUrl,
+        editorialSummary,
+      } = notablePerson;
 
       return (
         <div>
           <PersonDetails name={name} photoUrl={photoUrl} summary={summary} />
+          {editorialSummary ? (
+            <Card className={cc([classes.card, classes.editorialSummary])}>
+              {editorialSummary.nodes.map(node => {
+                if (node.type === EditorialSummaryNodeType.break) {
+                  return <br />;
+                } else if (node.type === EditorialSummaryNodeType.heading) {
+                  return <h2>{node.text}</h2>;
+                } else if (node.type === EditorialSummaryNodeType.quote) {
+                  return (
+                    <Quote size="large" cite={node.sourceUrl || undefined}>
+                      {node.text}
+                    </Quote>
+                  );
+                } else {
+                  return <span>{node.text}</span>;
+                }
+              })}
+              <hr />
+              <small>
+                This article was written by {editorialSummary.author}
+                {editorialSummary.lastUpdatedOn ? (
+                  <span>
+                    {' '}
+                     and was last updated on{' '}
+                    {formatDate(
+                      new Date(editorialSummary.lastUpdatedOn),
+                      'MMMM D, YYYY',
+                    )}
+                  </span>
+                ) : null}.
+              </small>
+            </Card>
+          ) : null}
           <OptionalIntersectionObserver rootMargin="0% 0% 25% 0%" triggerOnce>
             {inView => {
               if (inView) {
                 return (
-                  <FbComments className={classes.comments} url={commentsUrl} />
+                  <Card className={cc([classes.card, classes.comments])}>
+                    <FbComments url={commentsUrl} />
+                  </Card>
                 );
               } else {
                 return null;

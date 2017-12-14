@@ -15,20 +15,21 @@ export class NavBar extends React.Component<Props> {
     return (
       <Sticky className={classes.navbar} height={48}>
         {isSticking =>
-          !isSticking ? (
-            <div className={classes.logo}>
-              <a title={classes.title} className={classes.title} href="/">
-                {title}
-              </a>
-            </div>
-          ) : (
+          isSticking ? (
             <div key="search" className={classes.search}>
-              <form>
+              <form className={classes.searchForm}>
                 <input
+                  className={classes.searchInput}
                   type="search"
                   placeholder="Search for notable people..."
                 />
               </form>
+            </div>
+          ) : (
+            <div className={classes.logo}>
+              <a title={classes.title} className={classes.title} href="/">
+                {title}
+              </a>
             </div>
           )}
       </Sticky>
