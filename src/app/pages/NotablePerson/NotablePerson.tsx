@@ -89,7 +89,12 @@ class Page extends React.PureComponent<OwnProps & ResolvedProps> {
 
       const sources = new Map<
         string,
-        { index: number; sourceTitle: string | null; ref: string }
+        {
+          sourceId: string;
+          index: number;
+          sourceTitle: string | null;
+          refId: string;
+        }
       >();
       let lastIndex = -1;
 
@@ -106,9 +111,10 @@ class Page extends React.PureComponent<OwnProps & ResolvedProps> {
                     if (!source) {
                       lastIndex = lastIndex + 1;
                       sources.set(sourceUrl, {
-                        index: lastIndex,
                         sourceTitle,
-                        ref: `ref_${lastIndex}`,
+                        sourceId: `source_${lastIndex}`,
+                        refId: `ref_${lastIndex}`,
+                        index: lastIndex,
                       });
                       source = sources.get(sourceUrl);
                     }
@@ -124,7 +130,7 @@ class Page extends React.PureComponent<OwnProps & ResolvedProps> {
                         {text}
                         {source ? (
                           <sup>
-                            <a href={`#source_${source.index}`}>
+                            <a href={`#${source.sourceId}`}>
                               {source.index + 1}
                             </a>
                           </sup>
@@ -133,11 +139,11 @@ class Page extends React.PureComponent<OwnProps & ResolvedProps> {
                     );
                   } else {
                     return (
-                      <span id={source ? source.ref : undefined}>
+                      <span id={source ? source.refId : undefined}>
                         {text}
                         {source ? (
                           <sup>
-                            <a href={`#source_${source.index}`}>
+                            <a href={`#${source.sourceId}`}>
                               {source.index + 1}
                             </a>
                           </sup>
@@ -153,13 +159,13 @@ class Page extends React.PureComponent<OwnProps & ResolvedProps> {
                 <ol className={classes.sourceList}>
                   {Array.from(
                     sources.entries(),
-                  ).map(([sourceUrl, { sourceTitle, ref, index }]) => (
-                    <li id={`source_${index}`}>
+                  ).map(([sourceUrl, { sourceTitle, refId, sourceId }]) => (
+                    <li id={sourceId}>
                       <a href={sourceUrl}>{sourceTitle}</a>{' '}
                       {prettifyUrl(sourceUrl)}
                       <a
                         className={classes.backLink}
-                        href={`#${ref}`}
+                        href={`#${refId}`}
                         role="button"
                         aria-label="Go back to reference"
                       >
