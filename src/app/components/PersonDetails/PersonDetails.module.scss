@@ -7,9 +7,13 @@
   &-avatar {
     width: $person-avatar-size;
     height: $person-avatar-size;
-    border-radius: 50%;
-    user-select: none;
-    margin: 0 auto 20px;
+    margin: 20px auto 25px;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    box-shadow: 0 0 0 1.5px rgba(255, 255, 255, 0.7),
+      0 2px 1px 0 rgba(0, 0, 0, 0.1);
+    border-radius: 1px;
 
     // stylelint-disable-next-line plugin/no-unsupported-browser-features
     object-fit: cover;
@@ -18,17 +22,20 @@
 
   &-caption {
     color: $color-text-light;
-    font-size: 12px;
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 0 0 5px;
     text-align: center;
-    font-weight: normal;
   }
 
   &-name {
     color: $color-text-default;
-    font-size: 30px;
-    font-weight: bold;
-    line-height: 25px;
-    margin: 10px 0;
+    font-size: 26px;
+    font-weight: normal;
+    line-height: 1;
+    margin: 0 0 26px;
     text-align: center;
   }
 
