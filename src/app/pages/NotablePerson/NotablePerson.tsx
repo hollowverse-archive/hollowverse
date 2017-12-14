@@ -1,9 +1,8 @@
 import * as React from 'react';
 import cc from 'classcat';
-import formatDate from 'date-fns/format';
 import gql from 'graphql-tag';
 import { client } from 'api/client';
-import { NotablePersonQuery, EditorialSummaryNodeType } from 'api/types';
+import { NotablePersonQuery } from 'api/types';
 import { PersonDetails } from 'components/PersonDetails/PersonDetails';
 import { FbComments } from 'components/FbComments/FbComments';
 import { MessageWithIcon } from 'components/MessageWithIcon/MessageWithIcon';
@@ -17,8 +16,7 @@ import warningIconUrl from 'icons/warning.svg';
 
 import * as classes from './NotablePerson.module.scss';
 import { Card } from 'components/Card/Card';
-import { Quote } from 'components/Quote/Quote';
-import { prettifyUrl } from 'helpers/prettifyUrl';
+import { EditorialSummary } from 'components/EditorialSummary/EditorialSummary';
 
 const warningIcon = <SvgIcon url={warningIconUrl} size={100} />;
 
@@ -87,108 +85,12 @@ class Page extends React.PureComponent<OwnProps & ResolvedProps> {
         editorialSummary,
       } = notablePerson;
 
-      const sources = new Map<
-        string,
-        {
-          sourceId: string;
-          index: number;
-          sourceTitle: string | null;
-          refId: string;
-        }
-      >();
-      let lastIndex = -1;
-
       return (
         <div>
           <PersonDetails name={name} photoUrl={photoUrl} summary={summary} />
           {editorialSummary ? (
             <Card className={cc([classes.card, classes.editorialSummary])}>
-              {editorialSummary.nodes.map(
-                ({ text, type, sourceUrl, sourceTitle }) => {
-                  let source;
-                  if (sourceUrl) {
-                    source = sources.get(sourceUrl);
-                    if (!source) {
-                      lastIndex = lastIndex + 1;
-                      sources.set(sourceUrl, {
-                        sourceTitle,
-                        sourceId: `source_${lastIndex}`,
-                        refId: `ref_${lastIndex}`,
-                        index: lastIndex,
-                      });
-                      source = sources.get(sourceUrl);
-                    }
-                  }
-
-                  if (type === EditorialSummaryNodeType.break) {
-                    return <div className={classes.break} />;
-                  } else if (type === EditorialSummaryNodeType.heading) {
-                    return <h2>{text}</h2>;
-                  } else if (type === EditorialSummaryNodeType.quote) {
-                    return (
-                      <Quote size="large" cite={sourceUrl || undefined}>
-                        {text}
-                        {source ? (
-                          <sup>
-                            <a href={`#${source.sourceId}`}>
-                              {source.index + 1}
-                            </a>
-                          </sup>
-                        ) : null}
-                      </Quote>
-                    );
-                  } else {
-                    return (
-                      <span id={source ? source.refId : undefined}>
-                        {text}
-                        {source ? (
-                          <sup>
-                            <a href={`#${source.sourceId}`}>
-                              {source.index + 1}
-                            </a>
-                          </sup>
-                        ) : null}
-                      </span>
-                    );
-                  }
-                },
-              )}
-              <hr />
-              <h3>Sources</h3>
-              <small>
-                <ol className={classes.sourceList}>
-                  {Array.from(
-                    sources.entries(),
-                  ).map(([sourceUrl, { sourceTitle, refId, sourceId }]) => (
-                    <li id={sourceId}>
-                      <a href={sourceUrl}>{sourceTitle}</a>{' '}
-                      {prettifyUrl(sourceUrl)}
-                      <a
-                        className={classes.backLink}
-                        href={`#${refId}`}
-                        role="button"
-                        aria-label="Go back to reference"
-                      >
-                        ↩
-                      </a>
-                    </li>
-                  ))}
-                </ol>
-              </small>
-              <hr />
-              <small>
-                This article was written by {editorialSummary.author}
-                {editorialSummary.lastUpdatedOn ? (
-                  <span>
-                    {' '}
-                    and was last updated on{' '}
-                    {formatDate(
-                      new Date(editorialSummary.lastUpdatedOn),
-                      'MMMM D, YYYY',
-                    )}
-                  </span>
-                ) : null}.
-              </small>
+              <EditorialSummary {...editorialSummary} />
             </Card>
           ) : null}
           <OptionalIntersectionObserver rootMargin="0% 0% 25% 0%" triggerOnce>
