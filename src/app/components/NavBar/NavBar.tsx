@@ -8,7 +8,7 @@ type Props = {
   title: string;
 };
 
-export class NavBar extends React.Component<Props> {
+export class NavBar extends React.PureComponent<Props> {
   render() {
     const { title } = this.props;
 

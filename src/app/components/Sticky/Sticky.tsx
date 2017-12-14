@@ -14,7 +14,7 @@ type State = {
   isSticking: boolean;
 };
 
-export class Sticky extends React.Component<Props, State> {
+export class Sticky extends React.PureComponent<Props, State> {
   state: State = {
     isSticking: false,
   };
