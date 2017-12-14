@@ -7,7 +7,7 @@ type PersonDetailsProps = {
   summary: string | null;
   name: string;
   photoUrl: string | null;
-  labels: Array<{ text: string; id: string }>;
+  labels?: Array<{ text: string; id: string }>;
 };
 
 export const PersonDetails = ({
@@ -30,13 +30,15 @@ export const PersonDetails = ({
       </div>
       {name}
     </h1>
-    <ul aria-label="Labels" className={classes.personDetailsLabels}>
-      {labels.map(({ id, text }) => (
-        <li className={classes.labelListItem} key={id}>
-          <Label text={text} />
-        </li>
-      ))}
-    </ul>
+    {labels && labels.length > 0 ? (
+      <ul aria-label="Labels" className={classes.personDetailsLabels}>
+        {labels.map(({ id, text }) => (
+          <li className={classes.labelListItem} key={id}>
+            <Label text={text} />
+          </li>
+        ))}
+      </ul>
+    ) : null}
     {summary && (
       <div className={classes.personDetailsAbout}>
         {summary.split('\n').map((paragraph, i) => <p key={i}>{paragraph}</p>)}

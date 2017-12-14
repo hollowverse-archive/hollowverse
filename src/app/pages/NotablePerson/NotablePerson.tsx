@@ -2,7 +2,6 @@ import * as React from 'react';
 import gql from 'graphql-tag';
 import { client } from 'api/client';
 import { NotablePersonQuery } from 'api/types';
-import { Post } from 'components/Post/Post';
 import { PersonDetails } from 'components/PersonDetails/PersonDetails';
 import { FbComments } from 'components/FbComments/FbComments';
 import { MessageWithIcon } from 'components/MessageWithIcon/MessageWithIcon';
@@ -11,9 +10,6 @@ import { OptionalIntersectionObserver } from 'components/OptionalIntersectionObs
 import { withRouter } from 'react-router-dom';
 import { resolve } from 'react-resolver';
 import { Result, isErrorResult } from 'helpers/results';
-import { Card } from 'components/Card/Card';
-
-import { prettifyUrl } from 'helpers/prettifyUrl';
 
 import warningIconUrl from 'icons/warning.svg';
 
@@ -26,33 +22,12 @@ const reload = () => {
 };
 
 const query = gql`
-  fragment commonEventProps on NotablePersonEvent {
-    id
-    type
-    quote
-    isQuoteByNotablePerson
-    labels {
-      id
-      text
-    }
-    sourceUrl
-    postedAt
-    happenedOn
-  }
-
   query NotablePerson($slug: String!) {
     notablePerson(slug: $slug) {
       name
       photoUrl
       summary
       commentsUrl
-      labels {
-        id
-        text
-      }
-      quotes: events(query: { type: quote }) {
-        ...commonEventProps
-      }
       editorialSummary {
         author
         lastUpdatedOn
@@ -99,47 +74,11 @@ class Page extends React.PureComponent<OwnProps & ResolvedProps> {
       );
     } else {
       const { notablePerson } = data;
-      const {
-        name,
-        photoUrl,
-        quotes,
-        labels,
-        summary,
-        commentsUrl,
-      } = notablePerson;
+      const { name, photoUrl, summary, commentsUrl } = notablePerson;
 
       return (
         <div>
-          <PersonDetails
-            name={name}
-            labels={labels}
-            photoUrl={photoUrl}
-            summary={summary}
-          />
-          {quotes.length > 0 ? (
-            <ul className={classes.list}>
-              <h2>Quotes</h2>
-              {quotes.map(quote => (
-                <li key={quote.id}>
-                  <Card className={classes.card}>
-                    <Post
-                      title={<h3>{notablePerson.name}</h3>}
-                      photoUrl={notablePerson.photoUrl}
-                      postedAt={new Date(quote.postedAt)}
-                      happenedOn={
-                        quote.happenedOn ? new Date(quote.happenedOn) : null
-                      }
-                      sourceName={prettifyUrl(quote.sourceUrl)}
-                      sourceUrl={quote.sourceUrl}
-                      labels={quote.labels}
-                    >
-                      {quote.quote}
-                    </Post>
-                  </Card>
-                </li>
-              ))}
-            </ul>
-          ) : null}
+          <PersonDetails name={name} photoUrl={photoUrl} summary={summary} />
           <OptionalIntersectionObserver rootMargin="0% 0% 25% 0%" triggerOnce>
             {inView => {
               if (inView) {
