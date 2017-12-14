@@ -1,7 +1,6 @@
 @import 'variables.scss';
 
 .label {
-  display: inline-block;
   margin: 0 5px 5px 0;
   padding: 0 12px;
   font-size: 12px;
@@ -14,15 +13,12 @@
   border: 1px solid $color-border-light;
 
   &.small {
-    height: 18px;
-    line-height: 20px;
-    line-height: 18px;
-    border-radius: 10px;
-    border-radius: 9px;
-    padding: 0 10px;
-    padding: 0 8px;
-    font-size: 11px;
     margin: 0 2px 2px 0;
+    padding: 0 8px;
+    height: 18px;
+    border-radius: 9px;
+    align-items: baseline;
+    font-size: 11px;
     background-color: $color-background-light;
     border: 0;
   }
