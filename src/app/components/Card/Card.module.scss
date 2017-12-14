@@ -1,13 +1,14 @@
 @import 'variables.scss';
 
-.card {
-  margin: 10px -5px;
+.root {
+  margin: 10px 0px;
+  background-color: white;
   border: 1px solid rgba(0, 0, 0, 0.08);
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.04);
   border-radius: 3px;
   padding: 15px;
 
-  &-content > * {
+  .content > * {
     margin: 20px 0;
     list-style: none;
   }
@@ -15,29 +16,5 @@
   a,
   a:hover {
     text-decoration: none;
-  }
-
-  &-title {
-    &,
-    & * {
-      font-size: 32px;
-      line-height: 24px;
-      font-weight: bold;
-    }
-    display: block;
-    color: $color-text-default;
-    margin: 10px 0 15px;
-  }
-
-  &-subtitle {
-    font-size: 12px;
-    font-weight: normal;
-    display: block;
-    color: $color-text-light;
-  }
-
-  &-more {
-    display: inline-block;
-    color: $color-blue;
   }
 }

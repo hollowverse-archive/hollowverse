@@ -1,9 +1,40 @@
 @import 'variables.scss';
 
-.event {
+.root {
   margin: 20px 0;
 
-  &-meta {
+  .header {
+    width: 100%;
+    &::after {
+      clear: both;
+      content: '';
+      display: table;
+    }
+
+    .avatar {
+      float: left;
+    }
+
+    .person-name {
+      font-weight: bold;
+    }
+  }
+
+  .avatar {
+    // stylelint-disable-next-line plugin/no-unsupported-browser-features
+    object-fit: cover;
+    margin-right: 15px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    user-select: none;
+  }
+
+  .content {
+    margin: 15px 2px;
+  }
+
+  .metadata {
     font-size: 12px;
     color: $color-text-light;
 

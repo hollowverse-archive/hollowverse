@@ -10,7 +10,7 @@
     min-height: calc(100% - #{$navbar-height});
     position: relative;
     margin: 0 auto;
-    padding: 20px;
+    padding: 20px 0;
     display: flex;
     flex-flow: column;
   }

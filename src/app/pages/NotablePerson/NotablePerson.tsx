@@ -2,7 +2,7 @@ import * as React from 'react';
 import gql from 'graphql-tag';
 import { client } from 'api/client';
 import { NotablePersonQuery } from 'api/types';
-import { Event } from 'components/Event/Event';
+import { Post } from 'components/Post/Post';
 import { PersonDetails } from 'components/PersonDetails/PersonDetails';
 import { FbComments } from 'components/FbComments/FbComments';
 import { MessageWithIcon } from 'components/MessageWithIcon/MessageWithIcon';
@@ -12,7 +12,6 @@ import { withRouter } from 'react-router-dom';
 import { resolve } from 'react-resolver';
 import { Result, isErrorResult } from 'helpers/results';
 import { Card } from 'components/Card/Card';
-import { Quote } from 'components/Quote/Quote';
 
 import { prettifyUrl } from 'helpers/prettifyUrl';
 
@@ -54,10 +53,15 @@ const query = gql`
       quotes: events(query: { type: quote }) {
         ...commonEventProps
       }
-      donations: events(query: { type: donation }) {
-        ...commonEventProps
-        organizationWebsiteUrl
-        organizationName
+      editorialSummary {
+        author
+        lastUpdatedOn
+        nodes {
+          text
+          type
+          sourceUrl
+          sourceTitle
+        }
       }
     }
   }
@@ -99,7 +103,6 @@ class Page extends React.PureComponent<OwnProps & ResolvedProps> {
         name,
         photoUrl,
         quotes,
-        donations,
         labels,
         summary,
         commentsUrl,
@@ -114,11 +117,12 @@ class Page extends React.PureComponent<OwnProps & ResolvedProps> {
             summary={summary}
           />
           {quotes.length > 0 ? (
-            <Card title={<h2>Quotes</h2>} subtitle={name}>
-              <ul className={classes.list}>
-                {quotes.map(quote => (
-                  <li key={quote.id}>
-                    <Event
+            <ul className={classes.list}>
+              <h2>Quotes</h2>
+              {quotes.map(quote => (
+                <li key={quote.id}>
+                  <Card>
+                    <Post
                       {...quote}
                       notablePerson={notablePerson}
                       postedAt={new Date(quote.postedAt)}
@@ -128,51 +132,12 @@ class Page extends React.PureComponent<OwnProps & ResolvedProps> {
                       sourceName={prettifyUrl(quote.sourceUrl)}
                       labels={quote.labels}
                     >
-                      {quote.quote ? (
-                        <Quote photoUrl={photoUrl} sourceUrl={quote.sourceUrl}>
-                          {quote.quote}
-                        </Quote>
-                      ) : null}
-                    </Event>
-                  </li>
-                ))}
-              </ul>
-            </Card>
-          ) : null}
-          {donations.length > 0 ? (
-            <Card title={<h2>Donations</h2>} subtitle={name}>
-              <ul className={classes.list}>
-                {donations.map(donation => (
-                  <li key={donation.id}>
-                    <Event
-                      {...donation}
-                      notablePerson={notablePerson}
-                      postedAt={new Date(donation.postedAt)}
-                      happenedOn={
-                        donation.happenedOn
-                          ? new Date(donation.happenedOn)
-                          : null
-                      }
-                      sourceName={prettifyUrl(donation.sourceUrl)}
-                      labels={donation.labels}
-                    >
-                      <h3 className={classes.eventTitle}>
-                        {donation.organizationWebsiteUrl ? (
-                          <a href={donation.organizationWebsiteUrl}>
-                            {donation.organizationName}
-                          </a>
-                        ) : (
-                          donation.organizationName
-                        )}
-                      </h3>
-                      {donation.quote ? (
-                        <Quote photoUrl={photoUrl}>{donation.quote}</Quote>
-                      ) : null}
-                    </Event>
-                  </li>
-                ))}
-              </ul>
-            </Card>
+                      {quote.quote}
+                    </Post>
+                  </Card>
+                </li>
+              ))}
+            </ul>
           ) : null}
           <OptionalIntersectionObserver rootMargin="0% 0% 25% 0%" triggerOnce>
             {inView => {

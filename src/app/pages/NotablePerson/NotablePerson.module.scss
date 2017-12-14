@@ -2,20 +2,14 @@
   margin-top: 15px;
 }
 
-.event-title {
-  font-size: 16px;
-  margin-bottom: 5px;
-  font-weight: bold;
-}
-
 .list {
   display: block;
 
-  & > * {
-    margin-top: 35px;
-  }
+  // & > * {
+  //   margin-top: 35px;
+  // }
 
-  & > * + * {
-    margin-bottom: 35px;
-  }
+  // & > * + * {
+  //   margin-bottom: 35px;
+  // }
 }
