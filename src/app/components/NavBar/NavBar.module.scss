@@ -12,33 +12,6 @@
   }
 }
 
-.sticky-container {
-  .sticky-element,
-  .sticky-placeholder {
-    width: 100%;
-    height: $navbar-height;
-    z-index: 1;
-    top: 0;
-  }
-
-  .sticky-placeholder {
-    position: absolute;
-  }
-
-  .sticky-element {
-    position: static;
-  }
-
-  &.sticky {
-    .sticky-placeholder {
-      position: static;
-    }
-    .sticky-element {
-      position: fixed;
-    }
-  }
-}
-
 .navbar {
   border-bottom: 1px solid $color-border-light;
   user-select: none;
@@ -49,9 +22,7 @@
   align-items: center;
   justify-content: center;
 
-  .sticky-container.sticky & {
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.07);
-  }
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.07);
 
   @keyframes appear {
     0% {
@@ -88,8 +59,6 @@
   &-btn {
     position: absolute;
     top: 0;
-    width: $navbar-height;
-    height: $navbar-height;
     background-position: 50% 50%;
     background-repeat: no-repeat;
     cursor: pointer;

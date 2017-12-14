@@ -1,7 +1,6 @@
 import * as React from 'react';
-import cc from 'classcat';
 
-import { OptionalIntersectionObserver } from 'components/OptionalIntersectionObserver/OptionalIntersectionObserver';
+import { Sticky } from 'components/Sticky/Sticky';
 
 import * as classes from './NavBar.module.scss';
 
@@ -9,40 +8,14 @@ type Props = {
   title: string;
 };
 
-type State = {
-  isInView: boolean;
-};
-
-export class NavBar extends React.Component<Props, State> {
-  state: State = {
-    isInView: true,
-  };
-
-  handleChange = (isInView: boolean) => {
-    this.setState({ isInView });
-  };
-
+export class NavBar extends React.Component<Props> {
   render() {
     const { title } = this.props;
-    const { isInView } = this.state;
 
     return (
-      <div
-        className={cc([
-          classes.root,
-          classes.stickyContainer,
-          { [classes.sticky]: !isInView },
-        ])}
-      >
-        <OptionalIntersectionObserver
-          threshold={1}
-          rootId="header"
-          onChange={this.handleChange}
-        >
-          <div className={classes.stickyPlaceholder} />
-        </OptionalIntersectionObserver>
-        <div className={cc([classes.navbar, classes.stickyElement])}>
-          {isInView ? (
+      <Sticky className={classes.navbar} height={48}>
+        {isSticking =>
+          !isSticking ? (
             <div className={classes.logo}>
               <a title={classes.title} className={classes.title} href="/">
                 {title}
@@ -58,8 +31,7 @@ export class NavBar extends React.Component<Props, State> {
               </form>
             </div>
           )}
-        </div>
-      </div>
+      </Sticky>
     );
   }
 }

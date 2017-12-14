@@ -2,12 +2,10 @@
 
 .root {
   width: 100%;
-  min-height: 100%;
 
   .view {
     width: 100%;
     max-width: 720px;
-    min-height: calc(100% - #{$navbar-height});
     position: relative;
     margin: 0 auto;
     padding: 20px 10px;
