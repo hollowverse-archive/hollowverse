@@ -23,12 +23,30 @@
 
 .editorial-summary {
   line-height: 1.5;
+
+  > *:not(span) {
+    display: block;
+  }
+
+  > h2 {
+    font-size: 20px;
+  }
+
+  .break {
+    display: block;
+  }
+
+  > * + * {
+    margin: 15px 0;
+  }
+
   .source-list {
     padding: 0 30px;
     li {
       margin: 10px;
     }
   }
+
   .back-link {
     border-radius: 50%;
     margin: 0 5px;

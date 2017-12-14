@@ -42,3 +42,10 @@ a {
   transition: color 0.2s ease-in-out;
   color: $color-blue;
 }
+
+sup {
+  font-weight: normal;
+  font-size: 0.5em;
+  position: relative;
+  margin: 0 0.1em;
+}

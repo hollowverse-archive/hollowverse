@@ -25,16 +25,4 @@
     margin-bottom: 10px;
     color: $color-text-light;
   }
-
-  > * {
-    display: block;
-  }
-
-  h2 {
-    font-size: 20px;
-  }
-
-  > * + * {
-    margin: 10px 0;
-  }
 }

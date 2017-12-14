@@ -115,7 +115,7 @@ class Page extends React.PureComponent<OwnProps & ResolvedProps> {
                   }
 
                   if (type === EditorialSummaryNodeType.break) {
-                    return <br />;
+                    return <div className={classes.break} />;
                   } else if (type === EditorialSummaryNodeType.heading) {
                     return <h2>{text}</h2>;
                   } else if (type === EditorialSummaryNodeType.quote) {
