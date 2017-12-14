@@ -2,6 +2,10 @@
 
 .navbar {
   width: 100%;
+  // stylelint-disable-next-line plugin/no-unsupported-browser-features
+  position: sticky;
+  top: 0;
+  z-index: 1;
   height: $navbar-height;
   line-height: $navbar-height;
   text-transform: uppercase;
