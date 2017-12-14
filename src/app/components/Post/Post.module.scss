@@ -7,7 +7,9 @@
     display: flex;
     align-items: center;
 
-    @include truncate;
+    > * {
+      @include truncate;
+    }
 
     .title {
       font-weight: bold;
