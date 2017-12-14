@@ -11,10 +11,13 @@ type Props = {
 
 export const Label = ({ text, size = 'normal', className }: Props) => (
   <div
-    className={cc([className, {
-      [classes.label]: true,
-      [classes.small]: size === 'small',
-    }])}
+    className={cc([
+      className,
+      classes.root,
+      {
+        [classes.small]: size === 'small',
+      },
+    ])}
   >
     {text}
   </div>
