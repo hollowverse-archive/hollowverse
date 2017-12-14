@@ -1,6 +1,4 @@
 import * as React from 'react';
-import { MessageWithIcon } from 'components/MessageWithIcon/MessageWithIcon';
-import { LoadingSpinner } from 'components/LoadingSpinner/LoadingSpinner';
 import { Shim } from './ReactIntersectionObserverShim';
 import { IntersectionObserverProps } from 'react-intersection-observer';
 import universal from 'react-universal-component';
@@ -44,12 +42,12 @@ export const OptionalIntersectionObserver = universal<
     },
   },
   {
-    loading: p => {
+    loading: props => {
       if (__SERVER__) {
-        return <Shim {...p} />;
+        return <Shim {...props} />;
       }
 
-      return <MessageWithIcon caption="Loading..." icon={<LoadingSpinner />} />;
+      return <div />;
     },
   },
 );
