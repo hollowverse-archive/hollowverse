@@ -1,7 +1,13 @@
 .container {
+  // Fallback when JS is disabled
   &.js-disabled {
-    // stylelint-disable-next-line plugin/no-unsupported-browser-features
-    position: sticky;
+    & .placeholder {
+      position: static;
+    }
+
+    & .element {
+      position: fixed;
+    }
   }
 
   &.js-disabled,
@@ -12,20 +18,22 @@
     top: 0;
   }
 
-  .placeholder {
-    position: absolute;
-  }
-
-  .element {
-    position: static;
-  }
-
-  &.is-sticking {
+  &:not(.js-disabled) {
     .placeholder {
+      position: absolute;
+    }
+
+    .element {
       position: static;
     }
-    .element {
-      position: fixed;
+
+    &.is-sticking {
+      .placeholder {
+        position: static;
+      }
+      .element {
+        position: fixed;
+      }
     }
   }
 }
