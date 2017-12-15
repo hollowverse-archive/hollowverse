@@ -39,7 +39,11 @@ export const NavBar = withRouter(
 
     showSearch = (e: React.MouseEvent<HTMLAnchorElement>) => {
       e.preventDefault();
-      this.setState({ isUserInitiated: true });
+      this.setState({ isUserInitiated: true }, () => {
+        if (this.searchInput) {
+          this.searchInput.focus();
+        }
+      });
     };
 
     render() {
@@ -55,7 +59,7 @@ export const NavBar = withRouter(
               ((isSearchPage || isSticking) && !wasIgnored)
             ) {
               return (
-                <div key="search" className={classes.search}>
+                <div className={classes.search}>
                   <form
                     className={classes.searchForm}
                     onBlurCapture={this.handleBlur}
@@ -69,7 +73,7 @@ export const NavBar = withRouter(
                       required
                       name="query"
                       placeholder="Search for notable people..."
-                      autoFocus={isSearchPage || isUserInitiated}
+                      autoFocus={isSearchPage}
                     />
                     <button className={classes.button} type="submit">
                       <SvgIcon size={20} {...searchIcon} />
