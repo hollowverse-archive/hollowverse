@@ -16,7 +16,6 @@
 .navbar {
   border-bottom: 1px solid $color-border-light;
   user-select: none;
-  cursor: default;
   color: $color-text-default;
   background-color: #fff;
   display: flex;
@@ -61,7 +60,11 @@
       left: 0;
     }
 
-    .back {
+    .button {
+      cursor: pointer;
+    }
+
+    .button.back {
       order: -1;
     }
 
@@ -111,10 +114,8 @@
       background: $color-background-light;
       text-align: center;
 
-      &:focus {
-        &::placeholder {
-          opacity: 0;
-        }
+      &:placeholder-shown:focus {
+        text-align: left;
       }
     }
   }
@@ -122,29 +123,5 @@
   a {
     text-decoration: none;
     color: inherit;
-  }
-
-  &-btn {
-    position: absolute;
-    top: 0;
-    background-position: 50% 50%;
-    background-repeat: no-repeat;
-    cursor: pointer;
-    &:hover {
-      opacity: 0.7;
-    }
-    &:active {
-      background-color: #f1f1f1;
-    }
-  }
-
-  &-btn.menu {
-    left: 0;
-    background-image: url('assets/iconMenu.svg');
-  }
-
-  &-btn.search {
-    right: 0;
-    background-image: url('assets/iconSearch.svg');
   }
 }
