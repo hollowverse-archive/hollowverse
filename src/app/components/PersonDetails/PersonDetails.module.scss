@@ -9,6 +9,7 @@
 @supports (filter: blur(5px)) {
   .root {
     .cover-photo {
+      visibility: visible;
       position: absolute;
       top: 0;
       z-index: -1;
