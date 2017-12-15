@@ -29,7 +29,13 @@ export class Sticky extends React.PureComponent<Props, State> {
 
     return (
       <div
-        className={cc([classes.container, { [classes.sticky]: isSticking }])}
+        className={cc([
+          classes.container,
+          {
+            [classes.isSticking]: isSticking,
+            [classes.jsDisabled]: __SERVER__,
+          },
+        ])}
       >
         <OptionalIntersectionObserver
           threshold={1}
