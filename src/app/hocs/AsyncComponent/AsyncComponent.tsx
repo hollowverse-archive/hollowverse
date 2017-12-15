@@ -54,7 +54,7 @@ export class AsyncComponent<T = any> extends React.PureComponent<
   State<T>
 > {
   static defaultProps: Partial<AsyncProps<any>> = {
-    delay: 5000,
+    delay: 500,
   };
 
   state: State<T> = {
