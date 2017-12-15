@@ -1,4 +1,5 @@
 @import 'variables.scss';
+@import 'mixins.scss';
 
 @supports (-webkit-background-clip: text) {
   .navbar {
@@ -37,6 +38,40 @@
     100% {
       opacity: 1;
       transform: translateY(0);
+    }
+  }
+
+  .logo {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 15px;
+
+    *:not(.title) {
+      flex-shrink: 1;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    input[type='checkbox'] {
+      opacity: 0;
+      position: absolute;
+      top: -100px;
+      left: 0;
+    }
+
+    .back {
+      order: -1;
+    }
+
+    .title {
+      text-transform: uppercase;
+      text-align: center;
+      font-weight: bold;
+      font-size: 20px;
+      letter-spacing: 1px;
+      @include truncate-flex-child;
     }
   }
 
@@ -82,14 +117,6 @@
         }
       }
     }
-  }
-
-  .title {
-    text-transform: uppercase;
-    text-align: center;
-    font-weight: bold;
-    font-size: 20px;
-    letter-spacing: 1px;
   }
 
   a {
