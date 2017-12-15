@@ -18,7 +18,7 @@ import * as classes from './NotablePerson.module.scss';
 import { Card } from 'components/Card/Card';
 import { EditorialSummary } from 'components/EditorialSummary/EditorialSummary';
 
-const warningIcon = <SvgIcon url={warningIconUrl} size={100} />;
+const warningIcon = <SvgIcon {...warningIconUrl} size={100} />;
 
 const reload = () => {
   location.reload();

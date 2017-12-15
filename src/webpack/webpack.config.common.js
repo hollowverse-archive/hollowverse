@@ -3,6 +3,7 @@ const path = require('path');
 
 const CircularDependencyPlugin = require('circular-dependency-plugin');
 const BabelMinifyPlugin = require('babel-minify-webpack-plugin');
+const SpriteLoaderPlugin = require('svg-sprite-loader/plugin');
 
 const { compact, mapValues } = require('lodash');
 
@@ -53,7 +54,12 @@ const config = {
         exclude: excludedPatterns,
         include: [path.resolve(srcDirectory)],
         use: [
-          'file-loader',
+          {
+            loader: 'svg-sprite-loader',
+            options: {
+              extract: true,
+            },
+          },
           {
             loader: 'svgo-loader',
             options: {
@@ -132,6 +138,8 @@ const config = {
         v => JSON.stringify(v),
       ),
     ),
+
+    new SpriteLoaderPlugin(),
 
     ...ifProd([
       new webpack.optimize.OccurrenceOrderPlugin(true),

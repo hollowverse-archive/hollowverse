@@ -7,7 +7,7 @@ import { AsyncComponent } from 'hocs/AsyncComponent/AsyncComponent';
 
 import warningIconUrl from 'icons/warning.svg';
 
-const warningIcon = <SvgIcon url={warningIconUrl} />;
+const warningIcon = <SvgIcon {...warningIconUrl} />;
 
 const loadingComponent = (
   <MessageWithIcon
