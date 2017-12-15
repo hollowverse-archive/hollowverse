@@ -101,7 +101,7 @@ const serverSpecificConfig = {
 
     // Environment
     new webpack.DefinePlugin({
-      __SERVER__: true,
+      __IS_SERVER__: true,
     }),
   ],
 };

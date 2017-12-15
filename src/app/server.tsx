@@ -16,7 +16,7 @@ import html from './index.server.html';
 const interpolateTemplate = template(html);
 
 const logger = loglevel.getLogger('SSR');
-logger.setLevel(__DEBUG__ ? logger.levels.DEBUG : logger.levels.INFO);
+logger.setLevel(__IS_DEBUG__ ? logger.levels.DEBUG : logger.levels.INFO);
 
 type IconStats = {
   outputFilePrefix: string;
@@ -84,7 +84,7 @@ export const createServerRenderMiddleware = ({
         // `JSON.stringify` won't help.
         data: serializeJavaScript(data, {
           isJSON: true,
-          space: __DEBUG__ ? 2 : 0,
+          space: __IS_DEBUG__ ? 2 : 0,
         }),
         app,
         icons,

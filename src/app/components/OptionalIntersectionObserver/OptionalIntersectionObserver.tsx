@@ -43,7 +43,7 @@ export const OptionalIntersectionObserver = universal<
   },
   {
     loading: props => {
-      if (__SERVER__) {
+      if (__IS_SERVER__) {
         return <Shim {...props} />;
       }
 

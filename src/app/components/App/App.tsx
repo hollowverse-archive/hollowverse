@@ -12,7 +12,7 @@ import { LoadableNotablePerson } from 'pages/NotablePerson/LoadableNotablePerson
 export class App extends React.PureComponent<{}, {}> {
   render() {
     return (
-      <div className={cc([classes.root, { 'js-disabled': __SERVER__ }])}>
+      <div className={cc([classes.root, { 'js-disabled': __IS_SERVER__ }])}>
         <NavBar title="Hollowverse" />
         <div className={classes.view}>
           <Switch>

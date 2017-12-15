@@ -1,5 +1,5 @@
-declare const __DEBUG__: boolean;
-declare const __SERVER__: boolean;
+declare const __IS_DEBUG__: boolean;
+declare const __IS_SERVER__: boolean;
 
 declare const FB: facebookSdk.Fb;
 declare namespace facebookSdk {
