@@ -47,7 +47,7 @@ const clientSpecificConfig = {
   entry: compact([
     ifHot('webpack-hot-middleware/client'),
     ifReact(ifHot('react-hot-loader/patch')),
-    ifPreact(ifDev('preact/devtools')),
+    ifPreact(ifDev('preact/debug')),
     path.resolve(srcDirectory, 'clientEntry.ts'),
   ]),
 
