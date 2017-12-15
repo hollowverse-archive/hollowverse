@@ -1,16 +1,21 @@
+@mixin truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
 /**
  * Allow text to be truncated instead of wrapping to a new line
  * @see https://css-tricks.com/flexbox-truncated-text/
  */
-@mixin truncate($min-width: 0) {
+@mixin truncate-flex-child($min-width: 0) {
   // This is required to allow flex children to shrink below
   // the implicit width
   min-width: $min-width;
 
   &,
   > * {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    @include truncate;
   }
 }
