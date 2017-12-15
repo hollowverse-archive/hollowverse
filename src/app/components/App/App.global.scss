@@ -45,7 +45,10 @@ sup {
   margin: 0 0.1em;
 }
 
-// Visibile on screen readers only
+/**
+ * Visibile on screen readers only
+ * @see https://accessibility.18f.gov/hidden-content/
+ */
 .sr-only {
   border: 0;
   clip: rect(0 0 0 0);
