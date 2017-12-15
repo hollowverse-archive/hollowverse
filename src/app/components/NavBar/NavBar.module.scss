@@ -31,7 +31,7 @@
   @keyframes navbar-switch {
     0% {
       opacity: 0;
-      transform: translateY(-10px);
+      transform: translateY(10px);
     }
 
     100% {
@@ -43,6 +43,7 @@
   .container {
     display: flex;
     width: 100%;
+    max-width: $page-max-width;
     height: 100%;
     align-items: center;
     justify-content: space-between;
@@ -55,6 +56,7 @@
     }
 
     .button {
+      background: transparent;
       cursor: pointer;
     }
 
@@ -74,7 +76,7 @@
 
   .logo,
   .search {
-    animation: navbar-switch 0.2s ease-in-out;
+    animation: navbar-switch 0.15s;
   }
 
   .search {
@@ -84,25 +86,15 @@
   .search {
     height: 100%;
     width: 100%;
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    > * {
-      height: 100%;
-      width: 100%;
-    }
-
-    .search-form {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-    }
 
     .search-input {
       width: 100%;
-      max-width: 75%;
       height: 100%;
       padding: 0 30px;
+      margin: 0 15px;
       border: 1px solid transparent;
       border-radius: 3px;
       background: $color-background-light;
