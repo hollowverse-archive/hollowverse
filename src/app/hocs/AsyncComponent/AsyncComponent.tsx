@@ -13,8 +13,11 @@ type AsyncProps<T> = {
    * Time in milliseconds to wait before the component is considered
    * to have started loading. The `load()` function will still be called
    * as soon as the component mounts. This is only intended to avoid flashing
-   * of loading component when using server side rendering.
-   * Defaults to `500`.
+   * of loading component in image components when using server side rendering
+   * and the image is already cached client-side.
+   * In such cases, the loading component would should for a brief moment before
+   * it is replaced with the cached image.
+   * Defaults to `200`.
    */
   delay?: number;
 
@@ -54,7 +57,7 @@ export class AsyncComponent<T = any> extends React.PureComponent<
   State<T>
 > {
   static defaultProps: Partial<AsyncProps<any>> = {
-    delay: 500,
+    delay: 200,
   };
 
   state: State<T> = {
