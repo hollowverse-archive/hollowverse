@@ -27,6 +27,14 @@
   margin-bottom: 25px;
   overflow-x: hidden;
   padding: 20px 20px 0;
+  display: flex;
+  flex-direction: column;
+
+  .content {
+    width: 100%;
+    align-self: center;
+    max-width: $page-max-width;
+  }
 
   .photo {
     width: $person-avatar-size;

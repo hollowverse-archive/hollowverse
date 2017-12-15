@@ -4,14 +4,25 @@
   margin-top: 15px;
 }
 
-.list {
-  display: block;
+.root {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 
-  li {
-    display: block;
+  > * {
+    width: 100%;
+    max-width: $page-max-width;
   }
 
-  & > * + * {
-    margin: 15px 0;
+  .article {
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+
+    .editorial-summary {
+      align-self: center;
+      max-width: $page-max-width;
+    }
   }
 }

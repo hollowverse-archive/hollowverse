@@ -1,5 +1,4 @@
 import * as React from 'react';
-import cc from 'classcat';
 import gql from 'graphql-tag';
 import { client } from 'api/client';
 import { NotablePersonQuery } from 'api/types';
@@ -86,11 +85,11 @@ class Page extends React.PureComponent<OwnProps & ResolvedProps> {
       } = notablePerson;
 
       return (
-        <div>
-          <article>
+        <div className={classes.root}>
+          <article className={classes.article}>
             <PersonDetails name={name} photoUrl={photoUrl} summary={summary} />
             {editorialSummary ? (
-              <Card className={cc([classes.card, classes.editorialSummary])}>
+              <Card className={classes.editorialSummary}>
                 <EditorialSummary {...editorialSummary} />
               </Card>
             ) : null}
@@ -99,7 +98,7 @@ class Page extends React.PureComponent<OwnProps & ResolvedProps> {
             {inView => {
               if (inView) {
                 return (
-                  <Card className={cc([classes.card, classes.comments])}>
+                  <Card className={classes.comments}>
                     <FbComments url={commentsUrl} />
                   </Card>
                 );
