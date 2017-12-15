@@ -4,6 +4,10 @@
   margin: auto;
   text-align: center;
   min-height: 175px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 
   &-caption {
     color: $color-text-light;
