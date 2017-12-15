@@ -9,7 +9,7 @@ import * as classes from './App.module.scss';
 import { LoadableNotablePerson } from 'pages/NotablePerson/LoadableNotablePerson';
 
 /** Main app component */
-export class App extends React.PureComponent<{}, {}> {
+export class App extends React.PureComponent {
   render() {
     return (
       <div className={cc([classes.root, { 'js-disabled': __IS_SERVER__ }])}>
