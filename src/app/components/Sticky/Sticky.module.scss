@@ -24,7 +24,7 @@
   }
 
   // Fallback when JS is disabled
-  :global(.js-disabled) & {
+  :global(.no-js) & {
     .placeholder {
       position: static;
     }
