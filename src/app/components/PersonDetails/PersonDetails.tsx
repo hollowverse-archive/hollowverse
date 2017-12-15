@@ -16,31 +16,33 @@ export const PersonDetails = ({
   photoUrl,
   labels,
 }: PersonDetailsProps) => (
-  <div className={classes.personDetails}>
+  <div className={classes.root}>
     {photoUrl ? (
-      <Image
-        className={classes.personDetailsAvatar}
+      <img
         src={photoUrl}
-        alt={name}
+        alt={undefined}
+        role="presentation"
+        className={classes.coverPhoto}
       />
     ) : null}
-    <h1 className={classes.personDetailsName}>
-      <div className={classes.personDetailsCaption}>
-        Religion, politics, and ideas of
-      </div>
+    {photoUrl ? (
+      <Image className={classes.photo} src={photoUrl} alt={name} />
+    ) : null}
+    <h1 className={classes.name}>
+      <div className={classes.caption}>Religion, politics, and ideas of</div>
       {name}
     </h1>
     {labels && labels.length > 0 ? (
-      <ul aria-label="Labels" className={classes.personDetailsLabels}>
+      <ul aria-label="Labels" className={classes.labels}>
         {labels.map(({ id, text }) => (
-          <li className={classes.labelListItem} key={id}>
+          <li className={classes.listItem} key={id}>
             <Label text={text} />
           </li>
         ))}
       </ul>
     ) : null}
     {summary && (
-      <div className={classes.personDetailsAbout}>
+      <div className={classes.about}>
         {summary.split('\n').map((paragraph, i) => <p key={i}>{paragraph}</p>)}
       </div>
     )}

@@ -1,10 +1,33 @@
 @import 'variables.scss';
 
-.person-details {
+.root {
+  .cover-photo {
+    visibility: hidden;
+  }
+}
+
+@supports (filter: blur(5px)) {
+  .root {
+    .cover-photo {
+      position: absolute;
+      top: 0;
+      z-index: -1;
+      height: 25%;
+      width: 100%;
+      // stylelint-disable-next-line plugin/no-unsupported-browser-features
+      filter: blur(50px);
+      transform: scale(1.2);
+    }
+  }
+}
+
+.root {
   position: relative;
   margin-bottom: 25px;
+  overflow-x: hidden;
+  padding: 20px 20px 0;
 
-  &-avatar {
+  .photo {
     width: $person-avatar-size;
     height: $person-avatar-size;
     margin: 20px auto 25px;
@@ -17,7 +40,7 @@
     display: block;
   }
 
-  &-caption {
+  .caption {
     color: $color-text-light;
     font-size: 11px;
     font-weight: 500;
@@ -27,7 +50,7 @@
     text-align: center;
   }
 
-  &-name {
+  .name {
     color: $color-text-default;
     font-size: 26px;
     font-weight: normal;
@@ -36,20 +59,19 @@
     text-align: center;
   }
 
-  &-labels {
+  .labels {
     text-align: center;
     margin: 20px auto;
+    .list-item {
+      display: inline;
+    }
   }
 
-  .label-list-item {
-    display: inline;
-  }
-
-  &-about {
+  .about {
     font-size: 16px;
-  }
 
-  p {
-    margin: 10px 0;
+    p {
+      margin: 10px 0;
+    }
   }
 }
