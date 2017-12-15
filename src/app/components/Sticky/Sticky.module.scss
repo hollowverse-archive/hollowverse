@@ -25,10 +25,6 @@
 
   // Fallback when JS is disabled
   :global(.js-disabled) & {
-    width: 100%;
-    z-index: 1;
-    top: 0;
-
     .placeholder {
       position: static;
     }
