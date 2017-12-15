@@ -55,7 +55,11 @@ export class EditorialSummary extends React.PureComponent<Props> {
             return <h2>{text}</h2>;
           } else if (type === 'quote') {
             return (
-              <Quote size="large" cite={sourceUrl || undefined}>
+              <Quote
+                size="large"
+                id={source ? source.refId : undefined}
+                cite={sourceUrl || undefined}
+              >
                 {text}
                 {source ? (
                   <sup>
