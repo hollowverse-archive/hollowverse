@@ -157,7 +157,7 @@ const clientSpecificConfig = {
 
     // Environment
     new webpack.DefinePlugin({
-      __SERVER__: false,
+      __IS_SERVER__: false,
     }),
   ]),
 };
