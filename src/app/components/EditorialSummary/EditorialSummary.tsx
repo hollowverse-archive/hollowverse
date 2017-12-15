@@ -99,15 +99,17 @@ export class EditorialSummary extends React.PureComponent<Props> {
           </ol>
         </small>
         <hr />
-        <small>
-          This article was written by {author}
-          {date ? (
-            <time dateTime={date.toISOString()}>
-              {' '}
-              and was last updated on {formatDate(date, 'MMMM D, YYYY')}
-            </time>
-          ) : null}.
-        </small>
+        <footer>
+          <small>
+            This article was written by {author}
+            {date ? (
+              <time dateTime={date.toISOString()}>
+                {' '}
+                and was last updated on {formatDate(date, 'MMMM D, YYYY')}
+              </time>
+            ) : null}.
+          </small>
+        </footer>
       </div>
     );
   }
