@@ -9,6 +9,15 @@ type AsyncProps<T> = {
    */
   timeout?: number | null;
 
+  /**
+   * Time in milliseconds to wait before the component is considered
+   * to have started loading. The `load()` function will still be called
+   * as soon as the component mounts. This is only intended to avoid flashing
+   * of loading component when using server side rendering.
+   * Defaults to `500`.
+   */
+  delay?: number;
+
   load(): Promise<T>;
 
   children(state: State<T> & { retry(): void }): JSX.Element | null;
@@ -19,6 +28,7 @@ type State<T> = {
   hasError: boolean;
   timedOut: boolean;
   result: T | null;
+  pastDelay: boolean;
 };
 
 /**
@@ -43,20 +53,31 @@ export class AsyncComponent<T = any> extends React.PureComponent<
   AsyncProps<T>,
   State<T>
 > {
+  static defaultProps: Partial<AsyncProps<any>> = {
+    delay: 5000,
+  };
+
   state: State<T> = {
     isLoading: false,
     hasError: false,
     timedOut: false,
     result: null,
+    pastDelay: false,
   };
 
-  tryLoading = () => {
+  tryLoading = async () => {
+    const loadPromise = this.props.load();
+
+    if (this.props.delay !== undefined) {
+      await delay(this.props.delay);
+    }
+
     this.setState(
       { result: null, isLoading: true, hasError: false, timedOut: false },
       () => {
         const promises = [
-          this.props.load().then(result => {
-            this.setState({ result, isLoading: false });
+          loadPromise.then(result => {
+            this.setState({ result, isLoading: false, pastDelay: true });
           }),
         ];
 
