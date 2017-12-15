@@ -6,8 +6,8 @@ import { OptionalIntersectionObserver } from 'components/OptionalIntersectionObs
 import * as classes from './Sticky.module.scss';
 
 type Props = {
-  height: React.CSSProperties['height'];
-  children(isInView: boolean): JSX.Element | JSX.Element[] | null | string;
+  height: number;
+  children(isInView: boolean): React.ReactNode;
 } & React.HTMLAttributes<HTMLDivElement>;
 
 type State = {

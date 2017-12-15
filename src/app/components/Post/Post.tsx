@@ -8,19 +8,19 @@ import { prettifyUrl } from 'helpers/prettifyUrl';
 import * as classes from './Post.module.scss';
 
 type PostProps = {
-  postedAt: Date | null;
-  happenedOn: Date | null;
-  title: string | JSX.Element;
+  postedAt?: Date | null;
+  happenedOn?: Date | null;
+  title: React.ReactNode;
   photoUrl: string | null;
-  sourceName: string;
-  sourceUrl: string;
+  sourceName?: string | null;
+  sourceUrl?: string | null;
   organizationName?: string | null;
   organizationWebsiteUrl?: string | null;
-  labels: Array<{
+  labels?: Array<{
     id: string;
     text: string;
   }>;
-  children?: JSX.Element | null | Array<JSX.Element | null> | string;
+  children?: React.ReactNode;
 };
 
 export const Post = ({
@@ -52,10 +52,10 @@ export const Post = ({
               {formatDate(happenedOn, 'MMM D, YYYY')}
             </time>
           ) : null}
-          {sourceName ? (
+          {sourceUrl ? (
             <span>
               Source:{' '}
-              <a href={sourceUrl} title={sourceName}>
+              <a href={sourceUrl} title={sourceName || undefined}>
                 {sourceName}
               </a>
             </span>
@@ -72,7 +72,7 @@ export const Post = ({
           </a>
         </span>
       ) : null}
-      {labels.length > 0 ? (
+      {labels && labels.length > 0 ? (
         <ul aria-label="Post labels" className={classes.labelList}>
           {labels.map(label => (
             <li key={label.id} className={classes.labelListItem}>

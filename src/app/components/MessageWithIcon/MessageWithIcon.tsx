@@ -7,7 +7,7 @@ type Props = {
   caption: string;
   description?: string;
   actionText?: string;
-  icon?: JSX.Element;
+  icon?: React.ReactNode;
   onActionClick?(): void;
 };
 
