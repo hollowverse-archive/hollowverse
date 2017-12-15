@@ -11,6 +11,8 @@ import { SvgIcon } from 'components/SvgIcon/SvgIcon';
 import searchIcon from 'icons/search.svg';
 import backIcon from 'icons/back.svg';
 
+const goBack = () => history;
+
 type Props = {
   title: string;
 } & RouteComponentProps<any>;
@@ -37,10 +39,10 @@ export const NavBar = withRouter(
       this.searchInput = node;
     };
 
-    showSearch = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    toggleSearch = (e: React.MouseEvent<HTMLAnchorElement>) => {
       e.preventDefault();
       this.setState({ isUserInitiated: true }, () => {
-        if (this.searchInput) {
+        if (this.searchInput && this.state.isUserInitiated) {
           this.searchInput.focus();
         }
       });
@@ -52,55 +54,59 @@ export const NavBar = withRouter(
       const isSearchPage = location.pathname === '/search';
 
       return (
-        <Sticky className={classes.navbar} height={48}>
+        <Sticky className={classes.root} height={48}>
           {isSticking => {
-            if (
-              isUserInitiated ||
-              ((isSearchPage || isSticking) && !wasIgnored)
-            ) {
-              return (
-                <div className={classes.search}>
-                  <form
-                    className={classes.searchForm}
-                    onBlurCapture={this.handleBlur}
-                    action="/search"
-                    method="GET"
-                  >
-                    <input
-                      type="search"
-                      ref={this.setSearchInput}
-                      className={classes.searchInput}
-                      required
-                      name="query"
-                      placeholder="Search for notable people..."
-                      autoFocus={isSearchPage}
-                    />
-                    <button className={classes.button} type="submit">
-                      <SvgIcon size={20} {...searchIcon} />
-                      <span className="sr-only">Search</span>
-                    </button>
-                  </form>
-                </div>
-              );
-            }
+            const shouldShowSearch =
+              isUserInitiated || ((isSearchPage || isSticking) && !wasIgnored);
 
             return (
-              <div className={classes.logo}>
-                <a title="Homepage" className={classes.title} href="/">
-                  {title}
-                </a>
-                <a className={cc([classes.button, classes.back])} href="..">
+              <div className={classes.container}>
+                {shouldShowSearch ? (
+                  <div className={classes.search}>
+                    <form
+                      className={classes.searchForm}
+                      onBlurCapture={this.handleBlur}
+                      action="/search"
+                      method="GET"
+                    >
+                      <input
+                        type="search"
+                        ref={this.setSearchInput}
+                        className={classes.searchInput}
+                        required
+                        name="query"
+                        placeholder="Search for notable people..."
+                        autoFocus={isSearchPage}
+                      />
+                      <button className={classes.button} type="submit">
+                        <SvgIcon size={20} {...searchIcon} />
+                        <span className="sr-only">Search</span>
+                      </button>
+                    </form>
+                  </div>
+                ) : (
+                  <a title="Homepage" className={classes.logo} href="/">
+                    {title}
+                  </a>
+                )}
+                <a
+                  href=".."
+                  onClick={shouldShowSearch ? this.toggleSearch : goBack}
+                  className={cc([classes.button, classes.back])}
+                >
                   <SvgIcon size={20} {...backIcon} />
                   <span className="sr-only">Go Back</span>
                 </a>
-                <a
-                  onClick={this.showSearch}
-                  href="/search"
-                  className={classes.button}
-                >
-                  <SvgIcon size={20} {...searchIcon} />
-                  <span className="sr-only">Search</span>
-                </a>
+                {!shouldShowSearch ? (
+                  <a
+                    href="/search"
+                    onClick={this.toggleSearch}
+                    className={classes.button}
+                  >
+                    <SvgIcon size={20} {...searchIcon} />
+                    <span className="sr-only">Search</span>
+                  </a>
+                ) : null}
               </div>
             );
           }}
