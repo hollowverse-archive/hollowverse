@@ -31,15 +31,22 @@
   @keyframes appear {
     0% {
       opacity: 0;
+      transform: translateY(-10px);
     }
+
     100% {
       opacity: 1;
+      transform: translateY(0);
     }
   }
 
-  .search,
-  .logo {
+  .logo,
+  .search {
     animation: appear 0.2s ease-in-out;
+  }
+
+  .search {
+    animation-fill-mode: backwards;
   }
 
   .search {
@@ -68,6 +75,12 @@
       border-radius: 3px;
       background: $color-background-light;
       text-align: center;
+
+      &:focus {
+        &::placeholder {
+          opacity: 0;
+        }
+      }
     }
   }
 
