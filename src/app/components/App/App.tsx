@@ -1,4 +1,5 @@
 import * as React from 'react';
+import cc from 'classcat';
 import { NavBar } from 'components/NavBar/NavBar';
 import { Route, Switch } from 'react-router-dom';
 
@@ -11,7 +12,7 @@ import { LoadableNotablePerson } from 'pages/NotablePerson/LoadableNotablePerson
 export class App extends React.PureComponent<{}, {}> {
   render() {
     return (
-      <div className={classes.root}>
+      <div className={cc([classes.root, { 'js-disabled': __SERVER__ }])}>
         <NavBar title="Hollowverse" />
         <div className={classes.view}>
           <Switch>

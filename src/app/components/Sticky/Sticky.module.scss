@@ -1,16 +1,4 @@
 .container {
-  // Fallback when JS is disabled
-  &.js-disabled {
-    & .placeholder {
-      position: static;
-    }
-
-    & .element {
-      position: fixed;
-    }
-  }
-
-  &.js-disabled,
   .element,
   .placeholder {
     width: 100%;
@@ -18,22 +6,35 @@
     top: 0;
   }
 
-  &:not(.js-disabled) {
-    .placeholder {
-      position: absolute;
-    }
+  .placeholder {
+    position: absolute;
+  }
 
+  .element {
+    position: static;
+  }
+
+  &.is-sticking {
+    .placeholder {
+      position: static;
+    }
     .element {
+      position: fixed;
+    }
+  }
+
+  // Fallback when JS is disabled
+  :global(.js-disabled) & {
+    width: 100%;
+    z-index: 1;
+    top: 0;
+
+    .placeholder {
       position: static;
     }
 
-    &.is-sticking {
-      .placeholder {
-        position: static;
-      }
-      .element {
-        position: fixed;
-      }
+    .element {
+      position: fixed;
     }
   }
 }

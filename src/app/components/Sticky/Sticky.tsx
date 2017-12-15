@@ -33,7 +33,6 @@ export class Sticky extends React.PureComponent<Props, State> {
           classes.container,
           {
             [classes.isSticking]: isSticking,
-            [classes.jsDisabled]: __SERVER__,
           },
         ])}
       >
