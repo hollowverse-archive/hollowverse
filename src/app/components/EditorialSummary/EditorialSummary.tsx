@@ -29,6 +29,8 @@ export class EditorialSummary extends React.PureComponent<Props> {
     const sources = new Map<string, Source>();
     let lastIndex = -1;
 
+    const date = lastUpdatedOn ? new Date(lastUpdatedOn) : undefined;
+
     return (
       <div className={classes.root}>
         {nodes.map(({ text, type, sourceUrl, sourceTitle }) => {
@@ -99,12 +101,11 @@ export class EditorialSummary extends React.PureComponent<Props> {
         <hr />
         <small>
           This article was written by {author}
-          {lastUpdatedOn ? (
-            <span>
+          {date ? (
+            <time dateTime={date.toISOString()}>
               {' '}
-              and was last updated on{' '}
-              {formatDate(new Date(lastUpdatedOn), 'MMMM D, YYYY')}
-            </span>
+              and was last updated on {formatDate(date, 'MMMM D, YYYY')}
+            </time>
           ) : null}.
         </small>
       </div>

@@ -87,12 +87,14 @@ class Page extends React.PureComponent<OwnProps & ResolvedProps> {
 
       return (
         <div>
-          <PersonDetails name={name} photoUrl={photoUrl} summary={summary} />
-          {editorialSummary ? (
-            <Card className={cc([classes.card, classes.editorialSummary])}>
-              <EditorialSummary {...editorialSummary} />
-            </Card>
-          ) : null}
+          <article>
+            <PersonDetails name={name} photoUrl={photoUrl} summary={summary} />
+            {editorialSummary ? (
+              <Card className={cc([classes.card, classes.editorialSummary])}>
+                <EditorialSummary {...editorialSummary} />
+              </Card>
+            ) : null}
+          </article>
           <OptionalIntersectionObserver rootMargin="0% 0% 25% 0%" triggerOnce>
             {inView => {
               if (inView) {
