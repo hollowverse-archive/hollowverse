@@ -1,6 +1,8 @@
 import * as React from 'react';
 import cc from 'classcat';
 
+import { withRouter, RouteComponentProps } from 'react-router';
+
 import * as classes from './NavBar.module.scss';
 
 import { Sticky } from 'components/Sticky/Sticky';
@@ -11,81 +13,95 @@ import backIcon from 'icons/back.svg';
 
 type Props = {
   title: string;
-};
+} & RouteComponentProps<any>;
 
 type State = {
   wasIgnored: boolean;
   isUserInitiated: boolean;
 };
 
-export class NavBar extends React.PureComponent<Props, State> {
-  state: State = {
-    wasIgnored: false,
-    isUserInitiated: false,
-  };
+export const NavBar = withRouter(
+  class extends React.PureComponent<Props, State> {
+    state: State = {
+      wasIgnored: false,
+      isUserInitiated: false,
+    };
 
-  searchInput: HTMLInputElement | null = null;
+    searchInput: HTMLInputElement | null = null;
 
-  handleBlur = () => {
-    this.setState({ wasIgnored: true, isUserInitiated: false });
-  };
+    handleBlur = () => {
+      this.setState({ wasIgnored: true, isUserInitiated: false });
+    };
 
-  toggleUserInitiated = () => {
-    this.setState(state => ({ isUserInitiated: !state.isUserInitiated }));
-  };
+    setSearchInput = (node: HTMLInputElement | null) => {
+      this.searchInput = node;
+    };
 
-  setSearchInput = (node: HTMLInputElement | null) => {
-    this.searchInput = node;
-  };
+    showSearch = (e: React.MouseEvent<HTMLAnchorElement>) => {
+      e.preventDefault();
+      this.setState({ isUserInitiated: true });
+    };
 
-  componentDidUpdate() {
-    if (this.searchInput && this.state.isUserInitiated) {
-      this.searchInput.focus();
+    render() {
+      const { title, location } = this.props;
+      const { wasIgnored, isUserInitiated } = this.state;
+      const isSearchPage = location.pathname === '/search';
+
+      return (
+        <Sticky className={classes.navbar} height={48}>
+          {isSticking => {
+            if (
+              isUserInitiated ||
+              ((isSearchPage || isSticking) && !wasIgnored)
+            ) {
+              return (
+                <div key="search" className={classes.search}>
+                  <form
+                    className={classes.searchForm}
+                    onBlurCapture={this.handleBlur}
+                    action="/search"
+                    method="GET"
+                  >
+                    <input
+                      type="search"
+                      ref={this.setSearchInput}
+                      className={classes.searchInput}
+                      required
+                      name="query"
+                      placeholder="Search for notable people..."
+                      autoFocus={isSearchPage || isUserInitiated}
+                    />
+                    <button className={classes.button} type="submit">
+                      <SvgIcon size={20} {...searchIcon} />
+                      <span className="sr-only">Search</span>
+                    </button>
+                  </form>
+                </div>
+              );
+            }
+
+            return (
+              <div className={classes.logo}>
+                <a title="Homepage" className={classes.title} href="/">
+                  {title}
+                </a>
+                <a className={cc([classes.button, classes.back])} href="..">
+                  <SvgIcon size={20} {...backIcon} />
+                  <span className="sr-only">Go Back</span>
+                </a>
+                <a
+                  onClick={this.showSearch}
+                  href="/search"
+                  className={classes.button}
+                >
+                  <SvgIcon size={20} {...searchIcon} />
+                  <span className="sr-only">Search</span>
+                </a>
+              </div>
+            );
+          }}
+        </Sticky>
+      );
     }
-  }
-
-  render() {
-    const { title } = this.props;
-    const { wasIgnored, isUserInitiated } = this.state;
-
-    return (
-      <Sticky className={classes.navbar} height={48}>
-        {isSticking =>
-          (isSticking && !wasIgnored) || isUserInitiated ? (
-            <div key="search" className={classes.search}>
-              <form className={classes.searchForm}>
-                <input
-                  type="search"
-                  ref={this.setSearchInput}
-                  className={classes.searchInput}
-                  required
-                  placeholder="Search for notable people..."
-                  onBlur={this.handleBlur}
-                />
-              </form>
-            </div>
-          ) : (
-            <div className={classes.logo}>
-              <a title="Homepage" className={classes.title} href="/">
-                {title}
-              </a>
-              <a className={cc([classes.button, classes.back])} href="..">
-                <SvgIcon size={20} {...backIcon} />
-                <span className="sr-only">Go Back</span>
-              </a>
-              <label className={classes.button}>
-                <input
-                  onChange={this.toggleUserInitiated}
-                  checked={isUserInitiated}
-                  role="button"
-                  type="checkbox"
-                />
-                <SvgIcon size={20} {...searchIcon} />
-                <span className="sr-only">Search</span>
-              </label>
-            </div>
-          )}
-      </Sticky>
-    );
-  }
-}
+  },
+);

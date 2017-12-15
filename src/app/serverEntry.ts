@@ -1,9 +1,13 @@
-import { URL } from 'url';
+import { URL, URLSearchParams } from 'url';
 import { createServerRenderMiddleware } from 'server';
 
-declare var global: NodeJS.Global & { URL: typeof URL };
+declare var global: NodeJS.Global & {
+  URL: typeof URL;
+  URLSearchParams: typeof URLSearchParams;
+};
 
 global.URL = URL;
+global.URLSearchParams = URLSearchParams;
 
 export { createServerRenderMiddleware } from './server';
 

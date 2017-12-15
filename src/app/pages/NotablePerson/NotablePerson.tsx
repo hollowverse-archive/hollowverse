@@ -8,7 +8,7 @@ import { FbComments } from 'components/FbComments/FbComments';
 import { MessageWithIcon } from 'components/MessageWithIcon/MessageWithIcon';
 import { SvgIcon } from 'components/SvgIcon/SvgIcon';
 import { OptionalIntersectionObserver } from 'components/OptionalIntersectionObserver/OptionalIntersectionObserver';
-import { withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router';
 import { resolve } from 'react-resolver';
 import { Result, isErrorResult } from 'helpers/results';
 
