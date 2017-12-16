@@ -34,14 +34,6 @@ export function createActionCreator<T extends ActionType>(
   return (payload: TypeToPayload[T]) => createAction<T>(type, payload);
 }
 
-export function createActionCreatorForStoreKey<K extends StoreKey>(key: K) {
-  return (payload: AppState[K]) =>
-    createAction('SET_VALUE_FOR_STORE_KEY', {
-      key,
-      value: payload,
-    });
-}
-
 /**
  * A better typed version of `redux-action`'s `handleActions`.
  * It requires that the map keys are store keys and that the return
