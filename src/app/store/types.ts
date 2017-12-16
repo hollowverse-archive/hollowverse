@@ -6,7 +6,7 @@ export type TypeToPayload = {
     query: string;
   };
   SET_SEARCH_RESULTS: {
-    results: AlgoliaResponse;
+    results: AlgoliaResponse | null;
   };
   SET_VALUE_FOR_STORE_KEY: {
     key: StoreKey;

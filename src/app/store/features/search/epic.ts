@@ -20,16 +20,20 @@ const SEARCH_ONLY_API_KEY = 'd970947e688348297451c41746235cd5';
 const APP_ID = '33DEXZ8MDK';
 
 const client = algolia(APP_ID, SEARCH_ONLY_API_KEY);
+const notablePeople = client.initIndex('notablePerson-dev');
 
 export const searchEpic: Epic<Action, StoreState> = action$ =>
-  action$.ofType('REQUEST_SEARCH_RESULTS').mergeMap(action =>
-    Observable.fromPromise(
-      client
-        .initIndex('notablePerson-dev')
-        .search((action as Action<'REQUEST_SEARCH_RESULTS'>).payload.query),
-    )
-      .map(results => setSearchResults({ results }))
-      // Ignore pending search requests when a new request is dispatched
-      .takeUntil(action$.ofType('REQUEST_SEARCH_RESULTS'))
-      .catch(error => Observable.of(setSearchError({ error }))),
-  );
+  action$.ofType('REQUEST_SEARCH_RESULTS').mergeMap(action => {
+    const { query } = (action as Action<'REQUEST_SEARCH_RESULTS'>).payload;
+    const result$ = query
+      ? Observable.fromPromise(notablePeople.search(query))
+      : Observable.of(null);
+
+    return (
+      result$
+        .map(results => setSearchResults({ results }))
+        // Ignore pending search requests when a new request is dispatched
+        .takeUntil(action$.ofType('REQUEST_SEARCH_RESULTS'))
+        .catch(error => Observable.of(setSearchError({ error })))
+    );
+  });
