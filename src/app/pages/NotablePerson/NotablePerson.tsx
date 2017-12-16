@@ -10,7 +10,8 @@ import { SvgIcon } from 'components/SvgIcon/SvgIcon';
 import { OptionalIntersectionObserver } from 'components/OptionalIntersectionObserver/OptionalIntersectionObserver';
 import { withRouter } from 'react-router';
 import { resolve } from 'react-resolver';
-import { Result, isErrorResult } from 'helpers/results';
+import { AsyncResult } from 'store/types';
+import { makeResult, isErrorResult, isPendingResult } from 'helpers/results';
 
 import warningIconUrl from 'icons/warning.svg';
 
@@ -48,7 +49,7 @@ const query = gql`
 
 type OwnProps = {};
 type ResolvedProps = {
-  queryResult: Result<NotablePersonQuery>;
+  queryResult: AsyncResult<NotablePersonQuery>;
 };
 
 class Page extends React.PureComponent<OwnProps & ResolvedProps> {
@@ -69,8 +70,13 @@ class Page extends React.PureComponent<OwnProps & ResolvedProps> {
       );
     }
 
-    const { data } = queryResult;
-    if (!data.notablePerson) {
+    if (isPendingResult(queryResult)) {
+      // @TODO
+      return <div>Loading...</div>;
+    }
+
+    const { value } = queryResult;
+    if (!value.notablePerson) {
       return (
         <Status code={404}>
           <MessageWithIcon
@@ -81,7 +87,7 @@ class Page extends React.PureComponent<OwnProps & ResolvedProps> {
         </Status>
       );
     } else {
-      const { notablePerson } = data;
+      const { notablePerson } = value;
       const {
         name,
         photoUrl,
@@ -120,17 +126,7 @@ class Page extends React.PureComponent<OwnProps & ResolvedProps> {
 }
 
 const ResolvedPage = resolve('queryResult', async ({ slug }) => {
-  try {
-    const data = await client.request<NotablePersonQuery>(query, { slug });
-
-    return {
-      data,
-    };
-  } catch (error) {
-    return {
-      error,
-    };
-  }
+  return makeResult(client.request<NotablePersonQuery>(query, { slug }));
 })(Page);
 
 export const NotablePerson = withRouter(({ match: { params: { slug } } }) => (
