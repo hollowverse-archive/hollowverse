@@ -79,7 +79,8 @@ export const searchEpic: Epic<Action, StoreState> = action$ =>
         .initIndex('notablePerson-dev')
         .search((action as Action<'REQUEST_SEARCH_RESULTS'>).payload.query),
     )
-      .takeUntil(action$.ofType('REQUEST_SEARCH_RESULTS')) // Cancel pending search requests
+      // Ignore pending search requests when a new request is dispatched
+      .takeUntil(action$.ofType('REQUEST_SEARCH_RESULTS'))
       .map(results => setSearchResults({ results }))
       .catch(error => Observable.of(setSearchError({ error }))),
   );
