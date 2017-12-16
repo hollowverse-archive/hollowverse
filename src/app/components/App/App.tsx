@@ -1,5 +1,7 @@
 import * as React from 'react';
 import cc from 'classcat';
+import { Provider } from 'react-redux';
+import { createStoreWithInitialState } from 'store/store';
 import { NavBar } from 'components/NavBar/NavBar';
 import { Route, Switch } from 'react-router';
 
@@ -13,15 +15,17 @@ import { LoadableSearchResults } from 'pages/SearchResults/LoadableSearchResults
 export class App extends React.PureComponent {
   render() {
     return (
-      <div className={cc([classes.root, { 'no-js': __IS_SERVER__ }])}>
-        <NavBar title="Hollowverse" />
-        <div className={classes.view}>
-          <Switch>
-            <Route path="/search" component={LoadableSearchResults} />
-            <Route path="/:slug" component={LoadableNotablePerson} />
-          </Switch>
+      <Provider store={createStoreWithInitialState()}>
+        <div className={cc([classes.root, { 'no-js': __IS_SERVER__ }])}>
+          <NavBar title="Hollowverse" />
+          <div className={classes.view}>
+            <Switch>
+              <Route path="/search" component={LoadableSearchResults} />
+              <Route path="/:slug" component={LoadableNotablePerson} />
+            </Switch>
+          </div>
         </div>
-      </div>
+      </Provider>
     );
   }
 }

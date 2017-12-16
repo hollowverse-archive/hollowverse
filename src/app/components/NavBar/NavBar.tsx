@@ -17,21 +17,21 @@ type Props = {
 } & RouteComponentProps<any>;
 
 type State = {
-  wasIgnored: boolean;
+  wasDismissed: boolean;
   isUserInitiated: boolean;
 };
 
 export const NavBar = withRouter(
   class extends React.PureComponent<Props, State> {
     state: State = {
-      wasIgnored: false,
+      wasDismissed: false,
       isUserInitiated: false,
     };
 
     searchInput: HTMLInputElement | null = null;
 
-    handleBlur = () => {
-      this.setState({ wasIgnored: true, isUserInitiated: false });
+    dismissSearch = () => {
+      this.setState({ wasDismissed: true, isUserInitiated: false });
     };
 
     setSearchInput = (node: HTMLInputElement | null) => {
@@ -49,21 +49,22 @@ export const NavBar = withRouter(
 
     render() {
       const { title, location } = this.props;
-      const { wasIgnored, isUserInitiated } = this.state;
+      const { wasDismissed, isUserInitiated } = this.state;
       const isSearchPage = location.pathname === '/search';
 
       return (
         <Sticky className={classes.root} height={48}>
           {isSticking => {
             const shouldShowSearch =
-              isUserInitiated || ((isSearchPage || isSticking) && !wasIgnored);
+              isUserInitiated ||
+              ((isSearchPage || isSticking) && !wasDismissed);
 
             return (
               <div className={classes.container}>
                 {shouldShowSearch ? (
                   <form
                     className={classes.search}
-                    onBlurCapture={this.handleBlur}
+                    onBlurCapture={this.dismissSearch}
                     action="/search"
                     method="GET"
                   >
@@ -93,7 +94,7 @@ export const NavBar = withRouter(
                   </a>
                 ) : (
                   <button
-                    onClick={this.toggleSearch}
+                    onClick={this.dismissSearch}
                     className={cc([classes.button, classes.back])}
                   >
                     <SvgIcon size={20} {...closeIcon} />

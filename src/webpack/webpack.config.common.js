@@ -95,6 +95,8 @@ const config = {
       // Replace lodash with lodash-es for better tree shaking
       lodash: 'lodash-es',
 
+      algoliasearch: 'algoliasearch/lite',
+
       // That's all what we need to use Preact instead of React
       ...ifPreact({
         react: 'preact-compat',

@@ -1,14 +1,19 @@
 @import 'variables.scss';
 
-.comments {
-  margin-top: 15px;
-}
-
 .root {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding-bottom: 20px;
+
+  .card {
+    padding: 20px;
+  }
+
+  .comments {
+    margin-top: 15px;
+  }
 
   > * {
     width: 100%;

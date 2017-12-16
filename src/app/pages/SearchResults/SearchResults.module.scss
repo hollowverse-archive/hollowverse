@@ -1,2 +1,15 @@
+@import 'variables.scss';
+
 .root {
+  max-width: $page-max-width;
+
+  .result {
+    display: block;
+    padding: 15px 20px;
+    margin: 5px 0;
+  }
+
+  .result + .result {
+    border-top: 1px solid $color-background;
+  }
 }
