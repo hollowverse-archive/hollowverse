@@ -53,7 +53,7 @@ class Page extends React.PureComponent<OwnProps & ResolvedProps> {
 
 const ResolvedPage = resolve<OwnProps, ResolvedProps>({
   searchResults: async ({ searchQuery, searchResults }) => {
-    if (__IS_SERVER__) {
+    if (__IS_SERVER__ && searchQuery) {
       return makeResult(notablePeople.search(searchQuery));
     }
 
