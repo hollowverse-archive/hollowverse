@@ -14,6 +14,7 @@ import closeIcon from 'icons/back.svg';
 
 type Props = {
   title: string;
+  searchQuery: string | null;
   requestSearchResults({ query }: { query: string }): any;
 } & RouteComponentProps<any>;
 
@@ -53,7 +54,7 @@ export const NavBar = withRouter(
     };
 
     render() {
-      const { title, location } = this.props;
+      const { title, location, searchQuery } = this.props;
       const { wasDismissed, isUserInitiated } = this.state;
       const isSearchPage = location.pathname === '/search';
 
@@ -81,6 +82,7 @@ export const NavBar = withRouter(
                       className={classes.searchInput}
                       required
                       name="query"
+                      value={searchQuery || undefined}
                       placeholder="Search for notable people..."
                       autoFocus={isSearchPage}
                       onChange={this.handleSearchInput}

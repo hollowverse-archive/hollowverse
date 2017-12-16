@@ -1,6 +1,6 @@
 import { handleActions, isActionOfType } from 'store/helpers';
 
-export const searchReducer = handleActions<'searchResults'>(
+export const searchResultsReducer = handleActions<'searchResults'>(
   {
     SET_SEARCH_RESULTS: (state, action) => {
       if (isActionOfType(action, 'SET_SEARCH_RESULTS')) {
@@ -41,4 +41,17 @@ export const searchReducer = handleActions<'searchResults'>(
     isInProgress: false,
     value: null,
   },
+);
+
+export const searchQueryReducer = handleActions<'searchQuery'>(
+  {
+    REQUEST_SEARCH_RESULTS: (state, action) => {
+      if (isActionOfType(action, 'REQUEST_SEARCH_RESULTS')) {
+        return action.payload.query;
+      }
+
+      return state;
+    },
+  },
+  null,
 );

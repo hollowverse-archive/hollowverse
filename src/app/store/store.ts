@@ -1,7 +1,10 @@
 import { createStore, applyMiddleware, combineReducers, compose } from 'redux';
 import { combineEpics, createEpicMiddleware } from 'redux-observable';
 import { StoreState } from './types';
-import { searchReducer } from 'store/features/search/reducer';
+import {
+  searchResultsReducer,
+  searchQueryReducer,
+} from 'store/features/search/reducer';
 import { searchEpic } from 'store/features/search/epic';
 
 const defaultInitialState: StoreState = {
@@ -10,10 +13,12 @@ const defaultInitialState: StoreState = {
     isInProgress: false,
     value: null,
   },
+  searchQuery: null,
 };
 
 const reducer = combineReducers<StoreState>({
-  searchResults: searchReducer,
+  searchResults: searchResultsReducer,
+  searchQuery: searchQueryReducer,
 });
 
 const rootEpic = combineEpics(searchEpic);

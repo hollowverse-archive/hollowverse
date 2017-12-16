@@ -32,8 +32,8 @@ export const searchEpic: Epic<Action, StoreState> = action$ =>
     return (
       result$
         .map(results => setSearchResults({ results }))
+        .catch(error => Observable.of(setSearchError({ error })))
         // Ignore pending search requests when a new request is dispatched
         .takeUntil(action$.ofType('REQUEST_SEARCH_RESULTS'))
-        .catch(error => Observable.of(setSearchError({ error })))
     );
   });

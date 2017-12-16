@@ -45,6 +45,7 @@ type AsyncResult<T> =
 
 export type AppState = {
   searchResults: AsyncResult<AlgoliaResponse | null>;
+  searchQuery: string | null;
 };
 
 /**
