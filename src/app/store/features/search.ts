@@ -1,4 +1,4 @@
-import algoliasearch from 'algoliasearch';
+import algolia from 'algoliasearch';
 
 import {
   createActionCreator,
@@ -24,10 +24,10 @@ export const requestSearchResults = createActionCreator(
 export const setSearchResults = createActionCreator('SET_SEARCH_RESULTS');
 export const setSearchError = createActionCreator('SET_SEARCH_ERROR');
 
-const SERACH_ONLY_API_KEY = 'd970947e688348297451c41746235cd5';
+const SEARCH_ONLY_API_KEY = 'd970947e688348297451c41746235cd5';
 const APP_ID = '33DEXZ8MDK';
 
-const searchClient = algoliasearch(APP_ID, SERACH_ONLY_API_KEY);
+const searchClient = algolia(APP_ID, SEARCH_ONLY_API_KEY);
 
 export const searchReducer = handleActions<'searchResults'>(
   {
