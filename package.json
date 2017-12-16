@@ -187,7 +187,7 @@
     "tslint-eslint-rules": "^4.1.1",
     "tslint-microsoft-contrib": "^5.0.1",
     "tslint-react": "^3.2.0",
-    "typescript": "^2.5.2",
+    "typescript": "^2.6.2",
     "typings-for-css-modules-loader": "^1.7.0",
     "url-loader": "^0.6.2",
     "webpack": "^3.1.0",
