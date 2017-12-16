@@ -5,9 +5,9 @@ import { LoadingSpinner } from 'components/LoadingSpinner/LoadingSpinner';
 import { SvgIcon } from 'components/SvgIcon/SvgIcon';
 import { AsyncComponent } from 'hocs/AsyncComponent/AsyncComponent';
 
-import warningIconUrl from 'icons/warning.svg';
+import warningIcon from 'icons/warning.svg';
 
-const warningIcon = <SvgIcon {...warningIconUrl} />;
+const warningIconComponent = <SvgIcon {...warningIcon} />;
 
 const loadingComponent = (
   <MessageWithIcon
@@ -84,7 +84,7 @@ export class FbComments extends React.PureComponent<Props> {
                 <MessageWithIcon
                   caption="Error loading comments"
                   actionText="Retry"
-                  icon={warningIcon}
+                  icon={warningIconComponent}
                   onActionClick={retry}
                 />
               );
@@ -97,7 +97,7 @@ export class FbComments extends React.PureComponent<Props> {
                   <MessageWithIcon
                     caption="Unable to load comments"
                     description="Enable JavaScript in your browser settings and reload this page to see comments"
-                    icon={warningIcon}
+                    icon={warningIconComponent}
                   />
                 </noscript>
                 <div

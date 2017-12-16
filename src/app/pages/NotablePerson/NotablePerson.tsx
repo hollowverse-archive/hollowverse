@@ -17,14 +17,14 @@ import {
   isPendingResult,
 } from 'helpers/asyncResults';
 
-import warningIconUrl from 'icons/warning.svg';
+import warningIcon from 'icons/warning.svg';
 
 import * as classes from './NotablePerson.module.scss';
 import { Card } from 'components/Card/Card';
 import { EditorialSummary } from 'components/EditorialSummary/EditorialSummary';
 import { Status } from 'components/Status/Status';
 
-const warningIcon = <SvgIcon {...warningIconUrl} size={100} />;
+const warningIconComponent = <SvgIcon {...warningIcon} size={100} />;
 
 const reload = () => {
   location.reload();
@@ -67,7 +67,7 @@ class Page extends React.PureComponent<OwnProps & ResolvedProps> {
             caption="Are you connected to the internet?"
             description="Please check your connection and try again"
             actionText="Retry"
-            icon={warningIcon}
+            icon={warningIconComponent}
             onActionClick={reload}
           />
         </Status>
@@ -86,7 +86,7 @@ class Page extends React.PureComponent<OwnProps & ResolvedProps> {
           <MessageWithIcon
             caption="Not Found"
             description="We do not have a page for this notable person"
-            icon={warningIcon}
+            icon={warningIconComponent}
           />
         </Status>
       );

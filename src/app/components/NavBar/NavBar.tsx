@@ -53,6 +53,11 @@ export const NavBar = withRouter(
       });
     };
 
+    goBack = (e: React.MouseEvent<HTMLElement>) => {
+      e.preventDefault();
+      this.props.history.goBack();
+    };
+
     render() {
       const { title, location, searchQuery } = this.props;
       const { wasDismissed, isUserInitiated } = this.state;
@@ -98,7 +103,11 @@ export const NavBar = withRouter(
                   </a>
                 )}
                 {isSearchPage || !shouldShowSearch ? (
-                  <a href=".." className={cc([classes.button, classes.back])}>
+                  <a
+                    href=".."
+                    onClick={this.goBack}
+                    className={cc([classes.button, classes.back])}
+                  >
                     <SvgIcon size={20} {...backIcon} />
                     <span className="sr-only">Go Back</span>
                   </a>
