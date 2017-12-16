@@ -1,7 +1,8 @@
 import { createStore, applyMiddleware, combineReducers, compose } from 'redux';
 import { combineEpics, createEpicMiddleware } from 'redux-observable';
 import { StoreState } from './types';
-import { searchEpic, searchReducer } from 'store/features/search';
+import { searchReducer } from 'store/features/search/reducer';
+import { searchEpic } from 'store/features/search/epic';
 
 const defaultInitialState: StoreState = {
   searchResults: {
