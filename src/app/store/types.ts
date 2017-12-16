@@ -29,13 +29,19 @@ type OptimisticResult<T = null> = {
   value: T;
 };
 
+type PendingResult = OptimisticResult<null>;
+
 type SuccessResult<T> = {
   isInProgress: false;
   hasError: false;
   value: T;
 };
 
-type AsyncResult<T> = ErrorResult | OptimisticResult<T> | SuccessResult<T>;
+type AsyncResult<T> =
+  | ErrorResult
+  | PendingResult
+  | OptimisticResult<T>
+  | SuccessResult<T>;
 
 export type AppState = {
   searchResults: AsyncResult<AlgoliaResponse | null>;
