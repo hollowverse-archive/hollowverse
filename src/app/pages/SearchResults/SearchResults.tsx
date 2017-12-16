@@ -18,6 +18,7 @@ type ResolvedProps = {
 
 type OwnProps = {
   searchQuery: string;
+  searchResults: AsyncResult<AlgoliaResponse | null>;
 };
 
 class Page extends React.PureComponent<OwnProps & ResolvedProps> {
@@ -51,11 +52,17 @@ class Page extends React.PureComponent<OwnProps & ResolvedProps> {
 }
 
 const ResolvedPage = resolve<OwnProps, ResolvedProps>({
-  searchResults: async ({ searchQuery }) => {
-    return makeResult(notablePeople.search(searchQuery));
+  searchResults: async ({ searchQuery, searchResults }) => {
+    if (__IS_SERVER__) {
+      return makeResult(notablePeople.search(searchQuery));
+    }
+
+    // The client will use Redux to resolve this property
+    return searchResults;
   },
 })(Page as any);
 
 export const SearchResults = connect((state: StoreState) => ({
   searchQuery: getSearchQuery(state),
+  searchResults: state.searchResults,
 }))(ResolvedPage);

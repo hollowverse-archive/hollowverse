@@ -3,11 +3,23 @@ import {
   LocationChangeAction,
   RouterAction,
 } from 'react-router-redux';
+import { AsyncResult } from 'helpers/asyncResults';
+import { AlgoliaResponse } from 'algoliasearch';
 
 /** A map of all app actions to their corresponding payloads */
 export type TypeToPayload = {
   REQUEST_SEARCH_RESULTS: {
     query: string;
+  };
+  SET_SEARCH_RESULTS: {
+    results: AlgoliaResponse | null;
+  };
+  SET_VALUE_FOR_STORE_KEY: {
+    key: StoreKey;
+    value: any;
+  };
+  SET_SEARCH_ERROR: {
+    error: Error;
   };
   SET_STATUS_CODE: number;
   '@@router/LOCATION_CHANGE': LocationChangeAction['payload'];
@@ -16,6 +28,7 @@ export type TypeToPayload = {
 
 export type AppState = {
   statusCode: number;
+  searchResults: AsyncResult<AlgoliaResponse | null>;
 };
 
 /**
