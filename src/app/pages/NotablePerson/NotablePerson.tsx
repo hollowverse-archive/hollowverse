@@ -10,8 +10,12 @@ import { SvgIcon } from 'components/SvgIcon/SvgIcon';
 import { OptionalIntersectionObserver } from 'components/OptionalIntersectionObserver/OptionalIntersectionObserver';
 import { withRouter } from 'react-router';
 import { resolve } from 'react-resolver';
-import { AsyncResult } from 'store/types';
-import { makeResult, isErrorResult, isPendingResult } from 'helpers/results';
+import {
+  AsyncResult,
+  makeResult,
+  isErrorResult,
+  isPendingResult,
+} from 'helpers/asyncResults';
 
 import warningIconUrl from 'icons/warning.svg';
 
