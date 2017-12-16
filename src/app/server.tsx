@@ -36,11 +36,10 @@ export const createServerRenderMiddleware = ({
   iconStats: IconStats | undefined;
 }) => async (req: Request, res: Response) => {
   try {
-    const store = createStoreWithInitialState();
+    const history = createMemoryHistory({ initialEntries: [req.url] });
+    const store = createStoreWithInitialState(history);
 
     const { Resolved, data } = await Resolver.resolve(() => {
-      const history = createMemoryHistory({ initialEntries: [req.url] });
-
       return (
         <Provider store={store}>
           <ConnectedRouter history={history}>

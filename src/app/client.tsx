@@ -11,11 +11,13 @@ import { StoreState } from 'store/types';
 
 declare const __INITIAL_STATE__: StoreState | undefined;
 
+const history = createBrowserHistory();
+
 const renderApp = (NewApp: typeof App = App) => {
   Resolver.render(
     () => (
-      <Provider store={createStoreWithInitialState(__INITIAL_STATE__)}>
-        <Router history={createBrowserHistory()}>
+      <Provider store={createStoreWithInitialState(history, __INITIAL_STATE__)}>
+        <Router history={history}>
           <NewApp />
         </Router>
       </Provider>

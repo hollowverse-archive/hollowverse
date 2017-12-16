@@ -1,4 +1,9 @@
-import { routerReducer, RouterState } from 'react-router-redux';
+import {
+  routerReducer,
+  routerMiddleware,
+  RouterState,
+} from 'react-router-redux';
+import { History } from 'history';
 import {
   createStore,
   applyMiddleware,
@@ -54,11 +59,14 @@ const composeEnhancers =
     : compose;
 
 export function createStoreWithInitialState(
+  history: History,
   initialState: StoreState = defaultInitialState,
 ) {
   return createStore<StoreState>(
     reducer,
     initialState,
-    composeEnhancers(applyMiddleware(epicMiddleware)),
+    composeEnhancers(
+      applyMiddleware(epicMiddleware, routerMiddleware(history)),
+    ),
   );
 }
