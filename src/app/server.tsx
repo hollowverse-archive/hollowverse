@@ -2,16 +2,20 @@ import { Request, Response } from 'express';
 import * as React from 'react';
 import * as serializeJavaScript from 'serialize-javascript';
 import { renderToString as render } from 'react-dom/server';
-import { StaticRouter } from 'react-router';
+import { ConnectedRouter } from 'react-router-redux';
+import createMemoryHistory from 'history/createMemoryHistory';
 import { Resolver } from 'react-resolver';
 import { template } from 'lodash';
 import { flushChunkNames } from 'react-universal-component/server';
 import flushChunks from 'webpack-flush-chunks';
 import * as loglevel from 'loglevel';
 import { Stats } from 'webpack';
+import { Provider } from 'react-redux';
+import { getStatusCode } from 'store/features/status/reducer';
 
 import { App } from './components/App/App';
 import html from './index.server.html';
+import { createStoreWithInitialState } from 'store/store';
 
 const interpolateTemplate = template(html);
 
@@ -32,13 +36,17 @@ export const createServerRenderMiddleware = ({
   iconStats: IconStats | undefined;
 }) => async (req: Request, res: Response) => {
   try {
+    const store = createStoreWithInitialState();
+
     const { Resolved, data } = await Resolver.resolve(() => {
-      const context = {};
+      const history = createMemoryHistory({ initialEntries: [req.url] });
 
       return (
-        <StaticRouter context={context} location={req.url}>
-          <App />
-        </StaticRouter>
+        <Provider store={store}>
+          <ConnectedRouter history={history}>
+            <App />
+          </ConnectedRouter>
+        </Provider>
       );
     });
 
@@ -76,6 +84,11 @@ export const createServerRenderMiddleware = ({
 
     const icons = iconStats ? iconStats.html.join(' ') : '';
 
+    const state = store.getState();
+    logger.debug('Server-side Redux state:', state);
+
+    res.status(getStatusCode(state) || 200);
+
     res.send(
       interpolateTemplate({
         // In order to protect from XSS attacks, make sure to use `serialize-javascript`
@@ -91,6 +104,10 @@ export const createServerRenderMiddleware = ({
         js,
         styles,
         cssHash,
+        initialState: serializeJavaScript(state, {
+          isJSON: true,
+          space: __IS_DEBUG__ ? 2 : 0,
+        }),
       }),
     );
   } catch (e) {

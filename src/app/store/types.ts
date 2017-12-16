@@ -1,4 +1,5 @@
 import { AlgoliaResponse } from 'algoliasearch';
+import { RouterState } from 'react-router-redux';
 
 /** A map of all app actions to their corresponding payloads */
 export type TypeToPayload = {
@@ -15,6 +16,7 @@ export type TypeToPayload = {
   SET_SEARCH_ERROR: {
     error: Error;
   };
+  SET_STATUS_CODE: number;
 };
 
 type ErrorResult = {
@@ -45,16 +47,16 @@ type AsyncResult<T> =
 
 export type AppState = {
   searchResults: AsyncResult<AlgoliaResponse | null>;
-  searchQuery: string | null;
+  statusCode: number;
 };
 
 /**
  * Contains AppState as well as other state keys that are
  * required by external modules
  */
-export type StoreState = Readonly<AppState>;
+export type StoreState = Readonly<AppState & { routing: RouterState }>;
 
-export type StoreKey = keyof StoreState;
+export type StoreKey = keyof AppState;
 
 /**
  * This type covers all possible action types that may be dispatched
@@ -94,10 +96,10 @@ export type ActionCreator<T extends ActionType> = (
 
 export type Reducer<S> = (state: S, action: GenericAction) => S;
 
-export type ReducerMap<State extends object = StoreState> = {
+export type ReducerMap<State extends object = AppState> = {
   [Key in keyof State]: Reducer<State[Key]> | any
 };
 
 export type ActionToReducerMap<Key extends StoreKey> = {
-  [A in ActionType]: Reducer<StoreState[Key]>
+  [A in ActionType]: Reducer<AppState[Key]>
 };

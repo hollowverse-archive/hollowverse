@@ -1,4 +1,6 @@
 import { handleActions, isActionOfType } from 'store/helpers';
+import { StoreState } from 'store/types';
+import { createSelector } from 'reselect';
 
 export const searchResultsReducer = handleActions<'searchResults'>(
   {
@@ -43,15 +45,14 @@ export const searchResultsReducer = handleActions<'searchResults'>(
   },
 );
 
-export const searchQueryReducer = handleActions<'searchQuery'>(
-  {
-    REQUEST_SEARCH_RESULTS: (state, action) => {
-      if (isActionOfType(action, 'REQUEST_SEARCH_RESULTS')) {
-        return action.payload.query;
-      }
+const getRoutingState = (state: StoreState) => state.routing;
 
-      return state;
-    },
-  },
-  null,
-);
+export const getSearchQuery = createSelector(getRoutingState, routing => {
+  if (routing.location) {
+    const params = new URLSearchParams(routing.location.search);
+
+    return params.get('query');
+  }
+
+  return null;
+});

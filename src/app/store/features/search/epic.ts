@@ -2,7 +2,7 @@ import algolia from 'algoliasearch';
 
 import { setSearchError, setSearchResults } from './actions';
 
-import { Action, StoreState } from 'store/types';
+import { Action, AppState } from 'store/types';
 
 import { Epic } from 'redux-observable';
 
@@ -22,7 +22,7 @@ const APP_ID = '33DEXZ8MDK';
 const client = algolia(APP_ID, SEARCH_ONLY_API_KEY);
 const notablePeople = client.initIndex('notablePerson-dev');
 
-export const searchEpic: Epic<Action, StoreState> = action$ =>
+export const searchEpic: Epic<Action, AppState> = action$ =>
   action$.ofType('REQUEST_SEARCH_RESULTS').mergeMap(action => {
     const { query } = (action as Action<'REQUEST_SEARCH_RESULTS'>).payload;
     const result$ = query

@@ -3,7 +3,7 @@ import {
   ActionType,
   ActionCreator,
   ActionToReducerMap,
-  StoreState,
+  AppState,
   StoreKey,
   TypeToPayload,
   Reducer,
@@ -35,7 +35,7 @@ export function createActionCreator<T extends ActionType>(
 }
 
 export function createActionCreatorForStoreKey<K extends StoreKey>(key: K) {
-  return (payload: StoreState[K]) =>
+  return (payload: AppState[K]) =>
     createAction('SET_VALUE_FOR_STORE_KEY', {
       key,
       value: payload,
@@ -49,10 +49,10 @@ export function createActionCreatorForStoreKey<K extends StoreKey>(key: K) {
  */
 export function handleActions<Key extends StoreKey>(
   map: Partial<ActionToReducerMap<Key>>,
-  defaultState: StoreState[Key],
-): Reducer<StoreState[Key]> {
-  return (state: StoreState[Key], action: GenericAction) => {
-    const reducer: Reducer<StoreState[Key]> | undefined = map[action.type];
+  defaultState: AppState[Key],
+): Reducer<AppState[Key]> {
+  return (state: AppState[Key], action: GenericAction) => {
+    const reducer: Reducer<AppState[Key]> | undefined = map[action.type];
     if (reducer !== undefined) {
       return reducer(state, action);
     }
@@ -95,7 +95,7 @@ export function isActionOfType<T extends ActionType>(
 /** Creates a reducer that handles a single action for an individual state entry.  */
 export function handleAction<
   K extends keyof S = keyof S,
-  S = StoreState,
+  S = AppState,
   A extends ActionType = ActionType
 >(actionType: A, defaultState: S[K]) {
   return (state: S[K], action: GenericAction) => {

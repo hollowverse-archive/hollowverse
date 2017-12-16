@@ -17,6 +17,7 @@ import warningIconUrl from 'icons/warning.svg';
 import * as classes from './NotablePerson.module.scss';
 import { Card } from 'components/Card/Card';
 import { EditorialSummary } from 'components/EditorialSummary/EditorialSummary';
+import { Status } from 'components/Status/Status';
 
 const warningIcon = <SvgIcon {...warningIconUrl} size={100} />;
 
@@ -56,24 +57,28 @@ class Page extends React.PureComponent<OwnProps & ResolvedProps> {
     const { queryResult } = this.props;
     if (isErrorResult(queryResult)) {
       return (
-        <MessageWithIcon
-          caption="Are you connected to the internet?"
-          description="Please check your connection and try again"
-          actionText="Retry"
-          icon={warningIcon}
-          onActionClick={reload}
-        />
+        <Status code={500}>
+          <MessageWithIcon
+            caption="Are you connected to the internet?"
+            description="Please check your connection and try again"
+            actionText="Retry"
+            icon={warningIcon}
+            onActionClick={reload}
+          />
+        </Status>
       );
     }
 
     const { data } = queryResult;
     if (!data.notablePerson) {
       return (
-        <MessageWithIcon
-          caption="Not Found"
-          description="We do not have a page for this notable person"
-          icon={warningIcon}
-        />
+        <Status code={404}>
+          <MessageWithIcon
+            caption="Not Found"
+            description="We do not have a page for this notable person"
+            icon={warningIcon}
+          />
+        </Status>
       );
     } else {
       const { notablePerson } = data;
