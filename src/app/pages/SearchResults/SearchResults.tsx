@@ -1,25 +1,32 @@
 import * as React from 'react';
-import { withRouter } from 'react-router';
-import { connect } from 'react-redux';
-// import cc from 'classcat';
-import { AppState } from 'store/types';
+import { StoreState } from 'store/types';
 
 import * as classes from './SearchResults.module.scss';
 
 import FlipMove from 'react-flip-move';
 import { Card } from 'components/Card/Card';
+import { AsyncResult, makeResult } from 'helpers/asyncResults';
+import { resolve } from 'react-resolver';
+import { AlgoliaResponse } from 'algoliasearch';
+import { connect } from 'react-redux';
+import { getSearchQuery } from 'store/features/search/selectors';
+import { notablePeople } from 'vendor/algolia';
 
-type Props = Pick<AppState, 'searchResults'>;
+type ResolvedProps = {
+  searchResults: AsyncResult<AlgoliaResponse | null>;
+};
 
-class Page extends React.PureComponent<Props> {
+type OwnProps = {
+  searchQuery: string;
+};
+
+class Page extends React.PureComponent<OwnProps & ResolvedProps> {
   render() {
     const { searchResults } = this.props;
 
     return (
       <div className={classes.root}>
-        {searchResults &&
-        searchResults.value &&
-        searchResults.value.hits.length > 0 ? (
+        {searchResults.value && searchResults.value.hits.length > 0 ? (
           <Card className={classes.results}>
             <ol>
               <FlipMove
@@ -43,12 +50,12 @@ class Page extends React.PureComponent<Props> {
   }
 }
 
-const ConnectedPage = connect((state: AppState) => ({
-  searchResults: state.searchResults,
-}))(Page);
+const ResolvedPage = resolve<OwnProps, ResolvedProps>({
+  searchResults: async ({ searchQuery }) => {
+    return makeResult(notablePeople.search(searchQuery));
+  },
+})(Page as any);
 
-export const SearchResults = withRouter(_ => {
-  // const query = new URLSearchParams(location.search).get('query');
-
-  return <ConnectedPage />;
-});
+export const SearchResults = connect((state: StoreState) => ({
+  searchQuery: getSearchQuery(state),
+}))(ResolvedPage);

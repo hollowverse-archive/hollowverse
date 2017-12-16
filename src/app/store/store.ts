@@ -13,16 +13,10 @@ import {
 } from 'redux';
 import { combineEpics, createEpicMiddleware } from 'redux-observable';
 import { StoreState, ReducerMap } from './types';
-import { searchResultsReducer } from 'store/features/search/reducer';
 import { statusCodeReducer } from 'store/features/status/reducer';
 import { searchEpic } from 'store/features/search/epic';
 
 const defaultInitialState: StoreState = {
-  searchResults: {
-    hasError: false,
-    isInProgress: false,
-    value: null,
-  },
   routing: {
     location: null,
   },
@@ -30,7 +24,6 @@ const defaultInitialState: StoreState = {
 };
 
 const appReducers: ReducerMap = {
-  searchResults: searchResultsReducer,
   statusCode: statusCodeReducer,
 };
 

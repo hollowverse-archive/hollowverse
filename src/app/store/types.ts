@@ -1,52 +1,20 @@
-import { AlgoliaResponse } from 'algoliasearch';
-import { RouterState } from 'react-router-redux';
+import {
+  RouterState,
+  LocationChangeAction,
+  RouterAction,
+} from 'react-router-redux';
 
 /** A map of all app actions to their corresponding payloads */
 export type TypeToPayload = {
   REQUEST_SEARCH_RESULTS: {
     query: string;
   };
-  SET_SEARCH_RESULTS: {
-    results: AlgoliaResponse | null;
-  };
-  SET_VALUE_FOR_STORE_KEY: {
-    key: StoreKey;
-    value: any;
-  };
-  SET_SEARCH_ERROR: {
-    error: Error;
-  };
   SET_STATUS_CODE: number;
+  '@@router/LOCATION_CHANGE': LocationChangeAction['payload'];
+  '@@router/CALL_HISTORY_METHOD': RouterAction['payload'];
 };
-
-type ErrorResult = {
-  isInProgress: false;
-  hasError: true;
-  value: null;
-};
-
-type OptimisticResult<T = null> = {
-  isInProgress: true;
-  hasError: false;
-  value: T;
-};
-
-type PendingResult = OptimisticResult<null>;
-
-type SuccessResult<T> = {
-  isInProgress: false;
-  hasError: false;
-  value: T;
-};
-
-type AsyncResult<T> =
-  | ErrorResult
-  | PendingResult
-  | OptimisticResult<T>
-  | SuccessResult<T>;
 
 export type AppState = {
-  searchResults: AsyncResult<AlgoliaResponse | null>;
   statusCode: number;
 };
 
@@ -60,7 +28,7 @@ export type StoreKey = keyof AppState;
 
 /**
  * This type covers all possible action types that may be dispatched
- * throught the app.
+ * throughout the app.
  */
 export type ActionType = keyof TypeToPayload;
 
