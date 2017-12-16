@@ -1,4 +1,4 @@
-import { push, LOCATION_CHANGE } from 'react-router-redux';
+import { push, LOCATION_CHANGE, replace } from 'react-router-redux';
 
 import { Action, StoreState } from 'store/types';
 
@@ -29,12 +29,16 @@ export const searchEpic: Epic<Action, StoreState> = (action$, store) => {
       const { query } = (action as Action<'REQUEST_SEARCH_RESULTS'>).payload;
       const searchParams = new URLSearchParams();
       searchParams.append('query', query);
+      const descriptor = {
+        pathname: '/search',
+        search: searchParams.toString(),
+      };
+      const location = store.getState().routing.location;
 
       return Observable.of(
-        push({
-          pathname: '/search',
-          search: searchParams.toString(),
-        }),
+        location && location.pathname === descriptor.pathname
+          ? replace(descriptor)
+          : push(descriptor),
       );
     })
     .merge(
