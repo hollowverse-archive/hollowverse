@@ -7,8 +7,9 @@ import {
   Reducer as GenericReducer,
 } from 'redux';
 import { combineEpics, createEpicMiddleware } from 'redux-observable';
-import { StoreState } from './types';
+import { StoreState, ReducerMap } from './types';
 import { searchResultsReducer } from 'store/features/search/reducer';
+import { statusCodeReducer } from 'store/features/status/reducer';
 import { searchEpic } from 'store/features/search/epic';
 
 const defaultInitialState: StoreState = {
@@ -23,8 +24,9 @@ const defaultInitialState: StoreState = {
   statusCode: 200,
 };
 
-const appReducers = {
+const appReducers: ReducerMap = {
   searchResults: searchResultsReducer,
+  statusCode: statusCodeReducer,
 };
 
 /**

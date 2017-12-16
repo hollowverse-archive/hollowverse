@@ -1,7 +1,7 @@
 import { handleActions, isActionOfType } from 'store/helpers';
 import { StoreState } from 'store/types';
 
-export const searchResultsReducer = handleActions<'statusCode'>(
+export const statusCodeReducer = handleActions<'statusCode'>(
   {
     SET_STATUS_CODE: (state, action) => {
       if (isActionOfType(action, 'SET_STATUS_CODE')) {
