@@ -84,7 +84,7 @@ export const NavBar = withRouter(
                       name="query"
                       value={searchQuery || undefined}
                       placeholder="Search for notable people..."
-                      autoFocus={isSearchPage}
+                      autoFocus={!searchQuery && isSearchPage}
                       onChange={this.handleSearchInput}
                     />
                     <button className={classes.button} type="submit">
