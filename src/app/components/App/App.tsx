@@ -2,7 +2,7 @@ import * as React from 'react';
 import cc from 'classcat';
 import { Provider } from 'react-redux';
 import { createStoreWithInitialState } from 'store/store';
-import { NavBar } from 'components/NavBar/NavBar';
+import { ConnectedNavBar } from 'components/NavBar/ConnectedNavBar';
 import { Route, Switch } from 'react-router';
 
 import './App.global.scss';
@@ -17,7 +17,7 @@ export class App extends React.PureComponent {
     return (
       <Provider store={createStoreWithInitialState()}>
         <div className={cc([classes.root, { 'no-js': __IS_SERVER__ }])}>
-          <NavBar title="Hollowverse" />
+          <ConnectedNavBar title="Hollowverse" />
           <div className={classes.view}>
             <Switch>
               <Route path="/search" component={LoadableSearchResults} />

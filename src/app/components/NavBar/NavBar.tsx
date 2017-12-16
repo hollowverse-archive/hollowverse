@@ -14,6 +14,7 @@ import closeIcon from 'icons/back.svg';
 
 type Props = {
   title: string;
+  requestSearchResults({ query }: { query: string }): any;
 } & RouteComponentProps<any>;
 
 type State = {
@@ -36,6 +37,10 @@ export const NavBar = withRouter(
 
     setSearchInput = (node: HTMLInputElement | null) => {
       this.searchInput = node;
+    };
+
+    handleSearchInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+      this.props.requestSearchResults({ query: e.target.value });
     };
 
     toggleSearch = (e: React.MouseEvent<HTMLElement>) => {
@@ -64,7 +69,9 @@ export const NavBar = withRouter(
                 {shouldShowSearch ? (
                   <form
                     className={classes.search}
-                    onBlurCapture={this.dismissSearch}
+                    onBlurCapture={
+                      !isSearchPage ? this.dismissSearch : undefined
+                    }
                     action="/search"
                     method="GET"
                   >
@@ -76,6 +83,7 @@ export const NavBar = withRouter(
                       name="query"
                       placeholder="Search for notable people..."
                       autoFocus={isSearchPage}
+                      onChange={this.handleSearchInput}
                     />
                     <button className={classes.button} type="submit">
                       <SvgIcon size={20} {...searchIcon} />
