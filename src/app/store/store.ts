@@ -1,24 +1,10 @@
-import {
-  routerReducer,
-  routerMiddleware,
-  RouterState,
-} from 'react-router-redux';
+import { routerMiddleware } from 'react-router-redux';
 import { History } from 'history';
-import {
-  createStore,
-  applyMiddleware,
-  combineReducers,
-  compose,
-  Reducer as GenericReducer,
-} from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 import { combineEpics, createEpicMiddleware } from 'redux-observable';
-import { StoreState, ReducerMap } from './types';
-import { statusCodeReducer } from 'store/features/status/reducer';
-import {
-  searchResultsReducer,
-  lastSearchMatchReducer,
-} from 'store/features/search/reducer';
-import { searchEpic } from 'store/features/search/epic';
+import { StoreState } from './types';
+import { searchEpic } from './features/search/epic';
+import { reducer } from './reducer';
 
 const defaultInitialState: StoreState = {
   searchResults: {
@@ -32,22 +18,6 @@ const defaultInitialState: StoreState = {
   statusCode: 200,
   lastSearchMatch: null,
 };
-
-const appReducers: ReducerMap = {
-  statusCode: statusCodeReducer,
-  searchResults: searchResultsReducer,
-  lastSearchMatch: lastSearchMatchReducer,
-};
-
-/**
- * This is the root reducer of the app.
- * It includes Hollowverse `appReducer` as well as other reducers
- * that may be required by external modules.
- */
-export const reducer = combineReducers<StoreState>({
-  ...appReducers,
-  routing: routerReducer as GenericReducer<RouterState>,
-});
 
 const rootEpic = combineEpics(searchEpic);
 
@@ -63,15 +33,30 @@ const composeEnhancers =
     ? global.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
     : compose;
 
+declare const module: {
+  hot?: { accept(path?: string, cb?: () => void): void };
+};
+
 export function createStoreWithInitialState(
   history: History,
   initialState: StoreState = defaultInitialState,
 ) {
-  return createStore<StoreState>(
+  const store = createStore<StoreState>(
     reducer,
     initialState,
     composeEnhancers(
       applyMiddleware(epicMiddleware, routerMiddleware(history)),
     ),
   );
+
+  if (module.hot) {
+    // Enable Webpack hot module replacement for reducers
+    module.hot.accept('store/reducer', () => {
+      // tslint:disable-next-line no-require-imports
+      const nextRootReducer = require('store/reducer').reducer;
+      store.replaceReducer(nextRootReducer);
+    });
+  }
+
+  return store;
 }
