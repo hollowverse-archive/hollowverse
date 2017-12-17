@@ -57,11 +57,14 @@
 
     .button {
       transition: opacity 0.1s ease-in-out;
-      &:hover {
+      &:disabled {
+        visibility: hidden;
+      }
+      &:not(:disabled):hover {
         opacity: 0.7;
+        cursor: pointer;
       }
       background: transparent;
-      cursor: pointer;
     }
 
     .button.back {

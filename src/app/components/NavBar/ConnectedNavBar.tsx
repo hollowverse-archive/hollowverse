@@ -5,7 +5,10 @@ import { StoreState } from 'store/types';
 import { getSearchQuery } from 'store/features/search/selectors';
 
 export const ConnectedNavBar = connect(
-  (state: StoreState) => ({ searchQuery: getSearchQuery(state) }),
+  (state: StoreState) => ({
+    searchQuery: getSearchQuery(state),
+    lastSearchMatch: state.lastSearchMatch,
+  }),
   {
     requestSearchResults,
   },

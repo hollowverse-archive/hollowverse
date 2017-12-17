@@ -10,11 +10,11 @@ import { SvgIcon } from 'components/SvgIcon/SvgIcon';
 
 import searchIcon from 'icons/search.svg';
 import backIcon from 'icons/back.svg';
-import closeIcon from 'icons/back.svg';
 
 type Props = {
   title: string;
   searchQuery: string | null;
+  lastSearchMatch: string | null;
   requestSearchResults({ query }: { query: string }): any;
 } & RouteComponentProps<any>;
 
@@ -59,7 +59,7 @@ export const NavBar = withRouter(
     };
 
     render() {
-      const { title, location, searchQuery } = this.props;
+      const { title, location, searchQuery, lastSearchMatch } = this.props;
       const { wasDismissed, isUserInitiated } = this.state;
       const isSearchPage = location.pathname === '/search';
 
@@ -87,7 +87,7 @@ export const NavBar = withRouter(
                       className={classes.searchInput}
                       required
                       name="query"
-                      value={searchQuery || undefined}
+                      value={searchQuery || lastSearchMatch || undefined}
                       placeholder="Search for notable people..."
                       autoFocus={!searchQuery && isSearchPage}
                       onChange={this.handleSearchInput}
@@ -102,24 +102,14 @@ export const NavBar = withRouter(
                     {title}
                   </a>
                 )}
-                {isSearchPage || !shouldShowSearch ? (
-                  <a
-                    href=".."
-                    onClick={this.goBack}
-                    className={cc([classes.button, classes.back])}
-                  >
-                    <SvgIcon size={20} {...backIcon} />
-                    <span className="sr-only">Go Back</span>
-                  </a>
-                ) : (
-                  <button
-                    onClick={this.dismissSearch}
-                    className={cc([classes.button, classes.back])}
-                  >
-                    <SvgIcon size={20} {...closeIcon} />
-                    <span className="sr-only">Close Search</span>
-                  </button>
-                )}
+                <button
+                  disabled={__IS_SERVER__ || location.pathname === '/'}
+                  onClick={this.goBack}
+                  className={cc([classes.button, classes.back])}
+                >
+                  <SvgIcon size={20} {...backIcon} />
+                  <span className="sr-only">Go Back</span>
+                </button>
                 {!shouldShowSearch ? (
                   <a
                     href="/search"

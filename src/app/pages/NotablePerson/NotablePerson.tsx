@@ -8,11 +8,11 @@ import { FbComments } from 'components/FbComments/FbComments';
 import { MessageWithIcon } from 'components/MessageWithIcon/MessageWithIcon';
 import { SvgIcon } from 'components/SvgIcon/SvgIcon';
 import { OptionalIntersectionObserver } from 'components/OptionalIntersectionObserver/OptionalIntersectionObserver';
-import { withRouter } from 'react-router';
+import { withRouter, RouteComponentProps } from 'react-router';
 import { resolve } from 'react-resolver';
 import {
   AsyncResult,
-  makeResult,
+  promiseToAsyncResult,
   isErrorResult,
   isPendingResult,
 } from 'helpers/asyncResults';
@@ -23,6 +23,8 @@ import * as classes from './NotablePerson.module.scss';
 import { Card } from 'components/Card/Card';
 import { EditorialSummary } from 'components/EditorialSummary/EditorialSummary';
 import { Status } from 'components/Status/Status';
+import { connect } from 'react-redux';
+import { setLastSearchMatch } from 'store/features/search/actions';
 
 const warningIconComponent = <SvgIcon {...warningIcon} size={100} />;
 
@@ -51,13 +53,15 @@ const query = gql`
   }
 `;
 
-type OwnProps = {};
-type ResolvedProps = {
+type OwnProps = {
+  setLastSearchMatch(term: string): any;
+} & RouteComponentProps<{ slug: string }>;
+
+type ResolvableProps = {
   queryResult: AsyncResult<NotablePersonQuery>;
 };
 
-class Page extends React.PureComponent<OwnProps & ResolvedProps> {
-  // tslint:disable-next-line:max-func-body-length
+class Page extends React.PureComponent<OwnProps & ResolvableProps> {
   render() {
     const { queryResult } = this.props;
     if (isErrorResult(queryResult)) {
@@ -83,11 +87,7 @@ class Page extends React.PureComponent<OwnProps & ResolvedProps> {
     if (!value.notablePerson) {
       return (
         <Status code={404}>
-          <MessageWithIcon
-            caption="Not Found"
-            description="We do not have a page for this notable person"
-            icon={warningIconComponent}
-          />
+          <MessageWithIcon caption="Not Found" icon={warningIconComponent} />
         </Status>
       );
     } else {
@@ -129,10 +129,20 @@ class Page extends React.PureComponent<OwnProps & ResolvedProps> {
   }
 }
 
-const ResolvedPage = resolve('queryResult', async ({ slug }) => {
-  return makeResult(client.request<NotablePersonQuery>(query, { slug }));
-})(Page);
+const ResolvedPage = resolve<OwnProps, ResolvableProps>({
+  queryResult: async ({ match: { params: { slug } }, ...props }) => {
+    const promise = client.request<NotablePersonQuery>(query, { slug });
+    const { notablePerson } = await promise;
+    if (notablePerson) {
+      props.setLastSearchMatch(notablePerson.name);
+    }
 
-export const NotablePerson = withRouter(({ match: { params: { slug } } }) => (
-  <ResolvedPage slug={slug} />
-));
+    return promiseToAsyncResult(promise);
+  },
+})(Page as any);
+
+const ConnectedResolvedPage = connect(undefined, { setLastSearchMatch })(
+  ResolvedPage,
+);
+
+export const NotablePerson = withRouter(ConnectedResolvedPage);

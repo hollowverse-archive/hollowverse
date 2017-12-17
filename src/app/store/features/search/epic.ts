@@ -17,10 +17,9 @@ import 'rxjs/add/observable/fromPromise';
 import { notablePeople } from 'vendor/algolia';
 
 import { getSearchQuery } from 'store/features/search/selectors';
-import {
-  setSearchResults,
-  setSearchError,
-} from 'store/features/search/actions';
+import { setSearchResults } from 'store/features/search/actions';
+
+import { promiseToAsyncResult } from 'helpers/asyncResults';
 
 export const searchEpic: Epic<Action, StoreState> = (action$, store) => {
   return action$
@@ -37,7 +36,11 @@ export const searchEpic: Epic<Action, StoreState> = (action$, store) => {
 
       return Observable.of(
         location && location.pathname === descriptor.pathname
-          ? replace(descriptor)
+          ? // This is to avoid things like
+            // /search?query=t, /search?query=te, /search?query=tes, /search?query=test
+            // filling the browser history stack instead of the actual
+            // previous page
+            replace(descriptor)
           : push(descriptor),
       );
     })
@@ -53,9 +56,10 @@ export const searchEpic: Epic<Action, StoreState> = (action$, store) => {
           return Observable.of(getSearchQuery(store.getState()))
             .filter(Boolean)
             .mergeMap(query =>
-              Observable.fromPromise(notablePeople.search(query as string))
-                .map(results => setSearchResults({ results }))
-                .catch(error => Observable.of(setSearchError({ error })))
+              Observable.fromPromise(
+                promiseToAsyncResult(notablePeople.search(query as string)),
+              )
+                .map(setSearchResults)
                 // Ignore pending search requests when a new request is dispatched
                 .takeUntil(
                   action$.ofType('REQUEST_SEARCH_RESULTS', LOCATION_CHANGE),

@@ -39,7 +39,7 @@ export function createActionCreator<T extends ActionType>(
  * It requires that the map keys are store keys and that the return
  * type of the reducer matches the state of that store key.
  */
-export function handleActions<Key extends StoreKey>(
+export function createReducerForStoreKey<Key extends StoreKey>(
   map: Partial<ActionToReducerMap<Key>>,
   defaultState: AppState[Key],
 ): Reducer<AppState[Key]> {
@@ -84,17 +84,20 @@ export function isActionOfType<T extends ActionType>(
   return type === action.type;
 }
 
-/** Creates a reducer that handles a single action for an individual state entry.  */
+/**
+ * Creates a reducer that handles a single action for an individual state entry.
+ * It sets the action payload as the value of that state entry.
+ */
 export function handleAction<
   K extends keyof S = keyof S,
   S = AppState,
   A extends ActionType = ActionType
->(actionType: A, defaultState: S[K]) {
+>(actionType: A) {
   return (state: S[K], action: GenericAction) => {
     if (isActionOfType(action, actionType) && action.payload !== undefined) {
       return action.payload;
     }
 
-    return state || defaultState;
+    return state;
   };
 }

@@ -1,15 +1,9 @@
-import { handleActions, isActionOfType } from 'store/helpers';
+import { createReducerForStoreKey, handleAction } from 'store/helpers';
 import { StoreState } from 'store/types';
 
-export const statusCodeReducer = handleActions<'statusCode'>(
+export const statusCodeReducer = createReducerForStoreKey<'statusCode'>(
   {
-    SET_STATUS_CODE: (state, action) => {
-      if (isActionOfType(action, 'SET_STATUS_CODE')) {
-        return action.payload;
-      }
-
-      return state;
-    },
+    SET_STATUS_CODE: handleAction('SET_STATUS_CODE'),
   },
   200,
 );

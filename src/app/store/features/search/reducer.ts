@@ -1,44 +1,22 @@
-import { handleActions, isActionOfType } from 'store/helpers';
+import { createReducerForStoreKey, handleAction } from 'store/helpers';
 
-export const searchResultsReducer = handleActions<'searchResults'>(
+export const searchResultsReducer = createReducerForStoreKey<'searchResults'>(
   {
-    SET_SEARCH_RESULTS: (state, action) => {
-      if (isActionOfType(action, 'SET_SEARCH_RESULTS')) {
-        return {
-          isInProgress: false,
-          hasError: false,
-          value: action.payload.results,
-        };
-      }
-
-      return state;
-    },
-    SET_SEARCH_ERROR: (state, action) => {
-      if (isActionOfType(action, 'SET_SEARCH_ERROR')) {
-        return {
-          isInProgress: false,
-          hasError: true,
-          value: null,
-        };
-      }
-
-      return state;
-    },
-    REQUEST_SEARCH_RESULTS: (state, action) => {
-      if (isActionOfType(action, 'REQUEST_SEARCH_RESULTS')) {
-        return {
-          ...state, // Keep previous results while fetching new results
-          isInProgress: true,
-          hasError: false,
-        };
-      }
-
-      return state;
-    },
+    SET_SEARCH_RESULTS: handleAction('SET_SEARCH_RESULTS'),
+    REQUEST_SEARCH_RESULTS: handleAction('REQUEST_SEARCH_RESULTS'),
   },
   {
     hasError: false,
     isInProgress: false,
     value: null,
   },
+);
+
+export const lastSearchMatchReducer = createReducerForStoreKey<
+  'lastSearchMatch'
+>(
+  {
+    SET_LAST_SEARCH_MATCH: handleAction('SET_LAST_SEARCH_MATCH'),
+  },
+  null,
 );

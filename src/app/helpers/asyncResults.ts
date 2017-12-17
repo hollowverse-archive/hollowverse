@@ -40,7 +40,7 @@ export function isPendingResult<T>(
   return result.hasError === false && result.isInProgress === true;
 }
 
-export async function makeResult<T>(
+export async function promiseToAsyncResult<T>(
   promise: Promise<T>,
 ): Promise<AsyncResult<T>> {
   try {

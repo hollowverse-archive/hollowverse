@@ -11,16 +11,8 @@ export type TypeToPayload = {
   REQUEST_SEARCH_RESULTS: {
     query: string;
   };
-  SET_SEARCH_RESULTS: {
-    results: AlgoliaResponse | null;
-  };
-  SET_VALUE_FOR_STORE_KEY: {
-    key: StoreKey;
-    value: any;
-  };
-  SET_SEARCH_ERROR: {
-    error: Error;
-  };
+  SET_SEARCH_RESULTS: AsyncResult<AlgoliaResponse | null>;
+  SET_LAST_SEARCH_MATCH: string;
   SET_STATUS_CODE: number;
   '@@router/LOCATION_CHANGE': LocationChangeAction['payload'];
   '@@router/CALL_HISTORY_METHOD': RouterAction['payload'];
@@ -29,6 +21,7 @@ export type TypeToPayload = {
 export type AppState = {
   statusCode: number;
   searchResults: AsyncResult<AlgoliaResponse | null>;
+  lastSearchMatch: string | null;
 };
 
 /**

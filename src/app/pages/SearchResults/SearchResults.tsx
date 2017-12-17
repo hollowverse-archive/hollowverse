@@ -5,7 +5,7 @@ import * as classes from './SearchResults.module.scss';
 
 import FlipMove from 'react-flip-move';
 import { Card } from 'components/Card/Card';
-import { AsyncResult, makeResult } from 'helpers/asyncResults';
+import { AsyncResult, promiseToAsyncResult } from 'helpers/asyncResults';
 import { resolve } from 'react-resolver';
 import { AlgoliaResponse } from 'algoliasearch';
 import { connect } from 'react-redux';
@@ -54,13 +54,13 @@ class Page extends React.PureComponent<OwnProps & ResolvedProps> {
 const ResolvedPage = resolve<OwnProps, ResolvedProps>({
   searchResults: async ({ searchQuery, searchResults }) => {
     if (__IS_SERVER__ && searchQuery) {
-      return makeResult(notablePeople.search(searchQuery));
+      return promiseToAsyncResult(notablePeople.search(searchQuery));
     }
 
     // The client will use Redux to resolve this property
     return searchResults;
   },
-})(Page as any);
+})(Page);
 
 export const SearchResults = connect((state: StoreState) => ({
   searchQuery: getSearchQuery(state),
