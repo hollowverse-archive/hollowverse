@@ -20,9 +20,17 @@ import { getSearchQuery } from 'store/features/search/selectors';
 import { setSearchResults } from 'store/features/search/actions';
 
 import { promiseToAsyncResult } from 'helpers/asyncResults';
+import { isActionOfType } from 'store/helpers';
+
+const isSearchPage = (action: Action) => {
+  return (
+    isActionOfType(action, LOCATION_CHANGE) &&
+    action.payload.pathname === '/search'
+  );
+};
 
 export const searchEpic: Epic<Action, StoreState> = (action$, store) => {
-  return action$
+  const updateLoactionOnSearchRequest$ = action$
     .ofType('REQUEST_SEARCH_RESULTS')
     .mergeMap(action => {
       const { query } = (action as Action<'REQUEST_SEARCH_RESULTS'>).payload;
@@ -43,31 +51,25 @@ export const searchEpic: Epic<Action, StoreState> = (action$, store) => {
             replace(descriptor)
           : push(descriptor),
       );
-    })
-    .merge(
-      action$
-        .ofType(LOCATION_CHANGE)
-        .skip(1) // Skip initial location change dispatched on first page load
-        .filter(
-          action =>
-            (action as Action<typeof LOCATION_CHANGE>).payload.pathname ===
-            '/search',
-        )
-        .mergeMap(_ => {
-          return Observable.of(
-            getSearchQuery(store.getState()),
-          ).mergeMap(query =>
-            Observable.fromPromise(
-              promiseToAsyncResult(
-                query ? notablePeople.search(query) : Promise.resolve(null),
-              ),
-            )
-              .map(setSearchResults)
-              // Ignore pending search requests when a new request is dispatched
-              .takeUntil(
-                action$.ofType('REQUEST_SEARCH_RESULTS', LOCATION_CHANGE),
-              ),
-          );
-        }),
-    );
+    });
+
+  const performSearchOnLocationChange$ = action$
+    .ofType(LOCATION_CHANGE)
+    .skip(1) // Skip initial location change dispatched on first page load
+    .filter(isSearchPage)
+    .mergeMap(_ => {
+      const searchQuery = getSearchQuery(store.getState());
+      const searchResults = promiseToAsyncResult(
+        searchQuery ? notablePeople.search(searchQuery) : Promise.resolve(null),
+      );
+
+      return (
+        Observable.fromPromise(searchResults)
+          .map(setSearchResults)
+          // Ignore pending search requests when a new request is dispatched
+          .takeUntil(action$.ofType('REQUEST_SEARCH_RESULTS', LOCATION_CHANGE))
+      );
+    });
+
+  return updateLoactionOnSearchRequest$.merge(performSearchOnLocationChange$);
 };
