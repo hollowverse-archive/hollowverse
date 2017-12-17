@@ -11,10 +11,10 @@ import { OptionalIntersectionObserver } from 'components/OptionalIntersectionObs
 import { withRouter, RouteComponentProps } from 'react-router';
 import { resolve } from 'react-resolver';
 import {
-  AsyncResult,
+  SuccessResult,
+  ErrorResult,
   promiseToAsyncResult,
   isErrorResult,
-  isPendingResult,
 } from 'helpers/asyncResults';
 
 import warningIcon from 'icons/warning.svg';
@@ -58,10 +58,12 @@ type OwnProps = {
 } & RouteComponentProps<{ slug: string }>;
 
 type ResolvableProps = {
-  queryResult: AsyncResult<NotablePersonQuery>;
+  queryResult: ErrorResult | SuccessResult<NotablePersonQuery>;
 };
 
-class Page extends React.PureComponent<OwnProps & ResolvableProps> {
+type Props = OwnProps & ResolvableProps;
+
+class Page extends React.PureComponent<Props> {
   render() {
     const { queryResult } = this.props;
     if (isErrorResult(queryResult)) {
@@ -76,11 +78,6 @@ class Page extends React.PureComponent<OwnProps & ResolvableProps> {
           />
         </Status>
       );
-    }
-
-    if (isPendingResult(queryResult)) {
-      // @TODO
-      return <div>Loading...</div>;
     }
 
     const { value } = queryResult;

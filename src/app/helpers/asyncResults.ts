@@ -1,4 +1,4 @@
-type ErrorResult = {
+export type ErrorResult = {
   isInProgress: false;
   hasError: true;
   value: null;
@@ -16,7 +16,7 @@ type PendingResult = {
   value: null;
 };
 
-type SuccessResult<T> = {
+export type SuccessResult<T> = {
   isInProgress: false;
   hasError: false;
   value: T;
@@ -48,7 +48,7 @@ export function isOptimisticResult<T>(
 
 export async function promiseToAsyncResult<T>(
   promise: Promise<T>,
-): Promise<AsyncResult<T>> {
+): Promise<ErrorResult | SuccessResult<T>> {
   try {
     const value = await promise;
 
