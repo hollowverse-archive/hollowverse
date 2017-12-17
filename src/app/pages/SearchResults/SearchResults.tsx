@@ -11,6 +11,7 @@ import { AlgoliaResponse } from 'algoliasearch';
 import { connect } from 'react-redux';
 import { getSearchQuery } from 'store/features/search/selectors';
 import { notablePeople } from 'vendor/algolia';
+import { Link } from 'react-router-dom';
 
 type ResolvedProps = {
   searchResults: AsyncResult<AlgoliaResponse | null>;
@@ -38,7 +39,7 @@ class Page extends React.PureComponent<OwnProps & ResolvedProps> {
                 {searchResults.value.hits.map(result => {
                   return (
                     <li key={result.objectID} className={classes.result}>
-                      {result.name}
+                      <Link to={`/${result.slug}`}>{result.name}</Link>
                     </li>
                   );
                 })}
