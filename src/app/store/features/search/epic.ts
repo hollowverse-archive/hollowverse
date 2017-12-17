@@ -10,6 +10,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/merge';
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/takeUntil';
+import 'rxjs/add/operator/skip';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/fromPromise';
 
@@ -46,24 +47,27 @@ export const searchEpic: Epic<Action, StoreState> = (action$, store) => {
     .merge(
       action$
         .ofType(LOCATION_CHANGE)
+        .skip(1) // Skip initial location change dispatched on first page load
         .filter(
           action =>
             (action as Action<typeof LOCATION_CHANGE>).payload.pathname ===
             '/search',
         )
         .mergeMap(_ => {
-          return Observable.of(getSearchQuery(store.getState()))
-            .filter(Boolean)
-            .mergeMap(query =>
-              Observable.fromPromise(
-                promiseToAsyncResult(notablePeople.search(query as string)),
-              )
-                .map(setSearchResults)
-                // Ignore pending search requests when a new request is dispatched
-                .takeUntil(
-                  action$.ofType('REQUEST_SEARCH_RESULTS', LOCATION_CHANGE),
-                ),
-            );
+          return Observable.of(
+            getSearchQuery(store.getState()),
+          ).mergeMap(query =>
+            Observable.fromPromise(
+              promiseToAsyncResult(
+                query ? notablePeople.search(query) : Promise.resolve(null),
+              ),
+            )
+              .map(setSearchResults)
+              // Ignore pending search requests when a new request is dispatched
+              .takeUntil(
+                action$.ofType('REQUEST_SEARCH_RESULTS', LOCATION_CHANGE),
+              ),
+          );
         }),
     );
 };
