@@ -81,6 +81,8 @@ if (isProd) {
   const serverConfig = require('./webpack/webpack.config.server');
   // tslint:enable no-require-imports no-var-requires no-implicit-dependencies
 
+  logger.info('Starting webpack compilation...');
+
   const compiler = webpack([clientConfig, serverConfig]);
 
   // @ts-ignore
