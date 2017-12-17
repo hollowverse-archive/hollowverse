@@ -88,9 +88,9 @@ export const NavBar = withRouter(
                       required
                       name="query"
                       value={
-                        searchQuery ||
-                        (!isUserInitiated && lastSearchMatch) ||
-                        undefined
+                        (isUserInitiated || isSearchPage
+                          ? searchQuery
+                          : lastSearchMatch) || undefined
                       }
                       placeholder="Search for notable people..."
                       autoFocus={!searchQuery && isSearchPage}
