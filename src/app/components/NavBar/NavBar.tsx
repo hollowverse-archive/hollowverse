@@ -89,7 +89,7 @@ export const NavBar = withRouter(
                       name="query"
                       value={
                         searchQuery ||
-                        (!isSearchPage && lastSearchMatch) ||
+                        (!isUserInitiated && lastSearchMatch) ||
                         undefined
                       }
                       placeholder="Search for notable people..."
