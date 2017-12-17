@@ -3,7 +3,7 @@ import { StoreState } from 'store/types';
 
 export const statusCodeReducer = createReducerForStoreKey<'statusCode'>(
   {
-    SET_STATUS_CODE: handleAction('SET_STATUS_CODE'),
+    SET_STATUS_CODE: handleAction<'statusCode'>('SET_STATUS_CODE'),
   },
   200,
 );

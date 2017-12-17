@@ -43,7 +43,7 @@ export function createReducerForStoreKey<Key extends StoreKey>(
   map: Partial<ActionToReducerMap<Key>>,
   defaultState: AppState[Key],
 ): Reducer<AppState[Key]> {
-  return (state: AppState[Key], action: GenericAction) => {
+  return (state: AppState[Key], action: Action) => {
     const reducer: Reducer<AppState[Key]> | undefined = map[action.type];
     if (reducer !== undefined) {
       return reducer(state, action);
@@ -89,12 +89,12 @@ export function isActionOfType<T extends ActionType>(
  * It sets the action payload as the value of that state entry.
  */
 export function handleAction<
-  K extends keyof S = keyof S,
-  S = AppState,
+  K extends keyof S,
+  S extends AppState = AppState,
   A extends ActionType = ActionType
 >(actionType: A) {
-  return (state: S[K], action: GenericAction) => {
-    if (isActionOfType(action, actionType) && action.payload !== undefined) {
+  return (state: S[K], action: Action<A>): S[K] => {
+    if (isActionOfType(action, actionType)) {
       return action.payload;
     }
 

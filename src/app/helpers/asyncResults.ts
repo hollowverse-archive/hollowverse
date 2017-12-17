@@ -40,6 +40,12 @@ export function isPendingResult<T>(
   return result.hasError === false && result.isInProgress === true;
 }
 
+export function isOptimisticResult<T>(
+  result: AsyncResult<T>,
+): result is OptimisticResult<T> {
+  return result.value !== null && result.isInProgress === true;
+}
+
 export async function promiseToAsyncResult<T>(
   promise: Promise<T>,
 ): Promise<AsyncResult<T>> {

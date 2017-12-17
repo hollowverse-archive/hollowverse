@@ -68,7 +68,7 @@ export type ActionCreator<T extends ActionType> = (
   payload: Payload<T>,
 ) => Action<T>;
 
-export type Reducer<S> = (state: S, action: GenericAction) => S;
+export type Reducer<S> = (state: S, action: Action<ActionType>) => S;
 
 export type ReducerMap<State extends object = AppState> = {
   [Key in keyof State]: Reducer<State[Key]> | any
