@@ -5,6 +5,7 @@ import { combineEpics, createEpicMiddleware } from 'redux-observable';
 import { StoreState } from './types';
 import { searchEpic } from './features/search/epic';
 import { reducer } from './reducer';
+import { analyticsEpic } from 'store/features/analytics/epic';
 
 const defaultInitialState: StoreState = {
   searchResults: {
@@ -19,7 +20,7 @@ const defaultInitialState: StoreState = {
   lastSearchMatch: null,
 };
 
-const rootEpic = combineEpics(searchEpic);
+const rootEpic = combineEpics(searchEpic, analyticsEpic);
 
 const epicMiddleware = createEpicMiddleware(rootEpic);
 
