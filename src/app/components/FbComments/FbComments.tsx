@@ -39,18 +39,19 @@ export class FbComments extends React.PureComponent<Props> {
       'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.11',
     );
 
-    await Promise.all([
-      new Promise((resolve, reject) => {
-        if (FB && this.commentsParentNode) {
-          FB.XFBML.parse(this.commentsParentNode, async () => {
-            resolve();
-          });
-        } else {
-          reject();
-        }
-      }),
-      this.observeCommentsRendered(),
-    ]);
+    const observingComplete = this.observeCommentsRendered();
+
+    await new Promise((resolve, reject) => {
+      if (FB && this.commentsParentNode) {
+        FB.XFBML.parse(this.commentsParentNode, async () => {
+          resolve();
+        });
+      } else {
+        reject();
+      }
+    });
+
+    await observingComplete;
   };
 
   observeCommentsRendered = async () => {
