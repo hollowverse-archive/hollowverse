@@ -18,10 +18,9 @@ export const PersonDetails = ({
 }: PersonDetailsProps) => (
   <div className={classes.root}>
     {photoUrl ? (
-      <img
-        src={photoUrl}
-        alt={undefined}
-        role="presentation"
+      <div
+        style={{ backgroundImage: `url(${photoUrl})` }}
+        aria-hidden
         className={classes.coverPhoto}
       />
     ) : null}
