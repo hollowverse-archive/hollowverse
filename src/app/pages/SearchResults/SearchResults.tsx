@@ -85,7 +85,8 @@ export const SearchResults = connect(
       const value = searchQuery
         ? notablePeople.search(searchQuery)
         : Promise.resolve(null);
-      setSearchResults(await promiseToAsyncResult(value));
+
+      props.setSearchResults(await promiseToAsyncResult(value));
 
       return value;
     };
