@@ -50,7 +50,7 @@ export class EditorialSummary extends React.PureComponent<Props> {
           }
 
           if (type === 'break') {
-            return <div className={classes.break} />;
+            return <div className={classes.br} />;
           } else if (type === 'heading') {
             return <h2>{text}</h2>;
           } else if (type === 'quote') {

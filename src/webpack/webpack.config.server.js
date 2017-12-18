@@ -63,15 +63,16 @@ const serverSpecificConfig = {
   }),
   module: {
     rules: compact([
-      // JavaScript and TypeScript
-      ...createScriptRules(true),
-
       // CSS Modules
       {
         test: cssModulesPattern,
         exclude: excludedPatterns,
         use: createCssModulesLoaders(true),
+        enforce: 'pre',
       },
+
+      // JavaScript and TypeScript
+      ...createScriptRules(true),
 
       // Global CSS
       {

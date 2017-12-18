@@ -72,9 +72,6 @@ const clientSpecificConfig = {
 
   module: {
     rules: compact([
-      // JavaScript and TypeScript
-      ...createScriptRules(false),
-
       // CSS Modules
       {
         test: cssModulesPattern,
@@ -82,7 +79,11 @@ const clientSpecificConfig = {
         use: extractLocalCss.extract({
           use: createCssModulesLoaders(false),
         }),
+        enforce: 'pre',
       },
+
+      // JavaScript and TypeScript
+      ...createScriptRules(false),
 
       // Global CSS
       {
