@@ -43,9 +43,7 @@ export class FbComments extends React.PureComponent<Props> {
 
     await new Promise((resolve, reject) => {
       if (FB && this.commentsParentNode) {
-        FB.XFBML.parse(this.commentsParentNode, async () => {
-          resolve();
-        });
+        FB.XFBML.parse(this.commentsParentNode, resolve);
       } else {
         reject();
       }
