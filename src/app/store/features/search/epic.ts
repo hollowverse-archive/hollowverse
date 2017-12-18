@@ -14,8 +14,6 @@ import 'rxjs/add/operator/skip';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/fromPromise';
 
-import { notablePeople } from 'vendor/algolia';
-
 import { getSearchQuery } from 'store/features/search/selectors';
 import { setSearchResults } from 'store/features/search/actions';
 
@@ -57,19 +55,25 @@ export const searchEpic: Epic<Action, StoreState> = (action$, store) => {
     .ofType(LOCATION_CHANGE)
     .skip(1) // Skip initial location change dispatched on first page load
     .filter(isSearchPage)
-    .mergeMap(_ => {
-      const searchQuery = getSearchQuery(store.getState());
-      const searchResults = promiseToAsyncResult(
-        searchQuery ? notablePeople.search(searchQuery) : Promise.resolve(null),
-      );
+    .mergeMap(_ =>
+      Observable.fromPromise(import('vendor/algolia')).mergeMap(module => {
+        const searchQuery = getSearchQuery(store.getState());
+        const searchResults = promiseToAsyncResult(
+          searchQuery
+            ? module.notablePeople.search(searchQuery)
+            : Promise.resolve(null),
+        );
 
-      return (
-        Observable.fromPromise(searchResults)
-          .map(setSearchResults)
-          // Ignore pending search requests when a new request is dispatched
-          .takeUntil(action$.ofType('REQUEST_SEARCH_RESULTS', LOCATION_CHANGE))
-      );
-    });
+        return (
+          Observable.fromPromise(searchResults)
+            .map(setSearchResults)
+            // Ignore pending search requests when a new request is dispatched
+            .takeUntil(
+              action$.ofType('REQUEST_SEARCH_RESULTS', LOCATION_CHANGE),
+            )
+        );
+      }),
+    );
 
   return updateLoactionOnSearchRequest$.merge(performSearchOnLocationChange$);
 };
