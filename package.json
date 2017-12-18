@@ -23,7 +23,7 @@
     "server/build": "tsc --project ./src",
     "build": "npm-run-all -s clean -p app/build server/build",
     "start": "NODE_ENV=production run-p server/main-server/start",
-    "dev": "NODE_ENV=development API_ENDPOINT=${API_ENDPOINT:-http://localhost:8080/graphql} run-p -l app/graphql/dev server/app-server/dev",
+    "dev": "NODE_ENV=development API_ENDPOINT=${API_ENDPOINT:-http://localhost:8080/graphql} npm-run-all -l -s clean -p app/graphql/dev server/app-server/dev",
     "clean": "del-cli './src/app/**/*.module.scss.d.ts' './dist' && mkdir -p ./dist",
     "validate-filenames": "validate-filenames -c commonconfig.js",
     "lint-staged": "lint-staged"
