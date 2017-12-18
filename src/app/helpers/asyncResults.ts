@@ -10,7 +10,7 @@ type OptimisticResult<T> = {
   value: T;
 };
 
-type PendingResult = {
+export type PendingResult = {
   isInProgress: true;
   hasError: false;
   value: null;
@@ -28,6 +28,17 @@ export type AsyncResult<T> =
   | OptimisticResult<T>
   | SuccessResult<T>;
 
+export const pendingResult: PendingResult = {
+  isInProgress: true,
+  hasError: false,
+  value: null,
+};
+export const errorResult: ErrorResult = {
+  isInProgress: false,
+  hasError: true,
+  value: null,
+};
+
 export function isErrorResult<T>(
   result: AsyncResult<T>,
 ): result is ErrorResult {
@@ -43,7 +54,17 @@ export function isPendingResult<T>(
 export function isOptimisticResult<T>(
   result: AsyncResult<T>,
 ): result is OptimisticResult<T> {
-  return result.value !== null && result.isInProgress === true;
+  return (
+    result.value !== null &&
+    result.hasError === false &&
+    result.isInProgress === true
+  );
+}
+
+export function isSuccessResult<T>(
+  result: AsyncResult<T>,
+): result is SuccessResult<T> {
+  return result.hasError === false && result.isInProgress === false;
 }
 
 export async function promiseToAsyncResult<T>(

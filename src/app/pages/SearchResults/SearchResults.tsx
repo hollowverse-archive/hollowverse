@@ -5,65 +5,97 @@ import * as classes from './SearchResults.module.scss';
 
 import FlipMove from 'react-flip-move';
 import { Card } from 'components/Card/Card';
-import { AsyncResult, promiseToAsyncResult } from 'helpers/asyncResults';
-import { resolve } from 'react-resolver';
+import {
+  AsyncResult,
+  isPendingResult,
+  isSuccessResult,
+  isOptimisticResult,
+  promiseToAsyncResult,
+} from 'helpers/asyncResults';
 import { AlgoliaResponse } from 'algoliasearch';
 import { connect } from 'react-redux';
 import { getSearchQuery } from 'store/features/search/selectors';
 import { notablePeople } from 'vendor/algolia';
 import { Link } from 'react-router-dom';
+import { setSearchResults } from 'store/features/search/actions';
+import { ResolvableComponent } from 'hocs/ResolvableComponent/ResolvableComponent';
 
-type ResolvedProps = {
+type Props = {
+  searchQuery: string | null;
   searchResults: AsyncResult<AlgoliaResponse | null>;
+  setSearchResults(v: AsyncResult<AlgoliaResponse | null>): any;
 };
 
-type OwnProps = {
-  searchQuery: string;
-  searchResults: AsyncResult<AlgoliaResponse | null>;
-};
-
-class Page extends React.PureComponent<OwnProps & ResolvedProps> {
+class Page extends React.PureComponent<Props> {
   render() {
-    const { searchResults } = this.props;
+    const { searchResults, searchQuery } = this.props;
+    if (!searchQuery) {
+      return <div>Type something in the search box</div>;
+    }
 
-    return (
-      <div className={classes.root}>
-        {searchResults.value && searchResults.value.hits.length > 0 ? (
-          <Card className={classes.results}>
-            <ol>
-              <FlipMove
-                enterAnimation="fade"
-                leaveAnimation="fade"
-                duration={100}
-              >
-                {searchResults.value.hits.map(result => {
-                  return (
-                    <li key={result.objectID} className={classes.result}>
-                      <Link to={`/${result.slug}`}>{result.name}</Link>
-                    </li>
-                  );
-                })}
-              </FlipMove>
-            </ol>
-          </Card>
-        ) : null}
-      </div>
-    );
+    if (isSuccessResult(searchResults) || isOptimisticResult(searchResults)) {
+      const value = searchResults.value;
+
+      return (
+        <div className={classes.root}>
+          {value && value.hits.length > 0 ? (
+            <Card className={classes.results}>
+              <ol>
+                <FlipMove
+                  enterAnimation="fade"
+                  leaveAnimation="fade"
+                  duration={100}
+                >
+                  {value.hits.map(searchResult => {
+                    return (
+                      <li
+                        key={searchResult.objectID}
+                        className={classes.result}
+                      >
+                        <Link to={`/${searchResult.slug}`}>
+                          {searchResult.name}
+                        </Link>
+                      </li>
+                    );
+                  })}
+                </FlipMove>
+              </ol>
+            </Card>
+          ) : null}
+        </div>
+      );
+    } else if (isPendingResult(searchResults)) {
+      return <div>Loading...</div>;
+    }
+
+    return <div>Error</div>;
   }
 }
 
-const ResolvedPage = resolve<OwnProps, ResolvedProps>({
-  searchResults: async ({ searchQuery, searchResults }) => {
-    if (__IS_SERVER__ && searchQuery) {
-      return promiseToAsyncResult(notablePeople.search(searchQuery));
-    }
+export const SearchResults = connect(
+  (state: StoreState) => ({
+    searchQuery: getSearchQuery(state),
+    searchResults: state.searchResults,
+  }),
+  { setSearchResults },
+)(props => {
+  if (__IS_SERVER__) {
+    const loadAndDispatch = async (): Promise<AlgoliaResponse | null> => {
+      const { searchQuery } = props;
+      const value = searchQuery
+        ? notablePeople.search(searchQuery)
+        : Promise.resolve(null);
+      setSearchResults(await promiseToAsyncResult(value));
 
-    // The client will use Redux to resolve this property
-    return searchResults;
-  },
-})(Page);
+      return value;
+    };
 
-export const SearchResults = connect((state: StoreState) => ({
-  searchQuery: getSearchQuery(state),
-  searchResults: state.searchResults,
-}))(ResolvedPage);
+    return (
+      <ResolvableComponent load={loadAndDispatch}>
+        {({ result }) => <Page {...props} searchResults={result} />}
+      </ResolvableComponent>
+    );
+  }
+
+  return <Page {...props} />;
+});
