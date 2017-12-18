@@ -24,16 +24,17 @@ declare namespace facebookSdk {
         callback: (response: AuthResponse) => any,
       ): void;
     };
+
+    XFBML: {
+      parse(node?: Node, callback?: () => void): void;
+    };
+
     getLoginStatus(
       callback: (response: AuthResponse) => any,
       cache?: boolean,
     ): void;
     login(callback: (response: AuthResponse) => void): void;
     logout(callback: (response: AuthResponse) => void): void;
-
-    XFBML: {
-      parse(node?: Node, callback?: () => void): void;
-    };
 
     init(params?: {
       appId?: string;
