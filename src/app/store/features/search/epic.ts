@@ -10,7 +10,6 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/merge';
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/takeUntil';
-import 'rxjs/add/operator/skip';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/fromPromise';
 
@@ -53,7 +52,6 @@ export const searchEpic: Epic<Action, StoreState> = (action$, store) => {
 
   const performSearchOnLocationChange$ = action$
     .ofType(LOCATION_CHANGE)
-    .skip(1) // Skip initial location change dispatched on first page load
     .filter(isSearchPage)
     .mergeMap(_ =>
       Observable.fromPromise(import('vendor/algolia')).mergeMap(module => {
