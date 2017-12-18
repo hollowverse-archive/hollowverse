@@ -39,15 +39,23 @@ export class FbComments extends React.PureComponent<Props> {
       'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.11',
     );
 
-    if (FB && this.commentsParentNode) {
-      FB.XFBML.parse(this.commentsParentNode);
-      await this.observeCommentsRendered();
-    }
+    await Promise.all([
+      new Promise((resolve, reject) => {
+        if (FB && this.commentsParentNode) {
+          FB.XFBML.parse(this.commentsParentNode, async () => {
+            resolve();
+          });
+        } else {
+          reject();
+        }
+      }),
+      this.observeCommentsRendered(),
+    ]);
   };
 
   observeCommentsRendered = async () => {
     return new Promise(resolve => {
-      if ('MutationObserver' in global) {
+      if (!('MutationObserver' in window)) {
         resolve();
       } else if (this.commentsNode) {
         this.commentsObserver = new MutationObserver(mutations => {
@@ -58,6 +66,9 @@ export class FbComments extends React.PureComponent<Props> {
                 .value === 'rendered'
             ) {
               resolve();
+              if (this.commentsObserver) {
+                this.commentsObserver.disconnect();
+              }
               break;
             }
           }
@@ -108,9 +119,11 @@ export class FbComments extends React.PureComponent<Props> {
                     icon={warningIconComponent}
                   />
                 </noscript>
-                <div ref={this.setCommentsParentNode}>
+                <div
+                  style={{ visibility: isLoading ? 'hidden' : 'visible' }}
+                  ref={this.setCommentsParentNode}
+                >
                   <div
-                    style={{ visibility: isLoading ? 'hidden' : 'visible' }}
                     className="fb-comments"
                     data-href={url}
                     data-width="100%"
