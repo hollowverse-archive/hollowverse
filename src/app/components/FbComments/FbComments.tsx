@@ -21,56 +21,25 @@ type Props = React.HTMLAttributes<HTMLDivElement> & {
   numPosts?: number;
 };
 
-const OBSERVED_FB_ATTR_NAME = 'fb-xfbml-state';
-
 /** Facebook Comments Plugin */
 export class FbComments extends React.PureComponent<Props> {
   target: HTMLDivElement | null;
-  commentsObserver: MutationObserver | null = null;
 
   setTarget = (node: HTMLDivElement | null) => (this.target = node);
 
   load = async () => {
     await importGlobalScript(
-      'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.10',
+      'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.11',
     );
-    await this.observeCommentsRendered();
-  };
 
-  observeCommentsRendered = async () => {
-    return new Promise(resolve => {
-      if (MutationObserver === undefined) {
+    await new Promise(resolve => {
+      if (FB && this.target) {
+        FB.XFBML.parse(this.target, resolve);
+      } else {
         resolve();
-      } else if (this.target) {
-        this.commentsObserver = new MutationObserver(mutations => {
-          mutations.forEach(mutation => {
-            if (
-              mutation.attributeName === OBSERVED_FB_ATTR_NAME &&
-              mutation.target.attributes.getNamedItem(OBSERVED_FB_ATTR_NAME)
-                .value === 'rendered'
-            ) {
-              resolve();
-              if (this.commentsObserver) {
-                this.commentsObserver.disconnect();
-              }
-            }
-          });
-        });
-
-        this.commentsObserver.observe(this.target, {
-          childList: false,
-          attributeOldValue: false,
-          attributeFilter: [OBSERVED_FB_ATTR_NAME],
-        });
       }
     });
   };
-
-  componentWillUnmount() {
-    if (this.commentsObserver !== null) {
-      this.commentsObserver.disconnect();
-    }
-  }
 
   render() {
     const { url, numPosts = 5, ...rest } = this.props;
@@ -100,14 +69,15 @@ export class FbComments extends React.PureComponent<Props> {
                     icon={warningIconComponent}
                   />
                 </noscript>
-                <div
-                  style={{ visibility: isLoading ? 'hidden' : 'visible' }}
-                  className="fb-comments"
-                  data-href={url}
-                  data-width="100%"
-                  data-numposts={numPosts}
-                  ref={this.setTarget}
-                />
+                <div ref={this.setTarget}>
+                  <div
+                    style={{ visibility: isLoading ? 'hidden' : 'visible' }}
+                    className="fb-comments"
+                    data-href={url}
+                    data-width="100%"
+                    data-numposts={numPosts}
+                  />
+                </div>
               </div>
             );
           }}

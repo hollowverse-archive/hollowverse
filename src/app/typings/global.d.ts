@@ -30,6 +30,11 @@ declare namespace facebookSdk {
     ): void;
     login(callback: (response: AuthResponse) => void): void;
     logout(callback: (response: AuthResponse) => void): void;
+
+    XFBML: {
+      parse(node?: Node, callback?: () => void): void;
+    };
+
     init(params?: {
       appId?: string;
       xfbml?: boolean;
