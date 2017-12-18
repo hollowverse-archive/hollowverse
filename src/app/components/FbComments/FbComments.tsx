@@ -1,4 +1,5 @@
 import * as React from 'react';
+import cc from 'classcat';
 import { importGlobalScript } from 'helpers/importGlobalScript';
 import { MessageWithIcon } from 'components/MessageWithIcon/MessageWithIcon';
 import { LoadingSpinner } from 'components/LoadingSpinner/LoadingSpinner';
@@ -43,9 +44,7 @@ export class FbComments extends React.PureComponent<Props> {
 
     await new Promise((resolve, reject) => {
       if (FB && this.commentsParentNode) {
-        FB.XFBML.parse(this.commentsParentNode, async () => {
-          resolve();
-        });
+        FB.XFBML.parse(this.commentsParentNode, resolve);
       } else {
         reject();
       }
@@ -110,6 +109,11 @@ export class FbComments extends React.PureComponent<Props> {
               );
             }
 
+            const style = {
+              visibility: isLoading ? 'hidden' : 'visible',
+              display: hasError || timedOut ? 'none' : undefined,
+            };
+
             return (
               <div>
                 {isLoading ? loadingComponent : null}
@@ -120,12 +124,12 @@ export class FbComments extends React.PureComponent<Props> {
                     icon={warningIconComponent}
                   />
                 </noscript>
-                <div
-                  style={{ visibility: isLoading ? 'hidden' : 'visible' }}
-                  ref={this.setCommentsParentNode}
-                >
+                <div style={style} ref={this.setCommentsParentNode}>
                   <div
-                    className="fb-comments"
+                    // Do not set the class for SSR markup to avoid FB SDK
+                    // parsing this before we get a chance to set up the
+                    // observer
+                    className={cc({ 'fb-comments': !__IS_SERVER__ })}
                     data-href={url}
                     data-width="100%"
                     data-numposts={numPosts}
