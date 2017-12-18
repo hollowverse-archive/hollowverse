@@ -1,6 +1,11 @@
 import * as React from 'react';
 
 import { delay } from 'helpers/delay';
+import {
+  PendingResult,
+  SuccessResult,
+  ErrorResult,
+} from 'helpers/asyncResults';
 
 type AsyncProps<T> = {
   /**
@@ -23,15 +28,18 @@ type AsyncProps<T> = {
 
   load(): Promise<T>;
 
-  children(state: State<T> & { retry(): void }): JSX.Element | null;
+  children(props: {
+    result: State<T | null>;
+    retry(): void;
+  }): JSX.Element | null;
 };
 
-type State<T> = {
-  isLoading: boolean;
-  hasError: boolean;
-  timedOut: boolean;
-  result: T | null;
-  pastDelay: boolean;
+type State<T> = (
+  | ({
+      hasTimedOut: false;
+    } & (PendingResult | SuccessResult<T>))
+  | (ErrorResult & { hasTimedOut: boolean })) & {
+  isPastDelay: boolean;
 };
 
 /**
@@ -54,18 +62,18 @@ type State<T> = {
  */
 export class AsyncComponent<T = any> extends React.PureComponent<
   AsyncProps<T>,
-  State<T>
+  State<T | null>
 > {
   static defaultProps: Partial<AsyncProps<any>> = {
     delay: 200,
   };
 
-  state: State<T> = {
-    isLoading: false,
+  state: State<T | null> = {
+    isInProgress: false,
     hasError: false,
-    timedOut: false,
-    result: null,
-    pastDelay: false,
+    hasTimedOut: false,
+    value: null,
+    isPastDelay: false,
   };
 
   tryLoading = async () => {
@@ -76,11 +84,11 @@ export class AsyncComponent<T = any> extends React.PureComponent<
     }
 
     this.setState(
-      { result: null, isLoading: true, hasError: false, timedOut: false },
+      { value: null, isInProgress: true, hasError: false, hasTimedOut: false },
       () => {
         const promises = [
-          loadPromise.then(result => {
-            this.setState({ result, isLoading: false, pastDelay: true });
+          loadPromise.then(value => {
+            this.setState({ value, isInProgress: false, isPastDelay: true });
           }),
         ];
 
@@ -89,7 +97,7 @@ export class AsyncComponent<T = any> extends React.PureComponent<
           promises.push(
             delay(timeout).then(() => {
               this.setState(state => {
-                if (state.isLoading) {
+                if (state.isInProgress) {
                   return {
                     isLoading: false,
                     hasError: true,
@@ -104,7 +112,7 @@ export class AsyncComponent<T = any> extends React.PureComponent<
         }
 
         Promise.race(promises).catch(() => {
-          this.setState({ isLoading: false, hasError: true });
+          this.setState({ isInProgress: false, hasError: true });
         });
       },
     );
@@ -116,6 +124,6 @@ export class AsyncComponent<T = any> extends React.PureComponent<
   }
 
   render() {
-    return this.props.children({ ...this.state, retry: this.tryLoading });
+    return this.props.children({ result: this.state, retry: this.tryLoading });
   }
 }

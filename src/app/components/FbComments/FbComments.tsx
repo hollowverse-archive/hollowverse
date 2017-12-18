@@ -96,8 +96,8 @@ export class FbComments extends React.PureComponent<Props> {
     return (
       <div {...rest}>
         <AsyncComponent load={this.load}>
-          {({ hasError, isLoading, timedOut, retry }) => {
-            if (hasError || timedOut) {
+          {({ result: { hasError, isInProgress, hasTimedOut }, retry }) => {
+            if (hasError || hasTimedOut) {
               return (
                 <MessageWithIcon
                   caption="Error loading comments"
@@ -110,7 +110,7 @@ export class FbComments extends React.PureComponent<Props> {
 
             return (
               <div>
-                {isLoading ? loadingComponent : null}
+                {isInProgress ? loadingComponent : null}
                 <noscript>
                   <MessageWithIcon
                     caption="Unable to load comments"
@@ -119,7 +119,7 @@ export class FbComments extends React.PureComponent<Props> {
                   />
                 </noscript>
                 <div
-                  style={{ visibility: isLoading ? 'hidden' : 'visible' }}
+                  style={{ visibility: isInProgress ? 'hidden' : 'visible' }}
                   ref={this.setCommentsParentNode}
                 >
                   <div
