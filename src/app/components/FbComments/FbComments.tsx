@@ -21,25 +21,64 @@ type Props = React.HTMLAttributes<HTMLDivElement> & {
   numPosts?: number;
 };
 
+const OBSERVED_FB_ATTR_NAME = 'fb-xfbml-state';
+
 /** Facebook Comments Plugin */
 export class FbComments extends React.PureComponent<Props> {
-  target: HTMLDivElement | null;
+  commentsNode: HTMLDivElement | null;
+  commentsParentNode: HTMLDivElement | null;
 
-  setTarget = (node: HTMLDivElement | null) => (this.target = node);
+  commentsObserver: MutationObserver | null = null;
+
+  setCommentsParentNode = (node: HTMLDivElement | null) =>
+    (this.commentsParentNode = node);
+  setCommentsNode = (node: HTMLDivElement | null) => (this.commentsNode = node);
 
   load = async () => {
     await importGlobalScript(
       'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.11',
     );
 
-    await new Promise(resolve => {
-      if (FB && this.target) {
-        FB.XFBML.parse(this.target, resolve);
-      } else {
+    if (FB && this.commentsParentNode) {
+      FB.XFBML.parse(this.commentsParentNode);
+      await this.observeCommentsRendered();
+    }
+  };
+
+  observeCommentsRendered = async () => {
+    return new Promise(resolve => {
+      if ('MutationObserver' in global) {
         resolve();
+      } else if (this.commentsNode) {
+        this.commentsObserver = new MutationObserver(mutations => {
+          for (const mutation of mutations) {
+            if (
+              mutation.attributeName === OBSERVED_FB_ATTR_NAME &&
+              mutation.target.attributes.getNamedItem(OBSERVED_FB_ATTR_NAME)
+                .value === 'rendered'
+            ) {
+              resolve();
+              break;
+            }
+          }
+        });
+
+        this.commentsObserver.observe(this.commentsNode, {
+          childList: false,
+          attributeOldValue: false,
+          attributeFilter: [OBSERVED_FB_ATTR_NAME],
+        });
+
+        this.commentsObserver.takeRecords();
       }
     });
   };
+
+  componentWillUnmount() {
+    if (this.commentsObserver !== null) {
+      this.commentsObserver.disconnect();
+    }
+  }
 
   render() {
     const { url, numPosts = 5, ...rest } = this.props;
@@ -69,13 +108,14 @@ export class FbComments extends React.PureComponent<Props> {
                     icon={warningIconComponent}
                   />
                 </noscript>
-                <div ref={this.setTarget}>
+                <div ref={this.setCommentsParentNode}>
                   <div
                     style={{ visibility: isLoading ? 'hidden' : 'visible' }}
                     className="fb-comments"
                     data-href={url}
                     data-width="100%"
                     data-numposts={numPosts}
+                    ref={this.setCommentsNode}
                   />
                 </div>
               </div>
