@@ -73,6 +73,9 @@ export class ResolvableComponent<T = any> extends React.PureComponent<
 
   render() {
     const { result } = this.state;
+
+    // Allow child to render while loading,
+    // unlike `react-resolver`'s behavior of rendering nothing
     const Child =
       result && result.isInProgress ? this.props.children : this.component;
 
