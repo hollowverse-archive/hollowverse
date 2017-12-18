@@ -10,15 +10,12 @@ import {
   isPendingResult,
   isSuccessResult,
   isOptimisticResult,
-  promiseToAsyncResult,
 } from 'helpers/asyncResults';
 import { AlgoliaResponse } from 'algoliasearch';
 import { connect } from 'react-redux';
 import { getSearchQuery } from 'store/features/search/selectors';
-import { notablePeople } from 'vendor/algolia';
 import { Link } from 'react-router-dom';
 import { setSearchResults } from 'store/features/search/actions';
-import { ResolvableComponent } from 'hocs/ResolvableComponent/ResolvableComponent';
 
 type Props = {
   searchQuery: string | null;
@@ -78,25 +75,4 @@ export const SearchResults = connect(
     searchResults: state.searchResults,
   }),
   { setSearchResults },
-)(props => {
-  if (__IS_SERVER__) {
-    const loadAndDispatch = async (): Promise<AlgoliaResponse | null> => {
-      const { searchQuery } = props;
-      const value = searchQuery
-        ? notablePeople.search(searchQuery)
-        : Promise.resolve(null);
-
-      props.setSearchResults(await promiseToAsyncResult(value));
-
-      return value;
-    };
-
-    return (
-      <ResolvableComponent load={loadAndDispatch}>
-        {({ result }) => <Page {...props} searchResults={result} />}
-      </ResolvableComponent>
-    );
-  }
-
-  return <Page {...props} />;
-});
+)(Page);
