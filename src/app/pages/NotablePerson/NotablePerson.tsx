@@ -8,7 +8,6 @@ import { FbComments } from 'components/FbComments/FbComments';
 import { MessageWithIcon } from 'components/MessageWithIcon/MessageWithIcon';
 import { SvgIcon } from 'components/SvgIcon/SvgIcon';
 import { OptionalIntersectionObserver } from 'components/OptionalIntersectionObserver/OptionalIntersectionObserver';
-import { withRouter, RouteComponentProps } from 'react-router';
 
 import warningIcon from 'icons/warning.svg';
 
@@ -50,11 +49,11 @@ const query = gql`
   }
 `;
 
-type Props = RouteComponentProps<{ slug: string }>;
+export type Props = { slug: string };
 
 class Page extends React.PureComponent<Props> {
   load = async () => {
-    const { match: { params: { slug } } } = this.props;
+    const { slug } = this.props;
 
     return client.request<NotablePersonQuery>(query, { slug });
   };
@@ -142,4 +141,4 @@ class Page extends React.PureComponent<Props> {
   }
 }
 
-export const NotablePerson = withRouter(Page);
+export const NotablePerson = Page;
