@@ -107,10 +107,10 @@ export const NavBar = withRouter(
                     {
                       <button
                         disabled={isSearchInProgress}
-                        className={classes.button}
+                        className={cc([classes.button, classes.hasSpinner])}
                         type="submit"
                       >
-                        {!isSearchInProgress ? (
+                        {isSearchInProgress ? (
                           <LoadingSpinner size={20} />
                         ) : (
                           <SvgIcon size={20} {...searchIcon} />
