@@ -21,7 +21,7 @@ const defaultInitialState: StoreState = {
     location: null,
   },
   statusCode: 200,
-  lastSearchMatch: null,
+  isSearchFocused: false,
 };
 
 export const epic$ = new BehaviorSubject(

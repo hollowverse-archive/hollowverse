@@ -7,21 +7,18 @@ import { Epic } from 'redux-observable';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/takeUntil';
-import 'rxjs/add/operator/startWith';
+import 'rxjs/add/operator/takeWhile';
 import 'rxjs/add/observable/fromPromise';
 
 import { getSearchQuery } from 'store/features/search/selectors';
 import { setSearchResults } from 'store/features/search/actions';
 
 import { promiseToAsyncResult } from 'helpers/asyncResults';
-import { isActionOfType } from 'store/helpers';
 
-const isSearchPage = (action: Action) => {
+const isSearchPage = (state: StoreState) => {
   return (
-    isActionOfType(action, LOCATION_CHANGE) &&
-    action.payload.pathname === '/search'
+    !!state.routing.location && state.routing.location.pathname === '/search'
   );
 };
 
@@ -32,8 +29,7 @@ const isSearchPage = (action: Action) => {
 export const performSearchEpic: Epic<Action, StoreState> = (action$, store) => {
   return action$
     .ofType(LOCATION_CHANGE)
-    .filter(isSearchPage)
-    .startWith({})
+    .takeWhile(() => isSearchPage(store.getState()))
     .mergeMap(_ =>
       Observable.fromPromise(import('vendor/algolia')).mergeMap(module => {
         const searchQuery = getSearchQuery(store.getState());

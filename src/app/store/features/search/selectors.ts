@@ -15,7 +15,15 @@ export const getSearchQuery = createSelector(getRoutingState, routing => {
   return null;
 });
 
+// @TODO: set to notable person name if on NP page
+export const getSearchInputValue = createSelector(
+  getSearchQuery,
+  query => query || undefined,
+);
+
 export const isSearchInProgress = createSelector(
   getSearchResults,
   results => isPendingResult(results) || isOptimisticResult(results),
 );
+
+export const isSearchFocused = (state: StoreState) => state.isSearchFocused;

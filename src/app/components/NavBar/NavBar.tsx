@@ -1,7 +1,8 @@
 import * as React from 'react';
 import cc from 'classcat';
 
-import { withRouter, RouteComponentProps } from 'react-router';
+import { RouteComponentProps, Route, Switch } from 'react-router';
+import { Link } from 'react-router-dom';
 
 import * as classes from './NavBar.module.scss';
 
@@ -10,143 +11,91 @@ import { SvgIcon } from 'components/SvgIcon/SvgIcon';
 
 import searchIcon from 'icons/search.svg';
 import backIcon from 'icons/back.svg';
-import { LoadingSpinner } from 'components/LoadingSpinner/LoadingSpinner';
+import { SearchView } from 'components/NavBar/SearchView';
 
-type Props = {
+export type OwnProps = {
   title: string;
-  searchQuery: string | null;
-  lastSearchMatch: string | null;
-  isSearchInProgress: boolean;
-  requestSearchResults({ query }: { query: string }): any;
-} & RouteComponentProps<any>;
-
-type State = {
-  wasDismissed: boolean;
-  isUserInitiated: boolean;
 };
 
-export const NavBar = withRouter(
-  class extends React.PureComponent<Props, State> {
-    state: State = {
-      wasDismissed: false,
-      isUserInitiated: false,
-    };
+export type StateProps = {
+  searchInputValue?: string;
+  isSearchInProgress: boolean;
+  isSearchFocused: boolean;
+};
 
-    searchInput: HTMLInputElement | null = null;
+export type DispatchProps = {
+  requestSearchResults({ query }: { query: string }): any;
+  setSearchIsFocused(isFocused: boolean): any;
+};
 
-    dismissSearch = () => {
-      this.setState({ wasDismissed: true, isUserInitiated: false });
-    };
+type Props = OwnProps & StateProps & DispatchProps;
 
-    setSearchInput = (node: HTMLInputElement | null) => {
-      this.searchInput = node;
-    };
+export const NavBar = class extends React.Component<
+  Props & RouteComponentProps<any>
+> {
+  goBack = (e: React.MouseEvent<HTMLElement>) => {
+    e.preventDefault();
+    this.props.history.goBack();
+  };
 
-    handleSearchInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-      this.props.requestSearchResults({ query: e.target.value });
-    };
+  render() {
+    const {
+      title,
+      searchInputValue,
+      isSearchInProgress,
+      setSearchIsFocused,
+      requestSearchResults,
+      isSearchFocused,
+    } = this.props;
 
-    toggleSearch = (e: React.MouseEvent<HTMLElement>) => {
-      e.preventDefault();
-      this.setState({ isUserInitiated: true }, () => {
-        if (this.searchInput && this.state.isUserInitiated) {
-          this.searchInput.focus();
-        }
-      });
-    };
+    return (
+      <Switch>
+        <Route path="/search">
+          <SearchView
+            isSearchInProgress={isSearchInProgress}
+            inputValue={searchInputValue}
+            requestSearchResults={requestSearchResults}
+            setSearchIsFocused={setSearchIsFocused}
+            isFocused
+          />
+        </Route>
+        <Route>
+          <Sticky className={classes.root} height={48}>
+            {isSticking => {
+              if (isSticking || isSearchFocused) {
+                return (
+                  <SearchView
+                    isSearchInProgress={isSearchInProgress}
+                    inputValue={searchInputValue}
+                    requestSearchResults={requestSearchResults}
+                    setSearchIsFocused={setSearchIsFocused}
+                  />
+                );
+              }
 
-    goBack = (e: React.MouseEvent<HTMLElement>) => {
-      e.preventDefault();
-      this.props.history.goBack();
-    };
-
-    render() {
-      const {
-        title,
-        location,
-        searchQuery,
-        isSearchInProgress,
-        lastSearchMatch,
-      } = this.props;
-      const { wasDismissed, isUserInitiated } = this.state;
-      const isSearchPage = location.pathname === '/search';
-
-      return (
-        <Sticky className={classes.root} height={48}>
-          {isSticking => {
-            const shouldShowSearch =
-              isUserInitiated ||
-              ((isSearchPage || isSticking) && !wasDismissed);
-
-            return (
-              <div className={classes.container}>
-                {shouldShowSearch ? (
-                  <form
-                    className={classes.search}
-                    onBlurCapture={
-                      !isSearchPage ? this.dismissSearch : undefined
-                    }
-                    action="/search"
-                    method="GET"
-                  >
-                    <input
-                      type="search"
-                      ref={this.setSearchInput}
-                      className={classes.searchInput}
-                      required
-                      name="query"
-                      value={
-                        (isUserInitiated || isSearchPage
-                          ? searchQuery
-                          : lastSearchMatch) || undefined
-                      }
-                      placeholder="Search for notable people..."
-                      autoFocus={!searchQuery && isSearchPage}
-                      onChange={this.handleSearchInput}
-                    />
-                    {
-                      <button
-                        disabled={isSearchInProgress}
-                        className={cc([classes.button, classes.hasSpinner])}
-                        type="submit"
-                      >
-                        {isSearchInProgress ? (
-                          <LoadingSpinner size={20} />
-                        ) : (
-                          <SvgIcon size={20} {...searchIcon} />
-                        )}
-                        <span className="sr-only">Search</span>
-                      </button>
-                    }
-                  </form>
-                ) : (
+              return (
+                <div className={classes.container}>
                   <a title="Homepage" className={classes.logo} href="/">
                     {title}
                   </a>
-                )}
-                <button
-                  disabled={__IS_SERVER__ || location.pathname === '/'}
-                  onClick={this.goBack}
-                  className={cc([classes.button, classes.back])}
-                >
-                  <SvgIcon size={20} {...backIcon} />
-                  <span className="sr-only">Go Back</span>
-                </button>
-                {!shouldShowSearch ? (
-                  <a
-                    href="/search"
-                    onClick={this.toggleSearch}
-                    className={classes.button}
+                  <button
+                    disabled={__IS_SERVER__ || location.pathname === '/'}
+                    onClick={this.goBack}
+                    className={cc([classes.button, classes.back])}
                   >
+                    <SvgIcon size={20} {...backIcon} />
+                    <span className="sr-only">Go Back</span>
+                  </button>
+                  <Link to="/search">
                     <SvgIcon size={20} {...searchIcon} />
                     <span className="sr-only">Search</span>
-                  </a>
-                ) : null}
-              </div>
-            );
-          }}
-        </Sticky>
-      );
-    }
-  },
-);
+                  </Link>
+                </div>
+              );
+            }}
+          </Sticky>
+        </Route>
+      </Switch>
+    );
+  }
+};

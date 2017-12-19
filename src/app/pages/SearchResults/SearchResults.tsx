@@ -36,7 +36,7 @@ class Page extends React.PureComponent<Props> {
       return (
         <div className={classes.root}>
           {value && value.hits.length > 0 ? (
-            <Card className={classes.result}>
+            <Card>
               <ol>
                 <FlipMove
                   enterAnimation="fade"
@@ -49,7 +49,10 @@ class Page extends React.PureComponent<Props> {
                         key={searchResult.objectID}
                         className={classes.result}
                       >
-                        <Link to={`/${searchResult.slug}`}>
+                        <Link
+                          className={classes.link}
+                          to={`/${searchResult.slug}`}
+                        >
                           {searchResult.name}
                         </Link>
                       </li>

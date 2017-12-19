@@ -4,13 +4,13 @@ import { StoreState, ReducerMap } from './types';
 import { statusCodeReducer } from 'store/features/status/reducer';
 import {
   searchResultsReducer,
-  lastSearchMatchReducer,
+  isSearchFocusedReducer,
 } from 'store/features/search/reducer';
 
 const appReducers: ReducerMap = {
   statusCode: statusCodeReducer,
   searchResults: searchResultsReducer,
-  lastSearchMatch: lastSearchMatchReducer,
+  isSearchFocused: isSearchFocusedReducer,
 };
 
 /**

@@ -12,7 +12,7 @@ export type TypeToPayload = {
     query: string;
   };
   SET_SEARCH_RESULTS: AsyncResult<AlgoliaResponse | null>;
-  SET_LAST_SEARCH_MATCH: string;
+  SET_SEARCH_IS_FOCUSED: boolean;
   SET_STATUS_CODE: number;
   '@@router/LOCATION_CHANGE': LocationChangeAction['payload'];
   '@@router/CALL_HISTORY_METHOD': RouterAction['payload'];
@@ -21,7 +21,7 @@ export type TypeToPayload = {
 export type AppState = {
   statusCode: number;
   searchResults: AsyncResult<AlgoliaResponse | null>;
-  lastSearchMatch: string | null;
+  isSearchFocused: boolean;
 };
 
 /**

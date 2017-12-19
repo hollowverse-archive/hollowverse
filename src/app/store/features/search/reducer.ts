@@ -16,13 +16,13 @@ export const searchResultsReducer = createReducerForStoreKey<'searchResults'>(
   },
 );
 
-export const lastSearchMatchReducer = createReducerForStoreKey<
-  'lastSearchMatch'
+export const isSearchFocusedReducer = createReducerForStoreKey<
+  'isSearchFocused'
 >(
   {
-    SET_LAST_SEARCH_MATCH: handleAction<'lastSearchMatch'>(
-      'SET_LAST_SEARCH_MATCH',
+    SET_SEARCH_IS_FOCUSED: handleAction<'isSearchFocused'>(
+      'SET_SEARCH_IS_FOCUSED',
     ),
   },
-  null,
+  false,
 );

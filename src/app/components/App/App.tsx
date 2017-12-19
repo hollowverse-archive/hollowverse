@@ -16,7 +16,9 @@ export const App = class extends React.Component {
   render() {
     return (
       <div className={cc([classes.root, { 'no-js': __IS_SERVER__ }])}>
-        <ConnectedNavBar title="Hollowverse" />
+        <Route>
+          {props => <ConnectedNavBar {...props} title="Hollowverse" />}
+        </Route>
         <div className={classes.view}>
           <Switch>
             <Route path="/search" component={LoadableSearchResults} />

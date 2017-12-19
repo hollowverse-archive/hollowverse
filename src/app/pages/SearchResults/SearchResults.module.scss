@@ -1,12 +1,25 @@
 @import 'variables.scss';
+@import 'mixins.scss';
 
 .root {
-  max-width: $page-max-width;
+  display: flex;
+  justify-content: center;
+
+  > * {
+    max-width: $page-max-width;
+    flex-grow: 1;
+  }
 
   .result {
     display: block;
-    padding: 15px 20px;
     margin: 5px 0;
+    display: flex;
+    flex-basis: 100%;
+    .link {
+      @include truncate-flex-child;
+      flex-grow: 1;
+      padding: 15px 20px;
+    }
   }
 
   .result + .result {
