@@ -64,9 +64,9 @@ export function createStoreWithInitialState(
 
   if (module.hot) {
     // Enable Webpack hot module replacement for reducers
-    module.hot.accept('store/reducer', () => {
+    module.hot.accept('./reducer', () => {
       // tslint:disable-next-line no-require-imports
-      const nextRootReducer = require('store/reducer').reducer;
+      const nextRootReducer = require('./reducer').reducer;
       store.replaceReducer(nextRootReducer);
     });
   }
