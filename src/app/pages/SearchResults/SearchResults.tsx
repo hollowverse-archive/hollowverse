@@ -76,3 +76,5 @@ export const SearchResults = connect(
   }),
   { setSearchResults },
 )(Page);
+
+export { performSearchEpic } from 'store/features/search/performSearchEpic';

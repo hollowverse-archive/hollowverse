@@ -1,11 +1,15 @@
 import { routerMiddleware } from 'react-router-redux';
 import { History } from 'history';
 import { createStore, applyMiddleware, compose } from 'redux';
-import { combineEpics, createEpicMiddleware } from 'redux-observable';
-import { StoreState } from './types';
-import { searchEpic } from './features/search/epic';
+
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import 'rxjs/add/operator/mergeMap';
+
+import { combineEpics, createEpicMiddleware, Epic } from 'redux-observable';
+import { StoreState, Action } from './types';
 import { reducer } from './reducer';
 import { analyticsEpic } from 'store/features/analytics/epic';
+import { updateUrlEpic } from 'store/features/search/updateUrlEpic';
 
 const defaultInitialState: StoreState = {
   searchResults: {
@@ -20,7 +24,15 @@ const defaultInitialState: StoreState = {
   lastSearchMatch: null,
 };
 
-const rootEpic = combineEpics(searchEpic, analyticsEpic);
+export const epic$ = new BehaviorSubject(
+  combineEpics(analyticsEpic, updateUrlEpic),
+);
+
+// Add epics lazily as they are imported from different chunks accross
+// the app.
+// See https://redux-observable.js.org/docs/recipes/AddingNewEpicsAsynchronously.html
+const rootEpic: Epic<Action, StoreState> = (action$, store) =>
+  epic$.mergeMap(epic => epic(action$, store, undefined));
 
 const epicMiddleware = createEpicMiddleware(rootEpic);
 
