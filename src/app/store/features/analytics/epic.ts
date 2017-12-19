@@ -4,7 +4,6 @@ import { Action, StoreState } from 'store/types';
 
 import { Epic } from 'redux-observable';
 
-import 'rxjs/add/observable/fromPromise';
 import 'rxjs/add/operator/skipWhile';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/ignoreElements';
