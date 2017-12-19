@@ -10,11 +10,13 @@ import { SvgIcon } from 'components/SvgIcon/SvgIcon';
 
 import searchIcon from 'icons/search.svg';
 import backIcon from 'icons/back.svg';
+import { LoadingSpinner } from 'components/LoadingSpinner/LoadingSpinner';
 
 type Props = {
   title: string;
   searchQuery: string | null;
   lastSearchMatch: string | null;
+  isSearchInProgress: boolean;
   requestSearchResults({ query }: { query: string }): any;
 } & RouteComponentProps<any>;
 
@@ -59,7 +61,13 @@ export const NavBar = withRouter(
     };
 
     render() {
-      const { title, location, searchQuery, lastSearchMatch } = this.props;
+      const {
+        title,
+        location,
+        searchQuery,
+        isSearchInProgress,
+        lastSearchMatch,
+      } = this.props;
       const { wasDismissed, isUserInitiated } = this.state;
       const isSearchPage = location.pathname === '/search';
 
@@ -96,10 +104,20 @@ export const NavBar = withRouter(
                       autoFocus={!searchQuery && isSearchPage}
                       onChange={this.handleSearchInput}
                     />
-                    <button className={classes.button} type="submit">
-                      <SvgIcon size={20} {...searchIcon} />
-                      <span className="sr-only">Search</span>
-                    </button>
+                    {
+                      <button
+                        disabled={isSearchInProgress}
+                        className={classes.button}
+                        type="submit"
+                      >
+                        {!isSearchInProgress ? (
+                          <LoadingSpinner size={20} />
+                        ) : (
+                          <SvgIcon size={20} {...searchIcon} />
+                        )}
+                        <span className="sr-only">Search</span>
+                      </button>
+                    }
                   </form>
                 ) : (
                   <a title="Homepage" className={classes.logo} href="/">

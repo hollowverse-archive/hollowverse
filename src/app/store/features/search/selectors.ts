@@ -1,7 +1,9 @@
 import { StoreState } from 'store/types';
 import { createSelector } from 'reselect';
+import { isPendingResult, isOptimisticResult } from 'helpers/asyncResults';
 
 const getRoutingState = (state: StoreState) => state.routing;
+const getSearchResults = (state: StoreState) => state.searchResults;
 
 export const getSearchQuery = createSelector(getRoutingState, routing => {
   if (routing.location) {
@@ -12,3 +14,8 @@ export const getSearchQuery = createSelector(getRoutingState, routing => {
 
   return null;
 });
+
+export const isSearchInProgress = createSelector(
+  getSearchResults,
+  results => isPendingResult(results) || isOptimisticResult(results),
+);
