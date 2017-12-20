@@ -8,7 +8,6 @@ import { template } from 'lodash';
 import { flushChunkNames } from 'react-universal-component/server';
 import flushChunks from 'webpack-flush-chunks';
 
-import createNodeLogger from 'redux-node-logger';
 import * as loglevel from 'loglevel';
 
 import { Stats } from 'webpack';
@@ -42,7 +41,6 @@ export const createServerRenderMiddleware = ({
   const { store, wrappedRootEpic } = createStoreWithInitialState(
     history,
     undefined,
-    [createNodeLogger()],
   );
 
   renderToString(
