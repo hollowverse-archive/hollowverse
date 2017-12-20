@@ -52,48 +52,54 @@ export const NavBar = class extends React.Component<
     const isSearchPage = location.pathname === '/search';
 
     return (
-      <Sticky className={classes.root} height={48}>
-        {isSticking => {
-          let view;
-          if (isSearchPage || isSticking || isSearchFocused) {
-            view = (
-              <SearchView
-                isSearchInProgress={isSearchInProgress}
-                inputValue={searchInputValue}
-                requestSearchResults={requestSearchResults}
-                setSearchIsFocused={setSearchIsFocused}
-                isFocused={isSearchPage}
-              />
-            );
-          } else {
-            view = [
-              <div key="logo" className={classes.logoWrapper}>
-                <a title="Homepage" className={classes.logo} href="/">
-                  {title}
-                </a>
-              </div>,
-              <NavBarLink className={classes.button} key="link" to="/search">
-                <SvgIcon size={20} {...searchIcon} />
-                <span className="sr-only">Search</span>
-              </NavBarLink>,
-            ];
-          }
+      <div className={classes.root}>
+        <Sticky
+          className={classes.sticky}
+          innerClassName={classes.viewWrapper}
+          height={48}
+        >
+          {isSticking => {
+            let view;
+            if (isSearchPage || isSticking || isSearchFocused) {
+              view = (
+                <SearchView
+                  isSearchInProgress={isSearchInProgress}
+                  inputValue={searchInputValue}
+                  requestSearchResults={requestSearchResults}
+                  setSearchIsFocused={setSearchIsFocused}
+                  isFocused={isSearchPage}
+                />
+              );
+            } else {
+              view = [
+                <div key="logo" className={classes.logoWrapper}>
+                  <a title="Homepage" className={classes.logo} href="/">
+                    {title}
+                  </a>
+                </div>,
+                <NavBarLink className={classes.button} key="link" to="/search">
+                  <SvgIcon size={20} {...searchIcon} />
+                  <span className="sr-only">Search</span>
+                </NavBarLink>,
+              ];
+            }
 
-          return (
-            <div className={classes.view}>
-              <NavBarButton
-                disabled={__IS_SERVER__ || location.pathname === '/'}
-                onClick={this.goBack}
-                className={cc([classes.button, classes.backButton])}
-              >
-                <SvgIcon size={20} {...backIcon} />
-                <span className="sr-only">Go Back</span>
-              </NavBarButton>
-              {view}
-            </div>
-          );
-        }}
-      </Sticky>
+            return (
+              <div className={classes.view}>
+                <NavBarButton
+                  disabled={__IS_SERVER__ || location.pathname === '/'}
+                  onClick={this.goBack}
+                  className={cc([classes.button, classes.backButton])}
+                >
+                  <SvgIcon size={20} {...backIcon} />
+                  <span className="sr-only">Go Back</span>
+                </NavBarButton>
+                {view}
+              </div>
+            );
+          }}
+        </Sticky>
+      </div>
     );
   }
 };

@@ -7,7 +7,7 @@ import * as classes from './Sticky.module.scss';
 
 type Props = {
   height: number;
-  childClassName?: string;
+  innerClassName?: string;
   children(isInView: boolean): React.ReactNode;
 } & React.HTMLAttributes<HTMLDivElement>;
 
@@ -25,7 +25,7 @@ export class Sticky extends React.PureComponent<Props, State> {
   };
 
   render() {
-    const { children, height, className, childClassName, ...rest } = this.props;
+    const { children, height, innerClassName, className, ...rest } = this.props;
     const { isSticking } = this.state;
 
     return (
@@ -45,7 +45,7 @@ export class Sticky extends React.PureComponent<Props, State> {
           <div className={classes.placeholder} style={{ height }} />
         </OptionalIntersectionObserver>
         <div
-          className={cc([classes.element, childClassName])}
+          className={cc([classes.element, innerClassName])}
           {...rest}
           style={{ height }}
         >
