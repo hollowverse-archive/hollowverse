@@ -16,7 +16,6 @@ const history = createBrowserHistory();
 const renderApp = (NewApp: typeof App = App) => {
   render(
     <Provider store={createConfiguredStore(history, __INITIAL_STATE__).store}>
-      createConfiguredStore
       <Router history={history}>
         <NewApp />
       </Router>
