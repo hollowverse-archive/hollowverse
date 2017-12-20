@@ -24,9 +24,9 @@ const defaultInitialState: StoreState = {
   isSearchFocused: false,
 };
 
-export const epic$ = new BehaviorSubject(
-  combineEpics(analyticsEpic, updateUrlEpic),
-);
+const epic$ = new BehaviorSubject(combineEpics(analyticsEpic, updateUrlEpic));
+
+export const addLazyEpic = (epic: Epic<Action, StoreState>) => epic$.next(epic);
 
 // Add epics lazily as they are imported from different chunks accross
 // the app.
