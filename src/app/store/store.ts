@@ -49,7 +49,8 @@ export function createStoreWithInitialState(
   additionalMiddleware: Middleware[] = [],
 ) {
   const rootEpic = combineEpics(analyticsEpic, updateUrlEpic, dataResolverEpic);
-  const epicMiddleware = createEpicMiddleware(wrapEpic(rootEpic));
+  const wrappedRootEpic = wrapEpic(rootEpic);
+  const epicMiddleware = createEpicMiddleware(wrappedRootEpic);
   const store = createStore<StoreState>(
     reducer,
     initialState,
