@@ -2,16 +2,12 @@ import { routerMiddleware } from 'react-router-redux';
 import { History } from 'history';
 import { createStore, applyMiddleware, compose, Middleware } from 'redux';
 import { wrapRootEpic } from 'react-redux-epic';
-
-import 'rxjs/add/operator/mergeMap';
-
 import { combineEpics, createEpicMiddleware } from 'redux-observable';
 import { StoreState } from './types';
 import { reducer } from './reducer';
 import { analyticsEpic } from 'store/features/analytics/epic';
 import { updateUrlEpic } from 'store/features/search/updateUrlEpic';
 import { dataResolverEpic } from 'store/features/data/epic';
-// import { performSearchEpic } from 'store/features/search/performSearchEpic';
 import { nullResult } from 'helpers/asyncResults';
 
 const defaultInitialState: StoreState = {

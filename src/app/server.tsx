@@ -7,14 +7,18 @@ import createMemoryHistory from 'history/createMemoryHistory';
 import { template } from 'lodash';
 import { flushChunkNames } from 'react-universal-component/server';
 import flushChunks from 'webpack-flush-chunks';
+
+import createNodeLogger from 'redux-node-logger';
 import * as loglevel from 'loglevel';
+
 import { Stats } from 'webpack';
-import { Provider } from 'react-redux';
+
 import { getStatusCode } from 'store/features/status/reducer';
 
-import html from './index.server.html';
+import { Provider } from 'react-redux';
 import { createStoreWithInitialState } from 'store/store';
 import { App } from 'components/App/App';
+import html from './index.server.html';
 
 const interpolateTemplate = template(html);
 
@@ -35,7 +39,6 @@ export const createServerRenderMiddleware = ({
   iconStats: IconStats | undefined;
 }) => async (req: Request, res: Response) => {
   const history = createMemoryHistory({ initialEntries: [req.url] });
-  const createNodeLogger = require('redux-node-logger');
   const { store, wrappedRootEpic } = createStoreWithInitialState(
     history,
     undefined,
@@ -62,12 +65,12 @@ export const createServerRenderMiddleware = ({
         publicPath,
       } = flushChunks(clientStats, { chunkNames });
 
-      // logger.debug(`Request path: ${req.path}`);
-      // logger.debug('Dynamic chunk names rendered', chunkNames);
-      // logger.debug('Scripts served:', scripts);
-      // logger.debug('Stylesheets served:', stylesheets);
-      // logger.debug('Icon stats:', iconStats);
-      // logger.debug('Public path:', publicPath);
+      logger.debug(`Request path: ${req.path}`);
+      logger.debug('Dynamic chunk names rendered', chunkNames);
+      logger.debug('Scripts served:', scripts);
+      logger.debug('Stylesheets served:', stylesheets);
+      logger.debug('Icon stats:', iconStats);
+      logger.debug('Public path:', publicPath);
 
       // Tell browsers to start fetching scripts and stylesheets as soon as they
       // parse the HTTP headers of the page
@@ -96,10 +99,6 @@ export const createServerRenderMiddleware = ({
           // to serialize all data. `JSON.stringify` won't protect from XSS.
           // If `data` contains "</script><script>alert('Haha! Pwned!')</script>",
           // `JSON.stringify` won't help.
-          // data: serializeJavaScript(data, {
-          //   isJSON: true,
-          //   space: __IS_DEBUG__ ? 2 : 0,
-          // }),
           initialState: serializeJavaScript(state, {
             isJSON: true,
             space: __IS_DEBUG__ ? 2 : 0,

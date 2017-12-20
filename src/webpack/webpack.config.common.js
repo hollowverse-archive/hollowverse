@@ -132,7 +132,7 @@ const config = {
     new webpack.DefinePlugin(
       mapValues(
         {
-          __IS_DEBUG__: isDev || isDebug,
+          __IS_DEBUG__: isDebug,
           API_ENDPOINT: process.env.API_ENDPOINT,
           'process.env.NODE_ENV': process.env.NODE_ENV,
           isHot,

@@ -7,10 +7,12 @@ import { Epic } from 'redux-observable';
 import { Observable } from 'rxjs/Observable';
 
 import 'rxjs/add/operator/mergeMap';
+import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/merge';
 import 'rxjs/add/operator/takeUntil';
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/observable/fromPromise';
+import 'rxjs/add/observable/of';
 
 import { promiseToAsyncResult, pendingResult } from 'helpers/asyncResults';
 import { isActionOfType } from 'store/helpers';

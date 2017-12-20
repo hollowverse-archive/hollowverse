@@ -48,16 +48,9 @@ class Page extends React.PureComponent<Props> {
         resolve={this.load}
         allowOptimisticUpdates
       >
-        {({
-          result: searchResults,
-        }: {
-          result: AsyncResult<AlgoliaResponse | null>;
-        }) => {
-          if (
-            isSuccessResult(searchResults) ||
-            isOptimisticResult(searchResults)
-          ) {
-            const value = searchResults.value;
+        {({ result }: { result: AsyncResult<AlgoliaResponse | null> }) => {
+          if (isSuccessResult(result) || isOptimisticResult(result)) {
+            const value = result.value;
 
             return (
               <div className={classes.root}>
@@ -90,7 +83,7 @@ class Page extends React.PureComponent<Props> {
                 ) : null}
               </div>
             );
-          } else if (isPendingResult(searchResults)) {
+          } else if (isPendingResult(result)) {
             return <div>Loading...</div>;
           }
 

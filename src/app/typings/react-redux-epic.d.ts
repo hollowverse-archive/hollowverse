@@ -1,3 +1,5 @@
+// tslint:disable
+
 declare module 'react-redux-epic' {
   import { Observable } from 'rxjs/Observable';
   import { Epic } from 'redux-observable';
