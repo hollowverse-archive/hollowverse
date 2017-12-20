@@ -37,6 +37,7 @@ export const createServerRenderMiddleware = ({
   clientStats: Stats;
   iconStats: IconStats | undefined;
 }) => async (req: Request, res: Response) => {
+  const start = Date.now();
   const history = createMemoryHistory({ initialEntries: [req.url] });
   const { store, wrappedRootEpic } = createStoreWithInitialState(
     history,
@@ -112,7 +113,8 @@ export const createServerRenderMiddleware = ({
     },
 
     complete() {
-      logger.info('Request sent!');
+      const end = Date.now();
+      logger.debug(`Request took ${end - start}ms to process`);
     },
 
     error(error: Error) {
