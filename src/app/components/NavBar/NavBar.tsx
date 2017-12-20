@@ -1,13 +1,13 @@
 import * as React from 'react';
 import cc from 'classcat';
 
-import { RouteComponentProps, Route, Switch } from 'react-router';
-import { Link } from 'react-router-dom';
+import { RouteComponentProps } from 'react-router';
 
 import * as classes from './NavBar.module.scss';
 
 import { Sticky } from 'components/Sticky/Sticky';
 import { SvgIcon } from 'components/SvgIcon/SvgIcon';
+import { NavBarButton, NavBarLink } from 'components/NavBar/NavBarButton';
 
 import searchIcon from 'icons/search.svg';
 import backIcon from 'icons/back.svg';
@@ -46,56 +46,54 @@ export const NavBar = class extends React.Component<
       setSearchIsFocused,
       requestSearchResults,
       isSearchFocused,
+      location,
     } = this.props;
 
-    return (
-      <Switch>
-        <Route path="/search">
-          <SearchView
-            isSearchInProgress={isSearchInProgress}
-            inputValue={searchInputValue}
-            requestSearchResults={requestSearchResults}
-            setSearchIsFocused={setSearchIsFocused}
-            isFocused
-          />
-        </Route>
-        <Route>
-          <Sticky className={classes.root} height={48}>
-            {isSticking => {
-              if (isSticking || isSearchFocused) {
-                return (
-                  <SearchView
-                    isSearchInProgress={isSearchInProgress}
-                    inputValue={searchInputValue}
-                    requestSearchResults={requestSearchResults}
-                    setSearchIsFocused={setSearchIsFocused}
-                  />
-                );
-              }
+    const isSearchPage = location.pathname === '/search';
 
-              return (
-                <div className={classes.container}>
-                  <a title="Homepage" className={classes.logo} href="/">
-                    {title}
-                  </a>
-                  <button
-                    disabled={__IS_SERVER__ || location.pathname === '/'}
-                    onClick={this.goBack}
-                    className={cc([classes.button, classes.back])}
-                  >
-                    <SvgIcon size={20} {...backIcon} />
-                    <span className="sr-only">Go Back</span>
-                  </button>
-                  <Link to="/search">
-                    <SvgIcon size={20} {...searchIcon} />
-                    <span className="sr-only">Search</span>
-                  </Link>
-                </div>
-              );
-            }}
-          </Sticky>
-        </Route>
-      </Switch>
+    return (
+      <Sticky className={classes.root} height={48}>
+        {isSticking => {
+          let view;
+          if (isSearchPage || isSticking || isSearchFocused) {
+            view = (
+              <SearchView
+                isSearchInProgress={isSearchInProgress}
+                inputValue={searchInputValue}
+                requestSearchResults={requestSearchResults}
+                setSearchIsFocused={setSearchIsFocused}
+                isFocused={isSearchPage}
+              />
+            );
+          } else {
+            view = [
+              <div key="logo" className={classes.logoWrapper}>
+                <a title="Homepage" className={classes.logo} href="/">
+                  {title}
+                </a>
+              </div>,
+              <NavBarLink className={classes.button} key="link" to="/search">
+                <SvgIcon size={20} {...searchIcon} />
+                <span className="sr-only">Search</span>
+              </NavBarLink>,
+            ];
+          }
+
+          return (
+            <div className={classes.view}>
+              <NavBarButton
+                disabled={__IS_SERVER__ || location.pathname === '/'}
+                onClick={this.goBack}
+                className={cc([classes.button, classes.backButton])}
+              >
+                <SvgIcon size={20} {...backIcon} />
+                <span className="sr-only">Go Back</span>
+              </NavBarButton>
+              {view}
+            </div>
+          );
+        }}
+      </Sticky>
     );
   }
 };

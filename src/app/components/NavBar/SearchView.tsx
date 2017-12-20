@@ -4,6 +4,7 @@ import cc from 'classcat';
 import * as classes from './SearchView.module.scss';
 
 import { SvgIcon } from 'components/SvgIcon/SvgIcon';
+import { NavBarButton } from 'components/NavBar/NavBarButton';
 
 import searchIcon from 'icons/search.svg';
 import { LoadingSpinner } from 'components/LoadingSpinner/LoadingSpinner';
@@ -39,41 +40,39 @@ export const SearchView = class extends React.PureComponent<Props> {
     const { inputValue, isFocused, isSearchInProgress } = this.props;
 
     return (
-      <div className={classes.container}>
-        <form
-          className={classes.search}
-          onBlurCapture={this.handleSearchFormBlur}
-          action="/search"
-          method="GET"
-        >
-          <input
-            type="search"
-            ref={this.setSearchInput}
-            className={classes.searchInput}
-            onFocus={this.handleSearchInputFocus}
-            required
-            name="query"
-            value={inputValue}
-            placeholder="Search for notable people..."
-            autoFocus={!inputValue && isFocused}
-            onChange={this.handleChange}
-          />
-          {
-            <button
-              disabled={isSearchInProgress}
-              className={cc([classes.button, classes.hasSpinner])}
-              type="submit"
-            >
-              {isSearchInProgress ? (
-                <LoadingSpinner size={20} />
-              ) : (
-                <SvgIcon size={20} {...searchIcon} />
-              )}
-              <span className="sr-only">Search</span>
-            </button>
-          }
-        </form>
-      </div>
+      <form
+        className={classes.root}
+        onBlurCapture={this.handleSearchFormBlur}
+        action="/search"
+        method="GET"
+      >
+        <input
+          type="search"
+          ref={this.setSearchInput}
+          className={classes.searchInput}
+          onFocus={this.handleSearchInputFocus}
+          required
+          name="query"
+          value={inputValue}
+          placeholder="Search for notable people..."
+          autoFocus={!inputValue && isFocused}
+          onChange={this.handleChange}
+        />
+        {
+          <NavBarButton
+            disabled={isSearchInProgress}
+            className={cc([classes.button, classes.hasSpinner])}
+            type="submit"
+          >
+            {isSearchInProgress ? (
+              <LoadingSpinner size={20} />
+            ) : (
+              <SvgIcon size={20} {...searchIcon} />
+            )}
+            <span className="sr-only">Search</span>
+          </NavBarButton>
+        }
+      </form>
     );
   }
 };
