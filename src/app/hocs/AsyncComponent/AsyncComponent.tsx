@@ -120,7 +120,7 @@ export class AsyncComponent<T = any> extends React.PureComponent<
 
   componentDidMount() {
     // tslint:disable-next-line no-floating-promises
-    // this.tryLoading();
+    this.tryLoading();
   }
 
   render() {

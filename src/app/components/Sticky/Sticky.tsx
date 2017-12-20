@@ -20,8 +20,8 @@ export class Sticky extends React.PureComponent<Props, State> {
     isSticking: false,
   };
 
-  handleChange = (_: boolean) => {
-    // this.setState({ isSticking: !isInView });
+  handleChange = (isInView: boolean) => {
+    this.setState({ isSticking: !isInView });
   };
 
   render() {
