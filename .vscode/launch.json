@@ -14,8 +14,7 @@
         "request": "attach",
         "port": 9231,
         "address": "localhost",
-        "localRoot": "${workspaceRoot}",
-        "remoteRoot": "/usr/code/src/server"
+        "localRoot": "${workspaceRoot}"
       }
     ]
   }

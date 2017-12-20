@@ -5,6 +5,7 @@ import {
 } from 'react-router-redux';
 import { AsyncResult } from 'helpers/asyncResults';
 import { AlgoliaResponse } from 'algoliasearch';
+import { NotablePersonQuery } from 'api/types';
 
 /** A map of all app actions to their corresponding payloads */
 export type TypeToPayload = {
@@ -14,14 +15,37 @@ export type TypeToPayload = {
   SET_SEARCH_RESULTS: AsyncResult<AlgoliaResponse | null>;
   SET_SEARCH_IS_FOCUSED: boolean;
   SET_STATUS_CODE: number;
+  REQUEST_DATA: {
+    allowOptimisticUpdates: boolean;
+    key: ResolvedDataKey;
+    resolve(): Promise<ResolvedData[ResolvedDataKey]>;
+  };
+  SET_RESOLVED_DATA: {
+    key: ResolvedDataKey;
+    data: AsyncResult<ResolvedData[ResolvedDataKey]> & {
+      isResolved?: true;
+    };
+  };
   '@@router/LOCATION_CHANGE': LocationChangeAction['payload'];
   '@@router/CALL_HISTORY_METHOD': RouterAction['payload'];
 };
+
+export type ResolvedData = {
+  notablePersonQuery: NotablePersonQuery | null;
+  searchResults: AlgoliaResponse | null;
+};
+
+export type ResolvedDataKey = keyof ResolvedData;
 
 export type AppState = {
   statusCode: number;
   searchResults: AsyncResult<AlgoliaResponse | null>;
   isSearchFocused: boolean;
+  resolvedData: {
+    [K in keyof ResolvedData]: AsyncResult<ResolvedData[K] | null> & {
+      isResolved?: true;
+    }
+  };
 };
 
 /**

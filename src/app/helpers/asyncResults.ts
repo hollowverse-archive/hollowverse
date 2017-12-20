@@ -1,7 +1,7 @@
 export type ErrorResult = {
   isInProgress: false;
   hasError: true;
-  value: null;
+  value: undefined;
 };
 
 type OptimisticResult<T> = {
@@ -13,7 +13,7 @@ type OptimisticResult<T> = {
 export type PendingResult = {
   isInProgress: true;
   hasError: false;
-  value: null;
+  value: undefined;
 };
 
 export type SuccessResult<T> = {
@@ -31,11 +31,18 @@ export type AsyncResult<T> =
 export const pendingResult: PendingResult = {
   isInProgress: true,
   hasError: false,
-  value: null,
+  value: undefined,
 };
+
 export const errorResult: ErrorResult = {
   isInProgress: false,
   hasError: true,
+  value: undefined,
+};
+
+export const nullResult: SuccessResult<null> = {
+  isInProgress: false,
+  hasError: false,
   value: null,
 };
 
@@ -64,7 +71,11 @@ export function isOptimisticResult<T>(
 export function isSuccessResult<T>(
   result: AsyncResult<T>,
 ): result is SuccessResult<T> {
-  return result.hasError === false && result.isInProgress === false;
+  return (
+    result.hasError === false &&
+    result.isInProgress === false &&
+    result.value !== undefined
+  );
 }
 
 export async function promiseToAsyncResult<T>(
@@ -80,7 +91,7 @@ export async function promiseToAsyncResult<T>(
     };
   } catch (e) {
     return {
-      value: null,
+      value: undefined,
       isInProgress: false,
       hasError: true,
     };

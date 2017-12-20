@@ -14,13 +14,13 @@ import warningIcon from 'icons/warning.svg';
 import * as classes from './NotablePerson.module.scss';
 import { Card } from 'components/Card/Card';
 import { EditorialSummary } from 'components/EditorialSummary/EditorialSummary';
-import { ResolvableComponent } from 'hocs/ResolvableComponent/ResolvableComponent';
 import { Status } from 'components/Status/Status';
 import {
   isErrorResult,
   isPendingResult,
   AsyncResult,
 } from 'helpers/asyncResults';
+import { ResolvableComponent } from 'hocs/ResolvableComponent/ResolvableComponent';
 
 const warningIconComponent = <SvgIcon {...warningIcon} size={100} />;
 
@@ -32,6 +32,7 @@ const query = gql`
   query NotablePerson($slug: String!) {
     notablePerson(slug: $slug) {
       name
+      slug
       photoUrl
       summary
       commentsUrl
@@ -49,7 +50,9 @@ const query = gql`
   }
 `;
 
-export type Props = { slug: string };
+export type Props = {
+  slug: string;
+};
 
 class Page extends React.PureComponent<Props> {
   load = async () => {
@@ -60,7 +63,11 @@ class Page extends React.PureComponent<Props> {
 
   render() {
     return (
-      <ResolvableComponent load={this.load}>
+      <ResolvableComponent
+        updateKey={this.props.slug}
+        dataKey="notablePersonQuery"
+        resolve={this.load}
+      >
         {({ result }: { result: AsyncResult<NotablePersonQuery> }) => {
           if (isPendingResult(result)) {
             return <div>Loading NP page...</div>;
@@ -102,38 +109,40 @@ class Page extends React.PureComponent<Props> {
           } = notablePerson;
 
           return (
-            <div className={classes.root}>
-              <article className={classes.article}>
-                <PersonDetails
-                  name={name}
-                  photoUrl={photoUrl}
-                  summary={summary}
-                />
-                {editorialSummary ? (
-                  <Card
-                    className={cc([classes.card, classes.editorialSummary])}
-                  >
-                    <EditorialSummary {...editorialSummary} />
-                  </Card>
-                ) : null}
-              </article>
-              <OptionalIntersectionObserver
-                rootMargin="0% 0% 25% 0%"
-                triggerOnce
-              >
-                {inView => {
-                  if (inView) {
-                    return (
-                      <Card className={cc([classes.card, classes.comments])}>
-                        <FbComments url={commentsUrl} />
-                      </Card>
-                    );
-                  } else {
-                    return null;
-                  }
-                }}
-              </OptionalIntersectionObserver>
-            </div>
+            <Status code={200}>
+              <div className={classes.root}>
+                <article className={classes.article}>
+                  <PersonDetails
+                    name={name}
+                    photoUrl={photoUrl}
+                    summary={summary}
+                  />
+                  {editorialSummary ? (
+                    <Card
+                      className={cc([classes.card, classes.editorialSummary])}
+                    >
+                      <EditorialSummary {...editorialSummary} />
+                    </Card>
+                  ) : null}
+                </article>
+                <OptionalIntersectionObserver
+                  rootMargin="0% 0% 25% 0%"
+                  triggerOnce
+                >
+                  {inView => {
+                    if (inView) {
+                      return (
+                        <Card className={cc([classes.card, classes.comments])}>
+                          <FbComments url={commentsUrl} />
+                        </Card>
+                      );
+                    } else {
+                      return null;
+                    }
+                  }}
+                </OptionalIntersectionObserver>
+              </div>
+            </Status>
           );
         }}
       </ResolvableComponent>

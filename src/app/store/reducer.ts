@@ -6,11 +6,13 @@ import {
   searchResultsReducer,
   isSearchFocusedReducer,
 } from 'store/features/search/reducer';
+import { resolvedDataReducer } from 'store/features/data/reducer';
 
 const appReducers: ReducerMap = {
   statusCode: statusCodeReducer,
   searchResults: searchResultsReducer,
   isSearchFocused: isSearchFocusedReducer,
+  resolvedData: resolvedDataReducer,
 };
 
 /**

@@ -1,84 +1,77 @@
 import * as React from 'react';
 
-import { resolve as resolveComponent } from 'react-resolver';
-import {
-  ErrorResult,
-  SuccessResult,
-  PendingResult,
-  errorResult,
-  pendingResult,
-} from 'helpers/asyncResults';
-import { once } from 'lodash';
+import { AsyncResult, pendingResult } from 'helpers/asyncResults';
+import { ResolvedData, ResolvedDataKey, StoreState } from 'store/types';
+import { connect } from 'react-redux';
+import { getResolvedDataForKey } from 'store/features/data/selectors';
+import { requestData } from 'store/features/data/actions';
 
-type ChildProps<T> = { result: State<T>['result'] };
-
-type Props<T> = {
-  /**
-   * Time in milliseconds after which loading is considered to have failed
-   * Defaults to `6000`. If `null`, loading never times out.
-   */
-  timeout?: number | null;
-
-  load(): Promise<T>;
-
-  children(props: ChildProps<T>): JSX.Element | null;
+type OwnProps<Key extends ResolvedDataKey = ResolvedDataKey> = {
+  dataKey: Key;
+  updateKey: string;
+  allowOptimisticUpdates?: boolean;
+  clientOnly?: boolean;
+  resolve(): Promise<ResolvedData[Key]>;
+  children({
+    result,
+  }: {
+    result: AsyncResult<ResolvedData[Key] | null>;
+  }): JSX.Element | null;
 };
 
-type State<T> = {
-  result: ErrorResult | SuccessResult<T> | PendingResult;
+type StateProps<Key extends ResolvedDataKey = ResolvedDataKey> = {
+  result: AsyncResult<ResolvedData[Key] | null> & {
+    isResolved?: true;
+  };
 };
 
-/**
- * Wraps `react-resolver`'s `resolve()` and exposes a render prop API instead of a HOC API.
- * It also allows children to render while loading instead of rendering nothing.
- * 
- * Use this component to prepare asynchronous data for server-side rendering.
- * `props.load()` is called on the server and the results are awaited and passed
- * to the wrapped component to render before sending the response.
- */
-export class ResolvableComponent<T = any> extends React.PureComponent<
-  Props<T>,
-  State<T>
-> {
-  component: Props<T>['children'];
+type DispatchProps = {
+  requestData: typeof requestData;
+};
+
+type Props<K extends ResolvedDataKey = ResolvedDataKey> = OwnProps<K> &
+  StateProps<K> &
+  DispatchProps;
+
+class Wrapper extends React.PureComponent<Props> {
+  resolve() {
+    const { dataKey, resolve, allowOptimisticUpdates = true } = this.props;
+    this.props.requestData({ key: dataKey, resolve, allowOptimisticUpdates });
+  }
 
   componentWillMount() {
-    this.component = resolveComponent<ChildProps<T>, ChildProps<T>>({
-      result: once(
-        async ({ value: currentValue }) =>
-          new Promise<State<T>['result']>(async (resolve, reject) => {
-            try {
-              let value = currentValue;
-              if (!value) {
-                this.setState({ result: pendingResult });
-                value = await this.props.load();
-              }
-              const result: State<T>['result'] = {
-                isInProgress: false,
-                hasError: false,
-                value,
-              };
+    if (!this.props.clientOnly && __IS_SERVER__) {
+      this.resolve();
+    }
+  }
 
-              this.setState({ result });
+  componentDidMount() {
+    if (this.props.clientOnly) {
+      this.resolve();
+    }
+  }
 
-              resolve(result);
-            } catch (e) {
-              this.setState({ result: errorResult });
-              reject(errorResult);
-            }
-          }),
-      ),
-    })(this.props.children);
+  componentWillReceiveProps(nextProps: Props) {
+    if (nextProps.updateKey !== this.props.updateKey) {
+      this.resolve();
+    }
   }
 
   render() {
-    const { result } = this.state;
+    const { result = pendingResult } = this.props;
 
-    // Allow child to render while loading,
-    // unlike `react-resolver`'s behavior of rendering nothing
-    const Child =
-      result && result.isInProgress ? this.props.children : this.component;
-
-    return <Child result={result} />;
+    return this.props.children({ result });
   }
 }
+
+export const ResolvableComponent = connect<
+  StateProps,
+  DispatchProps,
+  OwnProps,
+  StoreState
+>(
+  (state, ownProps) => ({
+    result: getResolvedDataForKey(state)(ownProps.dataKey),
+  }),
+  { requestData },
+)(Wrapper);

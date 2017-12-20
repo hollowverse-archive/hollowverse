@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Provider } from 'react-redux';
 import { ConnectedRouter as Router } from 'react-router-redux';
 import domready from 'domready';
-import { Resolver } from 'react-resolver';
+import { render } from 'react-dom';
 import createBrowserHistory from 'history/createBrowserHistory';
 
 import { App } from 'components/App/App';
@@ -14,15 +14,16 @@ declare const __INITIAL_STATE__: StoreState | undefined;
 const history = createBrowserHistory();
 
 const renderApp = (NewApp: typeof App = App) => {
-  Resolver.render(
-    () => (
-      <Provider store={createStoreWithInitialState(history, __INITIAL_STATE__)}>
-        <Router history={history}>
-          <NewApp />
-        </Router>
-      </Provider>
-    ),
-    document.getElementById('app'),
+  render(
+    <Provider
+      store={createStoreWithInitialState(history, __INITIAL_STATE__).store}
+    >
+      <Router history={history}>
+        <NewApp />
+      </Router>
+    </Provider>,
+    // tslint:disable-next-line:no-non-null-assertion
+    document.getElementById('app')!,
   );
 };
 

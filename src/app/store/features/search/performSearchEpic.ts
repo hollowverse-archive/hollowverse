@@ -9,7 +9,6 @@ import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/takeUntil';
 import 'rxjs/add/operator/takeWhile';
-import 'rxjs/add/operator/startWith';
 import 'rxjs/add/observable/fromPromise';
 
 import { getSearchQuery } from 'store/features/search/selectors';
@@ -31,7 +30,6 @@ const isSearchPage = (state: StoreState) => {
 export const performSearchEpic: Epic<Action, StoreState> = (action$, store) => {
   return action$
     .ofType(LOCATION_CHANGE)
-    .startWith({})
     .takeWhile(() => isSearchPage(store.getState()))
     .mergeMap(_ => {
       const searchQuery = getSearchQuery(store.getState());

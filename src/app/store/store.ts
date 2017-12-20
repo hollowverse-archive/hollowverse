@@ -1,40 +1,31 @@
 import { routerMiddleware } from 'react-router-redux';
 import { History } from 'history';
-import { createStore, applyMiddleware, compose } from 'redux';
+import { createStore, applyMiddleware, compose, Middleware } from 'redux';
+import { wrapRootEpic } from 'react-redux-epic';
 
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import 'rxjs/add/operator/mergeMap';
 
-import { combineEpics, createEpicMiddleware, Epic } from 'redux-observable';
-import { StoreState, Action } from './types';
+import { combineEpics, createEpicMiddleware } from 'redux-observable';
+import { StoreState } from './types';
 import { reducer } from './reducer';
 import { analyticsEpic } from 'store/features/analytics/epic';
 import { updateUrlEpic } from 'store/features/search/updateUrlEpic';
+import { dataResolverEpic } from 'store/features/data/epic';
+// import { performSearchEpic } from 'store/features/search/performSearchEpic';
+import { nullResult } from 'helpers/asyncResults';
 
 const defaultInitialState: StoreState = {
-  searchResults: {
-    hasError: false,
-    isInProgress: false,
-    value: null,
-  },
+  searchResults: nullResult,
   routing: {
     location: null,
   },
   statusCode: 200,
   isSearchFocused: false,
+  resolvedData: {
+    searchResults: nullResult,
+    notablePersonQuery: nullResult,
+  },
 };
-
-const epic$ = new BehaviorSubject(combineEpics(analyticsEpic, updateUrlEpic));
-
-export const addLazyEpic = (epic: Epic<Action, StoreState>) => epic$.next(epic);
-
-// Add epics lazily as they are imported from different chunks accross
-// the app.
-// See https://redux-observable.js.org/docs/recipes/AddingNewEpicsAsynchronously.html
-const rootEpic: Epic<Action, StoreState> = (action$, store) =>
-  epic$.mergeMap(epic => epic(action$, store, undefined));
-
-const epicMiddleware = createEpicMiddleware(rootEpic);
 
 declare const global: NodeJS.Global & {
   __REDUX_DEVTOOLS_EXTENSION_COMPOSE__: typeof compose | undefined;
@@ -53,12 +44,20 @@ declare const module: {
 export function createStoreWithInitialState(
   history: History,
   initialState: StoreState = defaultInitialState,
+  additionalMiddleware: Middleware[] = [],
 ) {
+  const rootEpic = combineEpics(analyticsEpic, updateUrlEpic, dataResolverEpic);
+  const wrappedRootEpic = wrapRootEpic(rootEpic);
+  const epicMiddleware = createEpicMiddleware(wrappedRootEpic);
   const store = createStore<StoreState>(
     reducer,
     initialState,
     composeEnhancers(
-      applyMiddleware(epicMiddleware, routerMiddleware(history)),
+      applyMiddleware(
+        epicMiddleware,
+        routerMiddleware(history),
+        ...additionalMiddleware,
+      ),
     ),
   );
 
@@ -71,5 +70,5 @@ export function createStoreWithInitialState(
     });
   }
 
-  return store;
+  return { store, wrappedRootEpic };
 }
