@@ -6,7 +6,7 @@ import { render } from 'react-dom';
 import createBrowserHistory from 'history/createBrowserHistory';
 
 import { App } from 'components/App/App';
-import { createStoreWithInitialState } from 'store/store';
+import { createConfiguredStore } from 'store/store';
 import { StoreState } from 'store/types';
 
 declare const __INITIAL_STATE__: StoreState | undefined;
@@ -18,6 +18,7 @@ const renderApp = (NewApp: typeof App = App) => {
     <Provider
       store={createStoreWithInitialState(history, __INITIAL_STATE__).store}
     >
+      createConfiguredStore
       <Router history={history}>
         <NewApp />
       </Router>

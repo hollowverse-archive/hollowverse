@@ -15,7 +15,7 @@ import { Stats } from 'webpack';
 import { getStatusCode } from 'store/features/status/reducer';
 
 import { Provider } from 'react-redux';
-import { createStoreWithInitialState } from 'store/store';
+import { createConfiguredStore } from 'store/store';
 import { App } from 'components/App/App';
 import html from './index.server.html';
 
@@ -39,7 +39,7 @@ export const createServerRenderMiddleware = ({
 }) => async (req: Request, res: Response) => {
   const start = Date.now();
   const history = createMemoryHistory({ initialEntries: [req.url] });
-  const { store, wrappedRootEpic } = createStoreWithInitialState(
+  const { store, wrappedRootEpic } = createConfiguredStore(
     history,
     undefined,
     wrapRootEpic,

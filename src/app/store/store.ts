@@ -42,7 +42,7 @@ declare const module: {
   hot?: { accept(path?: string, cb?: () => void): void };
 };
 
-export function createStoreWithInitialState(
+export function createConfiguredStore(
   history: History,
   initialState: StoreState = defaultInitialState,
   wrapEpic: (epic: Epic<Action, StoreState>) => typeof epic = identity,
