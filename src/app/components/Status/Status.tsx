@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { setStatusCode } from 'store/features/status/actions';
 
 type Props = {
-  children?: any;
+  children?: undefined;
   code: number;
   setStatusCode: typeof setStatusCode;
 };
@@ -17,7 +17,7 @@ export const Status = connect(undefined, {
     }
 
     render() {
-      return this.props.children;
+      return null;
     }
   },
 );

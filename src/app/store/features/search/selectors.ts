@@ -8,7 +8,8 @@ import {
 import { getResolvedDataForKey } from 'store/features/data/selectors';
 
 const getRoutingState = (state: StoreState) => state.routing;
-const getSearchResults = (state: StoreState) => state.searchResults;
+const getSearchResults = (state: StoreState) =>
+  state.resolvedData.searchResults;
 
 export const getSearchQuery = createSelector(getRoutingState, routing => {
   if (routing.location) {

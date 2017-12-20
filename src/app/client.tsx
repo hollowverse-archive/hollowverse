@@ -8,6 +8,7 @@ import createBrowserHistory from 'history/createBrowserHistory';
 import { App } from 'components/App/App';
 import { createStoreWithInitialState } from 'store/store';
 import { StoreState } from 'store/types';
+import logger from 'redux-logger';
 
 declare const __INITIAL_STATE__: StoreState | undefined;
 
@@ -16,7 +17,9 @@ const history = createBrowserHistory();
 const renderApp = (NewApp: typeof App = App) => {
   render(
     <Provider
-      store={createStoreWithInitialState(history, __INITIAL_STATE__).store}
+      store={
+        createStoreWithInitialState(history, __INITIAL_STATE__, [logger]).store
+      }
     >
       <Router history={history}>
         <NewApp />

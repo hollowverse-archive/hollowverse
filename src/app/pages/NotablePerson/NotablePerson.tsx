@@ -50,11 +50,9 @@ const query = gql`
   }
 `;
 
-export type Props = {
-  slug: string;
-};
+export type Props = { slug: string };
 
-class Page extends React.PureComponent<Props> {
+class Page extends React.Component<Props> {
   load = async () => {
     const { slug } = this.props;
 
@@ -63,54 +61,55 @@ class Page extends React.PureComponent<Props> {
 
   render() {
     return (
-      <ResolvableComponent
-        updateKey={this.props.slug}
-        dataKey="notablePersonQuery"
-        resolve={this.load}
-      >
-        {({ result }: { result: AsyncResult<NotablePersonQuery> }) => {
-          if (isPendingResult(result)) {
-            return <div>Loading NP page...</div>;
-          }
+      <div key={this.props.slug}>
+        <ResolvableComponent
+          updateKey={this.props.slug}
+          dataKey="notablePersonQuery"
+          resolve={this.load}
+        >
+          {({ result }: { result: AsyncResult<NotablePersonQuery> }) => {
+            if (isPendingResult(result)) {
+              return <div>Loading NP page...</div>;
+            }
 
-          if (isErrorResult(result) || !result.value) {
-            return (
-              <Status code={500}>
+            if (isErrorResult(result) || !result.value) {
+              return (
                 <MessageWithIcon
                   caption="Are you connected to the internet?"
                   description="Please check your connection and try again"
                   actionText="Retry"
                   icon={warningIconComponent}
                   onActionClick={reload}
-                />
-              </Status>
-            );
-          }
+                >
+                  <Status code={500} />
+                </MessageWithIcon>
+              );
+            }
 
-          const { notablePerson } = result.value;
+            const { notablePerson } = result.value;
 
-          if (!notablePerson) {
-            return (
-              <Status code={404}>
+            if (!notablePerson) {
+              return (
                 <MessageWithIcon
                   caption="Not Found"
                   icon={warningIconComponent}
-                />
-              </Status>
-            );
-          }
+                >
+                  <Status code={404} />
+                </MessageWithIcon>
+              );
+            }
 
-          const {
-            name,
-            photoUrl,
-            summary,
-            commentsUrl,
-            editorialSummary,
-          } = notablePerson;
+            const {
+              name,
+              photoUrl,
+              summary,
+              commentsUrl,
+              editorialSummary,
+            } = notablePerson;
 
-          return (
-            <Status code={200}>
+            return (
               <div className={classes.root}>
+                <Status code={200} />
                 <article className={classes.article}>
                   <PersonDetails
                     name={name}
@@ -142,10 +141,10 @@ class Page extends React.PureComponent<Props> {
                   }}
                 </OptionalIntersectionObserver>
               </div>
-            </Status>
-          );
-        }}
-      </ResolvableComponent>
+            );
+          }}
+        </ResolvableComponent>
+      </div>
     );
   }
 }

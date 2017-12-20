@@ -12,18 +12,18 @@ export type TypeToPayload = {
   REQUEST_SEARCH_RESULTS: {
     query: string;
   };
-  SET_SEARCH_RESULTS: AsyncResult<AlgoliaResponse | null>;
   SET_SEARCH_IS_FOCUSED: boolean;
   SET_STATUS_CODE: number;
   REQUEST_DATA: {
     allowOptimisticUpdates: boolean;
     key: ResolvedDataKey;
+    resolvedKey: string;
     resolve(): Promise<ResolvedData[ResolvedDataKey]>;
   };
   SET_RESOLVED_DATA: {
     key: ResolvedDataKey;
     data: AsyncResult<ResolvedData[ResolvedDataKey]> & {
-      isResolved?: true;
+      resolvedKey: string;
     };
   };
   '@@router/LOCATION_CHANGE': LocationChangeAction['payload'];
@@ -39,11 +39,10 @@ export type ResolvedDataKey = keyof ResolvedData;
 
 export type AppState = {
   statusCode: number;
-  searchResults: AsyncResult<AlgoliaResponse | null>;
   isSearchFocused: boolean;
   resolvedData: {
     [K in keyof ResolvedData]: AsyncResult<ResolvedData[K] | null> & {
-      isResolved?: true;
+      resolvedKey: string | null;
     }
   };
 };

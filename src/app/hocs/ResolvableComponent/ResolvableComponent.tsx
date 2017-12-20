@@ -21,7 +21,7 @@ type OwnProps<Key extends ResolvedDataKey = ResolvedDataKey> = {
 
 type StateProps<Key extends ResolvedDataKey = ResolvedDataKey> = {
   result: AsyncResult<ResolvedData[Key] | null> & {
-    isResolved?: true;
+    resolvedKey: string | null;
   };
 };
 
@@ -33,20 +33,24 @@ type Props<K extends ResolvedDataKey = ResolvedDataKey> = OwnProps<K> &
   StateProps<K> &
   DispatchProps;
 
-class Wrapper extends React.PureComponent<Props> {
+class Wrapper extends React.Component<Props> {
   resolve() {
-    const { dataKey, resolve, allowOptimisticUpdates = true } = this.props;
-    this.props.requestData({ key: dataKey, resolve, allowOptimisticUpdates });
+    const {
+      dataKey,
+      resolve,
+      updateKey,
+      allowOptimisticUpdates = false,
+    } = this.props;
+    this.props.requestData({
+      key: dataKey,
+      resolvedKey: updateKey,
+      resolve,
+      allowOptimisticUpdates,
+    });
   }
 
   componentWillMount() {
-    if (!this.props.clientOnly && __IS_SERVER__) {
-      this.resolve();
-    }
-  }
-
-  componentDidMount() {
-    if (this.props.clientOnly) {
+    if (this.props.result.resolvedKey !== this.props.updateKey) {
       this.resolve();
     }
   }

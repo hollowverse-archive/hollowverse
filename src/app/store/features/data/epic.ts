@@ -17,15 +17,30 @@ import 'rxjs/add/observable/of';
 import { promiseToAsyncResult, pendingResult } from 'helpers/asyncResults';
 import { isActionOfType } from 'store/helpers';
 
-export const dataResolverEpic: Epic<Action, StoreState> = action$ => {
+export const dataResolverEpic: Epic<Action, StoreState> = (action$, store) => {
   return action$.ofType('REQUEST_DATA').mergeMap(action => {
-    const { key, resolve } = (action as Action<'REQUEST_DATA'>).payload;
+    const {
+      key,
+      resolve,
+      resolvedKey,
+      allowOptimisticUpdates,
+    } = (action as Action<'REQUEST_DATA'>).payload;
 
-    return Observable.of(setResolvedData({ key, data: pendingResult })).merge(
+    return Observable.of(
+      // @ts-ignore
+      setResolvedData({
+        key,
+        data: allowOptimisticUpdates
+          ? {
+              ...store.getState().resolvedData[key],
+              hasError: false,
+              isInProgress: true,
+            }
+          : pendingResult,
+      }),
+    ).merge(
       Observable.fromPromise(promiseToAsyncResult(resolve()))
-        .map(data =>
-          setResolvedData({ key, data: { ...data, isResolved: true } }),
-        )
+        .map(data => setResolvedData({ key, data: { ...data, resolvedKey } }))
         .takeUntil(
           action$.filter(
             newAction =>

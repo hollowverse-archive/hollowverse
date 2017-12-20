@@ -7,10 +7,7 @@ export const resolvedDataReducer = createReducerForStoreKey<'resolvedData'>(
       if (isActionOfType(action, 'SET_RESOLVED_DATA')) {
         return {
           ...state,
-          [action.payload.key]: {
-            value: state[action.payload.key].value,
-            ...action.payload.data,
-          },
+          [action.payload.key]: action.payload.data,
         };
       }
 
@@ -18,7 +15,13 @@ export const resolvedDataReducer = createReducerForStoreKey<'resolvedData'>(
     },
   },
   {
-    notablePersonQuery: nullResult,
-    searchResults: nullResult,
+    notablePersonQuery: {
+      ...nullResult,
+      resolvedKey: null,
+    },
+    searchResults: {
+      ...nullResult,
+      resolvedKey: null,
+    },
   },
 );

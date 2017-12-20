@@ -11,15 +11,20 @@ import { dataResolverEpic } from 'store/features/data/epic';
 import { nullResult } from 'helpers/asyncResults';
 
 const defaultInitialState: StoreState = {
-  searchResults: nullResult,
   routing: {
     location: null,
   },
   statusCode: 200,
   isSearchFocused: false,
   resolvedData: {
-    searchResults: nullResult,
-    notablePersonQuery: nullResult,
+    searchResults: {
+      ...nullResult,
+      resolvedKey: null,
+    },
+    notablePersonQuery: {
+      ...nullResult,
+      resolvedKey: null,
+    },
   },
 };
 

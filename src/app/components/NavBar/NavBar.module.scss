@@ -20,7 +20,7 @@
   position: relative;
   width: 100%;
   display: flex;
-  align-items: center;
+  align-items: stretch;
   justify-content: space-between;
 
   @keyframes navbar-switch {
@@ -70,8 +70,6 @@
   .logo-wrapper {
     flex-grow: 1;
     text-align: center;
-    align-items: center;
-    justify-content: center;
     .logo {
       text-transform: uppercase;
       text-align: center;

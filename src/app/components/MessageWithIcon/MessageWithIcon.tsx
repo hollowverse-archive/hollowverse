@@ -9,7 +9,7 @@ type Props = {
   actionText?: string;
   icon?: React.ReactNode;
   onActionClick?(): void;
-};
+} & React.HTMLAttributes<HTMLDivElement>;
 
 export const MessageWithIcon = ({
   caption,
@@ -17,17 +17,27 @@ export const MessageWithIcon = ({
   description,
   onActionClick,
   actionText,
+  children,
+  className,
+  ...rest,
 }: Props) => (
   <div
-    className={cc({
-      [classes.message]: true,
-      [classes.hasDescription]: typeof description === 'string',
-    })}
+    className={cc([
+      className,
+      {
+        [classes.message]: true,
+        [classes.hasDescription]: typeof description === 'string',
+      },
+    ])}
+    {...rest}
   >
     <div className={classes.messageIcon}>{icon}</div>
     <div className={classes.messageCaption}>{caption}</div>
     {description ? (
-      <div className={classes.messageDescription}>{description}</div>
+      <div className={classes.messageDescription}>
+        {description}
+        {children}
+      </div>
     ) : null}
     {onActionClick && (
       <button
