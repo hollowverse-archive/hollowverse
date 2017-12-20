@@ -1,9 +1,9 @@
 import { routerMiddleware } from 'react-router-redux';
 import { History } from 'history';
 import { createStore, applyMiddleware, compose, Middleware } from 'redux';
-import { wrapRootEpic } from 'react-redux-epic';
-import { combineEpics, createEpicMiddleware } from 'redux-observable';
-import { StoreState } from './types';
+import { identity } from 'lodash';
+import { combineEpics, createEpicMiddleware, Epic } from 'redux-observable';
+import { StoreState, Action } from './types';
 import { reducer } from './reducer';
 import { analyticsEpic } from 'store/features/analytics/epic';
 import { updateUrlEpic } from 'store/features/search/updateUrlEpic';
@@ -45,11 +45,11 @@ declare const module: {
 export function createStoreWithInitialState(
   history: History,
   initialState: StoreState = defaultInitialState,
+  wrapEpic: (epic: Epic<Action, StoreState>) => typeof epic = identity,
   additionalMiddleware: Middleware[] = [],
 ) {
   const rootEpic = combineEpics(analyticsEpic, updateUrlEpic, dataResolverEpic);
-  const wrappedRootEpic = wrapRootEpic(rootEpic);
-  const epicMiddleware = createEpicMiddleware(wrappedRootEpic);
+  const epicMiddleware = createEpicMiddleware(wrapEpic(rootEpic));
   const store = createStore<StoreState>(
     reducer,
     initialState,

@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import * as React from 'react';
 import * as serializeJavaScript from 'serialize-javascript';
-import { renderToString } from 'react-redux-epic';
+import { renderToString, wrapRootEpic } from 'react-redux-epic';
 import { ConnectedRouter } from 'react-router-redux';
 import createMemoryHistory from 'history/createMemoryHistory';
 import { template } from 'lodash';
@@ -41,6 +41,7 @@ export const createServerRenderMiddleware = ({
   const { store, wrappedRootEpic } = createStoreWithInitialState(
     history,
     undefined,
+    wrapRootEpic,
   );
 
   renderToString(
