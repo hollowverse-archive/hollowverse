@@ -24,15 +24,10 @@ const config = {
   devServer:
     ifDev({
       port: process.env.WEBPACK_DEV_PORT || 3001,
-      inline: true,
-      contentBase: publicPath,
+      publicPath,
       hot: isHot,
       historyApiFallback: true,
-      noInfo: true,
-      quiet: false,
-      stats: {
-        colors: true,
-      },
+      stats: 'errors-only',
     }) || undefined,
 
   devtool: isDev ? 'cheap-module-source-map' : 'source-map',

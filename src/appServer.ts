@@ -87,7 +87,7 @@ if (isProd) {
 
   // @ts-ignore
   const clientCompiler = compiler.compilers[0];
-  const options = { publicPath, stats: { colors: true } };
+  const options = serverConfig.devServer;
 
   appServer.use(webpackDevMiddleware(compiler, options));
   appServer.use(webpackHotMiddleware(clientCompiler));
