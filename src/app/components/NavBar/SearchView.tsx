@@ -1,5 +1,4 @@
 import * as React from 'react';
-import cc from 'classcat';
 
 import * as classes from './SearchView.module.scss';
 
@@ -17,7 +16,7 @@ type Props = {
   requestSearchResults({ query }: { query: string }): any;
 };
 
-export const SearchView = class extends React.PureComponent<Props> {
+export class SearchView extends React.PureComponent<Props> {
   searchInput: HTMLInputElement | null = null;
 
   setSearchInput = (node: HTMLInputElement | null) => {
@@ -35,12 +34,6 @@ export const SearchView = class extends React.PureComponent<Props> {
   handleSearchFormBlur = () => {
     this.props.setSearchIsFocused(false);
   };
-
-  componentWillReceiveProps(nextProps: Props) {
-    if (this.searchInput && nextProps.isFocused) {
-      this.searchInput.focus();
-    }
-  }
 
   render() {
     const { inputValue, isFocused, isSearchInProgress } = this.props;
@@ -64,21 +57,18 @@ export const SearchView = class extends React.PureComponent<Props> {
           autoFocus={!inputValue && isFocused}
           onChange={this.handleChange}
         />
-        {
-          <NavBarButton
-            disabled={isSearchInProgress}
-            className={cc([classes.button, classes.hasSpinner])}
-            type="submit"
-          >
-            {isSearchInProgress ? (
-              <LoadingSpinner size={20} />
-            ) : (
-              <SvgIcon size={20} {...searchIcon} />
-            )}
-            <span className="sr-only">Search</span>
-          </NavBarButton>
-        }
+        <NavBarButton
+          className={classes.button}
+          type={isSearchInProgress ? 'button' : 'submit'}
+        >
+          {isSearchInProgress ? (
+            <LoadingSpinner className={classes.button} size={20} />
+          ) : (
+            <SvgIcon size={20} {...searchIcon} />
+          )}
+          <span className="sr-only">Search</span>
+        </NavBarButton>
       </form>
     );
   }
-};
+}
