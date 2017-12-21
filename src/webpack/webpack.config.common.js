@@ -27,7 +27,13 @@ const config = {
       publicPath,
       hot: isHot,
       historyApiFallback: true,
-      stats: 'errors-only',
+      stats: {
+        colors: true,
+        all: false,
+        errors: true,
+        errorDetails: true,
+        warnings: true,
+      },
     }) || undefined,
 
   devtool: isDev ? 'cheap-module-source-map' : 'source-map',
