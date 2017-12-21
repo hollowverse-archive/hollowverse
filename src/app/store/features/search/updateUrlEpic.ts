@@ -8,6 +8,8 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mapTo';
 import 'rxjs/add/operator/merge';
 import 'rxjs/add/operator/skipWhile';
+import 'rxjs/add/operator/startWith';
+import { setSearchIsFocused } from 'store/features/search/actions';
 
 const isSearchPage = (state: StoreState) => {
   return (
@@ -24,6 +26,7 @@ const isSearchPage = (state: StoreState) => {
 export const updateUrlEpic: Epic<Action, StoreState> = (action$, store) => {
   return action$
     .ofType('REQUEST_SEARCH_RESULTS')
+    .startWith(setSearchIsFocused(true))
     .map(action => {
       const { query } = (action as Action<'REQUEST_SEARCH_RESULTS'>).payload;
       const searchParams = new URLSearchParams();

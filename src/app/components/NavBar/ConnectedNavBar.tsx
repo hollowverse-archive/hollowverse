@@ -3,6 +3,7 @@ import { NavBar, StateProps, DispatchProps, OwnProps } from './NavBar';
 import {
   requestSearchResults,
   setSearchIsFocused,
+  goToSearch,
 } from 'store/features/search/actions';
 import { StoreState } from 'store/types';
 import {
@@ -23,6 +24,7 @@ export const ConnectedNavBar = connect<
     isSearchFocused: isSearchFocused(state),
   }),
   {
+    goToSearch,
     requestSearchResults,
     setSearchIsFocused,
   },

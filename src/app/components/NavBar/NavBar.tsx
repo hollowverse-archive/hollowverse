@@ -24,6 +24,7 @@ export type StateProps = {
 };
 
 export type DispatchProps = {
+  goToSearch(): any;
   requestSearchResults({ query }: { query: string }): any;
   setSearchIsFocused(isFocused: boolean): any;
 };
@@ -46,6 +47,7 @@ export const NavBar = class extends React.Component<
       setSearchIsFocused,
       requestSearchResults,
       isSearchFocused,
+      goToSearch,
       location,
     } = this.props;
 
@@ -68,6 +70,7 @@ export const NavBar = class extends React.Component<
                   requestSearchResults={requestSearchResults}
                   setSearchIsFocused={setSearchIsFocused}
                   isFocused={isSearchPage}
+                  goToSearch={goToSearch}
                 />
               );
             } else {

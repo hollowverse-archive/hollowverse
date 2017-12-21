@@ -12,6 +12,7 @@ type Props = {
   inputValue?: string;
   isFocused?: boolean;
   isSearchInProgress: boolean;
+  goToSearch(): any;
   setSearchIsFocused(isFocused: boolean): any;
   requestSearchResults({ query }: { query: string }): any;
 };
@@ -27,16 +28,23 @@ export class SearchView extends React.PureComponent<Props> {
     this.props.requestSearchResults({ query: e.target.value });
   };
 
-  handleSearchInputFocus = () => {
-    this.props.setSearchIsFocused(true);
-  };
+  componentWillReceiveProps(nextProps: Props) {
+    if (nextProps.isFocused && this.searchInput) {
+      this.searchInput.focus();
+    }
+  }
 
   handleSearchFormBlur = () => {
     this.props.setSearchIsFocused(false);
   };
 
   render() {
-    const { inputValue, isFocused, isSearchInProgress } = this.props;
+    const {
+      inputValue,
+      isFocused,
+      isSearchInProgress,
+      goToSearch,
+    } = this.props;
 
     return (
       <form
@@ -49,10 +57,10 @@ export class SearchView extends React.PureComponent<Props> {
           type="search"
           ref={this.setSearchInput}
           className={classes.searchInput}
-          onFocus={this.handleSearchInputFocus}
           required
           name="query"
           value={inputValue}
+          onFocus={goToSearch}
           placeholder="Search for notable people..."
           autoFocus={!inputValue && isFocused}
           onChange={this.handleChange}
