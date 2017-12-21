@@ -36,6 +36,12 @@ export const SearchView = class extends React.PureComponent<Props> {
     this.props.setSearchIsFocused(false);
   };
 
+  componentWillReceiveProps(nextProps: Props) {
+    if (this.searchInput && nextProps.isFocused) {
+      this.searchInput.focus();
+    }
+  }
+
   render() {
     const { inputValue, isFocused, isSearchInProgress } = this.props;
 
