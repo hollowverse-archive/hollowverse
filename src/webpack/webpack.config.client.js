@@ -39,7 +39,9 @@ const extractGlobalCss = new ExtractCssChunks({
   filename: isProd ? '[name].global.[contenthash].css' : '[name].global.css',
 });
 
-const extractLocalCss = new ExtractCssChunks();
+const extractLocalCss = new ExtractCssChunks({
+  filename: isProd ? '[name].module.[contenthash].css' : '[name].module.css',
+});
 
 const clientSpecificConfig = {
   name: 'client',

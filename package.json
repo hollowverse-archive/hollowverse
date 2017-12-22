@@ -10,7 +10,8 @@
     "lint-js": "eslint '**/*.js{,x}'",
     "lint-ts": "tslint './*.ts' 'src/**/*.ts{,x}' --project .",
     "app/webpack/build": "NODE_ENV=production NO_PERF_CHECKS=1 node ./build.js",
-    "app/build": "API_ENDPOINT=${API_ENDPOINT:-https://api.hollowverse.com/graphql} run-s -l app/graphql/build app/webpack/build",
+    "bundlesize": "bundlesize",
+    "app/build": "API_ENDPOINT=${API_ENDPOINT:-https://api.hollowverse.com/graphql} run-s -l app/graphql/build app/webpack/build bundlesize",
     "app/analyze": "webpack-bundle-analyzer dist/stats.json dist/",
     "app/graphql/schema": "apollo-codegen introspect-schema ${API_ENDPOINT} --output ./graphqlSchema.json",
     "app/graphql/types": "apollo-codegen generate 'src/app/{**,!api}/*.ts{,x}' --target typescript --output src/app/api/types.ts",
@@ -30,6 +31,24 @@
   },
   "license": "Unlicense",
   "homepage": "https://github.com/hollowverse/hollowverse#readme",
+  "bundlesize": [
+    {
+      "path": "./dist/client/**/*.js",
+      "maxSize": "50 kB"
+    },
+    {
+      "path": "./dist/client/**/*.module.*.css",
+      "maxSize": "5 kB"
+    },
+    {
+      "path": "./dist/client/**/*.global.*.css",
+      "maxSize": "10 kB"
+    },
+    {
+      "path": "./dist/client/**/*.html",
+      "maxSize": "3 kB"
+    }
+  ],
   "lint-staged": {
     "**/*.md": [
       "prettier --write",
@@ -150,6 +169,7 @@
     "babel-preset-react": "^6.24.1",
     "babel-preset-react-optimize": "^1.0.1",
     "babel-preset-stage-3": "^6.24.1",
+    "bundlesize": "^0.15.3",
     "circular-dependency-plugin": "^3.0.0",
     "css-loader": "^0.28.4",
     "del-cli": "^1.1.0",
