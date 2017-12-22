@@ -14,6 +14,7 @@ import warningIcon from 'icons/warning.svg';
 import * as classes from './NotablePerson.module.scss';
 import { Card } from 'components/Card/Card';
 import { EditorialSummary } from 'components/EditorialSummary/EditorialSummary';
+import { NotablePersonSkeleton } from './NotablePersonSkeleton';
 import { Status } from 'components/Status/Status';
 import {
   isErrorResult,
@@ -68,7 +69,7 @@ class Page extends React.Component<Props> {
       >
         {({ result }: { result: AsyncResult<NotablePersonQuery> }) => {
           if (isPendingResult(result)) {
-            return <div>Loading NP page...</div>;
+            return <NotablePersonSkeleton />;
           }
 
           if (isErrorResult(result) || !result.value) {
