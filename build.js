@@ -12,8 +12,6 @@ if (isProd) {
     .then(stats => {
       console.info('Build complete.');
 
-      console.log(stats.toString());
-
       // Build stats are required for SSR middleware at runtime
       return writeFile(
         './dist/stats.json',
