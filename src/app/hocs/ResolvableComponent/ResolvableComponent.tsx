@@ -8,8 +8,13 @@ import { requestData } from 'store/features/data/actions';
 
 type OwnProps<Key extends ResolvedDataKey = ResolvedDataKey> = {
   dataKey: Key;
+  /**
+   * A unique identifier for the resolve request, if this changes,
+   * `resolve()` will be called again
+   */
   requestId: string | null;
   allowOptimisticUpdates?: boolean;
+
   clientOnly?: boolean;
   resolve(): Promise<ResolvedData[Key]>;
   children({
@@ -50,6 +55,10 @@ class Wrapper extends React.Component<Props> {
   }
 
   componentWillMount() {
+    if (this.props.clientOnly && __IS_SERVER__) {
+      return;
+    }
+
     if (this.props.result.requestId !== this.props.requestId) {
       this.resolve();
     }
