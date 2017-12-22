@@ -13,9 +13,11 @@ declare const __INITIAL_STATE__: StoreState | undefined;
 
 const history = createBrowserHistory();
 
+const { store } = createConfiguredStore(history, __INITIAL_STATE__);
+
 const renderApp = (NewApp: typeof App = App) => {
   render(
-    <Provider store={createConfiguredStore(history, __INITIAL_STATE__).store}>
+    <Provider store={store}>
       <Router history={history}>
         <NewApp />
       </Router>
