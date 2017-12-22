@@ -77,9 +77,9 @@ export const NavBar = class extends React.Component<
             } else {
               view = [
                 <div key="logo" className={classes.logoWrapper}>
-                  <a title="Homepage" className={classes.logo} href="/">
+                  <NavBarLink title="Homepage" className={classes.logo} to="/">
                     {title}
-                  </a>
+                  </NavBarLink>
                 </div>,
                 <NavBarLink className={classes.button} key="link" to="/search">
                   <SvgIcon size={20} {...searchIcon} />
