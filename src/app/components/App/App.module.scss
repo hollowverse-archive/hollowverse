@@ -2,8 +2,15 @@
 
 .root {
   width: 100%;
+  // stylelint-disable-next-line plugin/no-unsupported-browser-features
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 
   .view {
     width: 100%;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
   }
 }

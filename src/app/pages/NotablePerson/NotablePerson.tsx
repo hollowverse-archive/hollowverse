@@ -61,90 +61,85 @@ class Page extends React.Component<Props> {
 
   render() {
     return (
-      <div key={this.props.slug}>
-        <ResolvableComponent
-          requestId={this.props.slug}
-          dataKey="notablePersonQuery"
-          resolve={this.load}
-        >
-          {({ result }: { result: AsyncResult<NotablePersonQuery> }) => {
-            if (isPendingResult(result)) {
-              return <div>Loading NP page...</div>;
-            }
+      <ResolvableComponent
+        requestId={this.props.slug}
+        dataKey="notablePersonQuery"
+        resolve={this.load}
+      >
+        {({ result }: { result: AsyncResult<NotablePersonQuery> }) => {
+          if (isPendingResult(result)) {
+            return <div>Loading NP page...</div>;
+          }
 
-            if (isErrorResult(result) || !result.value) {
-              return (
-                <MessageWithIcon
-                  caption="Are you connected to the internet?"
-                  description="Please check your connection and try again"
-                  actionText="Retry"
-                  icon={warningIconComponent}
-                  onActionClick={reload}
-                >
-                  <Status code={500} />
-                </MessageWithIcon>
-              );
-            }
-
-            const { notablePerson } = result.value;
-
-            if (!notablePerson) {
-              return (
-                <MessageWithIcon
-                  caption="Not Found"
-                  icon={warningIconComponent}
-                >
-                  <Status code={404} />
-                </MessageWithIcon>
-              );
-            }
-
-            const {
-              name,
-              photoUrl,
-              summary,
-              commentsUrl,
-              editorialSummary,
-            } = notablePerson;
-
+          if (isErrorResult(result) || !result.value) {
             return (
-              <div className={classes.root}>
-                <Status code={200} />
-                <article className={classes.article}>
-                  <PersonDetails
-                    name={name}
-                    photoUrl={photoUrl}
-                    summary={summary}
-                  />
-                  {editorialSummary ? (
-                    <Card
-                      className={cc([classes.card, classes.editorialSummary])}
-                    >
-                      <EditorialSummary {...editorialSummary} />
-                    </Card>
-                  ) : null}
-                </article>
-                <OptionalIntersectionObserver
-                  rootMargin="0% 0% 25% 0%"
-                  triggerOnce
-                >
-                  {inView => {
-                    if (inView) {
-                      return (
-                        <Card className={cc([classes.card, classes.comments])}>
-                          <FbComments url={commentsUrl} />
-                        </Card>
-                      );
-                    } else {
-                      return null;
-                    }
-                  }}
-                </OptionalIntersectionObserver>
-              </div>
+              <MessageWithIcon
+                caption="Are you connected to the internet?"
+                description="Please check your connection and try again"
+                actionText="Retry"
+                icon={warningIconComponent}
+                onActionClick={reload}
+              >
+                <Status code={500} />
+              </MessageWithIcon>
             );
-          }}
-        </ResolvableComponent>
-      </div>
+          }
+
+          const { notablePerson } = result.value;
+
+          if (!notablePerson) {
+            return (
+              <MessageWithIcon caption="Not Found" icon={warningIconComponent}>
+                <Status code={404} />
+              </MessageWithIcon>
+            );
+          }
+
+          const {
+            name,
+            photoUrl,
+            summary,
+            commentsUrl,
+            editorialSummary,
+          } = notablePerson;
+
+          return (
+            <div className={classes.root}>
+              <Status code={200} />
+              <article className={classes.article}>
+                <PersonDetails
+                  name={name}
+                  photoUrl={photoUrl}
+                  summary={summary}
+                />
+                {editorialSummary ? (
+                  <Card
+                    className={cc([classes.card, classes.editorialSummary])}
+                  >
+                    <EditorialSummary {...editorialSummary} />
+                  </Card>
+                ) : null}
+              </article>
+              <OptionalIntersectionObserver
+                rootMargin="0% 0% 25% 0%"
+                triggerOnce
+              >
+                {inView => {
+                  if (inView) {
+                    return (
+                      <Card className={cc([classes.card, classes.comments])}>
+                        <FbComments url={commentsUrl} />
+                      </Card>
+                    );
+                  } else {
+                    return null;
+                  }
+                }}
+              </OptionalIntersectionObserver>
+            </div>
+          );
+        }}
+      </ResolvableComponent>
     );
   }
 }
