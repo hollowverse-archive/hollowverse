@@ -24,8 +24,8 @@ export const getSearchQuery = createSelector(getRoutingState, routing => {
 export const isNotablePersonPage = createSelector(
   getRoutingState,
   getResolvedDataForKey,
-  ({ location }, getResolveData) => {
-    const data = getResolveData('notablePersonQuery');
+  ({ location }, getResolvedData) => {
+    const data = getResolvedData('notablePersonQuery');
     if (
       location &&
       isSuccessResult(data) &&
@@ -39,15 +39,15 @@ export const isNotablePersonPage = createSelector(
   },
 );
 
-export const isSearchFocused = (state: StoreState) => state.isSearchFocused;
+export const shouldFocusSearch = (state: StoreState) => state.shouldFocusSearch;
 
 export const getSearchInputValue = createSelector(
   getSearchQuery,
   isNotablePersonPage,
   getResolvedDataForKey,
-  isSearchFocused,
-  (query, isNpPage, getResolveData, isFocused) => {
-    const data = getResolveData('notablePersonQuery');
+  shouldFocusSearch,
+  (query, isNpPage, getResolvedData, isFocused) => {
+    const data = getResolvedData('notablePersonQuery');
     if (
       !isFocused &&
       isNpPage &&

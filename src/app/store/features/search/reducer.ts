@@ -1,11 +1,11 @@
 import { createReducerForStoreKey, handleAction } from 'store/helpers';
 
 export const isSearchFocusedReducer = createReducerForStoreKey<
-  'isSearchFocused'
+  'shouldFocusSearch'
 >(
   {
-    SET_SEARCH_IS_FOCUSED: handleAction<'isSearchFocused'>(
-      'SET_SEARCH_IS_FOCUSED',
+    SET_SHOULD_FOCUS_SEARCH: handleAction<'shouldFocusSearch'>(
+      'SET_SHOULD_FOCUS_SEARCH',
     ),
   },
   false,

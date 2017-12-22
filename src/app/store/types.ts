@@ -12,18 +12,18 @@ export type TypeToPayload = {
   REQUEST_SEARCH_RESULTS: {
     query: string;
   };
-  SET_SEARCH_IS_FOCUSED: boolean;
+  SET_SHOULD_FOCUS_SEARCH: boolean;
   SET_STATUS_CODE: number;
   REQUEST_DATA: {
     allowOptimisticUpdates: boolean;
     key: ResolvedDataKey;
-    resolvedKey: string;
+    requestId: string | null;
     resolve(): Promise<ResolvedData[ResolvedDataKey]>;
   };
   SET_RESOLVED_DATA: {
     key: ResolvedDataKey;
     data: AsyncResult<ResolvedData[ResolvedDataKey]> & {
-      resolvedKey: string;
+      requestId: string | null;
     };
   };
   '@@router/LOCATION_CHANGE': LocationChangeAction['payload'];
@@ -39,10 +39,10 @@ export type ResolvedDataKey = keyof ResolvedData;
 
 export type AppState = {
   statusCode: number;
-  isSearchFocused: boolean;
+  shouldFocusSearch: boolean;
   resolvedData: {
     [K in keyof ResolvedData]: AsyncResult<ResolvedData[K] | null> & {
-      resolvedKey: string | null;
+      requestId: string | null;
     }
   };
 };

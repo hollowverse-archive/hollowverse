@@ -22,34 +22,34 @@ type Props = {
 };
 
 class Page extends React.PureComponent<Props> {
-  load = async () => {
+  load = async (): Promise<null | AlgoliaResponse> => {
     const { searchQuery } = this.props;
-    let results: Promise<null | AlgoliaResponse> = Promise.resolve(null);
 
     if (searchQuery) {
-      results = import('vendor/algolia').then(({ notablePeople }) =>
+      return import('vendor/algolia').then(({ notablePeople }) =>
         notablePeople.search(searchQuery),
       );
     }
 
-    return results;
+    return null;
   };
 
   render() {
     const { searchQuery } = this.props;
-    if (!searchQuery) {
-      return <div>Type something in the search box</div>;
-    }
 
     return (
       <ResolvableComponent
-        updateKey={searchQuery}
+        requestId={searchQuery}
         dataKey="searchResults"
         resolve={this.load}
         allowOptimisticUpdates
       >
         {({ result }: { result: AsyncResult<AlgoliaResponse | null> }) => {
           if (isSuccessResult(result) || isOptimisticResult(result)) {
+            if (!searchQuery) {
+              return <div>Type something in the search box</div>;
+            }
+
             const value = result.value;
 
             return (

@@ -20,13 +20,13 @@ export type OwnProps = {
 export type StateProps = {
   searchInputValue?: string;
   isSearchInProgress: boolean;
-  isSearchFocused: boolean;
+  shouldFocusSearch: boolean;
 };
 
 export type DispatchProps = {
   goToSearch(): any;
   requestSearchResults({ query }: { query: string }): any;
-  setSearchIsFocused(isFocused: boolean): any;
+  setShouldFocusSearch(isFocused: boolean): any;
 };
 
 type Props = OwnProps & StateProps & DispatchProps;
@@ -44,9 +44,9 @@ export const NavBar = class extends React.Component<
       title,
       searchInputValue,
       isSearchInProgress,
-      setSearchIsFocused,
+      setShouldFocusSearch,
       requestSearchResults,
-      isSearchFocused,
+      shouldFocusSearch,
       goToSearch,
       location,
     } = this.props;
@@ -62,13 +62,14 @@ export const NavBar = class extends React.Component<
         >
           {isSticking => {
             let view;
-            if (isSearchPage || isSticking || isSearchFocused) {
+            if (isSearchPage || isSticking || shouldFocusSearch) {
               view = (
                 <SearchView
-                  isSearchInProgress={isSearchInProgress}
+                  shouldFocusSearch={isSearchInProgress}
                   inputValue={searchInputValue}
                   requestSearchResults={requestSearchResults}
-                  setSearchIsFocused={setSearchIsFocused}
+                  setShouldFocusSearch={setShouldFocusSearch}
+                  isSearchPage={isSearchPage}
                   isFocused={isSearchPage}
                   goToSearch={goToSearch}
                 />

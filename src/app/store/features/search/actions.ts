@@ -4,6 +4,8 @@ import { push } from 'react-router-redux';
 export const requestSearchResults = createActionCreator(
   'REQUEST_SEARCH_RESULTS',
 );
-export const setSearchIsFocused = createActionCreator('SET_SEARCH_IS_FOCUSED');
+export const setShouldFocusSearch = createActionCreator(
+  'SET_SHOULD_FOCUS_SEARCH',
+);
 
 export const goToSearch = () => push('/search');

@@ -7,7 +7,7 @@ import { resolvedDataReducer } from 'store/features/data/reducer';
 
 const appReducers: ReducerMap = {
   statusCode: statusCodeReducer,
-  isSearchFocused: isSearchFocusedReducer,
+  shouldFocusSearch: isSearchFocusedReducer,
   resolvedData: resolvedDataReducer,
 };
 

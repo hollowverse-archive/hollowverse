@@ -63,7 +63,7 @@ class Page extends React.Component<Props> {
     return (
       <div key={this.props.slug}>
         <ResolvableComponent
-          updateKey={this.props.slug}
+          requestId={this.props.slug}
           dataKey="notablePersonQuery"
           resolve={this.load}
         >

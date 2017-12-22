@@ -17,11 +17,11 @@ export const resolvedDataReducer = createReducerForStoreKey<'resolvedData'>(
   {
     notablePersonQuery: {
       ...nullResult,
-      resolvedKey: null,
+      requestId: null,
     },
     searchResults: {
       ...nullResult,
-      resolvedKey: null,
+      requestId: null,
     },
   },
 );

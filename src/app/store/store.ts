@@ -15,15 +15,15 @@ const defaultInitialState: StoreState = {
     location: null,
   },
   statusCode: 200,
-  isSearchFocused: false,
+  shouldFocusSearch: false,
   resolvedData: {
     searchResults: {
       ...nullResult,
-      resolvedKey: null,
+      requestId: null,
     },
     notablePersonQuery: {
       ...nullResult,
-      resolvedKey: null,
+      requestId: null,
     },
   },
 };

@@ -11,9 +11,10 @@ import { LoadingSpinner } from 'components/LoadingSpinner/LoadingSpinner';
 type Props = {
   inputValue?: string;
   isFocused?: boolean;
-  isSearchInProgress: boolean;
+  shouldFocusSearch: boolean;
+  isSearchPage: boolean;
   goToSearch(): any;
-  setSearchIsFocused(isFocused: boolean): any;
+  setShouldFocusSearch(isFocused: boolean): any;
   requestSearchResults({ query }: { query: string }): any;
 };
 
@@ -29,22 +30,31 @@ export class SearchView extends React.PureComponent<Props> {
   };
 
   componentWillReceiveProps(nextProps: Props) {
-    if (nextProps.isFocused && this.searchInput) {
-      this.searchInput.focus();
-    }
+    this.focusIfNecessary(nextProps);
   }
 
+  componentDidMount() {
+    this.focusIfNecessary();
+  }
+
+  focusIfNecessary = (props: Props = this.props) => {
+    if (props.isFocused && this.searchInput && this.searchInput) {
+      this.searchInput.focus();
+    }
+  };
+
   handleSearchFormBlur = () => {
-    this.props.setSearchIsFocused(false);
+    this.props.setShouldFocusSearch(false);
+  };
+
+  handleFocus = () => {
+    if (!this.props.isSearchPage) {
+      this.props.goToSearch();
+    }
   };
 
   render() {
-    const {
-      inputValue,
-      isFocused,
-      isSearchInProgress,
-      goToSearch,
-    } = this.props;
+    const { inputValue, shouldFocusSearch } = this.props;
 
     return (
       <form
@@ -60,16 +70,16 @@ export class SearchView extends React.PureComponent<Props> {
           required
           name="query"
           value={inputValue}
-          onFocus={goToSearch}
+          onFocus={this.handleFocus}
           placeholder="Search for notable people..."
-          autoFocus={!inputValue && isFocused}
+          autoFocus={__IS_SERVER__}
           onChange={this.handleChange}
         />
         <NavBarButton
           className={classes.button}
-          type={isSearchInProgress ? 'button' : 'submit'}
+          type={shouldFocusSearch ? 'button' : 'submit'}
         >
-          {isSearchInProgress ? (
+          {shouldFocusSearch ? (
             <LoadingSpinner className={classes.button} size={20} />
           ) : (
             <SvgIcon size={20} {...searchIcon} />

@@ -22,12 +22,11 @@ export const dataResolverEpic: Epic<Action, StoreState> = (action$, store) => {
     const {
       key,
       resolve,
-      resolvedKey,
+      requestId,
       allowOptimisticUpdates,
     } = (action as Action<'REQUEST_DATA'>).payload;
 
     return Observable.of(
-      // @ts-ignore
       setResolvedData({
         key,
         data: allowOptimisticUpdates
@@ -35,19 +34,25 @@ export const dataResolverEpic: Epic<Action, StoreState> = (action$, store) => {
               ...store.getState().resolvedData[key],
               hasError: false,
               isInProgress: true,
+              requestId,
             }
-          : pendingResult,
+          : {
+              ...pendingResult,
+              requestId,
+            },
       }),
-    ).merge(
-      Observable.fromPromise(promiseToAsyncResult(resolve()))
-        .map(data => setResolvedData({ key, data: { ...data, resolvedKey } }))
-        .takeUntil(
-          action$.filter(
-            newAction =>
-              isActionOfType(newAction, 'REQUEST_DATA') &&
-              newAction.payload.key === key,
-          ),
+    )
+      .merge(
+        Observable.fromPromise(promiseToAsyncResult(resolve())).map(data =>
+          setResolvedData({ key, data: { ...data, requestId } }),
         ),
-    );
+      )
+      .takeUntil(
+        action$.filter(
+          newAction =>
+            isActionOfType(newAction, 'REQUEST_DATA') &&
+            newAction.payload.key === key,
+        ),
+      );
   });
 };

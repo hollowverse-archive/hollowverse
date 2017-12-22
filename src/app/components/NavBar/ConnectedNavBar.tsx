@@ -2,13 +2,13 @@ import { connect } from 'react-redux';
 import { NavBar, StateProps, DispatchProps, OwnProps } from './NavBar';
 import {
   requestSearchResults,
-  setSearchIsFocused,
+  setShouldFocusSearch,
   goToSearch,
 } from 'store/features/search/actions';
 import { StoreState } from 'store/types';
 import {
   getSearchInputValue,
-  isSearchFocused,
+  shouldFocusSearch,
   isSearchInProgress,
 } from 'store/features/search/selectors';
 
@@ -21,11 +21,11 @@ export const ConnectedNavBar = connect<
   state => ({
     searchInputValue: getSearchInputValue(state),
     isSearchInProgress: isSearchInProgress(state),
-    isSearchFocused: isSearchFocused(state),
+    shouldFocusSearch: shouldFocusSearch(state),
   }),
   {
     goToSearch,
     requestSearchResults,
-    setSearchIsFocused,
+    setShouldFocusSearch,
   },
 )(NavBar);
