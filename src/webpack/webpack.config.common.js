@@ -4,6 +4,7 @@ const path = require('path');
 const CircularDependencyPlugin = require('circular-dependency-plugin');
 const BabelMinifyPlugin = require('babel-minify-webpack-plugin');
 const SpriteLoaderPlugin = require('svg-sprite-loader/plugin');
+const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 
 const { compact, mapValues } = require('lodash');
 
@@ -148,6 +149,8 @@ const config = {
     new SpriteLoaderPlugin(),
 
     ...ifProd([
+      new LodashModuleReplacementPlugin(),
+
       new webpack.optimize.OccurrenceOrderPlugin(true),
 
       // Scope hoisting a la Rollup (Webpack 3+)
