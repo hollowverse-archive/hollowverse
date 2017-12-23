@@ -50,10 +50,10 @@ type State<T> = (
  * Instead, when called on the server, it acts like any regular React component and
  * will just return whatever its `children` function returns for `isLoading = false`,
  * i.e. the `load` function will never be called on the server.
- * 
+ *
  * Example use cases include: showing a loading indicator while importing the
  * Facebook comments plugin on the client and then waiting for comments to be rendered.
- * 
+ *
  * Note: although this component is using a type parameter,
  * TypeScript is still unable to infer types from component usage.
  * For now, the type of `result` passed to `children` is inferred as `{}` which
@@ -79,18 +79,26 @@ export class AsyncComponent<T = any> extends React.PureComponent<
   tryLoading = async () => {
     const loadPromise = this.props.load();
 
-    if (this.props.delay !== undefined) {
-      await delay(this.props.delay);
-    }
-
     this.setState(
       { value: null, isInProgress: true, hasError: false, hasTimedOut: false },
       () => {
         const promises = [
           loadPromise.then(value => {
-            this.setState({ value, isInProgress: false, isPastDelay: true });
+            this.setState({ value, isInProgress: false, isPastDelay: false });
           }),
         ];
+
+        if (this.props.delay !== undefined) {
+          promises.push(
+            delay(this.props.delay).then(() => {
+              this.setState({ isInProgress: false, isPastDelay: true }, () => {
+                loadPromise.then(value => {
+                  this.setState({ value, isInProgress: false });
+                });
+              });
+            }),
+          );
+        }
 
         const { timeout = null } = this.props;
         if (timeout !== null) {
