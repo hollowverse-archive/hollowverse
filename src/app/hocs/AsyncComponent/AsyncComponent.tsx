@@ -100,10 +100,10 @@ export class AsyncComponent<T = any> extends React.PureComponent<
         }
 
         const { timeout } = this.props;
-        if (timeout) {
+        if (timeout !== null && timeout !== undefined) {
           promises.push(
-            delay(timeout).then(() =>
-              Promise.reject({ hasTimedOut: true, hasError: true }),
+            delay(timeout).then(async () =>
+              Promise.reject({ hasTimedOut: true }),
             ),
           );
         }
@@ -114,8 +114,8 @@ export class AsyncComponent<T = any> extends React.PureComponent<
             const value = await loadPromise;
             this.setState({ value, isInProgress: false });
           })
-          .catch(() => {
-            this.setState({ isInProgress: false, hasError: true });
+          .catch(patch => {
+            this.setState({ ...patch, isInProgress: false, hasError: true });
           });
       },
     );
