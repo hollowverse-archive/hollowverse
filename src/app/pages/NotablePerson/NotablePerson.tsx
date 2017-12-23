@@ -21,7 +21,7 @@ import {
   isPendingResult,
   AsyncResult,
 } from 'helpers/asyncResults';
-import { ResolvableComponent } from 'hocs/ResolvableComponent/ResolvableComponent';
+import { WithData } from 'hocs/WithData/WithData';
 
 const warningIconComponent = <SvgIcon {...warningIcon} size={100} />;
 
@@ -62,10 +62,10 @@ class Page extends React.Component<Props> {
 
   render() {
     return (
-      <ResolvableComponent
+      <WithData
         requestId={this.props.slug}
         dataKey="notablePersonQuery"
-        resolve={this.load}
+        load={this.load}
       >
         {({ result }: { result: AsyncResult<NotablePersonQuery> }) => {
           if (isPendingResult(result)) {
@@ -140,7 +140,7 @@ class Page extends React.Component<Props> {
             </div>
           );
         }}
-      </ResolvableComponent>
+      </WithData>
     );
   }
 }

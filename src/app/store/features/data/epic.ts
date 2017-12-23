@@ -19,12 +19,9 @@ import { isActionOfType } from 'store/helpers';
 
 export const dataResolverEpic: Epic<Action, StoreState> = (action$, store) => {
   return action$.ofType('REQUEST_DATA').mergeMap(action => {
-    const {
-      key,
-      resolve,
-      requestId,
-      allowOptimisticUpdates,
-    } = (action as Action<'REQUEST_DATA'>).payload;
+    const { key, load, requestId, allowOptimisticUpdates } = (action as Action<
+      'REQUEST_DATA'
+    >).payload;
 
     return Observable.of(
       setResolvedData({
@@ -43,7 +40,7 @@ export const dataResolverEpic: Epic<Action, StoreState> = (action$, store) => {
       }),
     )
       .merge(
-        Observable.fromPromise(promiseToAsyncResult(resolve())).map(data =>
+        Observable.fromPromise(promiseToAsyncResult(load())).map(data =>
           setResolvedData({ key, data: { ...data, requestId } }),
         ),
       )

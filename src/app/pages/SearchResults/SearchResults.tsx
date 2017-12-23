@@ -15,7 +15,7 @@ import { AlgoliaResponse } from 'algoliasearch';
 import { connect } from 'react-redux';
 import { getSearchQuery } from 'store/features/search/selectors';
 import { Link } from 'react-router-dom';
-import { ResolvableComponent } from 'hocs/ResolvableComponent/ResolvableComponent';
+import { WithData } from 'hocs/WithData/WithData';
 
 type Props = {
   searchQuery: string | null;
@@ -38,10 +38,10 @@ class Page extends React.PureComponent<Props> {
     const { searchQuery } = this.props;
 
     return (
-      <ResolvableComponent
+      <WithData
         requestId={searchQuery}
         dataKey="searchResults"
-        resolve={this.load}
+        load={this.load}
         allowOptimisticUpdates
       >
         {({ result }: { result: AsyncResult<AlgoliaResponse | null> }) => {
@@ -89,7 +89,7 @@ class Page extends React.PureComponent<Props> {
 
           return <div>Error</div>;
         }}
-      </ResolvableComponent>
+      </WithData>
     );
   }
 }

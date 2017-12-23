@@ -18,7 +18,7 @@ export type TypeToPayload = {
     allowOptimisticUpdates: boolean;
     key: ResolvedDataKey;
     requestId: string | null;
-    resolve(): Promise<ResolvedData[ResolvedDataKey]>;
+    load(): Promise<ResolvedData[ResolvedDataKey]>;
   };
   SET_RESOLVED_DATA: {
     key: ResolvedDataKey;

@@ -13,10 +13,29 @@ type OwnProps<Key extends ResolvedDataKey = ResolvedDataKey> = {
    * `resolve()` will be called again
    */
   requestId: string | null;
+
+  /** Whether to keep the results of the previous request while loading the new results */
   allowOptimisticUpdates?: boolean;
 
+  /**
+   * If set to `true`, the request will be skipped on the server and
+   * performed when the component mounts on the client.
+   */
   clientOnly?: boolean;
-  resolve(): Promise<ResolvedData[Key]>;
+
+  /**
+   * An async function that returns the data.
+   * The results will be passed to the `children` function after being
+   * wrapped in an `AsyncResult`.
+   */
+  load(): Promise<ResolvedData[Key]>;
+
+  /**
+   * A function that receives the result of the `load` function when
+   * it resolves. While resolving, children receive a pending result
+   * or an optimistic result depending on whether `allowOptimisitcUpdates`
+   * is enabled.
+   */
   children({
     result,
   }: {
@@ -42,14 +61,14 @@ class Wrapper extends React.Component<Props> {
   resolve() {
     const {
       dataKey,
-      resolve,
+      load,
       requestId,
       allowOptimisticUpdates = false,
     } = this.props;
     this.props.requestData({
       key: dataKey,
       requestId,
-      resolve,
+      load,
       allowOptimisticUpdates,
     });
   }
@@ -77,7 +96,7 @@ class Wrapper extends React.Component<Props> {
   }
 }
 
-export const ResolvableComponent = connect<
+export const WithData = connect<
   StateProps,
   DispatchProps,
   OwnProps,
