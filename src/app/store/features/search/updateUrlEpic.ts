@@ -21,14 +21,14 @@ const isSearchPage = (state: StoreState) => {
  * Listens for actions requesting search results and
  * updates the URL address on the search page to
  * reflect the search query.
- * @example `{ type: 'REQUEST_SEARCH_RESULTS', query: 'Tom Ha' }` => '/search?query=Tom+Ha'
+ * @example `{ type: 'SEARCH_QUERY_CHANGED', query: 'Tom Ha' }` => '/search?query=Tom+Ha'
  */
 export const updateUrlEpic: Epic<Action, StoreState> = (action$, store) => {
   return action$
-    .ofType('REQUEST_SEARCH_RESULTS')
+    .ofType('SEARCH_QUERY_CHANGED')
     .startWith(setShouldFocusSearch(true))
     .map(action => {
-      const { query } = (action as Action<'REQUEST_SEARCH_RESULTS'>).payload;
+      const { query } = (action as Action<'SEARCH_QUERY_CHANGED'>).payload;
       const searchParams = new URLSearchParams();
       searchParams.append('query', query);
       const descriptor = {

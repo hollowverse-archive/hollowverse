@@ -9,7 +9,7 @@ import { NotablePersonQuery } from 'api/types';
 
 /** A map of all app actions to their corresponding payloads */
 export type TypeToPayload = {
-  REQUEST_SEARCH_RESULTS: {
+  SEARCH_QUERY_CHANGED: {
     query: string;
   };
   SET_SHOULD_FOCUS_SEARCH: boolean;

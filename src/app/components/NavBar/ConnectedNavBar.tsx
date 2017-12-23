@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { NavBar, StateProps, DispatchProps, OwnProps } from './NavBar';
 import {
-  requestSearchResults,
+  searchQueryChanged,
   setShouldFocusSearch,
   goToSearch,
 } from 'store/features/search/actions';
@@ -25,7 +25,7 @@ export const ConnectedNavBar = connect<
   }),
   {
     goToSearch,
-    requestSearchResults,
+    searchQueryChanged,
     setShouldFocusSearch,
   },
 )(NavBar);
