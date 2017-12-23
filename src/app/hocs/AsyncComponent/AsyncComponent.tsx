@@ -83,34 +83,40 @@ export class AsyncComponent<T = any> extends React.PureComponent<
     this.setState(
       { value: null, isInProgress: true, hasError: false, hasTimedOut: false },
       () => {
-        const promises = [
-          loadPromise.then(value => {
-            this.setState({ value, isInProgress: false, isPastDelay: false });
-          }),
-        ];
+        const promises: Array<Promise<Partial<State<T | null>>>> = [];
 
-        if (this.props.delay !== undefined) {
+        promises.push(
+          loadPromise.then(value => ({
+            value,
+            isInProgress: false as false,
+            isPastDelay: false,
+          })),
+        );
+
+        if (this.props.delay) {
           promises.push(
-            delay(this.props.delay).then(async () => {
-              this.setState({ isPastDelay: true });
-              const value = await loadPromise;
-              this.setState({ value, isInProgress: false });
-            }),
+            delay(this.props.delay).then(() => ({ isPastDelay: true })),
           );
         }
 
-        const { timeout = null } = this.props;
-        if (timeout !== null) {
+        const { timeout } = this.props;
+        if (timeout) {
           promises.push(
-            delay(timeout).then(() => {
-              this.setState({ hasTimedOut: true, hasError: true });
-            }),
+            delay(timeout).then(() =>
+              Promise.reject({ hasTimedOut: true, hasError: true }),
+            ),
           );
         }
 
-        Promise.race(promises).catch(() => {
-          this.setState({ isInProgress: false, hasError: true });
-        });
+        Promise.race(promises)
+          .then(async patch => {
+            this.setState(patch as any);
+            const value = await loadPromise;
+            this.setState({ value });
+          })
+          .catch(() => {
+            this.setState({ isInProgress: false, hasError: true });
+          });
       },
     );
   };
