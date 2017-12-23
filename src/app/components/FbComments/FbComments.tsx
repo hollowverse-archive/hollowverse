@@ -6,6 +6,7 @@ import { SvgIcon } from 'components/SvgIcon/SvgIcon';
 import { AsyncComponent } from 'hocs/AsyncComponent/AsyncComponent';
 
 import warningIcon from 'icons/warning.svg';
+import { Button } from 'components/Button/Button';
 
 const warningIconComponent = <SvgIcon {...warningIcon} />;
 
@@ -105,9 +106,8 @@ export class FbComments extends React.PureComponent<Props> {
                       ? 'Comments are taking too long to load'
                       : 'Error loading comments'
                   }
-                  actionText="Retry"
                   icon={warningIconComponent}
-                  onActionClick={retry}
+                  button={<Button onClick={retry}>Retry</Button>}
                 />
               );
             }

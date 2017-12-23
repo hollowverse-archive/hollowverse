@@ -38,58 +38,62 @@ class Page extends React.PureComponent<Props> {
     const { searchQuery } = this.props;
 
     return (
-      <WithData
-        requestId={searchQuery}
-        dataKey="searchResults"
-        load={this.load}
-        allowOptimisticUpdates
-      >
-        {({ result }: { result: AsyncResult<AlgoliaResponse | null> }) => {
-          if (isSuccessResult(result) || isOptimisticResult(result)) {
-            if (!searchQuery) {
-              return <div>Type something in the search box</div>;
+      <div className={classes.root}>
+        <WithData
+          requestId={searchQuery}
+          dataKey="searchResults"
+          load={this.load}
+          allowOptimisticUpdates
+        >
+          {({ result }: { result: AsyncResult<AlgoliaResponse | null> }) => {
+            if (isSuccessResult(result) || isOptimisticResult(result)) {
+              if (!searchQuery) {
+                return null;
+              }
+
+              const value = result.value;
+
+              return (
+                <div>
+                  {value && value.hits.length > 0 ? (
+                    <Card>
+                      <ol>
+                        <FlipMove
+                          enterAnimation="fade"
+                          leaveAnimation="fade"
+                          duration={100}
+                        >
+                          {value.hits.map(searchResult => {
+                            return (
+                              <li
+                                key={searchResult.objectID}
+                                className={classes.result}
+                              >
+                                <Link
+                                  className={classes.link}
+                                  to={`/${searchResult.slug}`}
+                                >
+                                  {searchResult.name}
+                                </Link>
+                              </li>
+                            );
+                          })}
+                        </FlipMove>
+                      </ol>
+                    </Card>
+                  ) : (
+                    <div>No results found</div>
+                  )}
+                </div>
+              );
+            } else if (isPendingResult(result)) {
+              return <div>Loading...</div>;
             }
 
-            const value = result.value;
-
-            return (
-              <div className={classes.root}>
-                {value && value.hits.length > 0 ? (
-                  <Card>
-                    <ol>
-                      <FlipMove
-                        enterAnimation="fade"
-                        leaveAnimation="fade"
-                        duration={100}
-                      >
-                        {value.hits.map(searchResult => {
-                          return (
-                            <li
-                              key={searchResult.objectID}
-                              className={classes.result}
-                            >
-                              <Link
-                                className={classes.link}
-                                to={`/${searchResult.slug}`}
-                              >
-                                {searchResult.name}
-                              </Link>
-                            </li>
-                          );
-                        })}
-                      </FlipMove>
-                    </ol>
-                  </Card>
-                ) : null}
-              </div>
-            );
-          } else if (isPendingResult(result)) {
-            return <div>Loading...</div>;
-          }
-
-          return <div>Error</div>;
-        }}
-      </WithData>
+            return <div>Error</div>;
+          }}
+        </WithData>
+      </div>
     );
   }
 }

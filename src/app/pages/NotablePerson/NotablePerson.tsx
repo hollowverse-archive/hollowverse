@@ -22,12 +22,10 @@ import {
   AsyncResult,
 } from 'helpers/asyncResults';
 import { WithData } from 'hocs/WithData/WithData';
+import { LinkButton } from 'components/Button/Button';
+import { withRouter, RouteComponentProps } from 'react-router';
 
 const warningIconComponent = <SvgIcon {...warningIcon} size={100} />;
-
-const reload = () => {
-  location.reload();
-};
 
 const query = gql`
   query NotablePerson($slug: String!) {
@@ -51,98 +49,112 @@ const query = gql`
   }
 `;
 
+const forceReload = () => {
+  window.location.reload();
+};
+
 export type Props = { slug: string };
 
-class Page extends React.Component<Props> {
-  load = async () => {
-    const { slug } = this.props;
+const Page = withRouter(
+  class extends React.Component<Props & RouteComponentProps<any>> {
+    load = async () => {
+      const { slug } = this.props;
 
-    return client.request<NotablePersonQuery>(query, { slug });
-  };
+      return client.request<NotablePersonQuery>(query, { slug });
+    };
 
-  render() {
-    return (
-      <WithData
-        requestId={this.props.slug}
-        dataKey="notablePersonQuery"
-        load={this.load}
-      >
-        {({ result }: { result: AsyncResult<NotablePersonQuery> }) => {
-          if (isPendingResult(result)) {
-            return <NotablePersonSkeleton />;
-          }
+    render() {
+      return (
+        <WithData
+          requestId={this.props.slug}
+          dataKey="notablePersonQuery"
+          load={this.load}
+        >
+          {({ result }: { result: AsyncResult<NotablePersonQuery> }) => {
+            if (isPendingResult(result)) {
+              return <NotablePersonSkeleton />;
+            }
 
-          if (isErrorResult(result) || !result.value) {
-            return (
-              <MessageWithIcon
-                caption="Are you connected to the internet?"
-                description="Please check your connection and try again"
-                actionText="Retry"
-                icon={warningIconComponent}
-                onActionClick={reload}
-              >
-                <Status code={500} />
-              </MessageWithIcon>
-            );
-          }
+            if (isErrorResult(result) || !result.value) {
+              const { location } = this.props;
 
-          const { notablePerson } = result.value;
-
-          if (!notablePerson) {
-            return (
-              <MessageWithIcon caption="Not Found" icon={warningIconComponent}>
-                <Status code={404} />
-              </MessageWithIcon>
-            );
-          }
-
-          const {
-            name,
-            photoUrl,
-            summary,
-            commentsUrl,
-            editorialSummary,
-          } = notablePerson;
-
-          return (
-            <div className={classes.root}>
-              <Status code={200} />
-              <article className={classes.article}>
-                <PersonDetails
-                  name={name}
-                  photoUrl={photoUrl}
-                  summary={summary}
-                />
-                {editorialSummary ? (
-                  <Card
-                    className={cc([classes.card, classes.editorialSummary])}
-                  >
-                    <EditorialSummary {...editorialSummary} />
-                  </Card>
-                ) : null}
-              </article>
-              <OptionalIntersectionObserver
-                rootMargin="0% 0% 25% 0%"
-                triggerOnce
-              >
-                {inView => {
-                  if (inView) {
-                    return (
-                      <Card className={cc([classes.card, classes.comments])}>
-                        <FbComments url={commentsUrl} />
-                      </Card>
-                    );
-                  } else {
-                    return null;
+              return (
+                <MessageWithIcon
+                  caption="Are you connected to the internet?"
+                  description="Please check your connection and try again"
+                  button={
+                    <LinkButton to={location} onClick={forceReload}>
+                      Reload
+                    </LinkButton>
                   }
-                }}
-              </OptionalIntersectionObserver>
-            </div>
-          );
-        }}
-      </WithData>
-    );
-  }
-}
+                  icon={warningIconComponent}
+                >
+                  <Status code={500} />
+                </MessageWithIcon>
+              );
+            }
+
+            const { notablePerson } = result.value;
+
+            if (!notablePerson) {
+              return (
+                <MessageWithIcon
+                  caption="Not Found"
+                  icon={warningIconComponent}
+                >
+                  <Status code={404} />
+                </MessageWithIcon>
+              );
+            }
+
+            const {
+              name,
+              photoUrl,
+              summary,
+              commentsUrl,
+              editorialSummary,
+            } = notablePerson;
+
+            return (
+              <div className={classes.root}>
+                <Status code={200} />
+                <article className={classes.article}>
+                  <PersonDetails
+                    name={name}
+                    photoUrl={photoUrl}
+                    summary={summary}
+                  />
+                  {editorialSummary ? (
+                    <Card
+                      className={cc([classes.card, classes.editorialSummary])}
+                    >
+                      <EditorialSummary {...editorialSummary} />
+                    </Card>
+                  ) : null}
+                </article>
+                <OptionalIntersectionObserver
+                  rootMargin="0% 0% 25% 0%"
+                  triggerOnce
+                >
+                  {inView => {
+                    if (inView) {
+                      return (
+                        <Card className={cc([classes.card, classes.comments])}>
+                          <FbComments url={commentsUrl} />
+                        </Card>
+                      );
+                    } else {
+                      return null;
+                    }
+                  }}
+                </OptionalIntersectionObserver>
+              </div>
+            );
+          }}
+        </WithData>
+      );
+    }
+  },
+);
 
 export const NotablePerson = Page;

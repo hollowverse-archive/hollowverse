@@ -6,47 +6,37 @@ import * as classes from './MessageWithIcon.module.scss';
 type Props = {
   caption: string;
   description?: string;
-  actionText?: string;
   icon?: React.ReactNode;
-  onActionClick?(): void;
+  button?: React.ReactNode;
 } & React.HTMLAttributes<HTMLDivElement>;
 
 export const MessageWithIcon = ({
   caption,
   icon,
   description,
-  onActionClick,
-  actionText,
+  button,
   children,
   className,
-  ...rest,
+  ...rest
 }: Props) => (
   <div
     className={cc([
       className,
       {
-        [classes.message]: true,
+        [classes.root]: true,
         [classes.hasDescription]: typeof description === 'string',
       },
     ])}
     {...rest}
   >
-    <div className={classes.messageIcon}>{icon}</div>
-    <div className={classes.messageCaption}>{caption}</div>
+    <div className={classes.icon}>{icon}</div>
+    <div className={classes.caption}>{caption}</div>
     {description ? (
-      <div className={classes.messageDescription}>
+      <div className={classes.description}>
         {description}
         {children}
       </div>
     ) : null}
-    {onActionClick && (
-      <button
-        type="button"
-        className={classes.messageButton}
-        onClick={onActionClick}
-      >
-        {actionText}
-      </button>
-    )}
+    {button}
   </div>
 );
