@@ -10,12 +10,7 @@ import 'rxjs/add/operator/merge';
 import 'rxjs/add/operator/skipWhile';
 import 'rxjs/add/operator/startWith';
 import { setShouldFocusSearch } from 'store/features/search/actions';
-
-const isSearchPage = (state: StoreState) => {
-  return (
-    !!state.routing.location && state.routing.location.pathname === '/search'
-  );
-};
+import { isSearchPage } from 'store/features/url/selectors';
 
 /**
  * Listens for actions requesting search results and

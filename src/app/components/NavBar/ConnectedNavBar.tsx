@@ -11,6 +11,7 @@ import {
   shouldFocusSearch,
   isSearchInProgress,
 } from 'store/features/search/selectors';
+import { isSearchPage } from 'store/features/url/selectors';
 
 export const ConnectedNavBar = connect<
   StateProps,
@@ -22,6 +23,7 @@ export const ConnectedNavBar = connect<
     searchInputValue: getSearchInputValue(state),
     isSearchInProgress: isSearchInProgress(state),
     shouldFocusSearch: shouldFocusSearch(state),
+    isSearchPage: isSearchPage(state),
   }),
   {
     goToSearch,

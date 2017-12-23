@@ -6,36 +6,24 @@ import {
   isSuccessResult,
 } from 'helpers/asyncResults';
 import { getResolvedDataForKey } from 'store/features/data/selectors';
+import {
+  getRoutingState,
+  isNotablePersonPage,
+} from 'store/features/url/selectors';
 
-const getRoutingState = (state: StoreState) => state.routing;
 const getSearchResults = (state: StoreState) =>
   state.resolvedData.searchResults;
 
-export const getSearchQuery = createSelector(getRoutingState, routing => {
-  if (routing.location) {
-    const params = new URLSearchParams(routing.location.search);
-
-    return params.get('query');
-  }
-
-  return null;
-});
-
-export const isNotablePersonPage = createSelector(
+export const getSearchQuery = createSelector(
   getRoutingState,
-  getResolvedDataForKey,
-  ({ location }, getResolvedData) => {
-    const data = getResolvedData('notablePersonQuery');
-    if (
-      location &&
-      isSuccessResult(data) &&
-      data.value &&
-      data.value.notablePerson
-    ) {
-      return location.pathname === `/${data.value.notablePerson.slug}`;
+  ({ location }) => {
+    if (location) {
+      const params = new URLSearchParams(location.search);
+
+      return params.get('query');
     }
 
-    return false;
+    return null;
   },
 );
 

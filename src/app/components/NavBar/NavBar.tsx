@@ -20,6 +20,7 @@ export type StateProps = {
   searchInputValue?: string;
   isSearchInProgress: boolean;
   shouldFocusSearch: boolean;
+  isSearchPage: boolean;
 };
 
 export type DispatchProps = {
@@ -46,11 +47,10 @@ export const NavBar = class extends React.Component<
       setShouldFocusSearch,
       searchQueryChanged,
       shouldFocusSearch,
+      isSearchPage,
       goToSearch,
       location,
     } = this.props;
-
-    const isSearchPage = location.pathname === '/search';
 
     return (
       <div className={classes.root}>
