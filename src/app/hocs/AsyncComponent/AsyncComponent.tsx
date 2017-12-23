@@ -44,11 +44,11 @@ type State<T> = (
 
 /**
  * This component is used to execute an arbitrary asynchronous function (`props.load`)
- * **on the client** before rendering a component.
+ * **on the client** when a component mounts.
  * Unlike packages like `react-universal-component` and `react-loadable`, it is not
  * intended for executing the `load` function _synchronously_ on the server.
  * Instead, when called on the server, it acts like any regular React component and
- * will just return whatever its `children` function returns for `isLoading = false`,
+ * will just return whatever its `children` function returns for `isInProgress = false`,
  * i.e. the `load` function will never be called on the server.
  *
  * Example use cases include: showing a loading indicator while importing the
