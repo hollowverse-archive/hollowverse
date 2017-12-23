@@ -112,7 +112,7 @@ export class AsyncComponent<T = any> extends React.PureComponent<
           .then(async patch => {
             this.setState(patch as any);
             const value = await loadPromise;
-            this.setState({ value });
+            this.setState({ value, isInProgress: false });
           })
           .catch(() => {
             this.setState({ isInProgress: false, hasError: true });
