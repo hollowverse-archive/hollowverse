@@ -47,6 +47,11 @@
     {
       "path": "./dist/client/**/*.html",
       "maxSize": "3 kB"
+    },
+
+    {
+      "path": "./dist/client/**/*.svg",
+      "maxSize": "3 kB"
     }
   ],
   "lint-staged": {

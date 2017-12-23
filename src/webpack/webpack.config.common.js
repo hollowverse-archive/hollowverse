@@ -16,6 +16,7 @@ const {
   isDebug,
   ifDev,
   ifProd,
+  isProd,
   ifEs5,
   ifEsNext,
 } = require('./env');
@@ -59,6 +60,7 @@ const config = {
             loader: 'svg-sprite-loader',
             options: {
               extract: true,
+              spriteFilename: isProd ? 'icons.[hash].svg' : 'icons.svg',
             },
           },
           {
