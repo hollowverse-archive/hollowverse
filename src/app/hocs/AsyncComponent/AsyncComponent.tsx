@@ -77,7 +77,7 @@ export class AsyncComponent<T = any> extends React.PureComponent<
     isPastDelay: false,
   };
 
-  tryLoading = async () => {
+  tryLoading = () => {
     const loadPromise = this.props.load();
 
     this.setState(
@@ -91,11 +91,10 @@ export class AsyncComponent<T = any> extends React.PureComponent<
 
         if (this.props.delay !== undefined) {
           promises.push(
-            delay(this.props.delay).then(() => {
+            delay(this.props.delay).then(async () => {
               this.setState({ isPastDelay: true });
-              loadPromise.then(value => {
-                this.setState({ value, isInProgress: false });
-              });
+              const value = await loadPromise;
+              this.setState({ value, isInProgress: false });
             }),
           );
         }
@@ -117,7 +116,6 @@ export class AsyncComponent<T = any> extends React.PureComponent<
   };
 
   componentDidMount() {
-    // tslint:disable-next-line no-floating-promises
     this.tryLoading();
   }
 
