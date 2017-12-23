@@ -54,13 +54,14 @@ const config = {
       {
         test: /\.svg$/,
         exclude: excludedPatterns,
-        include: [path.resolve(srcDirectory)],
+        include: [srcDirectory],
         use: [
           {
             loader: 'svg-sprite-loader',
             options: {
               extract: true,
               spriteFilename: isProd ? 'icons.[hash].svg' : 'icons.svg',
+              esModule: false,
             },
           },
           {
@@ -114,7 +115,7 @@ const config = {
       srcDirectory,
 
       // Fallback to node_modules dir
-      path.join(process.cwd(), 'node_modules'),
+      path.resolve(process.cwd(), 'node_modules'),
     ],
   },
 

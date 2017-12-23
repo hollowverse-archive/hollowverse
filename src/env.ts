@@ -8,7 +8,7 @@ import * as path from 'path';
  * The file should be written on CodeBuild and deployed with the app so that it can
  * be accessed at runtime.
  */
-const ENV_FILE_PATH = path.join(process.cwd(), 'env.json');
+const ENV_FILE_PATH = path.resolve(process.cwd(), 'env.json');
 
 type EnvDescriptor = {
   BRANCH?: string;

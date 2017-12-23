@@ -47,14 +47,14 @@ if (isProd) {
 
   // Serve server rendering middleware from the SSR build
   // tslint:disable no-require-imports no-var-requires non-literal-require
-  const { createServerRenderMiddleware } = require(path.join(
+  const { createServerRenderMiddleware } = require(path.resolve(
     serverDistDirectory,
     'main.js',
   ));
 
   let iconStats;
   try {
-    iconStats = require(path.join(clientDistDirectory, 'iconStats.json'));
+    iconStats = require(path.resolve(clientDistDirectory, 'iconStats.json'));
   } catch (e) {
     iconStats = undefined;
   }

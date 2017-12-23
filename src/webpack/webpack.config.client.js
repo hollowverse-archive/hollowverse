@@ -104,7 +104,7 @@ const clientSpecificConfig = {
     extractLocalCss,
 
     new FaviconsWebpackPlugin({
-      logo: path.join(srcDirectory, 'assets', 'favicon.png'),
+      logo: path.resolve(srcDirectory, 'assets', 'favicon.png'),
       emitStats: true,
       statsFilename: 'iconStats.json',
       title: 'Hollowverse',
@@ -112,7 +112,7 @@ const clientSpecificConfig = {
     }),
 
     new HtmlWebpackPlugin({
-      template: path.join(srcDirectory, 'index.html'),
+      template: path.resolve(srcDirectory, 'index.html'),
       filename: 'index.html',
       inject: 'body',
       minify: isProd

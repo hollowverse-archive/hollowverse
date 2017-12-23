@@ -10,7 +10,7 @@ import { noop } from 'lodash';
 
 import { env } from '../env';
 
-const SECRETS_FILE_PATH = path.join(process.cwd(), 'secrets', 'sumo.json');
+const SECRETS_FILE_PATH = path.resolve(process.cwd(), 'secrets', 'sumo.json');
 const sumoSecrets = JSON.parse(String(fs.readFileSync(SECRETS_FILE_PATH)));
 
 const COLLECTOR_ID: string = sumoSecrets.collectorId;
