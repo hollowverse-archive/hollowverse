@@ -1,5 +1,4 @@
 import * as React from 'react';
-import cc from 'classcat';
 
 import { RouteComponentProps } from 'react-router';
 
@@ -25,7 +24,7 @@ export type StateProps = {
 
 export type DispatchProps = {
   goToSearch(): any;
-  requestSearchResults({ query }: { query: string }): any;
+  searchQueryChanged({ query }: { query: string }): any;
   setShouldFocusSearch(isFocused: boolean): any;
 };
 
@@ -45,7 +44,7 @@ export const NavBar = class extends React.Component<
       searchInputValue,
       isSearchInProgress,
       setShouldFocusSearch,
-      requestSearchResults,
+      searchQueryChanged,
       shouldFocusSearch,
       goToSearch,
       location,
@@ -67,7 +66,7 @@ export const NavBar = class extends React.Component<
                 <SearchView
                   shouldFocusSearch={isSearchInProgress}
                   inputValue={searchInputValue}
-                  requestSearchResults={requestSearchResults}
+                  searchQueryChanged={searchQueryChanged}
                   setShouldFocusSearch={setShouldFocusSearch}
                   isSearchPage={isSearchPage}
                   isFocused={isSearchPage}
@@ -93,7 +92,7 @@ export const NavBar = class extends React.Component<
                 <NavBarButton
                   disabled={__IS_SERVER__ || location.pathname === '/'}
                   onClick={this.goBack}
-                  className={cc([classes.button, classes.backButton])}
+                  className={classes.button}
                 >
                   <SvgIcon size={20} {...backIcon} />
                   <span className="sr-only">Go Back</span>

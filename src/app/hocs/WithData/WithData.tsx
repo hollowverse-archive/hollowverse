@@ -7,10 +7,14 @@ import { getResolvedDataForKey } from 'store/features/data/selectors';
 import { requestData } from 'store/features/data/actions';
 
 type OwnProps<Key extends ResolvedDataKey = ResolvedDataKey> = {
+  /**
+   * The key used to store the results in Redux state
+   */
   dataKey: Key;
+
   /**
    * A unique identifier for the resolve request, if this changes,
-   * `resolve()` will be called again
+   * `load()` will be called again
    */
   requestId: string | null;
 

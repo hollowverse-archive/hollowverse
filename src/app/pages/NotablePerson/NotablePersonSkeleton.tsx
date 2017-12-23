@@ -5,7 +5,7 @@ export const NotablePersonSkeleton = () => (
   <div className={classes.root}>
     <div className={classes.inner}>
       <div className={classes.gradient} />
-      <div className={classes.avatar} />
+      <div className={classes.photo} />
       <div className={classes.caption} />
       <div className={classes.name} />
       <div className={classes.paragraph} />

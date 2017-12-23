@@ -15,7 +15,7 @@ type Props = {
   isSearchPage: boolean;
   goToSearch(): any;
   setShouldFocusSearch(isFocused: boolean): any;
-  requestSearchResults({ query }: { query: string }): any;
+  searchQueryChanged({ query }: { query: string }): any;
 };
 
 export class SearchView extends React.PureComponent<Props> {
@@ -26,7 +26,7 @@ export class SearchView extends React.PureComponent<Props> {
   };
 
   handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    this.props.requestSearchResults({ query: e.target.value });
+    this.props.searchQueryChanged({ query: e.target.value });
   };
 
   componentWillReceiveProps(nextProps: Props) {
@@ -76,11 +76,10 @@ export class SearchView extends React.PureComponent<Props> {
           onChange={this.handleChange}
         />
         <NavBarButton
-          className={classes.button}
           type={shouldFocusSearch ? 'button' : 'submit'}
         >
           {shouldFocusSearch ? (
-            <LoadingSpinner className={classes.button} size={20} />
+            <LoadingSpinner size={20} />
           ) : (
             <SvgIcon size={20} {...searchIcon} />
           )}
