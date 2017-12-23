@@ -21,6 +21,7 @@ module.exports = {
         'docker-compose.yml',
         '**/LICENSE.md',
         '**/README.md',
+        'src/app/assets/algolia/*',
       ],
     },
   ],
