@@ -75,15 +75,18 @@
     background-color: $color-background;
   }
 
-  .paragraph {
-    height: 20px;
-    margin: 10px 0;
-    background-color: $color-background;
-    &:nth-child(2) {
+  .lines {
+    > * {
+      height: 20px;
+      margin: 10px 0;
+      background-color: $color-background;
+    }
+
+    :nth-child(2) {
       width: 70%;
     }
 
-    &:nth-child(3) {
+    :nth-child(3) {
       width: 80%;
     }
   }
