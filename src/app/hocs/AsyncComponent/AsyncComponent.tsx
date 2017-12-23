@@ -10,7 +10,7 @@ import {
 type AsyncProps<T> = {
   /**
    * Time in milliseconds after which loading is considered to have failed
-   * Defaults to `6000`. If `null`, loading never times out.
+   * Defaults to `10000`. If `null`, loading never times out.
    */
   timeout?: number | null;
 
@@ -66,6 +66,7 @@ export class AsyncComponent<T = any> extends React.PureComponent<
 > {
   static defaultProps: Partial<AsyncProps<any>> = {
     delay: 200,
+    timeout: 10000,
   };
 
   state: State<T | null> = {
@@ -91,10 +92,9 @@ export class AsyncComponent<T = any> extends React.PureComponent<
         if (this.props.delay !== undefined) {
           promises.push(
             delay(this.props.delay).then(() => {
-              this.setState({ isInProgress: false, isPastDelay: true }, () => {
-                loadPromise.then(value => {
-                  this.setState({ value, isInProgress: false });
-                });
+              this.setState({ isPastDelay: true });
+              loadPromise.then(value => {
+                this.setState({ value, isInProgress: false });
               });
             }),
           );
@@ -104,17 +104,7 @@ export class AsyncComponent<T = any> extends React.PureComponent<
         if (timeout !== null) {
           promises.push(
             delay(timeout).then(() => {
-              this.setState(state => {
-                if (state.isInProgress) {
-                  return {
-                    isLoading: false,
-                    hasError: true,
-                    timedOut: true,
-                  };
-                }
-
-                return undefined;
-              });
+              this.setState({ hasTimedOut: true, hasError: true });
             }),
           );
         }

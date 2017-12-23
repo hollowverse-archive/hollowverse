@@ -100,7 +100,11 @@ export class FbComments extends React.PureComponent<Props> {
             if (hasError || hasTimedOut) {
               return (
                 <MessageWithIcon
-                  caption="Error loading comments"
+                  caption={
+                    hasTimedOut
+                      ? 'Comments are taking too long to load'
+                      : 'Error loading comments'
+                  }
                   actionText="Retry"
                   icon={warningIconComponent}
                   onActionClick={retry}
