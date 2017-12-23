@@ -46,13 +46,19 @@ type State<T> = (
  * This component is used to execute an arbitrary asynchronous function (`props.load`)
  * **on the client** when a component mounts.
  * Unlike packages like `react-universal-component` and `react-loadable`, it is not
- * intended for executing the `load` function _synchronously_ on the server.
- * Instead, when called on the server, it acts like any regular React component and
+ * intended for loading React components on demand. Instead, the `load` function
+ * could fetch arbitrary types of data or simply return nothing.
+ *
+ * This component does not support server-side rendering.
+ * When called on the server, it acts like any regular React component and
  * will just return whatever its `children` function returns for `isInProgress = false`,
  * i.e. the `load` function will never be called on the server.
  *
  * Example use cases include: showing a loading indicator while importing the
  * Facebook comments plugin on the client and then waiting for comments to be rendered.
+ *
+ * If you have components that should have data fetched on the server, use the
+ * `WithData` component.
  *
  * Note: although this component is using a type parameter,
  * TypeScript is still unable to infer types from component usage.
