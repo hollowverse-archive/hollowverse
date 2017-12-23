@@ -6,6 +6,7 @@
   background: transparent;
   transition: opacity 0.1s ease-in-out;
   border: 0 !important;
+  padding: 0 !important;
   &:disabled {
     opacity: 0.3;
   }
