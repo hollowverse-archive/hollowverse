@@ -4,7 +4,7 @@ import formatDate from 'date-fns/format';
 import * as classes from './EditorialSummary.module.scss';
 import { prettifyUrl } from 'helpers/prettifyUrl';
 import { EditorialSummaryNodeType } from 'api/types';
-import { findIndex, memoize, uniqBy } from 'lodash';
+import { memoize } from 'lodash';
 import { Quote } from 'components/Quote/Quote';
 
 type Node = {
@@ -34,6 +34,14 @@ const isParent = (node: Node) => {
   ].includes(node.type);
 };
 
+type Source = {
+  number: number;
+  sourceId: string;
+  nodeId: string;
+  sourceUrl: string;
+  sourceTitle: string | null;
+};
+
 export class EditorialSummary extends React.PureComponent<Props> {
   // tslint:disable-next-line:max-func-body-length
   render() {
@@ -41,29 +49,26 @@ export class EditorialSummary extends React.PureComponent<Props> {
 
     const date = lastUpdatedOn ? new Date(lastUpdatedOn) : undefined;
 
-    const sources = uniqBy(
-      nodes.filter(
-        node =>
-          // Exclude inline links
-          node.type !== 'link' && node.sourceUrl !== null,
-      ),
-      ({ sourceUrl }) => sourceUrl,
-    );
+    const refs: Source[] = [];
 
-    const createRef = memoize(({ sourceUrl, sourceTitle }: Node) => {
-      if (!sourceUrl) {
-        return null;
+    const createRef = memoize((sourceUrl, { sourceTitle }: Node) => {
+      if (sourceUrl) {
+        const number = refs.length + 1;
+
+        const ref = {
+          number,
+          sourceId: `source_${number}`,
+          nodeId: `ref_${number}`,
+          sourceUrl,
+          sourceTitle,
+        };
+
+        refs.push(ref);
+
+        return ref;
       }
 
-      const number = findIndex(sources, { sourceUrl }) + 1;
-
-      return {
-        number,
-        sourceId: `source_${number}`,
-        nodeId: `ref_${number}`,
-        sourceUrl,
-        sourceTitle,
-      };
+      return null;
     });
 
     const renderBlock = (node: Node): React.ReactNode => {
@@ -82,7 +87,7 @@ export class EditorialSummary extends React.PureComponent<Props> {
           );
         }
 
-        const ref = createRef(child);
+        const ref = createRef(child.sourceUrl, child);
 
         return (
           <span key={child.id}>
@@ -116,11 +121,8 @@ export class EditorialSummary extends React.PureComponent<Props> {
         <h3>Sources</h3>
         <small>
           <ol className={classes.sourceList}>
-            {sources.map(node => {
-              // tslint:disable-next-line:no-non-null-assertion
-              const { nodeId, sourceId, sourceUrl, sourceTitle } = createRef(
-                node,
-              )!;
+            {refs.map(ref => {
+              const { nodeId, sourceId, sourceUrl, sourceTitle } = ref;
 
               return (
                 <li key={sourceUrl} id={sourceId}>
