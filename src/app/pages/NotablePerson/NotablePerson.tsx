@@ -24,6 +24,7 @@ import {
 import { WithData } from 'hocs/WithData/WithData';
 import { LinkButton } from 'components/Button/Button';
 import { withRouter, RouteComponentProps } from 'react-router';
+import { Link } from 'react-router-dom';
 
 const warningIconComponent = <SvgIcon {...warningIcon} size={100} />;
 
@@ -35,6 +36,11 @@ const query = gql`
       photoUrl
       summary
       commentsUrl
+      relatedPeople {
+        slug
+        name
+        photoUrl
+      }
       editorialSummary {
         author
         lastUpdatedOn
@@ -65,6 +71,7 @@ const Page = withRouter(
       return client.request<NotablePersonQuery>(query, { slug });
     };
 
+    // tslint:disable-next-line:max-func-body-length
     render() {
       return (
         <WithData
@@ -131,6 +138,19 @@ const Page = withRouter(
                     </Card>
                   ) : null}
                 </article>
+                {notablePerson.relatedPeople.length ? (
+                  <div>
+                    <h2>Other interseting profiles</h2>
+                    {notablePerson.relatedPeople.map(person => (
+                      <Link to={`/${person.slug}`}>
+                        {person.photoUrl ? (
+                          <img alt={person.name} src={person.photoUrl} />
+                        ) : null}
+                        {person.name}
+                      </Link>
+                    ))}
+                  </div>
+                ) : null}
                 <OptionalIntersectionObserver
                   rootMargin="0% 0% 25% 0%"
                   triggerOnce
