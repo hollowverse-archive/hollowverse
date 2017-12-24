@@ -25,10 +25,14 @@ export const analyticsEpic: Epic<Action, StoreState> = action$ => {
     .ofType(LOCATION_CHANGE)
     .skipWhile(isServer)
     .do(async action => {
-      await initScript();
-      const { pathname } = (action as Action<typeof LOCATION_CHANGE>).payload;
-      ga('set', 'page', pathname);
-      ga('send', 'pageview');
+      try {
+        await initScript();
+        const { pathname } = (action as Action<typeof LOCATION_CHANGE>).payload;
+        ga('set', 'page', pathname);
+        ga('send', 'pageview');
+      } catch (e) {
+        // Do nothing
+      }
     })
     .ignoreElements();
 };
