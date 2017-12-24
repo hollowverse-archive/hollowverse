@@ -30,4 +30,65 @@
       max-width: $page-max-width;
     }
   }
+
+  .related-people {
+    margin: 20px auto 15px;
+    h2 {
+      font-size: 26px;
+      font-weight: normal;
+      margin: 0 10px 15px;
+    }
+
+    .people-list {
+      width: 100%;
+      list-style: none;
+      max-width: $page-max-width;
+      display: flex;
+      justify-content: space-between;
+      overflow-x: overlay;
+    }
+
+    .person {
+      display: inline-block;
+      flex: 1 0 25%;
+      flex-grow: 1;
+      background: white;
+      padding: 1px;
+      font-weight: bold;
+      font-size: 13px;
+      a {
+        color: initial;
+        text-decoration: none;
+      }
+
+      .name {
+        margin: 10px 0;
+        text-align: center;
+      }
+    }
+
+    // See https://spin.atomicobject.com/2015/07/14/css-responsive-square/
+    .square {
+      width: 100%;
+      min-width: 125px;
+      min-height: 125px;
+      position: relative;
+      &::after {
+        content: '';
+        display: block;
+        padding-bottom: 100%;
+      }
+      .content {
+        position: absolute;
+        overflow-y: hidden;
+        width: 100%;
+        height: 100%;
+        img {
+          display: block;
+          width: 100%;
+          height: auto;
+        }
+      }
+    }
+  }
 }

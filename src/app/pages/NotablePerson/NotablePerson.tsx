@@ -71,7 +71,7 @@ const Page = withRouter(
       return client.request<NotablePersonQuery>(query, { slug });
     };
 
-    // tslint:disable-next-line:max-func-body-length
+    // tslint:disable:max-func-body-length
     render() {
       return (
         <WithData
@@ -140,15 +140,28 @@ const Page = withRouter(
                 </article>
                 {notablePerson.relatedPeople.length ? (
                   <div>
-                    <h2>Other interseting profiles</h2>
-                    {notablePerson.relatedPeople.map(person => (
-                      <Link to={`/${person.slug}`}>
-                        {person.photoUrl ? (
-                          <img alt={person.name} src={person.photoUrl} />
-                        ) : null}
-                        {person.name}
-                      </Link>
-                    ))}
+                    <div className={classes.relatedPeople}>
+                      <h2>Other interseting profiles</h2>
+                      <ul className={classes.peopleList}>
+                        {notablePerson.relatedPeople.map(person => (
+                          <li className={classes.person}>
+                            <Link to={`/${person.slug}`}>
+                              {person.photoUrl ? (
+                                <div className={classes.square}>
+                                  <div className={classes.content}>
+                                    <img
+                                      alt={person.name}
+                                      src={person.photoUrl}
+                                    />
+                                  </div>
+                                </div>
+                              ) : null}
+                              <div className={classes.name}>{person.name}</div>
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
                   </div>
                 ) : null}
                 <OptionalIntersectionObserver
