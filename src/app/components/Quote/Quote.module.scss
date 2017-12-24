@@ -14,8 +14,8 @@
   padding: 0 calc(1em + #{$quoation-mark-margin});
   margin-top: $top-offset;
 
-  &::before,
-  &::after {
+  > :first-child::before,
+  > :last-child::after {
     position: absolute;
     font-family: Georgia, 'Times New Roman', Times, serif;
     font-size: 200%;
@@ -23,7 +23,7 @@
     margin: 0 $quoation-mark-margin;
   }
 
-  &::before {
+  > :first-child::before {
     display: block;
     content: '“';
     float: left;
@@ -31,7 +31,7 @@
     top: -$top-offset;
   }
 
-  &::after {
+  > :last-child::after {
     content: '”';
     line-height: 1;
   }

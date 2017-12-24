@@ -122,11 +122,11 @@ class Wrapper extends React.Component<Props> {
  * a helper library to delay React rendering of the component tree
  * until the asynchronous data request is finished.
  *
- * This can be done using libraries like 'react-redux-epic' and `redux-observable`.
+ * This can be done using libraries like `react-redux-epic` and `redux-observable`.
  *
  * While the data is being fetched, the children are allowed to render and are passed
  * a `AsyncResult` object that describes the progress of the request, and depending on
- * whether `allowOptimisticUpdates` is enabled, `AsyncResult` may also contain
+ * whether `allowOptimisticUpdates` is enabled, the `AsyncResult` may also contain
  * the results of the previous call to `load`.
  */
 export const WithData = connect<

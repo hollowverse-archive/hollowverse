@@ -12,7 +12,7 @@ const warningIconComponent = <SvgIcon {...warningIcon} />;
 
 const loadingComponent = (
   <MessageWithIcon
-    caption="Loading Facebook comments..."
+    title="Loading Facebook comments..."
     icon={<LoadingSpinner size={50} />}
   />
 );
@@ -101,7 +101,7 @@ export class FbComments extends React.PureComponent<Props> {
             if (hasError || hasTimedOut) {
               return (
                 <MessageWithIcon
-                  caption={
+                  title={
                     hasTimedOut
                       ? 'Comments are taking too long to load'
                       : 'Error loading comments'
@@ -117,7 +117,7 @@ export class FbComments extends React.PureComponent<Props> {
                 {isInProgress ? loadingComponent : null}
                 <noscript>
                   <MessageWithIcon
-                    caption="Unable to load comments"
+                    title="Unable to load comments"
                     description="Enable JavaScript in your browser settings and reload this page to see comments"
                     icon={warningIconComponent}
                   />

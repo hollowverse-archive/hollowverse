@@ -4,14 +4,14 @@ import cc from 'classcat';
 import * as classes from './MessageWithIcon.module.scss';
 
 type Props = {
-  caption: string;
+  title: string;
   description?: string;
   icon?: React.ReactNode;
   button?: React.ReactNode;
 } & React.HTMLAttributes<HTMLDivElement>;
 
 export const MessageWithIcon = ({
-  caption,
+  title,
   icon,
   description,
   button,
@@ -30,13 +30,13 @@ export const MessageWithIcon = ({
     {...rest}
   >
     <div className={classes.icon}>{icon}</div>
-    <div className={classes.caption}>{caption}</div>
+    <div className={classes.title}>{title}</div>
     {description ? (
       <div className={classes.description}>
         {description}
         {children}
       </div>
     ) : null}
-    {button}
+    <div className={classes.buttonWrapper}>{button}</div>
   </div>
 );

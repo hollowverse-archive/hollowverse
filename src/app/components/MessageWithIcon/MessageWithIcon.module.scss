@@ -10,7 +10,7 @@
   align-items: center;
   justify-content: center;
 
-  .caption {
+  .title {
     color: $color-text-light;
     font-size: 16px;
     padding: 5px 0;
@@ -20,13 +20,17 @@
     padding: 5px;
   }
 
-  .has-description .caption {
+  .button-wrapper {
+    display: block;
+    margin: 10px 0;
+  }
+
+  &.has-description .title {
     color: $color-text-default;
     font-weight: bold;
   }
 
   .description {
     color: $color-text-light;
-    margin-top: 5px;
   }
 }

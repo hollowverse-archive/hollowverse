@@ -39,6 +39,8 @@ const query = gql`
         author
         lastUpdatedOn
         nodes {
+          id
+          parentId
           text
           type
           sourceUrl
@@ -80,7 +82,7 @@ const Page = withRouter(
 
               return (
                 <MessageWithIcon
-                  caption="Are you connected to the internet?"
+                  title="Are you connected to the internet?"
                   description="Please check your connection and try again"
                   button={
                     <LinkButton to={location} onClick={forceReload}>
@@ -98,10 +100,7 @@ const Page = withRouter(
 
             if (!notablePerson) {
               return (
-                <MessageWithIcon
-                  caption="Not Found"
-                  icon={warningIconComponent}
-                >
+                <MessageWithIcon title="Not Found" icon={warningIconComponent}>
                   <Status code={404} />
                 </MessageWithIcon>
               );
