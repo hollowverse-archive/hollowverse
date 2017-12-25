@@ -45,6 +45,7 @@
       max-width: $page-max-width;
       display: flex;
       justify-content: space-between;
+      overflow-x: scroll;
       overflow-x: overlay;
     }
 
@@ -65,29 +66,11 @@
         margin: 10px 0;
         text-align: center;
       }
-    }
 
-    // See https://spin.atomicobject.com/2015/07/14/css-responsive-square/
-    .square {
-      width: 100%;
-      min-width: 125px;
-      min-height: 125px;
-      position: relative;
-      &::after {
-        content: '';
+      img {
         display: block;
-        padding-bottom: 100%;
-      }
-      .content {
-        position: absolute;
-        overflow-y: hidden;
         width: 100%;
-        height: 100%;
-        img {
-          display: block;
-          width: 100%;
-          height: auto;
-        }
+        height: auto;
       }
     }
   }

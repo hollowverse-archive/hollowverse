@@ -25,6 +25,7 @@ import { WithData } from 'hocs/WithData/WithData';
 import { LinkButton } from 'components/Button/Button';
 import { withRouter, RouteComponentProps } from 'react-router';
 import { Link } from 'react-router-dom';
+import { Square } from 'components/Square/Square';
 
 const warningIconComponent = <SvgIcon {...warningIcon} size={100} />;
 
@@ -147,14 +148,12 @@ const Page = withRouter(
                           <li className={classes.person}>
                             <Link to={`/${person.slug}`}>
                               {person.photoUrl ? (
-                                <div className={classes.square}>
-                                  <div className={classes.content}>
-                                    <img
-                                      alt={person.name}
-                                      src={person.photoUrl}
-                                    />
-                                  </div>
-                                </div>
+                                <Square>
+                                  <img
+                                    alt={person.name}
+                                    src={person.photoUrl}
+                                  />
+                                </Square>
                               ) : null}
                               <div className={classes.name}>{person.name}</div>
                             </Link>
