@@ -1,8 +1,6 @@
 // See https://spin.atomicobject.com/2015/07/14/css-responsive-square/
 .root {
   width: 100%;
-  min-width: 125px;
-  min-height: 125px;
   position: relative;
   &::after {
     content: '';

@@ -1,0 +1,39 @@
+@import 'variables.scss';
+
+.root {
+  max-width: $page-max-width;
+  align-self: center;
+
+  .people-list {
+    width: 100%;
+    list-style: none;
+    max-width: $page-max-width;
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .person {
+    display: inline-block;
+    flex: 0 0 calc(100% / 3);
+    background: white;
+    font-weight: bold;
+    font-size: 13px;
+    a {
+      color: initial;
+      text-decoration: none;
+    }
+
+    .name {
+      margin: 10px 0;
+      text-align: center;
+    }
+
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      // stylelint-disable-next-line plugin/no-unsupported-browser-features
+      object-fit: cover;
+    }
+  }
+}

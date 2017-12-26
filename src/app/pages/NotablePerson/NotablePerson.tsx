@@ -145,10 +145,10 @@ const Page = withRouter(
                       <h2>Other interseting profiles</h2>
                       <ul className={classes.peopleList}>
                         {notablePerson.relatedPeople.map(person => (
-                          <li className={classes.person}>
+                          <li key={person.slug} className={classes.person}>
                             <Link to={`/${person.slug}`}>
                               {person.photoUrl ? (
-                                <Square>
+                                <Square className={classes.square}>
                                   <img
                                     alt={person.name}
                                     src={person.photoUrl}

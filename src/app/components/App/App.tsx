@@ -8,6 +8,7 @@ import * as classes from './App.module.scss';
 
 import { LoadableNotablePerson } from 'pages/NotablePerson/LoadableNotablePerson';
 import { LoadableSearchResults } from 'pages/SearchResults/LoadableSearchResults';
+import { LoadableHome } from 'pages/Home/LoadableHome';
 
 /**
  * Main app component
@@ -27,6 +28,7 @@ export const App = class extends React.Component {
                 <LoadableNotablePerson slug={slug} />
               )}
             </Route>
+            <Route component={LoadableHome} />
           </Switch>
         </div>
       </div>

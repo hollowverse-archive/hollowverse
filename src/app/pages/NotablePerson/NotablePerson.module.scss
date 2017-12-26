@@ -49,6 +49,11 @@
       overflow-x: overlay;
     }
 
+    .square {
+      min-width: 125px;
+      min-height: 125px;
+    }
+
     .person {
       display: inline-block;
       flex: 1 0 25%;
@@ -70,7 +75,9 @@
       img {
         display: block;
         width: 100%;
-        height: auto;
+        height: 100%;
+        // stylelint-disable-next-line plugin/no-unsupported-browser-features
+        object-fit: cover;
       }
     }
   }

@@ -5,7 +5,7 @@ import {
 } from 'react-router-redux';
 import { AsyncResult } from 'helpers/asyncResults';
 import { AlgoliaResponse } from 'algoliasearch';
-import { NotablePersonQuery } from 'api/types';
+import { NotablePersonQuery, NotablePeopleQuery } from 'api/types';
 
 /** A map of all app actions to their corresponding payloads */
 export type TypeToPayload = {
@@ -32,6 +32,7 @@ export type TypeToPayload = {
 
 export type ResolvedData = {
   notablePersonQuery: NotablePersonQuery | null;
+  homePageQuery: NotablePeopleQuery | null;
   searchResults: AlgoliaResponse | null;
 };
 
