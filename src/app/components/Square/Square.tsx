@@ -2,6 +2,10 @@ import * as React from 'react';
 import cc from 'classcat';
 import * as classes from './Square.module.scss';
 
+/**
+ * A responsive container that maintains its 1:1 aspect ratio
+ * regardless of its implicit/explicit width, works with flex containers.
+ */
 export const Square = ({
   className,
   children,
