@@ -69,13 +69,12 @@ const Block = ({ node, nodes, referencesMap }: BlockProps): JSX.Element => {
 
     return (
       <span key={child.id}>
-        {' '}
         {child.type === 'emphasis' ? <em>{child.text}</em> : child.text}
         {ref ? (
           <a id={ref.nodeId} href={`#${ref.sourceId}`}>
             <sup>{ref.number}</sup>
           </a>
-        ) : null}{' '}
+        ) : null}
       </span>
     );
   });
@@ -98,8 +97,8 @@ const Block = ({ node, nodes, referencesMap }: BlockProps): JSX.Element => {
  * for nodes with `sourceUrl`s.
  */
 const findRefs = (nodes: Node[], map: Map<string, Source>) => (node: Node) => {
-  const { sourceUrl, sourceTitle } = node;
-  if (sourceUrl) {
+  const { sourceUrl, sourceTitle, type } = node;
+  if (sourceUrl && type !== 'link') {
     const number = map.size + 1;
     map.set(sourceUrl, {
       number,
