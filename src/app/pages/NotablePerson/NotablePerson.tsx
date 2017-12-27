@@ -35,12 +35,18 @@ const query = gql`
       name
       slug
       photoUrl
+      mainPhoto {
+        url
+        sourceUrl
+      }
       summary
       commentsUrl
       relatedPeople {
         slug
         name
-        photoUrl
+        mainPhoto {
+          url
+        }
       }
       editorialSummary {
         author
@@ -116,7 +122,7 @@ const Page = withRouter(
 
             const {
               name,
-              photoUrl,
+              mainPhoto,
               summary,
               commentsUrl,
               editorialSummary,
@@ -128,7 +134,7 @@ const Page = withRouter(
                 <article className={classes.article}>
                   <PersonDetails
                     name={name}
-                    photoUrl={photoUrl}
+                    photoUrl={mainPhoto ? mainPhoto.url : null}
                     summary={summary}
                   />
                   {editorialSummary ? (
@@ -147,11 +153,11 @@ const Page = withRouter(
                         {notablePerson.relatedPeople.map(person => (
                           <li key={person.slug} className={classes.person}>
                             <Link to={`/${person.slug}`}>
-                              {person.photoUrl ? (
+                              {person.mainPhoto ? (
                                 <Square className={classes.square}>
                                   <img
                                     alt={person.name}
-                                    src={person.photoUrl}
+                                    src={person.mainPhoto.url}
                                   />
                                 </Square>
                               ) : null}

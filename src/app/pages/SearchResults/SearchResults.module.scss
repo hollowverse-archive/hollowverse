@@ -13,12 +13,29 @@
   .result {
     display: block;
     margin: 5px 0;
-    display: flex;
     flex-basis: 100%;
+    display: flex;
     .link {
       @include truncate-flex-child;
+      display: flex;
+      align-items: center;
       flex-grow: 1;
-      padding: 15px 20px;
+      padding: 10px 20px;
+      color: inherit;
+
+      .text {
+        flex-grow: 1;
+      }
+
+      .photo {
+        width: 36px;
+        margin-right: 10px;
+        background-color: $color-background;
+      }
+
+      img {
+        width: 100%;
+      }
     }
   }
 

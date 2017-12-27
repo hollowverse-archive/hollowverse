@@ -16,6 +16,7 @@ import { connect } from 'react-redux';
 import { getSearchQuery } from 'store/features/search/selectors';
 import { Link } from 'react-router-dom';
 import { WithData } from 'hocs/WithData/WithData';
+import { Square } from 'components/Square/Square';
 
 type Props = {
   searchQuery: string | null;
@@ -64,6 +65,8 @@ class Page extends React.PureComponent<Props> {
                           duration={100}
                         >
                           {value.hits.map(searchResult => {
+                            const photo = searchResult.mainPhoto;
+
                             return (
                               <li
                                 key={searchResult.objectID}
@@ -73,7 +76,18 @@ class Page extends React.PureComponent<Props> {
                                   className={classes.link}
                                   to={`/${searchResult.slug}`}
                                 >
-                                  {searchResult.name}
+                                  <div className={classes.photo}>
+                                    <Square>
+                                      <img
+                                        src={photo ? photo.url : null}
+                                        role="presentation"
+                                        alt={undefined}
+                                      />
+                                    </Square>
+                                  </div>
+                                  <div className={classes.text}>
+                                    {searchResult.name}
+                                  </div>
                                 </Link>
                               </li>
                             );
