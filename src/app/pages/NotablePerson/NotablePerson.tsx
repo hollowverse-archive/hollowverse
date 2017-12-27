@@ -34,7 +34,6 @@ const query = gql`
     notablePerson(slug: $slug) {
       name
       slug
-      photoUrl
       mainPhoto {
         url
         sourceUrl
