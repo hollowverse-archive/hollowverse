@@ -11,7 +11,7 @@ import logo from 'file-loader!assets/favicon.png';
 import { goToSearch } from 'store/features/search/actions';
 import { connect } from 'react-redux';
 
-export const Home = connect(undefined, { goToSearch })(({ goToSearch }) => (
+export const Home = connect(undefined, { goToSearch })(props => (
   <div className={classes.root}>
     <form method="GET" action="/search" className={classes.searchContainer}>
       <Card className={classes.searchBox}>
@@ -20,7 +20,7 @@ export const Home = connect(undefined, { goToSearch })(({ goToSearch }) => (
           className={classes.input}
           name="query"
           placeholder="Search for notable people"
-          onFocus={goToSearch}
+          onFocus={props.goToSearch}
         />
         <button type="submit">
           <SvgIcon size={20} className={classes.icon} {...searchIcon} />
