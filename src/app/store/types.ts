@@ -14,6 +14,7 @@ export type TypeToPayload = {
   };
   SET_SHOULD_FOCUS_SEARCH: boolean;
   SET_STATUS_CODE: number;
+  SET_REDIRECTION_URL: string;
   REQUEST_DATA: {
     allowOptimisticUpdates: boolean;
     key: ResolvedDataKey;
@@ -40,6 +41,7 @@ export type ResolvedDataKey = keyof ResolvedData;
 export type AppState = {
   statusCode: number;
   shouldFocusSearch: boolean;
+  redirectionUrl: string | null;
   resolvedData: {
     [K in keyof ResolvedData]: AsyncResult<ResolvedData[K] | null> & {
       requestId: string | null;

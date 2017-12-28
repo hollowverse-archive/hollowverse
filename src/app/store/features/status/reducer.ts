@@ -8,4 +8,12 @@ export const statusCodeReducer = createReducerForStoreKey<'statusCode'>(
   200,
 );
 
+export const redirectionUrlReducer = createReducerForStoreKey<'statusCode'>(
+  {
+    SET_REDIRECTION_URL: handleAction<'statusCode'>('SET_REDIRECTION_URL'),
+  },
+  200,
+);
+
 export const getStatusCode = (state: StoreState) => state.statusCode;
+export const getRedirectionUrl = (state: StoreState) => state.redirectionUrl;

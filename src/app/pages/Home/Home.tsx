@@ -13,17 +13,18 @@ import { connect } from 'react-redux';
 
 export const Home = connect(undefined, { goToSearch })(({ goToSearch }) => (
   <div className={classes.root}>
-    <div className={classes.searchContainer}>
+    <form method="GET" action="/search" className={classes.searchContainer}>
       <Card className={classes.searchBox}>
         <input
           type="search"
           className={classes.input}
+          name="query"
           placeholder="Search for notable people"
           onFocus={goToSearch}
         />
         <SvgIcon size={20} className={classes.icon} {...searchIcon} />
       </Card>
-    </div>
+    </form>
     <footer className={classes.footer}>
       <ul className={classes.list}>
         <li>

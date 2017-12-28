@@ -12,7 +12,10 @@ import * as loglevel from 'loglevel';
 
 import { Stats } from 'webpack';
 
-import { getStatusCode } from 'store/features/status/reducer';
+import {
+  getStatusCode,
+  getRedirectionUrl,
+} from 'store/features/status/reducer';
 
 import { Provider } from 'react-redux';
 import { createConfiguredStore } from 'store/createConfiguredStore';
@@ -54,62 +57,70 @@ export const createServerRenderMiddleware = ({
     wrappedRootEpic,
   ).subscribe({
     next({ markup }) {
-      const chunkNames = flushChunkNames();
-
-      const {
-        js,
-        styles,
-        cssHash,
-        scripts,
-        stylesheets,
-        publicPath,
-      } = flushChunks(clientStats, { chunkNames });
-
-      logger.debug(`Request path: ${req.path}`);
-      logger.debug('Dynamic chunk names rendered', chunkNames);
-      logger.debug('Scripts served:', scripts);
-      logger.debug('Stylesheets served:', stylesheets);
-      logger.debug('Icon stats:', iconStats);
-      logger.debug('Public path:', publicPath);
-
-      // Tell browsers to start fetching scripts and stylesheets as soon as they
-      // parse the HTTP headers of the page
-      res.setHeader(
-        'Link',
-        [
-          ...stylesheets.map(
-            src => `<${publicPath}/${src}>; rel=preload; as=style`,
-          ),
-          ...scripts.map(
-            src => `<${publicPath}/${src}>; rel=preload; as=script`,
-          ),
-        ].join(','),
-      );
-
-      const icons = iconStats ? iconStats.html.join(' ') : '';
-
       const state = store.getState();
       logger.debug('Server-side Redux state:', state);
 
-      res.status(getStatusCode(state) || 200);
+      const statusCode = getStatusCode(state) || 200;
+      res.status(statusCode);
 
-      res.send(
-        interpolateTemplate({
-          // In order to protect from XSS attacks, make sure to use `serialize-javascript`
-          // to serialize all data. `JSON.stringify` won't protect from XSS.
-          // If `data` contains "</script><script>alert('Haha! Pwned!')</script>",
-          // `JSON.stringify` won't help.
-          initialState: serializeJavaScript(state, {
-            isJSON: true,
-            space: __IS_DEBUG__ ? 2 : 0,
-          }),
-          markup,
-          icons,
+      if (statusCode === 301 || statusCode === 302) {
+        const url = getRedirectionUrl(state) as string;
+        res.redirect(url);
+
+        return;
+      } else {
+        const chunkNames = flushChunkNames();
+
+        const {
           js,
           styles,
           cssHash,
-        }),
-      );
+          scripts,
+          stylesheets,
+          publicPath,
+        } = flushChunks(clientStats, { chunkNames });
+
+        logger.debug(`Request path: ${req.path}`);
+        logger.debug('Dynamic chunk names rendered', chunkNames);
+        logger.debug('Scripts served:', scripts);
+        logger.debug('Stylesheets served:', stylesheets);
+        logger.debug('Icon stats:', iconStats);
+        logger.debug('Public path:', publicPath);
+
+        // Tell browsers to start fetching scripts and stylesheets as soon as they
+        // parse the HTTP headers of the page
+        res.setHeader(
+          'Link',
+          [
+            ...stylesheets.map(
+              src => `<${publicPath}/${src}>; rel=preload; as=style`,
+            ),
+            ...scripts.map(
+              src => `<${publicPath}/${src}>; rel=preload; as=script`,
+            ),
+          ].join(','),
+        );
+
+        const icons = iconStats ? iconStats.html.join(' ') : '';
+
+        res.send(
+          interpolateTemplate({
+            // In order to protect from XSS attacks, make sure to use `serialize-javascript`
+            // to serialize all data. `JSON.stringify` won't protect from XSS.
+            // If `data` contains "</script><script>alert('Haha! Pwned!')</script>",
+            // `JSON.stringify` won't help.
+            initialState: serializeJavaScript(state, {
+              isJSON: true,
+              space: __IS_DEBUG__ ? 2 : 0,
+            }),
+            markup,
+            icons,
+            js,
+            styles,
+            cssHash,
+          }),
+        );
+      }
     },
 
     complete() {

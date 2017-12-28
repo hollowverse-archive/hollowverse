@@ -15,6 +15,7 @@ const defaultInitialState: StoreState = {
     location: null,
   },
   statusCode: 200,
+  redirectionUrl: null,
   shouldFocusSearch: false,
   resolvedData: {
     searchResults: {

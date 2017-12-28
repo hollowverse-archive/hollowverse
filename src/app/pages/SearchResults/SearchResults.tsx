@@ -17,6 +17,7 @@ import { getSearchQuery } from 'store/features/search/selectors';
 import { Link } from 'react-router-dom';
 import { WithData } from 'hocs/WithData/WithData';
 import { Square } from 'components/Square/Square';
+import { Status } from 'components/Status/Status';
 
 type Props = {
   searchQuery: string | null;
@@ -53,6 +54,17 @@ class Page extends React.PureComponent<Props> {
               }
 
               const value = result.value;
+
+              if (
+                __IS_SERVER__ &&
+                value &&
+                value.hits &&
+                value.hits.length === 1
+              ) {
+                return (
+                  <Status code={301} redirectTo={`${value.hits[0].slug}`} />
+                );
+              }
 
               return (
                 <div>
