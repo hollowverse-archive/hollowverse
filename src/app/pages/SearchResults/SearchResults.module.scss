@@ -18,6 +18,15 @@
     > * {
       width: 100%;
     }
+
+    .card {
+      border-right: none;
+      border-left: none;
+
+      &:first-child {
+        border-top-color: transparent;
+      }
+    }
   }
 
   .algolia-container {

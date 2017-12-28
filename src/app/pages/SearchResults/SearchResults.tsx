@@ -72,7 +72,7 @@ class Page extends React.PureComponent<Props> {
                 return (
                   <div>
                     {value && value.hits.length > 0 ? (
-                      <Card>
+                      <Card className={classes.card}>
                         <ol>
                           <FlipMove
                             enterAnimation="fade"
