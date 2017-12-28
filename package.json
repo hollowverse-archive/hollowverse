@@ -50,7 +50,7 @@
     },
     {
       "path": "./dist/client/**/*.svg",
-      "maxSize": "3 kB"
+      "maxSize": "30 kB"
     }
   ],
   "lint-staged": {
