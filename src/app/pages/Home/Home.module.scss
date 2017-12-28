@@ -41,35 +41,4 @@
       }
     }
   }
-
-  .footer {
-    margin-bottom: 48px;
-    font-size: 11px;
-    color: $color-text-lighter;
-    text-align: center;
-
-    .list {
-      list-style: none;
-      > * {
-        display: inline;
-      }
-
-      a {
-        text-decoration: none;
-        color: inherit;
-      }
-
-      > * + *::before {
-        content: '\00b7';
-        margin: 5px;
-      }
-    }
-
-    .logo {
-      height: 25px;
-      width: auto;
-      // stylelint-disable-next-line plugin/no-unsupported-browser-features
-      filter: grayscale(100%) opacity(0.6);
-    }
-  }
 }

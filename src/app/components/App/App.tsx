@@ -8,6 +8,8 @@ import * as classes from './App.module.scss';
 
 import { LoadableNotablePerson } from 'pages/NotablePerson/LoadableNotablePerson';
 import { LoadableSearchResults } from 'pages/SearchResults/LoadableSearchResults';
+import { LoadableAbout } from 'pages/About/LoadableAbout';
+import { LoadablePrivacyPolicy } from 'pages/PrivacyPolicy/LoadablePrivacyPolicy';
 import { LoadableHome } from 'pages/Home/LoadableHome';
 
 /**
@@ -23,6 +25,8 @@ export const App = class extends React.Component {
         <div className={classes.view}>
           <Switch>
             <Route path="/search" component={LoadableSearchResults} />
+            <Route path="/about" component={LoadableAbout} />
+            <Route path="/privacy-policy" component={LoadablePrivacyPolicy} />
             <Route path="/:slug">
               {({ match: { params: { slug } } }) => (
                 <LoadableNotablePerson slug={slug} />

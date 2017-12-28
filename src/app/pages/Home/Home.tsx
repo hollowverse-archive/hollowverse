@@ -5,11 +5,9 @@ import { Card } from 'components/Card/Card';
 import { SvgIcon } from 'components/SvgIcon/SvgIcon';
 
 import searchIcon from 'icons/search.svg';
-import { Link } from 'react-router-dom';
-
-import logo from 'file-loader!assets/favicon.png';
 import { goToSearch } from 'store/features/search/actions';
 import { connect } from 'react-redux';
+import { Footer } from 'components/Footer/Footer';
 
 export const Home = connect(undefined, { goToSearch })(props => (
   <div className={classes.root}>
@@ -28,33 +26,6 @@ export const Home = connect(undefined, { goToSearch })(props => (
         </button>
       </Card>
     </form>
-    <footer className={classes.footer}>
-      <ul className={classes.list}>
-        <li>
-          <Link to="/contact">Contact</Link>
-        </li>
-        <li>
-          <Link to="/about">About</Link>
-        </li>
-        <li>
-          <Link to="/privacy">Privacy</Link>
-        </li>
-        <li>
-          <a href="https://twitter.com/hollowverse">Twitter</a>
-        </li>
-        <li>
-          <a href="https://www.facebook.com/The-Hollowverse-206704599442186/">
-            Facebook
-          </a>
-        </li>
-      </ul>
-      <br />
-      <img
-        className={classes.logo}
-        role="presentation"
-        alt={undefined}
-        src={logo}
-      />
-    </footer>
+    <Footer />
   </div>
 ));
