@@ -6,7 +6,7 @@ import { render } from 'react-dom';
 import createBrowserHistory from 'history/createBrowserHistory';
 
 import { App } from 'components/App/App';
-import { createConfiguredStore } from 'store/store';
+import { createConfiguredStore } from 'store/createConfiguredStore';
 import { StoreState } from 'store/types';
 
 declare const __INITIAL_STATE__: StoreState | undefined;

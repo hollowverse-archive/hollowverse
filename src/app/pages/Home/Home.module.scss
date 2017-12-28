@@ -1,39 +1,68 @@
 @import 'variables.scss';
 
 .root {
+  width: 100%;
   max-width: $page-max-width;
+  flex-grow: 1;
   align-self: center;
 
-  .people-list {
-    width: 100%;
-    list-style: none;
-    max-width: $page-max-width;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .search-container {
+    flex-grow: 1;
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+    width: 90%;
+
+    .search-box {
+      display: flex;
+      align-items: center;
+
+      .icon {
+        opacity: 0.5;
+        margin: 0.5em;
+      }
+
+      .input {
+        padding: 0.5em;
+        flex-grow: 1;
+        font-size: large;
+      }
+    }
   }
 
-  .person {
-    display: inline-block;
-    flex: 0 0 calc(100% / 3);
-    background: white;
-    font-weight: bold;
-    font-size: 13px;
-    a {
-      color: initial;
-      text-decoration: none;
+  .footer {
+    margin-bottom: 48px;
+    font-size: 11px;
+    color: $color-text-lighter;
+    text-align: center;
+
+    .list {
+      list-style: none;
+      > * {
+        display: inline;
+      }
+
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+
+      > * + *::before {
+        content: '\00b7';
+        margin: 5px;
+      }
     }
 
-    .name {
-      margin: 10px 0;
-      text-align: center;
-    }
-
-    img {
-      display: block;
-      width: 100%;
-      height: 100%;
+    .logo {
+      height: 25px;
+      width: auto;
       // stylelint-disable-next-line plugin/no-unsupported-browser-features
-      object-fit: cover;
+      filter: grayscale(100%) opacity(0.6);
     }
   }
 }

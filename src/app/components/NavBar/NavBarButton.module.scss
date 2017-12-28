@@ -1,12 +1,14 @@
 .root {
   text-decoration: none;
   color: inherit;
-  display: inline-flex;
+  display: flex !important;
   align-items: center;
+  align-self: stretch;
   background: transparent;
   transition: opacity 0.1s ease-in-out;
   border: 0 !important;
-  padding: 0 !important;
+  flex-grow: 0;
+  padding: 8px 15px !important;
   &:disabled {
     opacity: 0.3;
   }

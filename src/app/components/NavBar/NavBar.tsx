@@ -1,4 +1,5 @@
 import * as React from 'react';
+import cc from 'classcat';
 
 import { RouteComponentProps } from 'react-router';
 
@@ -12,6 +13,8 @@ import searchIcon from 'icons/search.svg';
 import backIcon from 'icons/back.svg';
 import { SearchView } from 'components/NavBar/SearchView';
 
+import textLogo from '!!file-loader!assets/textLogo.svg';
+
 export type OwnProps = {
   title: string;
 };
@@ -21,6 +24,7 @@ export type StateProps = {
   isSearchInProgress: boolean;
   shouldFocusSearch: boolean;
   isSearchPage: boolean;
+  isHomePage: boolean;
 };
 
 export type DispatchProps = {
@@ -48,8 +52,9 @@ export const NavBar = class extends React.Component<
       searchQueryChanged,
       shouldFocusSearch,
       isSearchPage,
+      isHomePage,
       goToSearch,
-      location,
+      history,
     } = this.props;
 
     return (
@@ -77,22 +82,35 @@ export const NavBar = class extends React.Component<
               view = [
                 <div key="logo" className={classes.logoWrapper}>
                   <NavBarLink title="Homepage" className={classes.logo} to="/">
-                    {title}
+                    <img src={textLogo} alt={title} />
                   </NavBarLink>
                 </div>,
-                <NavBarLink className={classes.button} key="link" to="/search">
+                <NavBarLink
+                  className={cc([
+                    classes.button,
+                    { [classes.isHidden]: isHomePage },
+                  ])}
+                  key="link"
+                  to="/search"
+                >
                   <SvgIcon size={20} {...searchIcon} />
                   <span className="sr-only">Search</span>
                 </NavBarLink>,
               ];
             }
 
+            const shouldHideBackButton =
+              __IS_SERVER__ || isHomePage || history.length <= 0;
+
             return (
               <div className={classes.view}>
                 <NavBarButton
-                  disabled={__IS_SERVER__ || location.pathname === '/'}
+                  disabled={shouldHideBackButton}
                   onClick={this.goBack}
-                  className={classes.button}
+                  className={cc([
+                    classes.button,
+                    { [classes.isHidden]: shouldHideBackButton },
+                  ])}
                 >
                   <SvgIcon size={20} {...backIcon} />
                   <span className="sr-only">Go Back</span>

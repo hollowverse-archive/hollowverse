@@ -25,10 +25,6 @@ const defaultInitialState: StoreState = {
       ...nullResult,
       requestId: null,
     },
-    homePageQuery: {
-      ...nullResult,
-      requestId: null,
-    },
   },
 };
 

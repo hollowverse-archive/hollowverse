@@ -15,7 +15,7 @@ import { Stats } from 'webpack';
 import { getStatusCode } from 'store/features/status/reducer';
 
 import { Provider } from 'react-redux';
-import { createConfiguredStore } from 'store/store';
+import { createConfiguredStore } from 'store/createConfiguredStore';
 import { App } from 'components/App/App';
 import html from './index.server.html';
 

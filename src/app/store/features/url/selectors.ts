@@ -27,3 +27,8 @@ export const isNotablePersonPage = createSelector(
     return false;
   },
 );
+
+export const isHomePage = createSelector(
+  getRoutingState,
+  ({ location }) => !!location && location.pathname === '/',
+);

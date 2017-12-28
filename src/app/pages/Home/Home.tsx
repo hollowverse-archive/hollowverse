@@ -1,76 +1,56 @@
 import * as React from 'react';
-import gql from 'graphql-tag';
-import { client } from 'api/client';
 
 import * as classes from './Home.module.scss';
+import { Card } from 'components/Card/Card';
+import { SvgIcon } from 'components/SvgIcon/SvgIcon';
 
-import { WithData } from 'hocs/WithData/WithData';
-import { NotablePeopleQuery } from 'api/types';
-import {
-  AsyncResult,
-  isPendingResult,
-  isErrorResult,
-} from 'helpers/asyncResults';
-import { Square } from 'components/Square/Square';
+import searchIcon from 'icons/search.svg';
 import { Link } from 'react-router-dom';
 
-const query = gql`
-  query NotablePeople($first: Int!, $after: ID) {
-    notablePeople(first: $first, after: $after) {
-      edges {
-        node {
-          name
-          slug
-          photoUrl
-        }
-        cursor
-      }
-      pageInfo {
-        hasNextPage
-      }
-    }
-  }
-`;
+import logo from 'file-loader!assets/favicon.png';
+import { goToSearch } from 'store/features/search/actions';
+import { connect } from 'react-redux';
 
-const load = () => {
-  return client.request<NotablePeopleQuery>(query, { first: 10 });
-};
-
-export const Home = () => (
+export const Home = connect(undefined, { goToSearch })(({ goToSearch }) => (
   <div className={classes.root}>
-    <WithData dataKey="homePageQuery" requestId="homepage" load={load}>
-      {({ result }: { result: AsyncResult<NotablePeopleQuery | null> }) => {
-        if (isPendingResult(result)) {
-          return <div>Loading...</div>;
-        } else if (isErrorResult(result)) {
-          return <div>Error</div>;
-        }
-
-        if (result.value) {
-          const { notablePeople } = result.value;
-
-          return (
-            <ul className={classes.peopleList}>
-              {notablePeople.edges.map(({ node: person }) => {
-                return (
-                  <li key={person.slug} className={classes.person}>
-                    <Link to={`/${person.slug}`}>
-                      {person.photoUrl ? (
-                        <Square>
-                          <img alt={person.name} src={person.photoUrl} />
-                        </Square>
-                      ) : null}
-                      <div className={classes.name}>{person.name}</div>
-                    </Link>
-                  </li>
-                );
-              })}
-            </ul>
-          );
-        }
-
-        return null;
-      }}
-    </WithData>
+    <div className={classes.searchContainer}>
+      <Card className={classes.searchBox}>
+        <input
+          type="search"
+          className={classes.input}
+          placeholder="Search for notable people"
+          onFocus={goToSearch}
+        />
+        <SvgIcon size={20} className={classes.icon} {...searchIcon} />
+      </Card>
+    </div>
+    <footer className={classes.footer}>
+      <ul className={classes.list}>
+        <li>
+          <Link to="/contact">Contact</Link>
+        </li>
+        <li>
+          <Link to="/about">About</Link>
+        </li>
+        <li>
+          <Link to="/privacy">Privacy</Link>
+        </li>
+        <li>
+          <a href="https://twitter.com/hollowverse">Twitter</a>
+        </li>
+        <li>
+          <a href="https://www.facebook.com/The-Hollowverse-206704599442186/">
+            Facebook
+          </a>
+        </li>
+      </ul>
+      <br />
+      <img
+        className={classes.logo}
+        role="presentation"
+        alt={undefined}
+        src={logo}
+      />
+    </footer>
   </div>
-);
+));

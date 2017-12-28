@@ -23,9 +23,5 @@ export const resolvedDataReducer = createReducerForStoreKey<'resolvedData'>(
       ...nullResult,
       requestId: null,
     },
-    homePageQuery: {
-      ...nullResult,
-      requestId: null,
-    },
   },
 );

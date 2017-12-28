@@ -56,20 +56,18 @@
     display: flex;
     max-width: $page-max-width;
     align-items: center;
-    padding: 8px 15px;
-
-    :not(.button) {
-      flex-grow: 1;
-    }
   }
 
   .button {
-    flex-grow: 0;
+    &.is-hidden {
+      visibility: hidden;
+    }
   }
 
   .logo-wrapper {
     flex-grow: 1;
-    text-align: center;
+    display: flex;
+    justify-content: center;
     .logo {
       text-transform: uppercase;
       text-align: center;

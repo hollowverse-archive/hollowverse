@@ -63,21 +63,21 @@ export class SearchView extends React.PureComponent<Props> {
         action="/search"
         method="GET"
       >
-        <input
-          type="search"
-          ref={this.setSearchInput}
-          className={classes.searchInput}
-          required
-          name="query"
-          value={inputValue}
-          onFocus={this.handleFocus}
-          placeholder="Search for notable people..."
-          autoFocus={__IS_SERVER__}
-          onChange={this.handleChange}
-        />
-        <NavBarButton
-          type={shouldFocusSearch ? 'button' : 'submit'}
-        >
+        <div className={classes.inputWrapper}>
+          <input
+            type="search"
+            ref={this.setSearchInput}
+            className={classes.input}
+            required
+            name="query"
+            value={inputValue}
+            onFocus={this.handleFocus}
+            placeholder="Search for notable people..."
+            autoFocus={__IS_SERVER__}
+            onChange={this.handleChange}
+          />
+        </div>
+        <NavBarButton type={shouldFocusSearch ? 'button' : 'submit'}>
           {shouldFocusSearch ? (
             <LoadingSpinner size={20} />
           ) : (
