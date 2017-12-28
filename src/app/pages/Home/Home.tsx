@@ -22,7 +22,10 @@ export const Home = connect(undefined, { goToSearch })(({ goToSearch }) => (
           placeholder="Search for notable people"
           onFocus={goToSearch}
         />
-        <SvgIcon size={20} className={classes.icon} {...searchIcon} />
+        <button type="submit">
+          <SvgIcon size={20} className={classes.icon} {...searchIcon} />
+          <span className="sr-only">Search</span>
+        </button>
       </Card>
     </form>
     <footer className={classes.footer}>

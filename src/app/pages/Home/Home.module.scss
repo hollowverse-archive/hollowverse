@@ -18,14 +18,20 @@
     justify-content: center;
     width: 90%;
 
+    button {
+      background: transparent;
+      margin: 0.5em;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      .icon {
+        opacity: 0.5;
+      }
+    }
+
     .search-box {
       display: flex;
       align-items: center;
-
-      .icon {
-        opacity: 0.5;
-        margin: 0.5em;
-      }
 
       .input {
         padding: 0.5em;

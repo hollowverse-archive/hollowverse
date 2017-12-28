@@ -19,6 +19,8 @@ import { WithData } from 'hocs/WithData/WithData';
 import { Square } from 'components/Square/Square';
 import { Status } from 'components/Status/Status';
 
+import algoliaLogo from '!!file-loader!assets/algolia/algolia-logo-light.svg';
+
 type Props = {
   searchQuery: string | null;
 };
@@ -41,84 +43,90 @@ class Page extends React.PureComponent<Props> {
 
     return (
       <div className={classes.root}>
-        <WithData
-          requestId={searchQuery}
-          dataKey="searchResults"
-          load={this.load}
-          allowOptimisticUpdates
-        >
-          {({ result }: { result: AsyncResult<AlgoliaResponse | null> }) => {
-            if (isSuccessResult(result) || isOptimisticResult(result)) {
-              if (!searchQuery) {
-                return null;
-              }
+        <div className={classes.resultsContainer}>
+          <WithData
+            requestId={searchQuery}
+            dataKey="searchResults"
+            load={this.load}
+            allowOptimisticUpdates
+          >
+            {({ result }: { result: AsyncResult<AlgoliaResponse | null> }) => {
+              if (isSuccessResult(result) || isOptimisticResult(result)) {
+                if (!searchQuery) {
+                  return null;
+                }
 
-              const value = result.value;
+                const value = result.value;
 
-              if (
-                __IS_SERVER__ &&
-                value &&
-                value.hits &&
-                value.hits.length === 1
-              ) {
+                if (
+                  __IS_SERVER__ &&
+                  value &&
+                  value.hits &&
+                  value.hits.length === 1
+                ) {
+                  return (
+                    <Status code={301} redirectTo={`${value.hits[0].slug}`} />
+                  );
+                }
+
                 return (
-                  <Status code={301} redirectTo={`${value.hits[0].slug}`} />
+                  <div>
+                    {value && value.hits.length > 0 ? (
+                      <Card>
+                        <ol>
+                          <FlipMove
+                            enterAnimation="fade"
+                            leaveAnimation="fade"
+                            duration={100}
+                          >
+                            {value.hits.map(searchResult => {
+                              const photo = searchResult.mainPhoto;
+
+                              return (
+                                <li
+                                  key={searchResult.objectID}
+                                  className={classes.result}
+                                >
+                                  <Link
+                                    className={classes.link}
+                                    to={`/${searchResult.slug}`}
+                                  >
+                                    <div className={classes.photo}>
+                                      <Square>
+                                        <img
+                                          src={photo ? photo.url : null}
+                                          role="presentation"
+                                          alt={undefined}
+                                        />
+                                      </Square>
+                                    </div>
+                                    <div className={classes.text}>
+                                      {searchResult.name}
+                                    </div>
+                                  </Link>
+                                </li>
+                              );
+                            })}
+                          </FlipMove>
+                        </ol>
+                      </Card>
+                    ) : (
+                      <div>No results found</div>
+                    )}
+                  </div>
                 );
+              } else if (isPendingResult(result)) {
+                return <div>Loading...</div>;
               }
 
-              return (
-                <div>
-                  {value && value.hits.length > 0 ? (
-                    <Card>
-                      <ol>
-                        <FlipMove
-                          enterAnimation="fade"
-                          leaveAnimation="fade"
-                          duration={100}
-                        >
-                          {value.hits.map(searchResult => {
-                            const photo = searchResult.mainPhoto;
-
-                            return (
-                              <li
-                                key={searchResult.objectID}
-                                className={classes.result}
-                              >
-                                <Link
-                                  className={classes.link}
-                                  to={`/${searchResult.slug}`}
-                                >
-                                  <div className={classes.photo}>
-                                    <Square>
-                                      <img
-                                        src={photo ? photo.url : null}
-                                        role="presentation"
-                                        alt={undefined}
-                                      />
-                                    </Square>
-                                  </div>
-                                  <div className={classes.text}>
-                                    {searchResult.name}
-                                  </div>
-                                </Link>
-                              </li>
-                            );
-                          })}
-                        </FlipMove>
-                      </ol>
-                    </Card>
-                  ) : (
-                    <div>No results found</div>
-                  )}
-                </div>
-              );
-            } else if (isPendingResult(result)) {
-              return <div>Loading...</div>;
-            }
-
-            return <div>Error</div>;
-          }}
-        </WithData>
+              return <div>Error</div>;
+            }}
+          </WithData>
+        </div>
+        <small className={classes.algoliaContainer}>
+          Search powered by
+          <img className={classes.logo} src={algoliaLogo} alt="Algolia" />
+        </small>
       </div>
     );
   }

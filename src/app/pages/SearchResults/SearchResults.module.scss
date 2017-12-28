@@ -4,10 +4,37 @@
 .root {
   display: flex;
   justify-content: center;
+  flex-direction: column;
+  width: 100%;
+  max-width: $page-max-width;
+  flex-grow: 1;
+  align-self: center;
 
-  > * {
-    max-width: $page-max-width;
+  .results-container {
+    display: flex;
+    justify-content: center;
     flex-grow: 1;
+    display: flex;
+    > * {
+      width: 100%;
+    }
+  }
+
+  .algolia-container {
+    color: $color-text-lighter;
+    align-self: flex-end;
+    display: flex;
+    align-items: center;
+    margin: 15px 0;
+    .logo {
+      height: 1.8em;
+      position: relative;
+      top: 1px;
+      margin-left: 5px;
+      // stylelint-disable-next-line plugin/no-unsupported-browser-features
+      filter: grayscale(100%);
+      opacity: 0.3;
+    }
   }
 
   .result {
