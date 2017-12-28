@@ -19,7 +19,7 @@ import { WithData } from 'hocs/WithData/WithData';
 import { Square } from 'components/Square/Square';
 import { Status } from 'components/Status/Status';
 
-import algoliaLogo from '!!file-loader!assets/algolia/algolia-logo-light.svg';
+import algoliaLogo from '!!file-loader!svgo-loader!assets/algolia/algolia-logo-light.svg';
 
 type Props = {
   searchQuery: string | null;
