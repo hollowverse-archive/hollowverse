@@ -56,7 +56,8 @@
 
     .person {
       display: inline-block;
-      flex: 1 0 25%;
+      flex: 1 0 calc(25% - 2px);
+      margin: 0 1px;
       flex-grow: 1;
       background: white;
       padding: 1px;

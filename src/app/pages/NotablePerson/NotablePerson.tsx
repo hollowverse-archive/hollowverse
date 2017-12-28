@@ -150,19 +150,23 @@ const Page = withRouter(
                       <h2>Other interseting profiles</h2>
                       <ul className={classes.peopleList}>
                         {notablePerson.relatedPeople.map(person => (
-                          <li key={person.slug} className={classes.person}>
-                            <Link to={`/${person.slug}`}>
-                              {person.mainPhoto ? (
-                                <Square className={classes.square}>
-                                  <img
-                                    alt={person.name}
-                                    src={person.mainPhoto.url}
-                                  />
-                                </Square>
-                              ) : null}
-                              <div className={classes.name}>{person.name}</div>
-                            </Link>
-                          </li>
+                          <Card className={classes.person}>
+                            <li key={person.slug}>
+                              <Link to={`/${person.slug}`}>
+                                {person.mainPhoto ? (
+                                  <Square className={classes.square}>
+                                    <img
+                                      alt={person.name}
+                                      src={person.mainPhoto.url}
+                                    />
+                                  </Square>
+                                ) : null}
+                                <div className={classes.name}>
+                                  {person.name}
+                                </div>
+                              </Link>
+                            </li>
+                          </Card>
                         ))}
                       </ul>
                     </div>
