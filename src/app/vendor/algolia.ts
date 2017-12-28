@@ -1,7 +1,7 @@
 import algolia from 'algoliasearch';
 
-const SEARCH_ONLY_API_KEY = 'd970947e688348297451c41746235cd5';
-const APP_ID = '33DEXZ8MDK';
+const SEARCH_ONLY_API_KEY = '3ea32fd106324e761c148c083df01121';
+const APP_ID = '4771KRER1Q';
 
 export const client = algolia(APP_ID, SEARCH_ONLY_API_KEY);
 
