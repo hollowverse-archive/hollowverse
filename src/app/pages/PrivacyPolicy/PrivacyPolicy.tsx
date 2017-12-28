@@ -5,7 +5,7 @@ import { TextPage } from 'components/TextPage/TextPage';
 
 export const PrivacyPolicy = () => (
   <TextPage>
-    <h2>Privacy Policy</h2>
+    <h1>Privacy Policy</h1>
     <p>
       Your privacy is very important to us. Accordingly, we have developed this
       Policy in order for you to understand how we collect, use, communicate and

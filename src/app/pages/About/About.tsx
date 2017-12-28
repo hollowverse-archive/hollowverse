@@ -4,7 +4,7 @@ import { TextPage } from 'components/TextPage/TextPage';
 
 export const About = () => (
   <TextPage>
-    <h2>About</h2>
+    <h1>About</h1>
     <p>
       It is often said that one should avoid discussing politics or religion in
       polite company. But these are some of the most interesting topics and I
