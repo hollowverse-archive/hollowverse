@@ -7,7 +7,8 @@
   align-items: center;
   padding-bottom: 20px;
 
-  .card {
+  .card,
+  .stub {
     padding: 20px;
   }
 
@@ -45,6 +46,9 @@
       max-width: $page-max-width;
       display: flex;
       justify-content: space-between;
+      align-items: stretch;
+      -webkit-overflow-scrolling: touch;
+      overflow-scrolling: touch;
       overflow-x: scroll;
       overflow-x: overlay;
     }
@@ -52,18 +56,14 @@
     .square {
       min-width: 125px;
       min-height: 125px;
-
-      .image {
-        height: 100%;
-      }
+      background-color: $color-background;
     }
 
     .person {
-      display: inline-block;
       flex: 1 0 calc(25% - 2px);
+      display: flex;
+      align-items: stretch;
       margin: 0 1px;
-      flex-grow: 1;
-      background: white;
       padding: 1px;
       font-weight: bold;
       font-size: 13px;

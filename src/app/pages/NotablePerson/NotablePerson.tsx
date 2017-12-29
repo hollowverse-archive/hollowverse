@@ -143,7 +143,12 @@ const Page = withRouter(
                     >
                       <EditorialSummary {...editorialSummary} />
                     </Card>
-                  ) : null}
+                  ) : (
+                    <div className={classes.stub}>
+                      Share what you know about the religion and political views
+                      of {name} in the comments below
+                    </div>
+                  )}
                 </article>
                 {notablePerson.relatedPeople.length ? (
                   <div>
@@ -151,23 +156,23 @@ const Page = withRouter(
                       <h2>Other interseting profiles</h2>
                       <ul className={classes.peopleList}>
                         {notablePerson.relatedPeople.map(person => (
-                          <Card className={classes.person}>
-                            <li key={person.slug}>
-                              <Link to={`/${person.slug}`}>
-                                {person.mainPhoto ? (
-                                  <Square className={classes.square}>
+                          <li key={person.slug} className={classes.person}>
+                            <Link to={`/${person.slug}`}>
+                              <Card>
+                                <Square className={classes.square}>
+                                  {person.mainPhoto ? (
                                     <LazyImage
                                       alt={person.name}
                                       src={person.mainPhoto.url}
                                     />
-                                  </Square>
-                                ) : null}
+                                  ) : null}
+                                </Square>
                                 <div className={classes.name}>
                                   {person.name}
                                 </div>
-                              </Link>
-                            </li>
-                          </Card>
+                              </Card>
+                            </Link>
+                          </li>
                         ))}
                       </ul>
                     </div>
