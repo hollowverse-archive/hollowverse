@@ -42,7 +42,7 @@ export const PersonDetails = ({
         </ul>
       ) : null}
       {summary && (
-        <div className={classes.about}>
+        <div className={classes.summary}>
           {summary
             .split('\n')
             .map((paragraph, i) => <p key={i}>{paragraph}</p>)}
