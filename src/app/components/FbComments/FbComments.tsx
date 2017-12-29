@@ -50,6 +50,10 @@ export class FbComments extends React.PureComponent<Props> {
       }
     });
 
+    if (this.commentsObserver) {
+      this.commentsObserver.takeRecords();
+    }
+
     await observingComplete;
   };
 
@@ -79,8 +83,6 @@ export class FbComments extends React.PureComponent<Props> {
           attributeOldValue: false,
           attributeFilter: [OBSERVED_FB_ATTR_NAME],
         });
-
-        this.commentsObserver.takeRecords();
       }
     });
   };
