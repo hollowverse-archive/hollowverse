@@ -18,8 +18,9 @@
   > :last-child::after {
     position: absolute;
     font-family: Georgia, 'Times New Roman', Times, serif;
-    font-size: 200%;
+    font-size: 175%;
     color: $color-text-light;
+    opacity: 0.4;
     margin: 0 $quoation-mark-margin;
   }
 
