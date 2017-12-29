@@ -73,42 +73,41 @@ class Page extends React.PureComponent<Props> {
                   <div>
                     {value && value.hits.length > 0 ? (
                       <Card className={classes.card}>
-                        <ol>
-                          <FlipMove
-                            enterAnimation="fade"
-                            leaveAnimation="fade"
-                            duration={100}
-                          >
-                            {value.hits.map(searchResult => {
-                              const photo = searchResult.mainPhoto;
+                        <FlipMove
+                          typeName="ol"
+                          enterAnimation="fade"
+                          leaveAnimation="fade"
+                          duration={100}
+                        >
+                          {value.hits.map(searchResult => {
+                            const photo = searchResult.mainPhoto;
 
-                              return (
-                                <li
-                                  key={searchResult.objectID}
-                                  className={classes.result}
+                            return (
+                              <li
+                                key={searchResult.objectID}
+                                className={classes.result}
+                              >
+                                <Link
+                                  className={classes.link}
+                                  to={`/${searchResult.slug}`}
                                 >
-                                  <Link
-                                    className={classes.link}
-                                    to={`/${searchResult.slug}`}
-                                  >
-                                    <div className={classes.photo}>
-                                      <Square>
-                                        <img
-                                          src={photo ? photo.url : null}
-                                          role="presentation"
-                                          alt={undefined}
-                                        />
-                                      </Square>
-                                    </div>
-                                    <div className={classes.text}>
-                                      {searchResult.name}
-                                    </div>
-                                  </Link>
-                                </li>
-                              );
-                            })}
-                          </FlipMove>
-                        </ol>
+                                  <div className={classes.photo}>
+                                    <Square>
+                                      <img
+                                        src={photo ? photo.url : null}
+                                        role="presentation"
+                                        alt={undefined}
+                                      />
+                                    </Square>
+                                  </div>
+                                  <div className={classes.text}>
+                                    {searchResult.name}
+                                  </div>
+                                </Link>
+                              </li>
+                            );
+                          })}
+                        </FlipMove>
                       </Card>
                     ) : (
                       <div>No results found</div>

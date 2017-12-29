@@ -47,11 +47,10 @@
   }
 
   .result {
-    display: block;
-    margin: 5px 0;
     flex-basis: 100%;
     display: flex;
     .link {
+      padding: 5px 0;
       @include truncate-flex-child;
       display: flex;
       align-items: center;
