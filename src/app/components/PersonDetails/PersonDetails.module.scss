@@ -11,6 +11,8 @@
     .cover-photo {
       visibility: visible;
       position: absolute;
+      background-repeat: no-repeat;
+      background-size: 100%;
       top: 0;
       z-index: -1;
       height: 25%;
