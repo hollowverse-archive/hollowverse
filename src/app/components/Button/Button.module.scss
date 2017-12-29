@@ -13,7 +13,8 @@ a.root {
   background-color: white;
   cursor: pointer;
   user-select: none;
-  &:hover {
+  &:hover,
+  &:focus {
     border-color: $color-blue;
     background-color: rgba(75, 49, 246, 0.04);
   }
