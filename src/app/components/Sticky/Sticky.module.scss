@@ -9,31 +9,11 @@
   }
 
   .placeholder {
-    position: absolute;
+    position: static;
     visibility: hidden;
   }
 
   .element {
-    position: static;
-  }
-
-  &.is-sticking {
-    .placeholder {
-      position: static;
-    }
-    .element {
-      position: fixed;
-    }
-  }
-
-  // Fallback when JS is disabled
-  :global(.no-js) & {
-    .placeholder {
-      position: static;
-    }
-
-    .element {
-      position: fixed;
-    }
+    position: fixed;
   }
 }
