@@ -20,22 +20,29 @@
 
     button {
       background: transparent;
-      padding: 0.5em;
+      padding: 5px 0;
       display: flex;
       align-items: center;
       height: 100%;
       cursor: pointer;
       .icon {
+        transition: opacity 0.2s ease-in-out;
         opacity: 0.5;
+      }
+      &:hover,
+      &:focus {
+        .icon {
+          opacity: 1;
+        }
       }
     }
 
     .search-box {
+      padding: 10px 10px;
       display: flex;
       align-items: center;
 
       .input {
-        padding: 0.5em;
         flex-grow: 1;
         font-size: large;
       }

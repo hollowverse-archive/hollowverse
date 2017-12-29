@@ -19,6 +19,7 @@ export const Home = connect(undefined, { goToSearch })(props => (
           name="query"
           placeholder="Search for notable people"
           onFocus={props.goToSearch}
+          required
         />
         <button type="submit">
           <SvgIcon size={20} className={classes.icon} {...searchIcon} />

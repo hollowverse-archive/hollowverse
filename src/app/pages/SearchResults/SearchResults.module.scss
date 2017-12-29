@@ -37,8 +37,6 @@
     margin: 15px;
     .logo {
       height: 1.8em;
-      position: relative;
-      top: 1px;
       margin-left: 5px;
       // stylelint-disable-next-line plugin/no-unsupported-browser-features
       filter: grayscale(100%);
@@ -50,12 +48,11 @@
     flex-basis: 100%;
     display: flex;
     .link {
-      padding: 5px 0;
+      padding: 10px 20px;
       @include truncate-flex-child;
       display: flex;
       align-items: center;
       flex-grow: 1;
-      padding: 10px 20px;
       color: inherit;
 
       .text {
