@@ -26,6 +26,7 @@ import { LinkButton } from 'components/Button/Button';
 import { withRouter, RouteComponentProps } from 'react-router';
 import { Link } from 'react-router-dom';
 import { Square } from 'components/Square/Square';
+import { LazyImage } from 'components/LazyImage/LazyImage';
 
 const warningIconComponent = <SvgIcon {...warningIcon} size={100} />;
 
@@ -155,7 +156,7 @@ const Page = withRouter(
                               <Link to={`/${person.slug}`}>
                                 {person.mainPhoto ? (
                                   <Square className={classes.square}>
-                                    <img
+                                    <LazyImage
                                       alt={person.name}
                                       src={person.mainPhoto.url}
                                     />

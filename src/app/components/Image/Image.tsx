@@ -2,7 +2,7 @@ import * as React from 'react';
 import { AsyncComponent } from 'hocs/AsyncComponent/AsyncComponent';
 import cc from 'classcat';
 
-type Props = React.ImgHTMLAttributes<HTMLImageElement> & {
+export type Props = React.ImgHTMLAttributes<HTMLImageElement> & {
   loadingComponent?: JSX.Element | null;
   errorComponent?: JSX.Element | null;
 };
@@ -41,7 +41,7 @@ export class Image extends React.PureComponent<Props> {
             className,
             loadingComponent,
             errorComponent,
-            ...rest,
+            ...rest
           } = this.props;
 
           const hasLoaded = !isInProgress && !hasError;
