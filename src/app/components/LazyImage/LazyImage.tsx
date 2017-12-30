@@ -13,7 +13,7 @@ export class LazyImage extends React.PureComponent<Props> {
     const { rootMargin, ...imageProps } = this.props;
 
     return (
-      <OptionalIntersectionObserver rootMargin="0% 0% 25% 0%" triggerOnce>
+      <OptionalIntersectionObserver rootMargin="25%" triggerOnce>
         {inView => {
           if (!inView) {
             return this.props.loadingComponent;
