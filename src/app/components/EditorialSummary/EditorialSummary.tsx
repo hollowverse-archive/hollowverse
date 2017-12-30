@@ -47,7 +47,7 @@ type Source = {
 type BlockProps = {
   node: Node;
   nodes: Node[];
-  referencesMap: Map<string | null, Source>;
+  referencesMap: Map<Node, Source>;
   onSourceClick?: React.EventHandler<React.MouseEvent<HTMLAnchorElement>>;
 };
 
@@ -68,7 +68,7 @@ const Block = (props: BlockProps): JSX.Element => {
       );
     }
 
-    const ref = referencesMap.get(child.sourceUrl);
+    const ref = referencesMap.get(child);
 
     return (
       <span key={child.id}>
@@ -99,11 +99,11 @@ const Block = (props: BlockProps): JSX.Element => {
  * Finds and adds references to `map` by performing a depth-first search
  * for nodes with `sourceUrl`s.
  */
-const findRefs = (nodes: Node[], map: Map<string, Source>) => (node: Node) => {
+const findRefs = (nodes: Node[], map: Map<Node, Source>) => (node: Node) => {
   const { sourceUrl, sourceTitle, type } = node;
   if (sourceUrl && type !== 'link') {
     const number = map.size + 1;
-    map.set(sourceUrl, {
+    map.set(node, {
       number,
       sourceId: `source_${number}`,
       nodeId: `ref_${number}`,
@@ -120,7 +120,7 @@ type State = {
 };
 
 export class EditorialSummary extends React.PureComponent<Props, State> {
-  references = new Map<string, Source>();
+  references = new Map<Node, Source>();
 
   state: State = {
     shouldShowSources: __IS_SERVER__,
