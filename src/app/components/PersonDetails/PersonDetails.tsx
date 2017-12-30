@@ -2,31 +2,43 @@ import * as React from 'react';
 import { Label } from 'components/Label/Label';
 import { Image } from 'components/Image/Image';
 import * as classes from './PersonDetails.module.scss';
+import { prettifyUrl } from 'helpers/prettifyUrl';
 
 type PersonDetailsProps = {
   summary: string | null;
   name: string;
-  photoUrl: string | null;
+  photo: {
+    url: string;
+    sourceUrl: string;
+  } | null;
   labels?: Array<{ text: string; id: string }>;
 };
 
 export const PersonDetails = ({
   summary,
   name,
-  photoUrl,
+  photo,
   labels,
 }: PersonDetailsProps) => (
   <div className={classes.root}>
-    {photoUrl ? (
+    {photo ? (
       <div
-        style={{ backgroundImage: `url(${photoUrl})` }}
+        style={{ backgroundImage: `url(${photo.url})` }}
         aria-hidden
         className={classes.coverPhoto}
       />
     ) : null}
     <div className={classes.content}>
-      {photoUrl ? (
-        <Image className={classes.photo} src={photoUrl} alt={name} />
+      {photo ? (
+        <a
+          href={photo.sourceUrl}
+          title={`Image source: ${prettifyUrl(photo.sourceUrl)}`}
+        >
+          <Image className={classes.photo} src={photo.url} alt={name} />
+          <span className="sr-only">
+            Image source: {prettifyUrl(photo.sourceUrl)}
+          </span>
+        </a>
       ) : null}
       <h1 className={classes.name}>
         <div className={classes.caption}>Religion, politics, and ideas of</div>

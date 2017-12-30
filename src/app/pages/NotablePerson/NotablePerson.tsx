@@ -134,7 +134,7 @@ const Page = withRouter(
                 <article className={classes.article}>
                   <PersonDetails
                     name={name}
-                    photoUrl={mainPhoto ? mainPhoto.url : null}
+                    photo={mainPhoto}
                     summary={summary}
                   />
                   {editorialSummary ? (
