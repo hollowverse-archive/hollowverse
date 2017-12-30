@@ -15,11 +15,23 @@ export class LazyImage extends React.PureComponent<Props> {
     return (
       <OptionalIntersectionObserver rootMargin="25%" triggerOnce>
         {inView => {
+          if (__IS_SERVER__) {
+            return (
+              <noscript>
+                <Image {...imageProps} />
+              </noscript>
+            );
+          }
+
           if (!inView) {
             return this.props.loadingComponent;
           }
 
-          return <Image {...imageProps} />;
+          return (
+            <div>
+              <Image {...imageProps} />
+            </div>
+          );
         }}
       </OptionalIntersectionObserver>
     );
