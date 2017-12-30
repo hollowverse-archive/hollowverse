@@ -51,6 +51,10 @@
       overflow-scrolling: touch;
       overflow-x: scroll;
       overflow-x: overlay;
+
+      li > * {
+        width: 100%;
+      }
     }
 
     .square {
