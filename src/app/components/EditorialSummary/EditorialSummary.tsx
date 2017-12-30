@@ -53,7 +53,7 @@ type BlockProps = {
 
 const Block = (props: BlockProps): JSX.Element => {
   const { node, nodes, referencesMap, onSourceClick } = props;
-  const children = findChildren(node, nodes).map(child => {
+  const children = findChildren(node, nodes).map((child, i, array) => {
     if (isBlockNode(child)) {
       return <Block {...props} node={child} />;
     } else if (child.type === 'link' && child.sourceUrl) {
@@ -63,7 +63,8 @@ const Block = (props: BlockProps): JSX.Element => {
           title={child.sourceTitle || undefined}
           href={child.sourceUrl}
         >
-          {child.text}{' '}
+          {child.text}
+          {array.length > i + 1 ? ' ' : ''}
         </a>
       );
     }
@@ -72,7 +73,8 @@ const Block = (props: BlockProps): JSX.Element => {
 
     return (
       <span key={child.id}>
-        {child.type === 'emphasis' ? <em>{child.text}</em> : child.text}{' '}
+        {child.type === 'emphasis' ? <em>{child.text}</em> : child.text}
+        {array.length > i + 1 ? ' ' : ''}
         {ref ? (
           <a id={ref.nodeId} onClick={onSourceClick} href={`#${ref.sourceId}`}>
             <sup>{ref.number}</sup>
@@ -163,7 +165,7 @@ export class EditorialSummary extends React.PureComponent<Props, State> {
                 const prettifiedUrl = prettifyUrl(sourceUrl);
 
                 return (
-                  <li key={sourceUrl} id={sourceId}>
+                  <li key={nodeId} id={sourceId}>
                     <a href={sourceUrl}>{sourceTitle || prettifiedUrl}</a>
                     {sourceTitle ? ` ${prettifiedUrl}` : null}
                     <a
