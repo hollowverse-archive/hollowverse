@@ -60,7 +60,7 @@ const Block = ({ node, nodes, referencesMap }: BlockProps): JSX.Element => {
           title={child.sourceTitle || undefined}
           href={child.sourceUrl}
         >
-          {child.text}
+          {child.text} {' '}
         </a>
       );
     }
@@ -70,6 +70,7 @@ const Block = ({ node, nodes, referencesMap }: BlockProps): JSX.Element => {
     return (
       <span key={child.id}>
         {child.type === 'emphasis' ? <em>{child.text}</em> : child.text}
+        {' '}
         {ref ? (
           <a id={ref.nodeId} href={`#${ref.sourceId}`}>
             <sup>{ref.number}</sup>
