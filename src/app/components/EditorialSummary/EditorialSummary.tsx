@@ -74,12 +74,12 @@ const Block = (props: BlockProps): JSX.Element => {
     return (
       <span key={child.id}>
         {child.type === 'emphasis' ? <em>{child.text}</em> : child.text}
-        {array.length > i + 1 ? ' ' : ''}
         {ref ? (
           <a id={ref.nodeId} onClick={onSourceClick} href={`#${ref.sourceId}`}>
             <sup>{ref.number}</sup>
           </a>
         ) : null}
+        {array.length > i + 1 ? ' ' : ''}
       </span>
     );
   });
