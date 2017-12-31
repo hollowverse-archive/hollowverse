@@ -108,7 +108,7 @@ export const NavBar = class extends React.Component<
                             >
                               <img src={textLogo} alt={title} />
                             </NavBarLink>
-                          </div>,
+                          </div>
                           <NavBarLink
                             className={cc([
                               classes.button,
