@@ -18,8 +18,15 @@ import { Link } from 'react-router-dom';
 import { WithData } from 'hocs/WithData/WithData';
 import { Square } from 'components/Square/Square';
 import { Status } from 'components/Status/Status';
+import { SearchResultsSkeleton } from './SearchResultsSkeleton';
 
 import algoliaLogo from '!!file-loader!svgo-loader!assets/algolia/algolia-logo-light.svg';
+import { MessageWithIcon } from 'components/MessageWithIcon/MessageWithIcon';
+
+import searchIcon from 'assets/iconSearch.svg';
+import { SvgIcon } from 'components/SvgIcon/SvgIcon';
+import { LinkButton } from 'components/Button/Button';
+import { forceReload } from 'helpers/forceReload';
 
 type Props = {
   searchQuery: string | null;
@@ -38,6 +45,7 @@ class Page extends React.PureComponent<Props> {
     return null;
   };
 
+  // tslint:disable-next-line:max-func-body-length
   render() {
     const { searchQuery } = this.props;
 
@@ -52,16 +60,27 @@ class Page extends React.PureComponent<Props> {
           >
             {({ result }: { result: AsyncResult<AlgoliaResponse | null> }) => {
               if (isSuccessResult(result) || isOptimisticResult(result)) {
-                if (!searchQuery) {
+                const value = result.value;
+
+                if (!searchQuery || !value) {
                   return null;
                 }
 
-                const value = result.value;
+                if (value.hits.length === 0) {
+                  return (
+                    <MessageWithIcon
+                      className={classes.placeholder}
+                      icon={<SvgIcon {...searchIcon} />}
+                      title="No results found"
+                    />
+                  );
+                }
 
                 if (
+                  // If the page is accessed without JS and we only have one
+                  // matching result, redirect to the result's page instead
+                  // of showing the search results page.
                   __IS_SERVER__ &&
-                  value &&
-                  value.hits &&
                   value.hits.length === 1
                 ) {
                   return (
@@ -70,55 +89,62 @@ class Page extends React.PureComponent<Props> {
                 }
 
                 return (
-                  <div>
-                    {value && value.hits.length > 0 ? (
-                      <Card className={classes.card}>
-                        <FlipMove
-                          typeName="ol"
-                          enterAnimation="fade"
-                          leaveAnimation="fade"
-                          duration={100}
-                        >
-                          {value.hits.map(searchResult => {
-                            const photo = searchResult.mainPhoto;
+                  <Card className={classes.card}>
+                    <FlipMove
+                      typeName="ol"
+                      enterAnimation="fade"
+                      leaveAnimation="fade"
+                      duration={100}
+                    >
+                      {value.hits.map(searchResult => {
+                        const photo = searchResult.mainPhoto;
 
-                            return (
-                              <li
-                                key={searchResult.objectID}
-                                className={classes.result}
-                              >
-                                <Link
-                                  className={classes.link}
-                                  to={`/${searchResult.slug}`}
-                                >
-                                  <div className={classes.photo}>
-                                    <Square>
-                                      <img
-                                        src={photo ? photo.url : null}
-                                        role="presentation"
-                                        alt={undefined}
-                                      />
-                                    </Square>
-                                  </div>
-                                  <div className={classes.text}>
-                                    {searchResult.name}
-                                  </div>
-                                </Link>
-                              </li>
-                            );
-                          })}
-                        </FlipMove>
-                      </Card>
-                    ) : (
-                      <div>No results found</div>
-                    )}
-                  </div>
+                        return (
+                          <li
+                            key={searchResult.objectID}
+                            className={classes.result}
+                          >
+                            <Link
+                              className={classes.link}
+                              to={`/${searchResult.slug}`}
+                            >
+                              <div className={classes.photo}>
+                                <Square>
+                                  <img
+                                    src={photo ? photo.url : null}
+                                    role="presentation"
+                                    alt={undefined}
+                                  />
+                                </Square>
+                              </div>
+                              <div className={classes.text}>
+                                {searchResult.name}
+                              </div>
+                            </Link>
+                          </li>
+                        );
+                      })}
+                    </FlipMove>
+                  </Card>
                 );
-              } else if (isPendingResult(result)) {
-                return <div>Loading...</div>;
               }
 
-              return <div>Error</div>;
+              if (isPendingResult(result)) {
+                return <SearchResultsSkeleton />;
+              }
+
+              return (
+                <MessageWithIcon
+                  className={classes.placeholder}
+                  icon={<SvgIcon {...searchIcon} />}
+                  title="Failed to load search results"
+                  button={
+                    <LinkButton to={location} onClick={forceReload}>
+                      Reload
+                    </LinkButton>
+                  }
+                />
+              );
             }}
           </WithData>
         </div>

@@ -27,6 +27,7 @@ import { withRouter, RouteComponentProps } from 'react-router';
 import { Link } from 'react-router-dom';
 import { Square } from 'components/Square/Square';
 import { LazyImage } from 'components/LazyImage/LazyImage';
+import { forceReload } from 'helpers/forceReload';
 
 const warningIconComponent = <SvgIcon {...warningIcon} size={100} />;
 
@@ -63,10 +64,6 @@ const query = gql`
     }
   }
 `;
-
-const forceReload = () => {
-  window.location.reload();
-};
 
 export type Props = { slug: string };
 

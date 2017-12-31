@@ -59,7 +59,7 @@ export function isPendingResult<T>(
 }
 
 export function isOptimisticResult<T>(
-  result: AsyncResult<T>,
+  result: AsyncResult<T | null>,
 ): result is OptimisticResult<T> {
   return (
     result.value !== null &&
