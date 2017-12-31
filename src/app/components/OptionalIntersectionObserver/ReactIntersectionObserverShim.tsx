@@ -1,5 +1,9 @@
 import { IntersectionObserverProps } from 'react-intersection-observer';
 
-export const Shim = ({ children = null }: IntersectionObserverProps) => {
-  return typeof children === 'function' ? children(__IS_SERVER__) : children;
+type Props = IntersectionObserverProps & {
+  fallbackIsInView: boolean;
+};
+
+export const Shim = ({ children = null, fallbackIsInView = true }: Props) => {
+  return typeof children === 'function' ? children(fallbackIsInView) : children;
 };
