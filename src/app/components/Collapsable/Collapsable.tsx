@@ -52,7 +52,7 @@ export class Collapsable extends React.PureComponent<Props, State> {
           id={id}
           onChange={this.handleChange}
           checked={isOpen}
-          aria-checked={Boolean(isOpen)}
+          aria-checked={String(isOpen)}
         />
         <label className={classes.label} {...{ for: id }}>
           {label}
