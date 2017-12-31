@@ -78,7 +78,6 @@ export const NavBar = class extends React.Component<
           {isSticking => {
             return [
               <NavBarButton
-                key="back-button"
                 disabled={shouldHideBackButton}
                 onClick={this.goBack}
                 className={cc([
@@ -89,7 +88,7 @@ export const NavBar = class extends React.Component<
                 <SvgIcon size={20} {...backIcon} />
                 <span className="sr-only">Go Back</span>
               </NavBarButton>,
-              <div className={classes.view} key="view">
+              <div className={classes.view}>
                 <Switch>
                   <Route path="/search">{searchView}</Route>
                   <Route>
