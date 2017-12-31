@@ -3,7 +3,8 @@ import { Shim } from './ReactIntersectionObserverShim';
 import { IntersectionObserverProps } from 'react-intersection-observer';
 import universal from 'react-universal-component';
 
-export type Props = IntersectionObserverProps;
+export type Props = IntersectionObserverProps &
+  Pick<React.HTMLAttributes<HTMLDivElement>, 'className' | 'style'>;
 
 /** A wrapper around `react-intersection-observer` that conditionally loads
  * the library only in browsers that support `IntersectionObserver`.
