@@ -8,10 +8,24 @@
   align-items: stretch;
   justify-content: center;
 
+  @keyframes navbar-switch {
+    0% {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
   .input-wrapper {
     height: 100%;
     flex-grow: 1;
     padding: 8px 5px;
+    animation: navbar-switch 0.15s;
+    animation-fill-mode: backwards;
   }
 
   .input {

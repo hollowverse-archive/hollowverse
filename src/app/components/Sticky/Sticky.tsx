@@ -8,7 +8,7 @@ import * as classes from './Sticky.module.scss';
 type Props = {
   height: number;
   innerClassName?: string;
-  children(isInView: boolean): React.ReactNode;
+  children(isInView: boolean): React.ReactNode | React.ReactNode[];
 } & React.HTMLAttributes<HTMLDivElement>;
 
 type State = {
