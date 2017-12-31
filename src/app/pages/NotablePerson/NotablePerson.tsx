@@ -127,6 +127,7 @@ const Page = withRouter(
                                 <Square className={classes.square}>
                                   {person.mainPhoto ? (
                                     <LazyImage
+                                      outerClassName={classes.lazyImage}
                                       alt={person.name}
                                       src={person.mainPhoto.url}
                                     />
