@@ -1,5 +1,6 @@
 import * as React from 'react';
 import * as classes from './NotablePersonSkeleton.module.scss';
+import { times, random } from 'lodash';
 
 export const NotablePersonSkeleton = () => (
   <div className={classes.root} aria-hidden>
@@ -9,9 +10,7 @@ export const NotablePersonSkeleton = () => (
       <div className={classes.caption} />
       <div className={classes.name} />
       <div className={classes.lines}>
-        <div />
-        <div />
-        <div />
+        {times(random(2, 4), i => <div key={i} />)}
       </div>
     </div>
   </div>
