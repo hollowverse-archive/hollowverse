@@ -129,6 +129,7 @@ export class FbComments extends React.PureComponent<Props> {
                   ref={this.setCommentsParentNode}
                 >
                   <div
+                    key={url}
                     className="fb-comments"
                     data-href={url}
                     data-width="100%"
