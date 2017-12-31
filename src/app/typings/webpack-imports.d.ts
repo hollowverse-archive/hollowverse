@@ -5,6 +5,16 @@ type SpriteSymbol = {
   url: string;
 };
 
+declare module '*.graphql' {
+  const query: string;
+  export = query;
+}
+
+declare module '*.gql' {
+  const query: string;
+  export = query;
+}
+
 declare module '*.module.scss' {
   const classes: Record<string, string>;
   export = classes;

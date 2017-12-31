@@ -68,7 +68,6 @@ const serverSpecificConfig = {
         test: cssModulesPattern,
         exclude: excludedPatterns,
         use: createCssModulesLoaders(true),
-        enforce: 'pre',
       },
 
       // JavaScript and TypeScript

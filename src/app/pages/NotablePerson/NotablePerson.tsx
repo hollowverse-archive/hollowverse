@@ -1,26 +1,23 @@
 import * as React from 'react';
 import cc from 'classcat';
-import gql from 'graphql-tag';
 import { client } from 'api/client';
+
+import {
+  isErrorResult,
+  isPendingResult,
+  AsyncResult,
+} from 'helpers/asyncResults';
+
 import { NotablePersonQuery } from 'api/types';
 import { PersonDetails } from 'components/PersonDetails/PersonDetails';
 import { FbComments } from 'components/FbComments/FbComments';
 import { MessageWithIcon } from 'components/MessageWithIcon/MessageWithIcon';
 import { SvgIcon } from 'components/SvgIcon/SvgIcon';
 import { OptionalIntersectionObserver } from 'components/OptionalIntersectionObserver/OptionalIntersectionObserver';
-
-import warningIcon from 'icons/warning.svg';
-
-import * as classes from './NotablePerson.module.scss';
 import { Card } from 'components/Card/Card';
 import { EditorialSummary } from 'components/EditorialSummary/EditorialSummary';
 import { NotablePersonSkeleton } from './NotablePersonSkeleton';
 import { Status } from 'components/Status/Status';
-import {
-  isErrorResult,
-  isPendingResult,
-  AsyncResult,
-} from 'helpers/asyncResults';
 import { WithData } from 'hocs/WithData/WithData';
 import { LinkButton } from 'components/Button/Button';
 import { withRouter, RouteComponentProps } from 'react-router';
@@ -29,41 +26,12 @@ import { Square } from 'components/Square/Square';
 import { LazyImage } from 'components/LazyImage/LazyImage';
 import { forceReload } from 'helpers/forceReload';
 
-const warningIconComponent = <SvgIcon {...warningIcon} size={100} />;
+import * as classes from './NotablePerson.module.scss';
+import query from './NotablePersonQuery.graphql';
 
-const query = gql`
-  query NotablePerson($slug: String!) {
-    notablePerson(slug: $slug) {
-      name
-      slug
-      mainPhoto {
-        url
-        sourceUrl
-      }
-      summary
-      commentsUrl
-      relatedPeople {
-        slug
-        name
-        mainPhoto {
-          url
-        }
-      }
-      editorialSummary {
-        author
-        lastUpdatedOn
-        nodes {
-          id
-          parentId
-          text
-          type
-          sourceUrl
-          sourceTitle
-        }
-      }
-    }
-  }
-`;
+import warningIcon from 'icons/warning.svg';
+
+const warningIconComponent = <SvgIcon {...warningIcon} size={100} />;
 
 export type Props = { slug: string };
 

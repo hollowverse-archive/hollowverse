@@ -51,6 +51,12 @@ const config = {
         enforce: 'pre',
       },
 
+      {
+        test: /\.(graphql|gql)$/,
+        exclude: excludedPatterns,
+        loader: 'graphql-tag/loader',
+      },
+
       // SVG assets
       {
         test: /\.svg$/,

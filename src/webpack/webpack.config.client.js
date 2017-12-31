@@ -81,7 +81,6 @@ const clientSpecificConfig = {
         use: extractLocalCss.extract({
           use: createCssModulesLoaders(false),
         }),
-        enforce: 'pre',
       },
 
       // JavaScript and TypeScript
