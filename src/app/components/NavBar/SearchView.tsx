@@ -3,10 +3,11 @@ import * as React from 'react';
 import * as classes from './SearchView.module.scss';
 
 import { SvgIcon } from 'components/SvgIcon/SvgIcon';
-import { NavBarButton } from 'components/NavBar/NavBarButton';
+import { NavBarButton, NavBarLink } from 'components/NavBar/NavBarButton';
 
 import searchIcon from 'icons/search.svg';
 import { LoadingSpinner } from 'components/LoadingSpinner/LoadingSpinner';
+import { Route, Switch } from 'react-router';
 
 type Props = {
   inputValue?: string;
@@ -38,7 +39,7 @@ export class SearchView extends React.PureComponent<Props> {
   }
 
   focusIfNecessary = (props: Props = this.props) => {
-    if (props.isFocused && this.searchInput && this.searchInput) {
+    if (props.isFocused && this.searchInput) {
       this.searchInput.focus();
     }
   };
@@ -77,14 +78,24 @@ export class SearchView extends React.PureComponent<Props> {
             onChange={this.handleChange}
           />
         </div>
-        <NavBarButton type={shouldFocusSearch ? 'button' : 'submit'}>
-          {shouldFocusSearch ? (
-            <LoadingSpinner size={20} />
-          ) : (
-            <SvgIcon size={20} {...searchIcon} />
-          )}
-          <span className="sr-only">Search</span>
-        </NavBarButton>
+        <Switch>
+          <Route path="/search">
+            <NavBarButton type={shouldFocusSearch ? 'button' : 'submit'}>
+              {shouldFocusSearch ? (
+                <LoadingSpinner size={20} />
+              ) : (
+                <SvgIcon size={20} {...searchIcon} />
+              )}
+              <span className="sr-only">Search</span>
+            </NavBarButton>
+          </Route>
+          <Route>
+            <NavBarLink className={classes.button} to="/search">
+              <SvgIcon size={20} {...searchIcon} />
+              <span className="sr-only">Search</span>
+            </NavBarLink>
+          </Route>
+        </Switch>
       </form>
     );
   }

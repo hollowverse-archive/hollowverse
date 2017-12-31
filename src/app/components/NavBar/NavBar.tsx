@@ -100,7 +100,7 @@ export const NavBar = class extends React.Component<
 
                       return (
                         <div className={classes.logoViewInner}>
-                          <div key="logo" className={classes.logoWrapper}>
+                          <div className={classes.logoWrapper}>
                             <NavBarLink
                               title="Homepage"
                               className={classes.logo}
@@ -114,7 +114,6 @@ export const NavBar = class extends React.Component<
                               classes.button,
                               { [classes.isHidden]: isHomePage },
                             ])}
-                            key="link"
                             to="/search"
                           >
                             <SvgIcon size={20} {...searchIcon} />
