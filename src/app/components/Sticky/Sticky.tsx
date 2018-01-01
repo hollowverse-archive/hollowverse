@@ -23,7 +23,7 @@ type State = {
  * How this component works:
  * 1. Makes the target element fixed.
  * 2. Creates a placeholder element to maintain the space of the target element.
- * 3. Now the two elements are laid in the same space.
+ * 3. Now the two elements are laid out in the same space.
  * 4. The target element is on top because fixed creates a new stacking context.
  * 5. Now when the user scrolls, the placeholder will go out of view,
  * while the target will stay fixed at the top of the viewport.
