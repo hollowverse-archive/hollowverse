@@ -9,15 +9,22 @@ import searchIcon from 'icons/search.svg';
 import { LoadingSpinner } from 'components/LoadingSpinner/LoadingSpinner';
 import { Route, Switch } from 'react-router';
 
-type Props = {
-  inputValue?: string;
-  isFocused?: boolean;
-  shouldFocusSearch: boolean;
-  isSearchPage: boolean;
+export type DispatchProps = {
   goToSearch(): any;
   setShouldFocusSearch(isFocused: boolean): any;
   searchQueryChanged({ query }: { query: string }): any;
 };
+
+export type StateProps = {
+  inputValue: string | undefined;
+  isFocused: boolean;
+  isSearchInProgress: boolean;
+  isSearchPage: boolean;
+};
+
+export type OwnProps = {};
+
+type Props = DispatchProps & StateProps & OwnProps;
 
 export class SearchView extends React.PureComponent<Props> {
   searchInput: HTMLInputElement | null = null;
@@ -55,7 +62,7 @@ export class SearchView extends React.PureComponent<Props> {
   };
 
   render() {
-    const { inputValue, shouldFocusSearch } = this.props;
+    const { inputValue, isSearchInProgress } = this.props;
 
     return (
       <form
@@ -80,8 +87,8 @@ export class SearchView extends React.PureComponent<Props> {
         </div>
         <Switch>
           <Route path="/search">
-            <NavBarButton type={shouldFocusSearch ? 'button' : 'submit'}>
-              {shouldFocusSearch ? (
+            <NavBarButton type={isSearchInProgress ? 'button' : 'submit'}>
+              {isSearchInProgress ? (
                 <LoadingSpinner size={20} />
               ) : (
                 <SvgIcon size={20} {...searchIcon} />
