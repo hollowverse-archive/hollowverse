@@ -52,7 +52,11 @@ export const NavBar = class extends React.Component<
           {() => (
             // The component can work without `IntersectionObserver` polyfill,
             // render regradless of the load progress status
-            <Sticky innerClassName={classes.viewWrapper} height={48}>
+            <Sticky
+              rootMargin="30% 0% 0% 0%"
+              innerClassName={classes.viewWrapper}
+              height={48}
+            >
               {isSticking => {
                 return [
                   <NavBarButton
