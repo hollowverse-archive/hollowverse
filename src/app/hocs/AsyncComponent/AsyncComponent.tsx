@@ -88,17 +88,16 @@ export class AsyncComponent<T = any> extends React.PureComponent<
     const loadPromise = this.props.load();
 
     this.setState(
-      { value: null, isInProgress: true, hasError: false, hasTimedOut: false },
+      { value: null, isInProgress: false, hasError: false, hasTimedOut: false },
       () => {
         const promises: Array<Promise<Partial<State<T | null>>>> = [];
 
         promises.push(
-          // tslint:disable-next-line:no-object-literal-type-assertion
           loadPromise.then(
             value =>
+              // tslint:disable-next-line:no-object-literal-type-assertion
               ({
                 value,
-                isInProgress: false,
                 isPastDelay: false,
               } as Partial<SuccessResult<T>>),
           ),
@@ -106,7 +105,14 @@ export class AsyncComponent<T = any> extends React.PureComponent<
 
         if (this.props.delay) {
           promises.push(
-            delay(this.props.delay).then(() => ({ isPastDelay: true })),
+            delay(this.props.delay).then(
+              () =>
+                ({
+                  // tslint:disable-next-line:no-object-literal-type-assertion
+                  isInProgress: true,
+                  isPastDelay: true,
+                } as Partial<PendingResult>),
+            ),
           );
         }
 
