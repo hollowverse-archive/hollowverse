@@ -20,10 +20,8 @@ import { NotablePersonSkeleton } from './NotablePersonSkeleton';
 import { Status } from 'components/Status/Status';
 import { WithData } from 'hocs/WithData/WithData';
 import { LinkButton } from 'components/Button/Button';
+import { RelatedPeople } from './RelatedPeople';
 import { withRouter, RouteComponentProps } from 'react-router';
-import { Link } from 'react-router-dom';
-import { Square } from 'components/Square/Square';
-import { LazyImage } from 'components/LazyImage/LazyImage';
 import { forceReload } from 'helpers/forceReload';
 
 import * as classes from './NotablePerson.module.scss';
@@ -116,32 +114,9 @@ const Page = withRouter(
                   )}
                 </article>
                 {notablePerson.relatedPeople.length ? (
-                  <div>
-                    <div className={classes.relatedPeople}>
-                      <h2>Other interseting profiles</h2>
-                      <ul className={classes.peopleList}>
-                        {notablePerson.relatedPeople.map(person => (
-                          <li key={person.slug} className={classes.person}>
-                            <Link to={`/${person.slug}`}>
-                              <Card>
-                                <Square className={classes.square}>
-                                  {person.mainPhoto ? (
-                                    <LazyImage
-                                      outerClassName={classes.lazyImage}
-                                      alt={person.name}
-                                      src={person.mainPhoto.url}
-                                    />
-                                  ) : null}
-                                </Square>
-                                <div className={classes.name}>
-                                  {person.name}
-                                </div>
-                              </Card>
-                            </Link>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
+                  <div className={classes.relatedPeople}>
+                    <h2>Other interseting profiles</h2>
+                    <RelatedPeople people={notablePerson.relatedPeople} />
                   </div>
                 ) : null}
                 <OptionalIntersectionObserver

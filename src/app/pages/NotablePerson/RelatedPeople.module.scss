@@ -1,0 +1,55 @@
+@import 'variables.scss';
+
+.root {
+  width: 100%;
+  list-style: none;
+  max-width: $page-max-width;
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  -webkit-overflow-scrolling: touch;
+  overflow-scrolling: touch;
+  overflow-x: scroll;
+  overflow-x: overlay;
+
+  li > * {
+    width: 100%;
+  }
+
+  .square {
+    min-width: 125px;
+    min-height: 125px;
+    background-color: $color-background;
+  }
+
+  .lazy-image {
+    height: 100%;
+  }
+
+  .person {
+    flex: 1 0 calc(25% - 2px);
+    display: flex;
+    align-items: stretch;
+    margin: 0 1px;
+    padding: 1px;
+    font-weight: bold;
+    font-size: 13px;
+    a {
+      color: initial;
+      text-decoration: none;
+    }
+
+    .name {
+      margin: 10px 0;
+      text-align: center;
+    }
+
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      // stylelint-disable-next-line plugin/no-unsupported-browser-features
+      object-fit: cover;
+    }
+  }
+}
