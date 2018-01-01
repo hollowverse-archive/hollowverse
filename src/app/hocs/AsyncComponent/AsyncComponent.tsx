@@ -20,7 +20,7 @@ type AsyncProps<T> = {
    * as soon as the component mounts. This is only intended to avoid flashing
    * of loading component in image components when using server side rendering
    * and the image is already cached client-side.
-   * In such cases, the loading component would should for a brief moment before
+   * In such cases, the loading component would flash for a brief moment before
    * it is replaced with the cached image.
    * Defaults to `200`.
    */
@@ -93,11 +93,15 @@ export class AsyncComponent<T = any> extends React.PureComponent<
         const promises: Array<Promise<Partial<State<T | null>>>> = [];
 
         promises.push(
-          loadPromise.then(value => ({
-            value,
-            isInProgress: false as false,
-            isPastDelay: false,
-          })),
+          // tslint:disable-next-line:no-object-literal-type-assertion
+          loadPromise.then(
+            value =>
+              ({
+                value,
+                isInProgress: false,
+                isPastDelay: false,
+              } as Partial<SuccessResult<T>>),
+          ),
         );
 
         if (this.props.delay) {

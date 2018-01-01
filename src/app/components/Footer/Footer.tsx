@@ -16,9 +16,6 @@ export const Footer = () => (
         <Link to="/privacy-policy">Privacy</Link>
       </li>
       <li>
-        <a href="https://twitter.com/hollowverse">Twitter</a>
-      </li>
-      <li>
         <a href="https://www.facebook.com/The-Hollowverse-206704599442186/">
           Facebook
         </a>

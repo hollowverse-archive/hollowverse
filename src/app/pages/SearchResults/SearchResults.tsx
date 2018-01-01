@@ -20,7 +20,7 @@ import { Square } from 'components/Square/Square';
 import { Status } from 'components/Status/Status';
 import { SearchResultsSkeleton } from './SearchResultsSkeleton';
 
-import algoliaLogo from '!!file-loader!svgo-loader!assets/algolia/algolia-logo-light.svg';
+import algoliaLogo from '!!file-loader!svgo-loader!assets/algoliaLogo.svg';
 import { MessageWithIcon } from 'components/MessageWithIcon/MessageWithIcon';
 
 import searchIcon from 'assets/iconSearch.svg';

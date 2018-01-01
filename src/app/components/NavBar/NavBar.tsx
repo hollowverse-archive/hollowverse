@@ -39,8 +39,7 @@ type Props = OwnProps & StateProps & DispatchProps;
 export const NavBar = class extends React.Component<
   Props & RouteComponentProps<any>
 > {
-  goBack = (e: React.MouseEvent<HTMLElement>) => {
-    e.preventDefault();
+  goBack = (_: React.MouseEvent<HTMLElement>) => {
     this.props.history.goBack();
   };
 
