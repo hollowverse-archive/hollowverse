@@ -55,17 +55,17 @@ export class Collapsable extends React.PureComponent<Props, State> {
 
     return (
       <div className={classes.root}>
-        {/**
-         * The input, label, and children container
-         * all have to be siblings in order to hide the children with
-         * pure CSS using the sibling selector like this:
-         *
-         * ```css
-         * .input:not(:checked) ~ .children {
-         *    display: none;
-         * }
-         * ```
-         */}
+        {/*
+          * The input, label, and children container
+          * all have to be siblings in order to hide the children with
+          * pure CSS using the sibling selector like this:
+          *
+          * ```css
+          * .input:not(:checked) ~ .children {
+          *    display: none;
+          * }
+          * ```
+          */}
         <input
           className={classes.input}
           type="checkbox"
