@@ -37,6 +37,15 @@ function isRedirection(
   );
 }
 
+/**
+ * Sets the server's response status code and optionally
+ * the redirection URL in case of `301` or `301` codes.
+ *
+ * This component renders nothing, and should not have `children`.
+ *
+ * It is only used for its side effect on the Redux store
+ * (which is then queried on the server side).
+ */
 export const Status = connect<{}, DispatchProps, OwnProps>(undefined, {
   setStatusCode,
   setRedirectionUrl,
