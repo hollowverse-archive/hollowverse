@@ -14,6 +14,7 @@ import backIcon from 'icons/back.svg';
 import { SearchView } from 'components/NavBar/SearchView';
 
 import textLogo from '!!file-loader!assets/textLogo.svg';
+import { AsyncComponent } from 'hocs/AsyncComponent/AsyncComponent';
 
 export type OwnProps = {
   title: string;
@@ -41,6 +42,17 @@ export const NavBar = class extends React.Component<
   goBack = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
     this.props.history.goBack();
+  };
+
+  loadIntersectionObserverPolyfill = async () => {
+    const supportsIntersectionObserver =
+      'IntersectionObserver' in global &&
+      'IntersectionObserverEntry' in global &&
+      'intersectionRatio' in IntersectionObserverEntry.prototype;
+
+    if (!supportsIntersectionObserver) {
+      await import('intersection-observer');
+    }
   };
 
   render() {
@@ -74,59 +86,65 @@ export const NavBar = class extends React.Component<
 
     return (
       <div className={classes.root}>
-        <Sticky innerClassName={classes.viewWrapper} height={48}>
-          {isSticking => {
-            return [
-              <NavBarButton
-                disabled={shouldHideBackButton}
-                onClick={this.goBack}
-                className={cc([
-                  classes.button,
-                  { [classes.isHidden]: shouldHideBackButton },
-                ])}
-              >
-                <SvgIcon size={20} {...backIcon} />
-                <span className="sr-only">Go Back</span>
-              </NavBarButton>,
-              <div className={classes.view}>
-                <Switch>
-                  <Route path="/search">{searchView}</Route>
-                  <Route>
-                    {() => {
-                      if (isSticking || shouldFocusSearch) {
-                        return searchView;
-                      }
+        <AsyncComponent load={this.loadIntersectionObserverPolyfill}>
+          {() => (
+            // The component can work without `IntersectionObserver` polyfill,
+            // render regradless of the load progress status
+            <Sticky innerClassName={classes.viewWrapper} height={48}>
+              {isSticking => {
+                return [
+                  <NavBarButton
+                    disabled={shouldHideBackButton}
+                    onClick={this.goBack}
+                    className={cc([
+                      classes.button,
+                      { [classes.isHidden]: shouldHideBackButton },
+                    ])}
+                  >
+                    <SvgIcon size={20} {...backIcon} />
+                    <span className="sr-only">Go Back</span>
+                  </NavBarButton>,
+                  <div className={classes.view}>
+                    <Switch>
+                      <Route path="/search">{searchView}</Route>
+                      <Route>
+                        {() => {
+                          if (isSticking || shouldFocusSearch) {
+                            return searchView;
+                          }
 
-                      return (
-                        <div className={classes.logoViewInner}>
-                          <div className={classes.logoWrapper}>
-                            <NavBarLink
-                              title="Homepage"
-                              className={classes.logo}
-                              to="/"
-                            >
-                              <img src={textLogo} alt={title} />
-                            </NavBarLink>
-                          </div>
-                          <NavBarLink
-                            className={cc([
-                              classes.button,
-                              { [classes.isHidden]: isHomePage },
-                            ])}
-                            to="/search"
-                          >
-                            <SvgIcon size={20} {...searchIcon} />
-                            <span className="sr-only">Search</span>
-                          </NavBarLink>
-                        </div>
-                      );
-                    }}
-                  </Route>
-                </Switch>
-              </div>,
-            ];
-          }}
-        </Sticky>
+                          return (
+                            <div className={classes.logoViewInner}>
+                              <div className={classes.logoWrapper}>
+                                <NavBarLink
+                                  title="Homepage"
+                                  className={classes.logo}
+                                  to="/"
+                                >
+                                  <img src={textLogo} alt={title} />
+                                </NavBarLink>
+                              </div>
+                              <NavBarLink
+                                className={cc([
+                                  classes.button,
+                                  { [classes.isHidden]: isHomePage },
+                                ])}
+                                to="/search"
+                              >
+                                <SvgIcon size={20} {...searchIcon} />
+                                <span className="sr-only">Search</span>
+                              </NavBarLink>
+                            </div>
+                          );
+                        }}
+                      </Route>
+                    </Switch>
+                  </div>,
+                ];
+              }}
+            </Sticky>
+          )}
+        </AsyncComponent>
       </div>
     );
   }

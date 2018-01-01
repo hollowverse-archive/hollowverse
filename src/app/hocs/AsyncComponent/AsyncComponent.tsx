@@ -26,6 +26,7 @@ type AsyncProps<T> = {
    */
   delay?: number;
 
+  /** Only called client-side */
   load(): Promise<T>;
 
   children(props: {
