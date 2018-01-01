@@ -8,11 +8,12 @@ type Props = IntersectionObserverProps & {
 export const Shim = ({
   children = null,
   fallbackIsInView = true,
+  tag = 'div',
   ...rest
 }: Props) => {
-  return (
-    <div {...rest}>
-      {typeof children === 'function' ? children(fallbackIsInView) : children}
-    </div>
-  );
+  return React.createElement(tag, {
+    children:
+      typeof children === 'function' ? children(fallbackIsInView) : children,
+    ...rest,
+  });
 };
