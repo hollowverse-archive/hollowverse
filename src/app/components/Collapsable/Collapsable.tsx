@@ -1,10 +1,11 @@
 import * as React from 'react';
 
 import * as classes from './Collapsable.module.scss';
-import { random } from 'lodash';
 import { SvgIcon } from 'components/SvgIcon/SvgIcon';
 
 import dropdownIcon from 'assets/iconDropdown.svg';
+
+import { generateUuid } from 'helpers/generateUuid';
 
 type Props = {
   id?: string;
@@ -41,7 +42,7 @@ export class Collapsable extends React.PureComponent<Props, State> {
   };
 
   render() {
-    const { label, children, id = `Collapsable_${random()}` } = this.props;
+    const { label, children, id = generateUuid() } = this.props;
     const { isOpen } = this.state;
 
     return (
