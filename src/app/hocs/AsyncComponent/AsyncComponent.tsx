@@ -22,6 +22,11 @@ type AsyncProps<T> = {
    * and the image is already cached client-side.
    * In such cases, the loading component would flash for a brief moment before
    * it is replaced with the cached image.
+   *
+   * If the delay is set to, say, 200ms, the browser has 200ms to show the image
+   * before we trigger the "loading" state. If the image is already in the browser cache,
+   * the browser will usually finish loading the image before the 200ms deadline,
+   * and the loading state will never trigger, thus we avoid flashing.
    * Defaults to `200`.
    */
   delay?: number;
