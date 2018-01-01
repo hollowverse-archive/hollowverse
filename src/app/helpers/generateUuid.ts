@@ -4,7 +4,7 @@
 export function generateUuid() {
   let d = new Date().getTime();
 
-  if (performance !== undefined && typeof performance.now === 'function') {
+  if ('performance' in global && typeof performance.now === 'function') {
     d += performance.now();
   }
 
