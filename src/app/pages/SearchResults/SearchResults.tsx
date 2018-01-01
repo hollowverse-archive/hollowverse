@@ -32,6 +32,38 @@ type Props = {
   searchQuery: string | null;
 };
 
+const ResultsList = ({ hits }: { hits: AlgoliaResponse['hits'] }) => {
+  return (
+    <FlipMove
+      typeName="ol"
+      enterAnimation="fade"
+      leaveAnimation="fade"
+      duration={100}
+    >
+      {hits.map(searchResult => {
+        const photo = searchResult.mainPhoto;
+
+        return (
+          <li key={searchResult.objectID} className={classes.result}>
+            <Link className={classes.link} to={`/${searchResult.slug}`}>
+              <div className={classes.photo}>
+                <Square>
+                  <img
+                    src={photo ? photo.url : null}
+                    role="presentation"
+                    alt={undefined}
+                  />
+                </Square>
+              </div>
+              <div className={classes.text}>{searchResult.name}</div>
+            </Link>
+          </li>
+        );
+      })}
+    </FlipMove>
+  );
+};
+
 class Page extends React.PureComponent<Props> {
   load = async (): Promise<null | AlgoliaResponse> => {
     const { searchQuery } = this.props;
@@ -91,41 +123,7 @@ class Page extends React.PureComponent<Props> {
                 return (
                   <div>
                     <Card className={classes.card}>
-                      <FlipMove
-                        typeName="ol"
-                        enterAnimation="fade"
-                        leaveAnimation="fade"
-                        duration={100}
-                      >
-                        {value.hits.map(searchResult => {
-                          const photo = searchResult.mainPhoto;
-
-                          return (
-                            <li
-                              key={searchResult.objectID}
-                              className={classes.result}
-                            >
-                              <Link
-                                className={classes.link}
-                                to={`/${searchResult.slug}`}
-                              >
-                                <div className={classes.photo}>
-                                  <Square>
-                                    <img
-                                      src={photo ? photo.url : null}
-                                      role="presentation"
-                                      alt={undefined}
-                                    />
-                                  </Square>
-                                </div>
-                                <div className={classes.text}>
-                                  {searchResult.name}
-                                </div>
-                              </Link>
-                            </li>
-                          );
-                        })}
-                      </FlipMove>
+                      <ResultsList hits={value.hits} />
                     </Card>
                   </div>
                 );
