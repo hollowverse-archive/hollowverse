@@ -1,13 +1,16 @@
 import { URL, URLSearchParams } from 'url';
 import { createServerRenderMiddleware } from 'server';
+import { performance } from 'perf_hooks';
 
 declare var global: NodeJS.Global & {
   URL: typeof URL;
   URLSearchParams: typeof URLSearchParams;
+  performance: typeof performance;
 };
 
 global.URL = URL;
 global.URLSearchParams = URLSearchParams;
+global.performance = performance;
 
 export { createServerRenderMiddleware } from './server';
 
