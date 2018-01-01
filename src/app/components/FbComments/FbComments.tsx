@@ -129,6 +129,11 @@ export class FbComments extends React.PureComponent<Props> {
                   ref={this.setCommentsParentNode}
                 >
                   <div
+                    // A unique `key` is required to prevent
+                    // Preact from re-using the DOM Node for
+                    // other pages, which confuses Facebook SDK
+                    // and causes the component to be stuck
+                    // at "Loading..."
                     key={url}
                     className="fb-comments"
                     data-href={url}
