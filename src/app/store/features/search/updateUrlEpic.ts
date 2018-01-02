@@ -5,7 +5,6 @@ import { Action, StoreState } from 'store/types';
 import { Epic } from 'redux-observable';
 
 import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/mapTo';
 
 /**
  * Listens for actions requesting search results and
