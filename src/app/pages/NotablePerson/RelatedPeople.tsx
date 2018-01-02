@@ -20,7 +20,7 @@ export const RelatedPeople = ({ people }: { people: Person[] }) => {
     <ul className={classes.root}>
       {people.map(person => (
         <li key={person.slug} className={classes.person}>
-          <Link to={`/${person.slug}`}>
+          <Link className={classes.link} to={`/${person.slug}`}>
             <Card>
               <Square className={classes.square}>
                 {person.mainPhoto ? (

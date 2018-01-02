@@ -26,6 +26,14 @@
     height: 100%;
   }
 
+  .link {
+    display: block;
+
+    > * {
+      height: 100%;
+    }
+  }
+
   .person {
     flex: 1 0 calc(25% - 2px);
     display: flex;
