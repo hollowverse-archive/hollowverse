@@ -100,6 +100,12 @@ const Block = (props: BlockProps): JSX.Element => {
 /**
  * Finds and adds references to `map` by performing a depth-first search
  * for nodes with `sourceUrl`s.
+ *
+ * Why depth-first search?
+ * ----------------------
+ * Sources should follow the same order of their reference positions.
+ * We traverse the nodes by the order they would appear on the screen and
+ * collect the sources they are found.
  */
 const findRefs = (nodes: Node[], map: Map<Node, Source>) => (node: Node) => {
   const { sourceUrl, sourceTitle, type } = node;
@@ -138,6 +144,8 @@ export class EditorialSummary extends React.PureComponent<Props, State> {
   constructor({ nodes }: Props) {
     super();
 
+    // Collect references in nodes to create the Sources section at the end
+    // of the editorial summary.
     nodes.filter(isRootBlock).forEach(findRefs(nodes, this.references));
   }
 
