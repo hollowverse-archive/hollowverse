@@ -77,7 +77,6 @@ class Page extends React.PureComponent<Props> {
     return null;
   };
 
-  // tslint:disable-next-line:max-func-body-length
   render() {
     const { searchQuery } = this.props;
 

@@ -41,7 +41,6 @@ const Page = withRouter(
       return client.request<NotablePersonQuery>(query, { slug });
     };
 
-    // tslint:disable:max-func-body-length
     render() {
       return (
         <WithData
