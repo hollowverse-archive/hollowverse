@@ -5,6 +5,7 @@ import { Action, StoreState } from 'store/types';
 import { Epic } from 'redux-observable';
 
 import 'rxjs/add/operator/map';
+import { getRoutingState } from 'store/features/url/selectors';
 
 /**
  * Listens for actions requesting search results and
@@ -22,7 +23,8 @@ export const updateUrlEpic: Epic<Action, StoreState> = (action$, store) => {
       search: searchParams.toString(),
     };
 
-    const location = store.getState().routing.location;
+    const state = store.getState();
+    const location = getRoutingState(state).location;
 
     return location && location.pathname === descriptor.pathname
       ? // This is to avoid things like

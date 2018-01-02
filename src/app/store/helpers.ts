@@ -11,7 +11,7 @@ import {
 } from 'store/types';
 
 /**
- * A helper functions that creates an action of a specific type,
+ * A helper function that creates an action of a specific type,
  * the payload must correspond to the action type.
  */
 export function createAction<T extends ActionType>(
@@ -25,7 +25,7 @@ export function createAction<T extends ActionType>(
 }
 
 /** A better typed version of `redux-action`'s `createAction`.
- * It only accepts valid action types and returs an action creator
+ * It only accepts valid action types and returns an action creator
  * that only accept valid payloads matching that type.
  */
 export function createActionCreator<T extends ActionType>(
@@ -60,9 +60,9 @@ export function createReducerForStoreKey<Key extends StoreKey>(
  * Type guard for actions
  * It allows TypeScript to guarantee that an action is of a specific type,
  * providing better autocomplete suggestions and type checking in control flow.
- * 
+ *
  * Here is an example:
- * 
+ *
  * ```
  * const action = {
  *  type: 'REQUEST_LOGIN',
