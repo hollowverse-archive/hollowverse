@@ -8,7 +8,7 @@ import { AlgoliaResponse } from 'algoliasearch';
 import { NotablePersonQuery } from 'api/types';
 
 /** A map of all app actions to their corresponding payloads */
-export type TypeToPayload = {
+export type ActionTypeToPayloadType = {
   SEARCH_QUERY_CHANGED: {
     query: string;
   };
@@ -61,14 +61,14 @@ export type StoreKey = keyof AppState;
  * This type covers all possible action types that may be dispatched
  * throughout the app.
  */
-export type ActionType = keyof TypeToPayload;
+export type ActionType = keyof ActionTypeToPayloadType;
 
 /**
  * A typed payload.
  * It must one of the payloads defined above,
  * and must correspond to the action type `T`.
  */
-export type Payload<T extends ActionType> = TypeToPayload[T];
+export type Payload<T extends ActionType> = ActionTypeToPayloadType[T];
 
 export type GenericPayload = Payload<ActionType>;
 

@@ -5,7 +5,7 @@ import {
   ActionToReducerMap,
   AppState,
   StoreKey,
-  TypeToPayload,
+  ActionTypeToPayloadType,
   Reducer,
   GenericAction,
 } from 'store/types';
@@ -16,7 +16,7 @@ import {
  */
 export function createAction<T extends ActionType>(
   type: T,
-  payload: TypeToPayload[T],
+  payload: ActionTypeToPayloadType[T],
 ): Action<T> {
   return {
     type,
@@ -31,7 +31,8 @@ export function createAction<T extends ActionType>(
 export function createActionCreator<T extends ActionType>(
   type: T,
 ): ActionCreator<T> {
-  return (payload: TypeToPayload[T]) => createAction<T>(type, payload);
+  return (payload: ActionTypeToPayloadType[T]) =>
+    createAction<T>(type, payload);
 }
 
 /**
