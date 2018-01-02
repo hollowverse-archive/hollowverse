@@ -23,23 +23,24 @@ export const PersonDetails = ({
   <div className={classes.root}>
     {photo ? (
       <div
-        style={{ backgroundImage: `url(${photo.url})` }}
+        style={{ backgroundImage: `url('${photo.url}')` }}
         aria-hidden
         className={classes.coverPhoto}
       />
     ) : null}
+    {photo ? (
+      <a
+        className={classes.photoLink}
+        href={photo.sourceUrl}
+        title={`Image source: ${prettifyUrl(photo.sourceUrl)}`}
+      >
+        <Image className={classes.photo} src={photo.url} alt={name} />
+        <span className="sr-only">
+          Image source: {prettifyUrl(photo.sourceUrl)}
+        </span>
+      </a>
+    ) : null}
     <div className={classes.content}>
-      {photo ? (
-        <a
-          href={photo.sourceUrl}
-          title={`Image source: ${prettifyUrl(photo.sourceUrl)}`}
-        >
-          <Image className={classes.photo} src={photo.url} alt={name} />
-          <span className="sr-only">
-            Image source: {prettifyUrl(photo.sourceUrl)}
-          </span>
-        </a>
-      ) : null}
       <h1 className={classes.name}>
         <div className={classes.caption}>Religion, politics, and ideas of</div>
         {name}

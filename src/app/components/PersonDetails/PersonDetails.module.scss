@@ -38,17 +38,25 @@
     max-width: $page-max-width;
   }
 
+  .photo-link {
+    align-self: center;
+    display: inline;
+    margin: 0;
+    padding: 0;
+    flex-grow: 0;
+    flex-shrink: 0;
+    margin: 20px auto 25px;
+  }
+
   .photo {
     width: $person-avatar-size;
     height: $person-avatar-size;
-    margin: 20px auto 25px;
     box-shadow: 0 0 0 1.5px rgba(255, 255, 255, 0.7),
       0 2px 1px 0 rgba(0, 0, 0, 0.1);
     border-radius: 1px;
 
     // stylelint-disable-next-line plugin/no-unsupported-browser-features
     object-fit: cover;
-    display: block;
   }
 
   .caption {
