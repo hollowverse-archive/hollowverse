@@ -22,7 +22,7 @@ export const ConnectedSearchView = connect<
   state => ({
     inputValue: getSearchInputValue(state),
     isSearchInProgress: isSearchInProgress(state),
-    isFocused: shouldFocusSearch(state),
+    isFocused: shouldFocusSearch(state) || isSearchPage(state),
     isSearchPage: isSearchPage(state),
   }),
   {

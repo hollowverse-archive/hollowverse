@@ -26,10 +26,7 @@ export type StateProps = {
   isHomePage: boolean;
 };
 
-export type DispatchProps = {
-  goToSearch(): any;
-  setShouldFocusSearch(isFocused: boolean): any;
-};
+export type DispatchProps = {};
 
 type Props = OwnProps & StateProps & DispatchProps;
 

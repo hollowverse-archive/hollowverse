@@ -40,11 +40,9 @@
 
   .photo-link {
     align-self: center;
-    display: inline;
-    margin: 0;
-    padding: 0;
-    flex-grow: 0;
-    flex-shrink: 0;
+    display: inline-block;
+    width: $person-avatar-size;
+    height: $person-avatar-size;
     margin: 20px auto 25px;
   }
 

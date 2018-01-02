@@ -47,18 +47,20 @@ export class SearchView extends React.PureComponent<Props> {
 
   focusIfNecessary = (props: Props = this.props) => {
     if (props.isFocused && this.searchInput) {
-      this.searchInput.focus();
+      if (document.activeElement !== this.searchInput) {
+        this.searchInput.focus();
+      }
     }
-  };
-
-  handleSearchFormBlur = () => {
-    this.props.setShouldFocusSearch(false);
   };
 
   handleFocus = () => {
     if (!this.props.isSearchPage) {
       this.props.goToSearch();
     }
+  };
+
+  handleSearchFormBlur = () => {
+    this.props.setShouldFocusSearch(false);
   };
 
   render() {
@@ -79,8 +81,8 @@ export class SearchView extends React.PureComponent<Props> {
             required
             name="query"
             value={inputValue}
-            onFocus={this.handleFocus}
             placeholder="Search for notable people..."
+            onFocus={this.handleFocus}
             autoFocus={__IS_SERVER__ && !inputValue}
             onChange={this.handleChange}
           />
