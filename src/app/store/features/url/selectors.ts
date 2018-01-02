@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import { getResolvedDataForKey } from 'store/features/data/selectors';
+import { getResolvedDataForKey } from 'store/features/asyncData/selectors';
 import { isSuccessResult } from 'helpers/asyncResults';
 import { StoreState } from 'store/types';
 

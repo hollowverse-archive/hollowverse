@@ -7,7 +7,7 @@ import { StoreState, Action } from './types';
 import { reducer } from './reducer';
 import { analyticsEpic } from 'store/features/analytics/epic';
 import { updateUrlEpic } from 'store/features/search/updateUrlEpic';
-import { dataResolverEpic } from 'store/features/data/epic';
+import { dataResolverEpic } from 'store/features/asyncData/epic';
 import { nullResult } from 'helpers/asyncResults';
 
 const defaultInitialState: StoreState = {

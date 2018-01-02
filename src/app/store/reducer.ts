@@ -6,7 +6,7 @@ import {
   redirectionUrlReducer,
 } from 'store/features/status/reducer';
 import { isSearchFocusedReducer } from 'store/features/search/reducer';
-import { resolvedDataReducer } from 'store/features/data/reducer';
+import { resolvedDataReducer } from 'store/features/asyncData/reducer';
 
 const appReducers: ReducerMap = {
   statusCode: statusCodeReducer,

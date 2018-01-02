@@ -5,7 +5,7 @@ import {
   isOptimisticResult,
   isSuccessResult,
 } from 'helpers/asyncResults';
-import { getResolvedDataForKey } from 'store/features/data/selectors';
+import { getResolvedDataForKey } from 'store/features/asyncData/selectors';
 import {
   getRoutingState,
   isNotablePersonPage,

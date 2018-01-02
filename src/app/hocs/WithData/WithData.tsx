@@ -3,8 +3,8 @@ import * as React from 'react';
 import { AsyncResult, pendingResult } from 'helpers/asyncResults';
 import { ResolvedData, ResolvedDataKey, StoreState } from 'store/types';
 import { connect } from 'react-redux';
-import { getResolvedDataForKey } from 'store/features/data/selectors';
-import { requestData } from 'store/features/data/actions';
+import { getResolvedDataForKey } from 'store/features/asynchrousData/selectors';
+import { requestData } from 'store/features/asynchrousData/actions';
 
 type OwnProps<Key extends ResolvedDataKey = ResolvedDataKey> = {
   /**
