@@ -1,0 +1,31 @@
+query NotablePerson($slug: String!) {
+  notablePerson(slug: $slug) {
+    name
+    slug
+    mainPhoto {
+      url
+      sourceUrl
+    }
+    summary
+    commentsUrl
+    relatedPeople {
+      slug
+      name
+      mainPhoto {
+        url
+      }
+    }
+    editorialSummary {
+      author
+      lastUpdatedOn
+      nodes {
+        id
+        parentId
+        text
+        type
+        sourceUrl
+        sourceTitle
+      }
+    }
+  }
+}

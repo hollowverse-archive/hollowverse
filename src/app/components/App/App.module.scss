@@ -1,17 +1,16 @@
 @import 'variables.scss';
 
-.app {
+.root {
   width: 100%;
-  height: 100%;
+  // stylelint-disable-next-line plugin/no-unsupported-browser-features
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 
-  &-view {
+  .view {
     width: 100%;
-    max-width: 720px;
-    min-height: calc(100% - #{$navbar-height});
-    position: relative;
-    margin: 0 auto;
-    padding: 20px;
+    flex-grow: 1;
     display: flex;
-    flex-flow: column;
+    flex-direction: column;
   }
 }

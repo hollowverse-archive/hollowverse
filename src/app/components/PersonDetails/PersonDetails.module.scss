@@ -1,51 +1,95 @@
 @import 'variables.scss';
 
-.person-details {
+.root {
+  .cover-photo {
+    visibility: hidden;
+  }
+}
+
+@supports (filter: blur(5px)) {
+  .root {
+    .cover-photo {
+      visibility: visible;
+      position: absolute;
+      background-repeat: no-repeat;
+      background-size: 100%;
+      top: 0;
+      z-index: -1;
+      height: 25%;
+      width: 100%;
+      // stylelint-disable-next-line plugin/no-unsupported-browser-features
+      filter: blur(50px);
+      transform: scale(1.2);
+    }
+  }
+}
+
+.root {
   position: relative;
   margin-bottom: 25px;
+  overflow-x: hidden;
+  padding: 20px 20px 0;
+  display: flex;
+  flex-direction: column;
 
-  &-avatar {
+  .content {
+    width: 100%;
+    align-self: center;
+    max-width: $page-max-width;
+  }
+
+  .photo-link {
+    align-self: center;
+    display: inline-block;
     width: $person-avatar-size;
     height: $person-avatar-size;
-    border-radius: 50%;
-    user-select: none;
-    margin: 0 auto 20px;
+    margin: 20px auto 25px;
+  }
+
+  .photo {
+    width: $person-avatar-size;
+    height: $person-avatar-size;
+    box-shadow: 0 0 0 1.5px rgba(255, 255, 255, 0.7),
+      0 2px 1px 0 rgba(0, 0, 0, 0.1);
+    border-radius: 1px;
 
     // stylelint-disable-next-line plugin/no-unsupported-browser-features
     object-fit: cover;
-    display: block;
   }
 
-  &-caption {
+  .caption {
     color: $color-text-light;
-    font-size: 12px;
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 0 0 5px;
     text-align: center;
-    font-weight: normal;
   }
 
-  &-name {
+  .name {
     color: $color-text-default;
-    font-size: 30px;
-    font-weight: bold;
-    line-height: 25px;
-    margin: 10px 0;
+    font-size: 26px;
+    font-weight: normal;
+    line-height: 1;
+    margin: 0 0 26px;
     text-align: center;
   }
 
-  &-labels {
+  .labels {
     text-align: center;
     margin: 20px auto;
+    .list-item {
+      display: inline;
+    }
   }
 
-  .label-list-item {
-    display: inline;
-  }
-
-  &-about {
+  .summary {
     font-size: 16px;
-  }
+    line-height: 1.5;
 
-  p {
-    margin: 10px 0;
+    p {
+      margin: 10px 0;
+    }
   }
 }

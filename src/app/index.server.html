@@ -4,27 +4,20 @@
     <title>Hollowverse</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta charset="utf-8">
-    <script>
-      window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-      ga('create', 'UA-110141722-1', 'auto');
-      ga('send', 'pageview');
-    </script>
-    <script async src='https://www.google-analytics.com/analytics.js'></script>
+    ${styles}
     <style>
       #app {
-        height: 100%;
         min-height: 100%;
       }
-    </style>
+      </style>
     ${icons}
   </head>
   <body>
-    ${styles}
     <div id="app">
-      ${app}
+      ${markup}
     </div>
     <script>
-      window.__REACT_RESOLVER_PAYLOAD__ = ${data};
+      window.__INITIAL_STATE__ = ${initialState};
     </script>
     ${js}
     ${cssHash}

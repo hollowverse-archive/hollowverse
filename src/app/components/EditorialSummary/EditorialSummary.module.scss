@@ -1,0 +1,39 @@
+@import 'variables.scss';
+
+.root {
+  line-height: 1.5;
+
+  > *:not(span) {
+    display: block;
+  }
+
+  > h2 {
+    font-size: 20px;
+  }
+
+  .br {
+    display: block;
+  }
+
+  > * + * {
+    margin: 15px 0;
+  }
+
+  .source-list {
+    padding: 0 30px;
+    li {
+      margin: 10px;
+    }
+  }
+
+  .back-link {
+    border-radius: 50%;
+    margin: 0 5px;
+    padding: 1px;
+    display: inline-block;
+    &:hover {
+      text-decoration: none;
+      background-color: $color-blue-opacity;
+    }
+  }
+}

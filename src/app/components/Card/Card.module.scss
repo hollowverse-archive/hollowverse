@@ -1,43 +1,27 @@
 @import 'variables.scss';
 
-.card {
-  margin: 10px -5px;
+.root {
+  display: block;
+  background-color: white;
   border: 1px solid rgba(0, 0, 0, 0.08);
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.04);
   border-radius: 3px;
-  padding: 15px;
-
-  &-content > * {
-    margin: 20px 0;
-    list-style: none;
-  }
 
   a,
   a:hover {
     text-decoration: none;
   }
 
-  &-title {
-    &,
-    & * {
-      font-size: 32px;
-      line-height: 24px;
-      font-weight: bold;
-    }
-    display: block;
-    color: $color-text-default;
-    margin: 10px 0 15px;
+  hr {
+    height: 1px;
+    background-color: $color-border-light;
+    margin: 19px 0 20px 0;
   }
 
-  &-subtitle {
-    font-size: 12px;
-    font-weight: normal;
-    display: block;
+  small {
+    font-size: 13px;
+    line-height: 1.4;
+    margin-bottom: 10px;
     color: $color-text-light;
-  }
-
-  &-more {
-    display: inline-block;
-    color: $color-blue;
   }
 }

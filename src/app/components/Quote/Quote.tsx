@@ -1,23 +1,19 @@
 import * as React from 'react';
+import cc from 'classcat';
 
 import * as classes from './Quote.module.scss';
 
-type Props = {
-  children: string;
-  sourceUrl?: string;
-  photoUrl?: string | null;
+type Props = React.BlockquoteHTMLAttributes<HTMLElement> & {
+  size?: 'normal' | 'large';
 };
 
-export const Quote = ({ children, photoUrl, sourceUrl }: Props) => (
-  <div className={classes.quote}>
-    {photoUrl ? (
-      <img
-        className={classes.quoteAvatar}
-        role="presentation"
-        alt={undefined}
-        src={photoUrl}
-      />
-    ) : null}
-    <blockquote cite={sourceUrl}>{children}</blockquote>
-  </div>
+export const Quote = ({ className, size = 'normal', ...rest }: Props) => (
+  <blockquote
+    className={cc([
+      className,
+      classes.root,
+      { [classes.large]: size === 'large' },
+    ])}
+    {...rest}
+  />
 );

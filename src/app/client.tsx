@@ -1,18 +1,29 @@
 import * as React from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { ConnectedRouter as Router } from 'react-router-redux';
 import domready from 'domready';
-import { Resolver } from 'react-resolver';
+import { render } from 'react-dom';
+import createBrowserHistory from 'history/createBrowserHistory';
 
 import { App } from 'components/App/App';
+import { createConfiguredStore } from 'store/createConfiguredStore';
+import { StoreState } from 'store/types';
+
+declare const __INITIAL_STATE__: StoreState | undefined;
+
+const history = createBrowserHistory();
+
+const { store } = createConfiguredStore(history, __INITIAL_STATE__);
 
 const renderApp = (NewApp: typeof App = App) => {
-  Resolver.render(
-    () => (
-      <Router>
+  render(
+    <Provider store={store}>
+      <Router history={history}>
         <NewApp />
       </Router>
-    ),
-    document.getElementById('app'),
+    </Provider>,
+    // tslint:disable-next-line:no-non-null-assertion
+    document.getElementById('app')!,
   );
 };
 

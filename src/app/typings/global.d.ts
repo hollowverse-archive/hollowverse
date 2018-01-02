@@ -1,5 +1,5 @@
-declare const __DEBUG__: boolean;
-declare const __SERVER__: boolean;
+declare const __IS_DEBUG__: boolean;
+declare const __IS_SERVER__: boolean;
 
 declare const FB: facebookSdk.Fb;
 declare namespace facebookSdk {
@@ -24,12 +24,18 @@ declare namespace facebookSdk {
         callback: (response: AuthResponse) => any,
       ): void;
     };
+
+    XFBML: {
+      parse(node?: Node, callback?: () => void): void;
+    };
+
     getLoginStatus(
       callback: (response: AuthResponse) => any,
       cache?: boolean,
     ): void;
     login(callback: (response: AuthResponse) => void): void;
     logout(callback: (response: AuthResponse) => void): void;
+
     init(params?: {
       appId?: string;
       xfbml?: boolean;

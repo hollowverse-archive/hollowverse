@@ -1,0 +1,120 @@
+@import 'variables.scss';
+
+.root {
+  flex-grow: 1;
+  width: 100%;
+  max-width: $page-max-width;
+  margin: auto;
+  padding: 40px 20px;
+  animation: text-page 0.3s;
+
+  h1 {
+    font-size: 26px;
+    font-weight: normal;
+    margin: 0 0 26px;
+  }
+
+  h2 {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0 0 10px;
+  }
+
+  h3,
+  h4 {
+    font-size: 15px;
+    font-weight: bold;
+    margin: 0 0 15px;
+  }
+
+  p {
+    font-size: 15px;
+    margin: 0 0 15px;
+    line-height: 1.5;
+  }
+
+  ul,
+  ol {
+    margin: 0 30px 30px;
+    line-height: 1.5;
+  }
+
+  li {
+    margin: 0 0 15px;
+    line-height: 1.5;
+  }
+
+  i {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+  }
+
+  a {
+    color: $color-blue;
+    text-decoration: none;
+    text-decoration-skip: ink;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  sup {
+    position: relative;
+    font-size: 11px;
+    vertical-align: text-top;
+    top: -3px;
+    a:hover {
+      text-decoration: none;
+    }
+  }
+
+  blockquote {
+    font-size: 20px;
+    font-weight: 300;
+    margin: 30px 0;
+    line-height: 1.5;
+    padding: 0 25px;
+    position: relative;
+
+    &::before {
+      content: '“';
+      position: absolute;
+      left: 0;
+      top: -10px;
+      font-family: Georgia, 'Times New Roman', Times, serif;
+      font-size: 40px;
+      color: $color-text-light;
+    }
+
+    &::after {
+      content: '”';
+      position: absolute;
+      font-family: Georgia, 'Times New Roman', Times, serif;
+      font-size: 40px;
+      color: $color-text-light;
+      margin: -12px 0 0 5px;
+    }
+
+    sup {
+      font-weight: normal;
+    }
+  }
+
+  .small {
+    font-size: 13px;
+    line-height: 1.4;
+    margin-bottom: 10px;
+    color: $color-text-light;
+  }
+}
+
+@keyframes text-page {
+  0% {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

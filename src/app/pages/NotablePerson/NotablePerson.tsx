@@ -1,210 +1,142 @@
 import * as React from 'react';
-import gql from 'graphql-tag';
+import cc from 'classcat';
 import { client } from 'api/client';
+
+import {
+  isErrorResult,
+  isPendingResult,
+  AsyncResult,
+} from 'helpers/asyncResults';
+
 import { NotablePersonQuery } from 'api/types';
-import { Event } from 'components/Event/Event';
 import { PersonDetails } from 'components/PersonDetails/PersonDetails';
 import { FbComments } from 'components/FbComments/FbComments';
 import { MessageWithIcon } from 'components/MessageWithIcon/MessageWithIcon';
 import { SvgIcon } from 'components/SvgIcon/SvgIcon';
 import { OptionalIntersectionObserver } from 'components/OptionalIntersectionObserver/OptionalIntersectionObserver';
-import { withRouter } from 'react-router-dom';
-import { resolve } from 'react-resolver';
-import { Result, isErrorResult } from 'helpers/results';
 import { Card } from 'components/Card/Card';
-import { Quote } from 'components/Quote/Quote';
-
-import { prettifyUrl } from 'helpers/prettifyUrl';
-
-import warningIconUrl from 'icons/warning.svg';
+import { EditorialSummary } from 'components/EditorialSummary/EditorialSummary';
+import { NotablePersonSkeleton } from './NotablePersonSkeleton';
+import { Status } from 'components/Status/Status';
+import { WithData } from 'hocs/WithData/WithData';
+import { LinkButton } from 'components/Button/Button';
+import { RelatedPeople } from './RelatedPeople';
+import { withRouter, RouteComponentProps } from 'react-router';
+import { forceReload } from 'helpers/forceReload';
 
 import * as classes from './NotablePerson.module.scss';
+import query from './NotablePersonQuery.graphql';
 
-const warningIcon = <SvgIcon url={warningIconUrl} size={100} />;
+import warningIcon from 'icons/warning.svg';
 
-const reload = () => {
-  location.reload();
-};
+const warningIconComponent = <SvgIcon {...warningIcon} size={100} />;
 
-const query = gql`
-  fragment commonEventProps on NotablePersonEvent {
-    id
-    type
-    quote
-    isQuoteByNotablePerson
-    labels {
-      id
-      text
-    }
-    sourceUrl
-    postedAt
-    happenedOn
-  }
+export type Props = { slug: string };
 
-  query NotablePerson($slug: String!) {
-    notablePerson(slug: $slug) {
-      name
-      photoUrl
-      summary
-      commentsUrl
-      labels {
-        id
-        text
-      }
-      quotes: events(query: { type: quote }) {
-        ...commonEventProps
-      }
-      donations: events(query: { type: donation }) {
-        ...commonEventProps
-        organizationWebsiteUrl
-        organizationName
-      }
-    }
-  }
-`;
+const Page = withRouter(
+  class extends React.Component<Props & RouteComponentProps<any>> {
+    load = async () => {
+      const { slug } = this.props;
 
-type OwnProps = {};
-type ResolvedProps = {
-  queryResult: Result<NotablePersonQuery>;
-};
-
-class Page extends React.PureComponent<OwnProps & ResolvedProps> {
-  // tslint:disable-next-line:max-func-body-length
-  render() {
-    const { queryResult } = this.props;
-    if (isErrorResult(queryResult)) {
-      return (
-        <MessageWithIcon
-          caption="Are you connected to the internet?"
-          description="Please check your connection and try again"
-          actionText="Retry"
-          icon={warningIcon}
-          onActionClick={reload}
-        />
-      );
-    }
-
-    const { data } = queryResult;
-    if (!data.notablePerson) {
-      return (
-        <MessageWithIcon
-          caption="Not Found"
-          description="We do not have a page for this notable person"
-          icon={warningIcon}
-        />
-      );
-    } else {
-      const { notablePerson } = data;
-      const {
-        name,
-        photoUrl,
-        quotes,
-        donations,
-        labels,
-        summary,
-        commentsUrl,
-      } = notablePerson;
-
-      return (
-        <div>
-          <PersonDetails
-            name={name}
-            labels={labels}
-            photoUrl={photoUrl}
-            summary={summary}
-          />
-          {quotes.length > 0 ? (
-            <Card title={<h2>Quotes</h2>} subtitle={name}>
-              <ul className={classes.list}>
-                {quotes.map(quote => (
-                  <li key={quote.id}>
-                    <Event
-                      {...quote}
-                      notablePerson={notablePerson}
-                      postedAt={new Date(quote.postedAt)}
-                      happenedOn={
-                        quote.happenedOn ? new Date(quote.happenedOn) : null
-                      }
-                      sourceName={prettifyUrl(quote.sourceUrl)}
-                      labels={quote.labels}
-                    >
-                      {quote.quote ? (
-                        <Quote photoUrl={photoUrl} sourceUrl={quote.sourceUrl}>
-                          {quote.quote}
-                        </Quote>
-                      ) : null}
-                    </Event>
-                  </li>
-                ))}
-              </ul>
-            </Card>
-          ) : null}
-          {donations.length > 0 ? (
-            <Card title={<h2>Donations</h2>} subtitle={name}>
-              <ul className={classes.list}>
-                {donations.map(donation => (
-                  <li key={donation.id}>
-                    <Event
-                      {...donation}
-                      notablePerson={notablePerson}
-                      postedAt={new Date(donation.postedAt)}
-                      happenedOn={
-                        donation.happenedOn
-                          ? new Date(donation.happenedOn)
-                          : null
-                      }
-                      sourceName={prettifyUrl(donation.sourceUrl)}
-                      labels={donation.labels}
-                    >
-                      <h3 className={classes.eventTitle}>
-                        {donation.organizationWebsiteUrl ? (
-                          <a href={donation.organizationWebsiteUrl}>
-                            {donation.organizationName}
-                          </a>
-                        ) : (
-                          donation.organizationName
-                        )}
-                      </h3>
-                      {donation.quote ? (
-                        <Quote photoUrl={photoUrl}>{donation.quote}</Quote>
-                      ) : null}
-                    </Event>
-                  </li>
-                ))}
-              </ul>
-            </Card>
-          ) : null}
-          <OptionalIntersectionObserver rootMargin="0% 0% 25% 0%" triggerOnce>
-            {inView => {
-              if (inView) {
-                return (
-                  <FbComments className={classes.comments} url={commentsUrl} />
-                );
-              } else {
-                return null;
-              }
-            }}
-          </OptionalIntersectionObserver>
-        </div>
-      );
-    }
-  }
-}
-
-const ResolvedPage = resolve('queryResult', async ({ slug }) => {
-  try {
-    const data = await client.request<NotablePersonQuery>(query, { slug });
-
-    return {
-      data,
+      return client.request<NotablePersonQuery>(query, { slug });
     };
-  } catch (error) {
-    return {
-      error,
-    };
-  }
-})(Page);
 
-export const NotablePerson = withRouter(({ match: { params: { slug } } }) => (
-  <ResolvedPage slug={slug} />
-));
+    render() {
+      return (
+        <WithData
+          requestId={this.props.slug}
+          dataKey="notablePersonQuery"
+          load={this.load}
+        >
+          {({ result }: { result: AsyncResult<NotablePersonQuery> }) => {
+            if (isPendingResult(result)) {
+              return <NotablePersonSkeleton />;
+            }
+
+            if (isErrorResult(result) || !result.value) {
+              const { location } = this.props;
+
+              return (
+                <MessageWithIcon
+                  title="Are you connected to the internet?"
+                  description="Please check your connection and try again"
+                  button={
+                    <LinkButton to={location} onClick={forceReload}>
+                      Reload
+                    </LinkButton>
+                  }
+                  icon={warningIconComponent}
+                >
+                  <Status code={500} />
+                </MessageWithIcon>
+              );
+            }
+
+            const { notablePerson } = result.value;
+
+            if (!notablePerson) {
+              return (
+                <MessageWithIcon title="Not Found" icon={warningIconComponent}>
+                  <Status code={404} />
+                </MessageWithIcon>
+              );
+            }
+
+            const {
+              name,
+              mainPhoto,
+              summary,
+              commentsUrl,
+              editorialSummary,
+            } = notablePerson;
+
+            return (
+              <div className={classes.root}>
+                <Status code={200} />
+                <article className={classes.article}>
+                  <PersonDetails
+                    name={name}
+                    photo={mainPhoto}
+                    summary={summary}
+                  />
+                  {editorialSummary ? (
+                    <Card
+                      className={cc([classes.card, classes.editorialSummary])}
+                    >
+                      <EditorialSummary {...editorialSummary} />
+                    </Card>
+                  ) : (
+                    <div className={classes.stub}>
+                      Share what you know about the religion and political views
+                      of {name} in the comments below
+                    </div>
+                  )}
+                </article>
+                {notablePerson.relatedPeople.length ? (
+                  <div className={classes.relatedPeople}>
+                    <h2>Other interseting profiles</h2>
+                    <RelatedPeople people={notablePerson.relatedPeople} />
+                  </div>
+                ) : null}
+                <OptionalIntersectionObserver
+                  rootMargin="0% 0% 25% 0%"
+                  triggerOnce
+                >
+                  {inView =>
+                    inView ? (
+                      <Card className={cc([classes.card, classes.comments])}>
+                        <FbComments url={commentsUrl} />
+                      </Card>
+                    ) : null
+                  }
+                </OptionalIntersectionObserver>
+              </div>
+            );
+          }}
+        </WithData>
+      );
+    }
+  },
+);
+
+export const NotablePerson = Page;

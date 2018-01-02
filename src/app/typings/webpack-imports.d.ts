@@ -5,17 +5,22 @@ type SpriteSymbol = {
   url: string;
 };
 
+declare module '*.graphql' {
+  const query: string;
+  export = query;
+}
+
+declare module '*.gql' {
+  const query: string;
+  export = query;
+}
+
 declare module '*.module.scss' {
   const classes: Record<string, string>;
   export = classes;
 }
 
 declare module '*.svg' {
-  const url: string;
-  export default url;
-}
-
-declare module 'svg-sprite-loader!*.svg' {
   const symbol: SpriteSymbol;
   export default symbol;
 }
@@ -33,13 +38,6 @@ declare module 'file-loader!*' {
 declare module '*.html' {
   const str: string;
   export default str;
-}
-
-declare module '!!svg-react-loader*' {
-  import * as React from 'react';
-  type Props = React.SVGAttributes<SVGSVGElement>;
-  const SVGComponent: React.ComponentClass<Props>;
-  export default SVGComponent;
 }
 
 declare module '!!json-loader!*' {

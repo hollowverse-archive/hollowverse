@@ -1,22 +1,22 @@
-/**
-* Contains different style constants
-*/
-
 $color-blue: #4b31f6;
+$color-blue-opacity: rgba(110, 99, 207, 0.05);
 $color-pink: #6e63cf;
 $color-yellow: #f5ca23;
 
 $color-text-default: #111;
 $color-text-light: rgba(0, 0, 0, 0.6);
+$color-text-lighter: rgba(0, 0, 0, 0.35);
 
-$color-border-light: #e5e5e5;
-$color-border-lighter: #f1f2f4;
+$color-border-light: rgba(0, 0, 0, 0.08);
 
-$color-background-light: #f3f3f5;
-
-$navbar-height: 46px;
+$color-background-light: #f1f1f3;
+$color-background: #dfdfe1;
 
 $person-avatar-size: 120px;
 
+$person-card-width: 170px;
+$person-card-height: 260px;
+
 $page-min-width: 320px;
 $page-max-width: 720px;
+$page-mobile-width: 640px;

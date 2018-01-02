@@ -2,45 +2,65 @@ import * as React from 'react';
 import { Label } from 'components/Label/Label';
 import { Image } from 'components/Image/Image';
 import * as classes from './PersonDetails.module.scss';
+import { prettifyUrl } from 'helpers/prettifyUrl';
 
 type PersonDetailsProps = {
   summary: string | null;
   name: string;
-  photoUrl: string | null;
-  labels: Array<{ text: string; id: string }>;
+  photo: {
+    url: string;
+    sourceUrl: string;
+  } | null;
+  labels?: Array<{ text: string; id: string }>;
 };
 
 export const PersonDetails = ({
   summary,
   name,
-  photoUrl,
+  photo,
   labels,
 }: PersonDetailsProps) => (
-  <div className={classes.personDetails}>
-    {photoUrl ? (
-      <Image
-        className={classes.personDetailsAvatar}
-        src={photoUrl}
-        alt={name}
+  <div className={classes.root}>
+    {photo ? (
+      <div
+        style={{ backgroundImage: `url('${photo.url}')` }}
+        aria-hidden
+        className={classes.coverPhoto}
       />
     ) : null}
-    <h1 className={classes.personDetailsName}>
-      <div className={classes.personDetailsCaption}>
-        Religion, politics, and ideas of
-      </div>
-      {name}
-    </h1>
-    <ul aria-label="Labels" className={classes.personDetailsLabels}>
-      {labels.map(({ id, text }) => (
-        <li className={classes.labelListItem} key={id}>
-          <Label text={text} />
-        </li>
-      ))}
-    </ul>
-    {summary && (
-      <div className={classes.personDetailsAbout}>
-        {summary.split('\n').map((paragraph, i) => <p key={i}>{paragraph}</p>)}
-      </div>
-    )}
+    {photo ? (
+      <a
+        className={classes.photoLink}
+        href={photo.sourceUrl}
+        title={`Image source: ${prettifyUrl(photo.sourceUrl)}`}
+      >
+        <Image className={classes.photo} src={photo.url} alt={name} />
+        <span className="sr-only">
+          Image source: {prettifyUrl(photo.sourceUrl)}
+        </span>
+      </a>
+    ) : null}
+    <div className={classes.content}>
+      <h1 className={classes.name}>
+        <div className={classes.caption}>Religion, politics, and ideas of</div>
+        {name}
+      </h1>
+      {labels && labels.length > 0 ? (
+        <ul aria-label="Labels" className={classes.labels}>
+          {labels.map(({ id, text }) => (
+            <li className={classes.listItem} key={id}>
+              <Label text={text} />
+            </li>
+          ))}
+        </ul>
+      ) : null}
+      {summary && (
+        <div className={classes.summary}>
+          {summary
+            .split('\n')
+            .map((paragraph, i) => <p key={i}>{paragraph}</p>)}
+        </div>
+      )}
+    </div>
   </div>
 );

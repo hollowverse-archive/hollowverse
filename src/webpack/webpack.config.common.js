@@ -3,6 +3,8 @@ const path = require('path');
 
 const CircularDependencyPlugin = require('circular-dependency-plugin');
 const BabelMinifyPlugin = require('babel-minify-webpack-plugin');
+const SpriteLoaderPlugin = require('svg-sprite-loader/plugin');
+const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 
 const { compact, mapValues } = require('lodash');
 
@@ -15,6 +17,7 @@ const {
   isDebug,
   ifDev,
   ifProd,
+  isProd,
   ifEs5,
   ifEsNext,
 } = require('./env');
@@ -23,14 +26,15 @@ const config = {
   devServer:
     ifDev({
       port: process.env.WEBPACK_DEV_PORT || 3001,
-      inline: true,
-      contentBase: publicPath,
+      publicPath,
       hot: isHot,
       historyApiFallback: true,
-      noInfo: true,
-      quiet: false,
       stats: {
         colors: true,
+        all: false,
+        errors: true,
+        errorDetails: true,
+        warnings: true,
       },
     }) || undefined,
 
@@ -47,13 +51,26 @@ const config = {
         enforce: 'pre',
       },
 
+      {
+        test: /\.(graphql|gql)$/,
+        exclude: excludedPatterns,
+        loader: 'graphql-tag/loader',
+      },
+
       // SVG assets
       {
         test: /\.svg$/,
         exclude: excludedPatterns,
-        include: [path.resolve(srcDirectory)],
+        include: [srcDirectory],
         use: [
-          'file-loader',
+          {
+            loader: 'svg-sprite-loader',
+            options: {
+              extract: true,
+              spriteFilename: isProd ? 'icons.[hash].svg' : 'icons.svg',
+              esModule: false,
+            },
+          },
           {
             loader: 'svgo-loader',
             options: {
@@ -89,6 +106,8 @@ const config = {
       // Replace lodash with lodash-es for better tree shaking
       lodash: 'lodash-es',
 
+      algoliasearch: 'algoliasearch/lite',
+
       // That's all what we need to use Preact instead of React
       ...ifPreact({
         react: 'preact-compat',
@@ -103,7 +122,7 @@ const config = {
       srcDirectory,
 
       // Fallback to node_modules dir
-      path.join(process.cwd(), 'node_modules'),
+      path.resolve(process.cwd(), 'node_modules'),
     ],
   },
 
@@ -124,7 +143,7 @@ const config = {
     new webpack.DefinePlugin(
       mapValues(
         {
-          __DEBUG__: isDev || isDebug,
+          __IS_DEBUG__: isDebug,
           API_ENDPOINT: process.env.API_ENDPOINT,
           'process.env.NODE_ENV': process.env.NODE_ENV,
           isHot,
@@ -133,7 +152,11 @@ const config = {
       ),
     ),
 
+    new SpriteLoaderPlugin(),
+
     ...ifProd([
+      new LodashModuleReplacementPlugin(),
+
       new webpack.optimize.OccurrenceOrderPlugin(true),
 
       // Scope hoisting a la Rollup (Webpack 3+)

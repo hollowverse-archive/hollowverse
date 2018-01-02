@@ -1,17 +1,11 @@
 import * as React from 'react';
+import cc from 'classcat';
 import * as classes from './Card.module.scss';
 
-type Props = {
-  title: string | JSX.Element;
-  subtitle?: string | JSX.Element;
-  moreLink?: string;
-  children: JSX.Element[] | JSX.Element;
-};
+type Props = React.HTMLAttributes<HTMLDivElement>;
 
-export const Card = (props: Props) => (
-  <div className={classes.card}>
-    <div className={classes.cardSubtitle}>{props.subtitle}</div>
-    <div className={classes.cardTitle}>{props.title}</div>
-    <div className={classes.cardContent}>{props.children}</div>
+export const Card = ({ children, className, ...rest }: Props) => (
+  <div className={cc([classes.root, className])} {...rest}>
+    {children}
   </div>
 );

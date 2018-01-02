@@ -47,14 +47,14 @@ if (isProd) {
 
   // Serve server rendering middleware from the SSR build
   // tslint:disable no-require-imports no-var-requires non-literal-require
-  const { createServerRenderMiddleware } = require(path.join(
+  const { createServerRenderMiddleware } = require(path.resolve(
     serverDistDirectory,
     'main.js',
   ));
 
   let iconStats;
   try {
-    iconStats = require(path.join(clientDistDirectory, 'iconStats.json'));
+    iconStats = require(path.resolve(clientDistDirectory, 'iconStats.json'));
   } catch (e) {
     iconStats = undefined;
   }
@@ -81,11 +81,13 @@ if (isProd) {
   const serverConfig = require('./webpack/webpack.config.server');
   // tslint:enable no-require-imports no-var-requires no-implicit-dependencies
 
+  logger.info('Starting webpack compilation...');
+
   const compiler = webpack([clientConfig, serverConfig]);
 
   // @ts-ignore
   const clientCompiler = compiler.compilers[0];
-  const options = { publicPath, stats: { colors: true } };
+  const options = serverConfig.devServer;
 
   appServer.use(webpackDevMiddleware(compiler, options));
   appServer.use(webpackHotMiddleware(clientCompiler));

@@ -1,38 +1,71 @@
 import * as React from 'react';
 
 import { delay } from 'helpers/delay';
+import {
+  PendingResult,
+  SuccessResult,
+  ErrorResult,
+} from 'helpers/asyncResults';
 
 type AsyncProps<T> = {
   /**
    * Time in milliseconds after which loading is considered to have failed
-   * Defaults to `6000`. If `null`, loading never times out.
+   * Defaults to `10000`. If `null`, loading never times out.
    */
   timeout?: number | null;
 
+  /**
+   * Time in milliseconds to wait before the component is considered
+   * to have started loading. The `load()` function will still be called
+   * as soon as the component mounts. This is only intended to avoid flashing
+   * of loading component in image components when using server side rendering
+   * and the image is already cached client-side.
+   * In such cases, the loading component would flash for a brief moment before
+   * it is replaced with the cached image.
+   *
+   * If the delay is set to, say, 200ms, the browser has 200ms to show the image
+   * before we trigger the "loading" state. If the image is already in the browser cache,
+   * the browser will usually finish loading the image before the 200ms deadline,
+   * and the loading state will never trigger, thus we avoid flashing.
+   * Defaults to `200`.
+   */
+  delay?: number;
+
+  /** Only called client-side */
   load(): Promise<T>;
 
-  children(state: State<T> & { retry(): void }): JSX.Element | null;
+  children(props: {
+    result: State<T | null>;
+    retry(): void;
+  }): JSX.Element | null;
 };
 
-type State<T> = {
-  isLoading: boolean;
-  hasError: boolean;
-  timedOut: boolean;
-  result: T | null;
+type State<T> = (
+  | ({
+      hasTimedOut: false;
+    } & (PendingResult | SuccessResult<T>))
+  | (ErrorResult & { hasTimedOut: boolean })) & {
+  isPastDelay: boolean;
 };
 
 /**
  * This component is used to execute an arbitrary asynchronous function (`props.load`)
- * **on the client** before rendering a component.
+ * **on the client** when a component mounts.
  * Unlike packages like `react-universal-component` and `react-loadable`, it is not
- * intended for executing the `load` function _synchronously_ on the server.
- * Instead, when called on the server, it acts like any regular React component and
- * will just return whatever its `children` function returns for `isLoading = false`,
+ * intended for loading React components on demand. Instead, the `load` function
+ * could fetch arbitrary types of data or simply return nothing.
+ *
+ * This component does not support server-side rendering.
+ * When called on the server, it acts like any regular React component and
+ * will just return whatever its `children` function returns for `isInProgress = false`,
  * i.e. the `load` function will never be called on the server.
- * 
+ *
  * Example use cases include: showing a loading indicator while importing the
  * Facebook comments plugin on the client and then waiting for comments to be rendered.
- * 
+ *
+ * If you have components that should have data fetched on the server, use the
+ * `WithData` component.
+ *
  * Note: although this component is using a type parameter,
  * TypeScript is still unable to infer types from component usage.
  * For now, the type of `result` passed to `children` is inferred as `{}` which
@@ -41,47 +74,71 @@ type State<T> = {
  */
 export class AsyncComponent<T = any> extends React.PureComponent<
   AsyncProps<T>,
-  State<T>
+  State<T | null>
 > {
-  state: State<T> = {
-    isLoading: false,
+  static defaultProps: Partial<AsyncProps<any>> = {
+    delay: 200,
+    timeout: 10000,
+  };
+
+  state: State<T | null> = {
+    isInProgress: false,
     hasError: false,
-    timedOut: false,
-    result: null,
+    hasTimedOut: false,
+    value: null,
+    isPastDelay: false,
   };
 
   tryLoading = () => {
+    const loadPromise = this.props.load();
+
     this.setState(
-      { result: null, isLoading: true, hasError: false, timedOut: false },
+      { value: null, isInProgress: false, hasError: false, hasTimedOut: false },
       () => {
-        const promises = [
-          this.props.load().then(result => {
-            this.setState({ result, isLoading: false });
-          }),
-        ];
+        const promises: Array<Promise<Partial<State<T | null>>>> = [];
 
-        const { timeout = null } = this.props;
-        if (timeout !== null) {
+        promises.push(
+          loadPromise.then(
+            value =>
+              // tslint:disable-next-line:no-object-literal-type-assertion
+              ({
+                value,
+                isPastDelay: false,
+              } as Partial<SuccessResult<T>>),
+          ),
+        );
+
+        if (this.props.delay) {
           promises.push(
-            delay(timeout).then(() => {
-              this.setState(state => {
-                if (state.isLoading) {
-                  return {
-                    isLoading: false,
-                    hasError: true,
-                    timedOut: true,
-                  };
-                }
-
-                return undefined;
-              });
-            }),
+            delay(this.props.delay).then(
+              () =>
+                ({
+                  // tslint:disable-next-line:no-object-literal-type-assertion
+                  isInProgress: true,
+                  isPastDelay: true,
+                } as Partial<PendingResult>),
+            ),
           );
         }
 
-        Promise.race(promises).catch(() => {
-          this.setState({ isLoading: false, hasError: true });
-        });
+        const { timeout } = this.props;
+        if (timeout !== null && timeout !== undefined) {
+          promises.push(
+            delay(timeout).then(async () =>
+              Promise.reject({ hasTimedOut: true }),
+            ),
+          );
+        }
+
+        Promise.race(promises)
+          .then(async patch => {
+            this.setState(patch as any);
+            const value = await loadPromise;
+            this.setState({ value, isInProgress: false });
+          })
+          .catch(patch => {
+            this.setState({ ...patch, isInProgress: false, hasError: true });
+          });
       },
     );
   };
@@ -91,6 +148,6 @@ export class AsyncComponent<T = any> extends React.PureComponent<
   }
 
   render() {
-    return this.props.children({ ...this.state, retry: this.tryLoading });
+    return this.props.children({ result: this.state, retry: this.tryLoading });
   }
 }

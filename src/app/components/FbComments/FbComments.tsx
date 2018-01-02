@@ -5,13 +5,14 @@ import { LoadingSpinner } from 'components/LoadingSpinner/LoadingSpinner';
 import { SvgIcon } from 'components/SvgIcon/SvgIcon';
 import { AsyncComponent } from 'hocs/AsyncComponent/AsyncComponent';
 
-import warningIconUrl from 'icons/warning.svg';
+import warningIcon from 'icons/warning.svg';
+import { Button } from 'components/Button/Button';
 
-const warningIcon = <SvgIcon url={warningIconUrl} />;
+const warningIconComponent = <SvgIcon {...warningIcon} />;
 
 const loadingComponent = (
   <MessageWithIcon
-    caption="Loading Facebook comments..."
+    title="Loading Facebook comments..."
     icon={<LoadingSpinner size={50} />}
   />
 );
@@ -25,25 +26,44 @@ const OBSERVED_FB_ATTR_NAME = 'fb-xfbml-state';
 
 /** Facebook Comments Plugin */
 export class FbComments extends React.PureComponent<Props> {
-  target: HTMLDivElement | null;
+  commentsNode: HTMLDivElement | null;
+  commentsParentNode: HTMLDivElement | null;
+
   commentsObserver: MutationObserver | null = null;
 
-  setTarget = (node: HTMLDivElement | null) => (this.target = node);
+  setCommentsParentNode = (node: HTMLDivElement | null) =>
+    (this.commentsParentNode = node);
+  setCommentsNode = (node: HTMLDivElement | null) => (this.commentsNode = node);
 
   load = async () => {
     await importGlobalScript(
-      'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.10',
+      'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.11',
     );
-    await this.observeCommentsRendered();
+
+    const observingComplete = this.observeCommentsRendered();
+
+    await new Promise((resolve, reject) => {
+      if (FB && this.commentsParentNode) {
+        FB.XFBML.parse(this.commentsParentNode, resolve);
+      } else {
+        reject();
+      }
+    });
+
+    if (this.commentsObserver) {
+      this.commentsObserver.takeRecords();
+    }
+
+    await observingComplete;
   };
 
   observeCommentsRendered = async () => {
     return new Promise(resolve => {
-      if (MutationObserver === undefined) {
+      if (!('MutationObserver' in window)) {
         resolve();
-      } else if (this.target) {
+      } else if (this.commentsNode) {
         this.commentsObserver = new MutationObserver(mutations => {
-          mutations.forEach(mutation => {
+          for (const mutation of mutations) {
             if (
               mutation.attributeName === OBSERVED_FB_ATTR_NAME &&
               mutation.target.attributes.getNamedItem(OBSERVED_FB_ATTR_NAME)
@@ -53,11 +73,12 @@ export class FbComments extends React.PureComponent<Props> {
               if (this.commentsObserver) {
                 this.commentsObserver.disconnect();
               }
+              break;
             }
-          });
+          }
         });
 
-        this.commentsObserver.observe(this.target, {
+        this.commentsObserver.observe(this.commentsNode, {
           childList: false,
           attributeOldValue: false,
           attributeFilter: [OBSERVED_FB_ATTR_NAME],
@@ -78,36 +99,49 @@ export class FbComments extends React.PureComponent<Props> {
     return (
       <div {...rest}>
         <AsyncComponent load={this.load}>
-          {({ hasError, isLoading, timedOut, retry }) => {
-            if (hasError || timedOut) {
+          {({ result: { hasError, isInProgress, hasTimedOut }, retry }) => {
+            if (hasError || hasTimedOut) {
               return (
                 <MessageWithIcon
-                  caption="Error loading comments"
-                  actionText="Retry"
-                  icon={warningIcon}
-                  onActionClick={retry}
+                  title={
+                    hasTimedOut
+                      ? 'Comments are taking too long to load'
+                      : 'Error loading comments'
+                  }
+                  icon={warningIconComponent}
+                  button={<Button onClick={retry}>Retry</Button>}
                 />
               );
             }
 
             return (
               <div>
-                {isLoading ? loadingComponent : null}
+                {isInProgress ? loadingComponent : null}
                 <noscript>
                   <MessageWithIcon
-                    caption="Unable to load comments"
+                    title="Unable to load comments"
                     description="Enable JavaScript in your browser settings and reload this page to see comments"
-                    icon={warningIcon}
+                    icon={warningIconComponent}
                   />
                 </noscript>
                 <div
-                  style={{ visibility: isLoading ? 'hidden' : 'visible' }}
-                  className="fb-comments"
-                  data-href={url}
-                  data-width="100%"
-                  data-numposts={numPosts}
-                  ref={this.setTarget}
-                />
+                  style={{ visibility: isInProgress ? 'hidden' : 'visible' }}
+                  ref={this.setCommentsParentNode}
+                >
+                  <div
+                    // A unique `key` is required to prevent
+                    // Preact from re-using the DOM Node for
+                    // other pages, which confuses Facebook SDK
+                    // and causes the component to be stuck
+                    // at "Loading..."
+                    key={url}
+                    className="fb-comments"
+                    data-href={url}
+                    data-width="100%"
+                    data-numposts={numPosts}
+                    ref={this.setCommentsNode}
+                  />
+                </div>
               </div>
             );
           }}

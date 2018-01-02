@@ -3,10 +3,11 @@ import * as classes from './LoadingSpinner.module.scss';
 
 type Props = {
   size?: number;
-};
+} & React.HTMLAttributes<SVGElement>;
 
-export const LoadingSpinner = ({ size = 50 }: Props) => (
+export const LoadingSpinner = ({ size = 50, ...rest }: Props) => (
   <svg
+    {...rest}
     className={classes.loaderCircular}
     height={size}
     width={size}

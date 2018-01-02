@@ -1,0 +1,19 @@
+.container {
+  position: relative;
+
+  .element,
+  .placeholder {
+    width: 100%;
+    z-index: 2;
+    top: 0;
+  }
+
+  .placeholder {
+    position: static;
+    visibility: hidden;
+  }
+
+  .element {
+    position: fixed;
+  }
+}

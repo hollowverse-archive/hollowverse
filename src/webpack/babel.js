@@ -59,6 +59,7 @@ module.exports.createBabelConfig = (isServer = false) => ({
       'graphql-tag',
       'transform-node-env-inline',
       'transform-inline-environment-variables',
+      'lodash',
     ]),
   ]),
   sourceMaps: 'both',

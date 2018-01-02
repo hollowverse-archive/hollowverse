@@ -39,7 +39,9 @@ const extractGlobalCss = new ExtractCssChunks({
   filename: isProd ? '[name].global.[contenthash].css' : '[name].global.css',
 });
 
-const extractLocalCss = new ExtractCssChunks();
+const extractLocalCss = new ExtractCssChunks({
+  filename: isProd ? '[name].module.[contenthash].css' : '[name].module.css',
+});
 
 const clientSpecificConfig = {
   name: 'client',
@@ -47,7 +49,7 @@ const clientSpecificConfig = {
   entry: compact([
     ifHot('webpack-hot-middleware/client'),
     ifReact(ifHot('react-hot-loader/patch')),
-    ifPreact(ifDev('preact/devtools')),
+    ifPreact(ifDev('preact/debug')),
     path.resolve(srcDirectory, 'clientEntry.ts'),
   ]),
 
@@ -72,9 +74,6 @@ const clientSpecificConfig = {
 
   module: {
     rules: compact([
-      // JavaScript and TypeScript
-      ...createScriptRules(false),
-
       // CSS Modules
       {
         test: cssModulesPattern,
@@ -83,6 +82,9 @@ const clientSpecificConfig = {
           use: createCssModulesLoaders(false),
         }),
       },
+
+      // JavaScript and TypeScript
+      ...createScriptRules(false),
 
       // Global CSS
       {
@@ -101,7 +103,7 @@ const clientSpecificConfig = {
     extractLocalCss,
 
     new FaviconsWebpackPlugin({
-      logo: path.join(srcDirectory, 'assets', 'favicon.png'),
+      logo: path.resolve(srcDirectory, 'assets', 'favicon.png'),
       emitStats: true,
       statsFilename: 'iconStats.json',
       title: 'Hollowverse',
@@ -109,7 +111,7 @@ const clientSpecificConfig = {
     }),
 
     new HtmlWebpackPlugin({
-      template: path.join(srcDirectory, 'index.html'),
+      template: path.resolve(srcDirectory, 'index.html'),
       filename: 'index.html',
       inject: 'body',
       minify: isProd
@@ -157,7 +159,7 @@ const clientSpecificConfig = {
 
     // Environment
     new webpack.DefinePlugin({
-      __SERVER__: false,
+      __IS_SERVER__: false,
     }),
   ]),
 };

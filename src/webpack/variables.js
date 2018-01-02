@@ -8,11 +8,11 @@ const distDirectory = path.resolve(
   process.env.BUILD_PATH || './dist',
 );
 
-exports.clientDistDirectory = path.join(distDirectory, 'client');
-exports.serverDistDirectory = path.join(distDirectory, 'server');
+exports.clientDistDirectory = path.resolve(distDirectory, 'client');
+exports.serverDistDirectory = path.resolve(distDirectory, 'server');
 
 exports.excludedPatterns = [/node_modules/];
 exports.cssModulesPattern = /\.module\.s?css$/;
 
 // eslint-disable-next-line import/no-dynamic-require
-exports.pkg = require(path.join(process.cwd(), './package.json'));
+exports.pkg = require(path.resolve(process.cwd(), './package.json'));
