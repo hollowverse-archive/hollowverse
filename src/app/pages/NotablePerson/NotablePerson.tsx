@@ -122,17 +122,13 @@ const Page = withRouter(
                   rootMargin="0% 0% 25% 0%"
                   triggerOnce
                 >
-                  {inView => {
-                    if (inView) {
-                      return (
-                        <Card className={cc([classes.card, classes.comments])}>
-                          <FbComments url={commentsUrl} />
-                        </Card>
-                      );
-                    } else {
-                      return null;
-                    }
-                  }}
+                  {inView =>
+                    inView ? (
+                      <Card className={cc([classes.card, classes.comments])}>
+                        <FbComments url={commentsUrl} />
+                      </Card>
+                    ) : null
+                  }
                 </OptionalIntersectionObserver>
               </div>
             );
