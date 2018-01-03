@@ -10,8 +10,7 @@ import { securityMiddleware } from './middleware/security';
 import { redirectionMap } from './redirectionMap';
 
 const {
-  // tslint:disable-next-line no-http-string
-  OLD_SERVER_ADDRESS = 'http://dw5a6b9vjmt7w.cloudfront.net/',
+  OLD_SERVER_ADDRESS = 'https://static.legacy.hollowverse.com/',
   PORT = 8080,
 } = process.env;
 
