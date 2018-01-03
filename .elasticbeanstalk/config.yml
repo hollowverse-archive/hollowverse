@@ -2,6 +2,6 @@ deploy:
   artifact: build.zip
 
 global:
-  application_name: hollowverse
+  application_name: Hollowverse
   default_region: us-east-1
   workspace_type: Application
