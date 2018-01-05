@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Loggable } from 'components/Loggable/Loggable';
 import { Link, LinkProps } from 'react-router-dom';
 import { compose } from 'helpers/compose';
+import { createPath } from 'history';
 
 export type LoggableLinkProps = LinkProps & {
   shouldLogClick?: boolean;
@@ -15,7 +16,10 @@ export const LoggableLink = ({
 }: LoggableLinkProps) => (
   <Loggable>
     {({ log }) => {
-      const logClick = () => log('PAGE_REQUESTED', { url: String(to) });
+      const logClick = () =>
+        log('PAGE_REQUESTED', {
+          url: typeof to === 'string' ? to : createPath(to),
+        });
 
       return (
         <Link

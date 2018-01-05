@@ -1,7 +1,6 @@
 import * as express from 'express';
 import * as httpProxy from 'http-proxy';
 
-import { log } from './logger/logger';
 import { logEndpoint } from './middleware/logEndpoint';
 import { env } from './env';
 import { redirectToHttps } from './middleware/redirectToHttps';
@@ -57,8 +56,6 @@ server.get('/static/*', appServer);
 server.get('/:path', (req, res, next) => {
   // '/:path' matches: /Tom_Hanks, /tom-hanks, /app.js, /michael-jackson, ashton-kutcher...
   const reqPath: string = req.params.path;
-
-  log('PAGE_REQUESTED', { url: reqPath });
 
   const redirectionPath = redirectionMap.get(reqPath);
   if (redirectionPath !== undefined) {

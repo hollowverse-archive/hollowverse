@@ -20,6 +20,7 @@ import { NotablePersonSkeleton } from './NotablePersonSkeleton';
 import { Status } from 'components/Status/Status';
 import { WithData } from 'hocs/WithData/WithData';
 import { LinkButton } from 'components/Button/Button';
+import { LogOnMount } from 'components/LoggableOnMount/LoggableOnMount';
 import { RelatedPeople } from './RelatedPeople';
 import { withRouter, RouteComponentProps } from 'react-router';
 import { forceReload } from 'helpers/forceReload';
@@ -41,7 +42,10 @@ const Page = withRouter(
       return client.request<NotablePersonQuery>(query, { slug });
     };
 
+    // tslint:disable-next-line:max-func-body-length
     render() {
+      const { history, location } = this.props;
+
       return (
         <WithData
           requestId={this.props.slug}
@@ -54,8 +58,6 @@ const Page = withRouter(
             }
 
             if (isErrorResult(result) || !result.value) {
-              const { location } = this.props;
-
               return (
                 <MessageWithIcon
                   title="Are you connected to the internet?"
@@ -93,6 +95,17 @@ const Page = withRouter(
             return (
               <div className={classes.root}>
                 <Status code={200} />
+                <LogOnMount
+                  logKey={notablePerson.slug}
+                  event={{
+                    type: 'PAGE_LOADED',
+                    payload: {
+                      url: history.createHref(location),
+                      timestamp: new Date(),
+                      isServer: __IS_SERVER__,
+                    },
+                  }}
+                />
                 <article className={classes.article}>
                   <PersonDetails
                     name={name}
