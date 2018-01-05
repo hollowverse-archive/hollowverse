@@ -123,6 +123,7 @@
     "redux-observable": "^0.17.0",
     "reselect": "^3.0.1",
     "rxjs": "^5.5.5",
+    "rxjs-requestidlecallback-scheduler": "^0.0.3",
     "serialize-javascript": "^1.4.0",
     "shelljs": "^0.7.8",
     "shrink-ray": "^0.1.3",
