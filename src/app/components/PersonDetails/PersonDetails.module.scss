@@ -47,6 +47,7 @@
   }
 
   .photo {
+    display: block;
     width: $person-avatar-size;
     height: $person-avatar-size;
     box-shadow: 0 0 0 1.5px rgba(255, 255, 255, 0.7),
