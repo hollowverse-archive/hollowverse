@@ -8,6 +8,7 @@ import { reducer } from './reducer';
 import { analyticsEpic } from 'store/features/analytics/epic';
 import { updateUrlEpic } from 'store/features/search/updateUrlEpic';
 import { dataResolverEpic } from 'store/features/asyncData/epic';
+import { loggingEpic } from 'store/features/logging/epic';
 import { nullResult } from 'helpers/asyncResults';
 
 const defaultInitialState: StoreState = {
@@ -49,7 +50,12 @@ export function createConfiguredStore(
   wrapEpic: (epic: Epic<Action, StoreState>) => typeof epic = identity,
   additionalMiddleware: Middleware[] = [],
 ) {
-  const rootEpic = combineEpics(analyticsEpic, updateUrlEpic, dataResolverEpic);
+  const rootEpic = combineEpics(
+    analyticsEpic,
+    updateUrlEpic,
+    dataResolverEpic,
+    loggingEpic,
+  );
   const wrappedRootEpic = wrapEpic(rootEpic);
   const epicMiddleware = createEpicMiddleware(wrappedRootEpic);
   const store = createStore<StoreState>(

@@ -1,7 +1,10 @@
 import * as React from 'react';
 import cc from 'classcat';
 import * as classes from './Button.module.scss';
-import { Link, LinkProps } from 'react-router-dom';
+import {
+  LoggableLink,
+  LoggableLinkProps,
+} from 'components/LoggableLink/LoggableLink';
 
 export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement>;
 
@@ -9,8 +12,8 @@ export const Button = ({ className, ...rest }: ButtonProps) => (
   <button className={cc([classes.root, className])} {...rest} />
 );
 
-export type LinkButtonProps = LinkProps;
+export type LinkButtonProps = LoggableLinkProps;
 
 export const LinkButton = ({ className, ...rest }: LinkButtonProps) => (
-  <Link className={cc([classes.root, className])} {...rest} />
+  <LoggableLink className={cc([classes.root, className])} {...rest} />
 );

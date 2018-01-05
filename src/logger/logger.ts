@@ -4,9 +4,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { URL } from 'url';
 
-import { LogPayload, LogType } from './types';
-
-import { noop } from 'lodash';
+import { noop, omit } from 'lodash';
 
 import { env } from '../env';
 
@@ -34,16 +32,11 @@ process.on('beforeExit', () => {
   sumoLogger.flushLogs();
 });
 
-/**
- * A wrapper around `SummoLogger.log` to enforce strict type checking
- * for an event's type and payload.
- */
-export function log<T extends LogType>(type: T, data: LogPayload<T>) {
+export function log(type: string, data: any) {
   // Push a message to be logged
   sumoLogger.log({
     type,
-    // tslint:disable-next-line no-suspicious-comment
-    // @FIXME: Type cast to work around TS issue
-    ...(data as object),
+    timestamp: data.timestamp || new Date(),
+    ...omit(data, 'timestamp'),
   });
 }

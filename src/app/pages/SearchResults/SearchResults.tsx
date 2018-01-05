@@ -103,7 +103,9 @@ class Page extends React.PureComponent<Props> {
                       className={classes.placeholder}
                       icon={<SvgIcon {...searchIcon} />}
                       title="No results found"
-                    />
+                    >
+                      <Status code={404} />
+                    </MessageWithIcon>
                   );
                 }
 

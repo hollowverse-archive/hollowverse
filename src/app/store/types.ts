@@ -7,6 +7,8 @@ import { AsyncResult } from 'helpers/asyncResults';
 import { AlgoliaResponse } from 'algoliasearch';
 import { NotablePersonQuery } from 'api/types';
 
+import { LogEvent, LogType } from './features/logging/types';
+
 /** A map of all app actions to their corresponding payloads */
 export type ActionTypeToPayloadType = {
   SEARCH_QUERY_CHANGED: {
@@ -27,6 +29,7 @@ export type ActionTypeToPayloadType = {
       requestId: string | null;
     };
   };
+  LOG: LogEvent<LogType>;
   '@@router/LOCATION_CHANGE': LocationChangeAction['payload'];
   '@@router/CALL_HISTORY_METHOD': RouterAction['payload'];
 };
