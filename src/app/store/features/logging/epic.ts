@@ -2,10 +2,11 @@ import { Action, StoreState } from 'store/types';
 
 import { Epic } from 'redux-observable';
 
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/merge';
-import 'rxjs/add/operator/ignoreElements';
 import 'rxjs/add/operator/subscribeOn';
+import 'rxjs/add/operator/mergeMap';
+import 'rxjs/add/operator/do';
+import 'rxjs/add/operator/ignoreElements';
+import 'rxjs/add/observable/fromPromise';
 
 import { Observable } from 'rxjs/Observable';
 import { once } from 'lodash';
@@ -37,13 +38,9 @@ export const loggingEpic: Epic<Action, StoreState> = action$ => {
               headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
+                'X-Sumo-Host': __IS_SERVER__ ? 'Server' : 'Client',
+                'X-Sumo-Category': `${__BRANCH__}/${__COMMIT_ID__}`,
               },
-
-              // We need to include the `branch` and `env`
-              // cookies to route the log request to the
-              // logging endpoint that corresponds to this
-              // branch.
-              credentials: 'include',
             },
           );
         } catch (e) {

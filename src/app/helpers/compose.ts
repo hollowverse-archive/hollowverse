@@ -13,5 +13,11 @@
 export function compose<T>(
   ...fns: Array<undefined | ((...args: T[]) => void)>
 ) {
-  return (...args: T[]) => fns.forEach(fn => fn && fn(...args));
+  return (...args: T[]) => {
+    fns.forEach(fn => {
+      if (fn) {
+        fn(...args);
+      }
+    });
+  };
 }
