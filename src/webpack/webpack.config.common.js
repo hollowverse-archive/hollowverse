@@ -144,6 +144,8 @@ const config = {
       mapValues(
         {
           __IS_DEBUG__: isDebug,
+          __BRANCH__: process.env.BRANCH,
+          __COMMIT_ID__: process.env.COMMIT,
           API_ENDPOINT: process.env.API_ENDPOINT,
           'process.env.NODE_ENV': process.env.NODE_ENV,
           isHot,

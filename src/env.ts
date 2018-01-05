@@ -23,9 +23,7 @@ function tryGetEnv(): EnvDescriptor {
   }
 }
 
-const env = {
+export const env = {
   // Provide some default values in case the file does not exist
   ...tryGetEnv(),
 };
-
-export { env };

@@ -17,7 +17,7 @@ logEndpoint.use((_, res, next) => {
 logEndpoint.post('/', (req, res) => {
   const body = req.body;
   if (isBodyValid(body)) {
-    log(body.type, body.payload);
+    log(body);
     res.status(201); // 201 Created
     res.send({});
   } else {
