@@ -27,21 +27,25 @@ export const loggingEpic: Epic<Action, StoreState> = action$ => {
       .subscribeOn(scheduler)
       .do(async action => {
         try {
-          await fetch('/log', {
-            method: 'POST',
-            body: JSON.stringify(action.payload),
+          await fetch(
+            // @NOTE: URL must be absolute for compatibility with Node.js
+            'https://hollowverse.com/log',
+            {
+              method: 'POST',
+              body: JSON.stringify(action.payload),
 
-            headers: {
-              Accept: 'application/json',
-              'Content-Type': 'application/json',
+              headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+              },
+
+              // We need to include the `branch` and `env`
+              // cookies to route the log request to the
+              // logging endpoint that corresponds to this
+              // branch.
+              credentials: 'include',
             },
-
-            // We need to include the `branch` and `env`
-            // cookies to route the log request to the
-            // logging endpoint that corresponds to this
-            // branch.
-            credentials: 'include',
-          });
+          );
         } catch (e) {
           console.error('Failed to send log event', e);
         }
