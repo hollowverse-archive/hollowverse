@@ -56,7 +56,7 @@
     width: 100%;
     display: flex;
     max-width: $page-max-width;
-    align-items: center;
+    align-items: stretch;
     animation: navbar-switch 0.15s;
   }
 
