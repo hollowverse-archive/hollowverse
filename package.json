@@ -8,7 +8,7 @@
     "test": "run-p -l --aggregate-output validate-filenames lint-js lint-ts lint-css",
     "lint-css": "stylelint --syntax scss 'src/app/**/*.scss'",
     "lint-js": "eslint '**/*.js{,x}'",
-    "lint-ts/eslint": "cd src/app && eslint **/*.ts{,x} --config .eslintrc.json --no-eslintrc",
+    "lint-ts/eslint": "eslint 'src/app/**/*.ts{,x}' --config src/app/.eslintrc.json --no-eslintrc",
     "lint-ts/tslint": "tslint './*.ts' 'src/**/*.ts{,x}' --project .",
     "lint-ts": "run-p --aggregate-output 'lint-ts/*'",
     "app/webpack/build": "NODE_ENV=production NO_PERF_CHECKS=1 node ./build.js",
