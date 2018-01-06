@@ -7062,9 +7062,9 @@ postcss-load-plugins@^2.3.0:
     cosmiconfig "^2.1.1"
     object-assign "^4.1.0"
 
-postcss-loader@^2.0.6:
-  version "2.0.8"
-  resolved "https://registry.yarnpkg.com/postcss-loader/-/postcss-loader-2.0.8.tgz#8c67ddb029407dfafe684a406cfc16bad2ce0814"
+postcss-loader@^2.0.10:
+  version "2.0.10"
+  resolved "https://registry.yarnpkg.com/postcss-loader/-/postcss-loader-2.0.10.tgz#090db0540140bd56a7a7f717c41bc29aeef4c674"
   dependencies:
     loader-utils "^1.1.0"
     postcss "^6.0.0"
@@ -7297,6 +7297,14 @@ postcss@^6.0.0, postcss@^6.0.1, postcss@^6.0.13, postcss@^6.0.2, postcss@^6.0.3,
     chalk "^2.3.0"
     source-map "^0.6.1"
     supports-color "^4.4.0"
+
+postcss@^6.0.16:
+  version "6.0.16"
+  resolved "https://registry.yarnpkg.com/postcss/-/postcss-6.0.16.tgz#112e2fe2a6d2109be0957687243170ea5589e146"
+  dependencies:
+    chalk "^2.3.0"
+    source-map "^0.6.1"
+    supports-color "^5.1.0"
 
 posthtml-parser@^0.2.0, posthtml-parser@^0.2.1:
   version "0.2.1"
@@ -9043,6 +9051,12 @@ supports-color@^3.1.0, supports-color@^3.2.3:
 supports-color@^4.0.0, supports-color@^4.2.1, supports-color@^4.4.0:
   version "4.5.0"
   resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-4.5.0.tgz#be7a0de484dec5c5cddf8b3d59125044912f635b"
+  dependencies:
+    has-flag "^2.0.0"
+
+supports-color@^5.1.0:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-5.1.0.tgz#058a021d1b619f7ddf3980d712ea3590ce7de3d5"
   dependencies:
     has-flag "^2.0.0"
 
