@@ -20,7 +20,7 @@ import { NotablePersonSkeleton } from './NotablePersonSkeleton';
 import { Status } from 'components/Status/Status';
 import { WithData } from 'hocs/WithData/WithData';
 import { LinkButton } from 'components/Button/Button';
-import { LogOnMount } from 'components/LoggableOnMount/LoggableOnMount';
+import { LogOnMount } from 'components/LogOnMount/LogOnMount';
 import { RelatedPeople } from './RelatedPeople';
 import { withRouter, RouteComponentProps } from 'react-router';
 import { forceReload } from 'helpers/forceReload';
@@ -93,57 +93,58 @@ const Page = withRouter(
             } = notablePerson;
 
             return (
-              <div className={classes.root}>
-                <Status code={200} />
-                <LogOnMount
-                  logKey={notablePerson.slug}
-                  event={{
-                    type: 'PAGE_LOADED',
-                    payload: {
-                      url: history.createHref(location),
-                      timestamp: new Date(),
-                      isServer: __IS_SERVER__,
-                    },
-                  }}
-                />
-                <article className={classes.article}>
-                  <PersonDetails
-                    name={name}
-                    photo={mainPhoto}
-                    summary={summary}
-                  />
-                  {editorialSummary ? (
-                    <Card
-                      className={cc([classes.card, classes.editorialSummary])}
-                    >
-                      <EditorialSummary {...editorialSummary} />
-                    </Card>
-                  ) : (
-                    <div className={classes.stub}>
-                      Share what you know about the religion and political views
-                      of {name} in the comments below
-                    </div>
-                  )}
-                </article>
-                {notablePerson.relatedPeople.length ? (
-                  <div className={classes.relatedPeople}>
-                    <h2>Other interseting profiles</h2>
-                    <RelatedPeople people={notablePerson.relatedPeople} />
-                  </div>
-                ) : null}
-                <OptionalIntersectionObserver
-                  rootMargin="0% 0% 25% 0%"
-                  triggerOnce
-                >
-                  {inView =>
-                    inView ? (
-                      <Card className={cc([classes.card, classes.comments])}>
-                        <FbComments url={commentsUrl} />
+              <LogOnMount
+                logKey={notablePerson.slug}
+                event={{
+                  type: 'PAGE_LOADED',
+                  payload: {
+                    url: history.createHref(location),
+                    timestamp: new Date(),
+                    isServer: __IS_SERVER__,
+                  },
+                }}
+              >
+                <div className={classes.root}>
+                  <Status code={200} />
+                  <article className={classes.article}>
+                    <PersonDetails
+                      name={name}
+                      photo={mainPhoto}
+                      summary={summary}
+                    />
+                    {editorialSummary ? (
+                      <Card
+                        className={cc([classes.card, classes.editorialSummary])}
+                      >
+                        <EditorialSummary {...editorialSummary} />
                       </Card>
-                    ) : null
-                  }
-                </OptionalIntersectionObserver>
-              </div>
+                    ) : (
+                      <div className={classes.stub}>
+                        Share what you know about the religion and political
+                        views of {name} in the comments below
+                      </div>
+                    )}
+                  </article>
+                  {notablePerson.relatedPeople.length ? (
+                    <div className={classes.relatedPeople}>
+                      <h2>Other interseting profiles</h2>
+                      <RelatedPeople people={notablePerson.relatedPeople} />
+                    </div>
+                  ) : null}
+                  <OptionalIntersectionObserver
+                    rootMargin="0% 0% 25% 0%"
+                    triggerOnce
+                  >
+                    {inView =>
+                      inView ? (
+                        <Card className={cc([classes.card, classes.comments])}>
+                          <FbComments url={commentsUrl} />
+                        </Card>
+                      ) : null
+                    }
+                  </OptionalIntersectionObserver>
+                </div>
+              </LogOnMount>
             );
           }}
         </WithData>

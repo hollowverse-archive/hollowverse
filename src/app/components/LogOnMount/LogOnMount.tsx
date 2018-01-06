@@ -7,7 +7,7 @@ type Props = {
   event: LogEvent<LogType>;
   log: typeof log;
   logKey: string;
-  children?: undefined;
+  children: JSX.Element | null;
 };
 
 class LogOnMount extends React.PureComponent<Props> {
@@ -16,20 +16,18 @@ class LogOnMount extends React.PureComponent<Props> {
     this.props.log(type, payload);
   }
 
-  componentDidMount() {
+  componentWillMount() {
     this.log();
   }
 
-  componentDidUpdate() {
-    this.log();
-  }
-
-  shouldComponentUpdate(nextProps: Props) {
-    return this.props.logKey !== nextProps.logKey;
+  componentDidUpdate(prevProps: Props) {
+    if (prevProps.logKey !== this.props.logKey) {
+      this.log();
+    }
   }
 
   render() {
-    return null;
+    return this.props.children;
   }
 }
 
