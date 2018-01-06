@@ -2,6 +2,8 @@ declare const __IS_DEBUG__: boolean;
 declare const __IS_SERVER__: boolean;
 declare const __BRANCH__: string | undefined;
 declare const __COMMIT_ID__: string | undefined;
+declare const __BASE__: string;
+declare const __API_ENDPOINT__: string;
 
 declare const FB: facebookSdk.Fb;
 declare namespace facebookSdk {
