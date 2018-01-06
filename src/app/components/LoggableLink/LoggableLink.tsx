@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Loggable } from 'components/Loggable/Loggable';
 import { Link, LinkProps } from 'react-router-dom';
-import { compose } from 'helpers/compose';
+import { callAll } from 'helpers/callAll';
 import { createPath } from 'history';
 
 export type LoggableLinkProps = LinkProps & {
@@ -24,7 +24,7 @@ export const LoggableLink = ({
       return (
         <Link
           to={to}
-          onClick={compose(onClick, shouldLogClick ? logClick : undefined)}
+          onClick={callAll(onClick, shouldLogClick ? logClick : undefined)}
           {...rest}
         />
       );
