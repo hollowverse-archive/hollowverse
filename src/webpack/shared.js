@@ -43,7 +43,7 @@ exports.createGlobalCssLoaders = (isServer = false) => [
         // Minimal cross-browser CSS resets, only contains resets relevant
         // for the targeted browsers as specified in `"browserslist"` in `package.json`
         normalize({ forceImport: true }),
-        autoprefixer(),
+        autoprefixer,
       ],
       sourceMap: true,
     },
