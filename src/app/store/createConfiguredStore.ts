@@ -34,12 +34,6 @@ declare const global: NodeJS.Global & {
   __REDUX_DEVTOOLS_EXTENSION_COMPOSE__: typeof compose | undefined;
 };
 
-const composeEnhancers =
-  '__REDUX_DEVTOOLS_EXTENSION_COMPOSE__' in global &&
-  global.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-    ? global.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-    : compose;
-
 declare const module: {
   hot?: { accept(path?: string, cb?: () => void): void };
 };
@@ -50,6 +44,20 @@ export function createConfiguredStore(
   wrapEpic: (epic: Epic<Action, StoreState>) => typeof epic = identity,
   additionalMiddleware: Middleware[] = [],
 ) {
+  let composeEnhancers = compose;
+
+  if (global.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) {
+    composeEnhancers = global.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__;
+  } else if (__IS_SERVER__ && process.env.NODE_ENV === 'development') {
+    // Enable remote Redux DevTools for server-side Redux
+    // tslint:disable-next-line:no-require-imports no-var-requires
+    const { composeWithDevTools } = require('remote-redux-devtools');
+    composeEnhancers = composeWithDevTools({
+      hostname: 'localhost',
+      port: 8000,
+    });
+  }
+
   const rootEpic = combineEpics(
     analyticsEpic,
     updateUrlEpic,
