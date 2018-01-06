@@ -7,10 +7,10 @@
  *
  * @example
  * ```typescript
- * <button onClick={compose(onClick, logClickEvent)} />
+ * <button onClick={callAll(onClick, logClickEvent)} />
  * ```
  */
-export function compose<T>(
+export function callAll<T>(
   ...fns: Array<undefined | ((...args: T[]) => void)>
 ) {
   return (...args: T[]) => {
