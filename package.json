@@ -64,6 +64,10 @@
       "prettier --write",
       "git add"
     ],
+    "**/*.json": [
+      "prettier --write",
+      "git add"
+    ],
     "**/*.js{x,}": [
       "eslint"
     ],
