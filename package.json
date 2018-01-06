@@ -8,7 +8,9 @@
     "test": "run-p -l --aggregate-output validate-filenames lint-js lint-ts lint-css",
     "lint-css": "stylelint --syntax scss 'src/app/**/*.scss'",
     "lint-js": "eslint '**/*.js{,x}'",
-    "lint-ts": "tslint './*.ts' 'src/**/*.ts{,x}' --project .",
+    "lint-ts/eslint": "cd src/app && eslint **/*.ts{,x} --config .eslintrc.json --no-eslintrc",
+    "lint-ts/tslint": "tslint './*.ts' 'src/**/*.ts{,x}' --project .",
+    "lint-ts": "run-p --aggregate-output 'lint-ts/*'",
     "app/webpack/build": "NODE_ENV=production NO_PERF_CHECKS=1 node ./build.js",
     "bundlesize": "bundlesize",
     "app/build": "API_ENDPOINT=${API_ENDPOINT:-https://api.hollowverse.com/graphql} run-s -l app/graphql/build app/webpack/build bundlesize",
@@ -81,7 +83,8 @@
     "last 2 Safari versions",
     "last 2 Edge versions",
     "last 2 Opera versions",
-    "not OperaMini all"
+    "not OperaMini all",
+    ">= 5% in my stats"
   ],
   "dependencies": {
     "@hollowverse/common": "hollowverse/common",
@@ -182,6 +185,7 @@
     "eslint-config-airbnb": "^16.1.0",
     "eslint-config-prettier": "^2.3.0",
     "eslint-import-resolver-webpack": "^0.8.3",
+    "eslint-plugin-compat": "^2.1.0",
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-jsx-a11y": "^6.0.2",
     "eslint-plugin-react": "^7.3.0",
@@ -223,6 +227,7 @@
     "tslint-microsoft-contrib": "^5.0.1",
     "tslint-react": "^3.2.0",
     "typescript": "^2.6.2",
+    "typescript-eslint-parser": "^11.0.0",
     "typings-for-css-modules-loader": "^1.7.0",
     "url-loader": "^0.6.2",
     "webpack": "^3.1.0",
