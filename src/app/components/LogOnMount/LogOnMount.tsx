@@ -16,7 +16,7 @@ class LogOnMount extends React.PureComponent<Props> {
     this.props.log(type, payload);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.log();
   }
 
