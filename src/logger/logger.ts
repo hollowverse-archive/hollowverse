@@ -4,7 +4,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { URL } from 'url';
 
-import { noop, omit } from 'lodash';
+import { noop } from 'lodash';
 
 import { env } from '../env';
 
