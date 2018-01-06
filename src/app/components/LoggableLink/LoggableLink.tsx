@@ -7,11 +7,18 @@ import { log as logAction } from 'store/features/logging/actions';
 
 export type LoggableLinkProps = LinkProps & {
   shouldLogClick?: boolean;
-  log: typeof logAction;
 };
 
 export const LoggableLink = connect(undefined, { log: logAction })(
-  ({ onClick, shouldLogClick = true, to, log, ...rest }: LoggableLinkProps) => {
+  ({
+    onClick,
+    shouldLogClick = true,
+    to,
+    log,
+    ...rest
+  }: LoggableLinkProps & {
+    log: typeof logAction;
+  }) => {
     const logClick = () =>
       log('PAGE_REQUESTED', {
         url: typeof to === 'string' ? to : createPath(to),
