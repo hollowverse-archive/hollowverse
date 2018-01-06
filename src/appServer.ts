@@ -4,6 +4,7 @@ import * as loglevel from 'loglevel';
 import { once } from 'lodash';
 import * as moment from 'moment';
 import * as shrinkRay from 'shrink-ray';
+import { logEndpoint } from './middleware/logEndpoint';
 
 import { securityMiddleware } from './middleware/security';
 import { isProd } from './webpack/env';
@@ -22,6 +23,8 @@ logger.setLevel(logger.levels.INFO);
 const appServer = express();
 
 appServer.use(...securityMiddleware);
+
+appServer.use('/log', logEndpoint);
 
 if (isProd) {
   // Serve client build like usual

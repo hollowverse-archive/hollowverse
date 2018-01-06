@@ -1,7 +1,6 @@
 import * as express from 'express';
 import * as httpProxy from 'http-proxy';
 
-import { logEndpoint } from './middleware/logEndpoint';
 import { env } from './env';
 import { redirectToHttps } from './middleware/redirectToHttps';
 import { appServer } from './appServer';
@@ -41,9 +40,6 @@ proxyServer.on('proxyReq', (proxyReq: any) => {
 });
 
 const newPaths = new Set(redirectionMap.values());
-
-// Short-circuit the redirection proxy to expose the /log endpoint
-server.use('/log', logEndpoint);
 
 // As the proxy is placed in front of the old version, we need to allow
 // requests to static assets to be directed to the new app.
