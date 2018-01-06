@@ -75,7 +75,7 @@
   "husky": {
     "hooks": {
       "pre-commit": "run-p --aggregate-output validate-filenames lint-staged",
-      "pre-push": "run-p --aggregate-output lint-ts lint-js lint-css"
+      "pre-push": "yarn test"
     }
   },
   "browserslist": [
