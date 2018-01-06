@@ -1,6 +1,6 @@
 /**
  * Creates a function that calls all provided functions
- * with the same arguments passed to the composed function.
+ * with the same arguments passed to the new function.
  *
  * `undefined` is also accepted as an agrument for convenience.
  * This makes it handy for composing React event handlers:
