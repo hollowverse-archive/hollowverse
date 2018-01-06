@@ -7,7 +7,6 @@ import createMemoryHistory from 'history/createMemoryHistory';
 import { template } from 'lodash';
 import { flushChunkNames } from 'react-universal-component/server';
 import flushChunks from 'webpack-flush-chunks';
-import { log } from 'store/features/logging/actions';
 
 import * as loglevel from 'loglevel';
 
@@ -48,8 +47,6 @@ export const createServerRenderMiddleware = ({
     undefined,
     wrapRootEpic,
   );
-
-  store.dispatch(log('PAGE_REQUESTED', { url: req.url }));
 
   renderToString(
     <Provider store={store}>
