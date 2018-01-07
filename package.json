@@ -77,7 +77,11 @@
     ]
   },
   "pre-commit": ["validate-filenames", "lint-staged"],
-  "browserslist": ["and_chr 62", "ios_saf 10.3", "ios_saf 10.0-10.2"],
+  "browserslist": [
+    "last 3 and_chr versions",
+    "last 3 ios_saf versions",
+    "last 1 Android version"
+  ],
   "dependencies": {
     "@hollowverse/common": "hollowverse/common",
     "@types/react-redux": "^5.0.14",
