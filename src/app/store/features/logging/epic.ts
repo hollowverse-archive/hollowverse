@@ -26,10 +26,8 @@ const sendLog = async (action: Action) => {
   await fetch(String(url), {
     method: 'POST',
     body: JSON.stringify({
+      ...action,
       timestamp: new Date(),
-      // tslint:disable-next-line no-suspicious-comment
-      // @FIXME: Type cast to work around TS issue
-      ...(action.payload as any),
       isServer: __IS_SERVER__,
     }),
 

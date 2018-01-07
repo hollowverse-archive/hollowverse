@@ -11,6 +11,6 @@ export const loadIntersectionObserverPolyfill = async () => {
 
 export const loadFetchPolyfill = async () => {
   if (!('fetch' in global)) {
-    import('./fetchPolyfill');
+    await import('./fetchPolyfill');
   }
 };
