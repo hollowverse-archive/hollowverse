@@ -5,7 +5,7 @@ import * as classes from './RelatedPeople.module.scss';
 import { Square } from 'components/Square/Square';
 import { LazyImage } from 'components/LazyImage/LazyImage';
 import { Card } from 'components/Card/Card';
-import { LoggableLink } from 'components/LoggableLink/LoggableLink';
+import { Link } from 'react-router-dom';
 
 type Person = {
   slug: string;
@@ -20,7 +20,7 @@ export const RelatedPeople = ({ people }: { people: Person[] }) => {
     <ul className={classes.root}>
       {people.map(person => (
         <li key={person.slug} className={classes.person}>
-          <LoggableLink className={classes.link} to={`/${person.slug}`}>
+          <Link className={classes.link} to={`/${person.slug}`}>
             <Card>
               <Square className={classes.square}>
                 {person.mainPhoto ? (
@@ -33,7 +33,7 @@ export const RelatedPeople = ({ people }: { people: Person[] }) => {
               </Square>
               <div className={classes.name}>{person.name}</div>
             </Card>
-          </LoggableLink>
+          </Link>
         </li>
       ))}
     </ul>

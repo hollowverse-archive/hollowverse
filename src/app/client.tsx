@@ -8,6 +8,7 @@ import createBrowserHistory from 'history/createBrowserHistory';
 import { App } from 'components/App/App';
 import { createConfiguredStore } from 'store/createConfiguredStore';
 import { StoreState } from 'store/types';
+import { unhanldedErrorThrown } from 'store/features/logging/actions';
 
 declare const __INITIAL_STATE__: StoreState | undefined;
 
@@ -41,3 +42,15 @@ if (module.hot) {
 }
 
 domready(renderApp);
+
+// Catch unhandled errors and inform the store
+window.onerror = (message, source, line, column) => {
+  store.dispatch(
+    unhanldedErrorThrown({
+      message,
+      source,
+      line,
+      column,
+    }),
+  );
+};

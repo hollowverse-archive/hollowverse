@@ -67,14 +67,9 @@ type Props<K extends ResolvedDataKey = ResolvedDataKey> = OwnProps<K> &
   DispatchProps;
 
 class Wrapper extends React.Component<Props> {
-  resolve() {
-    const {
-      dataKey,
-      load,
-      requestId,
-      allowOptimisticUpdates = false,
-    } = this.props;
-    this.props.requestData({
+  resolve(props = this.props) {
+    const { dataKey, load, requestId, allowOptimisticUpdates = false } = props;
+    props.requestData({
       key: dataKey,
       requestId,
       load,
@@ -94,7 +89,7 @@ class Wrapper extends React.Component<Props> {
 
   componentWillReceiveProps(nextProps: Props) {
     if (nextProps.requestId !== this.props.requestId) {
-      this.resolve();
+      this.resolve(nextProps);
     }
   }
 

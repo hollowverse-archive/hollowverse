@@ -7,8 +7,6 @@ import { AsyncResult } from 'helpers/asyncResults';
 import { AlgoliaResponse } from 'algoliasearch';
 import { NotablePersonQuery } from 'api/types';
 
-import { LogEvent, LogType } from './features/logging/types';
-
 /** A map of all app actions to their corresponding payloads */
 export type ActionTypeToPayloadType = {
   SEARCH_QUERY_CHANGED: {
@@ -29,7 +27,17 @@ export type ActionTypeToPayloadType = {
       requestId: string | null;
     };
   };
-  LOG: LogEvent<LogType>;
+  UNHANDLED_ERROR_THROWN: {
+    message: string;
+    source?: string;
+    line?: number;
+    column?: number;
+  };
+  URL_CLICKED: {
+    url: string;
+  };
+  PAGE_LOAD_FAILED: string;
+  PAGE_LOAD_SUCCEEDED: string;
   '@@router/LOCATION_CHANGE': LocationChangeAction['payload'];
   '@@router/CALL_HISTORY_METHOD': RouterAction['payload'];
 };
