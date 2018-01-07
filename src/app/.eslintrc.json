@@ -1,0 +1,17 @@
+{
+  "parser": "typescript-eslint-parser",
+  "env": {
+    "browser": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 8,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "plugins": ["compat"],
+  "rules": {
+    "compat/compat": "error"
+  }
+}
