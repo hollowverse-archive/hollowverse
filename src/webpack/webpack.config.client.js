@@ -50,6 +50,7 @@ const clientSpecificConfig = {
     ifHot('webpack-hot-middleware/client'),
     ifReact(ifHot('react-hot-loader/patch')),
     ifPreact(ifDev('preact/debug')),
+    'regenerator-runtime/runtime',
     path.resolve(srcDirectory, 'clientEntry.ts'),
   ]),
 

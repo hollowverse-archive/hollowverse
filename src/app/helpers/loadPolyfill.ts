@@ -10,8 +10,8 @@ export const loadIntersectionObserverPolyfill = async () => {
 };
 
 export const loadFetchPolyfill = async () => {
-  if (!('fetch' in global)) {
-    // @ts-ignore
-    await import('whatwg-fetch');
-  }
+  // if (!('fetch' in global)) {
+  // @ts-ignore
+  await import('whatwg-fetch');
+  // }
 };
