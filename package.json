@@ -45,8 +45,12 @@
   "homepage": "https://github.com/hollowverse/hollowverse#readme",
   "bundlesize": [
     {
-      "path": "./dist/client/**/*.js",
-      "maxSize": "50 kB"
+      "path": "./dist/client/**/!(vendor).*.js",
+      "maxSize": "15 kB"
+    },
+    {
+      "path": "./dist/client/**/vendor.*.js",
+      "maxSize": "70 kB"
     },
     {
       "path": "./dist/client/**/*.module.*.css",
