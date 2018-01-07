@@ -79,8 +79,7 @@
   "pre-commit": ["validate-filenames", "lint-staged"],
   "browserslist": [
     "last 3 and_chr versions",
-    "last 3 ios_saf versions",
-    "last 1 Android version"
+    "last 3 ios_saf versions"
   ],
   "dependencies": {
     "@hollowverse/common": "hollowverse/common",
