@@ -33,9 +33,7 @@ export type ActionTypeToPayloadType = {
     line?: number;
     column?: number;
   };
-  URL_CLICKED: {
-    url: string;
-  };
+  URL_CLICKED: string;
   PAGE_LOAD_STARTED: string;
   PAGE_LOAD_FAILED: string;
   PAGE_LOAD_SUCCEEDED: string;
