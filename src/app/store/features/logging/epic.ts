@@ -4,9 +4,8 @@ import { Epic } from 'redux-observable';
 
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/do';
-import 'rxjs/add/operator/takeWhile';
 import 'rxjs/add/operator/ignoreElements';
-import 'rxjs/add/operator/zip';
+import 'rxjs/add/operator/withLatestFrom';
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/merge';
 
@@ -15,10 +14,11 @@ import { isSuccessResult, isErrorResult } from 'helpers/asyncResults';
 import {
   pageLoadFailed,
   pageLoadSucceeded,
+  pageLoadStarted,
 } from 'store/features/logging/actions';
 import { LOCATION_CHANGE } from 'react-router-redux';
 import { createPath } from 'history';
-import { isNotablePersonPage } from 'store/features/url/selectors';
+import { getRoutingState } from 'store/features/url/selectors';
 
 const sendLog = async (action: Action) => {
   const url = new URL(`/log?branch=${__BRANCH__}`, __BASE__);
@@ -40,6 +40,7 @@ const sendLog = async (action: Action) => {
 };
 
 const loggableActions: Array<Action['type']> = [
+  'PAGE_LOAD_STARTED',
   'PAGE_LOAD_FAILED',
   'PAGE_LOAD_SUCCEEDED',
 ];
@@ -48,6 +49,12 @@ const shouldActionBeLogged = (action: Action) =>
   loggableActions.includes(action.type);
 
 export const loggingEpic: Epic<Action, StoreState> = (action$, store) => {
+  const pageLoadStarted$ = action$.ofType(LOCATION_CHANGE).map(action => {
+    const url = createPath((action as Action<typeof LOCATION_CHANGE>).payload);
+
+    return pageLoadStarted(url);
+  });
+
   // Observe notable person page requests, and the corresponding
   // data fetch result
   const notablePersonPage$ = action$
@@ -59,19 +66,12 @@ export const loggingEpic: Epic<Action, StoreState> = (action$, store) => {
           isErrorResult(action.payload.data))
       );
     })
-    .zip(
-      action$
-        .ofType(LOCATION_CHANGE)
-        .skipWhile(() => isNotablePersonPage(store.getState())),
-    )
-    .map(([setResolvedDataAction, locationChangeAction]) => {
+    .map(setResolvedDataAction => {
       const { data } = (setResolvedDataAction as Action<
         'SET_RESOLVED_DATA'
       >).payload;
-      const url = createPath(
-        (locationChangeAction as Action<typeof LOCATION_CHANGE>).payload,
-      );
-      console.log(data, url);
+      // tslint:disable-next-line:no-non-null-assertion
+      const url = createPath(getRoutingState(store.getState()).location!);
       if (isSuccessResult(data)) {
         return pageLoadSucceeded(url);
       } else {
@@ -91,5 +91,7 @@ export const loggingEpic: Epic<Action, StoreState> = (action$, store) => {
     })
     .ignoreElements();
 
-  return logInterestingEvents$.merge(notablePersonPage$);
+  return logInterestingEvents$
+    .merge(pageLoadStarted$)
+    .merge(notablePersonPage$);
 };

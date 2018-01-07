@@ -36,6 +36,7 @@ export type ActionTypeToPayloadType = {
   URL_CLICKED: {
     url: string;
   };
+  PAGE_LOAD_STARTED: string;
   PAGE_LOAD_FAILED: string;
   PAGE_LOAD_SUCCEEDED: string;
   '@@router/LOCATION_CHANGE': LocationChangeAction['payload'];
