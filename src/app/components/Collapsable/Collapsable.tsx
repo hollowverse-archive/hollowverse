@@ -3,7 +3,7 @@ import * as React from 'react';
 import * as classes from './Collapsable.module.scss';
 import { SvgIcon } from 'components/SvgIcon/SvgIcon';
 
-import dropdownIcon from 'assets/iconDropdown.svg';
+import dropdownIcon from 'icons/dropdown.svg';
 
 import { generateRandomString } from 'helpers/generateRandomString';
 
