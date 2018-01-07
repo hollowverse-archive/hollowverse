@@ -108,6 +108,8 @@ const config = {
 
       algoliasearch: 'algoliasearch/lite',
 
+      'es6-promise': 'core-js/es6/promise',
+
       // That's all what we need to use Preact instead of React
       ...ifPreact({
         react: 'preact-compat',
