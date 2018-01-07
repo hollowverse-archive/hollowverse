@@ -1,3 +1,4 @@
+import 'regenerator-runtime';
 import { URL, URLSearchParams } from 'url';
 import { createServerRenderMiddleware } from 'server';
 import { performance } from 'perf_hooks';

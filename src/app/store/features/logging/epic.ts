@@ -18,12 +18,7 @@ import {
 import { LOCATION_CHANGE } from 'react-router-redux';
 import { createPath } from 'history';
 import { getRoutingState } from 'store/features/url/selectors';
-
-const loadFetchPolyfill = async () => {
-  if (!('fetch' in global)) {
-    await import('whatwg-fetch');
-  }
-};
+import { loadFetchPolyfill } from 'helpers/loadPolyfill';
 
 const sendLog = async (action: Action) => {
   const url = new URL(`/log?branch=${__BRANCH__}`, __BASE__);
