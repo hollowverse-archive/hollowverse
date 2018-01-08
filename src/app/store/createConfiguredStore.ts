@@ -28,6 +28,7 @@ const defaultInitialState: StoreState = {
       requestId: null,
     },
   },
+  alternativeSearchBoxText: null,
 };
 
 declare const global: NodeJS.Global & {

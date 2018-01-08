@@ -10,3 +10,14 @@ export const isSearchFocusedReducer = createReducerForStoreKey<
   },
   false,
 );
+
+export const alternativeSearchBoxTextReducer = createReducerForStoreKey<
+  'alternativeSearchBoxText'
+>(
+  {
+    SET_ALTERNATIVE_SEARCH_BOX_TEXT: handleAction<'alternativeSearchBoxText'>(
+      'SET_ALTERNATIVE_SEARCH_BOX_TEXT',
+    ),
+  },
+  null,
+);

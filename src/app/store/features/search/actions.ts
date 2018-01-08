@@ -7,3 +7,7 @@ export const setShouldFocusSearch = createActionCreator(
 );
 
 export const goToSearch = () => push('/search');
+
+export const setAlternativeSearchBoxText = createActionCreator(
+  'SET_ALTERNATIVE_SEARCH_BOX_TEXT',
+);

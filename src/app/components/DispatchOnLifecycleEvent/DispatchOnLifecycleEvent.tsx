@@ -2,33 +2,46 @@ import * as React from 'react';
 import { Action, GenericAction } from 'store/types';
 import { connect } from 'react-redux';
 
-type Props = {
-  children: JSX.Element | null;
-  afterChildrenRendered?: Action;
-  beforeRender?: Action;
+type OwnProps = {
+  key: string;
+  onDidMount?: Action;
+  onWillMount?: Action;
+  onWillUnmount?: Action;
+};
+
+type DispatchProps = {
   dispatch(action: GenericAction): any;
 };
 
-class UnconnectedDispatchOnLifecycleEvent extends React.PureComponent<Props> {
-  componentDidMount() {
-    const { afterChildrenRendered } = this.props;
-    if (afterChildrenRendered) {
-      this.props.dispatch(afterChildrenRendered);
+type Props = OwnProps & DispatchProps;
+
+export const DispatchOnLifecycleEvent = connect<{}, DispatchProps, OwnProps>(
+  undefined,
+)(
+  class extends React.PureComponent<Props> {
+    componentDidMount() {
+      const { onDidMount } = this.props;
+      if (onDidMount) {
+        this.props.dispatch(onDidMount);
+      }
     }
-  }
 
-  componentWillMount() {
-    const { beforeRender } = this.props;
-    if (beforeRender) {
-      this.props.dispatch(beforeRender);
+    componentWillMount() {
+      const { onWillMount } = this.props;
+      if (onWillMount) {
+        this.props.dispatch(onWillMount);
+      }
     }
-  }
 
-  render() {
-    return this.props.children;
-  }
-}
+    componentWillUnmount() {
+      const { onWillUnmount } = this.props;
+      if (onWillUnmount) {
+        this.props.dispatch(onWillUnmount);
+      }
+    }
 
-export const DispatchOnLifecycleEvent = connect(undefined)(
-  UnconnectedDispatchOnLifecycleEvent,
+    render() {
+      return this.props.children as any;
+    }
+  },
 );

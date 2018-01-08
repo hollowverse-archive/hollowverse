@@ -30,6 +30,7 @@ import query from './NotablePersonQuery.graphql';
 
 import warningIcon from 'icons/warning.svg';
 import { pageRenderStarted } from 'store/features/logging/actions';
+import { setAlternativeSearchBoxText } from 'store/features/search/actions';
 
 const warningIconComponent = <SvgIcon {...warningIcon} size={100} />;
 
@@ -50,7 +51,8 @@ const Page = withRouter(
       return (
         <DispatchOnLifecycleEvent
           key={pageUrl}
-          beforeRender={pageRenderStarted(pageUrl)}
+          onWillMount={pageRenderStarted(pageUrl)}
+          onWillUnmount={setAlternativeSearchBoxText(null)}
         >
           <WithData
             requestId={this.props.slug}
@@ -106,6 +108,12 @@ const Page = withRouter(
               return (
                 <div className={classes.root}>
                   <Status code={200} />
+                  <DispatchOnLifecycleEvent
+                    key={notablePerson.name}
+                    onWillMount={setAlternativeSearchBoxText(
+                      notablePerson.name,
+                    )}
+                  />
                   <article className={classes.article}>
                     <PersonDetails
                       name={name}

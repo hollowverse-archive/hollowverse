@@ -68,6 +68,7 @@ export type ActionTypeToPayloadType = {
   PAGE_RENDER_STARTED: string;
   PAGE_LOAD_FAILED: string;
   PAGE_LOAD_SUCCEEDED: string;
+  SET_ALTERNATIVE_SEARCH_BOX_TEXT: string | null;
   '@@router/LOCATION_CHANGE': LocationChangeAction['payload'];
   '@@router/CALL_HISTORY_METHOD': RouterAction['payload'];
 };
@@ -83,6 +84,7 @@ export type AppState = {
   statusCode: number;
   shouldFocusSearch: boolean;
   redirectionUrl: string | null;
+  alternativeSearchBoxText: string | null;
   resolvedData: {
     [K in keyof ResolvedData]: AsyncResult<ResolvedData[K] | null> & {
       requestId: string | null;
