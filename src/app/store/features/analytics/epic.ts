@@ -28,11 +28,23 @@ export const analyticsEpic: Epic<Action, StoreState> = action$ => {
       try {
         await initScript();
         const { pathname } = (action as Action<typeof LOCATION_CHANGE>).payload;
+
+        // Set currently active page
         ga('set', 'page', pathname);
-        ga('send', 'pageview');
       } catch (e) {
         // Do nothing
       }
     })
+    .merge(
+      action$.ofType('PAGE_LOAD_SUCCEEDED').do(async action => {
+        try {
+          await initScript();
+          const path = (action as Action<'PAGE_LOAD_SUCCEEDED'>).payload;
+          ga('send', 'pageview', path);
+        } catch (e) {
+          // Do nothing
+        }
+      }),
+    )
     .ignoreElements();
 };
