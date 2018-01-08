@@ -1,17 +1,14 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
+import { DispatchOnLifecycleEvent } from 'components/DispatchOnLifecycleEvent/DispatchOnLifecycleEvent';
 import {
   setStatusCode,
   setRedirectionUrl,
 } from 'store/features/status/actions';
+import { Action } from 'store/types';
 
 type CommonProps = {
+  updateKey?: string;
   children?: undefined;
-};
-
-type DispatchProps = {
-  setStatusCode: typeof setStatusCode;
-  setRedirectionUrl: typeof setRedirectionUrl;
 };
 
 type RedirectionProps = {
@@ -23,13 +20,9 @@ type NonRedirectionProps = {
   code: 200 | 404 | 500;
 };
 
-type OwnProps = CommonProps & (RedirectionProps | NonRedirectionProps);
+type Props = CommonProps & (RedirectionProps | NonRedirectionProps);
 
-type Props = DispatchProps & OwnProps;
-
-function isRedirection(
-  props: Props,
-): props is CommonProps & DispatchProps & RedirectionProps {
+function isRedirection(props: Props): props is CommonProps & RedirectionProps {
   return (
     props.code === 301 ||
     (props.code === 302 &&
@@ -46,21 +39,17 @@ function isRedirection(
  * It is only used for its side effect on the Redux store
  * (which is then queried on the server side).
  */
-export const Status = connect<{}, DispatchProps, OwnProps>(undefined, {
-  setStatusCode,
-  setRedirectionUrl,
-})(
-  class extends React.PureComponent<Props> {
-    componentWillMount() {
-      this.props.setStatusCode(this.props.code);
+export const Status = (props: Props) => {
+  const actions: Action[] = [setStatusCode(props.code)];
 
-      if (isRedirection(this.props)) {
-        this.props.setRedirectionUrl(this.props.redirectTo);
-      }
-    }
+  if (isRedirection(props)) {
+    actions.push(setRedirectionUrl(props.redirectTo));
+  }
 
-    render() {
-      return null;
-    }
-  },
-);
+  return (
+    <DispatchOnLifecycleEvent
+      updateKey={props.updateKey}
+      onWillMountOrUpdate={actions}
+    />
+  );
+};

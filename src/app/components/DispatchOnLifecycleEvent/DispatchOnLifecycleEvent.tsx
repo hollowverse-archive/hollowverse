@@ -3,10 +3,10 @@ import { Action, GenericAction } from 'store/types';
 import { connect } from 'react-redux';
 
 type OwnProps = {
-  updateKey: string;
-  onDidMountOrUpdate?: Action;
-  onWillMountOrUpdate?: Action;
-  onWillUnmount?: Action;
+  updateKey?: string;
+  onDidMountOrUpdate?: Action | Action[];
+  onWillMountOrUpdate?: Action | Action[];
+  onWillUnmount?: Action | Action[];
 };
 
 type DispatchProps = {
@@ -19,10 +19,20 @@ export const DispatchOnLifecycleEvent = connect<{}, DispatchProps, OwnProps>(
   undefined,
 )(
   class extends React.PureComponent<Props> {
+    dispatch(actionOrActions: Action | Action[]) {
+      if (Array.isArray(actionOrActions)) {
+        actionOrActions.forEach(action => {
+          this.props.dispatch(action);
+        });
+      } else {
+        this.props.dispatch(actionOrActions);
+      }
+    }
+
     componentDidMount() {
       const { onDidMountOrUpdate } = this.props;
       if (onDidMountOrUpdate) {
-        this.props.dispatch(onDidMountOrUpdate);
+        this.dispatch(onDidMountOrUpdate);
       }
     }
 
@@ -35,7 +45,7 @@ export const DispatchOnLifecycleEvent = connect<{}, DispatchProps, OwnProps>(
     componentWillMount() {
       const { onWillMountOrUpdate } = this.props;
       if (onWillMountOrUpdate) {
-        this.props.dispatch(onWillMountOrUpdate);
+        this.dispatch(onWillMountOrUpdate);
       }
     }
 
@@ -48,7 +58,7 @@ export const DispatchOnLifecycleEvent = connect<{}, DispatchProps, OwnProps>(
     componentWillUnmount() {
       const { onWillUnmount } = this.props;
       if (onWillUnmount) {
-        this.props.dispatch(onWillUnmount);
+        this.dispatch(onWillUnmount);
       }
     }
 
