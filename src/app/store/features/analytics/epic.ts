@@ -7,6 +7,7 @@ import { Epic } from 'redux-observable';
 import 'rxjs/add/operator/skipWhile';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/ignoreElements';
+import 'rxjs/add/operator/merge';
 
 import { importGlobalScript } from 'helpers/importGlobalScript';
 import { once } from 'lodash';
