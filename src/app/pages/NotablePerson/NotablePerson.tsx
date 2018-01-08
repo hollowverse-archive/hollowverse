@@ -33,12 +33,12 @@ import { setAlternativeSearchBoxText } from 'store/features/search/actions';
 
 const warningIconComponent = <SvgIcon {...warningIcon} size={100} />;
 
-export type Props = { slug: string };
+export type Props = {};
 
 const Page = withRouter(
   class extends React.Component<Props & RouteComponentProps<any>> {
     load = async () => {
-      const { slug } = this.props;
+      const { slug } = this.props.match.params;
 
       return client.request<NotablePersonQuery>(query, { slug });
     };
@@ -49,7 +49,7 @@ const Page = withRouter(
 
       return (
         <WithData
-          requestId={this.props.slug}
+          requestId={this.props.match.params.slug}
           dataKey="notablePersonQuery"
           forPage={pageUrl}
           load={this.load}
