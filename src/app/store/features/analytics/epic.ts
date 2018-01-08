@@ -36,15 +36,18 @@ export const analyticsEpic: Epic<Action, StoreState> = action$ => {
       }
     })
     .merge(
-      action$.ofType('PAGE_LOAD_SUCCEEDED').do(async action => {
-        try {
-          await initScript();
-          const path = (action as Action<'PAGE_LOAD_SUCCEEDED'>).payload;
-          ga('send', 'pageview', path);
-        } catch (e) {
-          // Do nothing
-        }
-      }),
+      action$
+        .ofType('PAGE_LOAD_SUCCEEDED')
+        .skipWhile(isServer)
+        .do(async action => {
+          try {
+            await initScript();
+            const path = (action as Action<'PAGE_LOAD_SUCCEEDED'>).payload;
+            ga('send', 'pageview', path);
+          } catch (e) {
+            // Do nothing
+          }
+        }),
     )
     .ignoreElements();
 };
