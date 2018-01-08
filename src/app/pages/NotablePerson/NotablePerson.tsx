@@ -46,15 +46,16 @@ const Page = withRouter(
     // tslint:disable-next-line:max-func-body-length
     render() {
       const pageUrl = this.props.history.createHref(this.props.location);
+      const { slug } = this.props.match.params;
 
       return (
         <WithData
-          requestId={this.props.match.params.slug}
+          requestId={slug}
           dataKey="notablePersonQuery"
           forPage={pageUrl}
           load={this.load}
         >
-          {({ result }: { result: AsyncResult<NotablePersonQuery> }) => {
+          {({ result }: { result: AsyncResult<NotablePersonQuery | null> }) => {
             if (isPendingResult(result)) {
               return <NotablePersonSkeleton />;
             }
@@ -73,7 +74,7 @@ const Page = withRouter(
                   }
                   icon={warningIconComponent}
                 >
-                  <Status code={500} />
+                  <Status updateKey={slug} code={500} />
                 </MessageWithIcon>
               );
             }
@@ -83,7 +84,7 @@ const Page = withRouter(
             if (!notablePerson) {
               return (
                 <MessageWithIcon title="Not Found" icon={warningIconComponent}>
-                  <Status code={404} />
+                  <Status updateKey={slug} code={404} />
                 </MessageWithIcon>
               );
             }
@@ -98,7 +99,7 @@ const Page = withRouter(
 
             return (
               <div className={classes.root}>
-                <Status code={200} />
+                <Status updateKey={slug} code={200} />
                 <DispatchOnLifecycleEvent
                   updateKey={notablePerson.name}
                   onWillUnmount={setAlternativeSearchBoxText(null)}

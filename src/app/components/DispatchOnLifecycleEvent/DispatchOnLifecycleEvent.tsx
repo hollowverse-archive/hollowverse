@@ -3,7 +3,7 @@ import { Action, GenericAction } from 'store/types';
 import { connect } from 'react-redux';
 
 type OwnProps = {
-  updateKey?: string;
+  updateKey: string | null;
   onDidMountOrUpdate?: Action | Action[];
   onWillMountOrUpdate?: Action | Action[];
   onWillUnmount?: Action | Action[];
@@ -51,6 +51,11 @@ export const DispatchOnLifecycleEvent = connect<{}, DispatchProps, OwnProps>(
 
     componentWillUpdate(nextProps: Props) {
       if (nextProps.updateKey !== this.props.updateKey) {
+        console.log(
+          'componentWillUpdate',
+          nextProps.updateKey,
+          this.props.updateKey,
+        );
         this.componentWillMount();
       }
     }

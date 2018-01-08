@@ -104,7 +104,7 @@ class Page extends React.PureComponent<Props> {
                       icon={<SvgIcon {...searchIcon} />}
                       title="No results found"
                     >
-                      <Status key={searchQuery} code={404} />
+                      <Status updateKey={searchQuery} code={404} />
                     </MessageWithIcon>
                   );
                 }
@@ -117,7 +117,11 @@ class Page extends React.PureComponent<Props> {
                   value.hits.length === 1
                 ) {
                   return (
-                    <Status code={301} redirectTo={`${value.hits[0].slug}`} />
+                    <Status
+                      updateKey={searchQuery}
+                      code={301}
+                      redirectTo={`${value.hits[0].slug}`}
+                    />
                   );
                 }
 
@@ -125,7 +129,7 @@ class Page extends React.PureComponent<Props> {
                   <div>
                     <Card className={classes.card}>
                       <ResultsList hits={value.hits} />
-                      <Status key={searchQuery} code={200} />
+                      <Status updateKey={searchQuery} code={200} />
                     </Card>
                   </div>
                 );
@@ -146,7 +150,7 @@ class Page extends React.PureComponent<Props> {
                     </LinkButton>
                   }
                 >
-                  <Status code={500} />
+                  <Status updateKey={searchQuery} code={500} />
                 </MessageWithIcon>
               );
             }}

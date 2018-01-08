@@ -7,7 +7,7 @@ import {
 import { Action } from 'store/types';
 
 type CommonProps = {
-  updateKey?: string;
+  updateKey: string | null;
   children?: undefined;
 };
 
