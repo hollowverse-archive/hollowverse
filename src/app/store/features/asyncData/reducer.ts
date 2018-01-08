@@ -7,7 +7,9 @@ export const resolvedDataReducer = createReducerForStoreKey<'resolvedData'>(
       if (isActionOfType(action, 'SET_RESOLVED_DATA')) {
         return {
           ...state,
-          [action.payload.key]: action.payload.data,
+          [action.payload.key]: {
+            ...action.payload.data,
+          },
         };
       }
 

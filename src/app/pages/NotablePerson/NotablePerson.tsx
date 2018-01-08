@@ -74,7 +74,7 @@ const Page = withRouter(
                   }
                   icon={warningIconComponent}
                 >
-                  <Status updateKey={slug} code={500} />
+                  <Status code={500} />
                 </MessageWithIcon>
               );
             }
@@ -84,7 +84,7 @@ const Page = withRouter(
             if (!notablePerson) {
               return (
                 <MessageWithIcon title="Not Found" icon={warningIconComponent}>
-                  <Status updateKey={slug} code={404} />
+                  <Status code={404} />
                 </MessageWithIcon>
               );
             }
@@ -99,13 +99,10 @@ const Page = withRouter(
 
             return (
               <div className={classes.root}>
-                <Status updateKey={slug} code={200} />
+                <Status code={200} />
                 <DispatchOnLifecycleEvent
-                  updateKey={notablePerson.name}
                   onWillUnmount={setAlternativeSearchBoxText(null)}
-                  onWillMountOrUpdate={setAlternativeSearchBoxText(
-                    notablePerson.name,
-                  )}
+                  onWillMount={setAlternativeSearchBoxText(notablePerson.name)}
                 />
                 <article className={classes.article}>
                   <PersonDetails

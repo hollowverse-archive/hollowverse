@@ -7,7 +7,6 @@ import {
 import { Action } from 'store/types';
 
 type CommonProps = {
-  updateKey: string | null;
   children?: undefined;
 };
 
@@ -46,10 +45,5 @@ export const Status = (props: Props) => {
     actions.push(setRedirectionUrl(props.redirectTo));
   }
 
-  return (
-    <DispatchOnLifecycleEvent
-      updateKey={props.updateKey}
-      onWillMountOrUpdate={actions}
-    />
-  );
+  return <DispatchOnLifecycleEvent onWillMount={actions} />;
 };

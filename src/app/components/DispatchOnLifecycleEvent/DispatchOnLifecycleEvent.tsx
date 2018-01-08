@@ -3,9 +3,8 @@ import { Action, GenericAction } from 'store/types';
 import { connect } from 'react-redux';
 
 type OwnProps = {
-  updateKey: string | null;
-  onDidMountOrUpdate?: Action | Action[];
-  onWillMountOrUpdate?: Action | Action[];
+  onDidMount?: Action | Action[];
+  onWillMount?: Action | Action[];
   onWillUnmount?: Action | Action[];
 };
 
@@ -16,7 +15,8 @@ type DispatchProps = {
 type Props = OwnProps & DispatchProps;
 
 export const DispatchOnLifecycleEvent = connect<{}, DispatchProps, OwnProps>(
-  undefined,
+  () => ({}),
+  dispatch => ({ dispatch }),
 )(
   class extends React.PureComponent<Props> {
     dispatch(actionOrActions: Action | Action[]) {
@@ -30,33 +30,16 @@ export const DispatchOnLifecycleEvent = connect<{}, DispatchProps, OwnProps>(
     }
 
     componentDidMount() {
-      const { onDidMountOrUpdate } = this.props;
-      if (onDidMountOrUpdate) {
-        this.dispatch(onDidMountOrUpdate);
-      }
-    }
-
-    componentDidUpdate(nextProps: Props) {
-      if (nextProps.updateKey !== this.props.updateKey) {
-        this.componentDidMount();
+      const { onDidMount } = this.props;
+      if (onDidMount) {
+        this.dispatch(onDidMount);
       }
     }
 
     componentWillMount() {
-      const { onWillMountOrUpdate } = this.props;
-      if (onWillMountOrUpdate) {
-        this.dispatch(onWillMountOrUpdate);
-      }
-    }
-
-    componentWillUpdate(nextProps: Props) {
-      if (nextProps.updateKey !== this.props.updateKey) {
-        console.log(
-          'componentWillUpdate',
-          nextProps.updateKey,
-          this.props.updateKey,
-        );
-        this.componentWillMount();
+      const { onWillMount } = this.props;
+      if (onWillMount) {
+        this.dispatch(onWillMount);
       }
     }
 

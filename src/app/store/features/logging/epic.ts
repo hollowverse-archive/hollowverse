@@ -54,7 +54,7 @@ export const loggingEpic: Epic<Action, StoreState> = action$ => {
       const statusCode = (setStatusCodeAction as Action<'SET_STATUS_CODE'>)
         .payload;
 
-      if (statusCode < 500) {
+      if (statusCode === 200 || statusCode === 404) {
         return pageLoadSucceeded(url);
       }
 
