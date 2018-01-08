@@ -16,13 +16,44 @@ export type ActionTypeToPayloadType = {
   SET_STATUS_CODE: number;
   SET_REDIRECTION_URL: string;
   REQUEST_DATA: {
+    /**
+     * Whether to keep the results of the previous request while loading
+     * the new results
+     */
     allowOptimisticUpdates: boolean;
+
+    /**
+     * The key used to store the results in Redux state
+     */
     key: ResolvedDataKey;
+
+    /**
+     * A unique identifier for the resolve request, if this changes,
+     * `load()` will be called again
+     */
     requestId: string | null;
+
+    /**
+     * (Optional)
+     * The page path for which this data request is triggered, useful for logging
+     */
+    forPage?: string;
+
+    /** An asynchronous function that fetchs the data */
     load(): Promise<ResolvedData[ResolvedDataKey]>;
   };
   SET_RESOLVED_DATA: {
+    /**
+     * The key used to store the results in Redux state
+     */
     key: ResolvedDataKey;
+
+    /**
+     * (Optional)
+     * The page path for which this data request is triggered, useful for logging
+     */
+    forPage?: string;
+
     data: AsyncResult<ResolvedData[ResolvedDataKey]> & {
       requestId: string | null;
     };
@@ -34,7 +65,7 @@ export type ActionTypeToPayloadType = {
     column?: number;
   };
   URL_CLICKED: string;
-  PAGE_LOAD_STARTED: string;
+  PAGE_RENDER_STARTED: string;
   PAGE_LOAD_FAILED: string;
   PAGE_LOAD_SUCCEEDED: string;
   '@@router/LOCATION_CHANGE': LocationChangeAction['payload'];

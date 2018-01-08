@@ -13,6 +13,12 @@ type OwnProps<Key extends ResolvedDataKey = ResolvedDataKey> = {
   dataKey: Key;
 
   /**
+   * (Optional)
+   * The page path for which this data request is triggered, useful for logging
+   */
+  forPage?: string;
+
+  /**
    * A unique identifier for the resolve request, if this changes,
    * `load()` will be called again
    */
@@ -68,10 +74,17 @@ type Props<K extends ResolvedDataKey = ResolvedDataKey> = OwnProps<K> &
 
 class Wrapper extends React.Component<Props> {
   resolve(props = this.props) {
-    const { dataKey, load, requestId, allowOptimisticUpdates = false } = props;
+    const {
+      dataKey,
+      forPage,
+      load,
+      requestId,
+      allowOptimisticUpdates = false,
+    } = props;
     props.requestData({
       key: dataKey,
       requestId,
+      forPage,
       load,
       allowOptimisticUpdates,
     });

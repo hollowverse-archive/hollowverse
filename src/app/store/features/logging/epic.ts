@@ -5,20 +5,19 @@ import { Epic } from 'redux-observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/ignoreElements';
+import 'rxjs/add/operator/withLatestFrom';
+import 'rxjs/add/operator/takeWhile';
+import 'rxjs/add/operator/zip';
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/merge';
 
-import { isActionOfType } from 'store/helpers';
-import { isSuccessResult, isErrorResult } from 'helpers/asyncResults';
-import {
-  pageLoadFailed,
-  pageLoadSucceeded,
-  pageLoadStarted,
-} from 'store/features/logging/actions';
-import { LOCATION_CHANGE } from 'react-router-redux';
-import { createPath } from 'history';
-import { getRoutingState } from 'store/features/url/selectors';
 import { loadFetchPolyfill } from 'helpers/loadPolyfill';
+import {
+  pageLoadSucceeded,
+  pageLoadFailed,
+} from 'store/features/logging/actions';
+import { isSuccessResult, isErrorResult } from 'helpers/asyncResults';
+import { isActionOfType } from 'store/helpers';
 
 const sendLog = async (action: Action) => {
   const url = new URL(`/log?branch=${__BRANCH__}`, __BASE__);
@@ -39,43 +38,46 @@ const sendLog = async (action: Action) => {
 };
 
 const loggableActions: Array<Action['type']> = [
-  'PAGE_LOAD_STARTED',
-  'PAGE_LOAD_FAILED',
   'PAGE_LOAD_SUCCEEDED',
+  'PAGE_LOAD_FAILED',
 ];
 
 const shouldActionBeLogged = (action: Action) =>
   loggableActions.includes(action.type);
 
-export const loggingEpic: Epic<Action, StoreState> = (action$, store) => {
-  const pageLoadStarted$ = action$.ofType(LOCATION_CHANGE).map(action => {
-    const url = createPath((action as Action<typeof LOCATION_CHANGE>).payload);
-
-    return pageLoadStarted(url);
-  });
-
-  // Observe notable person page requests, and the corresponding
-  // data fetch result
-  const notablePersonPage$ = action$
+export const loggingEpic: Epic<Action, StoreState> = action$ => {
+  const observePageLoad$ = action$
     .filter(action => {
-      return (
-        isActionOfType(action, 'SET_RESOLVED_DATA') &&
-        action.payload.key === 'notablePersonQuery' &&
-        (isSuccessResult(action.payload.data) ||
-          isErrorResult(action.payload.data))
-      );
+      if (isActionOfType(action, 'SET_RESOLVED_DATA')) {
+        const { data } = action.payload;
+
+        return isSuccessResult(data) || isErrorResult(data);
+      }
+
+      return false;
     })
-    .map(setResolvedDataAction => {
-      const { data } = (setResolvedDataAction as Action<
+    .withLatestFrom(action$.ofType('PAGE_RENDER_STARTED'))
+    .takeWhile(([dataCompletedAction, renderStartedAction]) => {
+      const url = (renderStartedAction as Action<'PAGE_RENDER_STARTED'>)
+        .payload;
+      const { forPage } = (dataCompletedAction as Action<
         'SET_RESOLVED_DATA'
       >).payload;
-      // tslint:disable-next-line:no-non-null-assertion
-      const url = createPath(getRoutingState(store.getState()).location!);
+
+      return url === forPage;
+    })
+    .map(([dataCompletedAction, renderCompletedAction]) => {
+      const url = (renderCompletedAction as Action<'PAGE_RENDER_STARTED'>)
+        .payload;
+      const { data } = (dataCompletedAction as Action<
+        'SET_RESOLVED_DATA'
+      >).payload;
+
       if (isSuccessResult(data)) {
         return pageLoadSucceeded(url);
-      } else {
-        return pageLoadFailed(url);
       }
+
+      return pageLoadFailed(url);
     });
 
   // Send interesting actions to log endpoint
@@ -90,7 +92,5 @@ export const loggingEpic: Epic<Action, StoreState> = (action$, store) => {
     })
     .ignoreElements();
 
-  return logInterestingEvents$
-    .merge(pageLoadStarted$)
-    .merge(notablePersonPage$);
+  return logInterestingEvents$.merge(observePageLoad$);
 };
