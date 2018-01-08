@@ -125,6 +125,7 @@ class Page extends React.PureComponent<Props> {
                   <div>
                     <Card className={classes.card}>
                       <ResultsList hits={value.hits} />
+                      <Status code={200} />
                     </Card>
                   </div>
                 );
@@ -144,7 +145,9 @@ class Page extends React.PureComponent<Props> {
                       Reload
                     </LinkButton>
                   }
-                />
+                >
+                  <Status code={500} />
+                </MessageWithIcon>
               );
             }}
           </WithData>
