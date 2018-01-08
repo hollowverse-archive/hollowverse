@@ -29,7 +29,6 @@ import * as classes from './NotablePerson.module.scss';
 import query from './NotablePersonQuery.graphql';
 
 import warningIcon from 'icons/warning.svg';
-import { pageRenderStarted } from 'store/features/logging/actions';
 import { setAlternativeSearchBoxText } from 'store/features/search/actions';
 
 const warningIconComponent = <SvgIcon {...warningIcon} size={100} />;
@@ -49,113 +48,105 @@ const Page = withRouter(
       const pageUrl = this.props.history.createHref(this.props.location);
 
       return (
-        <DispatchOnLifecycleEvent
-          key={pageUrl}
-          onWillMount={pageRenderStarted(pageUrl)}
-          onWillUnmount={setAlternativeSearchBoxText(null)}
+        <WithData
+          requestId={this.props.slug}
+          dataKey="notablePersonQuery"
+          forPage={pageUrl}
+          load={this.load}
         >
-          <WithData
-            requestId={this.props.slug}
-            dataKey="notablePersonQuery"
-            forPage={pageUrl}
-            load={this.load}
-          >
-            {({ result }: { result: AsyncResult<NotablePersonQuery> }) => {
-              if (isPendingResult(result)) {
-                return <NotablePersonSkeleton />;
-              }
+          {({ result }: { result: AsyncResult<NotablePersonQuery> }) => {
+            if (isPendingResult(result)) {
+              return <NotablePersonSkeleton />;
+            }
 
-              if (isErrorResult(result) || !result.value) {
-                const { location } = this.props;
-
-                return (
-                  <MessageWithIcon
-                    title="Are you connected to the internet?"
-                    description="Please check your connection and try again"
-                    button={
-                      <LinkButton to={location} onClick={forceReload}>
-                        Reload
-                      </LinkButton>
-                    }
-                    icon={warningIconComponent}
-                  >
-                    <Status code={500} />
-                  </MessageWithIcon>
-                );
-              }
-
-              const { notablePerson } = result.value;
-
-              if (!notablePerson) {
-                return (
-                  <MessageWithIcon
-                    title="Not Found"
-                    icon={warningIconComponent}
-                  >
-                    <Status code={404} />
-                  </MessageWithIcon>
-                );
-              }
-
-              const {
-                name,
-                mainPhoto,
-                summary,
-                commentsUrl,
-                editorialSummary,
-              } = notablePerson;
+            if (isErrorResult(result) || !result.value) {
+              const { location } = this.props;
 
               return (
-                <div className={classes.root}>
-                  <Status code={200} />
-                  <DispatchOnLifecycleEvent
-                    key={notablePerson.name}
-                    onWillMount={setAlternativeSearchBoxText(
-                      notablePerson.name,
-                    )}
-                  />
-                  <article className={classes.article}>
-                    <PersonDetails
-                      name={name}
-                      photo={mainPhoto}
-                      summary={summary}
-                    />
-                    {editorialSummary ? (
-                      <Card
-                        className={cc([classes.card, classes.editorialSummary])}
-                      >
-                        <EditorialSummary {...editorialSummary} />
-                      </Card>
-                    ) : (
-                      <div className={classes.stub}>
-                        Share what you know about the religion and political
-                        views of {name} in the comments below
-                      </div>
-                    )}
-                  </article>
-                  {notablePerson.relatedPeople.length ? (
-                    <div className={classes.relatedPeople}>
-                      <h2>Other interseting profiles</h2>
-                      <RelatedPeople people={notablePerson.relatedPeople} />
-                    </div>
-                  ) : null}
-                  <OptionalIntersectionObserver
-                    rootMargin="0% 0% 25% 0%"
-                    triggerOnce
-                  >
-                    {inView =>
-                      inView ? (
-                        <Card className={cc([classes.card, classes.comments])}>
-                          <FbComments url={commentsUrl} />
-                        </Card>
-                      ) : null
-                    }
-                  </OptionalIntersectionObserver>
-                </div>
+                <MessageWithIcon
+                  title="Are you connected to the internet?"
+                  description="Please check your connection and try again"
+                  button={
+                    <LinkButton to={location} onClick={forceReload}>
+                      Reload
+                    </LinkButton>
+                  }
+                  icon={warningIconComponent}
+                >
+                  <Status code={500} />
+                </MessageWithIcon>
               );
-            }}
-          </WithData>
-        </DispatchOnLifecycleEvent>
+            }
+
+            const { notablePerson } = result.value;
+
+            if (!notablePerson) {
+              return (
+                <MessageWithIcon title="Not Found" icon={warningIconComponent}>
+                  <Status code={404} />
+                </MessageWithIcon>
+              );
+            }
+
+            const {
+              name,
+              mainPhoto,
+              summary,
+              commentsUrl,
+              editorialSummary,
+            } = notablePerson;
+
+            return (
+              <div className={classes.root}>
+                <Status code={200} />
+                <DispatchOnLifecycleEvent
+                  updateKey={notablePerson.name}
+                  onWillUnmount={setAlternativeSearchBoxText(null)}
+                  onWillMountOrUpdate={setAlternativeSearchBoxText(
+                    notablePerson.name,
+                  )}
+                />
+                <article className={classes.article}>
+                  <PersonDetails
+                    name={name}
+                    photo={mainPhoto}
+                    summary={summary}
+                  />
+                  {editorialSummary ? (
+                    <Card
+                      className={cc([classes.card, classes.editorialSummary])}
+                    >
+                      <EditorialSummary {...editorialSummary} />
+                    </Card>
+                  ) : (
+                    <div className={classes.stub}>
+                      Share what you know about the religion and political views
+                      of {name} in the comments below
+                    </div>
+                  )}
+                </article>
+                {notablePerson.relatedPeople.length ? (
+                  <div className={classes.relatedPeople}>
+                    <h2>Other interseting profiles</h2>
+                    <RelatedPeople people={notablePerson.relatedPeople} />
+                  </div>
+                ) : null}
+                <OptionalIntersectionObserver
+                  rootMargin="0% 0% 25% 0%"
+                  triggerOnce
+                >
+                  {inView =>
+                    inView ? (
+                      <Card className={cc([classes.card, classes.comments])}>
+                        <FbComments url={commentsUrl} />
+                      </Card>
+                    ) : null
+                  }
+                </OptionalIntersectionObserver>
+              </div>
+            );
+          }}
+        </WithData>
       );
     }
   },

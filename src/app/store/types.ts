@@ -64,8 +64,6 @@ export type ActionTypeToPayloadType = {
     line?: number;
     column?: number;
   };
-  URL_CLICKED: string;
-  PAGE_RENDER_STARTED: string;
   PAGE_LOAD_FAILED: string;
   PAGE_LOAD_SUCCEEDED: string;
   SET_ALTERNATIVE_SEARCH_BOX_TEXT: string | null;

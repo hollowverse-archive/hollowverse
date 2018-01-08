@@ -15,8 +15,8 @@ import {
   pageLoadSucceeded,
   pageLoadFailed,
 } from 'store/features/logging/actions';
-import { isSuccessResult, isErrorResult } from 'helpers/asyncResults';
-import { isActionOfType } from 'store/helpers';
+import { LOCATION_CHANGE } from 'react-router-redux';
+import { createPath } from 'history';
 
 const sendLog = async (action: Action) => {
   const url = new URL(`/log?branch=${__BRANCH__}`, __BASE__);
@@ -46,33 +46,16 @@ const shouldActionBeLogged = (action: Action) =>
 
 export const loggingEpic: Epic<Action, StoreState> = action$ => {
   const observePageLoad$ = action$
-    .filter(action => {
-      if (isActionOfType(action, 'SET_RESOLVED_DATA')) {
-        const { data } = action.payload;
-
-        return isSuccessResult(data) || isErrorResult(data);
-      }
-
-      return false;
-    })
-    .withLatestFrom(action$.ofType('PAGE_RENDER_STARTED'))
-    .takeWhile(([dataCompletedAction, renderStartedAction]) => {
-      const url = (renderStartedAction as Action<'PAGE_RENDER_STARTED'>)
+    .ofType('SET_STATUS_CODE')
+    .withLatestFrom(action$.ofType(LOCATION_CHANGE))
+    .map(([setStatusCodeAction, locationChangeAction]) => {
+      const url = createPath(
+        (locationChangeAction as Action<typeof LOCATION_CHANGE>).payload,
+      );
+      const statusCode = (setStatusCodeAction as Action<'SET_STATUS_CODE'>)
         .payload;
-      const { forPage } = (dataCompletedAction as Action<
-        'SET_RESOLVED_DATA'
-      >).payload;
 
-      return url === forPage;
-    })
-    .map(([dataCompletedAction, renderCompletedAction]) => {
-      const url = (renderCompletedAction as Action<'PAGE_RENDER_STARTED'>)
-        .payload;
-      const { data } = (dataCompletedAction as Action<
-        'SET_RESOLVED_DATA'
-      >).payload;
-
-      if (isSuccessResult(data)) {
+      if (statusCode < 500) {
         return pageLoadSucceeded(url);
       }
 
