@@ -104,7 +104,7 @@ class Page extends React.PureComponent<Props> {
                       icon={<SvgIcon {...searchIcon} />}
                       title="No results found"
                     >
-                      <Status code={404} />
+                      <Status key={searchQuery} code={404} />
                     </MessageWithIcon>
                   );
                 }
@@ -125,7 +125,7 @@ class Page extends React.PureComponent<Props> {
                   <div>
                     <Card className={classes.card}>
                       <ResultsList hits={value.hits} />
-                      <Status code={200} />
+                      <Status key={searchQuery} code={200} />
                     </Card>
                   </div>
                 );
