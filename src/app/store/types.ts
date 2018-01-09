@@ -13,8 +13,14 @@ export type ActionTypeToPayloadType = {
     query: string;
   };
   SET_SHOULD_FOCUS_SEARCH: boolean;
-  SET_STATUS_CODE: number;
-  SET_REDIRECTION_URL: string;
+  SET_STATUS_CODE:
+    | {
+        code: 200 | 404 | 500;
+      }
+    | {
+        code: 301 | 302;
+        redirectTo: string;
+      };
   REQUEST_DATA: {
     /**
      * Whether to keep the results of the previous request while loading
@@ -58,14 +64,14 @@ export type ActionTypeToPayloadType = {
       requestId: string | null;
     };
   };
-  UNHANDLED_ERROR_THROWN: {
-    message: string;
-    source?: string;
-    line?: number;
-    column?: number;
-  };
+  UNHANDLED_ERROR_THROWN: any;
   PAGE_LOAD_FAILED: string;
   PAGE_LOAD_SUCCEEDED: string;
+  PAGE_REDIRECTED: {
+    statusCode: 301 | 302;
+    from: string;
+    to: string;
+  };
   SET_ALTERNATIVE_SEARCH_BOX_TEXT: string | null;
   '@@router/LOCATION_CHANGE': LocationChangeAction['payload'];
   '@@router/CALL_HISTORY_METHOD': RouterAction['payload'];

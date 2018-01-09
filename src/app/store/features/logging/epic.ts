@@ -13,6 +13,7 @@ import { loadFetchPolyfill } from 'helpers/loadPolyfill';
 import {
   pageLoadSucceeded,
   pageLoadFailed,
+  pageRedirected,
 } from 'store/features/logging/actions';
 import { LOCATION_CHANGE } from 'react-router-redux';
 import { createPath } from 'history';
@@ -38,6 +39,7 @@ const sendLog = async (action: Action) => {
 const loggableActions: Array<Action['type']> = [
   'PAGE_LOAD_SUCCEEDED',
   'PAGE_LOAD_FAILED',
+  'UNHANDLED_ERROR_THROWN',
 ];
 
 const shouldActionBeLogged = (action: Action) =>
@@ -52,9 +54,13 @@ export const loggingEpic: Epic<Action, StoreState> = action$ => {
         (locationChangeAction as Action<typeof LOCATION_CHANGE>).payload,
       );
       const statusCode = (setStatusCodeAction as Action<'SET_STATUS_CODE'>)
-        .payload;
+        .payload.code;
 
-      if (statusCode === 200 || statusCode === 404) {
+      if (statusCode === 301 || statusCode === 302) {
+        const to = setStatusCodeAction.payload.redirectTo;
+
+        return pageRedirected({ from: url, to, statusCode });
+      } else if (statusCode < 500) {
         return pageLoadSucceeded(url);
       }
 
