@@ -19,11 +19,9 @@ import {
   pageLoadSucceeded,
   pageLoadFailed,
   pageRedirected,
-  notablePersonVisitedThroughSearch,
 } from 'store/features/logging/actions';
 import { LOCATION_CHANGE } from 'react-router-redux';
 import { createPath } from 'history';
-import { isActionOfType } from 'store/helpers';
 import { Observable } from 'rxjs/Observable';
 
 const sendLog = async (actions: Action[]) => {
@@ -81,38 +79,6 @@ export const loggingEpic: Epic<Action, StoreState> = action$ => {
       return pageLoadFailed(url);
     });
 
-  const observeSearchResultSelected$ = action$
-    .filter(action => {
-      if (isActionOfType(action, 'REQUEST_DATA')) {
-        return action.payload.key === 'notablePersonQuery';
-      }
-
-      return false;
-    })
-    .withLatestFrom(
-      action$.filter(action => {
-        if (isActionOfType(action, LOCATION_CHANGE)) {
-          return action.payload.pathname === '/search';
-        }
-
-        return false;
-      }),
-      action$.ofType('SEARCH_QUERY_CHANGED'),
-    )
-    .map(([requestDataAction, _, searchQueryChangedAction]) => {
-      const { requestId } = (requestDataAction as Action<
-        'REQUEST_DATA'
-      >).payload;
-      const { query } = (searchQueryChangedAction as Action<
-        'SEARCH_QUERY_CHANGED'
-      >).payload;
-
-      return notablePersonVisitedThroughSearch({
-        searchQuery: query,
-        notablePerson: requestId,
-      });
-    });
-
   const loggableActions$ = action$.filter(shouldActionBeLogged);
   let flushOnUnload$ = Observable.empty();
 
@@ -134,7 +100,5 @@ export const loggingEpic: Epic<Action, StoreState> = action$ => {
     .mergeMap(actions => actions)
     .ignoreElements();
 
-  return logInterestingEvents$
-    .merge(observePageLoad$)
-    .merge(observeSearchResultSelected$);
+  return logInterestingEvents$.merge(observePageLoad$);
 };
