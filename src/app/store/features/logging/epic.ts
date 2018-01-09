@@ -14,9 +14,11 @@ import {
   pageLoadSucceeded,
   pageLoadFailed,
   pageRedirected,
+  notablePersonVisitedThroughSearch,
 } from 'store/features/logging/actions';
 import { LOCATION_CHANGE } from 'react-router-redux';
 import { createPath } from 'history';
+import { isActionOfType } from 'store/helpers';
 
 const sendLog = async (action: Action) => {
   const url = new URL(`/log?branch=${__BRANCH__}`, __BASE__);
@@ -40,6 +42,7 @@ const loggableActions: Array<Action['type']> = [
   'PAGE_LOAD_SUCCEEDED',
   'PAGE_LOAD_FAILED',
   'UNHANDLED_ERROR_THROWN',
+  'NOTABLE_PERSON_VISITED_THROUGH_SEARCH',
 ];
 
 const shouldActionBeLogged = (action: Action) =>
@@ -67,6 +70,38 @@ export const loggingEpic: Epic<Action, StoreState> = action$ => {
       return pageLoadFailed(url);
     });
 
+  const observeSearchResultSelected$ = action$
+    .filter(action => {
+      if (isActionOfType(action, 'REQUEST_DATA')) {
+        return action.payload.key === 'notablePersonQuery';
+      }
+
+      return false;
+    })
+    .withLatestFrom(
+      action$.filter(action => {
+        if (isActionOfType(action, LOCATION_CHANGE)) {
+          return action.payload.pathname === '/search';
+        }
+
+        return false;
+      }),
+      action$.ofType('SEARCH_QUERY_CHANGED'),
+    )
+    .map(([requestDataAction, _, searchQueryChangedAction]) => {
+      const { requestId } = (requestDataAction as Action<
+        'REQUEST_DATA'
+      >).payload;
+      const { query } = (searchQueryChangedAction as Action<
+        'SEARCH_QUERY_CHANGED'
+      >).payload;
+
+      return notablePersonVisitedThroughSearch({
+        searchQuery: query,
+        notablePerson: requestId,
+      });
+    });
+
   // Send interesting actions to log endpoint
   const logInterestingEvents$ = action$
     .filter(shouldActionBeLogged)
@@ -79,5 +114,7 @@ export const loggingEpic: Epic<Action, StoreState> = action$ => {
     })
     .ignoreElements();
 
-  return logInterestingEvents$.merge(observePageLoad$);
+  return logInterestingEvents$
+    .merge(observePageLoad$)
+    .merge(observeSearchResultSelected$);
 };
