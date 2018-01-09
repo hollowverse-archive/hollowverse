@@ -8,8 +8,13 @@ import 'rxjs/add/operator/ignoreElements';
 import 'rxjs/add/operator/withLatestFrom';
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/merge';
+import 'rxjs/add/operator/mergeMap';
+import 'rxjs/add/operator/bufferWhen';
+import 'rxjs/add/operator/bufferCount';
+import 'rxjs/add/operator/share';
+import 'rxjs/add/observable/fromEvent';
+import 'rxjs/add/observable/empty';
 
-import { loadFetchPolyfill } from 'helpers/loadPolyfill';
 import {
   pageLoadSucceeded,
   pageLoadFailed,
@@ -19,23 +24,29 @@ import {
 import { LOCATION_CHANGE } from 'react-router-redux';
 import { createPath } from 'history';
 import { isActionOfType } from 'store/helpers';
+import { Observable } from 'rxjs/Observable';
 
-const sendLog = async (action: Action) => {
-  const url = new URL(`/log?branch=${__BRANCH__}`, __BASE__);
-  await loadFetchPolyfill();
-  await fetch(String(url), {
-    method: 'POST',
-    body: JSON.stringify({
-      ...action,
-      timestamp: new Date(),
-      isServer: __IS_SERVER__,
-    }),
+const sendLog = async (actions: Action[]) => {
+  const url = String(new URL(`/log?branch=${__BRANCH__}`, __BASE__));
+  const data = actions.map(action => ({
+    ...action,
+    timestamp: new Date(),
+    isServer: __IS_SERVER__,
+  }));
 
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
-  });
+  if (!__IS_SERVER__) {
+    navigator.sendBeacon(url, JSON.stringify(data));
+  } else {
+    await fetch(url, {
+      method: 'POST',
+      body: JSON.stringify(data),
+
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    });
+  }
 };
 
 const loggableActions: Array<Action['type']> = [
@@ -102,16 +113,25 @@ export const loggingEpic: Epic<Action, StoreState> = action$ => {
       });
     });
 
+  const loggableActions$ = action$.filter(shouldActionBeLogged);
+  let flushOnUnload$ = Observable.empty();
+
+  if (!__IS_SERVER__) {
+    flushOnUnload$ = Observable.fromEvent(window, 'unload');
+  }
+
   // Send interesting actions to log endpoint
-  const logInterestingEvents$ = action$
-    .filter(shouldActionBeLogged)
-    .do(async action => {
+  const logInterestingEvents$ = loggableActions$
+    .share()
+    .bufferWhen(() => loggableActions$.bufferCount(10).merge(flushOnUnload$))
+    .do(async actions => {
       try {
-        await sendLog(action);
+        await sendLog(actions);
       } catch (e) {
         console.error('Failed to send log event', e);
       }
     })
+    .mergeMap(actions => actions)
     .ignoreElements();
 
   return logInterestingEvents$

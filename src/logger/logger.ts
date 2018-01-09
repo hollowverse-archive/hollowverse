@@ -32,7 +32,9 @@ process.on('beforeExit', () => {
   sumoLogger.flushLogs();
 });
 
-export function log(data: any) {
+export function log(actions: any[]) {
   // Push a message to be logged
-  sumoLogger.log(data);
+  actions.forEach(d => {
+    sumoLogger.log(d);
+  });
 }
