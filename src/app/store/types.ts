@@ -85,9 +85,9 @@ export type ResolvedData = {
 export type ResolvedDataKey = keyof ResolvedData;
 
 export type AppState = {
-  statusCode: number;
-  shouldFocusSearch: boolean;
+  statusCode: 301 | 302 | 404 | 200 | 500;
   redirectionUrl: string | null;
+  shouldFocusSearch: boolean;
   alternativeSearchBoxText: string | null;
   resolvedData: {
     [K in keyof ResolvedData]: AsyncResult<ResolvedData[K] | null> & {
