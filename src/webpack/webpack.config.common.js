@@ -124,7 +124,7 @@ const config = {
       srcDirectory,
 
       // Fallback to node_modules dir
-      path.resolve(process.cwd(), 'node_modules'),
+      path.join(process.cwd(), 'node_modules'),
     ],
   },
 
