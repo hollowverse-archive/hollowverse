@@ -30,14 +30,22 @@ const sendLog = async (actions: Action[]) => {
   }
 
   const url = String(new URL(`/log?branch=${__BRANCH__}`, __BASE__));
-  const data = actions.map(action => ({
-    ...action,
-    timestamp: new Date(),
-    isServer: __IS_SERVER__,
-  }));
+
+  const data = JSON.stringify(
+    actions.map(action => ({
+      ...action,
+      timestamp: new Date(),
+      isServer: __IS_SERVER__,
+    })),
+  );
 
   if (!__IS_SERVER__) {
-    navigator.sendBeacon(url, JSON.stringify(data));
+    // The only reliable way to send network requests on page unload is to use
+    // `navigator.sendBeacon`.
+    // Asynchronous requests using `fetch` or `XMLHttpRequest` that are sent on page unload
+    // are ignored by the browser.
+    // See https://developer.mozilla.org/en-US/docs/Web/API/Navigator/sendBeacon
+    navigator.sendBeacon(url, data);
   } else {
     await fetch(url, {
       method: 'POST',
@@ -45,7 +53,7 @@ const sendLog = async (actions: Action[]) => {
 
       headers: {
         Accept: 'application/json',
-        'Content-Type': 'application/json',
+        'Content-Type': 'text/plain',
       },
     });
   }
@@ -93,12 +101,14 @@ export const loggingEpic: Epic<Action, StoreState> = action$ => {
   // Send interesting actions to log endpoint
   const logInterestingEvents$ = loggableActions$
     .share()
-    .bufferWhen(() => loggableActions$.bufferCount(10).merge(flushOnUnload$))
+    // Send batch of logs when either 10 log events
+    // are accumulated, or the user navigates away
+    .bufferWhen(() => loggableActions$.bufferCount(1).merge(flushOnUnload$))
     .do(async actions => {
       try {
         await sendLog(actions);
       } catch (e) {
-        console.error('Failed to send log event', e);
+        console.error('Failed to send log events', e);
       }
     })
     .mergeMap(actions => actions)
