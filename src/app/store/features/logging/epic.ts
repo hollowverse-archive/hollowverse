@@ -12,7 +12,9 @@ import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/bufferWhen';
 import 'rxjs/add/operator/bufferCount';
 import 'rxjs/add/operator/share';
+import 'rxjs/add/operator/subscribeOn';
 import 'rxjs/add/observable/fromEvent';
+import 'rxjs/add/observable/fromPromise';
 import 'rxjs/add/observable/empty';
 
 import {
@@ -23,6 +25,14 @@ import {
 import { LOCATION_CHANGE } from 'react-router-redux';
 import { createPath } from 'history';
 import { Observable } from 'rxjs/Observable';
+
+const getBestAvailableScheduler = async () => {
+  if ('requestIdleCallback' in global) {
+    return (await import('rxjs-requestidlecallback-scheduler')).idle;
+  }
+
+  return (await import('rxjs/scheduler/async')).async;
+};
 
 const sendLog = async (actions: Action[]) => {
   if (actions.length === 0) {
@@ -103,7 +113,7 @@ export const loggingEpic: Epic<Action, StoreState> = action$ => {
     .share()
     // Send batch of logs when either 10 log events
     // are accumulated, or the user navigates away
-    .bufferWhen(() => loggableActions$.bufferCount(1).merge(flushOnUnload$))
+    .bufferWhen(() => loggableActions$.bufferCount(2).merge(flushOnUnload$))
     .do(async actions => {
       try {
         await sendLog(actions);
@@ -114,5 +124,11 @@ export const loggingEpic: Epic<Action, StoreState> = action$ => {
     .mergeMap(actions => actions)
     .ignoreElements();
 
-  return logInterestingEvents$.merge(observePageLoad$);
+  return Observable.fromPromise(getBestAvailableScheduler()).mergeMap(
+    scheduler => {
+      return logInterestingEvents$
+        .merge(observePageLoad$)
+        .subscribeOn(scheduler);
+    },
+  );
 };
