@@ -25,6 +25,10 @@ import { createPath } from 'history';
 import { Observable } from 'rxjs/Observable';
 
 const sendLog = async (actions: Action[]) => {
+  if (actions.length === 0) {
+    return;
+  }
+
   const url = String(new URL(`/log?branch=${__BRANCH__}`, __BASE__));
   const data = actions.map(action => ({
     ...action,
