@@ -6,6 +6,10 @@ import { log } from '../logger/logger';
 
 const logEndpoint = express();
 
+/**
+ * For compatibility with `navigator.sendBeacon`, we are accepting
+ * plain text instead of JSON. We will parse the text as JSON manually.
+ */
 logEndpoint.use(bodyParser.text());
 
 // Set response type to application/json for all responses
@@ -15,12 +19,16 @@ logEndpoint.use((_, res, next) => {
 });
 
 logEndpoint.post('/', (req, res) => {
-  const body = JSON.parse(req.body);
-  if (isBodyValid(body)) {
-    log(body);
-    res.status(201); // 201 Created
-    res.send({});
-  } else {
+  try {
+    const body = JSON.parse(req.body);
+    if (isBodyValid(body)) {
+      log(body);
+      res.status(201); // 201 Created
+      res.send({});
+    } else {
+      throw new TypeError();
+    }
+  } catch {
     res.status(400);
     res.send({ error: 'Invalid Body' });
   }
