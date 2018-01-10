@@ -72,6 +72,7 @@ const sendLog = async (actions: Action[]) => {
 const loggableActions: Array<Action['type']> = [
   'PAGE_LOAD_SUCCEEDED',
   'PAGE_LOAD_FAILED',
+  'PAGE_REDIRECTED',
   'UNHANDLED_ERROR_THROWN',
   'SEARCH_RESULT_SELECTED',
 ];
