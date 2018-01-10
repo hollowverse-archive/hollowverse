@@ -7,7 +7,7 @@ import { Square } from 'components/Square/Square';
 import * as classes from './SearchResults.module.scss';
 
 type ResultsListProps = {
-  hits: AlgoliaResponse['hits'],
+  hits: AlgoliaResponse['hits'];
   onResultClick(path: string): any;
 };
 
@@ -23,17 +23,12 @@ export const ResultsList = ({ hits, onResultClick }: ResultsListProps) => {
         const photo = searchResult.mainPhoto;
         const path = `/${searchResult.slug}`;
         const onClick = () => {
-          console.log('Click');
           onResultClick(path);
         };
 
         return (
           <li key={searchResult.objectID} className={classes.result}>
-            <Link
-              className={classes.link}
-              to={path}
-              onClick={onClick}
-            >
+            <Link className={classes.link} to={path} onClick={onClick}>
               <div className={classes.photo}>
                 <Square>
                   <img
