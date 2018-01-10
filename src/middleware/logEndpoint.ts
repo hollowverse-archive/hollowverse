@@ -6,7 +6,7 @@ import { log } from '../logger/logger';
 
 const logEndpoint = express();
 
-logEndpoint.use(bodyParser.json());
+logEndpoint.use(bodyParser.text());
 
 // Set response type to application/json for all responses
 logEndpoint.use((_, res, next) => {
@@ -15,7 +15,7 @@ logEndpoint.use((_, res, next) => {
 });
 
 logEndpoint.post('/', (req, res) => {
-  const body = req.body;
+  const body = JSON.parse(req.body);
   if (isBodyValid(body)) {
     log(body);
     res.status(201); // 201 Created

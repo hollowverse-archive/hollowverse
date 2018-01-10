@@ -34,7 +34,7 @@ process.on('beforeExit', () => {
 
 export function log(actions: any[]) {
   // Push a message to be logged
-  actions.forEach(d => {
-    sumoLogger.log(d);
+  actions.forEach(action => {
+    sumoLogger.log(action);
   });
 }
