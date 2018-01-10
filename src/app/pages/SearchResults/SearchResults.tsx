@@ -3,7 +3,6 @@ import { StoreState } from 'store/types';
 
 import * as classes from './SearchResults.module.scss';
 
-import FlipMove from 'react-flip-move';
 import { Card } from 'components/Card/Card';
 import {
   AsyncResult,
@@ -14,9 +13,7 @@ import {
 import { AlgoliaResponse } from 'algoliasearch';
 import { connect } from 'react-redux';
 import { getSearchQuery } from 'store/features/search/selectors';
-import { Link } from 'react-router-dom';
 import { WithData } from 'hocs/WithData/WithData';
-import { Square } from 'components/Square/Square';
 import { Status } from 'components/Status/Status';
 import { SearchResultsSkeleton } from './SearchResultsSkeleton';
 
@@ -27,42 +24,15 @@ import searchIcon from 'icons/search.svg';
 import { SvgIcon } from 'components/SvgIcon/SvgIcon';
 import { LinkButton } from 'components/Button/Button';
 import { forceReload } from 'helpers/forceReload';
+import { searchResultSelected } from 'store/features/logging/actions';
+
+import { ResultsList } from './ResultsList';
 
 type Props = {
   searchQuery: string | null;
+  searchResultSelected(path: string): any;
 };
 
-const ResultsList = ({ hits }: { hits: AlgoliaResponse['hits'] }) => {
-  return (
-    <FlipMove
-      typeName="ol"
-      enterAnimation="fade"
-      leaveAnimation="fade"
-      duration={100}
-    >
-      {hits.map(searchResult => {
-        const photo = searchResult.mainPhoto;
-
-        return (
-          <li key={searchResult.objectID} className={classes.result}>
-            <Link className={classes.link} to={`/${searchResult.slug}`}>
-              <div className={classes.photo}>
-                <Square>
-                  <img
-                    src={photo ? photo.url : null}
-                    role="presentation"
-                    alt={undefined}
-                  />
-                </Square>
-              </div>
-              <div className={classes.text}>{searchResult.name}</div>
-            </Link>
-          </li>
-        );
-      })}
-    </FlipMove>
-  );
-};
 
 class Page extends React.PureComponent<Props> {
   load = async (): Promise<null | AlgoliaResponse> => {
@@ -93,8 +63,9 @@ class Page extends React.PureComponent<Props> {
               if (isSuccessResult(result) || isOptimisticResult(result)) {
                 const value = result.value;
 
+                // User just landed on search page, page is empty
                 if (!searchQuery || !value) {
-                  return null;
+                  return <Status code={200} />;
                 }
 
                 if (value.hits.length === 0) {
@@ -128,7 +99,10 @@ class Page extends React.PureComponent<Props> {
                 return (
                   <div>
                     <Card className={classes.card}>
-                      <ResultsList hits={value.hits} />
+                      <ResultsList
+                        hits={value.hits}
+                        onResultClick={this.props.searchResultSelected}
+                      />
                       <Status key={searchQuery} code={200} />
                     </Card>
                   </div>
@@ -165,6 +139,9 @@ class Page extends React.PureComponent<Props> {
   }
 }
 
-export const SearchResults = connect((state: StoreState) => ({
-  searchQuery: getSearchQuery(state),
-}))(Page);
+export const SearchResults = connect(
+  (state: StoreState) => ({
+    searchQuery: getSearchQuery(state),
+  }),
+  ({ searchResultSelected }),
+)(Page);

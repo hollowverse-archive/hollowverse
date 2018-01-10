@@ -51,7 +51,7 @@ const loggableActions: Array<Action['type']> = [
   'PAGE_LOAD_SUCCEEDED',
   'PAGE_LOAD_FAILED',
   'UNHANDLED_ERROR_THROWN',
-  'NOTABLE_PERSON_VISITED_THROUGH_SEARCH',
+  'SEARCH_RESULT_SELECTED',
 ];
 
 const shouldActionBeLogged = (action: Action) =>
