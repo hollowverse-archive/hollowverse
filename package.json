@@ -93,8 +93,8 @@
     "and_chr >= 62",
     "chrome >= 55",
     "edge >= 14",
-    "firefox >= 51",
-    "ios_saf >= 8.4",
+    "firefox >= 57",
+    "ios_saf >= 9.3",
     "safari >= 9.1"
   ],
   "dependencies": {
@@ -111,6 +111,7 @@
     "date-fns": "^1.29.0",
     "dom-ready": "^1.0.6",
     "domready": "^1.0.8",
+    "empty-module": "^0.0.2",
     "express": "^4.15.2",
     "graphql": "^0.11.7",
     "graphql-request": "^1.4.0",
