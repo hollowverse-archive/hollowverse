@@ -33,7 +33,6 @@ type Props = {
   searchResultSelected(path: string): any;
 };
 
-
 class Page extends React.PureComponent<Props> {
   load = async (): Promise<null | AlgoliaResponse> => {
     const { searchQuery } = this.props;
@@ -77,22 +76,6 @@ class Page extends React.PureComponent<Props> {
                     >
                       <Status key={searchQuery} code={404} />
                     </MessageWithIcon>
-                  );
-                }
-
-                if (
-                  // If the page is accessed without JS and we only have one
-                  // matching result, redirect to the result's page instead
-                  // of showing the search results page.
-                  __IS_SERVER__ &&
-                  value.hits.length === 1
-                ) {
-                  return (
-                    <Status
-                      key={searchQuery}
-                      code={301}
-                      redirectTo={`${value.hits[0].slug}`}
-                    />
                   );
                 }
 
@@ -143,5 +126,5 @@ export const SearchResults = connect(
   (state: StoreState) => ({
     searchQuery: getSearchQuery(state),
   }),
-  ({ searchResultSelected }),
+  { searchResultSelected },
 )(Page);
