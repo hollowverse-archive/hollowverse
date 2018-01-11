@@ -9,8 +9,9 @@ import 'rxjs/add/operator/withLatestFrom';
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/merge';
 import 'rxjs/add/operator/mergeMap';
-import 'rxjs/add/operator/bufferWhen';
+import 'rxjs/add/operator/buffer';
 import 'rxjs/add/operator/bufferCount';
+import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/share';
 import 'rxjs/add/operator/subscribeOn';
 import 'rxjs/add/observable/fromEvent';
@@ -25,6 +26,7 @@ import {
 import { LOCATION_CHANGE } from 'react-router-redux';
 import { createPath } from 'history';
 import { Observable } from 'rxjs/Observable';
+import { isEqual, pick } from 'lodash';
 
 const getBestAvailableScheduler = async () => {
   if ('requestIdleCallback' in global) {
@@ -34,38 +36,42 @@ const getBestAvailableScheduler = async () => {
   return (await import('rxjs/scheduler/async')).async;
 };
 
-const sendLog = async (actions: Action[]) => {
-  if (actions.length === 0) {
-    return;
-  }
+const sendLogs = async (actions: Action[]) => {
+  try {
+    if (actions.length === 0) {
+      return;
+    }
 
-  const url = String(new URL(`/log?branch=${__BRANCH__}`, __BASE__));
+    const url = String(new URL(`/log?branch=${__BRANCH__}`, __BASE__));
 
-  const data = JSON.stringify(
-    actions.map(action => ({
-      ...action,
-      timestamp: new Date(),
-      isServer: __IS_SERVER__,
-    })),
-  );
+    const data = JSON.stringify(
+      actions.map(action => ({
+        ...action,
+        timestamp: new Date(),
+        isServer: __IS_SERVER__,
+      })),
+    );
 
-  if (!__IS_SERVER__) {
-    // The only reliable way to send network requests on page unload is to use
-    // `navigator.sendBeacon`.
-    // Asynchronous requests using `fetch` or `XMLHttpRequest` that are sent on page unload
-    // are ignored by the browser.
-    // See https://developer.mozilla.org/en-US/docs/Web/API/Navigator/sendBeacon
-    navigator.sendBeacon(url, data);
-  } else {
-    await fetch(url, {
-      method: 'POST',
-      body: JSON.stringify(data),
+    if (!__IS_SERVER__) {
+      // The only reliable way to send network requests on page unload is to use
+      // `navigator.sendBeacon`.
+      // Asynchronous requests using `fetch` or `XMLHttpRequest` that are sent on page unload
+      // are ignored by the browser.
+      // See https://developer.mozilla.org/en-US/docs/Web/API/Navigator/sendBeacon
+      navigator.sendBeacon(url, data);
+    } else {
+      await fetch(url, {
+        method: 'POST',
+        body: JSON.stringify(data),
 
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'text/plain',
-      },
-    });
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'text/plain',
+        },
+      });
+    }
+  } catch (e) {
+    console.error('Failed to send logs', e);
   }
 };
 
@@ -80,10 +86,53 @@ const loggableActions: Array<Action['type']> = [
 const shouldActionBeLogged = (action: Action) =>
   loggableActions.includes(action.type);
 
+const locationCompareKeys = ['search', 'pathname', 'hash'];
+
 export const loggingEpic: Epic<Action, StoreState> = action$ => {
   const observePageLoad$ = action$
     .ofType('SET_STATUS_CODE')
     .withLatestFrom(action$.ofType(LOCATION_CHANGE))
+    // When on search page, do not log a page visit every time
+    // the query in the URL changes, only look at the pathname instead
+    //
+    // This is to avoid sending too many logs while the user is typing
+    // the search query, as the URL will keep changing to reflect the
+    // search term: /search?query=t, /search?query=to, /search?query=tom
+    .distinctUntilChanged((x, y) => {
+      const [currentSetStatusCodeAction, currentLocationChangeAction] = x;
+      const [nextSetStatusCodeAction, nextLocationChangeAction] = y;
+      const setStatusCodeActionPayloadX = (currentSetStatusCodeAction as Action<
+        'SET_STATUS_CODE'
+      >).payload;
+      const setStatusCodeActionPayloadY = (nextSetStatusCodeAction as Action<
+        'SET_STATUS_CODE'
+      >).payload;
+      const locationChangePayloadX = (currentLocationChangeAction as Action<
+        typeof LOCATION_CHANGE
+      >).payload;
+      const locationChangePayloadY = (nextLocationChangeAction as Action<
+        typeof LOCATION_CHANGE
+      >).payload;
+      const areStatusCodeActionsEqual = isEqual(
+        setStatusCodeActionPayloadX,
+        setStatusCodeActionPayloadY,
+      );
+
+      if (
+        locationChangePayloadX.pathname === '/search' &&
+        locationChangePayloadY.pathname === '/search'
+      ) {
+        return areStatusCodeActionsEqual;
+      }
+
+      return (
+        areStatusCodeActionsEqual &&
+        isEqual(
+          pick(locationChangePayloadX, locationCompareKeys),
+          pick(locationChangePayloadY, locationCompareKeys),
+        )
+      );
+    })
     .map(([setStatusCodeAction, locationChangeAction]) => {
       const url = createPath(
         (locationChangeAction as Action<typeof LOCATION_CHANGE>).payload,
@@ -102,34 +151,28 @@ export const loggingEpic: Epic<Action, StoreState> = action$ => {
       return pageLoadFailed(url);
     });
 
-  const loggableActions$ = action$.filter(shouldActionBeLogged);
-  let flushOnUnload$ = Observable.empty();
+  const loggableActions$ = action$.filter(shouldActionBeLogged).share();
+  let flushOnUnload$;
 
-  if (!__IS_SERVER__) {
+  // tslint:disable-next-line:prefer-conditional-expression
+  if (__IS_SERVER__) {
+    flushOnUnload$ = Observable.empty();
+  } else {
     flushOnUnload$ = Observable.fromEvent(window, 'unload');
   }
 
-  // Send interesting actions to log endpoint
-  const logInterestingEvents$ = loggableActions$
-    .share()
-    // Send batch of logs when either 10 log events
-    // are accumulated, or the user navigates away
-    .bufferWhen(() => loggableActions$.bufferCount(2).merge(flushOnUnload$))
-    .do(async actions => {
-      try {
-        await sendLog(actions);
-      } catch (e) {
-        console.error('Failed to send log events', e);
-      }
-    })
-    .mergeMap(actions => actions)
-    .ignoreElements();
+  const logOnUnload$ = loggableActions$.buffer(flushOnUnload$);
+  const logOnIdle$ = loggableActions$.bufferCount(10);
 
   return Observable.fromPromise(getBestAvailableScheduler()).mergeMap(
     scheduler => {
-      return logInterestingEvents$
-        .merge(observePageLoad$)
-        .subscribeOn(scheduler);
+      return logOnIdle$
+        .subscribeOn(scheduler)
+        .merge(logOnUnload$)
+        .do(sendLogs)
+        .mergeMap(actions => actions)
+        .ignoreElements()
+        .merge(observePageLoad$);
     },
   );
 };
