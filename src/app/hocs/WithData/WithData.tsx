@@ -107,9 +107,17 @@ class Wrapper extends React.Component<Props> {
   }
 
   render() {
-    const { result = pendingResult } = this.props;
+    const { result, requestId, allowOptimisticUpdates } = this.props;
+    let finalResult = result;
 
-    return this.props.children({ result });
+    if (result.requestId !== requestId && !allowOptimisticUpdates) {
+      finalResult = {
+        ...pendingResult,
+        requestId,
+      };
+    }
+
+    return this.props.children({ result: finalResult });
   }
 }
 

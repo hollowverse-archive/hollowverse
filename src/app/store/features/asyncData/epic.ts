@@ -14,8 +14,13 @@ import 'rxjs/add/operator/filter';
 import 'rxjs/add/observable/fromPromise';
 import 'rxjs/add/observable/of';
 
-import { promiseToAsyncResult, pendingResult } from 'helpers/asyncResults';
+import {
+  promiseToAsyncResult,
+  pendingResult,
+  isSuccessResult,
+} from 'helpers/asyncResults';
 import { isActionOfType } from 'store/helpers';
+import { getResolvedDataForKey } from 'store/features/asyncData/selectors';
 
 export const dataResolverEpic: Epic<Action, StoreState> = (action$, store) => {
   return action$.ofType('REQUEST_DATA').mergeMap(action => {
@@ -27,21 +32,23 @@ export const dataResolverEpic: Epic<Action, StoreState> = (action$, store) => {
       allowOptimisticUpdates,
     } = (action as Action<'REQUEST_DATA'>).payload;
 
+    const previousResult = getResolvedDataForKey(store.getState())(key);
+
     return Observable.of(
       setResolvedData({
         key,
         forPage,
-        data: allowOptimisticUpdates
-          ? {
-              ...store.getState().resolvedData[key],
-              hasError: false,
-              isInProgress: true,
-              requestId,
-            }
-          : {
-              ...pendingResult,
-              requestId,
-            },
+        data:
+          allowOptimisticUpdates && isSuccessResult<any>(previousResult)
+            ? {
+                ...(previousResult as any),
+                isInProgress: true,
+                requestId,
+              }
+            : {
+                ...pendingResult,
+                requestId,
+              },
       }),
     )
       .merge(

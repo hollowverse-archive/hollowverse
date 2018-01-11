@@ -56,11 +56,11 @@ const Page = withRouter(
           load={this.load}
         >
           {({ result }: { result: AsyncResult<NotablePersonQuery | null> }) => {
-            if (isPendingResult(result)) {
+            if (result.value === null || isPendingResult(result)) {
               return <NotablePersonSkeleton />;
             }
 
-            if (isErrorResult(result) || !result.value) {
+            if (isErrorResult(result)) {
               const { location } = this.props;
 
               return (
@@ -79,7 +79,8 @@ const Page = withRouter(
               );
             }
 
-            const { notablePerson } = result.value;
+            // tslint:disable-next-line:no-non-null-assertion
+            const { notablePerson } = result.value!;
 
             if (!notablePerson) {
               return (
