@@ -161,7 +161,7 @@ export const loggingEpic: Epic<Action, StoreState> = action$ => {
   }
 
   const logOnUnload$ = loggableActions$.buffer(flushOnUnload$);
-  const logOnIdle$ = loggableActions$.bufferCount(1);
+  const logOnIdle$ = loggableActions$.bufferCount(10);
 
   return Observable.fromPromise(getBestAvailableScheduler()).mergeMap(
     scheduler => {
