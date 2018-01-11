@@ -99,18 +99,18 @@ export const loggingEpic: Epic<Action, StoreState> = action$ => {
     // the search query, as the URL will keep changing to reflect the
     // search term: /search?query=t, /search?query=to, /search?query=tom
     .distinctUntilChanged((x, y) => {
-      const [currentSetStatusCodeAction, currentLocationChangeAction] = x;
-      const [nextSetStatusCodeAction, nextLocationChangeAction] = y;
-      const setStatusCodeActionPayloadX = (currentSetStatusCodeAction as Action<
+      const [setStatusCodeActionX, locationChangeActionX] = x;
+      const [setStatusCodeActionY, locationChangeActionY] = y;
+      const setStatusCodeActionPayloadX = (setStatusCodeActionX as Action<
         'SET_STATUS_CODE'
       >).payload;
-      const setStatusCodeActionPayloadY = (nextSetStatusCodeAction as Action<
+      const setStatusCodeActionPayloadY = (setStatusCodeActionY as Action<
         'SET_STATUS_CODE'
       >).payload;
-      const locationChangePayloadX = (currentLocationChangeAction as Action<
+      const locationChangePayloadX = (locationChangeActionX as Action<
         typeof LOCATION_CHANGE
       >).payload;
-      const locationChangePayloadY = (nextLocationChangeAction as Action<
+      const locationChangePayloadY = (locationChangeActionY as Action<
         typeof LOCATION_CHANGE
       >).payload;
       const areStatusCodeActionsEqual = isEqual(
