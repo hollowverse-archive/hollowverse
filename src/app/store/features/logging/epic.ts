@@ -12,7 +12,6 @@ import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/buffer';
 import 'rxjs/add/operator/bufferCount';
 import 'rxjs/add/operator/distinctUntilChanged';
-import 'rxjs/add/operator/share';
 import 'rxjs/add/operator/subscribeOn';
 import 'rxjs/add/observable/fromEvent';
 import 'rxjs/add/observable/fromPromise';
@@ -151,7 +150,7 @@ export const loggingEpic: Epic<Action, StoreState> = action$ => {
       return pageLoadFailed(url);
     });
 
-  const loggableActions$ = action$.filter(shouldActionBeLogged).share();
+  const loggableActions$ = action$.filter(shouldActionBeLogged);
   let flushOnUnload$;
 
   // tslint:disable-next-line:prefer-conditional-expression
