@@ -30,12 +30,13 @@
     "server/app-server/start": "node dist/appServer.js",
     "server/main-server/dev":
       "PORT=${PORT:-8081} nodemon -q --watch src --ignore src/app --ignore src/webpack --ext ts,tsx,json --exec 'node --inspect=0.0.0.0:${SERVER_DEBUG_PORT:-9231} -r 'ts-node/register' src/mainServer.ts'",
+    "remotedev": "remotedev --hostname=localhost --port=8000",
     "server/main-server/start": "node dist/mainServer.js",
     "server/build": "tsc --project ./src",
     "build": "npm-run-all -s clean -p app/build server/build",
     "start": "NODE_ENV=production run-p server/main-server/start",
     "dev":
-      "NODE_ENV=development API_ENDPOINT=${API_ENDPOINT:-https://api.hollowverse.com/graphql} npm-run-all -l -s clean -p app/graphql/dev server/app-server/dev",
+      "NODE_ENV=development API_ENDPOINT=${API_ENDPOINT:-https://api.hollowverse.com/graphql} npm-run-all -l -s clean -p app/graphql/dev server/app-server/dev remotedev",
     "clean":
       "del-cli './src/app/**/*.module.scss.d.ts' './dist' && mkdir -p ./dist",
     "validate-filenames": "validate-filenames -c commonconfig.js",
