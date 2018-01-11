@@ -64,7 +64,12 @@ export type ActionTypeToPayloadType = {
       requestId: string | null;
     };
   };
-  UNHANDLED_ERROR_THROWN: any;
+  UNHANDLED_ERROR_THROWN: {
+    message: string;
+    source?: string;
+    line?: number;
+    column?: number;
+  };
   PAGE_LOAD_FAILED: string;
   PAGE_LOAD_SUCCEEDED: string;
   PAGE_REDIRECTED: {

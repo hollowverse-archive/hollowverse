@@ -1,5 +1,5 @@
 import { isPlainObject } from 'lodash';
-import { Action } from 'redux';
+import { Action } from 'store/types';
 
 export function isBodyValid(body: any): body is Action[] {
   return (

@@ -1,8 +1,8 @@
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
 
-import { isBodyValid } from '../logger/utils';
-import { log } from '../logger/logger';
+import { isBodyValid } from './utils';
+import { log } from './logger';
 
 const logEndpoint = express();
 
@@ -18,19 +18,19 @@ logEndpoint.use((_, res, next) => {
   next();
 });
 
-logEndpoint.post('/', (req, res) => {
+logEndpoint.post('/', async (req, res, next) => {
   try {
     const body = JSON.parse(req.body);
     if (isBodyValid(body)) {
-      log(body);
+      await log(body);
       res.status(201); // 201 Created
       res.send({});
     } else {
-      throw new TypeError();
+      res.status(400);
+      res.send({ error: 'Invalid Body' });
     }
-  } catch {
-    res.status(400);
-    res.send({ error: 'Invalid Body' });
+  } catch (e) {
+    next(e);
   }
 });
 

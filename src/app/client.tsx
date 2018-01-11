@@ -43,6 +43,10 @@ if (module.hot) {
 
 domready(renderApp);
 
+setTimeout(() => {
+  throw new TypeError('Synthetic error');
+}, 2000);
+
 // Catch unhandled errors and inform the store
 window.onerror = (message, source, line, column) => {
   store.dispatch(

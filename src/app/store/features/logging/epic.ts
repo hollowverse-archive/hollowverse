@@ -136,14 +136,14 @@ export const loggingEpic: Epic<Action, StoreState> = action$ => {
       const url = createPath(
         (locationChangeAction as Action<typeof LOCATION_CHANGE>).payload,
       );
-      const statusCode = (setStatusCodeAction as Action<'SET_STATUS_CODE'>)
-        .payload.code;
+      const statusCodePayload = (setStatusCodeAction as Action<'SET_STATUS_CODE'>)
+        .payload;
 
-      if (statusCode === 301 || statusCode === 302) {
-        const to = setStatusCodeAction.payload.redirectTo;
+      if (statusCodePayload.code === 301 || statusCodePayload.code === 302) {
+        const to = statusCodePayload.redirectTo;
 
-        return pageRedirected({ from: url, to, statusCode });
-      } else if (statusCode < 500) {
+        return pageRedirected({ from: url, to, statusCode: statusCodePayload.code });
+      } else if (statusCodePayload.code < 500) {
         return pageLoadSucceeded(url);
       }
 
@@ -161,7 +161,7 @@ export const loggingEpic: Epic<Action, StoreState> = action$ => {
   }
 
   const logOnUnload$ = loggableActions$.buffer(flushOnUnload$);
-  const logOnIdle$ = loggableActions$.bufferCount(10);
+  const logOnIdle$ = loggableActions$.bufferCount(1);
 
   return Observable.fromPromise(getBestAvailableScheduler()).mergeMap(
     scheduler => {
