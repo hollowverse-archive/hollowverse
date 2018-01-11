@@ -1,7 +1,8 @@
 import { isPlainObject } from 'lodash';
-import { Action } from 'store/types';
 
-export function isBodyValid(body: any): body is Action[] {
+import { LoggedAction } from './types';
+
+export function isBodyValid(body: any): body is LoggedAction[] {
   return (
     Array.isArray(body) &&
     body.every(

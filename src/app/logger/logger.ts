@@ -8,7 +8,7 @@ import { URL } from 'url';
 
 import { noop } from 'lodash';
 
-import { Action } from 'store/types';
+import { LoggedAction } from './types';
 import { isActionOfType } from 'store/helpers';
 
 const SECRETS_FILE_PATH = path.resolve(process.cwd(), 'secrets', 'sumo.json');
@@ -33,7 +33,7 @@ process.on('beforeExit', () => {
   sumoLogger.flushLogs();
 });
 
-const transformActionForLogging = async (action: Action) => {
+const transformActionForLogging = async (action: LoggedAction): Promise<LoggedAction> => {
   if (isActionOfType(action, 'UNHANDLED_ERROR_THROWN')) {
     const { message, source, line, column } = action.payload;
     if (source && line && column) {
@@ -44,8 +44,11 @@ const transformActionForLogging = async (action: Action) => {
       const originalPosition = consumer.originalPositionFor({ line, column });
 
       return {
-        message,
-        ...originalPosition,
+        ...action,
+        payload: {
+          message,
+          ...originalPosition,
+        },
       };
     }
   }
@@ -53,7 +56,7 @@ const transformActionForLogging = async (action: Action) => {
   return action;
 };
 
-export async function log(actions: Action[]) {
+export async function log(actions: LoggedAction[]) {
   await bluebird.map(
     actions,
     transformActionForLogging
