@@ -129,9 +129,9 @@ export class AsyncComponent<T = any> extends React.PureComponent<
         const { timeout } = this.props;
         if (timeout) {
           promises.push(
-            // tslint:disable-next-line:no-object-literal-type-assertion
             delay(timeout).then(
               () =>
+                // tslint:disable-next-line:no-object-literal-type-assertion
                 ({
                   hasError: true,
                   hasTimedOut: true,
