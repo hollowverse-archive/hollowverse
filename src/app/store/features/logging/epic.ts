@@ -43,7 +43,7 @@ const sendLogs = async (actions: Action[]) => {
     if (actions.length === 0) {
       return;
     }
-        
+
     const data = JSON.stringify(
       actions.map(action => ({
         ...action,
@@ -77,9 +77,9 @@ const sendLogs = async (actions: Action[]) => {
       // to be unresponsive.
       // Asynchronus requests are ignored by browsers.
       const request = new XMLHttpRequest();
+      request.open('POST', logEndpointUrl, false);
       request.setRequestHeader('Accept', 'application/json');
       request.setRequestHeader('Content-Type', 'text/plain');
-      request.open('POST', logEndpointUrl, false);
       request.send(data);
     }
   } catch (e) {
@@ -149,13 +149,18 @@ export const loggingEpic: Epic<Action, StoreState> = action$ => {
       const url = createPath(
         (locationChangeAction as Action<typeof LOCATION_CHANGE>).payload,
       );
-      const statusCodePayload = (setStatusCodeAction as Action<'SET_STATUS_CODE'>)
-        .payload;
+      const statusCodePayload = (setStatusCodeAction as Action<
+        'SET_STATUS_CODE'
+      >).payload;
 
       if (statusCodePayload.code === 301 || statusCodePayload.code === 302) {
         const to = statusCodePayload.redirectTo;
 
-        return pageRedirected({ from: url, to, statusCode: statusCodePayload.code });
+        return pageRedirected({
+          from: url,
+          to,
+          statusCode: statusCodePayload.code,
+        });
       } else if (statusCodePayload.code < 500) {
         return pageLoadSucceeded(url);
       }
@@ -170,8 +175,7 @@ export const loggingEpic: Epic<Action, StoreState> = action$ => {
   if (__IS_SERVER__) {
     flushOnUnload$ = Observable.empty();
   } else {
-    flushOnUnload$ = Observable
-      .fromEvent(window, 'pagehide') // `pagehide` is for Safari
+    flushOnUnload$ = Observable.fromEvent(window, 'pagehide') // `pagehide` is for Safari
       .merge(Observable.fromEvent(window, 'unload'));
   }
 
