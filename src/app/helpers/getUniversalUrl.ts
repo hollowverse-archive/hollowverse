@@ -1,14 +1,16 @@
+import { URL } from 'url';
+
 /**
  * Unlike browsers, Node.js has no idea what the domain
  * of the server is, so all URLs must be absolute.
- * 
+ *
  * This helper function returns a fully qualified URL on server, and a
  * relative URL on the client.
- * 
+ *
  * **Example**: Given a value `"/log"` for the `path` parameter,
  * this function returns `"https://hollowverse.com/log"` on the server
  * and `"/log"` on the client.
- * 
+ *
  * While we could of course return a full URL on the client as well,
  * a relative URL works better in development environments.
  */
@@ -21,4 +23,3 @@ export function getUniversalUrl(path: string) {
   // because of an issue in Safari `URL` implementation
   return path;
 }
-
