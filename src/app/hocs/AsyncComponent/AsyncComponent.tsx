@@ -27,9 +27,9 @@ type AsyncProps<T> = {
    * before we trigger the "loading" state. If the image is already in the browser cache,
    * the browser will usually finish loading the image before the 200ms deadline,
    * and the loading state will never trigger, thus we avoid flashing.
-   * Defaults to `200`.
+   * Defaults to `null`.
    */
-  delay?: number;
+  delay?: number | null;
 
   /** Only called client-side */
   load(): Promise<T>;
@@ -77,7 +77,7 @@ export class AsyncComponent<T = any> extends React.PureComponent<
   State<T | null>
 > {
   static defaultProps: Partial<AsyncProps<any>> = {
-    delay: 200,
+    delay: null,
     timeout: 10000,
   };
 
@@ -93,7 +93,12 @@ export class AsyncComponent<T = any> extends React.PureComponent<
     const loadPromise = this.props.load();
 
     this.setState(
-      { value: null, isInProgress: false, hasError: false, hasTimedOut: false },
+      {
+        value: null,
+        isInProgress: !this.props.delay,
+        hasError: false,
+        hasTimedOut: false,
+      },
       () => {
         const promises: Array<Promise<Partial<State<T | null>>>> = [];
 
@@ -122,10 +127,15 @@ export class AsyncComponent<T = any> extends React.PureComponent<
         }
 
         const { timeout } = this.props;
-        if (timeout !== null && timeout !== undefined) {
+        if (timeout) {
           promises.push(
-            delay(timeout).then(async () =>
-              Promise.reject({ hasTimedOut: true }),
+            // tslint:disable-next-line:no-object-literal-type-assertion
+            delay(timeout).then(
+              () =>
+                ({
+                  hasError: true,
+                  hasTimedOut: true,
+                } as Partial<ErrorResult>),
             ),
           );
         }
@@ -133,11 +143,14 @@ export class AsyncComponent<T = any> extends React.PureComponent<
         Promise.race(promises)
           .then(async patch => {
             this.setState(patch as any);
-            const value = await loadPromise;
-            this.setState({ value, isInProgress: false });
+
+            if (!patch.hasTimedOut) {
+              const value = await loadPromise;
+              this.setState({ value, isInProgress: false });
+            }
           })
-          .catch(patch => {
-            this.setState({ ...patch, isInProgress: false, hasError: true });
+          .catch(() => {
+            this.setState({ isInProgress: false, hasError: true });
           });
       },
     );

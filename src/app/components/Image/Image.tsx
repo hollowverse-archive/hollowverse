@@ -35,7 +35,7 @@ export class Image extends React.PureComponent<Props> {
 
   render() {
     return (
-      <AsyncComponent load={this.load}>
+      <AsyncComponent delay={200} load={this.load}>
         {({ result: { isInProgress, hasError } }) => {
           const {
             className,
