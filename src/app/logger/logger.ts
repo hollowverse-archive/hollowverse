@@ -33,13 +33,15 @@ process.on('beforeExit', () => {
   sumoLogger.flushLogs();
 });
 
-const transformActionForLogging = async (action: LoggedAction): Promise<LoggedAction> => {
+const transformActionForLogging = async (
+  action: LoggedAction,
+): Promise<LoggedAction> => {
   if (isActionOfType(action, 'UNHANDLED_ERROR_THROWN')) {
     const { message, source, line, column } = action.payload;
     if (source && line && column) {
-      const sourceMap = await fetch(
-        `${source}.map?branch=${__BRANCH__}`
-      ).then(async r => r.json());
+      const sourceMap = await fetch(`${source}.map?branch=${__BRANCH__}`).then(
+        async r => r.json(),
+      );
       const consumer = new SourceMapConsumer(sourceMap);
       const originalPosition = consumer.originalPositionFor({ line, column });
 
@@ -57,10 +59,12 @@ const transformActionForLogging = async (action: LoggedAction): Promise<LoggedAc
 };
 
 export async function log(actions: LoggedAction[]) {
-  await bluebird.map(
-    actions,
-    transformActionForLogging
-  ).each(action => {
-    sumoLogger.log(action);
-  });
+  await bluebird
+    .map(actions, transformActionForLogging)
+    .each((action: LoggedAction) => {
+      sumoLogger.log({
+        ...action,
+        timestamp: new Date(action.timestamp),
+      });
+    });
 }
