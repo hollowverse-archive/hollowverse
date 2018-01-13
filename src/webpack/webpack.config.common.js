@@ -147,7 +147,7 @@ const config = {
         {
           __IS_DEBUG__: isDebug,
           __BRANCH__: process.env.BRANCH,
-          __COMMIT_ID__: process.env.COMMIT,
+          __COMMIT_ID__: process.env.COMMIT_ID,
           __BASE__: isProd
             ? 'https://hollowverse.com'
             : `http://localhost:${process.env.APP_SERVER_PORT || 3001}`,
