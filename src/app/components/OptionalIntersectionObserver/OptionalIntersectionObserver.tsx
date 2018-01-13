@@ -32,8 +32,7 @@ export const OptionalIntersectionObserver = universal<Props>(
     async load() {
       const supportsIntersectionObserver =
         'IntersectionObserver' in global &&
-        'IntersectionObserverEntry' in global &&
-        'intersectionRatio' in IntersectionObserverEntry.prototype;
+        'IntersectionObserverEntry' in global;
 
       if (supportsIntersectionObserver) {
         return import('react-intersection-observer');
