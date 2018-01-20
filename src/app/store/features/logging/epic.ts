@@ -15,7 +15,6 @@ import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/subscribeOn';
 import 'rxjs/add/observable/fromEvent';
 import 'rxjs/add/observable/fromPromise';
-import 'rxjs/add/observable/empty';
 
 import {
   pageLoadSucceeded,
