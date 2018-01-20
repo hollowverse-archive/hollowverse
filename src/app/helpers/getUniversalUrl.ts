@@ -13,6 +13,10 @@ import { URL } from 'url';
  *
  * While we could of course return a full URL on the client as well,
  * a relative URL works better in development environments.
+ *
+ * Note: it's safe to use this with absolute URLs,
+ * i.e. if you pass `https://example.com/example`, it
+ * would be returned as-is.
  */
 export function getUniversalUrl(path: string) {
   if (__IS_SERVER__) {

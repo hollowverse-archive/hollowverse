@@ -152,7 +152,11 @@ const config = {
             ? 'https://hollowverse.com'
             : `http://localhost:${process.env.APP_SERVER_PORT || 3001}`,
 
-          __API_ENDPOINT__: process.env.API_ENDPOINT,
+          // To avoid issues with cross-origin requests in development,
+          // the API endpoint is mapped to an endpoint on the same origin
+          // which proxies the requests to the actual defined endpoint
+          // The proxy is defined in appServer.ts
+          __API_ENDPOINT__: isProd ? process.env.API_ENDPOINT : '/__api',
           'process.env.NODE_ENV': process.env.NODE_ENV,
           isHot,
         },
