@@ -130,7 +130,7 @@ class Wrapper extends React.Component<Props> {
  * * Server-side rendering with the resolved data from the function
  * * The ability to opt-out of server-side rendering per-component (`props.clientOnly`)
  * * Optimistic results by keeping the results of
- *   the previous call to the load function (`props.allowOptimisticResults`)
+ *   the previous call to the load function (`props.allowOptimisticUpdates`)
  * * Integration with Redux: the results are stored in Redux store and provided
  *   to the wrapped component.
  *
