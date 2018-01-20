@@ -26,66 +26,8 @@ import { LOCATION_CHANGE } from 'react-router-redux';
 import { createPath } from 'history';
 import { Observable } from 'rxjs/Observable';
 import { isEqual, pick } from 'lodash';
-import { getUniversalUrl } from 'helpers/getUniversalUrl';
 
-const getBestAvailableScheduler = async () => {
-  if ('requestIdleCallback' in global) {
-    return (await import('rxjs-requestidlecallback-scheduler')).idle;
-  }
-
-  return (await import('rxjs/scheduler/async')).async;
-};
-
-const logEndpointUrl = getUniversalUrl(`/log?branch=${__BRANCH__}`);
-
-const sendLogs = async (actions: Action[]) => {
-  try {
-    if (actions.length === 0) {
-      return;
-    }
-
-    const data = JSON.stringify(
-      actions.map(action => ({
-        ...action,
-        timestamp: new Date(),
-        isServer: __IS_SERVER__,
-      })),
-    );
-
-    if (__IS_SERVER__) {
-      await fetch(logEndpointUrl, {
-        method: 'POST',
-        body: data,
-
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'text/plain',
-        },
-      });
-    } else if ('sendBeacon' in navigator) {
-      // The most reliable way to send network requests on page unload is to use
-      // `navigator.sendBeacon`.
-      // Asynchronous requests using `fetch` or `XMLHttpRequest` that are sent on page unload
-      // are ignored by the browser.
-      // See https://developer.mozilla.org/en-US/docs/Web/API/Navigator/sendBeacon
-      navigator.sendBeacon(logEndpointUrl, data);
-    } else {
-      // For browsers that do not support `sendBeacon`, a _synchronous_
-      // HTTP request is the second best choice to ensure the request
-      // is sent, although this will block the closing of page
-      // until the request is done, so users may perceive the website
-      // to be unresponsive.
-      // Asynchronus requests are ignored by browsers.
-      const request = new XMLHttpRequest();
-      request.open('POST', logEndpointUrl, false);
-      request.setRequestHeader('Accept', 'application/json');
-      request.setRequestHeader('Content-Type', 'text/plain');
-      request.send(data);
-    }
-  } catch (e) {
-    console.error('Failed to send logs', e);
-  }
-};
+import { getBestAvailableScheduler, sendLogs } from './helpers';
 
 const loggableActions: Array<Action['type']> = [
   'PAGE_LOAD_SUCCEEDED',
@@ -169,28 +111,34 @@ export const loggingEpic: Epic<Action, StoreState> = action$ => {
     });
 
   const loggableActions$ = action$.filter(shouldActionBeLogged);
-  let flushOnUnload$;
 
-  // tslint:disable-next-line:prefer-conditional-expression
-  if (__IS_SERVER__) {
-    flushOnUnload$ = Observable.empty();
-  } else {
-    flushOnUnload$ = Observable.fromEvent(window, 'pagehide') // `pagehide` is for Safari
-      .merge(Observable.fromEvent(window, 'unload'));
-  }
-
-  const logOnUnload$ = loggableActions$.buffer(flushOnUnload$);
-  const logOnIdle$ = loggableActions$.bufferCount(10);
-
-  return Observable.fromPromise(getBestAvailableScheduler()).mergeMap(
-    scheduler => {
-      return logOnIdle$
-        .subscribeOn(scheduler)
-        .merge(logOnUnload$)
+  return observePageLoad$.merge(() => {
+    if (__IS_SERVER__) {
+      // Logs should be sent immediately on the server because a new store instance is created
+      // for each request so we can't `buffer` log events between request, and we can't "flush"
+      // when the request is being sent because the store is not aware of the HTTP request
+      // lifecycle
+      return loggableActions$
+        .map(action => [action])
         .do(sendLogs)
-        .mergeMap(actions => actions)
-        .ignoreElements()
-        .merge(observePageLoad$);
-    },
-  );
+        .ignoreElements();
+    } else {
+      const flushOnUnload$ = Observable.fromEvent(window, 'pagehide') // `pagehide` is for Safari
+        .merge(Observable.fromEvent(window, 'unload'));
+
+      const logOnUnload$ = loggableActions$.buffer(flushOnUnload$);
+      const logOnIdle$ = loggableActions$.bufferCount(10);
+
+      return Observable.fromPromise(getBestAvailableScheduler()).mergeMap(
+        scheduler => {
+          return logOnIdle$
+            .subscribeOn(scheduler)
+            .merge(logOnUnload$)
+            .do(sendLogs)
+            .mergeMap(actions => actions)
+            .ignoreElements();
+        },
+      );
+    }
+  });
 };
