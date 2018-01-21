@@ -41,73 +41,79 @@ const shouldActionBeLogged = (action: Action) =>
 
 const locationCompareKeys = ['search', 'pathname', 'hash'];
 
-export const loggingEpic: Epic<Action, StoreState> = action$ => {
-  const observePageLoad$ = action$
-    .ofType('SET_STATUS_CODE')
-    .withLatestFrom(action$.ofType(LOCATION_CHANGE))
+const mapPageLoadActions = ([setStatusCodeAction, locationChangeAction]: [
+  Action,
+  Action
+]) => {
+  const url = createPath(
+    (locationChangeAction as Action<typeof LOCATION_CHANGE>).payload,
+  );
+  const statusCodePayload = (setStatusCodeAction as Action<'SET_STATUS_CODE'>)
+    .payload;
+
+  if (statusCodePayload.code === 301 || statusCodePayload.code === 302) {
+    const to = statusCodePayload.redirectTo;
+
+    return pageRedirected({
+      from: url,
+      to,
+      statusCode: statusCodePayload.code,
+    });
+  } else if (statusCodePayload.code < 500) {
+    return pageLoadSucceeded(url);
+  }
+
+  return pageLoadFailed(url);
+};
+
+const comparePageLoadActions = (x: [Action, Action], y: typeof x) => {
+  const [setStatusCodeActionX, locationChangeActionX] = x;
+  const [setStatusCodeActionY, locationChangeActionY] = y;
+  const setStatusCodeActionPayloadX = (setStatusCodeActionX as Action<
+    'SET_STATUS_CODE'
+  >).payload;
+  const setStatusCodeActionPayloadY = (setStatusCodeActionY as Action<
+    'SET_STATUS_CODE'
+  >).payload;
+  const locationChangePayloadX = (locationChangeActionX as Action<
+    typeof LOCATION_CHANGE
+  >).payload;
+  const locationChangePayloadY = (locationChangeActionY as Action<
+    typeof LOCATION_CHANGE
+  >).payload;
+  const areStatusCodeActionsEqual = isEqual(
+    setStatusCodeActionPayloadX,
+    setStatusCodeActionPayloadY,
+  );
+
+  if (
+    locationChangePayloadX.pathname === '/search' &&
+    locationChangePayloadY.pathname === '/search'
+  ) {
     // When on search page, do not log a page visit every time
     // the query in the URL changes, only look at the pathname instead
     //
     // This is to avoid sending too many logs while the user is typing
     // the search query, as the URL will keep changing to reflect the
     // search term: /search?query=t, /search?query=to, /search?query=tom
-    .distinctUntilChanged((x, y) => {
-      const [setStatusCodeActionX, locationChangeActionX] = x;
-      const [setStatusCodeActionY, locationChangeActionY] = y;
-      const setStatusCodeActionPayloadX = (setStatusCodeActionX as Action<
-        'SET_STATUS_CODE'
-      >).payload;
-      const setStatusCodeActionPayloadY = (setStatusCodeActionY as Action<
-        'SET_STATUS_CODE'
-      >).payload;
-      const locationChangePayloadX = (locationChangeActionX as Action<
-        typeof LOCATION_CHANGE
-      >).payload;
-      const locationChangePayloadY = (locationChangeActionY as Action<
-        typeof LOCATION_CHANGE
-      >).payload;
-      const areStatusCodeActionsEqual = isEqual(
-        setStatusCodeActionPayloadX,
-        setStatusCodeActionPayloadY,
-      );
+    return areStatusCodeActionsEqual;
+  }
 
-      if (
-        locationChangePayloadX.pathname === '/search' &&
-        locationChangePayloadY.pathname === '/search'
-      ) {
-        return areStatusCodeActionsEqual;
-      }
+  return (
+    areStatusCodeActionsEqual &&
+    isEqual(
+      pick(locationChangePayloadX, locationCompareKeys),
+      pick(locationChangePayloadY, locationCompareKeys),
+    )
+  );
+};
 
-      return (
-        areStatusCodeActionsEqual &&
-        isEqual(
-          pick(locationChangePayloadX, locationCompareKeys),
-          pick(locationChangePayloadY, locationCompareKeys),
-        )
-      );
-    })
-    .map(([setStatusCodeAction, locationChangeAction]) => {
-      const url = createPath(
-        (locationChangeAction as Action<typeof LOCATION_CHANGE>).payload,
-      );
-      const statusCodePayload = (setStatusCodeAction as Action<
-        'SET_STATUS_CODE'
-      >).payload;
-
-      if (statusCodePayload.code === 301 || statusCodePayload.code === 302) {
-        const to = statusCodePayload.redirectTo;
-
-        return pageRedirected({
-          from: url,
-          to,
-          statusCode: statusCodePayload.code,
-        });
-      } else if (statusCodePayload.code < 500) {
-        return pageLoadSucceeded(url);
-      }
-
-      return pageLoadFailed(url);
-    });
+export const loggingEpic: Epic<Action, StoreState> = action$ => {
+  const observePageLoad$ = action$
+    .ofType('SET_STATUS_CODE')
+    .withLatestFrom(action$.ofType(LOCATION_CHANGE))
+    .distinctUntilChanged(comparePageLoadActions)
+    .map(mapPageLoadActions);
 
   const loggableActions$ = action$.filter(shouldActionBeLogged);
 
