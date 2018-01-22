@@ -34,7 +34,6 @@ const getPalette = (
       quantizer: workerQuantizer,
     });
     const palette = await v.getPalette();
-    console.log(palette);
 
     return mapValues(palette, color => (color ? color.getHex() : undefined));
   } catch (e) {
