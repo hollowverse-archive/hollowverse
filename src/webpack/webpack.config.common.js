@@ -104,7 +104,7 @@ const config = {
   resolve: {
     alias: {
       // Replace lodash with lodash-es for better tree shaking
-      lodash: 'lodash-es',
+      'lodash-es': 'lodash',
 
       algoliasearch: 'algoliasearch/lite',
 

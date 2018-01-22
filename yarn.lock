@@ -34,6 +34,10 @@
   dependencies:
     postcss "^5.2.15"
 
+"@types/bluebird@^3.0.37":
+  version "3.5.19"
+  resolved "https://registry.yarnpkg.com/@types/bluebird/-/bluebird-3.5.19.tgz#1a47308819ac2d1d6d1ca4f5d800ac84924100de"
+
 "@types/body-parser@*", "@types/body-parser@^1.16.4":
   version "1.16.7"
   resolved "https://registry.yarnpkg.com/@types/body-parser/-/body-parser-1.16.7.tgz#455fc23fd0ddaaeda6cd6cbb653558276e5920fa"
@@ -86,6 +90,16 @@
   dependencies:
     "@types/node" "*"
 
+"@types/jimp@^0.2.0":
+  version "0.2.28"
+  resolved "https://registry.yarnpkg.com/@types/jimp/-/jimp-0.2.28.tgz#88dc2aae028eca50008d70c2f6926b2a2d4f30e7"
+  dependencies:
+    jimp "*"
+
+"@types/lodash@^4.14.53":
+  version "4.14.93"
+  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.93.tgz#a6d2a1e1601a3c29196f38ef1990b68a9afa1e1c"
+
 "@types/lodash@^4.14.68":
   version "4.14.80"
   resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.80.tgz#a6b8b7900e6a7dcbc2e90d9b6dfbe3f6a7f69951"
@@ -105,6 +119,10 @@
 "@types/node@*":
   version "8.0.47"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-8.0.47.tgz#968e596f91acd59069054558a00708c445ca30c2"
+
+"@types/node@^8.0.53":
+  version "8.5.9"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-8.5.9.tgz#7155cfb4ae405bca4dd8df1a214c339e939109bf"
 
 "@types/node@^8.5.2":
   version "8.5.2"
@@ -5368,7 +5386,7 @@ jest-validate@^21.1.0:
     leven "^2.1.0"
     pretty-format "^21.2.1"
 
-jimp@^0.2.13, jimp@^0.2.21:
+jimp@*, jimp@^0.2.13, jimp@^0.2.21, jimp@^0.2.27:
   version "0.2.28"
   resolved "https://registry.yarnpkg.com/jimp/-/jimp-0.2.28.tgz#dd529a937190f42957a7937d1acc3a7762996ea2"
   dependencies:
@@ -6557,6 +6575,19 @@ node-sass@^4.5.3:
     request "^2.79.0"
     sass-graph "^2.1.1"
     stdout-stream "^1.4.0"
+
+node-vibrant@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/node-vibrant/-/node-vibrant-3.0.0.tgz#3ef4540dea2bdd7680ed181b8b08eaddfe74a568"
+  dependencies:
+    "@types/bluebird" "^3.0.37"
+    "@types/jimp" "^0.2.0"
+    "@types/lodash" "^4.14.53"
+    "@types/node" "^8.0.53"
+    bluebird "^3.4.7"
+    jimp "^0.2.27"
+    lodash "^4.17.4"
+    url "^0.11.0"
 
 node-zopfli@^1.4.0:
   version "1.4.0"
@@ -10528,6 +10559,13 @@ wordwrap@~0.0.2:
 wordwrap@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/wordwrap/-/wordwrap-1.0.0.tgz#27584810891456a4171c8d0226441ade90cbcaeb"
+
+worker-loader@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/worker-loader/-/worker-loader-1.1.0.tgz#8cf21869a07add84d66f821d948d23c1eb98e809"
+  dependencies:
+    loader-utils "^1.0.0"
+    schema-utils "^0.3.0"
 
 wrap-ansi@^2.0.0:
   version "2.1.0"

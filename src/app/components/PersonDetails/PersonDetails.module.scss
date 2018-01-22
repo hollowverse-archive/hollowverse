@@ -31,12 +31,9 @@
   padding: 20px 20px 0;
   display: flex;
   flex-direction: column;
-
-  .content {
-    width: 100%;
-    align-self: center;
-    max-width: $page-max-width;
-  }
+  width: 100%;
+  max-width: $page-max-width;
+  align-self: center;
 
   .photo-link {
     align-self: center;
@@ -49,6 +46,7 @@
   .photo {
     width: $person-avatar-size;
     height: $person-avatar-size;
+    background-color: $color-background-light;
     box-shadow: 0 0 0 1.5px rgba(255, 255, 255, 0.7),
       0 2px 1px 0 rgba(0, 0, 0, 0.1);
     border-radius: 1px;
