@@ -5,8 +5,6 @@ import * as classes from './PersonDetails.module.scss';
 import { prettifyUrl } from 'helpers/prettifyUrl';
 import { AsyncComponent } from 'hocs/AsyncComponent/AsyncComponent';
 import { AsyncResult, isSuccessResult } from 'helpers/asyncResults';
-import Vibrant from 'node-vibrant';
-import workerQuantizer from 'node-vibrant/lib/quantizer/worker';
 import { mapValues } from 'lodash';
 
 const defaultMuted = 'rgba(251, 201, 84, 0)';
@@ -29,11 +27,13 @@ const getPalette = (
     return null;
   }
 
+  const [Vibrant, { default: workerQuantizer }] = await Promise.all([
+    import('node-vibrant'),
+    import('node-vibrant/lib/quantizer/worker'),
+  ]);
+
   try {
-    const v = new Vibrant(`https://cors.now.sh/${url}`, {
-      quantizer: workerQuantizer,
-    });
-    const palette = await v.getPalette();
+    const palette = await Vibrant.from(`https://cors.now.sh/${url}`).useQuantizer(workerQuantizer).getPalette();
 
     return mapValues(palette, color => (color ? color.getHex() : undefined));
   } catch (e) {
