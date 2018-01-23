@@ -110,7 +110,7 @@ class Wrapper extends React.Component<Props> {
  * or **on the client**.
  *
  * It supports:
- * * An arbitray asynchronous function to load the data (`props.load`)
+ * * An arbitrary asynchronous function to load the data (`props.load`)
  * * Server-side rendering with the resolved data from the function
  * * The ability to opt-out of server-side rendering per-component (`props.clientOnly`)
  * * Optimistic results by keeping the results of

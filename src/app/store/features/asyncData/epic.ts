@@ -23,6 +23,8 @@ export const dataResolverEpic: Epic<Action, StoreState> = (action$, store) => {
       'REQUEST_DATA'
     >).payload;
 
+    console.log(key, requestId);
+
     return Observable.of(
       setResolvedData({
         key,

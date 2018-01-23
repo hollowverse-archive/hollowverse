@@ -31,9 +31,20 @@ export type ActionTypeToPayloadType = {
   '@@router/CALL_HISTORY_METHOD': RouterAction['payload'];
 };
 
+export type Color =
+  | 'Vibrant'
+  | 'LightVibrant'
+  | 'DarkVibrant'
+  | 'Muted'
+  | 'LightMuted'
+  | 'DarkMuted';
+
+export type Palette = Partial<Record<Color, string>>;
+
 export type ResolvedData = {
   notablePersonQuery: NotablePersonQuery | null;
   searchResults: AlgoliaResponse | null;
+  colorPalette: Palette | null;
 };
 
 export type ResolvedDataKey = keyof ResolvedData;
