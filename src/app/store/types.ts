@@ -99,6 +99,11 @@ export type AppState = {
   statusCode: 301 | 302 | 404 | 200 | 500;
   redirectionUrl: string | null;
   shouldFocusSearch: boolean;
+  /**
+   * Used to display text in place of the search box when the user
+   * scrolls the page down, like the notable person's name on the notable
+   * person's page.
+   */
   alternativeSearchBoxText: string | null;
   resolvedData: {
     [K in keyof ResolvedData]: AsyncResult<ResolvedData[K] | null> & {
