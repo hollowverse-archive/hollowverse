@@ -14,34 +14,46 @@ import 'rxjs/add/operator/filter';
 import 'rxjs/add/observable/fromPromise';
 import 'rxjs/add/observable/of';
 
-import { promiseToAsyncResult, pendingResult } from 'helpers/asyncResults';
+import {
+  promiseToAsyncResult,
+  pendingResult,
+  isSuccessResult,
+} from 'helpers/asyncResults';
 import { isActionOfType } from 'store/helpers';
+import { getResolvedDataForKey } from 'store/features/asyncData/selectors';
 
 export const dataResolverEpic: Epic<Action, StoreState> = (action$, store) => {
   return action$.ofType('REQUEST_DATA').mergeMap(action => {
-    const { key, load, requestId, allowOptimisticUpdates } = (action as Action<
-      'REQUEST_DATA'
-    >).payload;
+    const {
+      key,
+      forPage,
+      load,
+      requestId,
+      allowOptimisticUpdates,
+    } = (action as Action<'REQUEST_DATA'>).payload;
+
+    const previousResult = getResolvedDataForKey(store.getState())(key);
 
     return Observable.of(
       setResolvedData({
         key,
-        data: allowOptimisticUpdates
-          ? {
-              ...store.getState().resolvedData[key],
-              hasError: false,
-              isInProgress: true,
-              requestId,
-            }
-          : {
-              ...pendingResult,
-              requestId,
-            },
+        forPage,
+        data:
+          allowOptimisticUpdates && isSuccessResult<any>(previousResult)
+            ? {
+                ...(previousResult as any),
+                isInProgress: true,
+                requestId,
+              }
+            : {
+                ...pendingResult,
+                requestId,
+              },
       }),
     )
       .merge(
         Observable.fromPromise(promiseToAsyncResult(load())).map(data =>
-          setResolvedData({ key, data: { ...data, requestId } }),
+          setResolvedData({ key, forPage, data: { ...data, requestId } }),
         ),
       )
       .takeUntil(

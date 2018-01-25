@@ -20,6 +20,8 @@
 
     // This does not work consistently
     // and sometimes adding a `key` causes unnecessary re-renders.
-    "jsx-key": false
+    "jsx-key": false,
+
+    "await-promise": [true, "Bluebird"]
   }
 }

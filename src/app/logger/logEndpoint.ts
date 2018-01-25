@@ -1,12 +1,16 @@
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
 
-import { isBodyValid } from '../logger/utils';
-import { log } from '../logger/logger';
+import { isBodyValid } from './utils';
+import { log } from './logger';
 
 const logEndpoint = express();
 
-logEndpoint.use(bodyParser.json());
+/**
+ * For compatibility with `navigator.sendBeacon`, we are accepting
+ * plain text instead of JSON. We will parse the text as JSON manually.
+ */
+logEndpoint.use(bodyParser.text());
 
 // Set response type to application/json for all responses
 logEndpoint.use((_, res, next) => {
@@ -14,15 +18,19 @@ logEndpoint.use((_, res, next) => {
   next();
 });
 
-logEndpoint.post('/', (req, res) => {
-  const body = req.body;
-  if (isBodyValid(body)) {
-    log(body.event, body.payload);
-    res.status(201); // 201 Created
-    res.send({});
-  } else {
-    res.status(400);
-    res.send({ error: 'Invalid Body' });
+logEndpoint.post('/', async (req, res, next) => {
+  try {
+    const body = JSON.parse(req.body);
+    if (isBodyValid(body)) {
+      await log(body);
+      res.status(201); // 201 Created
+      res.send({});
+    } else {
+      res.status(400);
+      res.send({ error: 'Invalid Body' });
+    }
+  } catch (e) {
+    next(e);
   }
 });
 

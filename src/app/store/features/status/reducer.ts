@@ -1,18 +1,34 @@
-import { createReducerForStoreKey, handleAction } from 'store/helpers';
+import { createReducerForStoreKey, isActionOfType } from 'store/helpers';
 import { StoreState } from 'store/types';
 
 export const statusCodeReducer = createReducerForStoreKey<'statusCode'>(
   {
-    SET_STATUS_CODE: handleAction<'statusCode'>('SET_STATUS_CODE'),
+    SET_STATUS_CODE: (state, action) => {
+      if (isActionOfType(action, 'SET_STATUS_CODE')) {
+        return action.payload.code;
+      }
+
+      return state;
+    },
   },
   200,
 );
 
-export const redirectionUrlReducer = createReducerForStoreKey<'statusCode'>(
+export const redirectionUrlReducer = createReducerForStoreKey<'redirectionUrl'>(
   {
-    SET_REDIRECTION_URL: handleAction<'statusCode'>('SET_REDIRECTION_URL'),
+    SET_STATUS_CODE: (state, action) => {
+      if (isActionOfType(action, 'SET_STATUS_CODE')) {
+        if (action.payload.code === 301 || action.payload.code === 302) {
+          return action.payload.redirectTo;
+        } else {
+          return null;
+        }
+      }
+
+      return state;
+    },
   },
-  200,
+  null,
 );
 
 export const getStatusCode = (state: StoreState) => state.statusCode;

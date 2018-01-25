@@ -13,6 +13,12 @@ type OwnProps<Key extends ResolvedDataKey = ResolvedDataKey> = {
   dataKey: Key;
 
   /**
+   * (Optional)
+   * The page path for which this data request is triggered, useful for logging
+   */
+  forPage?: string;
+
+  /**
    * A unique identifier for the resolve request, if this changes,
    * `load()` will be called again
    */
@@ -67,16 +73,18 @@ type Props<K extends ResolvedDataKey = ResolvedDataKey> = OwnProps<K> &
   DispatchProps;
 
 class Wrapper extends React.Component<Props> {
-  resolve() {
+  resolve(props = this.props) {
     const {
       dataKey,
+      forPage,
       load,
       requestId,
       allowOptimisticUpdates = false,
-    } = this.props;
-    this.props.requestData({
+    } = props;
+    props.requestData({
       key: dataKey,
       requestId,
+      forPage,
       load,
       allowOptimisticUpdates,
     });
@@ -94,14 +102,22 @@ class Wrapper extends React.Component<Props> {
 
   componentWillReceiveProps(nextProps: Props) {
     if (nextProps.requestId !== this.props.requestId) {
-      this.resolve();
+      this.resolve(nextProps);
     }
   }
 
   render() {
-    const { result = pendingResult } = this.props;
+    const { result, requestId, allowOptimisticUpdates } = this.props;
+    let finalResult = result;
 
-    return this.props.children({ result });
+    if (result.requestId !== requestId && !allowOptimisticUpdates) {
+      finalResult = {
+        ...pendingResult,
+        requestId,
+      };
+    }
+
+    return this.props.children({ result: finalResult });
   }
 }
 
@@ -114,7 +130,7 @@ class Wrapper extends React.Component<Props> {
  * * Server-side rendering with the resolved data from the function
  * * The ability to opt-out of server-side rendering per-component (`props.clientOnly`)
  * * Optimistic results by keeping the results of
- *   the previous call to the load function (`props.allowOptimisticResults`)
+ *   the previous call to the load function (`props.allowOptimisticUpdates`)
  * * Integration with Redux: the results are stored in Redux store and provided
  *   to the wrapped component.
  *

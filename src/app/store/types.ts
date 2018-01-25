@@ -13,20 +13,77 @@ export type ActionTypeToPayloadType = {
     query: string;
   };
   SET_SHOULD_FOCUS_SEARCH: boolean;
-  SET_STATUS_CODE: number;
-  SET_REDIRECTION_URL: string;
+  SET_STATUS_CODE:
+    | {
+        code: 200 | 404 | 500;
+      }
+    | {
+        code: 301 | 302;
+        redirectTo: string;
+      };
   REQUEST_DATA: {
+    /**
+     * Whether to keep the results of the previous request while loading
+     * the new results
+     */
     allowOptimisticUpdates: boolean;
+
+    /**
+     * The key used to store the results in Redux state
+     */
     key: ResolvedDataKey;
+
+    /**
+     * A unique identifier for the resolve request, if this changes,
+     * `load()` will be called again
+     */
     requestId: string | null;
+
+    /**
+     * (Optional)
+     * The page path for which this data request is triggered, useful for logging
+     */
+    forPage?: string;
+
+    /** An asynchronous function that fetchs the data */
     load(): Promise<ResolvedData[ResolvedDataKey]>;
   };
   SET_RESOLVED_DATA: {
+    /**
+     * The key used to store the results in Redux state
+     */
     key: ResolvedDataKey;
+
+    /**
+     * (Optional)
+     * The page path for which this data request is triggered, useful for logging
+     */
+    forPage?: string;
+
     data: AsyncResult<ResolvedData[ResolvedDataKey]> & {
       requestId: string | null;
     };
   };
+  UNHANDLED_ERROR_THROWN: {
+    message: string;
+    source?: string;
+    line?: number;
+    column?: number;
+  };
+  PAGE_LOAD_FAILED: string;
+  PAGE_LOAD_SUCCEEDED: string;
+  PAGE_REDIRECTED: {
+    statusCode: 301 | 302;
+    from: string;
+    to: string;
+  };
+  NOTABLE_PERSON_VISITED_THROUGH_SEARCH: {
+    notablePerson: string | null;
+    searchQuery: string;
+  };
+  /** Value is the path to the selected page */
+  SEARCH_RESULT_SELECTED: string;
+  SET_ALTERNATIVE_SEARCH_BOX_TEXT: string | null;
   '@@router/LOCATION_CHANGE': LocationChangeAction['payload'];
   '@@router/CALL_HISTORY_METHOD': RouterAction['payload'];
 };
@@ -39,9 +96,15 @@ export type ResolvedData = {
 export type ResolvedDataKey = keyof ResolvedData;
 
 export type AppState = {
-  statusCode: number;
-  shouldFocusSearch: boolean;
+  statusCode: 301 | 302 | 404 | 200 | 500;
   redirectionUrl: string | null;
+  shouldFocusSearch: boolean;
+  /**
+   * Used to display text in place of the search box when the user
+   * scrolls the page down, like the notable person's name on the notable
+   * person's page.
+   */
+  alternativeSearchBoxText: string | null;
   resolvedData: {
     [K in keyof ResolvedData]: AsyncResult<ResolvedData[K] | null> & {
       requestId: string | null;

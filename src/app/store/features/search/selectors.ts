@@ -1,15 +1,7 @@
 import { StoreState } from 'store/types';
 import { createSelector } from 'reselect';
-import {
-  isPendingResult,
-  isOptimisticResult,
-  isSuccessResult,
-} from 'helpers/asyncResults';
-import { getResolvedDataForKey } from 'store/features/asyncData/selectors';
-import {
-  getRoutingState,
-  isNotablePersonPage,
-} from 'store/features/url/selectors';
+import { isPendingResult, isOptimisticResult } from 'helpers/asyncResults';
+import { getRoutingState, isSearchPage } from 'store/features/url/selectors';
 
 const getSearchResults = (state: StoreState) =>
   state.resolvedData.searchResults;
@@ -29,21 +21,17 @@ export const getSearchQuery = createSelector(
 
 export const shouldFocusSearch = (state: StoreState) => state.shouldFocusSearch;
 
+export const getAlternativeSearchBoxText = (state: StoreState) =>
+  state.alternativeSearchBoxText;
+
 export const getSearchInputValue = createSelector(
   getSearchQuery,
-  isNotablePersonPage,
-  getResolvedDataForKey,
+  isSearchPage,
+  getAlternativeSearchBoxText,
   shouldFocusSearch,
-  (query, isNpPage, getResolvedData, isFocused) => {
-    const data = getResolvedData('notablePersonQuery');
-    if (
-      !isFocused &&
-      isNpPage &&
-      isSuccessResult(data) &&
-      data.value &&
-      data.value.notablePerson
-    ) {
-      return data.value.notablePerson.name;
+  (query, isSearch, alternativeText, isFocused) => {
+    if (!isFocused && !isSearch && alternativeText !== null) {
+      return alternativeText;
     }
 
     return query || undefined;

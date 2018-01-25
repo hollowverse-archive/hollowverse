@@ -5,7 +5,10 @@ import {
   statusCodeReducer,
   redirectionUrlReducer,
 } from 'store/features/status/reducer';
-import { isSearchFocusedReducer } from 'store/features/search/reducer';
+import {
+  isSearchFocusedReducer,
+  alternativeSearchBoxTextReducer,
+} from 'store/features/search/reducer';
 import { resolvedDataReducer } from 'store/features/asyncData/reducer';
 
 const appReducers: ReducerMap = {
@@ -13,6 +16,7 @@ const appReducers: ReducerMap = {
   shouldFocusSearch: isSearchFocusedReducer,
   resolvedData: resolvedDataReducer,
   redirectionUrl: redirectionUrlReducer,
+  alternativeSearchBoxText: alternativeSearchBoxTextReducer,
 };
 
 /**

@@ -22,7 +22,7 @@ const {
 const serverSpecificConfig = {
   name: 'server',
   target: 'node',
-  entry: [path.resolve(srcDirectory, 'serverEntry.ts')],
+  entry: [path.join(srcDirectory, 'serverEntry.ts')],
   output: {
     // The file name should not contain any dynamic values, because
     // the require call is hardcoded in `appServer.ts`
