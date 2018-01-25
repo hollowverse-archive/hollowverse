@@ -23,37 +23,44 @@ import { LinkButton } from 'components/Button/Button';
 import { RelatedPeople } from './RelatedPeople';
 import { withRouter, RouteComponentProps } from 'react-router';
 import { forceReload } from 'helpers/forceReload';
+import { DispatchOnLifecycleEvent } from 'components/DispatchOnLifecycleEvent/DispatchOnLifecycleEvent';
 
 import * as classes from './NotablePerson.module.scss';
 import query from './NotablePersonQuery.graphql';
 
 import warningIcon from 'icons/warning.svg';
+import { setAlternativeSearchBoxText } from 'store/features/search/actions';
 
 const warningIconComponent = <SvgIcon {...warningIcon} size={100} />;
 
-export type Props = { slug: string };
+export type Props = {};
 
 const Page = withRouter(
   class extends React.Component<Props & RouteComponentProps<any>> {
     load = async () => {
-      const { slug } = this.props;
+      const { slug } = this.props.match.params;
 
       return client.request<NotablePersonQuery>(query, { slug });
     };
 
+    // tslint:disable-next-line:max-func-body-length
     render() {
+      const pageUrl = this.props.history.createHref(this.props.location);
+      const { slug } = this.props.match.params;
+
       return (
         <WithData
-          requestId={this.props.slug}
+          requestId={slug}
           dataKey="notablePersonQuery"
+          forPage={pageUrl}
           load={this.load}
         >
-          {({ result }: { result: AsyncResult<NotablePersonQuery> }) => {
-            if (isPendingResult(result)) {
+          {({ result }: { result: AsyncResult<NotablePersonQuery | null> }) => {
+            if (result.value === null || isPendingResult(result)) {
               return <NotablePersonSkeleton />;
             }
 
-            if (isErrorResult(result) || !result.value) {
+            if (isErrorResult(result)) {
               const { location } = this.props;
 
               return (
@@ -72,7 +79,8 @@ const Page = withRouter(
               );
             }
 
-            const { notablePerson } = result.value;
+            // tslint:disable-next-line:no-non-null-assertion
+            const { notablePerson } = result.value!;
 
             if (!notablePerson) {
               return (
@@ -93,6 +101,10 @@ const Page = withRouter(
             return (
               <div className={classes.root}>
                 <Status code={200} />
+                <DispatchOnLifecycleEvent
+                  onWillUnmount={setAlternativeSearchBoxText(null)}
+                  onWillMount={setAlternativeSearchBoxText(notablePerson.name)}
+                />
                 <article className={classes.article}>
                   <PersonDetails
                     name={name}

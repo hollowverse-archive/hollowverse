@@ -7,10 +7,23 @@
   display: flex;
   justify-content: space-between;
   align-items: stretch;
+
+  /**
+   * Enable momentum-based scrolling, Safari only
+   * See https://developer.mozilla.org/en-US/docs/Web/CSS/-webkit-overflow-scrolling
+   */
   -webkit-overflow-scrolling: touch;
-  overflow-scrolling: touch;
+
   overflow-x: scroll;
   overflow-x: overlay;
+
+  /** Hide scrollbar on touch devices only */
+  @media (pointer: coarse) {
+    -ms-overflow-style: none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
 
   li > * {
     width: 100%;

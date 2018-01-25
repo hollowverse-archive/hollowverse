@@ -7,6 +7,7 @@ import { Epic } from 'redux-observable';
 import 'rxjs/add/operator/skipWhile';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/ignoreElements';
+import 'rxjs/add/operator/merge';
 
 import { importGlobalScript } from 'helpers/importGlobalScript';
 import { once } from 'lodash';
@@ -28,11 +29,26 @@ export const analyticsEpic: Epic<Action, StoreState> = action$ => {
       try {
         await initScript();
         const { pathname } = (action as Action<typeof LOCATION_CHANGE>).payload;
+
+        // Set currently active page
         ga('set', 'page', pathname);
-        ga('send', 'pageview');
       } catch (e) {
         // Do nothing
       }
     })
+    .merge(
+      action$
+        .ofType('PAGE_LOAD_SUCCEEDED')
+        .skipWhile(isServer)
+        .do(async action => {
+          try {
+            await initScript();
+            const path = (action as Action<'PAGE_LOAD_SUCCEEDED'>).payload;
+            ga('send', 'pageview', path);
+          } catch (e) {
+            // Do nothing
+          }
+        }),
+    )
     .ignoreElements();
 };

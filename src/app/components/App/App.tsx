@@ -27,11 +27,7 @@ export const App = class extends React.Component {
             <Route path="/search" component={LoadableSearchResults} />
             <Route path="/about" component={LoadableAbout} />
             <Route path="/privacy-policy" component={LoadablePrivacyPolicy} />
-            <Route path="/:slug">
-              {({ match: { params: { slug } } }) => (
-                <LoadableNotablePerson slug={slug} />
-              )}
-            </Route>
+            <Route path="/:slug" component={LoadableNotablePerson} />
             <Route component={LoadableHome} />
           </Switch>
         </div>

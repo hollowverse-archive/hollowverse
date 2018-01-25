@@ -8,6 +8,7 @@ import { reducer } from './reducer';
 import { analyticsEpic } from 'store/features/analytics/epic';
 import { updateUrlEpic } from 'store/features/search/updateUrlEpic';
 import { dataResolverEpic } from 'store/features/asyncData/epic';
+import { loggingEpic } from 'store/features/logging/epic';
 import { nullResult } from 'helpers/asyncResults';
 
 const defaultInitialState: StoreState = {
@@ -31,17 +32,12 @@ const defaultInitialState: StoreState = {
       requestId: null,
     },
   },
+  alternativeSearchBoxText: null,
 };
 
 declare const global: NodeJS.Global & {
   __REDUX_DEVTOOLS_EXTENSION_COMPOSE__: typeof compose | undefined;
 };
-
-const composeEnhancers =
-  '__REDUX_DEVTOOLS_EXTENSION_COMPOSE__' in global &&
-  global.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-    ? global.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-    : compose;
 
 declare const module: {
   hot?: { accept(path?: string, cb?: () => void): void };
@@ -53,7 +49,26 @@ export function createConfiguredStore(
   wrapEpic: (epic: Epic<Action, StoreState>) => typeof epic = identity,
   additionalMiddleware: Middleware[] = [],
 ) {
-  const rootEpic = combineEpics(analyticsEpic, updateUrlEpic, dataResolverEpic);
+  let composeEnhancers = compose;
+
+  if (global.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) {
+    composeEnhancers = global.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__;
+  } else if (__IS_SERVER__ && process.env.NODE_ENV === 'development') {
+    // Enable remote Redux DevTools for server-side Redux
+    // tslint:disable-next-line:no-require-imports no-var-requires
+    const { composeWithDevTools } = require('remote-redux-devtools');
+    composeEnhancers = composeWithDevTools({
+      hostname: 'localhost',
+      port: 8000,
+    });
+  }
+
+  const rootEpic = combineEpics(
+    analyticsEpic,
+    updateUrlEpic,
+    dataResolverEpic,
+    loggingEpic,
+  );
   const wrappedRootEpic = wrapEpic(rootEpic);
   const epicMiddleware = createEpicMiddleware(wrappedRootEpic);
   const store = createStore<StoreState>(

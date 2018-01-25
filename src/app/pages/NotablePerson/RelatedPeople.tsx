@@ -2,10 +2,10 @@ import * as React from 'react';
 
 import * as classes from './RelatedPeople.module.scss';
 
-import { Link } from 'react-router-dom';
 import { Square } from 'components/Square/Square';
 import { LazyImage } from 'components/LazyImage/LazyImage';
 import { Card } from 'components/Card/Card';
+import { Link } from 'react-router-dom';
 
 type Person = {
   slug: string;

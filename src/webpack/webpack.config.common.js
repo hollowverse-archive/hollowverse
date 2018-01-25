@@ -108,6 +108,8 @@ const config = {
 
       algoliasearch: 'algoliasearch/lite',
 
+      'es6-promise': 'empty-module',
+
       // That's all what we need to use Preact instead of React
       ...ifPreact({
         react: 'preact-compat',
@@ -122,7 +124,7 @@ const config = {
       srcDirectory,
 
       // Fallback to node_modules dir
-      path.resolve(process.cwd(), 'node_modules'),
+      path.join(process.cwd(), 'node_modules'),
     ],
   },
 
@@ -144,7 +146,17 @@ const config = {
       mapValues(
         {
           __IS_DEBUG__: isDebug,
-          API_ENDPOINT: process.env.API_ENDPOINT,
+          __BRANCH__: process.env.BRANCH,
+          __COMMIT_ID__: process.env.COMMIT_ID,
+          __BASE__: isProd
+            ? 'https://hollowverse.com'
+            : `http://localhost:${process.env.APP_SERVER_PORT || 3001}`,
+
+          // To avoid issues with cross-origin requests in development,
+          // the API endpoint is mapped to an endpoint on the same origin
+          // which proxies the requests to the actual defined endpoint
+          // The proxy is defined in appServer.ts
+          __API_ENDPOINT__: isProd ? process.env.API_ENDPOINT : '/__api',
           'process.env.NODE_ENV': process.env.NODE_ENV,
           isHot,
         },

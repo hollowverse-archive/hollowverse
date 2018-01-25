@@ -53,7 +53,7 @@ type BlockProps = {
 
 const Block = (props: BlockProps): JSX.Element => {
   const { node, nodes, referencesMap, onSourceClick } = props;
-  const children = findChildren(node, nodes).map((child, i, array) => {
+  const children = findChildren(node, nodes).map(child => {
     if (isBlockNode(child)) {
       return <Block {...props} node={child} />;
     } else if (child.type === 'link' && child.sourceUrl) {
@@ -64,7 +64,6 @@ const Block = (props: BlockProps): JSX.Element => {
           href={child.sourceUrl}
         >
           {child.text}
-          {array.length > i + 1 ? ' ' : ''}
         </a>
       );
     }
@@ -79,7 +78,6 @@ const Block = (props: BlockProps): JSX.Element => {
             <sup>{ref.number}</sup>
           </a>
         ) : null}
-        {array.length > i + 1 ? ' ' : ''}
       </span>
     );
   });

@@ -1,5 +1,4 @@
-declare const API_ENDPOINT: string;
-
 import { GraphQLClient } from 'graphql-request';
+import { getUniversalUrl } from 'helpers/getUniversalUrl';
 
-export const client = new GraphQLClient(API_ENDPOINT);
+export const client = new GraphQLClient(getUniversalUrl(__API_ENDPOINT__));

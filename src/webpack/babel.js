@@ -6,31 +6,32 @@ const { ifEs5, ifEsNext, ifProd, isProd, ifReact, isDebug } = require('./env');
 
 module.exports.createBabelConfig = (isServer = false) => ({
   presets: compact([
-    ...ifEs5(['es2015']),
+    ...ifEs5(['@babel/preset-es2015']),
     ...ifEsNext(
       compact([
         ...ifProd([ifReact('react-optimize')]),
         [
-          'env',
+          '@babel/preset-env',
           {
             modules: false,
             loose: true,
             debug: isDebug,
+            ignoreBrowserslistConfig: true,
             targets: isServer
               ? {
                   node: 'current',
-                  browsers: [],
                 }
               : {
                   browsers: pkg.browserslist,
                 },
-            useBuiltIns: true,
+            useBuiltIns: 'entry',
+            shippedProposals: true,
           },
         ],
       ]),
     ),
-    'react',
-    'stage-3',
+    '@babel/preset-stage-3',
+    '@babel/preset-react',
   ]),
   plugins: compact([
     [
@@ -53,7 +54,8 @@ module.exports.createBabelConfig = (isServer = false) => ({
         disableWarnings: isProd,
       },
     ],
-    'syntax-dynamic-import',
+    '@babel/plugin-transform-runtime',
+    '@babel/plugin-syntax-dynamic-import',
     ...ifProd([
       // Compile gql`query { ... }` at build time to avoid runtime parsing overhead
       'graphql-tag',
@@ -62,5 +64,5 @@ module.exports.createBabelConfig = (isServer = false) => ({
       'lodash',
     ]),
   ]),
-  sourceMaps: 'both',
+  sourceMap: 'both',
 });

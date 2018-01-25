@@ -1,8 +1,6 @@
 import * as express from 'express';
 import * as httpProxy from 'http-proxy';
 
-import { log } from './logger/logger';
-import { logEndpoint } from './middleware/logEndpoint';
 import { env } from './env';
 import { redirectToHttps } from './middleware/redirectToHttps';
 import { appServer } from './appServer';
@@ -43,9 +41,6 @@ proxyServer.on('proxyReq', (proxyReq: any) => {
 
 const newPaths = new Set(redirectionMap.values());
 
-// Short-circuit the redirection proxy to expose the /log endpoint
-server.use('/log', logEndpoint);
-
 // As the proxy is placed in front of the old version, we need to allow
 // requests to static assets to be directed to the new app.
 // The new proxy will check if the request is for a static file, and redirect accordingly.
@@ -57,8 +52,6 @@ server.get('/static/*', appServer);
 server.get('/:path', (req, res, next) => {
   // '/:path' matches: /Tom_Hanks, /tom-hanks, /app.js, /michael-jackson, ashton-kutcher...
   const reqPath: string = req.params.path;
-
-  log('PAGE_REQUESTED', { url: reqPath });
 
   const redirectionPath = redirectionMap.get(reqPath);
   if (redirectionPath !== undefined) {

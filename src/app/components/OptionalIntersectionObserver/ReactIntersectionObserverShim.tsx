@@ -2,7 +2,7 @@ import * as React from 'react';
 import { IntersectionObserverProps } from 'react-intersection-observer';
 
 type Props = IntersectionObserverProps & {
-  fallbackIsInView: boolean;
+  fallbackIsInView?: boolean;
 };
 
 export const Shim = ({

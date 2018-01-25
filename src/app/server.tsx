@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import express from 'express';
 import * as React from 'react';
 import * as serializeJavaScript from 'serialize-javascript';
 import { renderToString, wrapRootEpic } from 'react-redux-epic';
@@ -33,104 +33,115 @@ type IconStats = {
   files: string[];
 };
 
+import { logEndpoint } from './logger/logEndpoint';
+
+// tslint:disable-next-line:max-func-body-length
 export const createServerRenderMiddleware = ({
   clientStats,
   iconStats,
 }: {
   clientStats: Stats;
   iconStats: IconStats | undefined;
-}) => async (req: Request, res: Response) => {
-  const start = Date.now();
-  const history = createMemoryHistory({ initialEntries: [req.url] });
-  const { store, wrappedRootEpic } = createConfiguredStore(
-    history,
-    undefined,
-    wrapRootEpic,
-  );
+}) => {
+  const middleware = express();
 
-  renderToString(
-    <Provider store={store}>
-      <ConnectedRouter history={history}>
-        <App />
-      </ConnectedRouter>
-    </Provider>,
-    wrappedRootEpic,
-  ).subscribe({
-    next({ markup }) {
-      const state = store.getState();
-      logger.debug('Server-side Redux state:', state);
+  middleware.use('/log', logEndpoint);
 
-      const statusCode = getStatusCode(state) || 200;
-      res.status(statusCode);
+  middleware.use(async (req, res) => {
+    const start = Date.now();
+    const history = createMemoryHistory({ initialEntries: [req.url] });
+    const { store, wrappedRootEpic } = createConfiguredStore(
+      history,
+      undefined,
+      wrapRootEpic,
+    );
 
-      if (statusCode === 301 || statusCode === 302) {
-        const url = getRedirectionUrl(state) as string;
-        res.redirect(url);
+    renderToString(
+      <Provider store={store}>
+        <ConnectedRouter history={history}>
+          <App />
+        </ConnectedRouter>
+      </Provider>,
+      wrappedRootEpic,
+    ).subscribe({
+      next({ markup }) {
+        const state = store.getState();
+        logger.debug('Server-side Redux state:', state);
 
-        return;
-      } else {
-        const chunkNames = flushChunkNames();
+        const statusCode = getStatusCode(state) || 200;
+        res.status(statusCode);
 
-        const {
-          js,
-          styles,
-          cssHash,
-          scripts,
-          stylesheets,
-          publicPath,
-        } = flushChunks(clientStats, { chunkNames });
+        if (statusCode === 301 || statusCode === 302) {
+          const url = getRedirectionUrl(state) as string;
+          res.redirect(url);
 
-        logger.debug(`Request path: ${req.path}`);
-        logger.debug('Dynamic chunk names rendered', chunkNames);
-        logger.debug('Scripts served:', scripts);
-        logger.debug('Stylesheets served:', stylesheets);
-        logger.debug('Icon stats:', iconStats);
-        logger.debug('Public path:', publicPath);
+          return;
+        } else {
+          const chunkNames = flushChunkNames();
 
-        // Tell browsers to start fetching scripts and stylesheets as soon as they
-        // parse the HTTP headers of the page
-        res.setHeader(
-          'Link',
-          [
-            ...stylesheets.map(
-              src => `<${publicPath}/${src}>; rel=preload; as=style`,
-            ),
-            ...scripts.map(
-              src => `<${publicPath}/${src}>; rel=preload; as=script`,
-            ),
-          ].join(','),
-        );
-
-        const icons = iconStats ? iconStats.html.join(' ') : '';
-
-        res.send(
-          interpolateTemplate({
-            // In order to protect from XSS attacks, make sure to use `serialize-javascript`
-            // to serialize all data. `JSON.stringify` won't protect from XSS.
-            // If `data` contains "</script><script>alert('Haha! Pwned!')</script>",
-            // `JSON.stringify` won't help.
-            initialState: serializeJavaScript(state, {
-              isJSON: true,
-              space: __IS_DEBUG__ ? 2 : 0,
-            }),
-            markup,
-            icons,
+          const {
             js,
             styles,
             cssHash,
-          }),
-        );
-      }
-    },
+            scripts,
+            stylesheets,
+            publicPath,
+          } = flushChunks(clientStats, { chunkNames });
 
-    complete() {
-      const end = Date.now();
-      logger.debug(`Request took ${end - start}ms to process`);
-    },
+          logger.debug(`Request path: ${req.path}`);
+          logger.debug('Dynamic chunk names rendered', chunkNames);
+          logger.debug('Scripts served:', scripts);
+          logger.debug('Stylesheets served:', stylesheets);
+          logger.debug('Icon stats:', iconStats);
+          logger.debug('Public path:', publicPath);
 
-    error(error: Error) {
-      logger.error(error);
-      res.status(500).send('Error');
-    },
+          // Tell browsers to start fetching scripts and stylesheets as soon as they
+          // parse the HTTP headers of the page
+          res.setHeader(
+            'Link',
+            [
+              ...stylesheets.map(
+                src => `<${publicPath}/${src}>; rel=preload; as=style`,
+              ),
+              ...scripts.map(
+                src => `<${publicPath}/${src}>; rel=preload; as=script`,
+              ),
+            ].join(','),
+          );
+
+          const icons = iconStats ? iconStats.html.join(' ') : '';
+
+          res.send(
+            interpolateTemplate({
+              // In order to protect from XSS attacks, make sure to use `serialize-javascript`
+              // to serialize all data. `JSON.stringify` won't protect from XSS.
+              // If `data` contains "</script><script>alert('Haha! Pwned!')</script>",
+              // `JSON.stringify` won't help.
+              initialState: serializeJavaScript(state, {
+                isJSON: true,
+                space: __IS_DEBUG__ ? 2 : 0,
+              }),
+              markup,
+              icons,
+              js,
+              styles,
+              cssHash,
+            }),
+          );
+        }
+      },
+
+      complete() {
+        const end = Date.now();
+        logger.debug(`Request took ${end - start}ms to process`);
+      },
+
+      error(error: Error) {
+        logger.error(error);
+        res.status(500).send('Error');
+      },
+    });
   });
+
+  return middleware;
 };

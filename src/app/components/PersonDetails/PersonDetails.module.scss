@@ -44,6 +44,7 @@
   }
 
   .photo {
+    display: block;
     width: $person-avatar-size;
     height: $person-avatar-size;
     background-color: $color-background-light;
