@@ -47,7 +47,7 @@ const newPaths = new Set(redirectionMap.values());
 // Examples: /static/app.js, /static/vendor.js => new hollowverse
 server.get('/static/*', appServer);
 
-// Allow the new app server to handle
+// Allow the new app server to handle /log
 server.post('/log', appServer);
 
 // Because ":/path" matches routes on both new and old servers, the new proxy also has
