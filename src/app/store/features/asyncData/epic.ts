@@ -34,8 +34,6 @@ export const dataResolverEpic: Epic<Action, StoreState> = (action$, store) => {
 
     const previousResult = getResolvedDataForKey(store.getState())(key);
 
-    console.log(key, requestId);
-
     return Observable.of(
       setResolvedData({
         key,

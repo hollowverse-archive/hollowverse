@@ -73,7 +73,6 @@ if (isProd) {
 
   // tslint:disable no-require-imports no-var-requires no-implicit-dependencies
   const webpack = require('webpack');
-  const noFavIcons = require('express-no-favicons');
   const webpackDevMiddleware = require('webpack-dev-middleware');
   const webpackHotMiddleware = require('webpack-hot-middleware');
   const createProxyMiddleware = require('http-proxy-middleware');
@@ -98,7 +97,6 @@ if (isProd) {
       secure: false,
     }),
   );
-  appServer.use(noFavIcons());
   appServer.use(webpackDevMiddleware(compiler, options));
   appServer.use(webpackHotMiddleware(clientCompiler));
 

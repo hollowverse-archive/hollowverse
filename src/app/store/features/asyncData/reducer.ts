@@ -25,9 +25,5 @@ export const resolvedDataReducer = createReducerForStoreKey<'resolvedData'>(
       ...nullResult,
       requestId: null,
     },
-    colorPalette: {
-      ...nullResult,
-      requestId: null,
-    },
   },
 );

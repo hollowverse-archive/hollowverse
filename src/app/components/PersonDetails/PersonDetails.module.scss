@@ -1,26 +1,49 @@
 @import 'variables.scss';
 
 .root {
-  .cover-photo {
-    visibility: hidden;
-  }
-}
+  --color-cover-primary-light: #4cfde9;
+  --color-cover-primary-dark: #009180;
+  --color-cover-primary: #4435f7;
+  --color-cover-secondary-light: #ffe190;
+  --color-cover-secondary: #fbc945;
 
-@supports (filter: blur(5px)) {
-  .root {
-    .cover-photo {
+  @supports (filter: blur(5px)) and (mask-image: linear-gradient(black, transparent)) {
+    .cover-photo-wrapper {
       visibility: visible;
-      position: absolute;
-      background-repeat: no-repeat;
-      background-size: 100%;
-      top: 0;
-      z-index: -1;
-      height: 25%;
-      width: 100%;
-      // stylelint-disable-next-line plugin/no-unsupported-browser-features
-      filter: blur(50px);
-      transform: scale(1.2);
     }
+  }
+
+  .cover-photo-wrapper {
+    // stylelint-disable-next-line plugin/no-unsupported-browser-features
+    mask-image: linear-gradient(black, transparent);
+    visibility: visible;
+    height: 49%;
+    position: absolute;
+    overflow: hidden;
+    left: 0;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: -1;
+  }
+
+  .cover-photo {
+    // stylelint-disable-next-line plugin/no-unsupported-browser-features
+    filter: blur(30px);
+    position: absolute;
+    background-repeat: no-repeat;
+    background-size: 100%;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(
+      130deg,
+      var(--color-cover-secondary-light) -20%,
+      var(--color-cover-primary) 30%,
+      var(--color-cover-primary-dark) 60%,
+      var(--color-cover-secondary) 120%
+    );
   }
 }
 

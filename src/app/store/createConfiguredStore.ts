@@ -27,10 +27,6 @@ const defaultInitialState: StoreState = {
       ...nullResult,
       requestId: null,
     },
-    colorPalette: {
-      ...nullResult,
-      requestId: null,
-    },
   },
   alternativeSearchBoxText: null,
 };
