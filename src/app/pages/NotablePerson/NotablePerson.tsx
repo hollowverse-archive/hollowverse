@@ -1,5 +1,7 @@
 import * as React from 'react';
 import cc from 'classcat';
+// @ts-ignore
+import Head from 'react-declarative-head';
 import { client } from 'api/client';
 
 import {
@@ -100,6 +102,9 @@ const Page = withRouter(
 
             return (
               <div className={classes.root}>
+                <Head>
+                  <title>{notablePerson.name} - Hollowverse</title>
+                </Head>
                 <Status code={200} />
                 <DispatchOnLifecycleEvent
                   onWillUnmount={setAlternativeSearchBoxText(null)}

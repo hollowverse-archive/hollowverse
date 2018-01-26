@@ -130,6 +130,7 @@
     "preact": "^8.2.7",
     "preact-compat": "^3.17.0",
     "react": "^15.6.1",
+    "react-declarative-head": "^1.0.5",
     "react-dom": "^15.6.1",
     "react-flip-move": "^2.10.0",
     "react-intersection-observer": "^2.1.2",

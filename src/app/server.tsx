@@ -1,5 +1,7 @@
 import express from 'express';
 import * as React from 'react';
+// @ts-ignore
+import Head from 'react-declarative-head';
 import * as serializeJavaScript from 'serialize-javascript';
 import { renderToString, wrapRootEpic } from 'react-redux-epic';
 import { ConnectedRouter } from 'react-router-redux';
@@ -55,7 +57,7 @@ export const createServerRenderMiddleware = ({
       undefined,
       wrapRootEpic,
     );
-  
+
     renderToString(
       <Provider store={store}>
         <ConnectedRouter history={history}>
@@ -67,18 +69,18 @@ export const createServerRenderMiddleware = ({
       next({ markup }) {
         const state = store.getState();
         logger.debug('Server-side Redux state:', state);
-  
+
         const statusCode = getStatusCode(state) || 200;
         res.status(statusCode);
-  
+
         if (statusCode === 301 || statusCode === 302) {
           const url = getRedirectionUrl(state) as string;
           res.redirect(url);
-  
+
           return;
         } else {
           const chunkNames = flushChunkNames();
-  
+
           const {
             js,
             styles,
@@ -87,14 +89,14 @@ export const createServerRenderMiddleware = ({
             stylesheets,
             publicPath,
           } = flushChunks(clientStats, { chunkNames });
-  
+
           logger.debug(`Request path: ${req.path}`);
           logger.debug('Dynamic chunk names rendered', chunkNames);
           logger.debug('Scripts served:', scripts);
           logger.debug('Stylesheets served:', stylesheets);
           logger.debug('Icon stats:', iconStats);
           logger.debug('Public path:', publicPath);
-  
+
           // Tell browsers to start fetching scripts and stylesheets as soon as they
           // parse the HTTP headers of the page
           res.setHeader(
@@ -108,9 +110,9 @@ export const createServerRenderMiddleware = ({
               ),
             ].join(','),
           );
-  
+
           const icons = iconStats ? iconStats.html.join(' ') : '';
-  
+
           res.send(
             interpolateTemplate({
               // In order to protect from XSS attacks, make sure to use `serialize-javascript`
@@ -121,6 +123,7 @@ export const createServerRenderMiddleware = ({
                 isJSON: true,
                 space: __IS_DEBUG__ ? 2 : 0,
               }),
+              head: Head.rewind(),
               markup,
               icons,
               js,
@@ -130,12 +133,12 @@ export const createServerRenderMiddleware = ({
           );
         }
       },
-  
+
       complete() {
         const end = Date.now();
         logger.debug(`Request took ${end - start}ms to process`);
       },
-  
+
       error(error: Error) {
         logger.error(error);
         res.status(500).send('Error');
@@ -145,4 +148,3 @@ export const createServerRenderMiddleware = ({
 
   return middleware;
 };
-

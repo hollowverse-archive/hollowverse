@@ -1,5 +1,7 @@
 import * as React from 'react';
 import cc from 'classcat';
+// @ts-ignore
+import Head from 'react-declarative-head';
 import { ConnectedNavBar } from 'components/NavBar/ConnectedNavBar';
 import { Route, Switch } from 'react-router';
 
@@ -19,6 +21,17 @@ export const App = class extends React.Component {
   render() {
     return (
       <div className={cc([classes.root, { 'no-js': __IS_SERVER__ }])}>
+        <Head>
+          <title>
+            Hollowverse - Religion, politics and ideas of notable people
+          </title>
+          <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0, shrink-to-fit=no"
+          />
+          <meta name="robots" content="noindex" />
+          <meta charSet="utf-8" />
+        </Head>
         <Route>
           {props => <ConnectedNavBar {...props} title="Hollowverse" />}
         </Route>
