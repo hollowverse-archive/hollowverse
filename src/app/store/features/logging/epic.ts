@@ -115,9 +115,8 @@ export const loggingEpic: Epic<Action, StoreState> = action$ => {
     .distinctUntilChanged(comparePageLoadActions)
     .map(mapPageLoadActions);
 
-  const loggableActions$ = action$.filter(shouldActionBeLogged);
-
-  return observePageLoad$.merge(() => {
+  const createLoggableActionsObserver = () => {
+    const loggableActions$ = action$.filter(shouldActionBeLogged);
     if (__IS_SERVER__) {
       // Logs should be sent immediately on the server because a new store instance is created
       // for each request so we can't `buffer` log events between request, and we can't "flush"
@@ -145,5 +144,7 @@ export const loggingEpic: Epic<Action, StoreState> = action$ => {
         },
       );
     }
-  });
+  };
+
+  return observePageLoad$.merge(createLoggableActionsObserver());
 };
