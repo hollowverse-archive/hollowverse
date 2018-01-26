@@ -55,7 +55,7 @@ const Block = (props: BlockProps): JSX.Element => {
   const { node, nodes, referencesMap, onSourceClick } = props;
   const children = findChildren(node, nodes).map(child => {
     if (isBlockNode(child)) {
-      return <Block {...props} node={child} />;
+      return <Block key={child.id} {...props} node={child} />;
     } else if (child.type === 'link' && child.sourceUrl) {
       return (
         <a
@@ -139,8 +139,10 @@ export class EditorialSummary extends React.PureComponent<Props, State> {
     shouldShowSources: __IS_SERVER__,
   };
 
-  constructor({ nodes }: Props) {
-    super();
+  constructor(props: Props, context: any) {
+    super(props, context);
+
+    const { nodes } = props;
 
     // Collect references in nodes to create the Sources section at the end
     // of the editorial summary.
@@ -163,6 +165,7 @@ export class EditorialSummary extends React.PureComponent<Props, State> {
           .filter(isRootBlock)
           .map(node => (
             <Block
+              key={node.id}
               node={node}
               nodes={nodes}
               referencesMap={this.references}

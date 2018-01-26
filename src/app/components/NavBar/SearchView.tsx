@@ -80,7 +80,7 @@ export class SearchView extends React.PureComponent<Props> {
             className={classes.input}
             required
             name="query"
-            value={inputValue}
+            defaultValue={inputValue}
             placeholder="Search for notable people..."
             onFocus={this.handleFocus}
             autoFocus={__IS_SERVER__ && !inputValue}
