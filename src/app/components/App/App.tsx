@@ -1,3 +1,4 @@
+// tslint:disable:react-a11y-titles
 import * as React from 'react';
 import cc from 'classcat';
 // @ts-ignore
@@ -22,7 +23,6 @@ export const App = class extends React.Component {
     return (
       <div className={cc([classes.root, { 'no-js': __IS_SERVER__ }])}>
         <Head>
-          {/* @prettier-ignore */}
           <title>
             Hollowverse - Religion, politics and ideas of notable people
           </title>
