@@ -103,7 +103,8 @@ const Page = withRouter(
             return (
               <div className={classes.root}>
                 <Head>
-                  <title>{notablePerson.name} - Hollowverse</title>
+                  <link rel="canonical" href={commentsUrl} />
+                  <title>{name} - Religion and Political Views</title>
                 </Head>
                 <Status code={200} />
                 <DispatchOnLifecycleEvent
