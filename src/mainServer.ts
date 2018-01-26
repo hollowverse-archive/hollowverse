@@ -46,6 +46,9 @@ proxyServer.on('proxyReq', (proxyReq: any) => {
 // Examples: /static/app.js, /static/vendor.js => new hollowverse
 server.get('/static/*', appServer);
 
+// Allow the new app server to handle /log
+server.post('/log', appServer);
+
 // Because ":/path" matches routes on both new and old servers, the new proxy also has
 // to know the new app paths to avoid redirection loops.
 server.get('/:path', async (req, res, next) => {
