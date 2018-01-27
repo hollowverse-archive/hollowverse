@@ -45,7 +45,7 @@ export class Collapsable extends React.PureComponent<Props, State> {
   handleChange = () => {
     const onChange = this.props.onChange || this.defaultOnChange;
 
-    onChange(!this.props.isOpen);
+    onChange(!this.state.isOpen);
   };
 
   render() {

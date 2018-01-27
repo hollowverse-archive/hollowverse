@@ -129,13 +129,6 @@ export class EditorialSummary extends React.PureComponent<Props, State> {
   references = new Map<Node, Source>();
 
   state: State = {
-    // The server markup should have the sources shown by default
-    // so that users can click on a reference in the content to go the source.
-    // even if they have disabled JavaScript in the browser.
-    //
-    // When JS is executed, Preact calls render
-    // and sees that, in the browser build, `shouldShowSources` is now `false`,
-    // so it hides them.
     shouldShowSources: true,
   };
 
@@ -150,6 +143,13 @@ export class EditorialSummary extends React.PureComponent<Props, State> {
   }
 
   componentDidMount() {
+    // The server markup should have the sources shown by default (see default `state` above)
+    // so that users can click on a reference in the content to go the source.
+    // even if they have disabled JavaScript in the browser.
+    //
+    // When JS is executed on the client, React calls `componentDidMount`
+    // and sees that, `shouldShowSources` is now `false`,
+    // so it hides them.
     this.setState({ shouldShowSources: false });
   }
 
