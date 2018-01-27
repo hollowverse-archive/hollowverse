@@ -48,7 +48,7 @@ export const sendLogs = async (actions: Action[]) => {
       // is sent, although this will block the closing of page
       // until the request is done, so users may perceive the website
       // to be unresponsive.
-      // Asynchronus requests are ignored by browsers.
+      // Asynchronous requests are ignored by browsers.
       const request = new XMLHttpRequest();
       request.open('POST', logEndpointUrl, false);
       request.setRequestHeader('Accept', 'application/json');
