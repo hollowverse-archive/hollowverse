@@ -136,7 +136,7 @@ export class EditorialSummary extends React.PureComponent<Props, State> {
     // When JS is executed, Preact calls render
     // and sees that, in the browser build, `shouldShowSources` is now `false`,
     // so it hides them.
-    shouldShowSources: __IS_SERVER__,
+    shouldShowSources: true,
   };
 
   constructor(props: Props, context: any) {
@@ -147,6 +147,10 @@ export class EditorialSummary extends React.PureComponent<Props, State> {
     // Collect references in nodes to create the Sources section at the end
     // of the editorial summary.
     nodes.filter(isRootBlock).forEach(findRefs(nodes, this.references));
+  }
+
+  componentDidMount() {
+    this.setState({ shouldShowSources: false });
   }
 
   onSourceClick: BlockProps['onSourceClick'] = () => {

@@ -36,10 +36,9 @@ export const NavBar = class extends React.Component<
   };
 
   render() {
-    const { title, shouldFocusSearch, isHomePage, history } = this.props;
+    const { title, shouldFocusSearch, isHomePage } = this.props;
 
-    const shouldHideBackButton =
-      __IS_SERVER__ || isHomePage || history.length === 0;
+    const shouldHideBackButton = false;
 
     return (
       <div className={classes.root}>
