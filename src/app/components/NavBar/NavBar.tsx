@@ -38,8 +38,6 @@ export const NavBar = class extends React.Component<
   render() {
     const { title, shouldFocusSearch, isHomePage } = this.props;
 
-    const shouldHideBackButton = false;
-
     return (
       <div className={classes.root}>
         <Sticky
@@ -51,12 +49,9 @@ export const NavBar = class extends React.Component<
             return (
               <>
                 <NavBarButton
-                  disabled={shouldHideBackButton}
+                  disabled
                   onClick={this.goBack}
-                  className={cc([
-                    classes.button,
-                    { [classes.isHidden]: shouldHideBackButton },
-                  ])}
+                  className={cc([classes.button, { [classes.isHidden]: true }])}
                 >
                   <SvgIcon size={20} {...backIcon} />
                   <span className="sr-only">Go Back</span>
