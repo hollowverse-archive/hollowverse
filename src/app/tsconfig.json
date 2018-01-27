@@ -10,8 +10,6 @@
 
     "skipLibCheck": true,
 
-    "strictFunctionTypes": true,
-
     "allowJs": false,
     "checkJs": false,
 
