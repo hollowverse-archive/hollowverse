@@ -17,6 +17,7 @@ type Node = {
 };
 
 type Props = {
+  id: string;
   author: string;
   lastUpdatedOn: string | null;
   nodes: Node[];
