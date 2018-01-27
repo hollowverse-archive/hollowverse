@@ -10,6 +10,8 @@
 
     "skipLibCheck": true,
 
+    "strictFunctionTypes": true,
+
     "allowJs": false,
     "checkJs": false,
 
@@ -17,7 +19,7 @@
     // e.g. `import 'file';` instead of `'../../file';`
     // This also has to be set in `webpack.config.json`, check `resolve.modules`
     "baseUrl": ".",
-    
+
     // Specifies how to resolve absolute imports relative to baseUrl
     "paths": {
       "*": [
