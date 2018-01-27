@@ -52,7 +52,7 @@
     },
     {
       "path": "./dist/client/**/vendor.*.js",
-      "maxSize": "100 kB"
+      "maxSize": "130 kB"
     },
     {
       "path": "./dist/client/**/*.module.*.css",
