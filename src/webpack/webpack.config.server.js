@@ -103,6 +103,12 @@ const serverSpecificConfig = {
     new webpack.DefinePlugin({
       __IS_SERVER__: true,
     }),
+
+    new webpack.ProvidePlugin({
+      URL: ['url', 'URL'],
+      URLSearchParams: ['url', 'URLSearchParams'],
+      fetch: ['node-fetch', 'default'],
+    }),
   ],
 };
 
