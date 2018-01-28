@@ -1,5 +1,3 @@
-import { URL } from 'url';
-
 /**
  * Unlike browsers, Node.js has no idea what the domain
  * of the server is, so all URLs must be absolute.

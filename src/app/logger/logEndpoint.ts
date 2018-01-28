@@ -4,7 +4,7 @@ import * as bodyParser from 'body-parser';
 import { isBodyValid } from './utils';
 import { log } from './logger';
 
-const logEndpoint = express();
+export const logEndpoint = express();
 
 /**
  * For compatibility with `navigator.sendBeacon`, we are accepting
@@ -50,5 +50,3 @@ logEndpoint.use([
     res.send({ error: 'Server Error' });
   },
 ]);
-
-export { logEndpoint };
