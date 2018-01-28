@@ -2,6 +2,8 @@ import * as React from 'react';
 import { StoreState } from 'store/types';
 
 import * as classes from './SearchResults.module.scss';
+//@ts-ignore
+import Helmet from 'react-helmet-async';
 
 import { Card } from 'components/Card/Card';
 import {
@@ -51,6 +53,9 @@ class Page extends React.PureComponent<Props> {
 
     return (
       <div className={classes.root}>
+        <Helmet>
+          <title>Hollowverse - Search</title>
+        </Helmet>
         <div className={classes.resultsContainer}>
           <WithData
             requestId={searchQuery}

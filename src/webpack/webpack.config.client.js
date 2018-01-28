@@ -97,6 +97,12 @@ const clientSpecificConfig = {
     ]),
   },
 
+  resolve: {
+    alias: {
+      'react-helmet-async': 'react-helmet',
+    },
+  },
+
   plugins: compact([
     // CSS
     extractGlobalCss,

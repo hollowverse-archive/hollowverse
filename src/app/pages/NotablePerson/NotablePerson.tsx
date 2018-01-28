@@ -1,7 +1,7 @@
 import * as React from 'react';
 import cc from 'classcat';
 // @ts-ignore
-import Head from 'react-declarative-head';
+import Helmet from 'react-helmet-async';
 import { client } from 'api/client';
 
 import {
@@ -102,10 +102,10 @@ const Page = withRouter(
 
             return (
               <div className={classes.root}>
-                <Head>
+                <Helmet>
                   <link rel="canonical" href={commentsUrl} />
                   <title>{name} - Religion and Political Views</title>
-                </Head>
+                </Helmet>
                 <Status code={200} />
                 <DispatchOnLifecycleEvent
                   onWillUnmount={setAlternativeSearchBoxText(null)}
