@@ -137,10 +137,10 @@ export const createServerRenderMiddleware = ({
               js,
               styles,
               cssHash,
-              htmlAttributes: htmlAttributes,
-              link: link,
-              title: title,
-              meta: meta,
+              htmlAttributes,
+              link,
+              title,
+              meta,
             }),
           );
         }
