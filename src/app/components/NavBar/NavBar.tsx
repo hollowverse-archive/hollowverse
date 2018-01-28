@@ -36,10 +36,7 @@ export const NavBar = class extends React.Component<
   };
 
   render() {
-    const { title, shouldFocusSearch, isHomePage, history } = this.props;
-
-    const shouldHideBackButton =
-      __IS_SERVER__ || isHomePage || history.length === 0;
+    const { title, shouldFocusSearch, isHomePage } = this.props;
 
     return (
       <div className={classes.root}>
@@ -49,53 +46,52 @@ export const NavBar = class extends React.Component<
           height={48}
         >
           {isSticking => {
-            return [
-              <NavBarButton
-                disabled={shouldHideBackButton}
-                onClick={this.goBack}
-                className={cc([
-                  classes.button,
-                  { [classes.isHidden]: shouldHideBackButton },
-                ])}
-              >
-                <SvgIcon size={20} {...backIcon} />
-                <span className="sr-only">Go Back</span>
-              </NavBarButton>,
-              <div className={classes.view}>
-                <Switch>
-                  <Route path="/search">
-                    <ConnectedSearchView />
-                  </Route>
-                  <Route>
-                    {isSticking || shouldFocusSearch ? (
+            return (
+              <>
+                <NavBarButton
+                  disabled
+                  onClick={this.goBack}
+                  className={cc([classes.button, { [classes.isHidden]: true }])}
+                >
+                  <SvgIcon size={20} {...backIcon} />
+                  <span className="sr-only">Go Back</span>
+                </NavBarButton>
+                <div className={classes.view}>
+                  <Switch>
+                    <Route path="/search">
                       <ConnectedSearchView />
-                    ) : (
-                      <div className={classes.logoViewInner}>
-                        <div className={classes.logoWrapper}>
+                    </Route>
+                    <Route>
+                      {isSticking || shouldFocusSearch ? (
+                        <ConnectedSearchView />
+                      ) : (
+                        <div className={classes.logoViewInner}>
+                          <div className={classes.logoWrapper}>
+                            <NavBarLink
+                              title="Homepage"
+                              className={classes.logo}
+                              to="/"
+                            >
+                              <img src={textLogo} alt={title} />
+                            </NavBarLink>
+                          </div>
                           <NavBarLink
-                            title="Homepage"
-                            className={classes.logo}
-                            to="/"
+                            className={cc([
+                              classes.button,
+                              { [classes.isHidden]: isHomePage },
+                            ])}
+                            to="/search"
                           >
-                            <img src={textLogo} alt={title} />
+                            <SvgIcon size={20} {...searchIcon} />
+                            <span className="sr-only">Search</span>
                           </NavBarLink>
                         </div>
-                        <NavBarLink
-                          className={cc([
-                            classes.button,
-                            { [classes.isHidden]: isHomePage },
-                          ])}
-                          to="/search"
-                        >
-                          <SvgIcon size={20} {...searchIcon} />
-                          <span className="sr-only">Search</span>
-                        </NavBarLink>
-                      </div>
-                    )}
-                  </Route>
-                </Switch>
-              </div>,
-            ];
+                      )}
+                    </Route>
+                  </Switch>
+                </div>
+              </>
+            );
           }}
         </Sticky>
       </div>

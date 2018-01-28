@@ -1,6 +1,6 @@
 import { importGlobalScript } from 'helpers/importGlobalScript';
 
-// `file-loader` insructs Webpack to output the imported module to a separate
+// `file-loader` instructs Webpack to output the imported module to a separate
 // file, and returns the runtime URL of that file so that we can import it
 // as a global script.
 // Polyfills must be imported as global scripts because they need to access things

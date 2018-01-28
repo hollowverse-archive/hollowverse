@@ -51,7 +51,7 @@ export const DispatchOnLifecycleEvent = connect<{}, DispatchProps, OwnProps>(
     }
 
     render() {
-      return this.props.children as any;
+      return this.props.children || null;
     }
   },
 );

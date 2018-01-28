@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Provider } from 'react-redux';
 import { ConnectedRouter as Router } from 'react-router-redux';
 import domready from 'domready';
-import { render } from 'react-dom';
+import { hydrate } from 'react-dom';
 import createBrowserHistory from 'history/createBrowserHistory';
 
 import { App } from 'components/App/App';
@@ -18,7 +18,7 @@ const history = createBrowserHistory();
 const { store } = createConfiguredStore(history, __INITIAL_STATE__);
 
 const renderApp = (NewApp: typeof App = App) => {
-  render(
+  hydrate(
     <Provider store={store}>
       <Router history={history}>
         <NewApp />

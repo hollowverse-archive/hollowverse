@@ -5,10 +5,8 @@ import { SvgIcon } from 'components/SvgIcon/SvgIcon';
 
 import dropdownIcon from 'icons/dropdown.svg';
 
-import { generateRandomString } from 'helpers/generateRandomString';
-
 type Props = {
-  id?: string;
+  id: string;
   label: React.ReactNode;
   isOpen?: boolean;
   onChange?(isOpen: boolean): void;
@@ -46,11 +44,11 @@ export class Collapsable extends React.PureComponent<Props, State> {
   handleChange = () => {
     const onChange = this.props.onChange || this.defaultOnChange;
 
-    onChange(!this.props.isOpen);
+    onChange(!this.state.isOpen);
   };
 
   render() {
-    const { label, children, id = generateRandomString() } = this.props;
+    const { id, label, children } = this.props;
     const { isOpen } = this.state;
 
     return (
@@ -72,19 +70,9 @@ export class Collapsable extends React.PureComponent<Props, State> {
           id={id}
           onChange={this.handleChange}
           checked={isOpen}
-          aria-checked={String(isOpen)}
+          aria-checked={isOpen}
         />
-        <label
-          className={classes.label}
-          // There seems to be an issue in Preact server side rendering where
-          // the `htmlFor` attribute is passed as-is because when JS is disabled,
-          // the generated server markup has `htmlfor` instead of `for` and the
-          // collapsable component does not toggle when the label is clicked.
-          //
-          // Using `{...{ for: id }}` tricks TypeScript into ignoring the
-          // "unknown" property `for`, since TS expects `htmlFor` instead.
-          {...{ for: id }}
-        >
+        <label className={classes.label} htmlFor={id}>
           {label}
           <SvgIcon size={8} className={classes.icon} {...dropdownIcon} />
         </label>
