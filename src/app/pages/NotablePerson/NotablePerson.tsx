@@ -121,7 +121,7 @@ const Page = withRouter(
                     <Card
                       className={cc([classes.card, classes.editorialSummary])}
                     >
-                      <EditorialSummary {...editorialSummary} />
+                      <EditorialSummary id={slug} {...editorialSummary} />
                     </Card>
                   ) : (
                     <div className={classes.stub}>

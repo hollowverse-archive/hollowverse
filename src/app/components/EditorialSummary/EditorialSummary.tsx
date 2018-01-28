@@ -17,6 +17,7 @@ type Node = {
 };
 
 type Props = {
+  id: string;
   author: string;
   lastUpdatedOn: string | null;
   nodes: Node[];
@@ -55,7 +56,7 @@ const Block = (props: BlockProps): JSX.Element => {
   const { node, nodes, referencesMap, onSourceClick } = props;
   const children = findChildren(node, nodes).map(child => {
     if (isBlockNode(child)) {
-      return <Block {...props} node={child} />;
+      return <Block key={child.id} {...props} node={child} />;
     } else if (child.type === 'link' && child.sourceUrl) {
       return (
         <a
@@ -129,22 +130,28 @@ export class EditorialSummary extends React.PureComponent<Props, State> {
   references = new Map<Node, Source>();
 
   state: State = {
-    // The server markup should have the sources shown by default
-    // so that users can click on a reference in the content to go the source.
-    // even if they have disabled JavaScript in the browser.
-    //
-    // When JS is executed, Preact calls render
-    // and sees that, in the browser build, `shouldShowSources` is now `false`,
-    // so it hides them.
-    shouldShowSources: __IS_SERVER__,
+    shouldShowSources: true,
   };
 
-  constructor({ nodes }: Props) {
-    super();
+  constructor(props: Props, context: any) {
+    super(props, context);
+
+    const { nodes } = props;
 
     // Collect references in nodes to create the Sources section at the end
     // of the editorial summary.
     nodes.filter(isRootBlock).forEach(findRefs(nodes, this.references));
+  }
+
+  componentDidMount() {
+    // The server markup should have the sources shown by default (see default `state` above)
+    // so that users can click on a reference in the content to go the source.
+    // even if they have disabled JavaScript in the browser.
+    //
+    // When JS is executed on the client, React calls `componentDidMount`
+    // and sees that, `shouldShowSources` is now `false`,
+    // so it hides them.
+    this.setState({ shouldShowSources: false });
   }
 
   onSourceClick: BlockProps['onSourceClick'] = () => {
@@ -163,6 +170,7 @@ export class EditorialSummary extends React.PureComponent<Props, State> {
           .filter(isRootBlock)
           .map(node => (
             <Block
+              key={node.id}
               node={node}
               nodes={nodes}
               referencesMap={this.references}
@@ -170,7 +178,11 @@ export class EditorialSummary extends React.PureComponent<Props, State> {
             />
           ))}
         <hr />
-        <Collapsable isOpen={shouldShowSources} label={<h3>Sources</h3>}>
+        <Collapsable
+          id="sources"
+          isOpen={shouldShowSources}
+          label={<h3>Sources</h3>}
+        >
           <small>
             <ol className={classes.sourceList}>
               {Array.from(this.references.values()).map(ref => {
