@@ -7,6 +7,7 @@ type Props = {
 
 export class WithUniqueId extends React.PureComponent<Props> {
   counter = 0;
+
   getId() {
     this.counter += 1;
 
