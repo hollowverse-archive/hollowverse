@@ -1,7 +1,6 @@
 import express from 'express';
 import * as React from 'react';
-// @ts-ignore
-import { HelmetProvider } from 'react-helmet-async';
+import { HelmetProvider, FilledContext } from 'react-helmet-async';
 import * as serializeJavaScript from 'serialize-javascript';
 import { renderToString, wrapRootEpic } from 'react-redux-epic';
 import { ConnectedRouter } from 'react-router-redux';
@@ -36,6 +35,7 @@ type IconStats = {
 };
 
 import { logEndpoint } from './logger/logEndpoint';
+import { HelmetData } from 'react-helmet';
 
 // tslint:disable-next-line:max-func-body-length
 export const createServerRenderMiddleware = ({
@@ -59,7 +59,7 @@ export const createServerRenderMiddleware = ({
       wrapRootEpic,
     );
 
-    const helmetContext: any = {};
+    const helmetContext = {};
 
     renderToString(
       <HelmetProvider context={helmetContext}>
@@ -119,7 +119,7 @@ export const createServerRenderMiddleware = ({
           const icons = iconStats ? iconStats.html.join(' ') : '';
 
           const { title, meta, link, htmlAttributes } = mapValues(
-            helmetContext.helmet,
+            (helmetContext as FilledContext).helmet,
             String,
           );
 

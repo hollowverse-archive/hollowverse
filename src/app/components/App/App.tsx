@@ -1,7 +1,6 @@
 // tslint:disable:react-a11y-titles
 import * as React from 'react';
 import cc from 'classcat';
-// @ts-ignore
 import Helmet from 'react-helmet-async';
 import { ConnectedNavBar } from 'components/NavBar/ConnectedNavBar';
 import { Route, Switch } from 'react-router';

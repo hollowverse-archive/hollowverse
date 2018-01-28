@@ -1,6 +1,5 @@
 import * as React from 'react';
 import cc from 'classcat';
-// @ts-ignore
 import Helmet from 'react-helmet-async';
 import { client } from 'api/client';
 

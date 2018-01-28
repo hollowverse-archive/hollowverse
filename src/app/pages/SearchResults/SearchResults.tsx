@@ -2,7 +2,6 @@ import * as React from 'react';
 import { StoreState } from 'store/types';
 
 import * as classes from './SearchResults.module.scss';
-//@ts-ignore
 import Helmet from 'react-helmet-async';
 
 import { Card } from 'components/Card/Card';
