@@ -35,7 +35,6 @@ type IconStats = {
 };
 
 import { logEndpoint } from './logger/logEndpoint';
-import { HelmetData } from 'react-helmet';
 
 // tslint:disable-next-line:max-func-body-length
 export const createServerRenderMiddleware = ({
