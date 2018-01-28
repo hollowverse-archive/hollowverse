@@ -1,10 +1,11 @@
 import express from 'express';
 import * as React from 'react';
+import { HelmetProvider, FilledContext } from 'react-helmet-async';
 import * as serializeJavaScript from 'serialize-javascript';
 import { renderToString, wrapRootEpic } from 'react-redux-epic';
 import { ConnectedRouter } from 'react-router-redux';
 import createMemoryHistory from 'history/createMemoryHistory';
-import { template } from 'lodash';
+import { template, mapValues } from 'lodash';
 import { flushChunkNames } from 'react-universal-component/server';
 import flushChunks from 'webpack-flush-chunks';
 
@@ -47,6 +48,7 @@ export const createServerRenderMiddleware = ({
 
   middleware.use('/log', logEndpoint);
 
+  // tslint:disable-next-line:max-func-body-length
   middleware.use(async (req, res) => {
     const start = Date.now();
     const history = createMemoryHistory({ initialEntries: [req.url] });
@@ -55,30 +57,34 @@ export const createServerRenderMiddleware = ({
       undefined,
       wrapRootEpic,
     );
-  
+
+    const helmetContext = {};
+
     renderToString(
-      <Provider store={store}>
-        <ConnectedRouter history={history}>
-          <App />
-        </ConnectedRouter>
-      </Provider>,
+      <HelmetProvider context={helmetContext}>
+        <Provider store={store}>
+          <ConnectedRouter history={history}>
+            <App />
+          </ConnectedRouter>
+        </Provider>
+      </HelmetProvider>,
       wrappedRootEpic,
     ).subscribe({
       next({ markup }) {
         const state = store.getState();
         logger.debug('Server-side Redux state:', state);
-  
+
         const statusCode = getStatusCode(state) || 200;
         res.status(statusCode);
-  
+
         if (statusCode === 301 || statusCode === 302) {
           const url = getRedirectionUrl(state) as string;
           res.redirect(url);
-  
+
           return;
         } else {
           const chunkNames = flushChunkNames();
-  
+
           const {
             js,
             styles,
@@ -87,14 +93,14 @@ export const createServerRenderMiddleware = ({
             stylesheets,
             publicPath,
           } = flushChunks(clientStats, { chunkNames });
-  
+
           logger.debug(`Request path: ${req.path}`);
           logger.debug('Dynamic chunk names rendered', chunkNames);
           logger.debug('Scripts served:', scripts);
           logger.debug('Stylesheets served:', stylesheets);
           logger.debug('Icon stats:', iconStats);
           logger.debug('Public path:', publicPath);
-  
+
           // Tell browsers to start fetching scripts and stylesheets as soon as they
           // parse the HTTP headers of the page
           res.setHeader(
@@ -108,9 +114,14 @@ export const createServerRenderMiddleware = ({
               ),
             ].join(','),
           );
-  
+
           const icons = iconStats ? iconStats.html.join(' ') : '';
-  
+
+          const { title, meta, link, htmlAttributes } = mapValues(
+            (helmetContext as FilledContext).helmet,
+            String,
+          );
+
           res.send(
             interpolateTemplate({
               // In order to protect from XSS attacks, make sure to use `serialize-javascript`
@@ -126,16 +137,20 @@ export const createServerRenderMiddleware = ({
               js,
               styles,
               cssHash,
+              htmlAttributes,
+              link,
+              title,
+              meta,
             }),
           );
         }
       },
-  
+
       complete() {
         const end = Date.now();
         logger.debug(`Request took ${end - start}ms to process`);
       },
-  
+
       error(error: Error) {
         logger.error(error);
         res.status(500).send('Error');
@@ -145,4 +160,3 @@ export const createServerRenderMiddleware = ({
 
   return middleware;
 };
-
