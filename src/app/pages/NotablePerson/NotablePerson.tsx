@@ -1,5 +1,6 @@
 import * as React from 'react';
 import cc from 'classcat';
+import Helmet from 'react-helmet-async';
 import { client } from 'api/client';
 
 import {
@@ -100,6 +101,10 @@ const Page = withRouter(
 
             return (
               <div className={classes.root}>
+                <Helmet>
+                  <link rel="canonical" href={commentsUrl} />
+                  <title>{`${name}'s Religion and Political Views`}</title>
+                </Helmet>
                 <Status code={200} />
                 <DispatchOnLifecycleEvent
                   onWillUnmount={setAlternativeSearchBoxText(null)}
@@ -126,7 +131,7 @@ const Page = withRouter(
                 </article>
                 {notablePerson.relatedPeople.length ? (
                   <div className={classes.relatedPeople}>
-                    <h2>Other interseting profiles</h2>
+                    <h2>Other interesting profiles</h2>
                     <RelatedPeople people={notablePerson.relatedPeople} />
                   </div>
                 ) : null}
