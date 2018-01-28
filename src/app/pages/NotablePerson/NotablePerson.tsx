@@ -104,7 +104,9 @@ const Page = withRouter(
               <div className={classes.root}>
                 <Helmet>
                   <link rel="canonical" href={commentsUrl} />
-                  <title>{name} - Religion and Political Views</title>
+                  <title>{`${name}'${
+                    name.endsWith('s') ? '' : 's'
+                  } Religion and Political Views - Hollowverse`}</title>
                 </Helmet>
                 <Status code={200} />
                 <DispatchOnLifecycleEvent

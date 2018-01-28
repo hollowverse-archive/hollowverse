@@ -38,7 +38,7 @@ export const App = class extends React.Component<{}, State> {
       <div className={cc([classes.root, { 'no-js': hasMounted }])}>
         <Helmet>
           <title>
-            Hollowverse - Religion, politics and ideas of notable people
+            Hollowverse - Religion, politics and ideas of the influentials
           </title>
           <meta
             name="viewport"
