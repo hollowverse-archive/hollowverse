@@ -9,6 +9,11 @@ export const Shim = ({
   children = null,
   fallbackIsInView = true,
   tag = 'div',
+  rootMargin: _,
+  threshold: __,
+  root: ___,
+  rootId: _____,
+  triggerOnce: ______,
   ...rest
 }: Props) => {
   return React.createElement(tag, {

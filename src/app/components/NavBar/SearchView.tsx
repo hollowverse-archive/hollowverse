@@ -64,7 +64,7 @@ export class SearchView extends React.PureComponent<Props> {
   };
 
   render() {
-    const { inputValue, isSearchInProgress } = this.props;
+    const { inputValue, isSearchInProgress, isSearchPage } = this.props;
 
     return (
       <form
@@ -83,7 +83,7 @@ export class SearchView extends React.PureComponent<Props> {
             value={inputValue}
             placeholder="Search for notable people..."
             onFocus={this.handleFocus}
-            autoFocus={__IS_SERVER__ && !inputValue}
+            autoFocus={isSearchPage}
             onChange={this.handleChange}
           />
         </div>
