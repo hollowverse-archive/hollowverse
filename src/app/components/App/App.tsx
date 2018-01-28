@@ -35,10 +35,10 @@ export const App = class extends React.Component<{}, State> {
 
     return (
       <div className={cc([classes.root, { 'no-js': hasMounted }])}>
-        <Helmet>
-          <title>
-            Hollowverse - Religion, politics and ideas of the influentials
-          </title>
+        <Helmet
+          titleTemplate="%s - Hollowverse"
+          defaultTitle="Hollowverse - Religion, politics and ideas of the influentials"
+        >
           <meta
             name="viewport"
             content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0, shrink-to-fit=no"

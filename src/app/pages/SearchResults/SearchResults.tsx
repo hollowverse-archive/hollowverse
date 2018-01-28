@@ -53,7 +53,7 @@ class Page extends React.PureComponent<Props> {
     return (
       <div className={classes.root}>
         <Helmet>
-          <title>Hollowverse - Search</title>
+          <title>Search</title>
         </Helmet>
         <div className={classes.resultsContainer}>
           <WithData
