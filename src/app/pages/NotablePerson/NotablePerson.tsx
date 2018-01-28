@@ -132,7 +132,7 @@ const Page = withRouter(
                 </article>
                 {notablePerson.relatedPeople.length ? (
                   <div className={classes.relatedPeople}>
-                    <h2>Other interseting profiles</h2>
+                    <h2>Other interesting profiles</h2>
                     <RelatedPeople people={notablePerson.relatedPeople} />
                   </div>
                 ) : null}
