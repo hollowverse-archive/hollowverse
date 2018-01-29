@@ -1,14 +1,6 @@
-import { GraphQLClient } from 'graphql-request';
-export const client = new GraphQLClient('https://api.hollowverse.com/graphql');
-
-// tslint:disable-next-line:no-multiline-string
-const query = `
-  query NotablePerson($slug: String!) {
-    notablePerson(slug: $slug) {
-      slug
-    }
-  }
-`;
+import { client } from 'api/client';
+import query from './isNewSlugQuery.graphql';
+import { NotablePersonOldSlugQuery } from 'api/types';
 
 const memoizeOnSuccess = <T extends string, R>(
   fn: ((arg: T) => Promise<R>),
@@ -29,7 +21,12 @@ const memoizeOnSuccess = <T extends string, R>(
 };
 
 export const isNewSlug = memoizeOnSuccess(async (path: string) => {
-  const result = await client.request<any>(query, { slug: path });
+  const result = await client.request<NotablePersonOldSlugQuery>(query, {
+    slug: path,
+  });
 
-  return result.notablePerson !== null;
+  return (
+    result.notablePerson !== null &&
+    result.notablePerson.oldSlug !== path.toLowerCase()
+  );
 });

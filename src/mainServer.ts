@@ -5,8 +5,6 @@ import { env } from './env';
 import { redirectToHttps } from './middleware/redirectToHttps';
 import { appServer } from './appServer';
 import { securityMiddleware } from './middleware/security';
-import { redirectionMap } from './redirectionMap';
-import { isNewSlug } from './isNewSlug';
 
 const {
   OLD_SERVER_ADDRESS = 'https://static.legacy.hollowverse.com/',
@@ -51,26 +49,7 @@ server.post('/log', appServer);
 
 // Because ":/path" matches routes on both new and old servers, the new proxy also has
 // to know the new app paths to avoid redirection loops.
-server.get('/:path', async (req, res, next) => {
-  try {
-    // '/:path' matches: /Tom_Hanks, /tom-hanks, /app.js, /michael-jackson, ashton-kutcher...
-    const reqPath: string = req.params.path;
-
-    const redirectionPath = redirectionMap.get(reqPath);
-    if (redirectionPath !== undefined) {
-      // /tom-hanks => redirect to Tom_Hanks
-      res.redirect(`/${redirectionPath}`);
-    } else if (await isNewSlug(reqPath)) {
-      // /Tom_Hanks => new hollowverse
-      appServer(req, res, next);
-    } else {
-      // /michael-jackson, ashton-kutcher, / => old hollowverse
-      next();
-    }
-  } catch {
-    next();
-  }
-});
+server.get('/:path', appServer);
 
 // Fallback to old hollowverse
 server.use((req, res) => {

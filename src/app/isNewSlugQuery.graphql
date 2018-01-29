@@ -1,0 +1,5 @@
+query NotablePersonOldSlug($slug: String!) {
+  notablePerson(slug: $slug) {
+    oldSlug
+  }
+}

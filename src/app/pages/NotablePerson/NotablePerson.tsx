@@ -31,6 +31,7 @@ import query from './NotablePersonQuery.graphql';
 
 import warningIcon from 'icons/warning.svg';
 import { setAlternativeSearchBoxText } from 'store/features/search/actions';
+import { whitelistedNewPaths } from 'redirectionMap';
 
 const warningIconComponent = <SvgIcon {...warningIcon} size={100} />;
 
@@ -102,7 +103,14 @@ const Page = withRouter(
             return (
               <div className={classes.root}>
                 <Helmet>
-                  <link rel="canonical" href={commentsUrl} />
+                  <link
+                    rel="canonical"
+                    href={
+                      whitelistedNewPaths.has(slug)
+                        ? String(new URL(`${slug}`, 'https://hollowverse.com'))
+                        : commentsUrl
+                    }
+                  />
                   <title>{`${name}'s Religion and Political Views`}</title>
                 </Helmet>
                 <Status code={200} />
