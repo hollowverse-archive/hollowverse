@@ -35,7 +35,7 @@ type IconStats = {
 };
 
 import { logEndpoint } from './logger/logEndpoint';
-import { redirectionMap } from './redirectionMap';
+import { redirectionMap, whitelistedNewPaths } from './redirectionMap';
 import { isNewSlug } from './isNewSlug';
 import { RequestHandler } from 'express-serve-static-core';
 
@@ -166,10 +166,10 @@ export const createServerRenderMiddleware = ({
       if (redirectionPath !== undefined) {
         // /tom-hanks => redirect to Tom_Hanks
         res.redirect(`/${redirectionPath}`);
-      } else if (!await isNewSlug(path)) {
-        next();
-      } else {
+      } else if (whitelistedNewPaths.has(path) || (await isNewSlug(path))) {
         serverRenderMiddleware(req, res, next);
+      } else {
+        next();
       }
     } catch (e) {
       console.error(e);

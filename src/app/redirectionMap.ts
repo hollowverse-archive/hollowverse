@@ -6,5 +6,8 @@ export const redirectionMap = new Map<string, string>([
   ['tom-hanks', 'Tom_Hanks'],
 ]);
 
-/** A set of new slugs of pages that are explicitly redirected to the new website */
-export const whitelistedNewPaths = new Set(redirectionMap.values());
+/** A whitelist of pages on the new app that can be accessed directly via the URL */
+export const whitelistedNewPaths = new Set([
+  ...Array.from(redirectionMap.values()),
+  'search',
+]);
