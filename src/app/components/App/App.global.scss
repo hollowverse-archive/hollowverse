@@ -1,5 +1,9 @@
 @import 'variables.scss';
 
+* {
+  scroll-behavior: smooth;
+}
+
 *,
 *::after,
 *::before {

@@ -5,41 +5,30 @@
   "main": "index.js",
   "repository": "https://github.com/hollowverse/hollowverse.git",
   "scripts": {
-    "test":
-      "run-p -l --aggregate-output validate-filenames lint-js lint-ts lint-css",
+    "test": "run-p -l --aggregate-output validate-filenames lint-js lint-ts lint-css",
     "lint-css": "stylelint --syntax scss 'src/app/**/*.scss'",
     "lint-js": "eslint '**/*.js{,x}'",
-    "lint-ts/eslint":
-      "eslint 'src/app/**/*.ts{,x}' --config src/app/.eslintrc.json --no-eslintrc",
+    "lint-ts/eslint": "eslint 'src/app/**/*.ts{,x}' --config src/app/.eslintrc.json --no-eslintrc",
     "lint-ts/tslint": "tslint './*.ts' 'src/**/*.ts{,x}' --project .",
     "lint-ts": "run-p --aggregate-output 'lint-ts/*'",
-    "app/webpack/build":
-      "REACT=1 NODE_ENV=production NO_PERF_CHECKS=1 node ./build.js",
+    "app/webpack/build": "REACT=1 NODE_ENV=production NO_PERF_CHECKS=1 node ./build.js",
     "bundlesize": "bundlesize",
-    "app/build":
-      "API_ENDPOINT=${API_ENDPOINT:-https://api.hollowverse.com/graphql} run-s -l app/graphql/build app/webpack/build bundlesize",
+    "app/build": "API_ENDPOINT=${API_ENDPOINT:-https://api.hollowverse.com/graphql} run-s -l app/graphql/build app/webpack/build bundlesize",
     "app/analyze": "webpack-bundle-analyzer dist/stats.json dist/client",
-    "app/graphql/schema":
-      "apollo-codegen introspect-schema ${API_ENDPOINT} --output ./graphqlSchema.json",
-    "app/graphql/types":
-      "apollo-codegen generate 'src/app/**/*.{graphql,gql}' --target typescript --output src/app/api/types.ts",
-    "app/graphql/dev":
-      "nodemon -q --watch src/app --ext graphql,gql --exec 'run-s app/graphql/schema app/graphql/types'",
+    "app/graphql/schema": "apollo-codegen introspect-schema ${API_ENDPOINT} --output ./graphqlSchema.json",
+    "app/graphql/types": "apollo-codegen generate 'src/app/**/*.{graphql,gql}' --target typescript --output src/app/api/types.ts",
+    "app/graphql/dev": "nodemon -q --watch src/app --ext graphql,gql --exec 'run-s app/graphql/schema app/graphql/types'",
     "app/graphql/build": "run-s -l app/graphql/schema app/graphql/types",
-    "server/app-server/dev":
-      "REACT=1 APP_SERVER_PORT=${APP_SERVER_PORT:-3001} HOT=1 NODE_ENV=development node --inspect=9231 -r 'source-map-support/register' -r 'ts-node/register' src/appServer.ts",
+    "server/app-server/dev": "REACT=1 APP_SERVER_PORT=${APP_SERVER_PORT:-3001} HOT=1 NODE_ENV=development node --inspect=9231 -r 'source-map-support/register' -r 'ts-node/register' src/appServer.ts",
     "server/app-server/start": "node dist/appServer.js",
-    "server/main-server/dev":
-      "PORT=${PORT:-8081} API_ENDPOINT=${API_ENDPOINT:-https://api.hollowverse.com/graphql} nodemon -q --watch src --ignore src/app --ignore src/webpack --ext ts,tsx,json --exec 'node --inspect=0.0.0.0:${SERVER_DEBUG_PORT:-9232} -r 'ts-node/register' src/mainServer.ts'",
+    "server/main-server/dev": "PORT=${PORT:-8081} API_ENDPOINT=${API_ENDPOINT:-https://api.hollowverse.com/graphql} nodemon -q --watch src --ignore src/app --ignore src/webpack --ext ts,tsx,json --exec 'node --inspect=0.0.0.0:${SERVER_DEBUG_PORT:-9232} -r 'ts-node/register' src/mainServer.ts'",
     "remotedev": "remotedev --hostname=localhost --port=8000",
     "server/main-server/start": "node dist/mainServer.js",
     "server/build": "tsc --project ./src",
     "build": "npm-run-all -s clean -p app/build server/build",
     "start": "NODE_ENV=production run-p server/main-server/start",
-    "dev":
-      "NODE_ENV=development API_ENDPOINT=${API_ENDPOINT:-https://api.hollowverse.com/graphql} npm-run-all -l -s clean -p app/graphql/dev server/app-server/dev remotedev",
-    "clean":
-      "del-cli './src/app/**/*.module.scss.d.ts' './dist' && mkdir -p ./dist",
+    "dev": "NODE_ENV=development API_ENDPOINT=${API_ENDPOINT:-https://api.hollowverse.com/graphql} npm-run-all -l -s clean -p app/graphql/dev server/app-server/dev remotedev",
+    "clean": "del-cli './src/app/**/*.module.scss.d.ts' './dist' && mkdir -p ./dist",
     "validate-filenames": "validate-filenames -c commonconfig.js",
     "lint-staged": "lint-staged"
   },
@@ -72,10 +61,21 @@
     }
   ],
   "lint-staged": {
-    "**/*.md": ["prettier --write", "git add"],
-    "**/*.{j,t}s{x,}": ["prettier --write", "git add"],
-    "**/*.json": ["prettier --write", "git add"],
-    "**/*.js{x,}": ["eslint"],
+    "**/*.md": [
+      "prettier --write",
+      "git add"
+    ],
+    "**/*.{j,t}s{x,}": [
+      "prettier --write",
+      "git add"
+    ],
+    "**/*.json": [
+      "prettier --write",
+      "git add"
+    ],
+    "**/*.js{x,}": [
+      "eslint"
+    ],
     "**/**/*.{s,}css": [
       "stylelint --syntax scss",
       "prettier --write",
@@ -128,6 +128,7 @@
     "moment": "^2.19.1",
     "node-fetch": "^1.7.3",
     "npm-run-all": "^4.0.2",
+    "path-to-regexp": "^2.1.0",
     "preact": "^8.2.7",
     "preact-compat": "^3.17.0",
     "react": "^16.2.0",

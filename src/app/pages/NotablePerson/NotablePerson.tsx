@@ -31,7 +31,7 @@ import query from './NotablePersonQuery.graphql';
 
 import warningIcon from 'icons/warning.svg';
 import { setAlternativeSearchBoxText } from 'store/features/search/actions';
-import { whitelistedNewPaths } from 'redirectionMap';
+import { isWhitelistedPage } from 'redirectionMap';
 
 const warningIconComponent = <SvgIcon {...warningIcon} size={100} />;
 
@@ -45,7 +45,7 @@ const Page = withRouter(
       return client.request<NotablePersonQuery>(query, { slug });
     };
 
-    // tslint:disable-next-line:max-func-body-length
+    // tslint:disable:max-func-body-length
     render() {
       const pageUrl = this.props.history.createHref(this.props.location);
       const { slug } = this.props.match.params;
@@ -100,17 +100,20 @@ const Page = withRouter(
               editorialSummary,
             } = notablePerson;
 
+            const isWhitelisted = isWhitelistedPage(`/${slug}`);
+
             return (
               <div className={classes.root}>
                 <Helmet>
                   <link
                     rel="canonical"
                     href={
-                      whitelistedNewPaths.has(slug)
+                      isWhitelisted
                         ? String(new URL(`${slug}`, 'https://hollowverse.com'))
                         : commentsUrl
                     }
                   />
+                  {isWhitelisted ? <meta name="robots" content="noindex" /> : null}
                   <title>{`${name}'s Religion and Political Views`}</title>
                 </Helmet>
                 <Status code={200} />

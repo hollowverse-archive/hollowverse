@@ -43,7 +43,6 @@ export const App = class extends React.Component<{}, State> {
             name="viewport"
             content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0, shrink-to-fit=no"
           />
-          <meta name="robots" content="noindex" />
           <meta charSet="utf-8" />
         </Helmet>
         <Route>

@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { RequestHandler } from 'express';
 import * as React from 'react';
 import { HelmetProvider, FilledContext } from 'react-helmet-async';
 import * as serializeJavaScript from 'serialize-javascript';
@@ -35,9 +35,8 @@ type IconStats = {
 };
 
 import { logEndpoint } from './logger/logEndpoint';
-import { redirectionMap, whitelistedNewPaths } from './redirectionMap';
+import { redirectionMap, isWhitelistedPage } from './redirectionMap';
 import { isNewSlug } from './isNewSlug';
-import { RequestHandler } from 'express-serve-static-core';
 
 export const createServerRenderMiddleware = ({
   clientStats,
@@ -161,12 +160,15 @@ export const createServerRenderMiddleware = ({
   entryMiddleware.use(async (req, res, next) => {
     try {
       // `req.url` matches: /Tom_Hanks, /tom-hanks, /app.js, /michael-jackson, ashton-kutcher...
-      const path: string = req.url.replace('/', '');
+      const path: string = req.path;
       const redirectionPath = redirectionMap.get(path);
       if (redirectionPath !== undefined) {
         // /tom-hanks => redirect to Tom_Hanks
-        res.redirect(`/${redirectionPath}`);
-      } else if (whitelistedNewPaths.has(path) || (await isNewSlug(path))) {
+        res.redirect(redirectionPath);
+      } else if (
+        isWhitelistedPage(path) ||
+        (await isNewSlug(path.replace('/', '')))
+      ) {
         serverRenderMiddleware(req, res, next);
       } else {
         next();
