@@ -1,4 +1,3 @@
-// tslint:disable:react-a11y-titles
 import * as React from 'react';
 import cc from 'classcat';
 import Helmet from 'react-helmet-async';
