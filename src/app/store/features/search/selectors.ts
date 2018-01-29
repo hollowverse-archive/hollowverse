@@ -34,7 +34,7 @@ export const getSearchInputValue = createSelector(
       return alternativeText;
     }
 
-    return query || undefined;
+    return query || '';
   },
 );
 

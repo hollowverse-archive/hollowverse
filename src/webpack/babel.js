@@ -2,14 +2,13 @@ const { compact } = require('lodash');
 
 const { pkg } = require('./variables');
 
-const { ifEs5, ifEsNext, ifProd, isProd, ifReact, isDebug } = require('./env');
+const { ifEs5, ifEsNext, ifProd, isProd, isDebug } = require('./env');
 
 module.exports.createBabelConfig = (isServer = false) => ({
   presets: compact([
     ...ifEs5(['@babel/preset-es2015']),
     ...ifEsNext(
       compact([
-        ...ifProd([ifReact('react-optimize')]),
         [
           '@babel/preset-env',
           {

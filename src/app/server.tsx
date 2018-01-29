@@ -1,10 +1,11 @@
 import express from 'express';
 import * as React from 'react';
+import { HelmetProvider, FilledContext } from 'react-helmet-async';
 import * as serializeJavaScript from 'serialize-javascript';
 import { renderToString, wrapRootEpic } from 'react-redux-epic';
 import { ConnectedRouter } from 'react-router-redux';
 import createMemoryHistory from 'history/createMemoryHistory';
-import { template } from 'lodash';
+import { template, mapValues } from 'lodash';
 import { flushChunkNames } from 'react-universal-component/server';
 import flushChunks from 'webpack-flush-chunks';
 
@@ -47,6 +48,7 @@ export const createServerRenderMiddleware = ({
 
   middleware.use('/log', logEndpoint);
 
+  // tslint:disable-next-line:max-func-body-length
   middleware.use(async (req, res) => {
     const start = Date.now();
     const history = createMemoryHistory({ initialEntries: [req.url] });
@@ -56,12 +58,16 @@ export const createServerRenderMiddleware = ({
       wrapRootEpic,
     );
 
+    const helmetContext = {};
+
     renderToString(
-      <Provider store={store}>
-        <ConnectedRouter history={history}>
-          <App />
-        </ConnectedRouter>
-      </Provider>,
+      <HelmetProvider context={helmetContext}>
+        <Provider store={store}>
+          <ConnectedRouter history={history}>
+            <App />
+          </ConnectedRouter>
+        </Provider>
+      </HelmetProvider>,
       wrappedRootEpic,
     ).subscribe({
       next({ markup }) {
@@ -111,6 +117,11 @@ export const createServerRenderMiddleware = ({
 
           const icons = iconStats ? iconStats.html.join(' ') : '';
 
+          const { title, meta, link, htmlAttributes } = mapValues(
+            (helmetContext as FilledContext).helmet,
+            String,
+          );
+
           res.send(
             interpolateTemplate({
               // In order to protect from XSS attacks, make sure to use `serialize-javascript`
@@ -126,6 +137,10 @@ export const createServerRenderMiddleware = ({
               js,
               styles,
               cssHash,
+              htmlAttributes,
+              link,
+              title,
+              meta,
             }),
           );
         }

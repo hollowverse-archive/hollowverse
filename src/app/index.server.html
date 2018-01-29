@@ -1,21 +1,14 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
-    <title>Hollowverse</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0, shrink-to-fit=no">
-    <meta charset="utf-8">
+    ${title}
+    ${meta}
+    ${link}
     ${styles}
-    <style>
-      #app {
-        min-height: 100%;
-      }
-      </style>
     ${icons}
   </head>
   <body>
-    <div id="app">
-      ${markup}
-    </div>
+    <div style="min-height: 100%" id="app">${markup}</div>
     <script>
       window.__INITIAL_STATE__ = ${initialState};
     </script>

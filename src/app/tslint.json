@@ -19,6 +19,8 @@
     // and sometimes adding a `key` causes unnecessary re-renders.
     "jsx-key": false,
 
+    "react-a11y-titles": false,
+
     "await-promise": [true, "Bluebird"]
   }
 }

@@ -11,6 +11,7 @@ type Props = React.HTMLAttributes<SVGElement> &
 
 export const SvgIcon = ({
   id: _, // Remove `id` from `rest` so it does not get assigned to this SVG element
+  toString: __,
   url,
   viewBox,
   className,

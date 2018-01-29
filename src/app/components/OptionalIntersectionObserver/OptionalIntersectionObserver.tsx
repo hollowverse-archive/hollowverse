@@ -42,7 +42,7 @@ export const OptionalIntersectionObserver = universal<Props>(
     },
   },
   {
-    loading: props => {
+    loading: (props: Props) => {
       return <Shim {...props} fallbackIsInView={__IS_SERVER__} />;
     },
   },
