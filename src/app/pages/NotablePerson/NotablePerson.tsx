@@ -113,7 +113,6 @@ const Page = withRouter(
                         : commentsUrl
                     }
                   />
-                  {isWhitelisted ? <meta name="robots" content="noindex" /> : null}
                   <title>{`${name}'s Religion and Political Views`}</title>
                 </Helmet>
                 <Status code={200} />

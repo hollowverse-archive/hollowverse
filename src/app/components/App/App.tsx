@@ -4,6 +4,7 @@ import cc from 'classcat';
 import Helmet from 'react-helmet-async';
 import { ConnectedNavBar } from 'components/NavBar/ConnectedNavBar';
 import { Route, Switch } from 'react-router';
+import { isWhitelistedPage } from 'redirectionMap';
 
 import './App.global.scss';
 import * as classes from './App.module.scss';
@@ -45,6 +46,19 @@ export const App = class extends React.Component<{}, State> {
           />
           <meta charSet="utf-8" />
         </Helmet>
+        <Route>
+          {props => {
+            if (!isWhitelistedPage(props.history.createHref(props.location))) {
+              return (
+                <Helmet>
+                  <meta name="robots" content="noindex" />
+                </Helmet>
+              );
+            }
+
+            return null;
+          }}
+        </Route>
         <Route>
           {props => <ConnectedNavBar {...props} title="Hollowverse" />}
         </Route>
