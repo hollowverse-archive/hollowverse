@@ -8,7 +8,7 @@ declare module 'react-helmet-async' {
   };
 
   type ProviderProps = {
-    context: {};
+    context?: {};
   };
 
   export class HelmetProvider extends React.Component<ProviderProps> {}

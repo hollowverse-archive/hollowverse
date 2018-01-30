@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { RequestHandler } from 'express';
 import * as React from 'react';
 import { HelmetProvider, FilledContext } from 'react-helmet-async';
 import * as serializeJavaScript from 'serialize-javascript';
@@ -35,8 +35,9 @@ type IconStats = {
 };
 
 import { logEndpoint } from './logger/logEndpoint';
+import { redirectionMap, isWhitelistedPage } from './redirectionMap';
+import { isNewSlug } from './isNewSlug';
 
-// tslint:disable-next-line:max-func-body-length
 export const createServerRenderMiddleware = ({
   clientStats,
   iconStats,
@@ -44,12 +45,8 @@ export const createServerRenderMiddleware = ({
   clientStats: Stats;
   iconStats: IconStats | undefined;
 }) => {
-  const middleware = express();
-
-  middleware.use('/log', logEndpoint);
-
   // tslint:disable-next-line:max-func-body-length
-  middleware.use(async (req, res) => {
+  const serverRenderMiddleware: RequestHandler = async (req, res) => {
     const start = Date.now();
     const history = createMemoryHistory({ initialEntries: [req.url] });
     const { store, wrappedRootEpic } = createConfiguredStore(
@@ -80,8 +77,6 @@ export const createServerRenderMiddleware = ({
         if (statusCode === 301 || statusCode === 302) {
           const url = getRedirectionUrl(state) as string;
           res.redirect(url);
-
-          return;
         } else {
           const chunkNames = flushChunkNames();
 
@@ -156,7 +151,33 @@ export const createServerRenderMiddleware = ({
         res.status(500).send('Error');
       },
     });
+  };
+
+  const entryMiddleware = express();
+
+  entryMiddleware.use('/log', logEndpoint);
+
+  entryMiddleware.use(async (req, res, next) => {
+    try {
+      // `req.url` matches: /Tom_Hanks, /tom-hanks, /app.js, /michael-jackson, ashton-kutcher...
+      const path = req.path;
+      const redirectionPath = redirectionMap.get(path);
+      if (redirectionPath !== undefined) {
+        // /tom-hanks => redirect to Tom_Hanks
+        res.redirect(redirectionPath);
+      } else if (
+        isWhitelistedPage(path) ||
+        (await isNewSlug(path.replace('/', '')))
+      ) {
+        serverRenderMiddleware(req, res, next);
+      } else {
+        next();
+      }
+    } catch (e) {
+      console.error(e);
+      next();
+    }
   });
 
-  return middleware;
+  return entryMiddleware;
 };
