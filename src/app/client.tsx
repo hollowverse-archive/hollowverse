@@ -10,6 +10,7 @@ import { createConfiguredStore } from 'store/createConfiguredStore';
 import { StoreState } from 'store/types';
 import { unhanldedErrorThrown } from 'store/features/logging/actions';
 import { loadIntersectionObserverPolyfill } from 'helpers/loadPolyfill';
+import { HelmetProvider } from 'react-helmet-async';
 
 declare const __INITIAL_STATE__: StoreState | undefined;
 
@@ -19,11 +20,13 @@ const { store } = createConfiguredStore(history, __INITIAL_STATE__);
 
 const renderApp = (NewApp: typeof App = App) => {
   hydrate(
-    <Provider store={store}>
-      <Router history={history}>
-        <NewApp />
-      </Router>
-    </Provider>,
+    <HelmetProvider>
+      <Provider store={store}>
+        <Router history={history}>
+          <NewApp />
+        </Router>
+      </Provider>
+    </HelmetProvider>,
     // tslint:disable-next-line:no-non-null-assertion
     document.getElementById('app')!,
   );

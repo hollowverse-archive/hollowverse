@@ -97,14 +97,6 @@ const clientSpecificConfig = {
     ]),
   },
 
-  resolve: {
-    alias: {
-      // On the client, `react-helmet-async` implements the exact same API of `react-helmet`,
-      // but it has a bug (https://github.com/staylor/react-helmet-async/issues/1)
-      'react-helmet-async': 'react-helmet',
-    },
-  },
-
   plugins: compact([
     // CSS
     extractGlobalCss,
