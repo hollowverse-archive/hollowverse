@@ -160,7 +160,7 @@ export const createServerRenderMiddleware = ({
   entryMiddleware.use(async (req, res, next) => {
     try {
       // `req.url` matches: /Tom_Hanks, /tom-hanks, /app.js, /michael-jackson, ashton-kutcher...
-      const path: string = req.path;
+      const path = req.path;
       const redirectionPath = redirectionMap.get(path);
       if (redirectionPath !== undefined) {
         // /tom-hanks => redirect to Tom_Hanks
