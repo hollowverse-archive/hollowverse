@@ -3,8 +3,6 @@ import { Label } from 'components/Label/Label';
 import { Image } from 'components/Image/Image';
 import * as classes from './PersonDetails.module.scss';
 import { prettifyUrl } from 'helpers/prettifyUrl';
-import { AsyncComponent } from 'hocs/AsyncComponent/AsyncComponent';
-import { AsyncResult, isSuccessResult } from 'helpers/asyncResults';
 import CustomProperties from 'react-custom-properties';
 
 type PersonDetailsProps = {
@@ -13,6 +11,12 @@ type PersonDetailsProps = {
   photo: {
     url: string;
     sourceUrl: string;
+    colorPalette: {
+      vibrant: string | null;
+      darkVibrant: string | null;
+      muted: string | null;
+      lightMuted: string | null;
+    } | null;
   } | null;
   labels?: Array<{ text: string; id: string }>;
 };
@@ -24,7 +28,7 @@ export const PersonDetails = ({
   labels,
 }: PersonDetailsProps) => (
   <div className={classes.root}>
-    {photo && photo.colorPalette.vibrant !== null ? (
+    {photo && photo.colorPalette && photo.colorPalette.vibrant !== null ? (
       <CustomProperties
         // @ts-ignore
         properties={{
