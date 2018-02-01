@@ -13,6 +13,12 @@ query NotablePerson($slug: String!) {
       name
       mainPhoto {
         url
+        colorPalette {
+          vibrant
+          darkVibrant
+          muted
+          lightMuted
+        }
       }
     }
     editorialSummary {
