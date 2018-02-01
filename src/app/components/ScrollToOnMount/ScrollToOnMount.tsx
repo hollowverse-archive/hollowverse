@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 export class ScrollToOnMount extends React.PureComponent {
-  node: HTMLSpanElement | null;
+  node: HTMLSpanElement | null = null;
 
   setRef = (node: HTMLSpanElement) => {
     this.node = node;
