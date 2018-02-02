@@ -1,5 +1,6 @@
 import express, { RequestHandler } from 'express';
 import * as React from 'react';
+import * as path from 'path';
 import { HelmetProvider, FilledContext } from 'react-helmet-async';
 import * as serializeJavaScript from 'serialize-javascript';
 import { renderToString, wrapRootEpic } from 'react-redux-epic';
@@ -46,7 +47,7 @@ export const createServerRenderMiddleware = ({
   iconStats: IconStats | undefined;
 }) => {
   // tslint:disable-next-line:max-func-body-length
-  const serverRenderMiddleware: RequestHandler = async (req, res) => {
+  const renderOnServer: RequestHandler = async (req, res) => {
     const start = Date.now();
     const history = createMemoryHistory({ initialEntries: [req.url] });
     const { store, wrappedRootEpic } = createConfiguredStore(
@@ -153,6 +154,10 @@ export const createServerRenderMiddleware = ({
     });
   };
 
+  const renderOnClient: RequestHandler = (_, res) => {
+    res.sendFile(path.resolve(__dirname, 'index.html'));
+  };
+
   const entryMiddleware = express();
 
   entryMiddleware.use('/log', logEndpoint);
@@ -160,16 +165,20 @@ export const createServerRenderMiddleware = ({
   entryMiddleware.use(async (req, res, next) => {
     try {
       // `req.url` matches: /Tom_Hanks, /tom-hanks, /app.js, /michael-jackson, ashton-kutcher...
-      const path = req.path.replace(/\/$/g, '');
-      const redirectionPath = redirectionMap.get(path);
+      const requestPath = req.path.replace(/\/$/g, '');
+      const redirectionPath = redirectionMap.get(requestPath);
       if (redirectionPath !== undefined) {
         // /tom-hanks => redirect to Tom_Hanks
         res.redirect(redirectionPath);
       } else if (
-        isWhitelistedPage(path) ||
-        (await isNewSlug(path.replace('/', '')))
+        isWhitelistedPage(requestPath) ||
+        (await isNewSlug(requestPath.replace('/', '')))
       ) {
-        serverRenderMiddleware(req, res, next);
+        if (process.env.NO_SSR) {
+          renderOnClient(req, res, next);
+        } else {
+          renderOnServer(req, res, next);
+        }
       } else {
         next();
       }
