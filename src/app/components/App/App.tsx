@@ -35,7 +35,7 @@ export const App = class extends React.Component<{}, State> {
     const { hasMounted } = this.state;
 
     return (
-      <div className={cc([classes.root, { 'no-js': hasMounted }])}>
+      <div className={cc([classes.root, { 'no-js': !hasMounted }])}>
         <Helmet
           titleTemplate="%s - Hollowverse"
           defaultTitle="Hollowverse - Religion, politics and ideas of the influentials"
