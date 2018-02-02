@@ -1,7 +1,6 @@
 import * as express from 'express';
 import * as httpProxy from 'http-proxy';
 
-import { env } from './env';
 import { redirectToHttps } from './middleware/redirectToHttps';
 import { appServer } from './appServer';
 import { securityMiddleware } from './middleware/security';
@@ -16,15 +15,6 @@ const server = express();
 server.use(redirectToHttps);
 
 server.use(...securityMiddleware);
-
-// Add version details to custom header
-server.use((_, res, next) => {
-  res.setHeader(
-    'X-Hollowverse-Actual-Environment',
-    `${env.BRANCH}/${env.COMMIT_ID}`,
-  );
-  next();
-});
 
 const proxyServer = httpProxy.createProxyServer();
 
