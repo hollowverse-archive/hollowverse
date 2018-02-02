@@ -45,7 +45,7 @@ export const App = class extends React.Component<{}, State> {
             content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0, shrink-to-fit=no"
           />
           <meta charSet="utf-8" />
-          <link rel="preconnect" href={__API_ENDPOINT__} />
+          <link rel="preconnect" href={__API_ENDPOINT__} crossOrigin="anonymous" />
         </Helmet>
         <Route>
           {props => {
