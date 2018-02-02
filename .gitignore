@@ -61,7 +61,6 @@ secrets/**/*
 
 build.zip
 build
-env.json
 
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
