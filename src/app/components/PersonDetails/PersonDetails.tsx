@@ -34,6 +34,7 @@ export const PersonDetails = ({
     colors = [
       photo.colorPalette.darkVibrant,
       photo.colorPalette.vibrant,
+      photo.colorPalette.darkVibrant,
       photo.colorPalette.lightVibrant,
       photo.colorPalette.darkMuted,
       photo.colorPalette.muted,
@@ -57,12 +58,12 @@ export const PersonDetails = ({
             colors.length >= 4
               ? {
                   background: `linear-gradient(
-              130deg,
-              ${colors[0]} -20%,
-              ${colors[1]} 30%,
-              ${colors[2]} 60%,
-              ${colors[3]} 120%
-            )`,
+                    130deg,
+                    ${colors[0]} -20%,
+                    ${colors[1]} 30%,
+                    ${colors[2]} 60%,
+                    ${colors[3]} 120%
+                  )`,
                 }
               : undefined
           }
