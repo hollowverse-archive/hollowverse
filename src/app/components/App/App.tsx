@@ -13,7 +13,7 @@ import { LoadableSearchResults } from 'pages/SearchResults/LoadableSearchResults
 import { LoadableAbout } from 'pages/About/LoadableAbout';
 import { LoadablePrivacyPolicy } from 'pages/PrivacyPolicy/LoadablePrivacyPolicy';
 import { LoadableHome } from 'pages/Home/LoadableHome';
-import { ScrollToOnMount } from 'components/ScrollToOnMount/ScrollToOnMount';
+import { ScrollTo } from 'components/ScrollTo/ScrollTo';
 
 type State = {
   hasMounted: boolean;
@@ -66,7 +66,7 @@ export const App = class extends React.Component<{}, State> {
           }}
         </Route>
         <Route>
-          {props => <ScrollToOnMount key={props.location.pathname} />}
+          {props => <ScrollTo updateKey={props.location.pathname} />}
         </Route>
         <Route>
           {props => <ConnectedNavBar {...props} title="Hollowverse" />}
