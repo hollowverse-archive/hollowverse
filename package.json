@@ -9,7 +9,8 @@
       "run-p -l --aggregate-output validate-filenames lint-js lint-ts lint-css lint-graphql",
     "lint-css": "stylelint --syntax scss 'src/app/**/*.scss'",
     "lint-js": "eslint '**/*.js{,x}'",
-    "lint-graphql": "eslint --ext .graphql --ext .gql 'src/**/*.{gql,graphql}'",
+    "lint-graphql":
+      "run-s app/graphql/schema && eslint --ext .graphql --ext .gql 'src/**/*.{gql,graphql}'",
     "lint-ts/eslint":
       "eslint 'src/app/**/*.ts{,x}' --config src/app/.eslintrc.json --no-eslintrc",
     "lint-ts/tslint": "tslint './*.ts' 'src/**/*.ts{,x}' --project .",
@@ -21,7 +22,7 @@
       "API_ENDPOINT=${API_ENDPOINT:-https://api.hollowverse.com/graphql} run-s -l app/graphql/build app/webpack/build bundlesize",
     "app/analyze": "webpack-bundle-analyzer dist/stats.json dist/client",
     "app/graphql/schema":
-      "apollo-codegen introspect-schema ${API_ENDPOINT} --output ./graphqlSchema.json",
+      "export API_ENDPOINT=${API_ENDPOINT:-https://api.hollowverse.com/graphql}; apollo-codegen introspect-schema ${API_ENDPOINT} --output ./graphqlSchema.json",
     "app/graphql/types":
       "apollo-codegen generate 'src/app/**/*.{graphql,gql}' --target typescript --output src/app/api/types.ts",
     "app/graphql/dev":
