@@ -1,11 +1,11 @@
 @import 'variables.scss';
 
 .root {
-  --color-cover-primary-light: #4cfde9;
-  --color-cover-primary-dark: #009180;
-  --color-cover-primary: #4435f7;
-  --color-cover-secondary-light: #ffe190;
-  --color-cover-secondary: #fbc945;
+  --color-cover-primary-light: rgb(201, 246, 241);
+  --color-cover-primary-dark: rgb(103, 191, 181);
+  --color-cover-primary: rgba(147, 137, 255, 0.76);
+  --color-cover-secondary-light: rgb(251, 236, 192);
+  --color-cover-secondary: rgb(255, 223, 137);
 
   @supports (filter: blur(5px)) and (mask-image: linear-gradient(black, transparent)) {
     .cover-photo-wrapper {

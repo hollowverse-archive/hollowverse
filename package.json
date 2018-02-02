@@ -132,7 +132,6 @@
     "preact": "^8.2.7",
     "preact-compat": "^3.17.0",
     "react": "^16.2.0",
-    "react-custom-properties": "^1.2.0",
     "react-dom": "^16.2.0",
     "react-flip-move": "^2.10.0",
     "react-helmet": "^5.2.0",
