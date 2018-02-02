@@ -40,9 +40,8 @@ appServer.use(publicPath, [
   }),
 ]);
 
-// Serve server rendering middleware from the SSR build
 // tslint:disable no-require-imports no-var-requires non-literal-require
-const { createServerRenderMiddleware } = require(path.resolve(
+const { default: createServerEntryMiddleware } = require(path.resolve(
   serverDistDirectory,
   'main.js',
 ));
@@ -58,4 +57,4 @@ const stats = require('./stats.json');
 
 const clientStats = stats.children[0];
 
-appServer.use(createServerRenderMiddleware({ clientStats, iconStats }));
+appServer.use(createServerEntryMiddleware({ clientStats, iconStats }));
