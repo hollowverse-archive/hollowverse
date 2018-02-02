@@ -1,7 +1,6 @@
 query NotablePerson($slug: String!) {
   notablePerson(slug: $slug) {
     name
-    slug
     mainPhoto {
       url
       sourceUrl

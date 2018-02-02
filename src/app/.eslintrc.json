@@ -13,8 +13,5 @@
   "plugins": ["compat"],
   "settings": {
     "polyfills": ["fetch", "intersectionobserver"]
-  },
-  "rules": {
-    "compat/compat": "error"
   }
 }
