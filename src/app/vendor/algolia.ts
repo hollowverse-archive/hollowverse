@@ -5,4 +5,4 @@ const APP_ID = '4771KRER1Q';
 
 export const client = algolia(APP_ID, SEARCH_ONLY_API_KEY);
 
-export const notablePeople = client.initIndex('NotablePerson-dev');
+export const notablePeople = client.initIndex('NotablePerson-prod');
