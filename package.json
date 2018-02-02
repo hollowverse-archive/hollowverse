@@ -231,7 +231,7 @@
     "lodash-es": "^4.17.4",
     "lodash-webpack-plugin": "^0.11.4",
     "name-all-modules-plugin": "^1.0.1",
-    "node-sass": "^4.5.3",
+    "node-sass": "^4.7.2",
     "nodemon": "^1.11.0",
     "postcss": "^6.0.16",
     "postcss-css-variables": "^0.8.0",
