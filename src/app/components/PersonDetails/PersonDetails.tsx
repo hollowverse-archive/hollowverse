@@ -39,7 +39,7 @@ export const PersonDetails = ({
       photo.colorPalette.darkMuted,
       photo.colorPalette.muted,
       photo.colorPalette.lightMuted,
-    ].filter(color => color != null) as string[];
+    ].filter(color => color !== null) as string[];
   }
 
   return (
