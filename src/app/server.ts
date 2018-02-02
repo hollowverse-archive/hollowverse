@@ -7,6 +7,7 @@ import { logEndpoint } from './logger/logEndpoint';
 import { redirectionMap, isWhitelistedPage } from './redirectionMap';
 import { isNewSlug } from './isNewSlug';
 import { createServerRenderMiddleware } from 'createServerRenderMiddleware';
+import * as moment from 'moment';
 
 type IconStats = {
   outputFilePrefix: string;
@@ -27,7 +28,14 @@ export const createServerEntryMiddleware = (
   const renderOnServer = createServerRenderMiddleware(options);
 
   const renderOnClient: RequestHandler = (_, res) => {
-    res.sendFile(path.resolve(__dirname, 'index.html'));
+    res.sendFile('index.html', {
+      root: process.env.NODE_ENV === 'production' ? path.resolve(process.cwd(), 'dist/client') : __dirname,
+      maxAge: moment.duration(30, 'days').asMilliseconds(),
+
+      // MUST NOT set the `immutable` directive to `true` because `index.html` filename
+      // DOES NOT contain unique, content-based hash
+      immutable: false,
+    });
   };
 
   const serveNewApp: RequestHandler = (req, res, next) => {
