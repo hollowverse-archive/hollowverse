@@ -1,7 +1,6 @@
 import * as express from 'express';
 import * as httpProxy from 'http-proxy';
 
-import { env } from './env';
 import { redirectToHttps } from './middleware/redirectToHttps';
 import { appServer } from './appServer';
 import { securityMiddleware } from './middleware/security';
@@ -17,15 +16,6 @@ server.use(redirectToHttps);
 
 server.use(...securityMiddleware);
 
-// Add version details to custom header
-server.use((_, res, next) => {
-  res.setHeader(
-    'X-Hollowverse-Actual-Environment',
-    `${env.BRANCH}/${env.COMMIT_ID}`,
-  );
-  next();
-});
-
 const proxyServer = httpProxy.createProxyServer();
 
 // Make sure all forwarded URLs end with / to avoid redirects
@@ -38,18 +28,7 @@ proxyServer.on('proxyReq', (proxyReq: any) => {
   }
 });
 
-// As the proxy is placed in front of the old version, we need to allow
-// requests to static assets to be directed to the new app.
-// The new proxy will check if the request is for a static file, and redirect accordingly.
-// Examples: /static/app.js, /static/vendor.js => new hollowverse
-server.get('/static/*', appServer);
-
-// Allow the new app server to handle /log
-server.post('/log', appServer);
-
-// Because ":/path" matches routes on both new and old servers, the new proxy also has
-// to know the new app paths to avoid redirection loops.
-server.get('/:path', appServer);
+server.use(appServer);
 
 // Fallback to old hollowverse
 server.use((req, res) => {
