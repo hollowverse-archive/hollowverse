@@ -1,31 +1,3 @@
 {
-  "extends": ["./node_modules/@hollowverse/common/.eslintrc.json"],
-  "rules": {
-    "graphql/template-strings": [
-      "error",
-      {
-        "env": "literal",
-        "validators": "all"
-      }
-    ],
-    "graphql/no-deprecated-fields": [
-      "error",
-      {
-        "env": "literal"
-      }
-    ],
-    "graphql/capitalized-type-name": [
-      "error",
-      {
-        "env": "literal"
-      }
-    ],
-    "graphql/named-operations": [
-      "error",
-      {
-        "env": "literal"
-      }
-    ]
-  },
-  "plugins": ["graphql"]
+  "extends": ["./node_modules/@hollowverse/common/.eslintrc.json"]
 }

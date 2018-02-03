@@ -1,8 +1,5 @@
 {
   "extends": [
     "./node_modules/@hollowverse/common/tslint.json"
-  ],
-  "rules": {
-    "no-backbone-get-set-outside-model": false
-  }
+  ]
 }
