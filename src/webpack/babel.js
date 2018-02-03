@@ -62,7 +62,9 @@ module.exports.createBabelConfig = (isServer = false) => ({
       [
         'transform-inline-environment-variables',
         {
-          exclude: 'NO_SSR',
+          // Do not inline `NO_SSR` so that we can toggle this variable
+          // at runtime without having to re-build
+          exclude: ['NO_SSR'],
         },
       ],
       'lodash',
