@@ -59,7 +59,14 @@ module.exports.createBabelConfig = (isServer = false) => ({
       // Compile gql`query { ... }` at build time to avoid runtime parsing overhead
       'graphql-tag',
       'transform-node-env-inline',
-      'transform-inline-environment-variables',
+      [
+        'transform-inline-environment-variables',
+        {
+          // Do not inline `NO_SSR` so that we can toggle this variable
+          // at runtime without having to re-build
+          exclude: ['NO_SSR'],
+        },
+      ],
       'lodash',
     ]),
   ]),
