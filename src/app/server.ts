@@ -81,5 +81,7 @@ export const createServerEntryMiddleware = (
     }
   });
 
+  entryMiddleware.disable('x-powered-by');
+
   return entryMiddleware;
 };

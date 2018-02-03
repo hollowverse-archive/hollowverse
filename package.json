@@ -106,6 +106,7 @@
     "@babel/polyfill": "^7.0.0-beta.36",
     "@babel/runtime": "^7.0.0-beta.36",
     "@hollowverse/common": "hollowverse/common",
+    "@types/helmet": "^0.0.37",
     "algoliasearch": "^3.24.8",
     "babel-plugin-universal-import": "^1.4.0",
     "bluebird": "^3.5.1",
