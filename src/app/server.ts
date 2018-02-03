@@ -29,7 +29,7 @@ export const createServerEntryMiddleware = (
 
   const renderOnClient: RequestHandler = (_, res) => {
     res.sendFile('index.html', {
-      root: process.env.NODE_ENV === 'production' ? path.resolve(process.cwd(), 'dist/client') : __dirname,
+      root: path.resolve(process.cwd(), 'dist/client'),
       maxAge: moment.duration(30, 'days').asMilliseconds(),
 
       // MUST NOT set the `immutable` directive to `true` because `index.html` filename

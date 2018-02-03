@@ -239,6 +239,7 @@
     "postcss": "^6.0.16",
     "postcss-loader": "^2.0.10",
     "postcss-normalize": "^4.0.0",
+    "preload-webpack-plugin": "^2.2.0",
     "prettier": "^1.9.2",
     "react-hot-loader": "^3.0.0",
     "remote-redux-devtools": "^0.5.12",

@@ -6,6 +6,7 @@ const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 const ExtractCssChunks = require('extract-css-chunks-webpack-plugin');
 const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
 const CssChunkHashPlugin = require('css-chunks-html-webpack-plugin');
+const PreloadWebpackPlugin = require('preload-webpack-plugin');
 
 const NameAllModulesPlugin = require('name-all-modules-plugin');
 
@@ -129,8 +130,10 @@ const clientSpecificConfig = {
         : false,
     }),
 
-    new HtmlWebpackHarddiskPlugin({
-      outputPath: ifDev(path.resolve(__dirname, '../app')),
+    new HtmlWebpackHarddiskPlugin(),
+
+    new PreloadWebpackPlugin({
+      include: 'initial',
     }),
 
     // Required for debugging in development and for long-term caching in production
