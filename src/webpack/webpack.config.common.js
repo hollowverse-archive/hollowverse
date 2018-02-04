@@ -3,7 +3,6 @@ const path = require('path');
 
 const CircularDependencyPlugin = require('circular-dependency-plugin');
 const BabelMinifyPlugin = require('babel-minify-webpack-plugin');
-const SpriteLoaderPlugin = require('svg-sprite-loader/plugin');
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 
 const { compact, mapValues } = require('lodash');
@@ -64,12 +63,7 @@ const config = {
         include: [srcDirectory],
         use: [
           {
-            loader: 'svg-sprite-loader',
-            options: {
-              extract: true,
-              spriteFilename: isProd ? 'icons.[hash].svg' : 'icons.svg',
-              esModule: false,
-            },
+            loader: 'file-loader',
           },
           {
             loader: 'svgo-loader',
@@ -163,8 +157,6 @@ const config = {
         v => JSON.stringify(v),
       ),
     ),
-
-    new SpriteLoaderPlugin(),
 
     ...ifProd([
       new LodashModuleReplacementPlugin(),

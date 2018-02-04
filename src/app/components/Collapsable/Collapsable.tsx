@@ -3,7 +3,7 @@ import * as React from 'react';
 import * as classes from './Collapsable.module.scss';
 import { SvgIcon } from 'components/SvgIcon/SvgIcon';
 
-import dropdownIcon from 'icons/dropdown.svg';
+import dropdownIconUrl from 'icons/dropdown.svg';
 
 type Props = {
   id: string;
@@ -74,7 +74,7 @@ export class Collapsable extends React.PureComponent<Props, State> {
         />
         <label className={classes.label} htmlFor={id}>
           {label}
-          <SvgIcon size={8} className={classes.icon} {...dropdownIcon} />
+          <SvgIcon size={8} className={classes.icon} url={dropdownIconUrl} />
         </label>
         <div className={classes.children}>{children}</div>
       </div>

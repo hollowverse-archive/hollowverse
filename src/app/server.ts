@@ -38,13 +38,7 @@ export const createServerEntryMiddleware = (
     });
   };
 
-  const serveNewApp: RequestHandler = (req, res, next) => {
-    if (isSsrDisabled) {
-      renderOnClient(req, res, next);
-    } else {
-      renderOnServer(req, res, next);
-    }
-  };
+  const serveNewApp: RequestHandler = isSsrDisabled ? renderOnClient : renderOnServer;
 
   const entryMiddleware = express();
 
@@ -62,7 +56,7 @@ export const createServerEntryMiddleware = (
   entryMiddleware.use(async (req, res, next) => {
     try {
       // `req.url` matches: /Tom_Hanks, /tom-hanks, /app.js, /michael-jackson, ashton-kutcher...
-      const requestPath = req.path.replace(/\/$/g, '');
+      const requestPath = decodeURI(req.path.replace(/\/$/g, ''));
       const redirectionPath = redirectionMap.get(requestPath);
       if (redirectionPath !== undefined) {
         // /tom-hanks => redirect to Tom_Hanks

@@ -9,11 +9,11 @@ import { Sticky } from 'components/Sticky/Sticky';
 import { SvgIcon } from 'components/SvgIcon/SvgIcon';
 import { NavBarButton, NavBarLink } from 'components/NavBar/NavBarButton';
 
-import searchIcon from 'icons/search.svg';
-import backIcon from 'icons/back.svg';
+import searchIconUrl from 'icons/search.svg';
+import backIconUrl from 'icons/back.svg';
 import { ConnectedSearchView } from 'components/NavBar/ConnectedSearchView';
 
-import textLogo from '!!file-loader!assets/textLogo.svg';
+import textLogo from 'assets/textLogo.svg';
 
 export type OwnProps = {
   title: string;
@@ -53,7 +53,7 @@ export const NavBar = class extends React.Component<
                   onClick={this.goBack}
                   className={cc([classes.button, { [classes.isHidden]: true }])}
                 >
-                  <SvgIcon size={20} {...backIcon} />
+                  <SvgIcon size={20} url={backIconUrl} />
                   <span className="sr-only">Go Back</span>
                 </NavBarButton>
                 <div className={classes.view}>
@@ -82,7 +82,7 @@ export const NavBar = class extends React.Component<
                             ])}
                             to="/search"
                           >
-                            <SvgIcon size={20} {...searchIcon} />
+                            <SvgIcon size={20} url={searchIconUrl} />
                             <span className="sr-only">Search</span>
                           </NavBarLink>
                         </div>
