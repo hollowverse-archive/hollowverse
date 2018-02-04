@@ -32,12 +32,11 @@ export const PersonDetails = ({
   let colors: string[] = [];
   if (photo && photo.colorPalette) {
     colors = [
+      photo.colorPalette.lightVibrant,
       photo.colorPalette.darkVibrant,
       photo.colorPalette.vibrant,
-      photo.colorPalette.darkVibrant,
-      photo.colorPalette.lightVibrant,
-      photo.colorPalette.darkMuted,
       photo.colorPalette.muted,
+      photo.colorPalette.darkMuted,
       photo.colorPalette.lightMuted,
     ].filter(color => color !== null) as string[];
   }
