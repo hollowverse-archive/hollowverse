@@ -9,8 +9,8 @@ import { Sticky } from 'components/Sticky/Sticky';
 import { SvgIcon } from 'components/SvgIcon/SvgIcon';
 import { NavBarButton, NavBarLink } from 'components/NavBar/NavBarButton';
 
-import searchIcon from 'icons/search.svg';
-import backIcon from 'icons/back.svg';
+import searchIcon from '../../icons/search.svg';
+import backIcon from '../../icons/back.svg';
 import { ConnectedSearchView } from 'components/NavBar/ConnectedSearchView';
 
 import textLogo from '!!file-loader!assets/textLogo.svg';

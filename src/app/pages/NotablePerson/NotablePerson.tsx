@@ -29,7 +29,7 @@ import { DispatchOnLifecycleEvent } from 'components/DispatchOnLifecycleEvent/Di
 import * as classes from './NotablePerson.module.scss';
 import query from './NotablePersonQuery.graphql';
 
-import warningIcon from 'icons/warning.svg';
+import warningIcon from '../../icons/warning.svg';
 import { setAlternativeSearchBoxText } from 'store/features/search/actions';
 import { isWhitelistedPage } from 'redirectionMap';
 
