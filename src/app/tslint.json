@@ -1,26 +1,10 @@
 {
-  "extends": ["../../tslint.json", "rxjs-tslint-rules"],
+  "extends": ["../../tslint.json"],
   "rules": {
     "match-default-export-name": false,
     "no-multiline-string": false,
     "no-submodule-imports": false,
     "no-implicit-dependencies": false,
-    "completed-docs": false,
-
-    "rxjs-add": {
-      "severity": "error"
-    },
-    "rxjs-no-add": false,
-    "rxjs-no-create": true,
-    "rxjs-no-unused-add": true,
-    "rxjs-no-wholesale": true,
-
-    // This does not work consistently
-    // and sometimes adding a `key` causes unnecessary re-renders.
-    "jsx-key": false,
-
-    "react-a11y-titles": false,
-
-    "await-promise": [true, "Bluebird"]
+    "completed-docs": false
   }
 }

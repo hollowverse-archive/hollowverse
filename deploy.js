@@ -1,5 +1,7 @@
 #! /usr/bin/env node
 
+/* eslint-disable no-console */
+
 const shelljs = require('shelljs');
 const decryptSecrets = require('@hollowverse/common/helpers/decryptSecrets');
 const executeCommand = require('@hollowverse/common/helpers/executeCommand');

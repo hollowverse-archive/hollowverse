@@ -39,15 +39,18 @@ declare const module: {
 if (module.hot) {
   module.hot.accept();
   module.hot.accept('components/App/App', () => {
-    // tslint:disable-next-line no-require-imports
+    // tslint:disable no-require-imports no-unsafe-any
     const { App: NewApp } = require('components/App/App');
     renderApp(NewApp);
+    // tslint:enable no-require-imports no-unsafe-any
   });
 }
 
-loadIntersectionObserverPolyfill().then(() => {
+const renderOnDomReady = () => {
   domready(renderApp);
-});
+};
+
+loadIntersectionObserverPolyfill().then(renderOnDomReady).catch(renderOnDomReady);
 
 // Catch unhandled errors and inform the store
 window.onerror = (message, source, line, column) => {
