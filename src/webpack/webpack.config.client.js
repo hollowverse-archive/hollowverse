@@ -7,7 +7,6 @@ const ExtractCssChunks = require('extract-css-chunks-webpack-plugin');
 const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
 const CssChunkHashPlugin = require('css-chunks-html-webpack-plugin');
 const PreloadWebpackPlugin = require('preload-webpack-plugin');
-const SpriteLoaderPlugin = require('svg-sprite-loader/plugin');
 
 const NameAllModulesPlugin = require('name-all-modules-plugin');
 
@@ -27,7 +26,9 @@ const {
   excludedPatterns,
   cssModulesPattern,
 } = require('./variables');
-const common = require('./webpack.config.common');
+const { createCommonConfig } = require('./webpack.config.common');
+
+const common = createCommonConfig();
 
 const {
   ifProd,
@@ -136,8 +137,6 @@ const clientSpecificConfig = {
     new PreloadWebpackPlugin({
       include: 'initial',
     }),
-
-    new SpriteLoaderPlugin(),
 
     // Required for debugging in development and for long-term caching in production
     new webpack.NamedModulesPlugin(),
