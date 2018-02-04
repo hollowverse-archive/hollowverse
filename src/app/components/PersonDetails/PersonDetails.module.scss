@@ -14,22 +14,29 @@
   }
 
   .cover-photo-wrapper {
-    // stylelint-disable-next-line plugin/no-unsupported-browser-features
-    mask-image: linear-gradient(black, transparent);
+    // stylelint-disable plugin/no-unsupported-browser-features
+    mask-image: url('file-loader!assets/mask.png');
+    mask-repeat: no-repeat;
+    mask-size: 100% 100%;
+    // stylelint-enable plugin/no-unsupported-browser-features
+    right: -50%;
+    left: -50%;
+    top: 0;
+    bottom: 45%;
+    @media screen and (min-width: $page-max-width) {
+      right: 0;
+      left: 0;
+      bottom: 35%;
+    }
     visibility: visible;
-    height: 49%;
     position: absolute;
     overflow: hidden;
-    left: 0;
-    top: 0;
-    right: 0;
-    left: 0;
     z-index: -1;
   }
 
   .cover-photo {
     // stylelint-disable-next-line plugin/no-unsupported-browser-features
-    filter: blur(30px);
+    filter: blur(30px) opacity(0.9);
     position: absolute;
     background-repeat: no-repeat;
     background-size: 100%;
@@ -55,7 +62,6 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  max-width: $page-max-width;
   align-self: center;
 
   .photo-link {
