@@ -5,7 +5,7 @@
   "main": "index.js",
   "repository": "https://github.com/hollowverse/hollowverse.git",
   "scripts": {
-    "test": "run-p -l --aggregate-output validate-filenames lint",
+    "test": "npm-run-all -l --aggregate-output -s app/graphql/build -p validate-filenames lint",
     "lint": "run-p -l --aggregate-output lint-css lint-js lint-graphql lint-ts",
     "lint-css": "stylelint --syntax scss 'src/app/**/*.scss'",
     "lint-js": "eslint '**/*.js{,x}'",
