@@ -5,10 +5,10 @@ import { LoadingSpinner } from 'components/LoadingSpinner/LoadingSpinner';
 import { SvgIcon } from 'components/SvgIcon/SvgIcon';
 import { AsyncComponent } from 'hocs/AsyncComponent/AsyncComponent';
 
-import warningIcon from 'icons/warning.svg';
+import warningIconUrl from 'icons/warning.svg';
 import { Button } from 'components/Button/Button';
 
-const warningIconComponent = <SvgIcon {...warningIcon} />;
+const warningIconComponent = <SvgIcon url={warningIconUrl} />;
 
 const loadingComponent = (
   <MessageWithIcon
