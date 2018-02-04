@@ -1,10 +1,11 @@
 #! /usr/bin/env node
 
+/* eslint-disable no-console */
+
 const shelljs = require('shelljs');
 const decryptSecrets = require('@hollowverse/common/helpers/decryptSecrets');
 const executeCommand = require('@hollowverse/common/helpers/executeCommand');
 const executeCommands = require('@hollowverse/common/helpers/executeCommands');
-const writeJsonFile = require('@hollowverse/common/helpers/writeJsonFile');
 const createZipFile = require('@hollowverse/common/helpers/createZipFile');
 
 const {
@@ -12,7 +13,6 @@ const {
   IS_PULL_REQUEST,
   PROJECT,
   BRANCH,
-  COMMIT_ID,
 } = shelljs.env;
 
 const isPullRequest = IS_PULL_REQUEST !== 'false';
@@ -29,11 +29,6 @@ const ebEnvironmentName = `${PROJECT}-${BRANCH}`;
 async function main() {
   const buildCommands = ['yarn test', 'yarn build'];
   const deploymentCommands = [
-    () =>
-      writeJsonFile('env.json', {
-        BRANCH,
-        COMMIT_ID,
-      }),
     () => decryptSecrets(secrets, './secrets'),
     () =>
       createZipFile(
@@ -43,7 +38,6 @@ async function main() {
           'secrets/**/*',
           'yarn.lock',
           'package.json',
-          'env.json',
           'Dockerfile',
           '.dockerignore',
         ],

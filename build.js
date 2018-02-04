@@ -1,3 +1,6 @@
+#! /usr/bin/env node
+
+/* eslint-disable no-console */
 const clientConfig = require('./src/webpack/webpack.config.client');
 const serverConfig = require('./src/webpack/webpack.config.server');
 const { build } = require('./src/webpack/builder');

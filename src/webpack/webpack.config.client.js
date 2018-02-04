@@ -4,6 +4,9 @@ const webpackMerge = require('webpack-merge');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 const ExtractCssChunks = require('extract-css-chunks-webpack-plugin');
+const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
+const CssChunkHashPlugin = require('css-chunks-html-webpack-plugin');
+const PreloadWebpackPlugin = require('preload-webpack-plugin');
 
 const NameAllModulesPlugin = require('name-all-modules-plugin');
 
@@ -23,7 +26,9 @@ const {
   excludedPatterns,
   cssModulesPattern,
 } = require('./variables');
-const common = require('./webpack.config.common');
+const { createCommonConfig } = require('./webpack.config.common');
+
+const common = createCommonConfig();
 
 const {
   ifProd,
@@ -110,10 +115,13 @@ const clientSpecificConfig = {
       inject: true,
     }),
 
+    new CssChunkHashPlugin(),
+
     new HtmlWebpackPlugin({
-      template: path.join(srcDirectory, 'index.html'),
+      template: path.join(srcDirectory, 'index.client.html'),
       filename: 'index.html',
       inject: 'body',
+      alwaysWriteToDisk: true,
       minify: isProd
         ? {
             html5: true,
@@ -122,6 +130,12 @@ const clientSpecificConfig = {
             collapseWhitespace: true,
           }
         : false,
+    }),
+
+    new HtmlWebpackHarddiskPlugin(),
+
+    new PreloadWebpackPlugin({
+      include: 'initial',
     }),
 
     // Required for debugging in development and for long-term caching in production
