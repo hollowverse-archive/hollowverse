@@ -4,6 +4,7 @@ const path = require('path');
 const CircularDependencyPlugin = require('circular-dependency-plugin');
 const BabelMinifyPlugin = require('babel-minify-webpack-plugin');
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
+const SpriteLoaderPlugin = require('svg-sprite-loader/plugin');
 
 const { compact, mapValues } = require('lodash');
 
@@ -21,7 +22,8 @@ const {
   ifEsNext,
 } = require('./env');
 
-const config = {
+
+module.exports.createCommonConfig = () => ({
   devServer:
     ifDev({
       port: process.env.WEBPACK_DEV_PORT || 3001,
@@ -63,7 +65,12 @@ const config = {
         include: [srcDirectory],
         use: [
           {
-            loader: 'file-loader',
+            loader: 'svg-sprite-loader',
+            options: {
+              extract: true,
+              spriteFilename: isProd ? 'icons.[hash].svg' : 'icons.svg',
+              esModule: false,
+            },
           },
           {
             loader: 'svgo-loader',
@@ -158,6 +165,8 @@ const config = {
       ),
     ),
 
+    new SpriteLoaderPlugin(),
+
     ...ifProd([
       new LodashModuleReplacementPlugin(),
 
@@ -184,6 +193,4 @@ const config = {
       failOnError: true,
     }),
   ]),
-};
-
-module.exports = config;
+});

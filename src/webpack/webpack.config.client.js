@@ -26,7 +26,9 @@ const {
   excludedPatterns,
   cssModulesPattern,
 } = require('./variables');
-const common = require('./webpack.config.common');
+const { createCommonConfig } = require('./webpack.config.common');
+
+const common = createCommonConfig();
 
 const {
   ifProd,

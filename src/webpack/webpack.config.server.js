@@ -1,9 +1,11 @@
 const webpack = require('webpack');
 const path = require('path');
 const webpackMerge = require('webpack-merge');
-const common = require('./webpack.config.common');
+const { createCommonConfig } = require('./webpack.config.common');
 const nodeExternals = require('webpack-node-externals');
 const compact = require('lodash/compact');
+
+const common = createCommonConfig();
 
 const {
   srcDirectory,

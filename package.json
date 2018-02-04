@@ -258,6 +258,7 @@
     "stylelint": "^8.4.0",
     "stylelint-config-standard": "^17.0.0",
     "stylelint-no-unsupported-browser-features": "^1.0.0",
+    "svg-sprite-loader": "^3.6.2",
     "svgo": "^1.0.3",
     "svgo-loader": "^2.0.0",
     "ts-loader": "^2.3.4",

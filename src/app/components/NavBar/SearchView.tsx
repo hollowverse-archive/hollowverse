@@ -5,7 +5,7 @@ import * as classes from './SearchView.module.scss';
 import { SvgIcon } from 'components/SvgIcon/SvgIcon';
 import { NavBarButton, NavBarLink } from 'components/NavBar/NavBarButton';
 
-import searchIconUrl from 'icons/search.svg';
+import searchIcon from 'icons/search.svg';
 import { LoadingSpinner } from 'components/LoadingSpinner/LoadingSpinner';
 import { Route, Switch } from 'react-router';
 
@@ -93,14 +93,14 @@ export class SearchView extends React.PureComponent<Props> {
               {isSearchInProgress ? (
                 <LoadingSpinner size={20} />
               ) : (
-                <SvgIcon size={20} url={searchIconUrl} />
+                <SvgIcon size={20} {...searchIcon} />
               )}
               <span className="sr-only">Search</span>
             </NavBarButton>
           </Route>
           <Route>
             <NavBarLink className={classes.button} to="/search">
-              <SvgIcon size={20} url={searchIconUrl} />
+              <SvgIcon size={20} {...searchIcon} />
               <span className="sr-only">Search</span>
             </NavBarLink>
           </Route>

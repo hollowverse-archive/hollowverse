@@ -1,4 +1,4 @@
-type string = {
+type SpriteSymbol = {
   id: string;
   viewBox: string;
   content: string;
@@ -21,8 +21,8 @@ declare module '*.module.scss' {
 }
 
 declare module '*.svg' {
-  const url: string;
-  export default url;
+  const symbol: SpriteSymbol;
+  export default symbol;
 }
 
 declare module '!!file-loader!*' {

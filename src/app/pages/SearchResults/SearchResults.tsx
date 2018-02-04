@@ -18,10 +18,10 @@ import { WithData } from 'hocs/WithData/WithData';
 import { Status } from 'components/Status/Status';
 import { SearchResultsSkeleton } from './SearchResultsSkeleton';
 
-import algoliaLogoUrl from 'assets/algoliaLogo.svg';
+import algoliaLogo from '!!file-loader!svgo-loader!assets/algoliaLogo.svg';
 import { MessageWithIcon } from 'components/MessageWithIcon/MessageWithIcon';
 
-import searchIconUrl from 'icons/search.svg';
+import searchIcon from 'icons/search.svg';
 import { SvgIcon } from 'components/SvgIcon/SvgIcon';
 import { LinkButton } from 'components/Button/Button';
 import { forceReload } from 'helpers/forceReload';
@@ -75,7 +75,7 @@ class Page extends React.PureComponent<Props> {
                   return (
                     <MessageWithIcon
                       className={classes.placeholder}
-                      icon={<SvgIcon url={searchIconUrl} />}
+                      icon={<SvgIcon {...searchIcon} />}
                       title="No results found"
                     >
                       <Status key={searchQuery} code={404} />
@@ -103,7 +103,7 @@ class Page extends React.PureComponent<Props> {
               return (
                 <MessageWithIcon
                   className={classes.placeholder}
-                  icon={<SvgIcon url={searchIconUrl} />}
+                  icon={<SvgIcon {...searchIcon} />}
                   title="Failed to load search results"
                   button={
                     <LinkButton to={location} onClick={forceReload}>
@@ -119,7 +119,7 @@ class Page extends React.PureComponent<Props> {
         </div>
         <small className={classes.algoliaContainer}>
           Search powered by
-          <img className={classes.logo} src={algoliaLogoUrl} alt="Algolia" />
+          <img className={classes.logo} src={algoliaLogo} alt="Algolia" />
         </small>
       </div>
     );
