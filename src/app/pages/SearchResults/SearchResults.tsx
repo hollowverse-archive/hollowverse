@@ -21,7 +21,7 @@ import { SearchResultsSkeleton } from './SearchResultsSkeleton';
 import algoliaLogo from '!!file-loader!svgo-loader!assets/algoliaLogo.svg';
 import { MessageWithIcon } from 'components/MessageWithIcon/MessageWithIcon';
 
-import searchIcon from 'icons/search.svg';
+import searchIcon from '../../icons/search.svg';
 import { SvgIcon } from 'components/SvgIcon/SvgIcon';
 import { LinkButton } from 'components/Button/Button';
 import { forceReload } from 'helpers/forceReload';

@@ -5,7 +5,7 @@ import * as classes from './SearchView.module.scss';
 import { SvgIcon } from 'components/SvgIcon/SvgIcon';
 import { NavBarButton, NavBarLink } from 'components/NavBar/NavBarButton';
 
-import searchIcon from 'icons/search.svg';
+import searchIcon from '../../icons/search.svg';
 import { LoadingSpinner } from 'components/LoadingSpinner/LoadingSpinner';
 import { Route, Switch } from 'react-router';
 

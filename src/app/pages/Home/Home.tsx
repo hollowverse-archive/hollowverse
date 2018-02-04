@@ -4,7 +4,7 @@ import * as classes from './Home.module.scss';
 import { Card } from 'components/Card/Card';
 import { SvgIcon } from 'components/SvgIcon/SvgIcon';
 
-import searchIcon from 'icons/search.svg';
+import searchIcon from '../../icons/search.svg';
 import { goToSearch } from 'store/features/search/actions';
 import { connect } from 'react-redux';
 import { Footer } from 'components/Footer/Footer';
