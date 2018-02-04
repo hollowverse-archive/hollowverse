@@ -3,28 +3,17 @@ import cc from 'classcat';
 
 import * as classes from './SvgIcon.module.scss';
 
-type Props = React.HTMLAttributes<SVGElement> &
-  SpriteSymbol & {
-    /** Height of icon in pixels */
-    size?: number | string;
-  };
+type Props = React.HTMLAttributes<HTMLImageElement> & { url: string } & {
+  /** Height of icon in pixels */
+  size?: number | string;
+};
 
-export const SvgIcon = ({
-  id: _, // Remove `id` from `rest` so it does not get assigned to this SVG element
-  toString: __,
-  url,
-  viewBox,
-  className,
-  size = 32,
-  ...rest
-}: Props) => (
-  <svg
+export const SvgIcon = ({ url, className, size = 32, ...rest }: Props) => (
+  <img
     {...rest}
     height={size}
     role="presentation"
-    viewBox={viewBox}
+    src={url}
     className={cc([className, classes.root])}
-  >
-    <use xlinkHref={url} />
-  </svg>
+  />
 );

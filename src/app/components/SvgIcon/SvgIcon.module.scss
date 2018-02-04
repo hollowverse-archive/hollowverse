@@ -1,5 +1,6 @@
 @import 'variables.scss';
 
 .root {
-  fill: $color-text-light !important;
+  // stylelint-disable-next-line plugin/no-unsupported-browser-features
+  filter: brightness(0) #{'invert()'} brightness(0.5);
 }
