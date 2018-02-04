@@ -4,6 +4,7 @@ const webpackMerge = require('webpack-merge');
 const common = require('./webpack.config.common');
 const nodeExternals = require('webpack-node-externals');
 const compact = require('lodash/compact');
+const SpriteLoaderPlugin = require('svg-sprite-loader/plugin');
 
 const {
   srcDirectory,
@@ -109,6 +110,8 @@ const serverSpecificConfig = {
       URLSearchParams: ['url', 'URLSearchParams'],
       fetch: ['node-fetch', 'default'],
     }),
+
+    new SpriteLoaderPlugin(),
   ],
 };
 
