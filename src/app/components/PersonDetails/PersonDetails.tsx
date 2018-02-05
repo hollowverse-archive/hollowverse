@@ -13,10 +13,8 @@ type PersonDetailsProps = {
     sourceUrl: string;
     colorPalette: {
       vibrant: string | null;
-      lightVibrant: string | null;
       darkVibrant: string | null;
       muted: string | null;
-      lightMuted: string | null;
       darkMuted: string | null;
     } | null;
   } | null;
@@ -31,12 +29,10 @@ export const PersonDetails = ({
 }: PersonDetailsProps) => {
   let colors: string[] = [];
   if (photo && photo.colorPalette) {
-    const { vibrant, muted, darkVibrant, darkMuted, lightVibrant, lightMuted } = photo.colorPalette;
+    const { vibrant, muted, darkVibrant, darkMuted } = photo.colorPalette;
     colors = [
-      lightVibrant || lightMuted,
       darkVibrant || darkMuted,
       vibrant || muted,
-      darkVibrant || darkMuted,
     ].filter(color => color !== null) as string[];
   }
 
@@ -53,14 +49,21 @@ export const PersonDetails = ({
         <div
           className={classes.coverPhoto}
           style={
-            colors.length >= 4
+            colors.length === 2
               ? {
                   background: `linear-gradient(
                     130deg,
-                    ${colors[0]} -20%,
-                    ${colors[1]} 30%,
-                    ${colors[2]} 60%,
-                    ${colors[3]} 120%
+                    #4cfde9 -20%,
+                    transparent 30%,
+                    transparent 60%,
+                    rgb(253, 188, 9) 85%
+                  ),
+                  linear-gradient(
+                    130deg,
+                    transparent -20%,
+                    ${colors[0]} 30%,
+                    ${colors[1]} 60%,
+                    transparent 85%
                   )`,
                 }
               : undefined

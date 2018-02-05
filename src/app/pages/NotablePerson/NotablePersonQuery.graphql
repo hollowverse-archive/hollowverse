@@ -8,10 +8,8 @@ query NotablePerson($slug: String!) {
       colorPalette {
         vibrant
         darkVibrant
-        lightVibrant
         muted
         darkMuted
-        lightMuted
       }
     }
     summary
