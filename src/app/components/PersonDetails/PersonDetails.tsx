@@ -31,13 +31,12 @@ export const PersonDetails = ({
 }: PersonDetailsProps) => {
   let colors: string[] = [];
   if (photo && photo.colorPalette) {
+    const { vibrant, muted, darkVibrant, darkMuted, lightVibrant, lightMuted } = photo.colorPalette;
     colors = [
-      photo.colorPalette.lightVibrant,
-      photo.colorPalette.darkVibrant,
-      photo.colorPalette.vibrant,
-      photo.colorPalette.muted,
-      photo.colorPalette.darkMuted,
-      photo.colorPalette.lightMuted,
+      lightVibrant || lightMuted,
+      darkVibrant || darkMuted,
+      vibrant || muted,
+      darkVibrant || darkMuted,
     ].filter(color => color !== null) as string[];
   }
 

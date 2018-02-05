@@ -18,15 +18,16 @@
     mask-image: url('file-loader!assets/mask.png');
     mask-repeat: no-repeat;
     mask-size: 100% 100%;
+    border-bottom: 1px solid transparent;
     // stylelint-enable plugin/no-unsupported-browser-features
     right: -50%;
     left: -50%;
     top: 0;
-    bottom: 45%;
+    bottom: 40%;
     @media screen and (min-width: $page-max-width) {
       right: 0;
       left: 0;
-      bottom: 35%;
+      bottom: 15%;
     }
     visibility: visible;
     position: absolute;
