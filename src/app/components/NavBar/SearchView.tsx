@@ -53,7 +53,7 @@ export class SearchView extends React.PureComponent<Props> {
     }
   };
 
-  goToSearchIfNecessary = () => {
+  handleFocus = () => {
     if (!this.props.isSearchPage) {
       this.props.goToSearch();
     }
@@ -82,7 +82,7 @@ export class SearchView extends React.PureComponent<Props> {
             name="query"
             value={inputValue}
             placeholder="Search for notable people..."
-            onClick={this.goToSearchIfNecessary}
+            onFocus={this.handleFocus}
             autoFocus={isSearchPage}
             onChange={this.handleChange}
           />
