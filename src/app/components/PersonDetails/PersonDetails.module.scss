@@ -18,7 +18,8 @@
     mask-image: url('file-loader!assets/mask.png');
     mask-repeat: no-repeat;
     mask-size: 100% 100%;
-    border-bottom: 1px solid transparent;
+    border: 1px solid transparent;
+    border-top: none;
     // stylelint-enable plugin/no-unsupported-browser-features
     right: -50%;
     left: -50%;
