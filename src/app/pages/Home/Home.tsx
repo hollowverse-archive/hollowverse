@@ -9,7 +9,11 @@ import { goToSearch } from 'store/features/search/actions';
 import { connect } from 'react-redux';
 import { Footer } from 'components/Footer/Footer';
 
-export const Home = connect(undefined, { goToSearch })(props => (
+export const Home = connect(
+undefined,
+(dispatch) => ({
+  goToSearch: () => dispatch(goToSearch(undefined))
+}))(props => (
   <div className={classes.root}>
     <form method="GET" action="/search" className={classes.searchContainer}>
       <Card className={classes.searchBox}>

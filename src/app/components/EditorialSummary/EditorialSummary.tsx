@@ -199,7 +199,7 @@ export class EditorialSummary extends React.PureComponent<Props, State> {
                       role="button"
                       aria-label="Go back to reference"
                     >
-                      ↩
+                      ↩&#xFE0E;
                     </a>
                   </li>
                 );
