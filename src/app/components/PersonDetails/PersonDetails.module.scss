@@ -1,12 +1,6 @@
 @import 'variables.scss';
 
 .root {
-  --color-cover-primary-light: rgb(201, 246, 241);
-  --color-cover-primary-dark: rgb(103, 191, 181);
-  --color-cover-primary: rgba(147, 137, 255, 0.76);
-  --color-cover-secondary-light: rgb(251, 236, 192);
-  --color-cover-secondary: rgb(253, 188, 9);
-
   @supports (filter: blur(5px)) and (mask-image: linear-gradient(black, transparent)) {
     .cover-photo-wrapper {
       visibility: visible;
@@ -18,18 +12,14 @@
     mask-image: linear-gradient(to bottom, black, transparent);
     mask-repeat: no-repeat;
     mask-size: 100% 100%;
+    // stylelint-enable plugin/no-unsupported-browser-features
     border: 1px solid transparent;
     border-top: none;
-    // stylelint-enable plugin/no-unsupported-browser-features
     right: 0;
     left: 0;
     top: 0;
+    width: 100%;
     height: 200px;
-    @media screen and (min-width: $page-max-width) {
-      right: 0;
-      left: 0;
-      bottom: 15%;
-    }
     visibility: visible;
     position: absolute;
     overflow: hidden;
@@ -46,13 +36,6 @@
     bottom: 0;
     left: 0;
     right: 0;
-    background: linear-gradient(
-      130deg,
-      var(--color-cover-secondary-light) -20%,
-      var(--color-cover-primary) 30%,
-      var(--color-cover-primary-dark) 60%,
-      var(--color-cover-secondary) 120%
-    );
   }
 }
 
