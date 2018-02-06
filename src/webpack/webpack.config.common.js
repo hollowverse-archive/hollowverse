@@ -105,7 +105,7 @@ module.exports.createCommonConfig = () => ({
   resolve: {
     alias: {
       // Replace lodash with lodash-es for better tree shaking
-      'lodash-es': 'lodash',
+      lodash: 'lodashes',
 
       algoliasearch: 'algoliasearch/lite',
 

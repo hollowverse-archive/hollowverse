@@ -1,11 +1,12 @@
 @import 'variables.scss';
 
 .root {
-  @supports (filter: blur(5px)) and (mask-image: linear-gradient(black, transparent)) {
-    .cover-photo-wrapper {
-      visibility: visible;
-    }
-  }
+  position: relative;
+  margin-bottom: 25px;
+  overflow-x: hidden;
+  padding: 20px 20px 0;
+  display: flex;
+  flex-direction: column;
 
   .cover-photo-wrapper {
     // stylelint-disable plugin/no-unsupported-browser-features
@@ -21,6 +22,11 @@
     width: 100%;
     height: 200px;
     visibility: visible;
+    @supports (filter: blur(5px)) and (mask-image: linear-gradient(black, transparent)) {
+      & {
+        visibility: visible;
+      }
+    }
     position: absolute;
     overflow: hidden;
     z-index: -1;
@@ -37,21 +43,11 @@
     left: 0;
     right: 0;
   }
-}
-
-.root {
-  position: relative;
-  margin-bottom: 25px;
-  overflow-x: hidden;
-  padding: 20px 20px 0;
-  display: flex;
-  flex-direction: column;
   
   .content {
-    align-self: center;
-    width: 100%;		
-    align-self: center;		
+    width: 100%;
     max-width: $page-max-width;		
+    align-self: center;
   }
 
   .photo-link {
