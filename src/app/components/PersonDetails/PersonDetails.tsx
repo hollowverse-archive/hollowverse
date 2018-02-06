@@ -57,14 +57,14 @@ export const PersonDetails = ({
                   transparent 30%,
                   transparent 60%,
                   rgb(253, 188, 9) 85%
-                ),
+                ) no-repeat,
                 linear-gradient(
                   130deg,
                   transparent -20%,
                   ${colors[0]} 30%,
                   ${colors[1]} 60%,
                   transparent 85%
-                )`,
+                ) no-repeat`,
               }
             : undefined
         }

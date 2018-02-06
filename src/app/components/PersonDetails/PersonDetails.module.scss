@@ -16,7 +16,7 @@
       }
     }
     // stylelint-disable plugin/no-unsupported-browser-features
-    filter: blur(30px);
+    filter: blur(25px);
     mask-image: linear-gradient(to bottom, black, transparent);
     mask-repeat: no-repeat;
     mask-size: 100% 100%;
@@ -29,8 +29,6 @@
     left: 0;
     top: 0;
     height: 200px;
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
   }
   
   .content {
