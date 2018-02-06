@@ -82,26 +82,28 @@ export const PersonDetails = ({
           </span>
         </a>
       ) : null}
-      <h1 className={classes.name}>
-        <div className={classes.caption}>Religion, politics, and ideas of</div>
-        {name}
-      </h1>
-      {labels && labels.length > 0 ? (
-        <ul aria-label="Labels" className={classes.labels}>
-          {labels.map(({ id, text }) => (
-            <li className={classes.listItem} key={id}>
-              <Label text={text} />
-            </li>
-          ))}
-        </ul>
-      ) : null}
-      {summary && (
-        <div className={classes.summary}>
-          {summary
-            .split('\n')
-            .map((paragraph, i) => <p key={i}>{paragraph}</p>)}
-        </div>
-      )}
+      <div className={classes.content}>
+        <h1 className={classes.name}>
+          <div className={classes.caption}>Religion, politics, and ideas of</div>
+          {name}
+        </h1>
+        {labels && labels.length > 0 ? (
+          <ul aria-label="Labels" className={classes.labels}>
+            {labels.map(({ id, text }) => (
+              <li className={classes.listItem} key={id}>
+                <Label text={text} />
+              </li>
+            ))}
+          </ul>
+        ) : null}
+        {summary && (
+          <div className={classes.summary}>
+            {summary
+              .split('\n')
+              .map((paragraph, i) => <p key={i}>{paragraph}</p>)}
+          </div>
+        )}
+      </div>
     </div>
   );
 };

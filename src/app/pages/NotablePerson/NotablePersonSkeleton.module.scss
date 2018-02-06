@@ -2,19 +2,11 @@
 
 .root {
   width: 100%;
-  max-width: $page-max-width;
-  position: relative;
-  align-self: center;
   overflow: hidden;
-
-  // stylelint-disable plugin/no-unsupported-browser-features
-  mask-image: linear-gradient(to bottom, black, transparent);
-  mask-repeat: no-repeat;
-  mask-size: 100% 100%;
-  // stylelint-enable plugin/no-unsupported-browser-features
 
   .inner {
     width: 100%;
+    max-width: $page-max-width;
     margin: 0 auto;
     padding: 20px 20px 40px;
     position: relative;
@@ -27,25 +19,22 @@
     height: 100%;
     left: 0;
     top: 0;
-    border: 1px solid transparent;
-    opacity: 0.4;
+    opacity: 0.2;
 
     // stylelint-disable-next-line plugin/no-unsupported-browser-features
     filter: blur(50px);
 
-    --color-cover-primary-light: rgb(35, 255, 229);
-    --color-cover-primary-dark: rgb(0, 214, 189);
-    --color-cover-primary: rgba(33, 14, 243, 0.76);
-    --color-cover-secondary-light: rgb(252, 210, 86);
-    --color-cover-secondary: rgb(248, 182, 0);
-
-    background: linear-gradient(
-      130deg,
-      var(--color-cover-secondary-light) -20%,
-      var(--color-cover-primary) 30%,
-      var(--color-cover-primary-dark) 60%,
-      var(--color-cover-secondary) 120%
-    );
+    background-image: linear-gradient(
+        -180deg,
+        rgba(241, 241, 243, 0) 0%,
+        rgba(241, 241, 243, 1) 50%
+      ),
+      linear-gradient(
+        132deg,
+        #4cfde9 0%,
+        rgba(251, 201, 84, 1) 50%,
+        #4435f7 100%
+      );
   }
 
   .gradient {
@@ -56,7 +45,7 @@
     height: 100%;
     background-image: linear-gradient(
       79deg,
-      rgba(201, 201, 255, 0) 35%,
+      rgba(241, 241, 243, 0) 35%,
       rgba(241, 241, 243, 1) 50%,
       rgba(241, 241, 243, 0) 75%
     );

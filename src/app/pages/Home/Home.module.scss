@@ -2,6 +2,7 @@
 
 .root {
   width: 100%;
+  max-width: $page-max-width;
   flex-grow: 1;
   align-self: center;
 

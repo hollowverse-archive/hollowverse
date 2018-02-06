@@ -2,6 +2,8 @@
 @import 'mixins.scss';
 
 .root {
+  max-width: $page-max-width;
+  align-self: center;
   display: flex;
   justify-content: center;
   flex-direction: column;

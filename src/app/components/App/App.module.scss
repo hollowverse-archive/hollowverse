@@ -8,8 +8,6 @@
   flex-direction: column;
 
   .view {
-    max-width: $page-max-width;
-    align-self: center;
     width: 100%;
     flex-grow: 1;
     display: flex;

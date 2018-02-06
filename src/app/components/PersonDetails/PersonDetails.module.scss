@@ -63,8 +63,13 @@
   padding: 20px 20px 0;
   display: flex;
   flex-direction: column;
-  width: 100%;
-  align-self: center;
+  
+  .content {
+    align-self: center;
+    width: 100%;		
+    align-self: center;		
+    max-width: $page-max-width;		
+  }
 
   .photo-link {
     align-self: center;

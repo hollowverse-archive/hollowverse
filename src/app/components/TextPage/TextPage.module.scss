@@ -3,6 +3,7 @@
 .root {
   flex-grow: 1;
   width: 100%;
+  max-width: $page-max-width;
   margin: auto;
   padding: 40px 20px;
   animation: text-page 0.3s;
