@@ -45,31 +45,30 @@ export const PersonDetails = ({
           <meta name="theme-color" content={photo.colorPalette.darkVibrant} />
         </Helmet>
       ) : null}
-      <div className={classes.coverPhotoWrapper} aria-hidden>
-        <div
-          className={classes.coverPhoto}
-          style={
-            colors.length === 2
-              ? {
-                  background: `linear-gradient(
-                    130deg,
-                    #4cfde9 -20%,
-                    transparent 30%,
-                    transparent 60%,
-                    rgb(253, 188, 9) 85%
-                  ),
-                  linear-gradient(
-                    130deg,
-                    transparent -20%,
-                    ${colors[0]} 30%,
-                    ${colors[1]} 60%,
-                    transparent 85%
-                  )`,
-                }
-              : undefined
-          }
-        />
-      </div>
+      <div
+        className={classes.coverBackground}
+        aria-hidden
+        style={
+          colors.length === 2
+            ? {
+                background: `linear-gradient(
+                  130deg,
+                  #4cfde9 -20%,
+                  transparent 30%,
+                  transparent 60%,
+                  rgb(253, 188, 9) 85%
+                ),
+                linear-gradient(
+                  130deg,
+                  transparent -20%,
+                  ${colors[0]} 30%,
+                  ${colors[1]} 60%,
+                  transparent 85%
+                )`,
+              }
+            : undefined
+        }
+      />
       {photo ? (
         <a
           className={classes.photoLink}
