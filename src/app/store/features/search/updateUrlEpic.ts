@@ -6,6 +6,8 @@ import { Epic } from 'redux-observable';
 
 import 'rxjs/add/operator/map';
 import { getRoutingState } from 'store/features/url/selectors';
+import { isActionOfType } from 'store/helpers';
+import { LocationDescriptor } from 'history';
 
 /**
  * Listens for actions requesting search results and
@@ -14,14 +16,17 @@ import { getRoutingState } from 'store/features/url/selectors';
  * @example `{ type: 'SEARCH_QUERY_CHANGED', query: 'Tom Ha' }` => '/search?query=Tom+Ha'
  */
 export const updateUrlEpic: Epic<Action, StoreState> = (action$, store) => {
-  return action$.ofType('SEARCH_QUERY_CHANGED').map(action => {
-    const { query } = (action as Action<'SEARCH_QUERY_CHANGED'>).payload;
-    const searchParams = new URLSearchParams();
-    searchParams.append('query', query);
-    const descriptor = {
+  return action$.ofType('SEARCH_QUERY_CHANGED', 'GO_TO_SEARCH').map(action => {
+    const descriptor: LocationDescriptor = {
       pathname: '/search',
-      search: searchParams.toString(),
     };
+
+    if (isActionOfType(action, 'SEARCH_QUERY_CHANGED')) {
+      const { query } = action.payload;
+      const searchParams = new URLSearchParams();
+      searchParams.append('query', query);
+      descriptor.search = searchParams.toString();
+    }
 
     const state = store.getState();
     const location = getRoutingState(state).location;

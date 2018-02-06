@@ -14,10 +14,7 @@ type DispatchProps = {
 
 type Props = OwnProps & DispatchProps;
 
-export const DispatchOnLifecycleEvent = connect<{}, DispatchProps, OwnProps>(
-  () => ({}),
-  dispatch => ({ dispatch }),
-)(
+export const DispatchOnLifecycleEvent = connect<{}, DispatchProps, OwnProps>(undefined)(
   class extends React.PureComponent<Props> {
     dispatch(actionOrActions: Action | Action[]) {
       if (Array.isArray(actionOrActions)) {

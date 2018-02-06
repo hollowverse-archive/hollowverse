@@ -9,6 +9,7 @@ import { NotablePersonQuery } from 'api/types';
 
 /** A map of all app actions to their corresponding payloads */
 export type ActionTypeToPayloadType = {
+  GO_TO_SEARCH: void;
   SEARCH_QUERY_CHANGED: {
     query: string;
   };
