@@ -9,6 +9,12 @@
   flex-direction: column;
 
   .cover-background {
+    visibility: hidden;
+    @supports (filter: blur(5px)) and (mask-image: linear-gradient(black, transparent)) {
+      & {
+        visibility: visible;
+      }
+    }
     // stylelint-disable plugin/no-unsupported-browser-features
     filter: blur(30px);
     mask-image: linear-gradient(to bottom, black, transparent);
@@ -23,12 +29,6 @@
     left: 0;
     top: 0;
     height: 200px;
-    visibility: visible;
-    @supports (filter: blur(5px)) and (mask-image: linear-gradient(black, transparent)) {
-      & {
-        visibility: visible;
-      }
-    }
     background-repeat: no-repeat;
     background-size: 100% 100%;
   }
