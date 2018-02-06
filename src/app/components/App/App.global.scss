@@ -79,16 +79,3 @@ input[type='search'] {
   appearance: none;
 }
 /* #endregion Disable rounded corners of search fields on Safari for iOS */
-
-/* #region  Disable address bar bouncing behavior on Safari for iOS */
-html {
-  height: 100%;
-  overflow: hidden;
-}
-
-body {
-  height: 100%;
-  overflow: auto;
-  -webkit-overflow-scrolling: touch;
-}
-/* #endregion  Disable address bar bouncing behavior on Safari for iOS */
