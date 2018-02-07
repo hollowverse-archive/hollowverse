@@ -5,7 +5,7 @@ import { Action, StoreState } from 'store/types';
 import { Epic } from 'redux-observable';
 
 import 'rxjs/add/operator/map';
-import { getRoutingState } from 'store/features/url/selectors';
+import { getRoutingState, isSearchPage } from 'store/features/url/selectors';
 import { isActionOfType } from 'store/helpers';
 import { LocationDescriptor } from 'history';
 
@@ -17,19 +17,21 @@ import { LocationDescriptor } from 'history';
  */
 export const updateUrlEpic: Epic<Action, StoreState> = (action$, store) => {
   return action$.ofType('SEARCH_QUERY_CHANGED', 'GO_TO_SEARCH').map(action => {
-    const descriptor: LocationDescriptor = {
+    let descriptor: LocationDescriptor = {
       pathname: '/search',
     };
 
-    if (isActionOfType(action, 'SEARCH_QUERY_CHANGED')) {
-      const { query } = action.payload;
+    const state = store.getState();
+    const location = getRoutingState(state).location;
+    
+    if (isActionOfType(action, 'GO_TO_SEARCH') && isSearchPage(state)) {
+      descriptor = { ...location };
+    } else if (isActionOfType(action, 'SEARCH_QUERY_CHANGED')) {
       const searchParams = new URLSearchParams();
+      const { query } = action.payload;
       searchParams.append('query', query);
       descriptor.search = searchParams.toString();
     }
-
-    const state = store.getState();
-    const location = getRoutingState(state).location;
 
     return location && location.pathname === descriptor.pathname
       ? // This is to avoid things like
