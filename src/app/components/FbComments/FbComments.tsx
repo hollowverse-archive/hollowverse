@@ -26,13 +26,13 @@ const OBSERVED_FB_ATTR_NAME = 'fb-xfbml-state';
 
 /** Facebook Comments Plugin */
 export class FbComments extends React.PureComponent<Props> {
-  commentsNode: HTMLDivElement | null;
-  commentsParentNode: HTMLDivElement | null;
-
+  commentsNode: HTMLDivElement | null = null;
+  commentsParentNode: HTMLDivElement | null = null;
   commentsObserver: MutationObserver | null = null;
 
   setCommentsParentNode = (node: HTMLDivElement | null) =>
     (this.commentsParentNode = node);
+
   setCommentsNode = (node: HTMLDivElement | null) => (this.commentsNode = node);
 
   load = async () => {
