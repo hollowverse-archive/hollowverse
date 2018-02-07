@@ -1,5 +1,6 @@
 const normalize = require('postcss-normalize');
 const autoprefixer = require('autoprefixer');
+const cssVariables = require('postcss-css-variables');
 const { compact } = require('lodash');
 
 const { createBabelConfig } = require('./babel');
@@ -24,6 +25,22 @@ const sassLoaders = [
   },
 ];
 
+const postCssPlugins = [
+  autoprefixer,
+
+  // Inlines the value of custom CSS properties
+  // for browsers that do not support them
+  cssVariables({
+    /**
+     * `preserve` keeps both the custom property declarations and usages
+     * as well as the resolved values as a fallback, so that we can change
+     * the values dynamically via JavaScript in browsers that do
+     * support custom properties.
+     */
+    preserve: true,
+  }),
+];
+
 exports.createGlobalCssLoaders = (isServer = false) => [
   {
     // For the server bundle, we do not want to generate any CSS files,
@@ -43,7 +60,7 @@ exports.createGlobalCssLoaders = (isServer = false) => [
         // Minimal cross-browser CSS resets, only contains resets relevant
         // for the targeted browsers as specified in `"browserslist"` in `package.json`
         normalize({ forceImport: true }),
-        autoprefixer,
+        ...postCssPlugins,
       ],
       sourceMap: true,
     },
@@ -83,7 +100,7 @@ exports.createCssModulesLoaders = (isServer = false) => [
       sourceMap: true,
       plugins: [
         // @WARN Do not include `normalize`
-        autoprefixer,
+        ...postCssPlugins,
       ],
     },
   },

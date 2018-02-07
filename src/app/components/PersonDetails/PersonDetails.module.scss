@@ -1,30 +1,6 @@
 @import 'variables.scss';
 
 .root {
-  .cover-photo {
-    visibility: hidden;
-  }
-}
-
-@supports (filter: blur(5px)) {
-  .root {
-    .cover-photo {
-      visibility: visible;
-      position: absolute;
-      background-repeat: no-repeat;
-      background-size: 100%;
-      top: 0;
-      z-index: -1;
-      height: 25%;
-      width: 100%;
-      // stylelint-disable-next-line plugin/no-unsupported-browser-features
-      filter: blur(50px);
-      transform: scale(1.2);
-    }
-  }
-}
-
-.root {
   position: relative;
   margin-bottom: 25px;
   overflow-x: hidden;
@@ -32,10 +8,42 @@
   display: flex;
   flex-direction: column;
 
+  .cover-background-wrapper {
+    visibility: hidden;
+    @supports (filter: blur(5px)) and (mask-image: linear-gradient(black, transparent)) {
+      & {
+        visibility: visible;
+      }
+    }
+    // stylelint-disable plugin/no-unsupported-browser-features
+    mask-image: linear-gradient(to bottom, black, transparent);
+    mask-repeat: no-repeat;
+    mask-size: 100% 100%;
+    // stylelint-enable plugin/no-unsupported-browser-features
+    border: 1px solid transparent;
+    border-top: none;
+    position: absolute;
+    z-index: -1;
+    right: 0px;
+    left: 0;
+    top: 0;
+    height: 200px;
+  }
+
+  .cover-background {
+    // stylelint-disable-next-line plugin/no-unsupported-browser-features
+    filter: blur(25px);
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+
   .content {
     width: 100%;
-    align-self: center;
     max-width: $page-max-width;
+    align-self: center;
   }
 
   .photo-link {
@@ -50,6 +58,7 @@
     display: block;
     width: $person-avatar-size;
     height: $person-avatar-size;
+    background-color: $color-background-light;
     box-shadow: 0 0 0 1.5px rgba(255, 255, 255, 0.7),
       0 2px 1px 0 rgba(0, 0, 0, 0.1);
     border-radius: 1px;

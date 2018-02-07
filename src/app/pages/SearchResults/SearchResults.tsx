@@ -28,13 +28,14 @@ import { forceReload } from 'helpers/forceReload';
 import { searchResultSelected } from 'store/features/logging/actions';
 
 import { ResultsList } from './ResultsList';
+import { withRouter, RouteComponentProps } from 'react-router';
 
 type Props = {
   searchQuery: string | null;
   searchResultSelected(path: string): any;
 };
 
-class Page extends React.PureComponent<Props> {
+const Page = withRouter(class extends React.PureComponent<Props & RouteComponentProps<any>> {
   load = async (): Promise<null | AlgoliaResponse> => {
     const { searchQuery } = this.props;
 
@@ -48,7 +49,7 @@ class Page extends React.PureComponent<Props> {
   };
 
   render() {
-    const { searchQuery } = this.props;
+    const { searchQuery, location } = this.props;
 
     return (
       <div className={classes.root}>
@@ -124,7 +125,7 @@ class Page extends React.PureComponent<Props> {
       </div>
     );
   }
-}
+});
 
 export const SearchResults = connect(
   (state: StoreState) => ({
