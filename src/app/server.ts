@@ -38,12 +38,12 @@ export const createServerEntryMiddleware = (
     });
   };
 
-  const newAppMiddlware = isSsrDisabled ? renderOnClient : renderOnServer;
-  const serveNewApp: RequestHandler = (req, res, next) => {
+  const renderNewAppPage = isSsrDisabled ? renderOnClient : renderOnServer;
+  const serveNewAppPage: RequestHandler = (req, res, next) => {
     // Tell browsers not to use cached pages if the commit ID of the environment differs
     res.vary('X-Hollowverse-Actual-Environment-Commit-ID');
   
-    newAppMiddlware(req, res, next);
+    renderNewAppPage(req, res, next);
   };
 
   const entryMiddleware = express();
@@ -78,7 +78,7 @@ export const createServerEntryMiddleware = (
         isWhitelistedPage(requestPath) ||
         (await isNewSlug(requestPath.replace('/', '')))
       ) {
-        serveNewApp(req, res, next);
+        serveNewAppPage(req, res, next);
       } else {
         next();
       }
