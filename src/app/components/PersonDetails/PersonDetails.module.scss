@@ -8,7 +8,7 @@
   display: flex;
   flex-direction: column;
 
-  .cover-background {
+  .cover-background-wrapper {
     visibility: hidden;
     @supports (filter: blur(5px)) and (mask-image: linear-gradient(black, transparent)) {
       & {
@@ -16,7 +16,6 @@
       }
     }
     // stylelint-disable plugin/no-unsupported-browser-features
-    filter: blur(25px);
     mask-image: linear-gradient(to bottom, black, transparent);
     mask-repeat: no-repeat;
     mask-size: 100% 100%;
@@ -30,10 +29,20 @@
     top: 0;
     height: 200px;
   }
-  
+
+  .cover-background {
+    // stylelint-disable-next-line plugin/no-unsupported-browser-features
+    filter: blur(25px);
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+
   .content {
     width: 100%;
-    max-width: $page-max-width;		
+    max-width: $page-max-width;
     align-self: center;
   }
 

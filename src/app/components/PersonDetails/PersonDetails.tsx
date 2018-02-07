@@ -30,10 +30,9 @@ export const PersonDetails = ({
   let colors: string[] = [];
   if (photo && photo.colorPalette) {
     const { vibrant, muted, darkVibrant, darkMuted } = photo.colorPalette;
-    colors = [
-      darkVibrant || darkMuted,
-      vibrant || muted,
-    ].filter(color => color !== null) as string[];
+    colors = [darkVibrant || darkMuted, vibrant || muted].filter(
+      color => color !== null,
+    ) as string[];
   }
 
   return (
@@ -45,30 +44,31 @@ export const PersonDetails = ({
           <meta name="theme-color" content={photo.colorPalette.darkVibrant} />
         </Helmet>
       ) : null}
-      <div
-        className={classes.coverBackground}
-        aria-hidden
-        style={
-          colors.length === 2
-            ? {
-                background: `linear-gradient(
-                  130deg,
-                  #4cfde9 -20%,
-                  transparent 30%,
-                  transparent 60%,
-                  rgb(253, 188, 9) 85%
-                ) no-repeat,
-                linear-gradient(
-                  130deg,
-                  transparent -20%,
-                  ${colors[0]} 30%,
-                  ${colors[1]} 60%,
-                  transparent 85%
-                ) no-repeat`,
-              }
-            : undefined
-        }
-      />
+      <div className={classes.coverBackgroundWrapper} aria-hidden>
+        <div
+          className={classes.coverBackground}
+          style={
+            colors.length === 2
+              ? {
+                  background: `linear-gradient(
+                    130deg,
+                    #4cfde9 -20%,
+                    transparent 30%,
+                    transparent 60%,
+                    rgb(253, 188, 9) 85%
+                  ) no-repeat,
+                  linear-gradient(
+                    130deg,
+                    transparent -20%,
+                    ${colors[0]} 30%,
+                    ${colors[1]} 60%,
+                    transparent 85%
+                  ) no-repeat`,
+                }
+              : undefined
+          }
+        />
+      </div>
       {photo ? (
         <a
           className={classes.photoLink}
@@ -83,7 +83,9 @@ export const PersonDetails = ({
       ) : null}
       <div className={classes.content}>
         <h1 className={classes.name}>
-          <div className={classes.caption}>Religion, politics, and ideas of</div>
+          <div className={classes.caption}>
+            Religion, politics, and ideas of
+          </div>
           {name}
         </h1>
         {labels && labels.length > 0 ? (
