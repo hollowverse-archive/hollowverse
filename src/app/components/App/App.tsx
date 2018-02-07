@@ -35,7 +35,7 @@ export const App = class extends React.Component<{}, State> {
     const { hasMounted } = this.state;
 
     return (
-      <div className={cc([classes.root, { 'no-js': hasMounted }])}>
+      <div className={cc([classes.root, { 'no-js': !hasMounted }])}>
         <Helmet
           titleTemplate="%s - Hollowverse"
           defaultTitle="Hollowverse - Religion, politics and ideas of the influentials"
@@ -50,6 +50,7 @@ export const App = class extends React.Component<{}, State> {
             href={__API_ENDPOINT__}
             crossOrigin="anonymous"
           />
+          <meta name="theme-color" content="" />
         </Helmet>
         <Route>
           {props => {
