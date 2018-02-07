@@ -43,17 +43,20 @@ export const createServerEntryMiddleware = (
   const entryMiddleware = express();
 
   // Add version details to custom header
-  entryMiddleware.use((_, res, next) => {
-    res.setHeader(
-      'X-Hollowverse-Actual-Environment-Branch',
-      `${__BRANCH__}`,
-    );
-    res.setHeader(
-      'X-Hollowverse-Actual-Environment-Commit-ID',
-      `${__COMMIT_ID__}`,
-    );
-    next();
-  });
+  if (__BRANCH__ && __COMMIT_ID__) {
+    entryMiddleware.use((_, res, next) => {
+      res.setHeader(
+        'X-Hollowverse-Actual-Environment-Branch',
+        __BRANCH__,
+      );
+
+      res.setHeader(
+        'X-Hollowverse-Actual-Environment-Commit-ID',
+        __COMMIT_ID__,
+      );
+      next();
+    });
+  }
 
   entryMiddleware.use('/log', logEndpoint);
 
