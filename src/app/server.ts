@@ -38,18 +38,31 @@ export const createServerEntryMiddleware = (
     });
   };
 
-  const serveNewApp: RequestHandler = isSsrDisabled ? renderOnClient : renderOnServer;
+  const renderNewAppPage = isSsrDisabled ? renderOnClient : renderOnServer;
+  const serveNewAppPage: RequestHandler = (req, res, next) => {
+    // Tell browsers not to use cached pages if the commit ID of the environment differs
+    res.vary('X-Hollowverse-Actual-Environment-Commit-ID');
+  
+    renderNewAppPage(req, res, next);
+  };
 
   const entryMiddleware = express();
 
   // Add version details to custom header
-  entryMiddleware.use((_, res, next) => {
-    res.setHeader(
-      'X-Hollowverse-Actual-Environment',
-      `${__BRANCH__}/${__COMMIT_ID__}`,
-    );
-    next();
-  });
+  if (__BRANCH__ && __COMMIT_ID__) {
+    entryMiddleware.use((_, res, next) => {
+      res.setHeader(
+        'X-Hollowverse-Actual-Environment-Branch',
+        __BRANCH__,
+      );
+
+      res.setHeader(
+        'X-Hollowverse-Actual-Environment-Commit-ID',
+        __COMMIT_ID__,
+      );
+      next();
+    });
+  }
 
   entryMiddleware.use('/log', logEndpoint);
 
@@ -65,7 +78,7 @@ export const createServerEntryMiddleware = (
         isWhitelistedPage(requestPath) ||
         (await isNewSlug(requestPath.replace('/', '')))
       ) {
-        serveNewApp(req, res, next);
+        serveNewAppPage(req, res, next);
       } else {
         next();
       }
