@@ -38,7 +38,13 @@ export const createServerEntryMiddleware = (
     });
   };
 
-  const serveNewApp: RequestHandler = isSsrDisabled ? renderOnClient : renderOnServer;
+  const newAppMiddlware = isSsrDisabled ? renderOnClient : renderOnServer;
+  const serveNewApp: RequestHandler = (req, res, next) => {
+    // Tell browsers not to use cached pages if the commit ID of the environment differs
+    res.vary('X-Hollowverse-Actual-Environment-Commit-ID');
+  
+    newAppMiddlware(req, res, next);
+  };
 
   const entryMiddleware = express();
 

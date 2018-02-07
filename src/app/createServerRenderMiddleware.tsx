@@ -82,9 +82,6 @@ export const createServerRenderMiddleware = ({
         logger.debug('Icon stats:', iconStats);
         logger.debug('Public path:', publicPath);
 
-        // This tells browsers not to use cached pages if the commit ID of the environment differs
-        res.vary('X-Hollowverse-Actual-Environment-Commit-ID');
-
         // Tell browsers to start fetching scripts and stylesheets as soon as they
         // parse the HTTP headers of the page
         res.setHeader(
