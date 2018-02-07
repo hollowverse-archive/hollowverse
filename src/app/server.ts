@@ -45,8 +45,12 @@ export const createServerEntryMiddleware = (
   // Add version details to custom header
   entryMiddleware.use((_, res, next) => {
     res.setHeader(
-      'X-Hollowverse-Actual-Environment',
-      `${__BRANCH__}/${__COMMIT_ID__}`,
+      'X-Hollowverse-Actual-Environment-Branch',
+      `${__BRANCH__}`,
+    );
+    res.setHeader(
+      'X-Hollowverse-Actual-Environment-Commit-ID',
+      `${__COMMIT_ID__}`,
     );
     next();
   });
