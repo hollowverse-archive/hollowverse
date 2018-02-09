@@ -40,7 +40,7 @@ const testSpecificConfig = {
     publicPath,
   },
   
-  // stats: 'errors-only',
+  stats: 'none',
   
   performance: false,
 
