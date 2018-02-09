@@ -235,6 +235,7 @@
     "html-webpack-plugin": "^2.30.1",
     "http-proxy-middleware": "^0.17.4",
     "husky": "^0.15.0-beta.16",
+    "identity-obj-proxy": "^3.0.0",
     "jest": "^22.2.1",
     "lint-staged": "^4.0.3",
     "lodash-es": "^4.17.4",
