@@ -1,4 +1,3 @@
-const nodeExternals = require('webpack-node-externals');
 const normalize = require('postcss-normalize');
 const autoprefixer = require('autoprefixer');
 const cssVariables = require('postcss-css-variables');

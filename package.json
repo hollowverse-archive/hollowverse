@@ -5,7 +5,8 @@
   "main": "index.js",
   "repository": "https://github.com/hollowverse/hollowverse.git",
   "scripts": {
-    "test": "npm-run-all -l --aggregate-output -s app/graphql/build -p validate-filenames lint",
+    "pretest": "npm-run-all -l --aggregate-output -s app/graphql/build -p validate-filenames lint",
+    "test": "run-p -l --aggregate-output app/test",
     "app/test/webpack/dev": "NODE_ENV=test NO_TYPE_CHECK=1 yarn webpack --config src/webpack/webpack.config.test.js --watch",
     "app/test/jest/dev": "mkdir -p dist/tests && jest --watchAll",
     "test/dev": "npm-run-all -s clean/test -p 'app/test/*/dev'",
@@ -18,8 +19,7 @@
     "lint-graphql": "run-s app/graphql/schema && eslint --ext .graphql --ext .gql 'src/**/*.{gql,graphql}'",
     "lint-ts/eslint": "eslint 'src/app/**/*.ts{,x}' --config src/app/.eslintrc.json --no-eslintrc",
     "lint-ts/tslint/app": "tslint 'src/app/**/*.ts{,x}' --project src/app",
-    "lint-ts/tslint/tests": "tslint '__tests__/**/*.ts{,x}' --project __tests__",
-    "lint-ts/tslint/root": "tslint '**/*.ts{,x}' --project . --exclude 'node_modules/**/*' --exclude '__tests__/**/*' --exclude 'src/app/**/*'",
+    "lint-ts/tslint/root": "tslint '**/*.ts{,x}' --project . --exclude 'node_modules/**/*' --exclude 'src/app/**/*'",
     "lint-ts/tslint": "run-p --aggregate-output 'lint-ts/tslint/*'",
     "lint-ts": "run-p --aggregate-output 'lint-ts/*'",
     "app/webpack/build": "REACT=1 NODE_ENV=production NO_PERF_CHECKS=1 node ./build.js",
@@ -96,11 +96,8 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "run-p --aggregate-output validate-filenames lint-staged",
-      "pre-push": "yarn test",
-      "post-merge": "yarnhook",
-      "post-checkout": "yarnhook",
-      "post-rewrite": "yarnhook"
+      "pre-commit": "yarn pretest",
+      "pre-push": "yarn test"
     }
   },
   "browserslist": [
