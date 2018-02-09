@@ -38,6 +38,7 @@ const testSpecificConfig = {
     chunkFilename: '[name].js',
     path: testsDistDirectory,
     publicPath,
+    devtoolModuleFilenameTemplate: '[absolute-resource-path]',
   },
   
   stats: 'none',

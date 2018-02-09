@@ -16,7 +16,7 @@ module.exports = {
       validation: 'ignore',
       patterns: [
         '*/**/typings/*',
-        '__tests__/**/*',
+        'src/app/__tests__/**/*',
         '_*.scss',
         'Dockerfile*',
         'docker-compose.yml',
