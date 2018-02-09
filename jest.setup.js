@@ -1,14 +1,6 @@
 // @ts-nocheck
 /* eslint-disable no-underscore-dangle */
-
-const { globals } = require('./src/webpack/shared');
-
-global.__IS_SERVER__ = false;
-
-Object.entries(globals).forEach(([key, value]) => {
-  global[key] = value;
-});
-
-process.on('unhandledRejection', e => {
-  console.error(e);
-});
+// require('source-map-support/register');
+require('./dist/tests/bootstrap');
+require('./dist/tests/common');
+require('./dist/tests/vendor');

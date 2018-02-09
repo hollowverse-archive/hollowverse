@@ -9,18 +9,19 @@ const SpriteLoaderPlugin = require('svg-sprite-loader/plugin');
 const { compact, mapValues } = require('lodash');
 
 const { srcDirectory, excludedPatterns, publicPath } = require('./variables');
-const { globals } = require('./shared');
 
 const {
   ifPreact,
   isHot,
   isDev,
+  isDebug,
   ifDev,
   ifProd,
   isProd,
   ifEs5,
   ifEsNext,
 } = require('./env');
+
 
 module.exports.createCommonConfig = () => ({
   devServer:
@@ -142,7 +143,27 @@ module.exports.createCommonConfig = () => ({
     new webpack.NoEmitOnErrorsPlugin(), // Required to fail the build on errors
 
     // Environment
-    new webpack.DefinePlugin(mapValues(globals, v => JSON.stringify(v))),
+    new webpack.DefinePlugin(
+      mapValues(
+        {
+          __IS_DEBUG__: isDebug,
+          __BRANCH__: process.env.BRANCH,
+          __COMMIT_ID__: process.env.COMMIT_ID,
+          __BASE__: isProd
+            ? 'https://hollowverse.com'
+            : `http://localhost:${process.env.APP_SERVER_PORT || 3001}`,
+
+          // To avoid issues with cross-origin requests in development,
+          // the API endpoint is mapped to an endpoint on the same origin
+          // which proxies the requests to the actual defined endpoint
+          // The proxy is defined in appServer.ts
+          __API_ENDPOINT__: isProd ? process.env.API_ENDPOINT : '/__api',
+          'process.env.NODE_ENV': process.env.NODE_ENV,
+          isHot,
+        },
+        v => JSON.stringify(v),
+      ),
+    ),
 
     new SpriteLoaderPlugin(),
 

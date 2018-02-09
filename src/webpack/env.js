@@ -3,8 +3,7 @@ const compact = require('lodash/compact');
 exports.isTest = process.env.NODE_ENV === 'test';
 exports.isProduction = process.env.NODE_ENV === 'production';
 exports.isCi = Boolean(Number(process.env.CI));
-exports.isDevelopment =
-  exports.isTest || process.env.NODE_ENV === 'development';
+exports.isDevelopment = process.env.NODE_ENV === 'development';
 exports.isDev = exports.isDevelopment;
 exports.isProd = exports.isProduction;
 exports.isHot = Boolean(Number(process.env.HOT));

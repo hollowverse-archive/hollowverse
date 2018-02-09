@@ -1,3 +1,4 @@
+const nodeExternals = require('webpack-node-externals');
 const normalize = require('postcss-normalize');
 const autoprefixer = require('autoprefixer');
 const cssVariables = require('postcss-css-variables');
@@ -13,8 +14,6 @@ const {
   isProd,
   shouldTypeCheck,
   ifProd,
-  isDebug,
-  isHot,
 } = require('./env');
 
 const sassLoaders = [
@@ -151,19 +150,32 @@ exports.createScriptRules = (isServer = false) => {
   ];
 };
 
-exports.globals = {
-  __IS_DEBUG__: isDebug,
-  __BRANCH__: process.env.BRANCH,
-  __COMMIT_ID__: process.env.COMMIT_ID,
-  __BASE__: isProd
-    ? 'https://hollowverse.com'
-    : `http://localhost:${process.env.APP_SERVER_PORT || 3001}`,
+// By default, webpack will consume and bundle all `require` calls.
+// `externals` specifies which packages should *not* be bundled by webpack.
+// The following packages are already installed on the server, so they do
+// not need to be bundled. This also reduces the build time for the server bundle.
+// The `webpack-node-externals` package will exclude all packages in `node_modules`
+// so they are not bundled.
+exports.createExternals = (aliases) => [nodeExternals({
+  // `whitelist` excludes node modules so they _are_ bundled with webpack
+  whitelist: [
+    '.bin',
+    'babel-polyfill',
 
-  // To avoid issues with cross-origin requests in development,
-  // the API endpoint is mapped to an endpoint on the same origin
-  // which proxies the requests to the actual defined endpoint
-  // The proxy is defined in appServer.ts
-  __API_ENDPOINT__: isProd ? process.env.API_ENDPOINT : '/__api',
-  'process.env.NODE_ENV': process.env.NODE_ENV,
-  isHot,
-};
+    // @ts-ignore
+    moduleName =>
+      [
+        // These packages need to be bundled so that they
+        // know they are running in the context of webpack runtime
+        'babel-plugin-universal-import',
+        'webpack-flush-chunks',
+        'react-universal-component',
+
+        // All aliased packages should be bundled.
+        // Example: when using preact instead of React, require('react') should be bundled.
+        // Otherwise, the call to require('react') will resolve to the actual
+        // `react` package
+        ...Object.keys(aliases),
+      ].some(match => moduleName.includes(match)),
+  ],
+})];
