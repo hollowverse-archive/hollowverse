@@ -2275,7 +2275,7 @@ chalk@2.1.0:
     escape-string-regexp "^1.0.5"
     supports-color "^4.0.0"
 
-chalk@^2.0.0, chalk@^2.0.1, chalk@^2.1.0, chalk@^2.3.0:
+chalk@2.3.0, chalk@^2.0.0, chalk@^2.0.1, chalk@^2.1.0, chalk@^2.3.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/chalk/-/chalk-2.3.0.tgz#b5ea48efc9c1793dccc9b4767c93914d3f2d52ba"
   dependencies:
@@ -4019,6 +4019,18 @@ expand-template@^1.0.2:
 expect-ct@0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/expect-ct/-/expect-ct-0.1.0.tgz#52735678de18530890d8d7b95f0ac63640958094"
+
+expect-more-jest@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/expect-more-jest/-/expect-more-jest-1.0.1.tgz#6f1e0d3c9f99d59743b0c7a8d90a74292663a92d"
+  dependencies:
+    chalk "2.3.0"
+    expect-more "0.4.0"
+    jest-matcher-utils "22.0.3"
+
+expect-more@0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/expect-more/-/expect-more-0.4.0.tgz#3a4ab16e944f6803b3d8d1edee13efd9d8e6c9f0"
 
 expect@^22.2.0:
   version "22.2.0"
@@ -6027,7 +6039,7 @@ jest-get-type@^21.2.0:
   version "21.2.0"
   resolved "https://registry.yarnpkg.com/jest-get-type/-/jest-get-type-21.2.0.tgz#f6376ab9db4b60d81e39f30749c6c466f40d4a23"
 
-jest-get-type@^22.1.0:
+jest-get-type@^22.0.3, jest-get-type@^22.1.0:
   version "22.1.0"
   resolved "https://registry.yarnpkg.com/jest-get-type/-/jest-get-type-22.1.0.tgz#4e90af298ed6181edc85d2da500dbd2753e0d5a9"
 
@@ -6063,6 +6075,14 @@ jest-leak-detector@^22.1.0:
   resolved "https://registry.yarnpkg.com/jest-leak-detector/-/jest-leak-detector-22.1.0.tgz#08376644cee07103da069baac19adb0299b772c2"
   dependencies:
     pretty-format "^22.1.0"
+
+jest-matcher-utils@22.0.3:
+  version "22.0.3"
+  resolved "https://registry.yarnpkg.com/jest-matcher-utils/-/jest-matcher-utils-22.0.3.tgz#2ec15ca1af7dcabf4daddc894ccce224b948674e"
+  dependencies:
+    chalk "^2.0.1"
+    jest-get-type "^22.0.3"
+    pretty-format "^22.0.3"
 
 jest-matcher-utils@^22.2.0:
   version "22.2.0"
@@ -8636,7 +8656,7 @@ pretty-format@^21.2.1:
     ansi-regex "^3.0.0"
     ansi-styles "^3.2.0"
 
-pretty-format@^22.1.0:
+pretty-format@^22.0.3, pretty-format@^22.1.0:
   version "22.1.0"
   resolved "https://registry.yarnpkg.com/pretty-format/-/pretty-format-22.1.0.tgz#2277605b40ed4529ae4db51ff62f4be817647914"
   dependencies:
