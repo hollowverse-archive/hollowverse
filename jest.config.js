@@ -2,6 +2,7 @@ module.exports = {
   globals: {
     'ts-jest': {
       skipBabel: false,
+      // enableTsDiagnostics: true,
     },
   },
   transform: {
@@ -10,7 +11,17 @@ module.exports = {
   testRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$',
   testPathIgnorePatterns: ['__snapshots__'],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json'],
+  moduleDirectories: [
+    'src/app',
+    'src',
+    '.',
+    'node_modules',
+  ],
   moduleNameMapper: {
-    "\\.(css|scss)$": "identity-obj-proxy"
-  }
+    '\\.(css|scss)$': 'identity-obj-proxy',
+    '\\.svg$': '<rootDir>/mocks/svgModule.ts',
+    '\\.(graphql|gql)$': '<rootDir>/mocks/graphqlQuery.ts',
+    '^(\\!{1,2}/)?file-loader\\!.+': '<rootDir>/mocks/url.ts',
+  },
+  setupFiles: ['<rootDir>/jest.setup.js'],
 };

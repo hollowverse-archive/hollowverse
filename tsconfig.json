@@ -2,10 +2,12 @@
   "extends": "./node_modules/@hollowverse/common/tsconfig.json",
   "compilerOptions": {
     "checkJs": true,
-    "allowJs": true
+    "allowJs": true,
+    "jsx": "react"
   },
   "exclude": [
     "*/**/dist",
+    "__tests__",
     "node_modules"
   ]
 }
