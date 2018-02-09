@@ -9,7 +9,7 @@ import { HelmetProvider } from 'react-helmet-async';
 
 describe('Testing tests', () => {
   it('should work', () => {
-    const history = createMemoryHistory();
+    const history = createMemoryHistory({ initialEntries: ['/'] });
     const { store } = createConfiguredStore(history);
     const tree = (
       <HelmetProvider>

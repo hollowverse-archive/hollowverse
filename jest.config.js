@@ -1,8 +1,11 @@
+// const { createBabelConfig } = require('./src/webpack/babel');
+
 module.exports = {
   globals: {
     'ts-jest': {
-      skipBabel: false,
-      // enableTsDiagnostics: true,
+      babelConfig: {
+        plugins: ['dynamic-import-node'],
+      },
     },
   },
   transform: {
@@ -11,17 +14,12 @@ module.exports = {
   testRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$',
   testPathIgnorePatterns: ['__snapshots__'],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json'],
-  moduleDirectories: [
-    'src/app',
-    'src',
-    '.',
-    'node_modules',
-  ],
+  moduleDirectories: ['src/app', 'src', '.', 'node_modules'],
   moduleNameMapper: {
     '\\.(css|scss)$': 'identity-obj-proxy',
     '\\.svg$': '<rootDir>/mocks/svgModule.ts',
     '\\.(graphql|gql)$': '<rootDir>/mocks/graphqlQuery.ts',
-    '^(\\!{1,2}/)?file-loader\\!.+': '<rootDir>/mocks/url.ts',
+    '^(\\!{1,2}/)?file-loader\\!.+': '<rootDir>/mocks/fileLoader.ts',
   },
   setupFiles: ['<rootDir>/jest.setup.js'],
 };
