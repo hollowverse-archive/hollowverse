@@ -1,8 +1,7 @@
 const webpack = require('webpack');
 const webpackMerge = require('webpack-merge');
 
-const { zipObject, compact } = require('lodash');
-const glob = require('glob');
+const { compact } = require('lodash');
 const path = require('path');
 const nodeExternals = require('webpack-node-externals');
 const WildcardsEntryWebpackPlugin = require('wildcards-entry-webpack-plugin');
