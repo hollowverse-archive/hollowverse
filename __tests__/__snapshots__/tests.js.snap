@@ -1,0 +1,219 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Testing tests should work 1`] = `
+<div
+  className=""
+>
+  <span />
+  <div
+    className={undefined}
+  >
+    <div
+      className=""
+    >
+      <div
+        onChange={[Function]}
+      >
+        <div
+          className={undefined}
+          style={
+            Object {
+              "height": 48,
+            }
+          }
+        />
+      </div>
+      <div
+        className=""
+        style={
+          Object {
+            "height": 48,
+          }
+        }
+      >
+        <button
+          className="undefined"
+          disabled={true}
+          onClick={[Function]}
+        >
+          <svg
+            className=""
+            height={20}
+            role="presentation"
+            viewBox="-1 -1 20 20"
+          >
+            <use
+              xlinkHref="/static/icons.svg#back-usage"
+            />
+          </svg>
+          <span
+            className="sr-only"
+          >
+            Go Back
+          </span>
+        </button>
+        <div
+          className={undefined}
+        >
+          <div
+            className={undefined}
+          >
+            <div
+              className={undefined}
+            >
+              <a
+                className=""
+                href="/"
+                onClick={[Function]}
+                title="Homepage"
+              >
+                <img
+                  alt="Hollowverse"
+                  src="/static/28abf798872484a9183f8adf34f8f9a6.svg"
+                />
+              </a>
+            </div>
+            <a
+              className="undefined"
+              href="/search"
+              onClick={[Function]}
+            >
+              <svg
+                className=""
+                height={20}
+                role="presentation"
+                viewBox="0 0 20 20"
+              >
+                <use
+                  xlinkHref="/static/icons.svg#search-usage"
+                />
+              </svg>
+              <span
+                className="sr-only"
+              >
+                Search
+              </span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    className={undefined}
+  >
+    <div>
+      Loading...
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Testing tests should work 2`] = `
+<div
+  className=""
+>
+  <span />
+  <div
+    className={undefined}
+  >
+    <div
+      className=""
+    >
+      <div
+        onChange={[Function]}
+      >
+        <div
+          className={undefined}
+          style={
+            Object {
+              "height": 48,
+            }
+          }
+        />
+      </div>
+      <div
+        className=""
+        style={
+          Object {
+            "height": 48,
+          }
+        }
+      >
+        <button
+          className="undefined"
+          disabled={true}
+          onClick={[Function]}
+        >
+          <svg
+            className=""
+            height={20}
+            role="presentation"
+            viewBox="-1 -1 20 20"
+          >
+            <use
+              xlinkHref="/static/icons.svg#back-usage"
+            />
+          </svg>
+          <span
+            className="sr-only"
+          >
+            Go Back
+          </span>
+        </button>
+        <div
+          className={undefined}
+        >
+          <div
+            className={undefined}
+          >
+            <div
+              className={undefined}
+            >
+              <a
+                className=""
+                href="/"
+                onClick={[Function]}
+                title="Homepage"
+              >
+                <img
+                  alt="Hollowverse"
+                  src="/static/28abf798872484a9183f8adf34f8f9a6.svg"
+                />
+              </a>
+            </div>
+            <a
+              className="undefined"
+              href="/search"
+              onClick={[Function]}
+            >
+              <svg
+                className=""
+                height={20}
+                role="presentation"
+                viewBox="0 0 20 20"
+              >
+                <use
+                  xlinkHref="/static/icons.svg#search-usage"
+                />
+              </svg>
+              <span
+                className="sr-only"
+              >
+                Search
+              </span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    className={undefined}
+  >
+    <div>
+      Loading...
+    </div>
+  </div>
+</div>
+`;

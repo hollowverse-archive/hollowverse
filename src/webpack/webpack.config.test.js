@@ -8,6 +8,7 @@ const nodeExternals = require('webpack-node-externals');
 
 const {
   createScriptRules,
+  createGlobalCssLoaders,
 } = require('./shared');
 const {
   srcDirectory,
@@ -20,24 +21,22 @@ const { createCommonConfig } = require('./webpack.config.common');
 
 const common = createCommonConfig();
 
-const testFiles = glob.sync(
-  '__tests__/**/*.{ts,tsx}',
-  {
-    cwd: srcDirectory,
-    absolute: true,
-  },
-);
-
 const testSpecificConfig = {
   name: 'tests',
   target: 'web',
-  entry: zipObject(testFiles.map(f => `testEntry.${path.basename(f)}`), testFiles),
+  entry: {
+    '/../tests': path.resolve(srcDirectory, 'testEntry.ts'),
+  },
 
   output: {
     filename: '[name].js',
     chunkFilename: '[name].js',
-    path: testsDistDirectory,
+    path: path.join(testsDistDirectory, 'bundle'),
     publicPath,
+
+    // By default, Webpack will generate source map URLs starting
+    // with webpack://, but we need the actual, absolute file path
+    // for Jest to find the source files.
     devtoolModuleFilenameTemplate: '[absolute-resource-path]',
   },
   
@@ -81,7 +80,7 @@ const testSpecificConfig = {
       {
         test: cssModulesPattern,
         exclude: excludedPatterns,
-        use: 'css-loader/locals',
+        use: createGlobalCssLoaders(true),
       },
 
       // JavaScript and TypeScript
@@ -91,7 +90,7 @@ const testSpecificConfig = {
       {
         test: /\.s?css$/,
         exclude: [...excludedPatterns, cssModulesPattern],
-        use: 'css-loader/locals',
+        use: createGlobalCssLoaders(true),
       },
     ]),
   },

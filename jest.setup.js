@@ -1,5 +1,5 @@
 // @ts-nocheck
 /* eslint-disable import/no-unresolved */
-require('./dist/tests/bootstrap');
-require('./dist/tests/common');
-require('./dist/tests/vendor');
+require('./__tests__/bundle/bootstrap');
+require('./__tests__/bundle/common');
+require('./__tests__/bundle/vendor');
