@@ -66,6 +66,3 @@ build
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
-
-__tests__/*
-!__tests__/__snapshots__

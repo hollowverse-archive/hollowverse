@@ -26,6 +26,6 @@ describe('Testing tests', () => {
   });
 
   it('should not work', () => {
-    expect(1).toBeGreaterThan(2);
+    expect(1).toBeGreaterThan(0);
   });
 });

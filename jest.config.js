@@ -6,7 +6,7 @@ module.exports = {
   roots: [
     testsDistDirectory,
   ],
-  testMatch: ['**/tests.js'],
+  testMatch: ['**/tests/**/*.js'],
   transform: {
     // Must be an empty object to prevent jest from using babel to
     // transform the files (we are already using babel via webpack)

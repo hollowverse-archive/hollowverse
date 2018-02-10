@@ -11875,6 +11875,12 @@ widest-line@^1.0.0:
   dependencies:
     string-width "^1.0.1"
 
+wildcards-entry-webpack-plugin@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/wildcards-entry-webpack-plugin/-/wildcards-entry-webpack-plugin-2.1.0.tgz#c46e30d8760db9e0009082e8be09089c906cfdf6"
+  dependencies:
+    glob "^7.1.2"
+
 window-size@0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/window-size/-/window-size-0.1.0.tgz#5438cd2ea93b202efa3a19fe8887aee7c94f9c9d"

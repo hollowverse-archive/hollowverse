@@ -41,7 +41,7 @@
     "dev": "NODE_ENV=development API_ENDPOINT=${API_ENDPOINT:-https://api.hollowverse.com/graphql} npm-run-all -l -s clean -p app/graphql/dev server/app-server/dev remotedev",
     "test/dev": "run-p app/test/dev",
     "clean": "del-cli './src/app/**/*.module.scss.d.ts' './dist' && mkdir -p ./dist",
-    "clean/test": "del-cli './__tests__/!(__snapshots__)'",
+    "clean/test": "del-cli './__tests__/bundle' './__tests__/tests/!(__snapshots__)'",
     "validate-filenames": "validate-filenames -c commonconfig.js",
     "lint-staged": "lint-staged"
   },
@@ -292,6 +292,7 @@
     "webpack-hot-server-middleware": "^0.3.1",
     "webpack-merge": "^4.1.1",
     "webpack-node-externals": "^1.6.0",
+    "wildcards-entry-webpack-plugin": "^2.1.0",
     "yarnhook": "^0.1.1"
   },
   "engines": {

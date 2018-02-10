@@ -5,6 +5,7 @@ const { zipObject, compact } = require('lodash');
 const glob = require('glob');
 const path = require('path');
 const nodeExternals = require('webpack-node-externals');
+const WildcardsEntryWebpackPlugin = require('wildcards-entry-webpack-plugin');
 
 const {
   createScriptRules,
@@ -24,9 +25,11 @@ const common = createCommonConfig();
 const testSpecificConfig = {
   name: 'tests',
   target: 'web',
-  entry: {
-    '/../tests': path.resolve(srcDirectory, 'testEntry.ts'),
-  },
+  entry: WildcardsEntryWebpackPlugin.entry(
+    path.resolve(srcDirectory, '__tests__/**/*.{ts,tsx}'),
+    undefined,
+    '/../tests',
+  ),
 
   output: {
     filename: '[name].js',
@@ -96,6 +99,8 @@ const testSpecificConfig = {
   },
 
   plugins: compact([
+    new WildcardsEntryWebpackPlugin(),
+
     // Required for debugging in development and for long-term caching in production
     new webpack.NamedModulesPlugin(),
 
