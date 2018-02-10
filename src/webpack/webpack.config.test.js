@@ -25,6 +25,11 @@ const common = createCommonConfig();
 const testSpecificConfig = {
   name: 'tests',
   target: 'web',
+
+  // This plugin watches added/removed test files and
+  // updates webpack entries so that we do not have
+  // to restart webpack again in watch mode to pick
+  // up the changes.
   entry: WildcardsEntryWebpackPlugin.entry(
     path.resolve(srcDirectory, '__tests__/**/*.{ts,tsx}'),
     undefined,
@@ -37,7 +42,7 @@ const testSpecificConfig = {
     path: path.join(testsDistDirectory, 'bundle'),
     publicPath,
 
-    // By default, Webpack will generate source map URLs starting
+    // By default, webpack will generate source map URLs starting
     // with webpack://, but we need the actual, absolute file path
     // for Jest to find the source files.
     devtoolModuleFilenameTemplate: '[absolute-resource-path]',
