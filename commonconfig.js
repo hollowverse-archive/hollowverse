@@ -17,6 +17,7 @@ module.exports = {
       patterns: [
         '*/**/typings/*',
         'src/app/__tests__/**/*',
+        '__tests__/**/*',
         '_*.scss',
         'Dockerfile*',
         'docker-compose.yml',
