@@ -18,14 +18,29 @@ const history = createBrowserHistory();
 
 const { store } = createConfiguredStore(history, __INITIAL_STATE__);
 
+import createReactContext from 'create-react-context';
+
+import { client as defaultApiContext } from 'api/client';
+
+const defaultAlgoliaContext = async () => import('vendor/algolia');
+
+export type AlgoliaContext = typeof defaultAlgoliaContext;
+
+export const AlgoliaContext = createReactContext(defaultAlgoliaContext);
+export const ApiContext = createReactContext(defaultApiContext);
+
 const renderApp = (NewApp: typeof App = App) => {
   hydrate(
     <HelmetProvider>
-      <Provider store={store}>
-        <Router history={history}>
-          <NewApp />
-        </Router>
-      </Provider>
+      <AlgoliaContext.Provider value={defaultAlgoliaContext}>
+        <ApiContext.Provider value={defaultApiContext}>
+          <Provider store={store}>
+            <Router history={history}>
+              <NewApp />
+            </Router>
+          </Provider>
+        </ApiContext.Provider>
+      </AlgoliaContext.Provider>
     </HelmetProvider>,
     // tslint:disable-next-line:no-non-null-assertion
     document.getElementById('app')!,

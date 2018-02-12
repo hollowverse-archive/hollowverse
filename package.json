@@ -116,6 +116,7 @@
     "bluebird": "^3.5.1",
     "body-parser": "^1.17.2",
     "classcat": "^1.0.1",
+    "create-react-context": "^0.1.6",
     "date-fns": "^1.29.0",
     "dom-ready": "^1.0.6",
     "domready": "^1.0.8",
