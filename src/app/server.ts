@@ -42,7 +42,7 @@ export const createServerEntryMiddleware = (
   const serveNewAppPage: RequestHandler = (req, res, next) => {
     // Tell browsers not to use cached pages if the commit ID of the environment differs
     res.vary('X-Hollowverse-Actual-Environment-Commit-ID');
-  
+
     renderNewAppPage(req, res, next);
   };
 
@@ -51,10 +51,7 @@ export const createServerEntryMiddleware = (
   // Add version details to custom header
   if (__BRANCH__ && __COMMIT_ID__) {
     entryMiddleware.use((_, res, next) => {
-      res.setHeader(
-        'X-Hollowverse-Actual-Environment-Branch',
-        __BRANCH__,
-      );
+      res.setHeader('X-Hollowverse-Actual-Environment-Branch', __BRANCH__);
 
       res.setHeader(
         'X-Hollowverse-Actual-Environment-Commit-ID',

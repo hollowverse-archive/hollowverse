@@ -11,7 +11,7 @@
     "lint-js": "eslint '**/*.js{,x}'",
     "lint-graphql": "run-s app/graphql/schema && eslint --ext .graphql --ext .gql 'src/**/*.{gql,graphql}'",
     "lint-ts/eslint": "eslint 'src/app/**/*.ts{,x}' --config src/app/.eslintrc.json --no-eslintrc",
-    "lint-ts/tslint/app": "tslint 'src/app/*.ts{,x}' --project src/app",
+    "lint-ts/tslint/app": "tslint 'src/app/**/*.ts{,x}' --project src/app",
     "lint-ts/tslint/root": "tslint '**/*.ts{,x}' --project . --exclude 'node_modules/**/*' --exclude 'src/app/**/*'",
     "lint-ts/tslint": "run-p --aggregate-output 'lint-ts/tslint/*'",
     "lint-ts": "run-p --aggregate-output 'lint-ts/*'",
