@@ -113,10 +113,10 @@ exports.createCssModulesLoaders = (isServer = false) => [
   ...sassLoaders,
 ];
 
-exports.createScriptRules = (isServer = false) => {
+exports.createScriptRules = (isNode = false) => {
   const babelLoader = {
     loader: 'babel-loader',
-    options: createBabelConfig(isServer),
+    options: createBabelConfig(isNode),
   };
 
   return [
