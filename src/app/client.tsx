@@ -50,7 +50,9 @@ const renderOnDomReady = () => {
   domready(renderApp);
 };
 
-loadIntersectionObserverPolyfill().then(renderOnDomReady).catch(renderOnDomReady);
+loadIntersectionObserverPolyfill()
+  .then(renderOnDomReady)
+  .catch(renderOnDomReady);
 
 // Catch unhandled errors and inform the store
 window.onerror = (message, source, line, column) => {
