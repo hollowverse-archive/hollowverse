@@ -10,7 +10,7 @@ import { dataResolverEpic } from 'store/features/asyncData/epic';
 import { loggingEpic } from 'store/features/logging/epic';
 import { nullResult } from 'helpers/asyncResults';
 
-const defaultInitialState: StoreState = {
+export const defaultInitialState: StoreState = {
   routing: {
     location: null,
   },
