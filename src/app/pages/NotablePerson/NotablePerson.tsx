@@ -31,8 +31,7 @@ import query from './NotablePersonQuery.graphql';
 import warningIcon from 'icons/warning.svg';
 import { setAlternativeSearchBoxText } from 'store/features/search/actions';
 import { isWhitelistedPage } from 'redirectionMap';
-import { ApiContext } from 'client';
-import { GraphQLClient } from 'graphql-request';
+import { ApiContext, ApiClientContext } from 'client';
 
 const warningIconComponent = <SvgIcon {...warningIcon} size={100} />;
 
@@ -40,7 +39,7 @@ export type Props = {};
 
 const Page = withRouter(
   class extends React.Component<Props & RouteComponentProps<any>> {
-    createLoad = (apiClient: GraphQLClient) => async () => {
+    createLoad = (apiClient: ApiClientContext) => async () => {
       const { slug } = this.props.match.params;
       
       return apiClient.request<NotablePersonQuery>(query, { slug });

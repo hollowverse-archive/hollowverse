@@ -25,6 +25,7 @@ import { client as defaultApiContext } from 'api/client';
 const defaultAlgoliaContext = async () => import('vendor/algolia');
 
 export type AlgoliaContext = typeof defaultAlgoliaContext;
+export type ApiClientContext = typeof defaultApiContext;
 
 export const AlgoliaContext = createReactContext(defaultAlgoliaContext);
 export const ApiContext = createReactContext(defaultApiContext);
