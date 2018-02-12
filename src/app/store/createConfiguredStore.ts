@@ -1,9 +1,8 @@
 import { routerMiddleware } from 'react-router-redux';
 import { History } from 'history';
 import { createStore, applyMiddleware, compose, Middleware } from 'redux';
-import { identity } from 'lodash';
 import { combineEpics, createEpicMiddleware, Epic } from 'redux-observable';
-import { StoreState, Action } from './types';
+import { StoreState, Action, RequestDataPayload, ResolvedDataKey, ResolvedData } from './types';
 import { reducer } from './reducer';
 import { analyticsEpic } from 'store/features/analytics/epic';
 import { updateUrlEpic } from 'store/features/search/updateUrlEpic';
@@ -31,6 +30,16 @@ const defaultInitialState: StoreState = {
   alternativeSearchBoxText: null,
 };
 
+export type EpicDependencies = {
+  /**
+   * Enables us to hook into data fetching requests in order to transform
+   * or replace the response. This is useful for mocking API responses in
+   * tests.
+   */
+  getResponseForDataRequest<K extends ResolvedDataKey>
+    (payload: RequestDataPayload<K>): Promise<ResolvedData[K]>;
+};
+
 declare const global: NodeJS.Global & {
   __REDUX_DEVTOOLS_EXTENSION_COMPOSE__: typeof compose | undefined;
 };
@@ -39,12 +48,27 @@ declare const module: {
   hot?: { accept(path?: string, cb?: () => void): void };
 };
 
-export function createConfiguredStore(
+export const defaultEpicDependencies: EpicDependencies = {
+  async getResponseForDataRequest(payload) {
+    return payload.load();
+  },
+};
+
+type CreateConfiguredStoreOptions = {
   history: History,
-  initialState: StoreState = defaultInitialState,
-  wrapEpic: (epic: Epic<Action, StoreState>) => typeof epic = identity,
-  additionalMiddleware: Middleware[] = [],
-) {
+  initialState?: StoreState,
+  additionalMiddleware?: Middleware[],
+  dependencyOverrides?: Partial<EpicDependencies>,
+  wrapRootEpic?(epic: Epic<Action, StoreState>): typeof epic,
+};
+
+export function createConfiguredStore({
+  history,
+  initialState = defaultInitialState,
+  wrapRootEpic,
+  additionalMiddleware = [],
+  dependencyOverrides = { },
+}: CreateConfiguredStoreOptions) {
   let composeEnhancers = compose;
 
   if (global.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) {
@@ -65,16 +89,29 @@ export function createConfiguredStore(
     dataResolverEpic,
     loggingEpic,
   );
-  const wrappedRootEpic = wrapEpic(rootEpic);
-  const epicMiddleware = createEpicMiddleware(wrappedRootEpic);
+  
+  const dependencies = {
+    ...defaultEpicDependencies,
+    ...dependencyOverrides,
+  };
+
+  const wrappedRootEpic = wrapRootEpic ? wrapRootEpic(rootEpic) : rootEpic;
+  const epicMiddleware = createEpicMiddleware<Action, StoreState, EpicDependencies>(wrappedRootEpic, {
+    dependencies,
+  });
+
+  const middlewares = [
+    epicMiddleware,
+    routerMiddleware(history),
+    ...additionalMiddleware
+  ];
+
   const store = createStore<StoreState>(
     reducer,
     initialState,
     composeEnhancers(
       applyMiddleware(
-        epicMiddleware,
-        routerMiddleware(history),
-        ...additionalMiddleware,
+        ...middlewares,
       ),
     ),
   );
@@ -88,5 +125,5 @@ export function createConfiguredStore(
     });
   }
 
-  return { store, wrappedRootEpic };
+  return { store, wrappedRootEpic, dependencies, initialState, middlewares };
 }

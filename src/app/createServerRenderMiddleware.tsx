@@ -35,11 +35,10 @@ export const createServerRenderMiddleware = ({
 }: CreateMiddlewareOptions): RequestHandler => async (req, res) => {
   const start = Date.now();
   const history = createMemoryHistory({ initialEntries: [req.url] });
-  const { store, wrappedRootEpic } = createConfiguredStore(
+  const { store, wrappedRootEpic } = createConfiguredStore({
     history,
-    undefined,
     wrapRootEpic,
-  );
+  });
 
   const helmetContext = {};
 

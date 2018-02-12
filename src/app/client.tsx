@@ -16,7 +16,10 @@ declare const __INITIAL_STATE__: StoreState | undefined;
 
 const history = createBrowserHistory();
 
-const { store } = createConfiguredStore(history, __INITIAL_STATE__);
+const { store } = createConfiguredStore({
+  history,
+  initialState: __INITIAL_STATE__,
+});
 
 const renderApp = (NewApp: typeof App = App) => {
   hydrate(
