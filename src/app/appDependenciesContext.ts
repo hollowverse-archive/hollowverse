@@ -8,7 +8,7 @@ export const defaultAppDependenciesContext = {
   loadAlgoliaModule: defaultLoadAlgoliaModule,
 };
 
-export type AppDependenciesContext = typeof defaultAppDependenciesContext;
+export type AppDependencies = typeof defaultAppDependenciesContext;
 export const AppDependenciesContext = createReactContext(
   defaultAppDependenciesContext,
 );
