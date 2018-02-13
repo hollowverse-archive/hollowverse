@@ -31,7 +31,7 @@ import query from './NotablePersonQuery.graphql';
 import warningIcon from 'icons/warning.svg';
 import { setAlternativeSearchBoxText } from 'store/features/search/actions';
 import { isWhitelistedPage } from 'redirectionMap';
-import { AppDependenciesContext } from 'appDependenciesContext';
+import { appDependenciesContext } from 'appDependenciesContext';
 
 const warningIconComponent = <SvgIcon {...warningIcon} size={100} />;
 
@@ -53,7 +53,7 @@ const Page = withRouter(
       const { slug } = this.props.match.params;
 
       return (
-        <AppDependenciesContext.Consumer>
+        <appDependenciesContext.Consumer>
           {dependencies => {
             return (
               <WithData
@@ -185,7 +185,7 @@ const Page = withRouter(
               </WithData>
             );
           }}
-        </AppDependenciesContext.Consumer>
+        </appDependenciesContext.Consumer>
       );
     }
   },

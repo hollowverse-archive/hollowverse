@@ -9,6 +9,6 @@ export const defaultAppDependenciesContext = {
 };
 
 export type AppDependenciesContext = typeof defaultAppDependenciesContext;
-export const AppDependenciesContext = createReactContext(
+export const appDependenciesContext = createReactContext(
   defaultAppDependenciesContext,
 );
