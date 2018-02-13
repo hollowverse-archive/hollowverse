@@ -22,7 +22,10 @@ import { App } from 'components/App/App';
 import html from './index.server.html';
 
 import { CreateMiddlewareOptions } from './server';
-import { defaultAppDependenciesContext, AppDependenciesContext } from 'appDependenciesContext';
+import {
+  defaultAppDependenciesContext,
+  AppDependenciesContext,
+} from 'appDependenciesContext';
 import { createGetUniqueId } from 'helpers/createGetUniqueId';
 
 const interpolateTemplate = template(html);
@@ -48,7 +51,9 @@ export const createServerRenderMiddleware = ({
 
   renderToString(
     <HelmetProvider context={helmetContext}>
-      <AppDependenciesContext.Provider value={{ ...defaultAppDependenciesContext, getUniqueId }}>
+      <AppDependenciesContext.Provider
+        value={{ ...defaultAppDependenciesContext, getUniqueId }}
+      >
         <Provider store={store}>
           <ConnectedRouter history={history}>
             <App />
