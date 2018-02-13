@@ -6,6 +6,9 @@
     "no-submodule-imports": false,
     "no-implicit-dependencies": false,
     "completed-docs": false,
-    "no-unsafe-any": false
+    "no-unsafe-any": false,
+
+    // False positives when used with React Helmet templates
+    "react-a11y-titles": false
   }
 }
