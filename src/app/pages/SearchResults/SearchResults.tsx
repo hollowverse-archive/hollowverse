@@ -29,7 +29,7 @@ import { searchResultSelected } from 'store/features/logging/actions';
 
 import { ResultsList } from './ResultsList';
 import { withRouter, RouteComponentProps } from 'react-router';
-import { appDependenciesContext } from 'appDependenciesContext';
+import { AppDependenciesContext } from 'appDependenciesContext';
 
 type Props = {
   searchQuery: string | null;
@@ -60,7 +60,7 @@ const Page = withRouter(
       const { searchQuery, location } = this.props;
 
       return (
-        <appDependenciesContext.Consumer>
+        <AppDependenciesContext.Consumer>
           {dependencies => {
             return (
               <div className={classes.root}>
@@ -147,7 +147,7 @@ const Page = withRouter(
               </div>
             );
           }}
-        </appDependenciesContext.Consumer>
+        </AppDependenciesContext.Consumer>
       );
     }
   },

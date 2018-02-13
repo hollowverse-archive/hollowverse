@@ -12,7 +12,7 @@ import { unhanldedErrorThrown } from 'store/features/logging/actions';
 import { loadIntersectionObserverPolyfill } from 'helpers/loadPolyfill';
 import { HelmetProvider } from 'react-helmet-async';
 import {
-  appDependenciesContext,
+  AppDependenciesContext,
   defaultAppDependenciesContext,
 } from 'appDependenciesContext';
 
@@ -25,13 +25,13 @@ const { store } = createConfiguredStore(history, __INITIAL_STATE__);
 const renderApp = (NewApp: typeof App = App) => {
   hydrate(
     <HelmetProvider>
-      <appDependenciesContext.Provider value={defaultAppDependenciesContext}>
+      <AppDependenciesContext.Provider value={defaultAppDependenciesContext}>
         <Provider store={store}>
           <Router history={history}>
             <NewApp />
           </Router>
         </Provider>
-      </appDependenciesContext.Provider>
+      </AppDependenciesContext.Provider>
     </HelmetProvider>,
     // tslint:disable-next-line:no-non-null-assertion
     document.getElementById('app')!,
