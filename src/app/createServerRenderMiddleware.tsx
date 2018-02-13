@@ -22,6 +22,8 @@ import { App } from 'components/App/App';
 import html from './index.server.html';
 
 import { CreateMiddlewareOptions } from './server';
+import { defaultAppDependenciesContext, AppDependenciesContext } from 'appDependenciesContext';
+import { createGetUniqueId } from 'helpers/createGetUniqueId';
 
 const interpolateTemplate = template(html);
 
@@ -42,14 +44,17 @@ export const createServerRenderMiddleware = ({
   );
 
   const helmetContext = {};
+  const getUniqueId = createGetUniqueId();
 
   renderToString(
     <HelmetProvider context={helmetContext}>
-      <Provider store={store}>
-        <ConnectedRouter history={history}>
-          <App />
-        </ConnectedRouter>
-      </Provider>
+      <AppDependenciesContext.Provider value={{ ...defaultAppDependenciesContext, getUniqueId }}>
+        <Provider store={store}>
+          <ConnectedRouter history={history}>
+            <App />
+          </ConnectedRouter>
+        </Provider>
+      </AppDependenciesContext.Provider>
     </HelmetProvider>,
     wrappedRootEpic,
   ).subscribe({
