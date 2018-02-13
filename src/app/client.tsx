@@ -4,6 +4,7 @@ import { ConnectedRouter as Router } from 'react-router-redux';
 import domready from 'domready';
 import { hydrate } from 'react-dom';
 import createBrowserHistory from 'history/createBrowserHistory';
+import createReactContext from 'create-react-context';
 
 import { App } from 'components/App/App';
 import { createConfiguredStore } from 'store/createConfiguredStore';
@@ -18,30 +19,30 @@ const history = createBrowserHistory();
 
 const { store } = createConfiguredStore(history, __INITIAL_STATE__);
 
-import createReactContext from 'create-react-context';
+import { client as defaultApiClient } from 'api/client';
 
-import { client as defaultApiContext } from 'api/client';
+const defaultLoadAlgoliaModule = async () => import('vendor/algolia');
 
-const defaultAlgoliaContext = async () => import('vendor/algolia');
+const defaultAppDependenciesContext = {
+  apiClient: defaultApiClient,
+  loadAlgoliaModule: defaultLoadAlgoliaModule,
+};
 
-export type AlgoliaContext = typeof defaultAlgoliaContext;
-export type ApiClientContext = typeof defaultApiContext;
-
-export const AlgoliaContext = createReactContext(defaultAlgoliaContext);
-export const ApiContext = createReactContext(defaultApiContext);
+export type AppDependenciesContext = typeof defaultAppDependenciesContext;
+export const AppDependenciesContext = createReactContext(
+  defaultAppDependenciesContext,
+);
 
 const renderApp = (NewApp: typeof App = App) => {
   hydrate(
     <HelmetProvider>
-      <AlgoliaContext.Provider value={defaultAlgoliaContext}>
-        <ApiContext.Provider value={defaultApiContext}>
-          <Provider store={store}>
-            <Router history={history}>
-              <NewApp />
-            </Router>
-          </Provider>
-        </ApiContext.Provider>
-      </AlgoliaContext.Provider>
+      <AppDependenciesContext.Provider value={defaultAppDependenciesContext}>
+        <Provider store={store}>
+          <Router history={history}>
+            <NewApp />
+          </Router>
+        </Provider>
+      </AppDependenciesContext.Provider>
     </HelmetProvider>,
     // tslint:disable-next-line:no-non-null-assertion
     document.getElementById('app')!,

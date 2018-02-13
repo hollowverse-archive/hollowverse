@@ -31,7 +31,7 @@ import query from './NotablePersonQuery.graphql';
 import warningIcon from 'icons/warning.svg';
 import { setAlternativeSearchBoxText } from 'store/features/search/actions';
 import { isWhitelistedPage } from 'redirectionMap';
-import { ApiContext, ApiClientContext } from 'client';
+import { AppDependenciesContext } from 'client';
 
 const warningIconComponent = <SvgIcon {...warningIcon} size={100} />;
 
@@ -39,9 +39,11 @@ export type Props = {};
 
 const Page = withRouter(
   class extends React.Component<Props & RouteComponentProps<any>> {
-    createLoad = (apiClient: ApiClientContext) => async () => {
+    createLoad = ({
+      apiClient,
+    }: Pick<AppDependenciesContext, 'apiClient'>) => async () => {
       const { slug } = this.props.match.params;
-      
+
       return apiClient.request<NotablePersonQuery>(query, { slug });
     };
 
@@ -51,23 +53,27 @@ const Page = withRouter(
       const { slug } = this.props.match.params;
 
       return (
-        <ApiContext.Consumer>
-          {(apiClient) => {
+        <AppDependenciesContext.Consumer>
+          {dependencies => {
             return (
               <WithData
                 requestId={slug}
                 dataKey="notablePersonQuery"
                 forPage={pageUrl}
-                load={this.createLoad(apiClient)}
+                load={this.createLoad(dependencies)}
               >
-                {({ result }: { result: AsyncResult<NotablePersonQuery | null> }) => {
+                {({
+                  result,
+                }: {
+                  result: AsyncResult<NotablePersonQuery | null>;
+                }) => {
                   if (result.value === null || isPendingResult(result)) {
                     return <NotablePersonSkeleton />;
                   }
-    
+
                   if (isErrorResult(result)) {
                     const { location } = this.props;
-    
+
                     return (
                       <MessageWithIcon
                         title="Are you connected to the internet?"
@@ -83,18 +89,21 @@ const Page = withRouter(
                       </MessageWithIcon>
                     );
                   }
-    
+
                   // tslint:disable-next-line:no-non-null-assertion
                   const { notablePerson } = result.value!;
-    
+
                   if (!notablePerson) {
                     return (
-                      <MessageWithIcon title="Not Found" icon={warningIconComponent}>
+                      <MessageWithIcon
+                        title="Not Found"
+                        icon={warningIconComponent}
+                      >
                         <Status code={404} />
                       </MessageWithIcon>
                     );
                   }
-    
+
                   const {
                     name,
                     mainPhoto,
@@ -102,9 +111,9 @@ const Page = withRouter(
                     commentsUrl,
                     editorialSummary,
                   } = notablePerson;
-    
+
                   const isWhitelisted = isWhitelistedPage(`/${slug}`);
-    
+
                   return (
                     <div className={classes.root}>
                       <Helmet>
@@ -112,16 +121,21 @@ const Page = withRouter(
                           rel="canonical"
                           href={
                             isWhitelisted
-                              ? String(new URL(`${slug}`, 'https://hollowverse.com'))
+                              ? String(
+                                  new URL(`${slug}`, 'https://hollowverse.com'),
+                                )
                               : commentsUrl
                           }
                         />
-                        <title>{`${name}'s Religion and Political Views`}</title>
+                        <title
+                        >{`${name}'s Religion and Political Views`}</title>
                       </Helmet>
                       <Status code={200} />
                       <DispatchOnLifecycleEvent
                         onWillUnmount={setAlternativeSearchBoxText(null)}
-                        onWillMount={setAlternativeSearchBoxText(notablePerson.name)}
+                        onWillMount={setAlternativeSearchBoxText(
+                          notablePerson.name,
+                        )}
                       />
                       <article className={classes.article}>
                         <PersonDetails
@@ -131,14 +145,17 @@ const Page = withRouter(
                         />
                         {editorialSummary ? (
                           <Card
-                            className={cc([classes.card, classes.editorialSummary])}
+                            className={cc([
+                              classes.card,
+                              classes.editorialSummary,
+                            ])}
                           >
                             <EditorialSummary id={slug} {...editorialSummary} />
                           </Card>
                         ) : (
                           <div className={classes.stub}>
-                            Share what you know about the religion and political views
-                            of {name} in the comments below
+                            Share what you know about the religion and political
+                            views of {name} in the comments below
                           </div>
                         )}
                       </article>
@@ -154,7 +171,9 @@ const Page = withRouter(
                       >
                         {inView =>
                           inView ? (
-                            <Card className={cc([classes.card, classes.comments])}>
+                            <Card
+                              className={cc([classes.card, classes.comments])}
+                            >
                               <FbComments url={commentsUrl} />
                             </Card>
                           ) : null
@@ -166,7 +185,7 @@ const Page = withRouter(
               </WithData>
             );
           }}
-        </ApiContext.Consumer>
+        </AppDependenciesContext.Consumer>
       );
     }
   },
