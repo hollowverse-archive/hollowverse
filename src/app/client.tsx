@@ -4,7 +4,6 @@ import { ConnectedRouter as Router } from 'react-router-redux';
 import domready from 'domready';
 import { hydrate } from 'react-dom';
 import createBrowserHistory from 'history/createBrowserHistory';
-import createReactContext from 'create-react-context';
 
 import { App } from 'components/App/App';
 import { createConfiguredStore } from 'store/createConfiguredStore';
@@ -12,26 +11,16 @@ import { StoreState } from 'store/types';
 import { unhanldedErrorThrown } from 'store/features/logging/actions';
 import { loadIntersectionObserverPolyfill } from 'helpers/loadPolyfill';
 import { HelmetProvider } from 'react-helmet-async';
+import {
+  AppDependenciesContext,
+  defaultAppDependenciesContext,
+} from 'appDependenciesContext';
 
 declare const __INITIAL_STATE__: StoreState | undefined;
 
 const history = createBrowserHistory();
 
 const { store } = createConfiguredStore(history, __INITIAL_STATE__);
-
-import { client as defaultApiClient } from 'api/client';
-
-const defaultLoadAlgoliaModule = async () => import('vendor/algolia');
-
-const defaultAppDependenciesContext = {
-  apiClient: defaultApiClient,
-  loadAlgoliaModule: defaultLoadAlgoliaModule,
-};
-
-export type AppDependenciesContext = typeof defaultAppDependenciesContext;
-export const AppDependenciesContext = createReactContext(
-  defaultAppDependenciesContext,
-);
 
 const renderApp = (NewApp: typeof App = App) => {
   hydrate(

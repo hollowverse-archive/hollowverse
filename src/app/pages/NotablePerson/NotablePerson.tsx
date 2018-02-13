@@ -31,7 +31,7 @@ import query from './NotablePersonQuery.graphql';
 import warningIcon from 'icons/warning.svg';
 import { setAlternativeSearchBoxText } from 'store/features/search/actions';
 import { isWhitelistedPage } from 'redirectionMap';
-import { AppDependenciesContext } from 'client';
+import { AppDependenciesContext } from 'appDependenciesContext';
 
 const warningIconComponent = <SvgIcon {...warningIcon} size={100} />;
 

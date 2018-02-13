@@ -29,7 +29,7 @@ import { searchResultSelected } from 'store/features/logging/actions';
 
 import { ResultsList } from './ResultsList';
 import { withRouter, RouteComponentProps } from 'react-router';
-import { AppDependenciesContext } from 'client';
+import { AppDependenciesContext } from 'appDependenciesContext';
 
 type Props = {
   searchQuery: string | null;
