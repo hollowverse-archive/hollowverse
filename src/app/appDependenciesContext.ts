@@ -4,13 +4,14 @@ import { createGetUniqueId } from 'helpers/createGetUniqueId';
 
 const defaultLoadAlgoliaModule = async () => import('vendor/algolia');
 
-export const defaultAppDependenciesContext = {
+export const defaultAppDependencies = {
   apiClient: defaultApiClient,
   loadAlgoliaModule: defaultLoadAlgoliaModule,
   getUniqueId: createGetUniqueId(),
 };
 
-export type AppDependencies = typeof defaultAppDependenciesContext;
+export type AppDependencies = typeof defaultAppDependencies;
+
 export const AppDependenciesContext = createReactContext(
-  defaultAppDependenciesContext,
+  defaultAppDependencies,
 );

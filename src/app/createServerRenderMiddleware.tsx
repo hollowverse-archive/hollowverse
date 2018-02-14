@@ -23,7 +23,7 @@ import html from './index.server.html';
 
 import { CreateMiddlewareOptions } from './server';
 import {
-  defaultAppDependenciesContext,
+  defaultAppDependencies,
   AppDependenciesContext,
 } from 'appDependenciesContext';
 import { createGetUniqueId } from 'helpers/createGetUniqueId';
@@ -47,12 +47,23 @@ export const createServerRenderMiddleware = ({
   );
 
   const helmetContext = {};
+
+  /**
+   * React requires server-rendered markup to match client-side markup
+   * on initial render.
+   * 
+   * `getUniqueId` returns an increasing numerical value, starting at 1.
+   * Since each browser will have its own `getUniqueId` starting at
+   * 1, a new unique ID generator is required for each request
+   * so that the IDs generated on the server match those generated
+   * client-side.
+   */
   const getUniqueId = createGetUniqueId();
 
   renderToString(
     <HelmetProvider context={helmetContext}>
       <AppDependenciesContext.Provider
-        value={{ ...defaultAppDependenciesContext, getUniqueId }}
+        value={{ ...defaultAppDependencies, getUniqueId }}
       >
         <Provider store={store}>
           <ConnectedRouter history={history}>
