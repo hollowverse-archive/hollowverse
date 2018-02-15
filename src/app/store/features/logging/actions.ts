@@ -1,6 +1,6 @@
 import { createActionCreator } from 'store/helpers';
 
-export const unhanldedErrorThrown = createActionCreator(
+export const unhandledErrorThrown = createActionCreator(
   'UNHANDLED_ERROR_THROWN',
 );
 
