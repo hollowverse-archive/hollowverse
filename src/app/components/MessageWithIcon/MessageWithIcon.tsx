@@ -34,9 +34,9 @@ export const MessageWithIcon = ({
     {description ? (
       <div className={classes.description}>
         {description}
-        {children}
       </div>
     ) : null}
+    {children}
     <div className={classes.buttonWrapper}>{button}</div>
   </div>
 );

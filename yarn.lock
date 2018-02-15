@@ -769,12 +769,6 @@
     "@types/history" "*"
     "@types/react" "*"
 
-"@types/react-test-renderer@^16.0.0":
-  version "16.0.0"
-  resolved "https://registry.yarnpkg.com/@types/react-test-renderer/-/react-test-renderer-16.0.0.tgz#905a12076d7315eb4a36c4f0e5e760c7b3115420"
-  dependencies:
-    "@types/react" "*"
-
 "@types/react@*", "@types/react@^16.0.35":
   version "16.0.35"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-16.0.35.tgz#7ce8a83cad9690fd965551fc513217a74fc9e079"
@@ -1934,13 +1928,6 @@ boxen@^1.2.1:
     string-width "^2.0.0"
     term-size "^1.2.0"
     widest-line "^1.0.0"
-
-brace-expansion@^1.0.0:
-  version "1.1.11"
-  resolved "https://registry.yarnpkg.com/brace-expansion/-/brace-expansion-1.1.11.tgz#3c7fcbf529d87226f3d2f52b966ff5271eb441dd"
-  dependencies:
-    balanced-match "^1.0.0"
-    concat-map "0.0.1"
 
 brace-expansion@^1.1.7:
   version "1.1.8"
@@ -4716,6 +4703,10 @@ getport@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/getport/-/getport-0.1.0.tgz#abddf3d5d1e77dd967ccfa2b036a0a1fb26fd7f7"
 
+gitbook-plugin-github@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/gitbook-plugin-github/-/gitbook-plugin-github-2.0.0.tgz#5166e763cfcc402d432880b7a6c85c1c54b56a8d"
+
 github-build@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/github-build/-/github-build-1.2.0.tgz#b0bdb705ae4088218577e863c1a301030211051f"
@@ -4738,16 +4729,6 @@ glob-parent@^2.0.0:
   resolved "https://registry.yarnpkg.com/glob-parent/-/glob-parent-2.0.0.tgz#81383d72db054fcccf5336daa902f182f6edbb28"
   dependencies:
     is-glob "^2.0.0"
-
-glob@^5.0.14:
-  version "5.0.15"
-  resolved "https://registry.yarnpkg.com/glob/-/glob-5.0.15.tgz#1bc936b9e02f4a603fcc222ecf7633d30b8b93b1"
-  dependencies:
-    inflight "^1.0.4"
-    inherits "2"
-    minimatch "2 || 3"
-    once "^1.3.0"
-    path-is-absolute "^1.0.0"
 
 glob@^6.0.4:
   version "6.0.4"
@@ -6274,12 +6255,6 @@ jest@^22.2.1:
     import-local "^1.0.0"
     jest-cli "^22.2.1"
 
-jestpack@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/jestpack/-/jestpack-0.2.0.tgz#a65d80ee408383b62fac44c4faa44b7d80d2f9fa"
-  dependencies:
-    glob "^5.0.14"
-
 jimp@^0.2.13, jimp@^0.2.21:
   version "0.2.28"
   resolved "https://registry.yarnpkg.com/jimp/-/jimp-0.2.28.tgz#dd529a937190f42957a7937d1acc3a7762996ea2"
@@ -6900,10 +6875,6 @@ lodash.unescape@4.0.1:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/lodash.unescape/-/lodash.unescape-4.0.1.tgz#bf2249886ce514cda112fae9218cdc065211fc9c"
 
-lodash.union@4.6.0:
-  version "4.6.0"
-  resolved "https://registry.yarnpkg.com/lodash.union/-/lodash.union-4.6.0.tgz#48bb5088409f16f1821666641c44dd1aaae3cd88"
-
 lodash.uniq@^4.5.0:
   version "4.5.0"
   resolved "https://registry.yarnpkg.com/lodash.uniq/-/lodash.uniq-4.5.0.tgz#d0225373aeb652adc1bc82e4945339a842754773"
@@ -7246,12 +7217,6 @@ minimalistic-crypto-utils@^1.0.0, minimalistic-crypto-utils@^1.0.1:
   resolved "https://registry.yarnpkg.com/minimatch/-/minimatch-3.0.4.tgz#5166e286457f03306064be5497e8dbb0c3d32083"
   dependencies:
     brace-expansion "^1.1.7"
-
-minimatch@3.0.3:
-  version "3.0.3"
-  resolved "https://registry.yarnpkg.com/minimatch/-/minimatch-3.0.3.tgz#2a4e4090b96b2db06a9d7df01055a62a77c9b774"
-  dependencies:
-    brace-expansion "^1.0.0"
 
 minimist-options@^3.0.1:
   version "3.0.2"
@@ -9053,9 +9018,9 @@ react-reconciler@^0.7.0:
     object-assign "^4.1.1"
     prop-types "^15.6.0"
 
-react-redux-epic@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/react-redux-epic/-/react-redux-epic-1.0.0.tgz#c1ab99489ecda914f2320dbea05cf039a13f8229"
+react-redux-epic@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/react-redux-epic/-/react-redux-epic-1.1.0.tgz#289eb43a553004e7e40bea69a59ebcea91d03b6b"
   dependencies:
     babel-runtime "^6.11.6"
     debug "^3.1.0"
@@ -9063,7 +9028,7 @@ react-redux-epic@^1.0.0:
     react "^16.0.0"
     react-dom "^16.0.0"
     redux "^3.6.0"
-    redux-observable "^0.16.0"
+    redux-observable "^0.17.0"
     rxjs "^5.3.0"
 
 react-redux@^5.0.6:
@@ -9108,7 +9073,7 @@ react-router@^4.2.0:
     prop-types "^15.5.4"
     warning "^3.0.0"
 
-react-test-renderer@^16.0.0-0, react-test-renderer@^16.2.0:
+react-test-renderer@^16.0.0-0:
   version "16.2.0"
   resolved "https://registry.yarnpkg.com/react-test-renderer/-/react-test-renderer-16.2.0.tgz#bddf259a6b8fcd8555f012afc8eacc238872a211"
   dependencies:
@@ -9261,10 +9226,6 @@ rechoir@^0.6.2:
   dependencies:
     resolve "^1.1.6"
 
-recursive-readdir-sync@1.0.6:
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/recursive-readdir-sync/-/recursive-readdir-sync-1.0.6.tgz#1dbf6d32f3c5bb8d3cde97a6c588d547a9e13d56"
-
 redbox-react@^1.3.6:
   version "1.5.0"
   resolved "https://registry.yarnpkg.com/redbox-react/-/redbox-react-1.5.0.tgz#04dab11557d26651bf3562a67c22ace56c5d3967"
@@ -9315,19 +9276,11 @@ redux-devtools-instrument@^1.3.3:
     lodash "^4.2.0"
     symbol-observable "^1.0.2"
 
-redux-mock-store@^1.5.1:
-  version "1.5.1"
-  resolved "https://registry.yarnpkg.com/redux-mock-store/-/redux-mock-store-1.5.1.tgz#fca4335392e66605420b5559fe02fc5b8bb6d63c"
+redux-observable@^0.17.0, redux-observable@^0.18.0:
+  version "0.18.0"
+  resolved "https://registry.yarnpkg.com/redux-observable/-/redux-observable-0.18.0.tgz#48de1f35554b7ba23a88b18379ca1c93f5124197"
   dependencies:
-    lodash.isplainobject "^4.0.6"
-
-redux-observable@^0.16.0:
-  version "0.16.0"
-  resolved "https://registry.yarnpkg.com/redux-observable/-/redux-observable-0.16.0.tgz#dc431d0f47a9c3af232639d6bdd70d80c1b620d9"
-
-redux-observable@^0.17.0:
-  version "0.17.0"
-  resolved "https://registry.yarnpkg.com/redux-observable/-/redux-observable-0.17.0.tgz#23e29e3f3c39204b7ed6a14b67a29e317c03106b"
+    gitbook-plugin-github "^2.0.0"
 
 redux@^3.6.0, redux@^3.7.2:
   version "3.7.2"
@@ -10583,12 +10536,6 @@ static-extend@^0.1.1:
   dependencies:
     define-property "^0.2.5"
     object-copy "^0.1.0"
-
-stats-webpack-plugin@^0.6.2:
-  version "0.6.2"
-  resolved "https://registry.yarnpkg.com/stats-webpack-plugin/-/stats-webpack-plugin-0.6.2.tgz#2c5949b531e07f87a88e6ea4dcfac53aa8c75a2b"
-  dependencies:
-    lodash "^4.17.4"
 
 "statuses@>= 1.3.1 < 2":
   version "1.4.0"
@@ -11905,14 +11852,6 @@ webpack-bundle-analyzer@^2.9.1:
     mkdirp "^0.5.1"
     opener "^1.4.3"
     ws "^3.3.1"
-
-webpack-cleanup-plugin@^0.5.1:
-  version "0.5.1"
-  resolved "https://registry.yarnpkg.com/webpack-cleanup-plugin/-/webpack-cleanup-plugin-0.5.1.tgz#df2d706bd75364c06e65b051186316d674eb96af"
-  dependencies:
-    lodash.union "4.6.0"
-    minimatch "3.0.3"
-    recursive-readdir-sync "1.0.6"
 
 webpack-core@~0.6.9:
   version "0.6.9"
