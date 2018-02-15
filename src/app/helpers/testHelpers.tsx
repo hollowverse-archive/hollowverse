@@ -22,16 +22,7 @@ type CreateTestTreeOptions = {
 };
 
 export const createMockApiClientWithResponse = (response: any) => {
-  // @ts-ignore
-  class MockApiClient implements GraphQLClient {
-    url: string;
-    options: string;
-
-    constructor(url: string, options?: any) {
-      this.url = url;
-      this.options = options;
-    }
-  
+  class MockApiClient extends GraphQLClient {
     async request(_: string, __: Record<string, any>): Promise<any> {
       return response;
     }

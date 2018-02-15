@@ -1,4 +1,5 @@
 import 'expect-more-jest';
+import 'jest-enzyme';
 import { createConfiguredStore } from 'store/createConfiguredStore';
 import createMemoryHistory from 'history/createMemoryHistory';
 import { getStatusCode } from 'store/features/status/reducer';
@@ -64,11 +65,11 @@ describe('Notable Person page', () => {
     });
 
     it('has notable person name', () => {
-      expect(wrapper.contains('Tom Hanks')).toBe(true);
+      expect(wrapper).toIncludeText('Tom Hanks');
     });
 
     it('shows related people', () => {
-      expect(wrapper.contains('Al Pacino')).toBe(true);
+      expect(wrapper).toIncludeText('Al Pacino');
     });
   });
 
@@ -99,7 +100,7 @@ describe('Notable Person page', () => {
     });
 
     it('shows "Not Found"', () => {
-      expect(wrapper.contains('Not Found')).toBe(true);
+      expect(wrapper).toIncludeText('Not Found');
     });
   });
 });
