@@ -7,7 +7,6 @@ import { configure, mount, ReactWrapper } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import {
   createTestTree,
-  createMockApiClientWithResponse,
 } from 'helpers/testHelpers';
 import { NotablePersonQuery } from 'api/types';
 import { Store } from 'redux';
@@ -23,10 +22,6 @@ describe('Notable Person page', () => {
 
   beforeEach(() => {
     history = createMemoryHistory({ initialEntries: ['/Tom_Hanks'] });
-
-    store = createConfiguredStore({
-      history,
-    }).store;
   });
 
   describe('When notable person is found,', () => {
@@ -49,14 +44,22 @@ describe('Notable Person page', () => {
         },
       };
 
+      store = createConfiguredStore({
+        history,
+        dependencyOverrides: {
+          async getResponseForDataRequest(payload) {
+            if (payload.key === 'notablePersonQuery') {
+              return notablePersonQueryResponse;
+            }
+
+            return payload.load();
+          }
+        }
+      }).store;
+
       const tree = createTestTree({
         history,
         store,
-        appDependencyOverrides: {
-          apiClient: createMockApiClientWithResponse(
-            notablePersonQueryResponse,
-          ),
-        },
       });
 
       wrapper = mount(tree);
@@ -86,14 +89,22 @@ describe('Notable Person page', () => {
         notablePerson: null,
       };
 
+      store = createConfiguredStore({
+        history,
+        dependencyOverrides: {
+          async getResponseForDataRequest(payload) {
+            if (payload.key === 'notablePersonQuery') {
+              return notablePersonQueryResponse;
+            }
+
+            return payload.load();
+          }
+        }
+      }).store;
+
       const tree = createTestTree({
         history,
         store,
-        appDependencyOverrides: {
-          apiClient: createMockApiClientWithResponse(
-            notablePersonQueryResponse,
-          ),
-        },
       });
 
       wrapper = mount(tree);
