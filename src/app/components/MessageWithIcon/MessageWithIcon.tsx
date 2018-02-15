@@ -31,12 +31,10 @@ export const MessageWithIcon = ({
   >
     <div className={classes.icon}>{icon}</div>
     <div className={classes.title}>{title}</div>
-    {description ? (
-      <div className={classes.description}>
-        {description}
-      </div>
-    ) : null}
-    {children}
+    <div className={classes.description}>
+      {description ? description : null}
+      {children}
+    </div>
     <div className={classes.buttonWrapper}>{button}</div>
   </div>
 );
