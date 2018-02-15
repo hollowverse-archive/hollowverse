@@ -229,7 +229,7 @@ describe('Search page', () => {
         expect(getStatusCode(store.getState())).toBe(404);
       });
   
-      it('shows "Not results found"', () => {
+      it('shows "No results found"', () => {
         expect(wrapper).toIncludeText('No results found');
       });
     });
