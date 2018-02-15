@@ -11,13 +11,17 @@ import { Store } from 'redux';
 import { Provider } from 'react-redux';
 import { HelmetProvider } from 'react-helmet-async';
 import { ConnectedRouter } from 'react-router-redux';
-import { AppDependenciesContext, defaultAppDependencies, AppDependencies } from 'appDependenciesContext';
+import {
+  AppDependenciesContext,
+  defaultAppDependencies,
+  AppDependencies,
+} from 'appDependenciesContext';
 import { GraphQLClient } from 'graphql-request';
 
 type CreateTestTreeOptions = {
   history: History;
   store: Store<StoreState>;
-  appDependencyOverrides: Partial<AppDependencies>,
+  appDependencyOverrides: Partial<AppDependencies>;
 };
 
 export const createMockApiClientWithResponse = (response: any) => {
@@ -30,7 +34,11 @@ export const createMockApiClientWithResponse = (response: any) => {
   return new MockApiClient('');
 };
 
-export const createTestTree = ({ history, store, appDependencyOverrides }: CreateTestTreeOptions) => (
+export const createTestTree = ({
+  history,
+  store,
+  appDependencyOverrides,
+}: CreateTestTreeOptions) => (
   <HelmetProvider>
     <AppDependenciesContext.Provider
       value={{
