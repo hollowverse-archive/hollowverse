@@ -10,8 +10,7 @@ import { StoreState } from 'store/types';
 import { Store } from 'redux';
 import { Provider } from 'react-redux';
 import { HelmetProvider } from 'react-helmet-async';
-import { ConnectedRouter, push } from 'react-router-redux';
-import { App } from 'components/App/App';
+import { ConnectedRouter } from 'react-router-redux';
 import { AppDependenciesContext, defaultAppDependencies, AppDependencies } from 'appDependenciesContext';
 import { GraphQLClient } from 'graphql-request';
 

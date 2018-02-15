@@ -47,7 +47,7 @@ const testSpecificConfig = {
     devtoolModuleFilenameTemplate: '[absolute-resource-path]',
   },
   
-  stats: 'none',
+  stats: 'errors-only',
   
   performance: false,
 
