@@ -21,6 +21,7 @@ describe('Notable Person page', () => {
   let history: History;
 
   beforeEach(() => {
+    expect.hasAssertions();
     history = createMemoryHistory({ initialEntries: ['/Tom_Hanks'] });
   });
 

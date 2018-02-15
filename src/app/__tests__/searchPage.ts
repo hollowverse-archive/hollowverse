@@ -19,6 +19,10 @@ import { isSearchInProgress } from 'store/features/search/selectors';
 configure({ adapter: new Adapter() });
 
 describe('Search page', () => {
+  beforeEach(() => {
+    expect.hasAssertions();
+  });
+
   let wrapper: ReactWrapper<any>;
   let store: Store<StoreState>;
   let history: History;
@@ -170,8 +174,6 @@ describe('Search page', () => {
       });
   
       it('results link to the respective notable person page', () => {
-        expect.hasAssertions();
-  
         wrapper.findWhere(w => w.is('li')).forEach(li => {
           for (const result of searchResults.hits) {
             if (li.contains(result.name)) {
@@ -185,7 +187,7 @@ describe('Search page', () => {
     });
   
     describe('When no results are found,', () => {
-      beforeEach(done => {
+      beforeEach(() => {
         searchResults = {
           hits: [
             
@@ -218,11 +220,6 @@ describe('Search page', () => {
         });
   
         wrapper = mount(tree);
-  
-        setTimeout(() => {
-          wrapper.update();
-          done();
-        }, 0);
       });
   
       it('returns 404', () => {
