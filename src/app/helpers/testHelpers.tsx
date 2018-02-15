@@ -16,6 +16,7 @@ import {
   defaultAppDependencies,
   AppDependencies,
 } from 'appDependenciesContext';
+import { ConnectedNavBar } from 'components/NavBar/ConnectedNavBar';
 
 type CreateTestTreeOptions = {
   history: History;
@@ -37,13 +38,18 @@ export const createTestTree = ({
     >
       <Provider store={store}>
         <ConnectedRouter history={history}>
-          <Switch>
-            <Route path="/search" component={SearchResults} />
-            <Route path="/about" component={About} />
-            <Route path="/privacy-policy" component={PrivacyPolicy} />
-            <Route path="/:slug" component={NotablePerson} />
-            <Route component={Home} />
-          </Switch>
+          <div>
+            <Route>
+              {props => <ConnectedNavBar {...props} title="Hollowverse" />}
+            </Route>
+            <Switch>
+              <Route path="/search" component={SearchResults} />
+              <Route path="/about" component={About} />
+              <Route path="/privacy-policy" component={PrivacyPolicy} />
+              <Route path="/:slug" component={NotablePerson} />
+              <Route component={Home} />
+            </Switch>
+          </div>
         </ConnectedRouter>
       </Provider>
     </AppDependenciesContext.Provider>

@@ -1,6 +1,6 @@
 import 'expect-more-jest';
 import 'jest-enzyme';
-import { createConfiguredStore } from 'store/createConfiguredStore';
+import { createConfiguredStore, defaultInitialState } from 'store/createConfiguredStore';
 import createMemoryHistory from 'history/createMemoryHistory';
 import { getStatusCode } from 'store/features/status/reducer';
 import { configure, mount, ReactWrapper } from 'enzyme';
@@ -14,6 +14,9 @@ import { Store } from 'redux';
 import { StoreState } from 'store/types';
 import { History } from 'history';
 import { AlgoliaResponse } from 'algoliasearch';
+import { delay } from 'helpers/delay';
+import { LoadingSpinner } from 'components/LoadingSpinner/LoadingSpinner';
+import { isSearchInProgress } from 'store/features/search/selectors';
 
 configure({ adapter: new Adapter() });
 
@@ -24,11 +27,82 @@ describe('Search page', () => {
   let searchResults: AlgoliaResponse;
 
   describe('While typing,', () => {
-    it('updates the URL to match the search query');
+    beforeEach((done) => {
+      history = createMemoryHistory({ initialEntries: ['/search'] });
+    
+      store = createConfiguredStore({
+        history,
+      }).store;
+
+      const tree = createTestTree({
+        history,
+        store,
+      });
+
+      wrapper = mount(tree);
+  
+      setTimeout(() => {
+        wrapper.update();
+        done();
+      }, 0);
+    });
+
+    it('updates the URL to match the search query', () => {
+      const searchBox = wrapper.find('input[type="search"]');
+      let params: URLSearchParams;
+
+      searchBox.simulate('change', { target: { value: 'T' } });
+
+      params = new URLSearchParams(history.location.search);
+
+      expect(params.get('query')).toBe('T');
+
+      searchBox.simulate('change', { target: { value: 'To' } });
+
+      params = new URLSearchParams(history.location.search);
+
+      expect(params.get('query')).toBe('To');
+    });
   });
 
   describe('While results are being loaded,', () => {
-    it('indicates loading status');
+    beforeEach((done) => {
+      history = createMemoryHistory({ initialEntries: ['/search'] });
+
+      store = createConfiguredStore({
+        history,
+        dependencyOverrides: {
+          async getResponseForDataRequest(payload) {
+            if (payload.key === 'searchResults') {
+              await delay(5000);
+              
+              return searchResults;
+            }
+
+            return payload.load();
+          },
+        }
+      }).store;
+
+      const tree = createTestTree({
+        history,
+        store,
+      });
+
+      wrapper = mount(tree);
+
+      setTimeout(() => {
+        wrapper.update();
+        done();
+      }, 0);
+    });
+  
+    it('indicates loading status', () => {
+      const searchBox = wrapper.find('input[type="search"]');
+      searchBox.simulate('change', { target: { value: 'T' } });
+      expect(isSearchInProgress(store.getState())).toBe(true);
+      expect(wrapper.find(LoadingSpinner)).toBePresent();
+    });
   });
 
   describe('When results have finished loading,', () => {
