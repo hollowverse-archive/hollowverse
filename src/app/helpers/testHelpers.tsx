@@ -17,11 +17,13 @@ import {
   AppDependencies,
 } from 'appDependenciesContext';
 import { GraphQLClient } from 'graphql-request';
+import { AlgoliaResponse, AlgoliaClient, AlgoliaIndex } from 'algoliasearch';
+import { noop } from 'lodash';
 
 type CreateTestTreeOptions = {
   history: History;
   store: Store<StoreState>;
-  appDependencyOverrides: Partial<AppDependencies>;
+  appDependencyOverrides?: Partial<AppDependencies>;
 };
 
 export const createMockApiClientWithResponse = (response: any) => {
@@ -32,6 +34,26 @@ export const createMockApiClientWithResponse = (response: any) => {
   }
 
   return new MockApiClient('');
+};
+
+export const createMockLoadAlgoliaModuleWithResponse = (response: AlgoliaResponse) => {
+  class MockAlgoliaClient implements AlgoliaClient {
+    clearCache = noop;
+    destroy = noop;
+
+    constructor(appId: string, apiKey: string) {}
+
+    initIndex(name: string): AlgoliaIndex {
+      return 
+    };
+  }
+  const client = new MockAlgoliaClient();
+
+  return {
+    client,
+    notablePeople: client.initIndex('NotablePerson'),
+    default: undefined,
+  };
 };
 
 export const createTestTree = ({
