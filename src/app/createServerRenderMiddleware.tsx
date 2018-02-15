@@ -22,6 +22,11 @@ import { App } from 'components/App/App';
 import html from './index.server.html';
 
 import { CreateMiddlewareOptions } from './server';
+import {
+  defaultAppDependencies,
+  AppDependenciesContext,
+} from 'appDependenciesContext';
+import { createGetUniqueId } from 'helpers/createGetUniqueId';
 
 const interpolateTemplate = template(html);
 
@@ -42,13 +47,29 @@ export const createServerRenderMiddleware = ({
 
   const helmetContext = {};
 
+  /**
+   * React requires server-rendered markup to match client-side markup
+   * on initial render.
+   * 
+   * `getUniqueId` returns an increasing numerical value, starting at 1.
+   * Since each browser will have its own `getUniqueId` starting at
+   * 1, a new unique ID generator is required for each request
+   * so that the IDs generated on the server match those generated
+   * client-side.
+   */
+  const getUniqueId = createGetUniqueId();
+
   renderToString(
     <HelmetProvider context={helmetContext}>
-      <Provider store={store}>
-        <ConnectedRouter history={history}>
-          <App />
-        </ConnectedRouter>
-      </Provider>
+      <AppDependenciesContext.Provider
+        value={{ ...defaultAppDependencies, getUniqueId }}
+      >
+        <Provider store={store}>
+          <ConnectedRouter history={history}>
+            <App />
+          </ConnectedRouter>
+        </Provider>
+      </AppDependenciesContext.Provider>
     </HelmetProvider>,
     wrappedRootEpic,
   ).subscribe({

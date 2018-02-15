@@ -13,7 +13,7 @@ import { loadIntersectionObserverPolyfill } from 'helpers/loadPolyfill';
 import { HelmetProvider } from 'react-helmet-async';
 import {
   AppDependenciesContext,
-  defaultAppDependenciesContext,
+  defaultAppDependencies,
 } from 'appDependenciesContext';
 
 declare const __INITIAL_STATE__: StoreState | undefined;
@@ -28,7 +28,7 @@ const { store } = createConfiguredStore({
 const renderApp = (NewApp: typeof App = App) => {
   hydrate(
     <HelmetProvider>
-      <AppDependenciesContext.Provider value={defaultAppDependenciesContext}>
+      <AppDependenciesContext.Provider value={defaultAppDependencies}>
         <Provider store={store}>
           <Router history={history}>
             <NewApp />
