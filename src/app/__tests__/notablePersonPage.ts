@@ -24,7 +24,7 @@ describe('Notable Person page', () => {
   beforeAll(() => {
     initializeStoreAndTree = async () => {
       ({ store, history } = createConfiguredStoreForTests({
-        dependencyOverrides: {
+        epicDependenciesOverrides: {
           getResponseForDataRequest: getNotablePersonResponse,
           sendLogs,
         },

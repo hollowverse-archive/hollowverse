@@ -26,7 +26,7 @@ describe('Search page', () => {
   beforeAll(() => {
     initializeStoreAndTree = async () => {
       ({ store, history } = createConfiguredStoreForTests({
-        dependencyOverrides: {
+        epicDependenciesOverrides: {
           getResponseForDataRequest: getSearchResultsResponse,
         },
         history,

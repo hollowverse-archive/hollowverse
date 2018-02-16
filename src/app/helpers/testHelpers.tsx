@@ -43,20 +43,20 @@ export const createMockGetResponseForDataRequest = <K extends ResolvedDataKey>(
   };
 };
 
-const defaultTestDependencyOverrides: CreateConfiguredStoreOptions['dependencyOverrides'] = {
+const defaultTestDependencyOverrides: CreateConfiguredStoreOptions['epicDependenciesOverrides'] = {
   sendLogs: jest.fn(),
   getResponseForDataRequest: jest.fn(),
 };
 
 export const createConfiguredStoreForTests = ({
-  dependencyOverrides,
+  epicDependenciesOverrides,
   history = createMemoryHistory(),
   ...rest
 }: Partial<CreateConfiguredStoreOptions>) => {
   return createConfiguredStore({
-    dependencyOverrides: {
+    epicDependenciesOverrides: {
       ...defaultTestDependencyOverrides,
-      ...dependencyOverrides,
+      ...epicDependenciesOverrides,
     },
     history,
     ...rest,

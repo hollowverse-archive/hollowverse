@@ -17,7 +17,66 @@ import { loggingEpic } from 'store/features/logging/epic';
 import { nullResult } from 'helpers/asyncResults';
 import { sendLogs } from 'helpers/sendLogs';
 
-export const defaultInitialState: StoreState = {
+declare const global: NodeJS.Global & {
+  /**
+   * Added by Redux DevTools extension for Chrome and Firefox
+   * See https://github.com/zalmoxisus/redux-devtools-extension
+   */
+  __REDUX_DEVTOOLS_EXTENSION_COMPOSE__: typeof compose | undefined;
+};
+
+/**
+ * Epics are usually used to produce side-effects in response to actions, so
+ * naturally they need to perform things like sending data over the network,
+ * store data in `localStorage`... etc.
+ *
+ * While an epic can directly use `localStorage` or `fetch`, accessing global
+ * APIs in this way makes it hard to test the store functionality, it also
+ * makes the code less portable because it can no longer work in Node.js without
+ * global polyfills.
+ *
+ * Instead of having epics import their dependencies and use them directly,
+ * `redux-observable` allows injecting dependencies into the epics. This helps
+ * with testing and portability, because we can now more easily replace the
+ * dependency implementation when creating the epics. This works well with
+ * TypeScript because it requires that implementations conform to the expected
+ * shape.
+ *
+ * @see https://redux-observable.js.org/docs/recipes/InjectingDependenciesIntoEpics.html
+ */
+export type EpicDependencies = {
+  /**
+   * Enables us to hook into data fetching requests in order to transform
+   * or replace the response. This is useful for mocking API responses in
+   * tests.
+   */
+  getResponseForDataRequest<K extends ResolvedDataKey>(
+    payload: RequestDataPayload<K>,
+  ): Promise<ResolvedData[K]>;
+
+  /**
+   * Replaces the log sending function implementation, which sends
+   * logs in batches.
+   */
+  sendLogs(actions: Action[]): Promise<void>;
+};
+
+export type CreateConfiguredStoreOptions = {
+  history: History;
+  initialState?: StoreState;
+  additionalMiddleware?: Middleware[];
+  epicDependenciesOverrides?: Partial<EpicDependencies>;
+  wrapRootEpic?(epic: Epic<Action, StoreState>): typeof epic;
+};
+
+// Added by Webpack
+declare const module: {
+  hot?: {
+    accept(path?: string, cb?: () => void): void;
+  };
+};
+
+const defaultInitialState: StoreState = {
   routing: {
     location: null,
   },
@@ -37,28 +96,7 @@ export const defaultInitialState: StoreState = {
   alternativeSearchBoxText: null,
 };
 
-export type EpicDependencies = {
-  /**
-   * Enables us to hook into data fetching requests in order to transform
-   * or replace the response. This is useful for mocking API responses in
-   * tests.
-   */
-  getResponseForDataRequest<K extends ResolvedDataKey>(
-    payload: RequestDataPayload<K>,
-  ): Promise<ResolvedData[K]>;
-
-  sendLogs(actions: Action[]): Promise<void>;
-};
-
-declare const global: NodeJS.Global & {
-  __REDUX_DEVTOOLS_EXTENSION_COMPOSE__: typeof compose | undefined;
-};
-
-declare const module: {
-  hot?: { accept(path?: string, cb?: () => void): void };
-};
-
-export const defaultEpicDependencies: EpicDependencies = {
+const defaultEpicDependencies: EpicDependencies = {
   async getResponseForDataRequest(payload) {
     return payload.load();
   },
@@ -66,20 +104,12 @@ export const defaultEpicDependencies: EpicDependencies = {
   sendLogs,
 };
 
-export type CreateConfiguredStoreOptions = {
-  history: History;
-  initialState?: StoreState;
-  additionalMiddleware?: Middleware[];
-  dependencyOverrides?: Partial<EpicDependencies>;
-  wrapRootEpic?(epic: Epic<Action, StoreState>): typeof epic;
-};
-
 export function createConfiguredStore({
   history,
   initialState = defaultInitialState,
   wrapRootEpic,
   additionalMiddleware = [],
-  dependencyOverrides = {},
+  epicDependenciesOverrides = {},
 }: CreateConfiguredStoreOptions) {
   let composeEnhancers = compose;
 
@@ -104,7 +134,7 @@ export function createConfiguredStore({
 
   const dependencies = {
     ...defaultEpicDependencies,
-    ...dependencyOverrides,
+    ...epicDependenciesOverrides,
   };
 
   const wrappedRootEpic = wrapRootEpic ? wrapRootEpic(rootEpic) : rootEpic;
