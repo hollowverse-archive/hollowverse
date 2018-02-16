@@ -1,11 +1,11 @@
-import {
-  createConfiguredStore,
-  EpicDependencies,
-} from 'store/createConfiguredStore';
+import { EpicDependencies } from 'store/createConfiguredStore';
 import createMemoryHistory from 'history/createMemoryHistory';
 import { getStatusCode } from 'store/features/status/reducer';
-import { createTestTree } from 'helpers/testHelpers';
-import { NotablePersonQuery } from 'api/types';
+import {
+  createTestTree,
+  createMockGetResponseForDataRequest,
+  createConfiguredStoreForTests,
+} from 'helpers/testHelpers';
 import { Store } from 'redux';
 import { StoreState } from 'store/types';
 import { History } from 'history';
@@ -17,6 +17,7 @@ describe('Notable Person page', () => {
   let store: Store<StoreState>;
   let history: History;
   let sendLogs: EpicDependencies['sendLogs'];
+  let getNotablePersonResponse: EpicDependencies['getResponseForDataRequest'];
 
   beforeEach(() => {
     expect.hasAssertions();
@@ -25,35 +26,31 @@ describe('Notable Person page', () => {
 
   describe('When notable person is found,', () => {
     beforeEach(done => {
-      const notablePersonQueryResponse: NotablePersonQuery = {
-        notablePerson: {
-          commentsUrl: '',
-          name: 'Tom Hanks',
-          editorialSummary: null,
-          mainPhoto: null,
-          relatedPeople: [
-            {
-              mainPhoto: null,
-              name: 'Al Pacino',
-              slug: 'Al_Pacino',
-            },
-          ],
-          slug: 'Tom_Hanks',
-          summary: null,
+      getNotablePersonResponse = createMockGetResponseForDataRequest(
+        'notablePersonQuery',
+        {
+          notablePerson: {
+            commentsUrl: '',
+            name: 'Tom Hanks',
+            editorialSummary: null,
+            mainPhoto: null,
+            relatedPeople: [
+              {
+                mainPhoto: null,
+                name: 'Al Pacino',
+                slug: 'Al_Pacino',
+              },
+            ],
+            slug: 'Tom_Hanks',
+            summary: null,
+          },
         },
-      };
+      );
 
-      ({ store } = createConfiguredStore({
+      ({ store } = createConfiguredStoreForTests({
         history,
         dependencyOverrides: {
-          async getResponseForDataRequest(payload) {
-            if (payload.key === 'notablePersonQuery') {
-              return notablePersonQueryResponse;
-            }
-
-            return payload.load();
-          },
-
+          getResponseForDataRequest: getNotablePersonResponse,
           sendLogs,
         },
       }));
@@ -85,37 +82,19 @@ describe('Notable Person page', () => {
 
     describe('logs page load event', () => {
       beforeEach(done => {
+        getNotablePersonResponse = createMockGetResponseForDataRequest(
+          'notablePersonQuery',
+          {
+            notablePerson: null,
+          },
+        );
+
         sendLogs = jest.fn();
 
-        const notablePersonQueryResponse: NotablePersonQuery = {
-          notablePerson: {
-            commentsUrl: '',
-            name: 'Tom Hanks',
-            editorialSummary: null,
-            mainPhoto: null,
-            relatedPeople: [
-              {
-                mainPhoto: null,
-                name: 'Al Pacino',
-                slug: 'Al_Pacino',
-              },
-            ],
-            slug: 'Tom_Hanks',
-            summary: null,
-          },
-        };
-
-        ({ store } = createConfiguredStore({
+        ({ store } = createConfiguredStoreForTests({
           history,
           dependencyOverrides: {
-            async getResponseForDataRequest(payload) {
-              if (payload.key === 'notablePersonQuery') {
-                return notablePersonQueryResponse;
-              }
-
-              return payload.load();
-            },
-
+            getResponseForDataRequest: getNotablePersonResponse,
             sendLogs,
           },
         }));
@@ -152,20 +131,10 @@ describe('Notable Person page', () => {
 
   describe('When notable person is not found,', () => {
     beforeEach(done => {
-      const notablePersonQueryResponse: NotablePersonQuery = {
-        notablePerson: null,
-      };
-
-      ({ store } = createConfiguredStore({
+      ({ store } = createConfiguredStoreForTests({
         history,
         dependencyOverrides: {
-          async getResponseForDataRequest(payload) {
-            if (payload.key === 'notablePersonQuery') {
-              return notablePersonQueryResponse;
-            }
-
-            return payload.load();
-          },
+          getResponseForDataRequest: getNotablePersonResponse,
         },
       }));
 

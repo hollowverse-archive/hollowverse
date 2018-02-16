@@ -1,42 +1,67 @@
-import { createConfiguredStore } from 'store/createConfiguredStore';
+import { EpicDependencies } from 'store/createConfiguredStore';
 import createMemoryHistory from 'history/createMemoryHistory';
 import { getStatusCode } from 'store/features/status/reducer';
 import { mount, ReactWrapper } from 'enzyme';
-import { createTestTree } from 'helpers/testHelpers';
+import {
+  createTestTree,
+  createMockGetResponseForDataRequest,
+  createConfiguredStoreForTests,
+} from 'helpers/testHelpers';
 import { Store } from 'redux';
 import { StoreState } from 'store/types';
 import { History } from 'history';
-import { AlgoliaResponse } from 'algoliasearch';
 import { delay } from 'helpers/delay';
 import { LoadingSpinner } from 'components/LoadingSpinner/LoadingSpinner';
 import { isSearchInProgress } from 'store/features/search/selectors';
-
-const emptySearchResults: AlgoliaResponse = {
-  hits: [],
-  hitsPerPage: 10,
-  nbHits: 0,
-  nbPages: 1,
-  page: 0,
-  params: '',
-  processingTimeMS: 1,
-  query: 'Tom',
-};
+import { AlgoliaResponse } from 'algoliasearch';
 
 describe('Search page', () => {
-  beforeEach(() => {
-    expect.hasAssertions();
-  });
-
   let wrapper: ReactWrapper<any>;
   let store: Store<StoreState>;
   let history: History;
+  let getSearchResultsResponse: EpicDependencies['getResponseForDataRequest'];
   let searchResults: AlgoliaResponse;
+
+  beforeEach(() => {
+    expect.hasAssertions();
+    searchResults = {
+      hits: [
+        {
+          slug: 'Tom_Hanks',
+          name: 'Tom Hanks',
+          mainPhoto: null,
+          objectID: '123',
+        },
+        {
+          slug: 'Tom_Hardy',
+          name: 'Tom Hardy',
+          mainPhoto: null,
+          objectID: '456',
+        },
+      ],
+      hitsPerPage: 10,
+      nbHits: 2,
+      nbPages: 1,
+      page: 0,
+      params: '',
+      processingTimeMS: 1,
+      query: 'Tom',
+    };
+
+    getSearchResultsResponse = createMockGetResponseForDataRequest(
+      'searchResults',
+      searchResults,
+    );
+  });
 
   describe('While typing,', () => {
     beforeEach(done => {
       history = createMemoryHistory({ initialEntries: ['/search'] });
 
-      ({ store } = createConfiguredStore({
+      ({ store } = createConfiguredStoreForTests({
+        dependencyOverrides: {
+          getResponseForDataRequest: getSearchResultsResponse,
+        },
         history,
       }));
 
@@ -75,17 +100,15 @@ describe('Search page', () => {
     beforeEach(done => {
       history = createMemoryHistory({ initialEntries: ['/search'] });
 
-      ({ store } = createConfiguredStore({
+      ({ store } = createConfiguredStoreForTests({
         history,
         dependencyOverrides: {
           async getResponseForDataRequest(payload) {
             if (payload.key === 'searchResults') {
               await delay(5000);
-
-              return searchResults;
             }
 
-            return payload.load();
+            return getSearchResultsResponse(payload);
           },
         },
       }));
@@ -113,62 +136,30 @@ describe('Search page', () => {
   });
 
   describe('When results have finished loading,', () => {
-    beforeEach(() => {
+    beforeEach(done => {
       history = createMemoryHistory({ initialEntries: ['/search?query=Tom'] });
+
+      ({ store } = createConfiguredStoreForTests({
+        history,
+        dependencyOverrides: {
+          getResponseForDataRequest: getSearchResultsResponse,
+        },
+      }));
+
+      const tree = createTestTree({
+        history,
+        store,
+      });
+
+      wrapper = mount(tree);
+
+      setTimeout(() => {
+        wrapper.update();
+        done();
+      }, 0);
     });
 
     describe('When results are found,', () => {
-      beforeEach(done => {
-        searchResults = {
-          hits: [
-            {
-              slug: 'Tom_Hanks',
-              name: 'Tom Hanks',
-              mainPhoto: null,
-              objectID: '123',
-            },
-            {
-              slug: 'Tom_Hardy',
-              name: 'Tom Hardy',
-              mainPhoto: null,
-              objectID: '456',
-            },
-          ],
-          hitsPerPage: 10,
-          nbHits: 2,
-          nbPages: 1,
-          page: 0,
-          params: '',
-          processingTimeMS: 1,
-          query: 'Tom',
-        };
-
-        ({ store } = createConfiguredStore({
-          history,
-          dependencyOverrides: {
-            async getResponseForDataRequest(payload) {
-              if (payload.key === 'searchResults') {
-                return searchResults;
-              }
-
-              return payload.load();
-            },
-          },
-        }));
-
-        const tree = createTestTree({
-          history,
-          store,
-        });
-
-        wrapper = mount(tree);
-
-        setTimeout(() => {
-          wrapper.update();
-          done();
-        }, 0);
-      });
-
       it('returns 200', () => {
         expect(getStatusCode(store.getState())).toBe(200);
       });
@@ -193,18 +184,26 @@ describe('Search page', () => {
 
     describe('When no results are found,', () => {
       beforeEach(() => {
-        searchResults = emptySearchResults;
+        searchResults = {
+          hits: [],
+          hitsPerPage: 10,
+          nbHits: 0,
+          nbPages: 1,
+          page: 0,
+          params: '',
+          processingTimeMS: 1,
+          query: 'Tom',
+        };
 
-        ({ store } = createConfiguredStore({
+        getSearchResultsResponse = createMockGetResponseForDataRequest(
+          'searchResults',
+          searchResults,
+        );
+
+        ({ store } = createConfiguredStoreForTests({
           history,
           dependencyOverrides: {
-            async getResponseForDataRequest(payload) {
-              if (payload.key === 'searchResults') {
-                return searchResults;
-              }
-
-              return payload.load();
-            },
+            getResponseForDataRequest: getSearchResultsResponse,
           },
         }));
 

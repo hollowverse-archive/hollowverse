@@ -6,7 +6,7 @@ import { About } from 'pages/About/About';
 import { PrivacyPolicy } from 'pages/PrivacyPolicy/PrivacyPolicy';
 import { Home } from 'pages/Home/Home';
 import { History } from 'history';
-import { StoreState } from 'store/types';
+import { StoreState, ResolvedData, ResolvedDataKey } from 'store/types';
 import { Store } from 'redux';
 import { Provider } from 'react-redux';
 import { HelmetProvider } from 'react-helmet-async';
@@ -17,11 +17,47 @@ import {
   AppDependencies,
 } from 'appDependenciesContext';
 import { ConnectedNavBar } from 'components/NavBar/ConnectedNavBar';
+import {
+  EpicDependencies,
+  CreateConfiguredStoreOptions,
+  createConfiguredStore,
+} from 'store/createConfiguredStore';
 
 type CreateTestTreeOptions = {
   history: History;
   store: Store<StoreState>;
   appDependencyOverrides?: Partial<AppDependencies>;
+};
+
+export const createMockGetResponseForDataRequest = <K extends ResolvedDataKey>(
+  key: K,
+  response: ResolvedData[K],
+): EpicDependencies['getResponseForDataRequest'] => {
+  return async payload => {
+    if (payload.key === key) {
+      return response;
+    }
+
+    return payload.load();
+  };
+};
+
+const defaultTestDependencyOverrides: CreateConfiguredStoreOptions['dependencyOverrides'] = {
+  sendLogs: jest.fn(),
+  getResponseForDataRequest: jest.fn(),
+};
+
+export const createConfiguredStoreForTests = ({
+  dependencyOverrides,
+  ...rest
+}: CreateConfiguredStoreOptions) => {
+  return createConfiguredStore({
+    dependencyOverrides: {
+      ...defaultTestDependencyOverrides,
+      ...dependencyOverrides,
+    },
+    ...rest,
+  });
 };
 
 export const createTestTree = ({
