@@ -100,6 +100,7 @@ describe('Search page', () => {
     });
   
     it('indicates loading status', () => {
+      expect(isSearchInProgress(store.getState())).toBe(false);
       const searchBox = wrapper.find('input[type="search"]');
       searchBox.simulate('change', { target: { value: 'T' } });
       expect(isSearchInProgress(store.getState())).toBe(true);
