@@ -1,5 +1,3 @@
-import { createExternals } from './shared';
-
 const webpack = require('webpack');
 const path = require('path');
 const webpackMerge = require('webpack-merge');
@@ -20,6 +18,7 @@ const {
   createGlobalCssLoaders,
   createCssModulesLoaders,
   createScriptRules,
+  createExternals,
 } = require('./shared');
 
 const serverSpecificConfig = {

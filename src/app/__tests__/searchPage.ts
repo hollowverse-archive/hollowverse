@@ -18,9 +18,33 @@ import { AlgoliaResponse } from 'algoliasearch';
 describe('Search page', () => {
   let wrapper: ReactWrapper<any>;
   let store: Store<StoreState>;
-  let history: History;
+  let history: History | undefined;
   let getSearchResultsResponse: EpicDependencies['getResponseForDataRequest'];
   let searchResults: AlgoliaResponse;
+  let initializeStoreAndTree: () => Promise<void>;
+
+  beforeAll(() => {
+    initializeStoreAndTree = async () => {
+      ({ store, history } = createConfiguredStoreForTests({
+        dependencyOverrides: {
+          getResponseForDataRequest: getSearchResultsResponse,
+        },
+        history,
+      }));
+
+      const tree = createTestTree({
+        history,
+        store,
+      });
+
+      wrapper = mount(tree);
+
+      // Force promises to settle by scheduling
+      // the following statements after `setTimeout`
+      await delay(0);
+      wrapper.update();
+    };
+  });
 
   beforeEach(() => {
     expect.hasAssertions();
@@ -55,27 +79,10 @@ describe('Search page', () => {
   });
 
   describe('While typing,', () => {
-    beforeEach(done => {
+    beforeEach(async () => {
       history = createMemoryHistory({ initialEntries: ['/search'] });
 
-      ({ store } = createConfiguredStoreForTests({
-        dependencyOverrides: {
-          getResponseForDataRequest: getSearchResultsResponse,
-        },
-        history,
-      }));
-
-      const tree = createTestTree({
-        history,
-        store,
-      });
-
-      wrapper = mount(tree);
-
-      setTimeout(() => {
-        wrapper.update();
-        done();
-      }, 0);
+      await initializeStoreAndTree();
     });
 
     it('updates the URL to match the search query', () => {
@@ -84,46 +91,33 @@ describe('Search page', () => {
 
       searchBox.simulate('change', { target: { value: 'T' } });
 
-      params = new URLSearchParams(history.location.search);
+      params = new URLSearchParams(history!.location.search);
 
       expect(params.get('query')).toBe('T');
 
       searchBox.simulate('change', { target: { value: 'To' } });
 
-      params = new URLSearchParams(history.location.search);
+      params = new URLSearchParams(history!.location.search);
 
       expect(params.get('query')).toBe('To');
     });
   });
 
   describe('While results are being loaded,', () => {
-    beforeEach(done => {
+    beforeEach(async () => {
       history = createMemoryHistory({ initialEntries: ['/search'] });
 
-      ({ store } = createConfiguredStoreForTests({
-        history,
-        dependencyOverrides: {
-          async getResponseForDataRequest(payload) {
-            if (payload.key === 'searchResults') {
-              await delay(5000);
-            }
+      getSearchResultsResponse = async payload => {
+        if (payload.key === 'searchResults') {
+          await delay(5000);
 
-            return getSearchResultsResponse(payload);
-          },
-        },
-      }));
+          return searchResults;
+        }
 
-      const tree = createTestTree({
-        history,
-        store,
-      });
+        return payload.load();
+      };
 
-      wrapper = mount(tree);
-
-      setTimeout(() => {
-        wrapper.update();
-        done();
-      }, 0);
+      await initializeStoreAndTree();
     });
 
     it('indicates loading status', () => {
@@ -136,27 +130,10 @@ describe('Search page', () => {
   });
 
   describe('When results have finished loading,', () => {
-    beforeEach(done => {
+    beforeEach(async () => {
       history = createMemoryHistory({ initialEntries: ['/search?query=Tom'] });
 
-      ({ store } = createConfiguredStoreForTests({
-        history,
-        dependencyOverrides: {
-          getResponseForDataRequest: getSearchResultsResponse,
-        },
-      }));
-
-      const tree = createTestTree({
-        history,
-        store,
-      });
-
-      wrapper = mount(tree);
-
-      setTimeout(() => {
-        wrapper.update();
-        done();
-      }, 0);
+      await initializeStoreAndTree();
     });
 
     describe('When results are found,', () => {
@@ -183,7 +160,7 @@ describe('Search page', () => {
     });
 
     describe('When no results are found,', () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         searchResults = {
           hits: [],
           hitsPerPage: 10,
@@ -200,19 +177,7 @@ describe('Search page', () => {
           searchResults,
         );
 
-        ({ store } = createConfiguredStoreForTests({
-          history,
-          dependencyOverrides: {
-            getResponseForDataRequest: getSearchResultsResponse,
-          },
-        }));
-
-        const tree = createTestTree({
-          history,
-          store,
-        });
-
-        wrapper = mount(tree);
+        await initializeStoreAndTree();
       });
 
       it('returns 404', () => {

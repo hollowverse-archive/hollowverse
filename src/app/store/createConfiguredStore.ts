@@ -137,5 +137,12 @@ export function createConfiguredStore({
     });
   }
 
-  return { store, wrappedRootEpic, dependencies, initialState, middlewares };
+  return {
+    store,
+    wrappedRootEpic,
+    dependencies,
+    initialState,
+    middlewares,
+    history,
+  };
 }

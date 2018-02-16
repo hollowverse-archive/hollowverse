@@ -22,6 +22,7 @@ import {
   CreateConfiguredStoreOptions,
   createConfiguredStore,
 } from 'store/createConfiguredStore';
+import createMemoryHistory from 'history/createMemoryHistory';
 
 type CreateTestTreeOptions = {
   history: History;
@@ -49,13 +50,15 @@ const defaultTestDependencyOverrides: CreateConfiguredStoreOptions['dependencyOv
 
 export const createConfiguredStoreForTests = ({
   dependencyOverrides,
+  history = createMemoryHistory(),
   ...rest
-}: CreateConfiguredStoreOptions) => {
+}: Partial<CreateConfiguredStoreOptions>) => {
   return createConfiguredStore({
     dependencyOverrides: {
       ...defaultTestDependencyOverrides,
       ...dependencyOverrides,
     },
+    history,
     ...rest,
   });
 };

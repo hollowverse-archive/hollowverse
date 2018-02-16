@@ -11,21 +11,52 @@ import { StoreState } from 'store/types';
 import { History } from 'history';
 import { pageLoadSucceeded } from 'store/features/logging/actions';
 import { ReactWrapper, mount } from 'enzyme';
+import { delay } from 'helpers/delay';
 
 describe('Notable Person page', () => {
   let wrapper: ReactWrapper<any>;
   let store: Store<StoreState>;
-  let history: History;
-  let sendLogs: EpicDependencies['sendLogs'];
+  let history: History | undefined;
+  let sendLogs: EpicDependencies['sendLogs'] | undefined;
   let getNotablePersonResponse: EpicDependencies['getResponseForDataRequest'];
+  let initializeStoreAndTree: () => Promise<void>;
+
+  beforeAll(() => {
+    initializeStoreAndTree = async () => {
+      ({ store, history } = createConfiguredStoreForTests({
+        dependencyOverrides: {
+          getResponseForDataRequest: getNotablePersonResponse,
+          sendLogs,
+        },
+        history,
+      }));
+
+      const tree = createTestTree({
+        history,
+        store,
+      });
+
+      wrapper = mount(tree);
+
+      // Force promises to settle by scheduling
+      // the following statements after `setTimeout`
+      await delay(0);
+      wrapper.update();
+    };
+  });
 
   beforeEach(() => {
     expect.hasAssertions();
     history = createMemoryHistory({ initialEntries: ['/Tom_Hanks'] });
   });
 
+  afterEach(() => {
+    sendLogs = undefined;
+    history = undefined;
+  });
+
   describe('When notable person is found,', () => {
-    beforeEach(done => {
+    beforeEach(async () => {
       getNotablePersonResponse = createMockGetResponseForDataRequest(
         'notablePersonQuery',
         {
@@ -47,25 +78,7 @@ describe('Notable Person page', () => {
         },
       );
 
-      ({ store } = createConfiguredStoreForTests({
-        history,
-        dependencyOverrides: {
-          getResponseForDataRequest: getNotablePersonResponse,
-          sendLogs,
-        },
-      }));
-
-      const tree = createTestTree({
-        history,
-        store,
-      });
-
-      wrapper = mount(tree);
-
-      setTimeout(() => {
-        wrapper.update();
-        done();
-      }, 0);
+      await initializeStoreAndTree();
     });
 
     it('returns 200', () => {
@@ -81,35 +94,10 @@ describe('Notable Person page', () => {
     });
 
     describe('logs page load event', () => {
-      beforeEach(done => {
-        getNotablePersonResponse = createMockGetResponseForDataRequest(
-          'notablePersonQuery',
-          {
-            notablePerson: null,
-          },
-        );
-
+      beforeEach(async () => {
         sendLogs = jest.fn();
 
-        ({ store } = createConfiguredStoreForTests({
-          history,
-          dependencyOverrides: {
-            getResponseForDataRequest: getNotablePersonResponse,
-            sendLogs,
-          },
-        }));
-
-        const tree = createTestTree({
-          history,
-          store,
-        });
-
-        wrapper = mount(tree);
-
-        setTimeout(() => {
-          wrapper.update();
-          done();
-        }, 0);
+        await initializeStoreAndTree();
       });
 
       beforeEach(done => {
@@ -123,32 +111,22 @@ describe('Notable Person page', () => {
       it('sends logs on page unload', () => {
         expect.hasAssertions();
         expect(sendLogs).toHaveBeenLastCalledWith([
-          pageLoadSucceeded(history.createHref(history.location)),
+          pageLoadSucceeded(history!.createHref(history!.location)),
         ]);
       });
     });
   });
 
   describe('When notable person is not found,', () => {
-    beforeEach(done => {
-      ({ store } = createConfiguredStoreForTests({
-        history,
-        dependencyOverrides: {
-          getResponseForDataRequest: getNotablePersonResponse,
+    beforeEach(async () => {
+      getNotablePersonResponse = createMockGetResponseForDataRequest(
+        'notablePersonQuery',
+        {
+          notablePerson: null,
         },
-      }));
+      );
 
-      const tree = createTestTree({
-        history,
-        store,
-      });
-
-      wrapper = mount(tree);
-
-      setTimeout(() => {
-        wrapper.update();
-        done();
-      }, 0);
+      await initializeStoreAndTree();
     });
 
     it('returns 404', () => {
