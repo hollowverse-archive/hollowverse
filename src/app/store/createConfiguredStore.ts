@@ -9,6 +9,7 @@ import { updateUrlEpic } from 'store/features/search/updateUrlEpic';
 import { dataResolverEpic } from 'store/features/asyncData/epic';
 import { loggingEpic } from 'store/features/logging/epic';
 import { nullResult } from 'helpers/asyncResults';
+import { sendLogs } from 'helpers/sendLogs';
 
 export const defaultInitialState: StoreState = {
   routing: {
@@ -38,6 +39,8 @@ export type EpicDependencies = {
    */
   getResponseForDataRequest<K extends ResolvedDataKey>
     (payload: RequestDataPayload<K>): Promise<ResolvedData[K]>;
+
+  sendLogs(actions: Action[]): Promise<void>;
 };
 
 declare const global: NodeJS.Global & {
@@ -52,6 +55,8 @@ export const defaultEpicDependencies: EpicDependencies = {
   async getResponseForDataRequest(payload) {
     return payload.load();
   },
+
+  sendLogs,
 };
 
 type CreateConfiguredStoreOptions = {
