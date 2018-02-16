@@ -169,7 +169,7 @@
     "@babel/preset-es2015": "^7.0.0-beta.40",
     "@babel/preset-react": "^7.0.0-beta.40",
     "@babel/preset-stage-3": "^7.0.0-beta.40",
-    "@hollowverse/validate-filenames": "^1.3.4",
+    "@hollowverse/validate-filenames": "^1.3.5",
     "@types/algoliasearch": "^3.24.5",
     "@types/autoprefixer": "^6.7.3",
     "@types/bluebird": "^3.5.19",
