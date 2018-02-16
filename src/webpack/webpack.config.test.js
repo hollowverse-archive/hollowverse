@@ -6,10 +6,7 @@ const path = require('path');
 const nodeExternals = require('webpack-node-externals');
 const WildcardsEntryWebpackPlugin = require('wildcards-entry-webpack-plugin');
 
-const {
-  createScriptRules,
-  createGlobalCssLoaders,
-} = require('./shared');
+const { createScriptRules, createGlobalCssLoaders } = require('./shared');
 const {
   srcDirectory,
   testsDistDirectory,
@@ -46,9 +43,9 @@ const testSpecificConfig = {
     // for Jest to find the source files.
     devtoolModuleFilenameTemplate: '[absolute-resource-path]',
   },
-  
+
   stats: 'errors-only',
-  
+
   performance: false,
 
   // By default, webpack will consume and bundle all `require` calls.
@@ -80,7 +77,7 @@ const testSpecificConfig = {
         ].some(match => moduleName.includes(match)),
     ],
   }),
-  
+
   module: {
     rules: compact([
       // CSS Modules
@@ -107,11 +104,6 @@ const testSpecificConfig = {
 
     // Required for debugging in development and for long-term caching in production
     new webpack.NamedModulesPlugin(),
-
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'common',
-      minChunks: 1,
-    }),
 
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
