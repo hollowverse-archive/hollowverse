@@ -1,21 +1,16 @@
-import 'expect-more-jest';
-import 'jest-enzyme';
 import {
   createConfiguredStore,
   EpicDependencies,
 } from 'store/createConfiguredStore';
 import createMemoryHistory from 'history/createMemoryHistory';
 import { getStatusCode } from 'store/features/status/reducer';
-import { configure, mount, ReactWrapper } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
 import { createTestTree } from 'helpers/testHelpers';
 import { NotablePersonQuery } from 'api/types';
 import { Store } from 'redux';
 import { StoreState } from 'store/types';
 import { History } from 'history';
 import { pageLoadSucceeded } from 'store/features/logging/actions';
-
-configure({ adapter: new Adapter() });
+import { ReactWrapper, mount } from 'enzyme';
 
 describe('Notable Person page', () => {
   let wrapper: ReactWrapper<any>;

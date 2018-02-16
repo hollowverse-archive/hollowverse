@@ -1,13 +1,8 @@
-import 'expect-more-jest';
-import 'jest-enzyme';
 import { createConfiguredStore } from 'store/createConfiguredStore';
 import createMemoryHistory from 'history/createMemoryHistory';
 import { getStatusCode } from 'store/features/status/reducer';
-import { configure, mount, ReactWrapper } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
-import {
-  createTestTree,
-} from 'helpers/testHelpers';
+import { mount, ReactWrapper } from 'enzyme';
+import { createTestTree } from 'helpers/testHelpers';
 import { Store } from 'redux';
 import { StoreState } from 'store/types';
 import { History } from 'history';
@@ -15,8 +10,6 @@ import { AlgoliaResponse } from 'algoliasearch';
 import { delay } from 'helpers/delay';
 import { LoadingSpinner } from 'components/LoadingSpinner/LoadingSpinner';
 import { isSearchInProgress } from 'store/features/search/selectors';
-
-configure({ adapter: new Adapter() });
 
 describe('Search page', () => {
   beforeEach(() => {
@@ -29,9 +22,9 @@ describe('Search page', () => {
   let searchResults: AlgoliaResponse;
 
   describe('While typing,', () => {
-    beforeEach((done) => {
+    beforeEach(done => {
       history = createMemoryHistory({ initialEntries: ['/search'] });
-    
+
       store = createConfiguredStore({
         history,
       }).store;
@@ -42,7 +35,7 @@ describe('Search page', () => {
       });
 
       wrapper = mount(tree);
-  
+
       setTimeout(() => {
         wrapper.update();
         done();
@@ -68,7 +61,7 @@ describe('Search page', () => {
   });
 
   describe('While results are being loaded,', () => {
-    beforeEach((done) => {
+    beforeEach(done => {
       history = createMemoryHistory({ initialEntries: ['/search'] });
 
       store = createConfiguredStore({
@@ -77,13 +70,13 @@ describe('Search page', () => {
           async getResponseForDataRequest(payload) {
             if (payload.key === 'searchResults') {
               await delay(5000);
-              
+
               return searchResults;
             }
 
             return payload.load();
           },
-        }
+        },
       }).store;
 
       const tree = createTestTree({
@@ -98,7 +91,7 @@ describe('Search page', () => {
         done();
       }, 0);
     });
-  
+
     it('indicates loading status', () => {
       expect(isSearchInProgress(store.getState())).toBe(false);
       const searchBox = wrapper.find('input[type="search"]');
@@ -136,9 +129,9 @@ describe('Search page', () => {
           page: 0,
           params: '',
           processingTimeMS: 1,
-          query: 'Tom'
+          query: 'Tom',
         };
-  
+
         store = createConfiguredStore({
           history,
           dependencyOverrides: {
@@ -146,34 +139,34 @@ describe('Search page', () => {
               if (payload.key === 'searchResults') {
                 return searchResults;
               }
-  
+
               return payload.load();
             },
-          }
+          },
         }).store;
-  
+
         const tree = createTestTree({
           history,
           store,
         });
-  
+
         wrapper = mount(tree);
-  
+
         setTimeout(() => {
           wrapper.update();
           done();
         }, 0);
       });
-  
+
       it('returns 200', () => {
         expect(getStatusCode(store.getState())).toBe(200);
       });
-  
+
       it('shows a list of results', () => {
         expect(wrapper).toIncludeText('Tom Hanks');
         expect(wrapper).toIncludeText('Tom Hardy');
       });
-  
+
       it('results link to the respective notable person page', () => {
         wrapper.findWhere(w => w.is('li')).forEach(li => {
           for (const result of searchResults.hits) {
@@ -186,22 +179,20 @@ describe('Search page', () => {
         });
       });
     });
-  
+
     describe('When no results are found,', () => {
       beforeEach(() => {
         searchResults = {
-          hits: [
-            
-          ],
+          hits: [],
           hitsPerPage: 10,
           nbHits: 0,
           nbPages: 1,
           page: 0,
           params: '',
           processingTimeMS: 1,
-          query: 'Tom'
+          query: 'Tom',
         };
-  
+
         store = createConfiguredStore({
           history,
           dependencyOverrides: {
@@ -209,24 +200,24 @@ describe('Search page', () => {
               if (payload.key === 'searchResults') {
                 return searchResults;
               }
-  
+
               return payload.load();
             },
-          }
+          },
         }).store;
-  
+
         const tree = createTestTree({
           history,
           store,
         });
-  
+
         wrapper = mount(tree);
       });
-  
+
       it('returns 404', () => {
         expect(getStatusCode(store.getState())).toBe(404);
       });
-  
+
       it('shows "No results found"', () => {
         expect(wrapper).toIncludeText('No results found');
       });
