@@ -1,16 +1,17 @@
 import 'expect-more-jest';
 import 'jest-enzyme';
-import { createConfiguredStore, EpicDependencies } from 'store/createConfiguredStore';
+import {
+  createConfiguredStore,
+  EpicDependencies,
+} from 'store/createConfiguredStore';
 import createMemoryHistory from 'history/createMemoryHistory';
 import { getStatusCode } from 'store/features/status/reducer';
 import { configure, mount, ReactWrapper } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
-import {
-  createTestTree,
-} from 'helpers/testHelpers';
+import { createTestTree } from 'helpers/testHelpers';
 import { NotablePersonQuery } from 'api/types';
 import { Store } from 'redux';
-import { StoreState, Action } from 'store/types';
+import { StoreState } from 'store/types';
 import { History } from 'history';
 import { pageLoadSucceeded } from 'store/features/logging/actions';
 
@@ -61,7 +62,7 @@ describe('Notable Person page', () => {
           },
 
           sendLogs,
-        }
+        },
       }).store;
 
       const tree = createTestTree({
@@ -90,9 +91,9 @@ describe('Notable Person page', () => {
     });
 
     describe('logs page load event', () => {
-      beforeEach((done) => {
+      beforeEach(done => {
         sendLogs = jest.fn();
-        
+
         const notablePersonQueryResponse: NotablePersonQuery = {
           notablePerson: {
             commentsUrl: '',
@@ -110,7 +111,7 @@ describe('Notable Person page', () => {
             summary: null,
           },
         };
-  
+
         store = createConfiguredStore({
           history,
           dependencyOverrides: {
@@ -118,35 +119,35 @@ describe('Notable Person page', () => {
               if (payload.key === 'notablePersonQuery') {
                 return notablePersonQueryResponse;
               }
-  
+
               return payload.load();
             },
-  
+
             sendLogs,
-          }
+          },
         }).store;
-  
+
         const tree = createTestTree({
           history,
           store,
         });
-  
+
         wrapper = mount(tree);
-  
+
         setTimeout(() => {
           wrapper.update();
           done();
         }, 0);
       });
-  
-      beforeEach((done) => {
+
+      beforeEach(done => {
         window.addEventListener('unload', () => {
           done();
         });
-      
+
         window.dispatchEvent(new Event('unload'));
-      })
-  
+      });
+
       it('sends logs on page unload', () => {
         expect.hasAssertions();
         expect(sendLogs).toHaveBeenLastCalledWith([
@@ -171,8 +172,8 @@ describe('Notable Person page', () => {
             }
 
             return payload.load();
-          }
-        }
+          },
+        },
       }).store;
 
       const tree = createTestTree({
