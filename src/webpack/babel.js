@@ -4,7 +4,7 @@ const { pkg } = require('./variables');
 
 const { ifEs5, ifEsNext, ifProd, isProd, isDebug } = require('./env');
 
-module.exports.createBabelConfig = (isServer = false) => ({
+module.exports.createBabelConfig = (isNode = false) => ({
   presets: compact([
     ...ifEs5(['@babel/preset-es2015']),
     ...ifEsNext(
@@ -16,7 +16,7 @@ module.exports.createBabelConfig = (isServer = false) => ({
             loose: true,
             debug: isDebug,
             ignoreBrowserslistConfig: true,
-            targets: isServer
+            targets: isNode
               ? {
                   node: 'current',
                 }

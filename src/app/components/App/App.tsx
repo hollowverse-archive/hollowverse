@@ -40,11 +40,11 @@ export const App = class extends React.Component<{}, State> {
           titleTemplate="%s - Hollowverse"
           defaultTitle="Hollowverse - Religion, politics and ideas of the influentials"
         >
+          <meta charSet="utf-8" />
           <meta
             name="viewport"
             content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0, shrink-to-fit=no"
           />
-          <meta charSet="utf-8" />
           <link
             rel="preconnect"
             href={__API_ENDPOINT__}

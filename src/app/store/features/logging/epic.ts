@@ -26,7 +26,8 @@ import { createPath } from 'history';
 import { Observable } from 'rxjs/Observable';
 import { isEqual, pick } from 'lodash';
 
-import { getBestAvailableScheduler, sendLogs } from './helpers';
+import { getBestAvailableScheduler } from './helpers';
+import { EpicDependencies } from 'store/createConfiguredStore';
 
 const loggableActions: Array<Action['type']> = [
   'PAGE_LOAD_SUCCEEDED',
@@ -108,7 +109,7 @@ const comparePageLoadActions = (x: [Action, Action], y: typeof x) => {
   );
 };
 
-export const loggingEpic: Epic<Action, StoreState> = action$ => {
+export const loggingEpic: Epic<Action, StoreState, EpicDependencies> = (action$, _, { sendLogs }) => {
   const observePageLoad$ = action$
     .ofType('SET_STATUS_CODE')
     .withLatestFrom(action$.ofType(LOCATION_CHANGE))
