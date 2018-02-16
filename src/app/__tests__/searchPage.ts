@@ -11,6 +11,17 @@ import { delay } from 'helpers/delay';
 import { LoadingSpinner } from 'components/LoadingSpinner/LoadingSpinner';
 import { isSearchInProgress } from 'store/features/search/selectors';
 
+const emptySearchResults: AlgoliaResponse = {
+  hits: [],
+  hitsPerPage: 10,
+  nbHits: 0,
+  nbPages: 1,
+  page: 0,
+  params: '',
+  processingTimeMS: 1,
+  query: 'Tom',
+};
+
 describe('Search page', () => {
   beforeEach(() => {
     expect.hasAssertions();
@@ -25,9 +36,9 @@ describe('Search page', () => {
     beforeEach(done => {
       history = createMemoryHistory({ initialEntries: ['/search'] });
 
-      store = createConfiguredStore({
+      ({ store } = createConfiguredStore({
         history,
-      }).store;
+      }));
 
       const tree = createTestTree({
         history,
@@ -64,7 +75,7 @@ describe('Search page', () => {
     beforeEach(done => {
       history = createMemoryHistory({ initialEntries: ['/search'] });
 
-      store = createConfiguredStore({
+      ({ store } = createConfiguredStore({
         history,
         dependencyOverrides: {
           async getResponseForDataRequest(payload) {
@@ -77,7 +88,7 @@ describe('Search page', () => {
             return payload.load();
           },
         },
-      }).store;
+      }));
 
       const tree = createTestTree({
         history,
@@ -132,7 +143,7 @@ describe('Search page', () => {
           query: 'Tom',
         };
 
-        store = createConfiguredStore({
+        ({ store } = createConfiguredStore({
           history,
           dependencyOverrides: {
             async getResponseForDataRequest(payload) {
@@ -143,7 +154,7 @@ describe('Search page', () => {
               return payload.load();
             },
           },
-        }).store;
+        }));
 
         const tree = createTestTree({
           history,
@@ -168,7 +179,7 @@ describe('Search page', () => {
       });
 
       it('results link to the respective notable person page', () => {
-        wrapper.findWhere(w => w.is('li')).forEach(li => {
+        wrapper.find('li').forEach(li => {
           for (const result of searchResults.hits) {
             if (li.contains(result.name)) {
               const a = li.find('a');
@@ -182,18 +193,9 @@ describe('Search page', () => {
 
     describe('When no results are found,', () => {
       beforeEach(() => {
-        searchResults = {
-          hits: [],
-          hitsPerPage: 10,
-          nbHits: 0,
-          nbPages: 1,
-          page: 0,
-          params: '',
-          processingTimeMS: 1,
-          query: 'Tom',
-        };
+        searchResults = emptySearchResults;
 
-        store = createConfiguredStore({
+        ({ store } = createConfiguredStore({
           history,
           dependencyOverrides: {
             async getResponseForDataRequest(payload) {
@@ -204,7 +206,7 @@ describe('Search page', () => {
               return payload.load();
             },
           },
-        }).store;
+        }));
 
         const tree = createTestTree({
           history,

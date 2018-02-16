@@ -16,8 +16,6 @@ describe('Notable Person page', () => {
   let wrapper: ReactWrapper<any>;
   let store: Store<StoreState>;
   let history: History;
-
-  // @ts-ignore
   let sendLogs: EpicDependencies['sendLogs'];
 
   beforeEach(() => {
@@ -45,7 +43,7 @@ describe('Notable Person page', () => {
         },
       };
 
-      store = createConfiguredStore({
+      ({ store } = createConfiguredStore({
         history,
         dependencyOverrides: {
           async getResponseForDataRequest(payload) {
@@ -58,7 +56,7 @@ describe('Notable Person page', () => {
 
           sendLogs,
         },
-      }).store;
+      }));
 
       const tree = createTestTree({
         history,
@@ -107,7 +105,7 @@ describe('Notable Person page', () => {
           },
         };
 
-        store = createConfiguredStore({
+        ({ store } = createConfiguredStore({
           history,
           dependencyOverrides: {
             async getResponseForDataRequest(payload) {
@@ -120,7 +118,7 @@ describe('Notable Person page', () => {
 
             sendLogs,
           },
-        }).store;
+        }));
 
         const tree = createTestTree({
           history,
@@ -158,7 +156,7 @@ describe('Notable Person page', () => {
         notablePerson: null,
       };
 
-      store = createConfiguredStore({
+      ({ store } = createConfiguredStore({
         history,
         dependencyOverrides: {
           async getResponseForDataRequest(payload) {
@@ -169,7 +167,7 @@ describe('Notable Person page', () => {
             return payload.load();
           },
         },
-      }).store;
+      }));
 
       const tree = createTestTree({
         history,
