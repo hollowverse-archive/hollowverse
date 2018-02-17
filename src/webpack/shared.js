@@ -100,7 +100,7 @@ exports.createCssModulesLoaders = (isNode = false) => [
         // Do not scope the class names in tests, otherwise
         // every change to CSS styles will require updating the
         // snapshots.
-        ifTest('[name]') ||
+        ifTest('[name]__[local]') ||
         // Shorten the class name in production bundles to save some bytes
         ifProd('[hash:base64:5]') ||
         '[name]__[local]--[hash:base64:5]',

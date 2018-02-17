@@ -5,7 +5,7 @@ import { SearchResults } from 'pages/SearchResults/SearchResults';
 import { About } from 'pages/About/About';
 import { PrivacyPolicy } from 'pages/PrivacyPolicy/PrivacyPolicy';
 import { Home } from 'pages/Home/Home';
-import { History } from 'history';
+import { History, MemoryHistoryBuildOptions } from 'history';
 import { StoreState, ResolvedData, ResolvedDataKey } from 'store/types';
 import { Store } from 'redux';
 import { Provider } from 'react-redux';
@@ -23,6 +23,8 @@ import {
   createConfiguredStore,
 } from 'store/createConfiguredStore';
 import createMemoryHistory from 'history/createMemoryHistory';
+import { mount, ReactWrapper } from 'enzyme';
+import { delay } from 'helpers/delay';
 
 type CreateTestTreeOptions = {
   history: History;
@@ -46,21 +48,6 @@ export const createMockGetResponseForDataRequest = <K extends ResolvedDataKey>(
 const defaultTestDependencyOverrides: CreateConfiguredStoreOptions['epicDependenciesOverrides'] = {
   sendLogs: jest.fn(),
   getResponseForDataRequest: jest.fn(),
-};
-
-export const createConfiguredStoreForTests = ({
-  epicDependenciesOverrides,
-  history = createMemoryHistory(),
-  ...rest
-}: Partial<CreateConfiguredStoreOptions>) => {
-  return createConfiguredStore({
-    epicDependenciesOverrides: {
-      ...defaultTestDependencyOverrides,
-      ...epicDependenciesOverrides,
-    },
-    history,
-    ...rest,
-  });
 };
 
 export const createTestTree = ({
@@ -94,3 +81,46 @@ export const createTestTree = ({
     </AppDependenciesContext.Provider>
   </HelmetProvider>
 );
+
+export type TestContext = {
+  store: Store<StoreState>;
+  history: History;
+  wrapper: ReactWrapper<any>;
+  dependencies: EpicDependencies;
+};
+
+export type CreateTestContextOptions = Partial<{
+  epicDependenciesOverrides: Partial<EpicDependencies>;
+  createHistoryOptions: MemoryHistoryBuildOptions;
+}>;
+
+export const createTestContext = async ({
+  epicDependenciesOverrides = {},
+  createHistoryOptions = { initialEntries: ['/'] },
+  ...rest
+}: Partial<CreateTestContextOptions> = {}): Promise<TestContext> => {
+  const { store, dependencies, history } = createConfiguredStore({
+    epicDependenciesOverrides: {
+      ...defaultTestDependencyOverrides,
+      ...epicDependenciesOverrides,
+    },
+    history: createMemoryHistory({
+      ...createHistoryOptions,
+    }),
+    ...rest,
+  });
+
+  const tree = createTestTree({
+    history,
+    store,
+  });
+
+  const wrapper = mount(tree);
+
+  // Force promises to settle by scheduling
+  // the following statements after `setTimeout`
+  await delay(0);
+  wrapper.update();
+
+  return { wrapper, store, history, dependencies };
+};
