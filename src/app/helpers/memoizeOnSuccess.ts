@@ -6,7 +6,10 @@ import createLruCache, { Options } from 'lru-cache';
  */
 export const memoizeOnSuccess = <T extends string, R>(
   fn: ((arg: T) => Promise<R>),
-  cacheOptions: Pick<Options, 'max' | 'maxAge'> = { max: 10000, maxAge: 43200000 },
+  cacheOptions: Pick<Options, 'max' | 'maxAge'> = {
+    max: 10000,
+    maxAge: 43200000,
+  },
 ) => {
   const cache = createLruCache<string, R>(cacheOptions);
 

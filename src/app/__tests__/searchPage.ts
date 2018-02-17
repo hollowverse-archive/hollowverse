@@ -35,10 +35,6 @@ const stubNonEmptySearchResults = {
 describe('Search page', () => {
   let context: TestContext;
 
-  beforeEach(async () => {
-    expect.hasAssertions();
-  });
-
   describe('While typing,', () => {
     beforeEach(async () => {
       context = await createTestContext({

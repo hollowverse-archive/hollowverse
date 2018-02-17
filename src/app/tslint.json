@@ -5,6 +5,10 @@
     "no-multiline-string": false,
     "no-submodule-imports": false,
     "no-implicit-dependencies": false,
-    "completed-docs": false
+    "completed-docs": false,
+    "no-unsafe-any": false,
+
+    // False positives when used with React Helmet templates
+    "react-a11y-titles": false
   }
 }

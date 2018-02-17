@@ -7,7 +7,9 @@ import { AsyncResult } from 'helpers/asyncResults';
 import { AlgoliaResponse } from 'algoliasearch';
 import { NotablePersonQuery } from 'api/types';
 
-export type RequestDataPayload<Key extends ResolvedDataKey = ResolvedDataKey> = {
+export type RequestDataPayload<
+  Key extends ResolvedDataKey = ResolvedDataKey
+> = {
   /**
    * Whether to keep the results of the previous request while loading
    * the new results
@@ -35,7 +37,9 @@ export type RequestDataPayload<Key extends ResolvedDataKey = ResolvedDataKey> = 
   load(): Promise<ResolvedData[Key]>;
 };
 
-export type SetResolvedDataPayload<Key extends ResolvedDataKey = ResolvedDataKey> = {
+export type SetResolvedDataPayload<
+  Key extends ResolvedDataKey = ResolvedDataKey
+> = {
   /**
    * The key used to store the results in Redux state
    */

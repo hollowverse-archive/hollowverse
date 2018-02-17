@@ -109,7 +109,11 @@ const comparePageLoadActions = (x: [Action, Action], y: typeof x) => {
   );
 };
 
-export const loggingEpic: Epic<Action, StoreState, EpicDependencies> = (action$, _, { sendLogs }) => {
+export const loggingEpic: Epic<Action, StoreState, EpicDependencies> = (
+  action$,
+  _,
+  { sendLogs },
+) => {
   const observePageLoad$ = action$
     .ofType('SET_STATUS_CODE')
     .withLatestFrom(action$.ofType(LOCATION_CHANGE))

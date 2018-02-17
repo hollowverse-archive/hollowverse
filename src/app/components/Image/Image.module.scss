@@ -1,7 +1,8 @@
 @import 'variables.scss';
 
 .image {
-  &.is-loading, &.has-error {
+  &.is-loading,
+  &.has-error {
     background-size: 50%;
     background-repeat: no-repeat;
     background-color: $color-border-light;

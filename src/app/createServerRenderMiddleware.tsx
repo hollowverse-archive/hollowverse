@@ -50,7 +50,7 @@ export const createServerRenderMiddleware = ({
   /**
    * React requires server-rendered markup to match client-side markup
    * on initial render.
-   * 
+   *
    * `getUniqueId` returns an increasing numerical value, starting at 1.
    * Since each browser will have its own `getUniqueId` starting at
    * 1, a new unique ID generator is required for each request

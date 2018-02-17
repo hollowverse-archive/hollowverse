@@ -9,10 +9,6 @@ import { pageLoadSucceeded } from 'store/features/logging/actions';
 describe('Notable Person page', () => {
   let context: TestContext;
 
-  beforeEach(async () => {
-    expect.hasAssertions();
-  });
-
   describe('When notable person is found,', () => {
     beforeEach(async () => {
       context = await createTestContext({
@@ -64,7 +60,6 @@ describe('Notable Person page', () => {
       });
 
       it('sends logs on page unload', () => {
-        expect.hasAssertions();
         expect(context.dependencies.sendLogs).toHaveBeenLastCalledWith(
           expect.arrayContaining([
             pageLoadSucceeded(

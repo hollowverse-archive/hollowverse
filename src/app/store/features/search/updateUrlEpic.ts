@@ -23,7 +23,7 @@ export const updateUrlEpic: Epic<Action, StoreState> = (action$, store) => {
 
     const state = store.getState();
     const location = getRoutingState(state).location;
-    
+
     if (isActionOfType(action, 'GO_TO_SEARCH') && isSearchPage(state)) {
       descriptor = { ...location };
     } else if (isActionOfType(action, 'SEARCH_QUERY_CHANGED')) {

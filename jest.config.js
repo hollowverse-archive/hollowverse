@@ -1,5 +1,3 @@
-const path = require('path');
-
 const { testsDistDirectory } = require('./src/webpack/variables');
 
 module.exports = {
@@ -9,6 +7,6 @@ module.exports = {
     // Must be an empty object to prevent jest from using babel to
     // transform the files (we are already using babel via webpack)
   },
-  setupFiles: [path.join(__dirname, '/jest.setup.js')],
+  setupFiles: ['<rootDir>/jest.setup.js'],
   setupTestFrameworkScriptFile: '<rootDir>/jest.setupTestFramework.js',
 };
