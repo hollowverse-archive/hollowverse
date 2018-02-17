@@ -117,8 +117,8 @@ export const createTestContext = async ({
 
   const wrapper = mount(tree);
 
-  // Force promises to settle by scheduling
-  // the following statements after `setTimeout`
+  // Wait for immediately-resolved promises
+  // to settle before executing the following statements
   await delay(0);
   wrapper.update();
 
