@@ -98,7 +98,10 @@
   "husky": {
     "hooks": {
       "pre-commit": "yarn lint-staged",
-      "pre-push": "yarn pretest"
+      "pre-push": "yarn pretest",
+      "post-merge": "yarnhook",
+      "post-checkout": "yarnhook",
+      "post-rewrite": "yarnhook"
     }
   },
   "browserslist": [
@@ -230,7 +233,7 @@
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "enzyme-matchers": "^4.2.0",
-    "eslint": "^4.5.0",
+    "eslint": "^4.18.0",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-config-prettier": "^2.3.0",
     "eslint-plugin-compat": "^2.1.0",
