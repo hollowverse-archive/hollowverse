@@ -55,16 +55,6 @@ describe('Notable Person page', () => {
     });
 
     describe('logs page load event', () => {
-      beforeEach(async () => {
-        context = await createTestContext({
-          createHistoryOptions: { initialEntries: ['/Tom_Hanks'] },
-          epicDependenciesOverrides: {
-            ...context.dependencies,
-            sendLogs: jest.fn(),
-          },
-        });
-      });
-
       beforeEach(done => {
         window.addEventListener('unload', () => {
           done();

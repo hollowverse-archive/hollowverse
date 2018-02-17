@@ -94,6 +94,16 @@ export type CreateTestContextOptions = Partial<{
   createHistoryOptions: MemoryHistoryBuildOptions;
 }>;
 
+/**
+ * Creates a new app tree with a new store instance for each test
+ * The epic dependencies are replaced with mock functions so that we
+ * avoid sending actual network requests.
+ *
+ * The mock functions are created with `jest.fn()`
+ * so they can be spied on.
+ *
+ * Almost all configuration options can be overridden for convenience.
+ */
 export const createTestContext = async ({
   epicDependenciesOverrides = {},
   createHistoryOptions = { initialEntries: ['/'] },
@@ -104,9 +114,7 @@ export const createTestContext = async ({
       ...defaultTestDependencyOverrides,
       ...epicDependenciesOverrides,
     },
-    history: createMemoryHistory({
-      ...createHistoryOptions,
-    }),
+    history: createMemoryHistory(createHistoryOptions),
     ...rest,
   });
 
