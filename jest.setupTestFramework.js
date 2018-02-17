@@ -1,4 +1,4 @@
-/* eslint-disable import/no-extraneous-dependencies */
+/* eslint import/no-extraneous-dependencies: ["error", {"devDependencies": true}] */
 require('expect-more-jest');
 
 const { configure } = require('enzyme');
