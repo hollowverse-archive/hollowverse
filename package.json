@@ -97,8 +97,8 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "yarn pretest",
-      "pre-push": "yarn test"
+      "pre-commit": "yarn lint-staged",
+      "pre-push": "yarn pretest"
     }
   },
   "browserslist": [
