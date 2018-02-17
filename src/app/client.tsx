@@ -8,24 +8,33 @@ import createBrowserHistory from 'history/createBrowserHistory';
 import { App } from 'components/App/App';
 import { createConfiguredStore } from 'store/createConfiguredStore';
 import { StoreState } from 'store/types';
-import { unhanldedErrorThrown } from 'store/features/logging/actions';
+import { unhandledErrorThrown } from 'store/features/logging/actions';
 import { loadIntersectionObserverPolyfill } from 'helpers/loadPolyfill';
 import { HelmetProvider } from 'react-helmet-async';
+import {
+  AppDependenciesContext,
+  defaultAppDependencies,
+} from 'appDependenciesContext';
 
 declare const __INITIAL_STATE__: StoreState | undefined;
 
 const history = createBrowserHistory();
 
-const { store } = createConfiguredStore(history, __INITIAL_STATE__);
+const { store } = createConfiguredStore({
+  history,
+  initialState: __INITIAL_STATE__,
+});
 
 const renderApp = (NewApp: typeof App = App) => {
   hydrate(
     <HelmetProvider>
-      <Provider store={store}>
-        <Router history={history}>
-          <NewApp />
-        </Router>
-      </Provider>
+      <AppDependenciesContext.Provider value={defaultAppDependencies}>
+        <Provider store={store}>
+          <Router history={history}>
+            <NewApp />
+          </Router>
+        </Provider>
+      </AppDependenciesContext.Provider>
     </HelmetProvider>,
     // tslint:disable-next-line:no-non-null-assertion
     document.getElementById('app')!,
@@ -57,7 +66,7 @@ loadIntersectionObserverPolyfill()
 // Catch unhandled errors and inform the store
 window.onerror = (message, source, line, column) => {
   store.dispatch(
-    unhanldedErrorThrown({
+    unhandledErrorThrown({
       message,
       source,
       line,

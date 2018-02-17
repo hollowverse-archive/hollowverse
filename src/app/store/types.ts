@@ -7,6 +7,55 @@ import { AsyncResult } from 'helpers/asyncResults';
 import { AlgoliaResponse } from 'algoliasearch';
 import { NotablePersonQuery } from 'api/types';
 
+export type RequestDataPayload<
+  Key extends ResolvedDataKey = ResolvedDataKey
+> = {
+  /**
+   * Whether to keep the results of the previous request while loading
+   * the new results
+   */
+  allowOptimisticUpdates: boolean;
+
+  /**
+   * The key used to store the results in Redux state
+   */
+  key: ResolvedDataKey;
+
+  /**
+   * A unique identifier for the resolve request, if this changes,
+   * `load()` will be called again
+   */
+  requestId: string | null;
+
+  /**
+   * (Optional)
+   * The page path for which this data request is triggered, useful for logging
+   */
+  forPage?: string;
+
+  /** An asynchronous function that fetchs the data */
+  load(): Promise<ResolvedData[Key]>;
+};
+
+export type SetResolvedDataPayload<
+  Key extends ResolvedDataKey = ResolvedDataKey
+> = {
+  /**
+   * The key used to store the results in Redux state
+   */
+  key: Key;
+
+  /**
+   * (Optional)
+   * The page path for which this data request is triggered, useful for logging
+   */
+  forPage?: string;
+
+  data: AsyncResult<ResolvedData[Key]> & {
+    requestId: string | null;
+  };
+};
+
 /** A map of all app actions to their corresponding payloads */
 export type ActionTypeToPayloadType = {
   GO_TO_SEARCH: void;
@@ -22,49 +71,8 @@ export type ActionTypeToPayloadType = {
         code: 301 | 302;
         redirectTo: string;
       };
-  REQUEST_DATA: {
-    /**
-     * Whether to keep the results of the previous request while loading
-     * the new results
-     */
-    allowOptimisticUpdates: boolean;
-
-    /**
-     * The key used to store the results in Redux state
-     */
-    key: ResolvedDataKey;
-
-    /**
-     * A unique identifier for the resolve request, if this changes,
-     * `load()` will be called again
-     */
-    requestId: string | null;
-
-    /**
-     * (Optional)
-     * The page path for which this data request is triggered, useful for logging
-     */
-    forPage?: string;
-
-    /** An asynchronous function that fetchs the data */
-    load(): Promise<ResolvedData[ResolvedDataKey]>;
-  };
-  SET_RESOLVED_DATA: {
-    /**
-     * The key used to store the results in Redux state
-     */
-    key: ResolvedDataKey;
-
-    /**
-     * (Optional)
-     * The page path for which this data request is triggered, useful for logging
-     */
-    forPage?: string;
-
-    data: AsyncResult<ResolvedData[ResolvedDataKey]> & {
-      requestId: string | null;
-    };
-  };
+  REQUEST_DATA: RequestDataPayload;
+  SET_RESOLVED_DATA: SetResolvedDataPayload;
   UNHANDLED_ERROR_THROWN: {
     message: string;
     source?: string;

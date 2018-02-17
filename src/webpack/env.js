@@ -3,14 +3,13 @@ const compact = require('lodash/compact');
 exports.isTest = process.env.NODE_ENV === 'test';
 exports.isProduction = process.env.NODE_ENV === 'production';
 exports.isCi = Boolean(Number(process.env.CI));
-exports.isDevelopment =
-  exports.isTest || process.env.NODE_ENV === 'development';
+exports.isDevelopment = process.env.NODE_ENV === 'development';
 exports.isDev = exports.isDevelopment;
 exports.isProd = exports.isProduction;
 exports.isHot = Boolean(Number(process.env.HOT));
 exports.isBrowser = !process && typeof window !== 'undefined';
-exports.isReact = Boolean(Number(process.env.REACT));
-exports.isPreact = !exports.isReact;
+exports.isPreact = Boolean(Number(process.env.PREACT));
+exports.isReact = !exports.isPreact;
 exports.isEs5 = Boolean(process.env.ES5);
 exports.isEsNext = !exports.isEs5;
 exports.isPerf = !Number(process.env.NO_PERF_CHECKS);
