@@ -65,11 +65,13 @@ describe('Notable Person page', () => {
 
       it('sends logs on page unload', () => {
         expect.hasAssertions();
-        expect(context.dependencies.sendLogs).toHaveBeenLastCalledWith([
-          pageLoadSucceeded(
-            context.history.createHref(context.history.location),
-          ),
-        ]);
+        expect(context.dependencies.sendLogs).toHaveBeenLastCalledWith(
+          expect.arrayContaining([
+            pageLoadSucceeded(
+              context.history.createHref(context.history.location),
+            ),
+          ]),
+        );
       });
     });
   });
