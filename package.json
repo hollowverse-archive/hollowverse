@@ -7,10 +7,10 @@
   "scripts": {
     "pretest": "npm-run-all -l --aggregate-output -s app/graphql/build -p validate-filenames lint",
     "test": "run-p -l --aggregate-output app/test",
-    "app/test/webpack/dev": "NODE_ENV=test NO_TYPE_CHECK=1 yarn webpack --config src/webpack/webpack.config.test.js --watch",
+    "app/test/webpack/dev": "NODE_ENV=test NO_TYPE_CHECK=1 webpack --config src/webpack/webpack.config.test.js --watch",
     "app/test/jest/dev": "jest --watchAll",
     "app/test/dev": "npm-run-all -s clean/test -p 'app/test/*/dev'",
-    "app/test/webpack": "NODE_ENV=test yarn webpack --config src/webpack/webpack.config.test.js",
+    "app/test/webpack": "NODE_ENV=test webpack --config src/webpack/webpack.config.test.js",
     "app/test/jest": "jest",
     "app/test": "npm-run-all -s clean/test app/test/webpack app/test/jest",
     "lint": "run-p -l --aggregate-output lint-css lint-js lint-graphql lint-ts",

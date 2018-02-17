@@ -22,7 +22,6 @@ const {
   ifEsNext,
 } = require('./env');
 
-
 module.exports.createCommonConfig = () => ({
   devServer:
     ifDev({
