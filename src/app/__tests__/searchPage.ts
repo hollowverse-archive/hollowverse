@@ -7,30 +7,10 @@ import {
 import { delay } from 'helpers/delay';
 import { LoadingSpinner } from 'components/LoadingSpinner/LoadingSpinner';
 import { isSearchInProgress } from 'store/features/search/selectors';
-
-const stubNonEmptySearchResults = {
-  hits: [
-    {
-      slug: 'Tom_Hanks',
-      name: 'Tom Hanks',
-      mainPhoto: null,
-      objectID: '123',
-    },
-    {
-      slug: 'Tom_Hardy',
-      name: 'Tom Hardy',
-      mainPhoto: null,
-      objectID: '456',
-    },
-  ],
-  hitsPerPage: 10,
-  nbHits: 2,
-  nbPages: 1,
-  page: 0,
-  params: '',
-  processingTimeMS: 1,
-  query: 'Tom',
-};
+import {
+  stubNonEmptySearchResults,
+  emptySearchResults,
+} from 'fixtures/searchResults';
 
 describe('Search page', () => {
   let context: TestContext;
@@ -136,16 +116,7 @@ describe('Search page', () => {
           epicDependenciesOverrides: {
             getResponseForDataRequest: createMockGetResponseForDataRequest(
               'searchResults',
-              {
-                hits: [],
-                hitsPerPage: 10,
-                nbHits: 0,
-                nbPages: 1,
-                page: 0,
-                params: '',
-                processingTimeMS: 1,
-                query: 'Tom',
-              },
+              emptySearchResults,
             ),
           },
         });

@@ -5,6 +5,11 @@ import {
   createTestContext,
 } from 'helpers/testHelpers';
 import { pageLoadSucceeded } from 'store/features/logging/actions';
+import {
+  notablePersonWithEditorialSummaryQueryResponse,
+  stubNotablePersonQueryResponse,
+} from 'fixtures/notablePersonQuery';
+import { EditorialSummary } from 'components/EditorialSummary/EditorialSummary';
 
 describe('Notable Person page', () => {
   let context: TestContext;
@@ -15,23 +20,7 @@ describe('Notable Person page', () => {
         epicDependenciesOverrides: {
           getResponseForDataRequest: createMockGetResponseForDataRequest(
             'notablePersonQuery',
-            {
-              notablePerson: {
-                commentsUrl: '',
-                name: 'Tom Hanks',
-                editorialSummary: null,
-                mainPhoto: null,
-                relatedPeople: [
-                  {
-                    mainPhoto: null,
-                    name: 'Al Pacino',
-                    slug: 'Al_Pacino',
-                  },
-                ],
-                slug: 'Tom_Hanks',
-                summary: null,
-              },
-            },
+            stubNotablePersonQueryResponse,
           ),
         },
         createHistoryOptions: { initialEntries: ['/Tom_Hanks'] },
@@ -67,6 +56,32 @@ describe('Notable Person page', () => {
             ),
           ]),
         );
+      });
+    });
+
+    describe('if notable person does not have an editorial summary', () => {
+      it('shows a call to comment', () => {
+        expect(context.wrapper).toIncludeText('Share what you know');
+      });
+    });
+
+    describe('if notable person has an editorial summary', () => {
+      beforeEach(async () => {
+        context = await createTestContext({
+          epicDependenciesOverrides: {
+            getResponseForDataRequest: createMockGetResponseForDataRequest(
+              'notablePersonQuery',
+              notablePersonWithEditorialSummaryQueryResponse,
+            ),
+          },
+          createHistoryOptions: { initialEntries: ['/Tom_Hanks'] },
+        });
+      });
+
+      it('shows editorial summary content', () => {
+        const editorialSummary = context.wrapper.find(EditorialSummary);
+        expect(editorialSummary).toBePresent();
+        expect(editorialSummary).toMatchSnapshot();
       });
     });
   });
