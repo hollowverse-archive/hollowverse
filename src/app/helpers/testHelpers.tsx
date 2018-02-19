@@ -49,7 +49,7 @@ export const createMockGetResponseForDataRequest = <K extends ResolvedDataKey>(
 const defaultTestDependencyOverrides: Partial<EpicDependencies> = {
   sendLogs: jest.fn(),
   getResponseForDataRequest: jest.fn(),
-  initGoogleAnalytics: jest.fn(
+  getGoogleAnalyticsFunction: jest.fn(
     once(async () => {
       const mockTracker: UniversalAnalytics.Tracker = {
         get: jest.fn(),

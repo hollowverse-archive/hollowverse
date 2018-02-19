@@ -17,10 +17,10 @@ const isServer = () => __IS_SERVER__;
 export const analyticsEpic: Epic<Action, StoreState, EpicDependencies> = (
   action$,
   _,
-  { initGoogleAnalytics },
+  { getGoogleAnalyticsFunction },
 ) => {
   const initScript = once(async () => {
-    const ga = await initGoogleAnalytics();
+    const ga = await getGoogleAnalyticsFunction();
     ga('create', 'UA-110141722-1', 'auto');
 
     return ga;

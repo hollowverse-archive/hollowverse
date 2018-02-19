@@ -61,11 +61,13 @@ describe('Notable Person page', () => {
 
     describe('sends analytics', () => {
       it('loads Google Analytics script', () => {
-        expect(context.dependencies.initGoogleAnalytics).toHaveBeenCalled();
+        expect(
+          context.dependencies.getGoogleAnalyticsFunction,
+        ).toHaveBeenCalled();
       });
 
       it('sets the account settings', async () => {
-        const ga = await context.dependencies.initGoogleAnalytics();
+        const ga = await context.dependencies.getGoogleAnalyticsFunction();
 
         expect(ga).toHaveBeenCalledWith(
           'create',
@@ -75,7 +77,7 @@ describe('Notable Person page', () => {
       });
 
       it('sets the active page correctly', async () => {
-        const ga = await context.dependencies.initGoogleAnalytics();
+        const ga = await context.dependencies.getGoogleAnalyticsFunction();
 
         expect(ga).toHaveBeenCalledWith(
           'set',
@@ -85,7 +87,7 @@ describe('Notable Person page', () => {
       });
 
       it('sends pageview event', async () => {
-        const ga = await context.dependencies.initGoogleAnalytics();
+        const ga = await context.dependencies.getGoogleAnalyticsFunction();
 
         expect(ga).toHaveBeenLastCalledWith(
           'send',

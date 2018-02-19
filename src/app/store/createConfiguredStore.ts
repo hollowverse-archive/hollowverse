@@ -61,7 +61,7 @@ export type EpicDependencies = {
    */
   sendLogs(actions: Action[]): Promise<void>;
 
-  initGoogleAnalytics(): Promise<UniversalAnalytics.ga>;
+  getGoogleAnalyticsFunction(): Promise<UniversalAnalytics.ga>;
 };
 
 export type CreateConfiguredStoreOptions = {
@@ -106,7 +106,7 @@ const defaultEpicDependencies: EpicDependencies = {
 
   sendLogs,
 
-  async initGoogleAnalytics() {
+  async getGoogleAnalyticsFunction() {
     await importGlobalScript('https://www.google-analytics.com/analytics.js');
 
     return ga;
