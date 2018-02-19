@@ -107,9 +107,7 @@ const defaultEpicDependencies: EpicDependencies = {
   sendLogs,
 
   async initGoogleAnalytics() {
-    if (!__IS_SERVER__) {
-      await importGlobalScript('https://www.google-analytics.com/analytics.js');
-    }
+    await importGlobalScript('https://www.google-analytics.com/analytics.js');
 
     return ga;
   },
