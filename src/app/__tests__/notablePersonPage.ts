@@ -59,6 +59,42 @@ describe('Notable Person page', () => {
       });
     });
 
+    describe('sends analytics', () => {
+      it('loads Google Analytics script', () => {
+        expect(context.dependencies.initGoogleAnalytics).toHaveBeenCalled();
+      });
+
+      it('sets the account settings', async () => {
+        const ga = await context.dependencies.initGoogleAnalytics();
+
+        expect(ga).toHaveBeenCalledWith(
+          'create',
+          expect.stringMatching(/UA-[0-9]{9}-[0-9]{1,2}/g),
+          expect.nonEmptyString(),
+        );
+      });
+
+      it('sets the active page correctly', async () => {
+        const ga = await context.dependencies.initGoogleAnalytics();
+
+        expect(ga).toHaveBeenCalledWith(
+          'set',
+          'page',
+          context.history.location.pathname,
+        );
+      });
+
+      it('sends pageview event', async () => {
+        const ga = await context.dependencies.initGoogleAnalytics();
+
+        expect(ga).toHaveBeenLastCalledWith(
+          'send',
+          'pageview',
+          context.history.createHref(context.history.location),
+        );
+      });
+    });
+
     describe('if notable person does not have an editorial summary', () => {
       it('shows a call to comment', () => {
         expect(context.wrapper).toIncludeText('Share what you know');

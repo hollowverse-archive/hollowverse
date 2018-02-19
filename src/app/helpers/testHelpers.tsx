@@ -25,6 +25,7 @@ import {
 import createMemoryHistory from 'history/createMemoryHistory';
 import { mount, ReactWrapper } from 'enzyme';
 import { delay } from 'helpers/delay';
+import { once } from 'lodash';
 
 type CreateTestTreeOptions = {
   history: History;
@@ -45,9 +46,27 @@ export const createMockGetResponseForDataRequest = <K extends ResolvedDataKey>(
   };
 };
 
-const defaultTestDependencyOverrides: CreateConfiguredStoreOptions['epicDependenciesOverrides'] = {
+const defaultTestDependencyOverrides: Partial<EpicDependencies> = {
   sendLogs: jest.fn(),
   getResponseForDataRequest: jest.fn(),
+  initGoogleAnalytics: jest.fn(
+    once(async () => {
+      const mockTracker: UniversalAnalytics.Tracker = {
+        get: jest.fn(),
+        set: jest.fn(),
+        send: jest.fn(),
+      };
+
+      return Object.assign(jest.fn(() => undefined), {
+        getByName: jest.fn(() => mockTracker),
+        getAll: jest.fn(() => [mockTracker]),
+        create: jest.fn(() => mockTracker),
+        remove: jest.fn(() => undefined),
+        l: 0,
+        q: [],
+      });
+    }),
+  ),
 };
 
 export const createTestTree = ({
