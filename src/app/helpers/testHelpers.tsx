@@ -19,7 +19,6 @@ import {
 import { ConnectedNavBar } from 'components/NavBar/ConnectedNavBar';
 import {
   EpicDependencies,
-  CreateConfiguredStoreOptions,
   createConfiguredStore,
 } from 'store/createConfiguredStore';
 import createMemoryHistory from 'history/createMemoryHistory';
