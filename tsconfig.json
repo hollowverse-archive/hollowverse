@@ -4,8 +4,5 @@
     "checkJs": true,
     "allowJs": true
   },
-  "exclude": [
-    "*/**/dist",
-    "node_modules"
-  ]
+  "exclude": ["*/**/dist", "__tests__", "node_modules"]
 }
