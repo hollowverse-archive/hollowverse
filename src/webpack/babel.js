@@ -71,4 +71,5 @@ module.exports.createBabelConfig = (isNode = false) => ({
     ]),
   ]),
   sourceMap: 'both',
+  retainLines: true,
 });
