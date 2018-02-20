@@ -59,7 +59,7 @@ export const createServerRenderMiddleware = ({
    * client-side.
    */
   const getUniqueId = createGetUniqueId();
-  const chunkNames = new Set();
+  const chunkNames = new Set<string>();
   const pushChunk = (chunkName: string) => {
     if (chunkName !== undefined) {
       chunkNames.add(chunkName);
