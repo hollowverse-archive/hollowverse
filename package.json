@@ -12,7 +12,7 @@
     "app/test/dev": "npm-run-all -s clean/test -p 'app/test/*/dev'",
     "app/test/webpack": "NODE_ENV=test webpack --config src/webpack/webpack.config.test.js",
     "app/test/jest": "jest --coverage",
-    "app/test": "npm-run-all -s clean/test app/test/webpack app/test/jest coverage/remap coverage/coveralls",
+    "app/test": "npm-run-all -s clean/test app/test/webpack app/test/jest coverage/remap",
     "lint": "run-p -l --aggregate-output lint-css lint-js lint-graphql lint-ts check-ts",
     "lint-css": "stylelint --syntax scss 'src/app/**/*.scss'",
     "lint-js": "eslint '**/*.js{,x}'",
