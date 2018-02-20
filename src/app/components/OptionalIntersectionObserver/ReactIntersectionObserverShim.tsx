@@ -16,9 +16,9 @@ export const Shim = ({
   triggerOnce: ______,
   ...rest
 }: Props) => {
-  return React.createElement(tag, {
-    children:
-      typeof children === 'function' ? children(fallbackIsInView) : children,
-    ...rest,
-  });
+  return React.createElement(
+    tag,
+    rest,
+    typeof children === 'function' ? children(fallbackIsInView) : children,
+  );
 };
