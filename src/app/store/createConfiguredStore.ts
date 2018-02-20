@@ -16,6 +16,7 @@ import { dataResolverEpic } from 'store/features/asyncData/epic';
 import { loggingEpic } from 'store/features/logging/epic';
 import { nullResult } from 'helpers/asyncResults';
 import { sendLogs } from 'helpers/sendLogs';
+import { importGlobalScript } from 'helpers/importGlobalScript';
 
 declare const global: NodeJS.Global & {
   /**
@@ -59,6 +60,8 @@ export type EpicDependencies = {
    * logs in batches.
    */
   sendLogs(actions: Action[]): Promise<void>;
+
+  getGoogleAnalyticsFunction(): Promise<UniversalAnalytics.ga>;
 };
 
 export type CreateConfiguredStoreOptions = {
@@ -102,6 +105,12 @@ const defaultEpicDependencies: EpicDependencies = {
   },
 
   sendLogs,
+
+  async getGoogleAnalyticsFunction() {
+    await importGlobalScript('https://www.google-analytics.com/analytics.js');
+
+    return ga;
+  },
 };
 
 export function createConfiguredStore({

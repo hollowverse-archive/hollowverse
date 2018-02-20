@@ -9,25 +9,29 @@ import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/ignoreElements';
 import 'rxjs/add/operator/merge';
 
-import { importGlobalScript } from 'helpers/importGlobalScript';
 import { once } from 'lodash';
-
-const GA_URL = 'https://www.google-analytics.com/analytics.js';
-
-const initScript = once(async () => {
-  await importGlobalScript(GA_URL);
-  ga('create', 'UA-110141722-1', 'auto');
-});
+import { EpicDependencies } from 'store/createConfiguredStore';
 
 const isServer = () => __IS_SERVER__;
 
-export const analyticsEpic: Epic<Action, StoreState> = action$ => {
+export const analyticsEpic: Epic<Action, StoreState, EpicDependencies> = (
+  action$,
+  _,
+  { getGoogleAnalyticsFunction },
+) => {
+  const initScript = once(async () => {
+    const ga = await getGoogleAnalyticsFunction();
+    ga('create', 'UA-110141722-1', 'auto');
+
+    return ga;
+  });
+
   return action$
     .ofType(LOCATION_CHANGE)
     .skipWhile(isServer)
     .do(async action => {
       try {
-        await initScript();
+        const ga = await initScript();
         const { pathname } = (action as Action<typeof LOCATION_CHANGE>).payload;
 
         // Set currently active page
@@ -42,7 +46,7 @@ export const analyticsEpic: Epic<Action, StoreState> = action$ => {
         .skipWhile(isServer)
         .do(async action => {
           try {
-            await initScript();
+            const ga = await initScript();
             const path = (action as Action<'PAGE_LOAD_SUCCEEDED'>).payload;
             ga('send', 'pageview', path);
           } catch (e) {

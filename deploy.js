@@ -23,7 +23,7 @@ const secrets = [
 const ebEnvironmentName = `${PROJECT}-${BRANCH}`;
 
 async function main() {
-  const buildCommands = ['yarn test', 'yarn build'];
+  const buildCommands = ['yarn test', 'yarn coverage/coveralls', 'yarn build'];
   const deploymentCommands = [
     () => decryptSecrets(secrets, './secrets'),
     () =>

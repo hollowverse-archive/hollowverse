@@ -11,6 +11,11 @@ script:
     -e AWS_ACCESS_KEY_ID
     -e AWS_SECRET_ACCESS_KEY
     -e ENC_PASS_SUMO
+    -e TRAVIS
+    -e TRAVIS_JOB_ID
+    -e TRAVIS_PULL_REQUEST
+    -e TRAVIS_BRANCH
+    -e TRAVIS_COMMIT
     hollowverse/build-env
 
 notifications:
