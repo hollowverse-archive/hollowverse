@@ -1,7 +1,7 @@
 const { testsDistDirectory } = require('./src/webpack/variables');
 
 module.exports = {
-  roots: [testsDistDirectory, '<rootDir>/src'],
+  roots: [testsDistDirectory],
   testMatch: ['**/tests/**/*.js'],
   transform: {
     // Must be an empty object to prevent jest from using babel to
