@@ -6,6 +6,7 @@ import { renderToString, wrapRootEpic } from 'react-redux-epic';
 import { ConnectedRouter } from 'react-router-redux';
 import createMemoryHistory from 'history/createMemoryHistory';
 import { template, mapValues } from 'lodash';
+// @ts-ignore
 import { ReportChunks } from 'react-universal-component';
 import flushChunks from 'webpack-flush-chunks';
 
@@ -58,8 +59,12 @@ export const createServerRenderMiddleware = ({
    * client-side.
    */
   const getUniqueId = createGetUniqueId();
-  const chunkNames: string[] = [];
-  const pushChunk = (chunkName: string) => chunkNames.push(chunkName);
+  const chunkNames = new Set();
+  const pushChunk = (chunkName: string) => {
+    if (chunkName !== undefined) {
+      chunkNames.add(chunkName);
+    }
+  };
 
   renderToString(
     <ReportChunks report={pushChunk}>
@@ -95,7 +100,7 @@ export const createServerRenderMiddleware = ({
           scripts,
           stylesheets,
           publicPath,
-        } = flushChunks(clientStats, { chunkNames });
+        } = flushChunks(clientStats, { chunkNames: Array.from(chunkNames) });
 
         logger.debug(`Request path: ${req.path}`);
         logger.debug('Dynamic chunk names rendered', chunkNames);
