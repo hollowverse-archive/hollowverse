@@ -6,7 +6,7 @@ import { renderToString, wrapRootEpic } from 'react-redux-epic';
 import { ConnectedRouter } from 'react-router-redux';
 import createMemoryHistory from 'history/createMemoryHistory';
 import { template, mapValues } from 'lodash';
-import { flushChunkNames } from 'react-universal-component/server';
+import { ReportChunks } from 'react-universal-component';
 import flushChunks from 'webpack-flush-chunks';
 
 import * as loglevel from 'loglevel';
@@ -58,19 +58,23 @@ export const createServerRenderMiddleware = ({
    * client-side.
    */
   const getUniqueId = createGetUniqueId();
+  const chunkNames: string[] = [];
+  const pushChunk = (chunkName: string) => chunkNames.push(chunkName);
 
   renderToString(
-    <HelmetProvider context={helmetContext}>
-      <AppDependenciesContext.Provider
-        value={{ ...defaultAppDependencies, getUniqueId }}
-      >
-        <Provider store={store}>
-          <ConnectedRouter history={history}>
-            <App />
-          </ConnectedRouter>
-        </Provider>
-      </AppDependenciesContext.Provider>
-    </HelmetProvider>,
+    <ReportChunks report={pushChunk}>
+      <HelmetProvider context={helmetContext}>
+        <AppDependenciesContext.Provider
+          value={{ ...defaultAppDependencies, getUniqueId }}
+        >
+          <Provider store={store}>
+            <ConnectedRouter history={history}>
+              <App />
+            </ConnectedRouter>
+          </Provider>
+        </AppDependenciesContext.Provider>
+      </HelmetProvider>
+    </ReportChunks>,
     wrappedRootEpic,
   ).subscribe({
     next({ markup }) {
@@ -84,8 +88,6 @@ export const createServerRenderMiddleware = ({
         const url = getRedirectionUrl(state) as string;
         res.redirect(url);
       } else {
-        const chunkNames = flushChunkNames();
-
         const {
           js,
           styles,
