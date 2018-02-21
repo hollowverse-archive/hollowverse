@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { AsyncComponent } from 'hocs/AsyncComponent/AsyncComponent';
 import cc from 'classcat';
 
@@ -7,7 +7,7 @@ export type Props = React.ImgHTMLAttributes<HTMLImageElement> & {
   errorComponent?: JSX.Element | null;
 };
 
-import * as classes from './Image.module.scss';
+import classes from './Image.module.scss';
 
 /**
  * This component wraps a regular `<img>` tag and optionally shows

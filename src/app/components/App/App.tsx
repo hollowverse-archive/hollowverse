@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import cc from 'classcat';
 import Helmet from 'react-helmet-async';
 import { ConnectedNavBar } from 'components/NavBar/ConnectedNavBar';
@@ -6,7 +6,7 @@ import { Route, Switch, RouteProps } from 'react-router';
 import { isWhitelistedPage } from 'redirectionMap';
 
 import './App.global.scss';
-import * as classes from './App.module.scss';
+import classes from './App.module.scss';
 
 import { ScrollTo } from 'components/ScrollTo/ScrollTo';
 

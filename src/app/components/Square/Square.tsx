@@ -1,6 +1,6 @@
-import * as React from 'react';
+import React from 'react';
 import cc from 'classcat';
-import * as classes from './Square.module.scss';
+import classes from './Square.module.scss';
 
 /**
  * A responsive container that maintains its 1:1 aspect ratio

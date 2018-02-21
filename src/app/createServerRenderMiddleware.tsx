@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express';
-import * as React from 'react';
+import React from 'react';
 import { HelmetProvider, FilledContext } from 'react-helmet-async';
-import * as serializeJavaScript from 'serialize-javascript';
+import serializeJavaScript from 'serialize-javascript';
 import { renderToString, wrapRootEpic } from 'react-redux-epic';
 import { ConnectedRouter } from 'react-router-redux';
 import createMemoryHistory from 'history/createMemoryHistory';
@@ -10,7 +10,7 @@ import { ReportChunks } from 'react-universal-component';
 import flushChunks from 'webpack-flush-chunks';
 import 'rxjs/add/operator/toPromise';
 
-import * as loglevel from 'loglevel';
+import loglevel from 'loglevel';
 
 import {
   getStatusCode,

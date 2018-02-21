@@ -1,7 +1,7 @@
-import * as React from 'react';
+import React from 'react';
 import cc from 'classcat';
 
-import * as classes from './Label.module.scss';
+import classes from './Label.module.scss';
 
 type Props = {
   text: string;

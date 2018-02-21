@@ -1,7 +1,7 @@
-import * as React from 'react';
+import React from 'react';
 import cc from 'classcat';
 
-import * as classes from './NavBarButton.module.scss';
+import classes from './NavBarButton.module.scss';
 import {
   Button,
   ButtonProps,

@@ -1,6 +1,6 @@
-import * as React from 'react';
+import React from 'react';
 import cc from 'classcat';
-import * as classes from './Button.module.scss';
+import classes from './Button.module.scss';
 import { Link, LinkProps } from 'react-router-dom';
 
 export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement>;

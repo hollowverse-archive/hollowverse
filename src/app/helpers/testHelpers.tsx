@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { NotablePerson } from 'pages/NotablePerson/NotablePerson';
 import { SearchResults } from 'pages/SearchResults/SearchResults';
 import { About } from 'pages/About/About';

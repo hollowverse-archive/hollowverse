@@ -631,8 +631,8 @@
     to-fast-properties "^2.0.0"
 
 "@hollowverse/common@hollowverse/common":
-  version "3.0.1"
-  resolved "https://codeload.github.com/hollowverse/common/tar.gz/785dd0ab269f2278b75cefe149eb987248d37a72"
+  version "3.1.3"
+  resolved "https://codeload.github.com/hollowverse/common/tar.gz/3eaf795ae9045562ba4129d2d22cf0688de2099a"
   dependencies:
     glob "^7.1.2"
     jszip "^3.1.4"
@@ -699,9 +699,17 @@
   dependencies:
     "@types/node" "*"
 
-"@types/express@*", "@types/express@^4.0.39":
+"@types/express@*":
   version "4.0.39"
   resolved "https://registry.yarnpkg.com/@types/express/-/express-4.0.39.tgz#1441f21d52b33be8d4fa8a865c15a6a91cd0fa09"
+  dependencies:
+    "@types/body-parser" "*"
+    "@types/express-serve-static-core" "*"
+    "@types/serve-static" "*"
+
+"@types/express@^4.11.1":
+  version "4.11.1"
+  resolved "https://registry.yarnpkg.com/@types/express/-/express-4.11.1.tgz#f99663b3ab32d04cb11db612ef5dd7933f75465b"
   dependencies:
     "@types/body-parser" "*"
     "@types/express-serve-static-core" "*"
@@ -878,13 +886,14 @@
   dependencies:
     "@types/source-map" "*"
 
-"@types/webpack@^3.8.1":
-  version "3.8.1"
-  resolved "https://registry.yarnpkg.com/@types/webpack/-/webpack-3.8.1.tgz#20c11ea43f1ea7bb09eee4d6d633d830653e5a55"
+"@types/webpack@^3.8.8":
+  version "3.8.8"
+  resolved "https://registry.yarnpkg.com/@types/webpack/-/webpack-3.8.8.tgz#fd9483edf2d6935eaab52aa530b1f737c188cd9a"
   dependencies:
     "@types/node" "*"
     "@types/tapable" "*"
     "@types/uglify-js" "*"
+    source-map "^0.6.0"
 
 "@types/whatwg-fetch@^0.0.33":
   version "0.0.33"

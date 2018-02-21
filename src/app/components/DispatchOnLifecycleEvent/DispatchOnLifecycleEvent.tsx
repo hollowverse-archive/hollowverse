@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Action, GenericAction } from 'store/types';
 import { connect } from 'react-redux';
 

@@ -1,9 +1,9 @@
-import * as SumoLogger from 'sumo-logger';
-import * as bluebird from 'bluebird';
+import SumoLogger from 'sumo-logger';
+import bluebird from 'bluebird';
 import { SourceMapConsumer } from 'source-map';
 
-import * as fs from 'fs';
-import * as path from 'path';
+import fs from 'fs';
+import path from 'path';
 import { URL } from 'url';
 
 import { noop } from 'lodash';

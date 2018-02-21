@@ -1,7 +1,7 @@
-import * as React from 'react';
+import React from 'react';
 import { Label } from 'components/Label/Label';
 import { Image } from 'components/Image/Image';
-import * as classes from './PersonDetails.module.scss';
+import classes from './PersonDetails.module.scss';
 import { prettifyUrl } from 'helpers/prettifyUrl';
 import Helmet from 'react-helmet-async';
 

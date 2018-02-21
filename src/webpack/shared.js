@@ -171,7 +171,9 @@ exports.createExternals = aliases =>
       '.bin',
       'babel-polyfill',
 
-      // @ts-ignore
+      /**
+       * @param {string} moduleName
+       */
       moduleName =>
         [
           // These packages need to be bundled so that they

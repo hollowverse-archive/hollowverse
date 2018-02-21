@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import cc from 'classcat';
 import Helmet from 'react-helmet-async';
 
@@ -25,7 +25,7 @@ import { withRouter, RouteComponentProps } from 'react-router';
 import { forceReload } from 'helpers/forceReload';
 import { DispatchOnLifecycleEvent } from 'components/DispatchOnLifecycleEvent/DispatchOnLifecycleEvent';
 
-import * as classes from './NotablePerson.module.scss';
+import classes from './NotablePerson.module.scss';
 import query from './NotablePersonQuery.graphql';
 
 import warningIcon from 'icons/warning.svg';

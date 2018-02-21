@@ -1,8 +1,8 @@
-import * as React from 'react';
+import React from 'react';
 
 import { AppDependenciesContext } from 'appDependenciesContext';
 
-import * as classes from './Collapsable.module.scss';
+import classes from './Collapsable.module.scss';
 import { SvgIcon } from 'components/SvgIcon/SvgIcon';
 
 import dropdownIcon from 'icons/dropdown.svg';

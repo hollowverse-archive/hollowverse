@@ -1,7 +1,7 @@
-import * as React from 'react';
+import React from 'react';
 import cc from 'classcat';
 
-import * as classes from './MessageWithIcon.module.scss';
+import classes from './MessageWithIcon.module.scss';
 
 type Props = {
   title: string;
