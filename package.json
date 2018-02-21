@@ -122,7 +122,8 @@
   ],
   "resolutions": {
     "@types/react": "^16.0.35",
-    "redux-observable": "^0.18.0"
+    "redux-observable": "^0.18.0",
+    "graphql": "^0.13.1"
   },
   "dependencies": {
     "@babel/polyfill": "^7.0.0-beta.36",
