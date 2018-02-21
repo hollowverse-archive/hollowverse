@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import cc from 'classcat';
 
 import {
@@ -6,7 +6,7 @@ import {
   Props as OptionalIntersectionObserverProps,
 } from 'components/OptionalIntersectionObserver/OptionalIntersectionObserver';
 
-import * as classes from './Sticky.module.scss';
+import classes from './Sticky.module.scss';
 
 type Props = {
   height: number;

@@ -1,5 +1,5 @@
 import express, { RequestHandler } from 'express';
-import * as path from 'path';
+import path from 'path';
 
 import { Stats } from 'webpack';
 
@@ -7,7 +7,7 @@ import { logEndpoint } from './logger/logEndpoint';
 import { redirectionMap, isWhitelistedPage } from './redirectionMap';
 import { isNewSlug } from './isNewSlug';
 import { createServerRenderMiddleware } from 'createServerRenderMiddleware';
-import * as moment from 'moment';
+import moment from 'moment';
 
 type IconStats = {
   outputFilePrefix: string;

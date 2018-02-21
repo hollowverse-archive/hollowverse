@@ -1,9 +1,9 @@
 // tslint:disable no-unsafe-any
-import * as path from 'path';
-import * as express from 'express';
-import * as loglevel from 'loglevel';
-import * as moment from 'moment';
-import * as shrinkRay from 'shrink-ray';
+import path from 'path';
+import express from 'express';
+import loglevel from 'loglevel';
+import moment from 'moment';
+import shrinkRay from 'shrink-ray';
 
 import { securityMiddleware } from './middleware/security';
 import {

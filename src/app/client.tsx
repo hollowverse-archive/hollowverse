@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Provider } from 'react-redux';
 import { ConnectedRouter as Router } from 'react-router-redux';
 import domready from 'domready';

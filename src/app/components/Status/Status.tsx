@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { DispatchOnLifecycleEvent } from 'components/DispatchOnLifecycleEvent/DispatchOnLifecycleEvent';
 import { setStatusCode } from 'store/features/status/actions';
 import { Action } from 'store/types';

@@ -1,17 +1,16 @@
 // tslint:disable no-implicit-dependencies no-unsafe-any
-import * as express from 'express';
-import * as webpack from 'webpack';
-import * as loglevel from 'loglevel';
+import express from 'express';
+import webpack from 'webpack';
+import loglevel from 'loglevel';
 import { once } from 'lodash';
 
-import * as webpackDevMiddleware from 'webpack-dev-middleware';
-import * as webpackHotMiddleware from 'webpack-hot-middleware';
-import * as createProxyMiddleware from 'http-proxy-middleware';
-import * as noFavIcons from 'express-no-favicons';
-// tslint:disable-next-line:no-require-imports
-import webpackHotServerMiddleware = require('webpack-hot-server-middleware');
-import * as clientConfig from './webpack/webpack.config.client';
-import * as serverConfig from './webpack/webpack.config.server';
+import webpackDevMiddleware from 'webpack-dev-middleware';
+import webpackHotMiddleware from 'webpack-hot-middleware';
+import createProxyMiddleware from 'http-proxy-middleware';
+import noFavIcons from 'express-no-favicons';
+import webpackHotServerMiddleware from 'webpack-hot-server-middleware';
+import clientConfig from './webpack/webpack.config.client';
+import serverConfig from './webpack/webpack.config.server';
 
 const appServer = express();
 
@@ -30,7 +29,6 @@ logger.info('Starting webpack compilation...');
 
 const compiler = webpack([clientConfig, serverConfig]);
 
-// @ts-ignore
 const clientCompiler = compiler.compilers[0];
 const options = serverConfig.devServer;
 

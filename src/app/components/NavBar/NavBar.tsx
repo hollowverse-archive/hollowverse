@@ -1,9 +1,9 @@
-import * as React from 'react';
+import React from 'react';
 import cc from 'classcat';
 
 import { RouteComponentProps, Route, Switch } from 'react-router';
 
-import * as classes from './NavBar.module.scss';
+import classes from './NavBar.module.scss';
 
 import { Sticky } from 'components/Sticky/Sticky';
 import { SvgIcon } from 'components/SvgIcon/SvgIcon';

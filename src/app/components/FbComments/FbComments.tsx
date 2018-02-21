@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { importGlobalScript } from 'helpers/importGlobalScript';
 import { MessageWithIcon } from 'components/MessageWithIcon/MessageWithIcon';
 import { LoadingSpinner } from 'components/LoadingSpinner/LoadingSpinner';
