@@ -15,6 +15,7 @@ import {
   AppDependenciesContext,
   defaultAppDependencies,
 } from 'appDependenciesContext';
+import { routesMap } from 'routesMap';
 
 declare const __INITIAL_STATE__: StoreState | undefined;
 
@@ -31,7 +32,7 @@ const renderApp = (NewApp: typeof App = App) => {
       <AppDependenciesContext.Provider value={defaultAppDependencies}>
         <Provider store={store}>
           <Router history={history}>
-            <NewApp />
+            <NewApp routesMap={routesMap} />
           </Router>
         </Provider>
       </AppDependenciesContext.Provider>
