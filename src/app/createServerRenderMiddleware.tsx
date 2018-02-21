@@ -28,6 +28,7 @@ import {
   AppDependenciesContext,
 } from 'appDependenciesContext';
 import { createGetUniqueId } from 'helpers/createGetUniqueId';
+import { routesMap } from 'routesMap';
 
 const interpolateTemplate = template(html);
 
@@ -68,6 +69,7 @@ export const createServerRenderMiddleware = ({
     };
 
     const { markup } = await renderToString(
+      /* eslint-disable react/jsx-max-depth */
       <ReportChunks report={pushChunk}>
         <HelmetProvider context={helmetContext}>
           <AppDependenciesContext.Provider
@@ -75,12 +77,13 @@ export const createServerRenderMiddleware = ({
           >
             <Provider store={store}>
               <ConnectedRouter history={history}>
-                <App />
+                <App routesMap={routesMap} />
               </ConnectedRouter>
             </Provider>
           </AppDependenciesContext.Provider>
         </HelmetProvider>
       </ReportChunks>,
+      /* eslint-enable react/jsx-max-depth */
       wrappedRootEpic,
     ).toPromise();
 

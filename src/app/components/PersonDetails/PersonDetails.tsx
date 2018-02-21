@@ -99,9 +99,7 @@ export const PersonDetails = ({
         ) : null}
         {summary && (
           <div className={classes.summary}>
-            {summary
-              .split('\n')
-              .map((paragraph, i) => <p key={i}>{paragraph}</p>)}
+            {summary.split('\n').map(paragraph => <p>{paragraph}</p>)}
           </div>
         )}
       </div>

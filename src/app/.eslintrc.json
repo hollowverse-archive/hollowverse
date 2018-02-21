@@ -1,20 +1,12 @@
 {
-  "parser": "typescript-eslint-parser",
+  "extends": [
+    "../../node_modules/@hollowverse/common/eslint/browser/.eslintrc.json",
+    "../../node_modules/@hollowverse/common/eslint/react/typescript/.eslintrc.json"
+  ],
   "env": {
-    "browser": true
+    "shared-node-browser": true
   },
-  "parserOptions": {
-    "ecmaVersion": 8,
-    "sourceType": "module",
-    "ecmaFeatures": {
-      "jsx": true
-    }
-  },
-  "plugins": ["compat"],
   "settings": {
     "polyfills": ["fetch", "intersectionobserver"]
-  },
-  "rules": {
-    "compat/compat": "error"
   }
 }
