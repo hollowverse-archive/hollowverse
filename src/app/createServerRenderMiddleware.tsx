@@ -6,7 +6,6 @@ import { renderToString, wrapRootEpic } from 'react-redux-epic';
 import { ConnectedRouter } from 'react-router-redux';
 import createMemoryHistory from 'history/createMemoryHistory';
 import { template, mapValues } from 'lodash';
-// @ts-ignore
 import { ReportChunks } from 'react-universal-component';
 import flushChunks from 'webpack-flush-chunks';
 
