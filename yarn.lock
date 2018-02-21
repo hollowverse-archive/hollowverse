@@ -9736,9 +9736,9 @@ react-test-renderer@^16.0.0-0:
     object-assign "^4.1.1"
     prop-types "^15.6.0"
 
-react-universal-component@^2.8.1:
-  version "2.8.1"
-  resolved "https://registry.yarnpkg.com/react-universal-component/-/react-universal-component-2.8.1.tgz#b7425d18bb77b7add91c18d848b0b17de7c481f9"
+react-universal-component@^2.8.3:
+  version "2.8.3"
+  resolved "https://registry.yarnpkg.com/react-universal-component/-/react-universal-component-2.8.3.tgz#da148588eaff5c015ae89c73afbc99e9a2cea75a"
   dependencies:
     hoist-non-react-statics "^2.2.1"
     prop-types "^15.5.10"
