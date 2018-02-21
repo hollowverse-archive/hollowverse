@@ -4,7 +4,6 @@
     "../../node_modules/@hollowverse/common/eslint/react/typescript/.eslintrc.json"
   ],
   "env": {
-    "browser": true,
     "shared-node-browser": true
   },
   "settings": {
