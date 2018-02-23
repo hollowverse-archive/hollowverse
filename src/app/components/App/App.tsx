@@ -85,7 +85,7 @@ export const App = class extends React.Component<AppProps, State> {
         <div className={classes.view}>
           <Switch>
             {orderedPaths.map(path => (
-              <Route path={path} component={routesMap[path]} />
+              <Route key={path} path={path} component={routesMap[path]} />
             ))}
             <Route component={routesMap.default} />
           </Switch>
