@@ -87,6 +87,11 @@ const testSpecificConfig = {
     ]),
   },
 
+  // Do not mock built-in node modules and global
+  // The actual ones will be available (and needed) in
+  // Jest environment
+  node: false,
+
   plugins: compact([
     new WildcardsEntryWebpackPlugin(),
 
