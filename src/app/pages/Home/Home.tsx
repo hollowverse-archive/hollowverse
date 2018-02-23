@@ -1,6 +1,6 @@
-import * as React from 'react';
+import React from 'react';
 
-import * as classes from './Home.module.scss';
+import classes from './Home.module.scss';
 import { Card } from 'components/Card/Card';
 import { SvgIcon } from 'components/SvgIcon/SvgIcon';
 

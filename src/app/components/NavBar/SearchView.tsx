@@ -1,6 +1,6 @@
-import * as React from 'react';
+import React from 'react';
 
-import * as classes from './SearchView.module.scss';
+import classes from './SearchView.module.scss';
 
 import { SvgIcon } from 'components/SvgIcon/SvgIcon';
 import { NavBarButton, NavBarLink } from 'components/NavBar/NavBarButton';

@@ -1,7 +1,7 @@
-import * as React from 'react';
+import React from 'react';
 import cc from 'classcat';
 
-import * as classes from './TextPage.module.scss';
+import classes from './TextPage.module.scss';
 
 export const TextPage = ({
   className,

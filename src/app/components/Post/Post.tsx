@@ -1,11 +1,11 @@
-import * as React from 'react';
+import React from 'react';
 import formatDate from 'date-fns/format';
 
 import { Label } from 'components/Label/Label';
 
 import { prettifyUrl } from 'helpers/prettifyUrl';
 
-import * as classes from './Post.module.scss';
+import classes from './Post.module.scss';
 
 type PostProps = {
   postedAt?: Date | null;

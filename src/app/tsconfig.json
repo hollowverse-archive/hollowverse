@@ -1,8 +1,6 @@
 {
-  "extends": "../../node_modules/@hollowverse/common/tsconfig.json",
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "moduleResolution": "node",
-    "allowSyntheticDefaultImports": true,
     "target": "esnext",
     "module": "esnext",
 

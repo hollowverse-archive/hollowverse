@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 
 import { AsyncResult, pendingResult } from 'helpers/asyncResults';
 import { ResolvedData, ResolvedDataKey, StoreState } from 'store/types';

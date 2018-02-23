@@ -1,5 +1,5 @@
-import { routerReducer, RouterState } from 'react-router-redux';
-import { combineReducers, Reducer as GenericReducer } from 'redux';
+import { routerReducer } from 'react-router-redux';
+import { combineReducers } from 'redux';
 import { StoreState, ReducerMap } from './types';
 import {
   statusCodeReducer,
@@ -26,5 +26,5 @@ const appReducers: ReducerMap = {
  */
 export const reducer = combineReducers<StoreState>({
   ...appReducers,
-  routing: routerReducer as GenericReducer<RouterState>,
+  routing: routerReducer,
 });
