@@ -30,6 +30,14 @@ const common = createCommonConfig();
 const testSpecificConfig = {
   name: 'tests',
 
+  // The environment provided by Jest is kind of a Node.js/Browser hybrid:
+  // we can `require` built-in Node.js modules like `fs` and `path` and we
+  // can also access `window` and other DOM APIs.
+  // The `target` configuration below allows us to emulate this hybrid environment
+  // in Webpack so modules expecting either type of environment can still work.
+  //
+  // See https://webpack.js.org/configuration/target/
+  // See https://github.com/webpack/webpack/blob/master/lib/WebpackOptionsApply.js#L70-L185
   // @ts-ignore
   target: compiler => {
     new JsonpTemplatePlugin().apply(compiler);
