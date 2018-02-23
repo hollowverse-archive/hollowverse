@@ -13,7 +13,7 @@ import { Status } from 'components/Status/Status';
 import { RelatedPeople } from './RelatedPeople';
 import { DispatchOnLifecycleEvent } from 'components/DispatchOnLifecycleEvent/DispatchOnLifecycleEvent';
 
-import classes from './NotablePerson.module.scss';
+import classes from './NonErrorNotablePerson.module.scss';
 
 import { setAlternativeSearchBoxText } from 'store/features/search/actions';
 import { isWhitelistedPage } from 'redirectionMap';
