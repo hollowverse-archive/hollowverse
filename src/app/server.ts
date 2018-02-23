@@ -8,6 +8,8 @@ import { redirectionMap, isWhitelistedPage } from './redirectionMap';
 import { isNewSlug } from './isNewSlug';
 import { createServerRenderMiddleware } from 'createServerRenderMiddleware';
 import moment from 'moment';
+import { CreateConfiguredStoreOptions } from 'store/createConfiguredStore';
+import { AppRoutesMap } from 'components/App/App';
 
 type IconStats = {
   outputFilePrefix: string;
@@ -17,7 +19,9 @@ type IconStats = {
 
 export type CreateMiddlewareOptions = {
   clientStats: Stats;
-  iconStats: IconStats | undefined;
+  epicDependenciesOverrides: CreateConfiguredStoreOptions['epicDependenciesOverrides'];
+  iconStats?: IconStats;
+  routesMap: AppRoutesMap;
 };
 
 const isSsrDisabled = process.env.NO_SSR;

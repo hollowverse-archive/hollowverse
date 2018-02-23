@@ -44,7 +44,7 @@ export const createMockGetResponseForDataRequest = <K extends ResolvedDataKey>(
   };
 };
 
-const defaultTestDependencyOverrides: Partial<EpicDependencies> = {
+export const defaultTestDependencyOverrides: Partial<EpicDependencies> = {
   sendLogs: jest.fn(),
   getResponseForDataRequest: jest.fn(),
   getGoogleAnalyticsFunction: jest.fn(
@@ -67,7 +67,7 @@ const defaultTestDependencyOverrides: Partial<EpicDependencies> = {
   ),
 };
 
-const testRoutesMap: AppRoutesMap = {
+export const testRoutesMap: AppRoutesMap = {
   '/search': SearchResults,
   '/about': About,
   '/privacy-policy': PrivacyPolicy,

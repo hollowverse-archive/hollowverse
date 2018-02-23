@@ -28,7 +28,7 @@ import {
   AppDependenciesContext,
 } from 'appDependenciesContext';
 import { createGetUniqueId } from 'helpers/createGetUniqueId';
-import { routesMap } from 'routesMap';
+import { routesMap as defaultRoutesMap } from 'routesMap';
 
 const interpolateTemplate = template(html);
 
@@ -39,6 +39,8 @@ logger.setLevel(__IS_DEBUG__ ? logger.levels.DEBUG : logger.levels.INFO);
 export const createServerRenderMiddleware = ({
   clientStats,
   iconStats,
+  epicDependenciesOverrides,
+  routesMap = defaultRoutesMap,
 }: CreateMiddlewareOptions): RequestHandler => async (req, res) => {
   try {
     const start = Date.now();
@@ -46,6 +48,7 @@ export const createServerRenderMiddleware = ({
     const { store, wrappedRootEpic } = createConfiguredStore({
       history,
       wrapRootEpic,
+      epicDependenciesOverrides,
     });
 
     const helmetContext = {};
