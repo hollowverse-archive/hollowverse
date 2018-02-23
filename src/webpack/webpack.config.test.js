@@ -1,4 +1,8 @@
 const webpack = require('webpack');
+const LoaderTargetPlugin = require('webpack/lib/LoaderTargetPlugin');
+const FunctionModulePlugin = require('webpack/lib/FunctionModulePlugin');
+const JsonpTemplatePlugin = require('webpack/lib/JsonpTemplatePlugin');
+const NodeTargetPlugin = require('webpack/lib/node/NodeTargetPlugin');
 const webpackMerge = require('webpack-merge');
 
 const { compact } = require('lodash');
@@ -24,7 +28,14 @@ const common = createCommonConfig();
 
 const testSpecificConfig = {
   name: 'tests',
-  target: 'web',
+
+  // @ts-ignore
+  target: compiler => {
+    new JsonpTemplatePlugin().apply(compiler);
+    new FunctionModulePlugin(testSpecificConfig.output).apply(compiler);
+    new NodeTargetPlugin().apply(compiler);
+    new LoaderTargetPlugin('web').apply(compiler);
+  },
 
   // This plugin watches for newly added test files and
   // updates webpack entries so that we do not have
