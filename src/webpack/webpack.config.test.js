@@ -113,6 +113,7 @@ const testSpecificConfig = {
   node: false,
 
   plugins: compact([
+    // @ts-ignore
     new StatsPlugin('stats.json', {
       chunkModules: true,
     }),
