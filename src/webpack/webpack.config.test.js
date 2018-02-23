@@ -84,6 +84,18 @@ const testSpecificConfig = {
         exclude: [...excludedPatterns, cssModulesPattern],
         use: createGlobalCssLoaders(true),
       },
+
+      {
+        test: /\.html?$/,
+        exclude: [...excludedPatterns],
+        use: {
+          loader: 'html-loader',
+          options: {
+            minimize: false,
+            interpolate: false,
+          },
+        },
+      },
     ]),
   },
 
