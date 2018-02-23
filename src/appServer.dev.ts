@@ -1,4 +1,4 @@
-// tslint:disable no-implicit-dependencies no-unsafe-any
+// tslint:disable no-implicit-dependencies
 import express from 'express';
 import webpack from 'webpack';
 import loglevel from 'loglevel';
