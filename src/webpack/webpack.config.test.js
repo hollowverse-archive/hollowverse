@@ -105,6 +105,10 @@ const testSpecificConfig = {
   node: false,
 
   plugins: compact([
+    new StatsPlugin('stats.json', {
+      chunkModules: true,
+    }),
+
     new WildcardsEntryWebpackPlugin(),
 
     // Required for debugging in development and for long-term caching in production
