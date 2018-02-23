@@ -4,6 +4,7 @@ const FunctionModulePlugin = require('webpack/lib/FunctionModulePlugin');
 const JsonpTemplatePlugin = require('webpack/lib/JsonpTemplatePlugin');
 const NodeTargetPlugin = require('webpack/lib/node/NodeTargetPlugin');
 const webpackMerge = require('webpack-merge');
+const StatsPlugin = require('stats-webpack-plugin');
 
 const { compact } = require('lodash');
 const path = require('path');

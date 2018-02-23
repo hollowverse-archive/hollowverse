@@ -287,6 +287,7 @@
     "sass-loader": "^6.0.6",
     "source-map-loader": "^0.2.1",
     "source-map-support": "^0.5.0",
+    "stats-webpack-plugin": "^0.6.2",
     "style-loader": "^0.18.2",
     "stylelint": "^8.4.0",
     "stylelint-config-standard": "^17.0.0",
