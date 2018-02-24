@@ -96,14 +96,14 @@ export const createTestTree = ({
   </HelmetProvider>
 );
 
-export type TestContext = {
+export type ClientSideTestContext = {
   store: Store<StoreState>;
   history: History;
   wrapper: ReactWrapper<any>;
   dependencies: EpicDependencies;
 };
 
-export type CreateTestContextOptions = Partial<{
+export type CreateClientSideTestContextOptions = Partial<{
   epicDependenciesOverrides: Partial<EpicDependencies>;
   createHistoryOptions: MemoryHistoryBuildOptions;
 }>;
@@ -118,11 +118,13 @@ export type CreateTestContextOptions = Partial<{
  *
  * Almost all configuration options can be overridden for convenience.
  */
-export const createTestContext = async ({
+export const createClientSideTestContext = async ({
   epicDependenciesOverrides = {},
   createHistoryOptions = { initialEntries: ['/'] },
   ...rest
-}: Partial<CreateTestContextOptions> = {}): Promise<TestContext> => {
+}: Partial<CreateClientSideTestContextOptions> = {}): Promise<
+  ClientSideTestContext
+> => {
   const { store, dependencies, history } = createConfiguredStore({
     epicDependenciesOverrides: {
       ...defaultTestDependencyOverrides,

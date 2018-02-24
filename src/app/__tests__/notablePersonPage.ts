@@ -1,8 +1,8 @@
 import { getStatusCode } from 'store/features/status/reducer';
 import {
   createMockGetResponseForDataRequest,
-  TestContext,
-  createTestContext,
+  ClientSideTestContext,
+  createClientSideTestContext,
 } from 'helpers/testHelpers';
 import { pageLoadSucceeded } from 'store/features/logging/actions';
 import {
@@ -12,11 +12,11 @@ import {
 import { EditorialSummary } from 'components/EditorialSummary/EditorialSummary';
 
 describe('Notable Person page', () => {
-  let context: TestContext;
+  let context: ClientSideTestContext;
 
   describe('When notable person is found,', () => {
     beforeEach(async () => {
-      context = await createTestContext({
+      context = await createClientSideTestContext({
         epicDependenciesOverrides: {
           getResponseForDataRequest: createMockGetResponseForDataRequest(
             'notablePersonQuery',
@@ -105,7 +105,7 @@ describe('Notable Person page', () => {
 
     describe('if notable person has an editorial summary', () => {
       beforeEach(async () => {
-        context = await createTestContext({
+        context = await createClientSideTestContext({
           epicDependenciesOverrides: {
             getResponseForDataRequest: createMockGetResponseForDataRequest(
               'notablePersonQuery',
@@ -126,7 +126,7 @@ describe('Notable Person page', () => {
 
   describe('When notable person is not found,', () => {
     beforeEach(async () => {
-      context = await createTestContext({
+      context = await createClientSideTestContext({
         createHistoryOptions: { initialEntries: ['/Tom_Hanks'] },
         epicDependenciesOverrides: {
           getResponseForDataRequest: createMockGetResponseForDataRequest(
