@@ -12,6 +12,10 @@ import {
 describe('Server rendering middleware', () => {
   let context: ServerSideTestContext;
 
+  afterEach(() => {
+    expect(context.res.text).toBeNonEmptyString();
+  });
+
   describe('Notable Person page', () => {
     beforeEach(async () => {
       context = await createServerSideTestContext({
@@ -23,8 +27,6 @@ describe('Server rendering middleware', () => {
           ),
         },
       });
-
-      expect(context.res.text).toBeNonEmptyString();
     });
 
     describe('When notable person is found', () => {
