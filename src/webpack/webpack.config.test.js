@@ -84,7 +84,7 @@ const testSpecificConfig = {
       },
 
       // JavaScript and TypeScript
-      ...createScriptRules(false),
+      ...createScriptRules(true),
 
       // Global CSS
       {
