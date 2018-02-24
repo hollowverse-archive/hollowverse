@@ -1,4 +1,3 @@
-import { getStatusCode } from 'store/features/status/reducer';
 import {
   createMockGetResponseForDataRequest,
   ClientSideTestContext,
@@ -25,10 +24,6 @@ describe('Notable Person page', () => {
         },
         createHistoryOptions: { initialEntries: ['/Tom_Hanks'] },
       });
-    });
-
-    it('returns 200', () => {
-      expect(getStatusCode(context.store.getState())).toBe(200);
     });
 
     it('has notable person name', () => {
@@ -137,10 +132,6 @@ describe('Notable Person page', () => {
           ),
         },
       });
-    });
-
-    it('returns 404', () => {
-      expect(getStatusCode(context.store.getState())).toBe(404);
     });
 
     it('shows "Not Found"', () => {

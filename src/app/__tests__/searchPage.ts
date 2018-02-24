@@ -86,10 +86,6 @@ describe('Search page', () => {
     });
 
     describe('When results are found,', () => {
-      it('returns 200', () => {
-        expect(getStatusCode(context.store.getState())).toBe(200);
-      });
-
       it('shows a list of results', () => {
         expect(context.wrapper).toIncludeText('Tom Hanks');
         expect(context.wrapper).toIncludeText('Tom Hardy');
@@ -119,10 +115,6 @@ describe('Search page', () => {
             ),
           },
         });
-      });
-
-      it('returns 404', () => {
-        expect(getStatusCode(context.store.getState())).toBe(404);
       });
 
       it('shows "No results found"', () => {
