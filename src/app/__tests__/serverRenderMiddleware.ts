@@ -23,15 +23,13 @@ describe('Server rendering middleware', () => {
           ),
         },
       });
+
+      expect(context.res.text).toBeNonEmptyString();
     });
 
     describe('When notable person is found', () => {
       it('returns 200', () => {
         expect(context.res.status).toBe(200);
-      });
-
-      it('has body', () => {
-        expect(context.res.text).toBeNonEmptyString();
       });
 
       it('has notable person name', () => {
@@ -66,14 +64,6 @@ describe('Server rendering middleware', () => {
       it('returns 404', () => {
         expect(context.res.status).toBe(404);
       });
-
-      it('has body', () => {
-        expect(context.res.text).toBeNonEmptyString();
-      });
-
-      it('shows "Not Found"', () => {
-        expect(context.$('body').text()).toContain('Not Found');
-      });
     });
   });
 
@@ -95,26 +85,6 @@ describe('Server rendering middleware', () => {
         it('returns 200', () => {
           expect(context.res.status).toBe(200);
         });
-
-        it('shows a list of results', () => {
-          expect(context.$('body').text()).toContain('Tom Hanks');
-          expect(context.$('body').text()).toContain('Tom Hardy');
-        });
-
-        it('results link to the respective notable person page', () => {
-          context
-            .$('body')
-            .find('li')
-            .each((_, li) => {
-              const $li = context.$(li);
-              for (const result of stubNonEmptySearchResults.hits) {
-                if ($li.text().includes(result.name)) {
-                  const $a = $li.find('a');
-                  expect($a.attr('href')).toContain(result.slug);
-                }
-              }
-            });
-        });
       });
 
       describe('When no results are found,', () => {
@@ -132,10 +102,6 @@ describe('Server rendering middleware', () => {
 
         it('returns 404', () => {
           expect(context.res.status).toBe(404);
-        });
-
-        it('shows "No results found"', () => {
-          expect(context.$('body').text()).toContain('No results found');
         });
       });
     });
