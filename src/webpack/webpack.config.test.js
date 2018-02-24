@@ -124,11 +124,6 @@ const testSpecificConfig = {
     new webpack.NamedModulesPlugin(),
 
     new webpack.optimize.CommonsChunkPlugin({
-      name: 'common',
-      minChunks: 2,
-    }),
-
-    new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
       minChunks: module => /node_modules/.test(module.context),
     }),
