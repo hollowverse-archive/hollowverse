@@ -47,10 +47,10 @@
     "clean/test": "del-cli './coverage' './__tests__/bundle' './__tests__/tests/!(__snapshots__)'",
     "validate-filenames": "validate-filenames -c commonconfig.js",
     "lint-staged": "lint-staged",
-    "coverage/remap/json": "cat coverage/coverage-final.json | remap-istanbul --exclude 'node_modules,^external\\s,webpack/' -o coverage/coverage-remapped.json",
-    "coverage/remap/lcov": "cat coverage/coverage-final.json | remap-istanbul --exclude 'node_modules,^external\\s,webpack/' -o coverage/lcov-remapped.info -t lcovonly",
+    "coverage/remap/json": "cat coverage/coverage-final.json | remap-istanbul --exclude 'node_modules,src/app/__tests__,^external\\s,webpack/' -o coverage/coverage-remapped.json",
+    "coverage/remap/lcov": "cat coverage/coverage-final.json | remap-istanbul --exclude 'node_modules,src/app/__tests__,^external\\s,webpack/' -o coverage/lcov-remapped.info -t lcovonly",
     "coverage/remap": "run-p -l --aggregate-output 'coverage/remap/*'",
-    "coverage/html": "remap-istanbul --exclude 'node_modules,^external\\s,webpack/' -i coverage/coverage-final.json -o coverage/lcov-report -t html --basePath .",
+    "coverage/html": "remap-istanbul --exclude 'node_modules,src/app/__tests__,^external\\s,webpack/' -i coverage/coverage-final.json -o coverage/lcov-report -t html --basePath .",
     "coverage/coveralls": "cat ./coverage/lcov-remapped.info | coveralls "
   },
   "license": "Unlicense",

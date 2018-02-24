@@ -14,6 +14,6 @@ module.exports = {
   // Jest will exclude test files from code coverage by default,
   // this will force Jest to collect coverage from the compiled
   // test files so that we can map them to the source files.
-  forceCoverageMatch: ['__tests__/**/*.js'],
+  forceCoverageMatch: ['__tests__/**/*.js', '**/tests/**/*.js'],
   collectCoverageFrom: ['__tests__/**/*.js', '!**/node_modules/**'],
 };
