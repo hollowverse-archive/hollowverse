@@ -31,19 +31,6 @@ describe('Server rendering middleware', () => {
       it('returns 200', () => {
         expect(context.res.status).toBe(200);
       });
-
-      it('has notable person name', () => {
-        expect(
-          context
-            .$('body')
-            .find('h1')
-            .text(),
-        ).toContain('Tom Hanks');
-      });
-
-      it('shows related people', () => {
-        expect(context.$('body').text()).toContain('Al Pacino');
-      });
     });
 
     describe('When notable person is not found', () => {
