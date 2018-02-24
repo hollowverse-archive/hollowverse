@@ -22,7 +22,7 @@ import { createConfiguredStore } from 'store/createConfiguredStore';
 import { App } from 'components/App/App';
 import html from './index.server.html';
 
-import { CreateMiddlewareOptions } from './server';
+import { CreateServerMiddlewareOptions } from './server';
 import {
   defaultAppDependencies,
   AppDependenciesContext,
@@ -41,7 +41,7 @@ export const createServerRenderMiddleware = ({
   iconStats,
   epicDependenciesOverrides,
   routesMap = defaultRoutesMap,
-}: CreateMiddlewareOptions): RequestHandler => async (req, res) => {
+}: CreateServerMiddlewareOptions): RequestHandler => async (req, res) => {
   try {
     const start = Date.now();
     const history = createMemoryHistory({ initialEntries: [req.url] });

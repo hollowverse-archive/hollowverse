@@ -17,7 +17,7 @@ type IconStats = {
   files: string[];
 };
 
-export type CreateMiddlewareOptions = {
+export type CreateServerMiddlewareOptions = {
   clientStats: Stats;
   epicDependenciesOverrides: CreateConfiguredStoreOptions['epicDependenciesOverrides'];
   iconStats?: IconStats;
@@ -27,7 +27,7 @@ export type CreateMiddlewareOptions = {
 const isSsrDisabled = process.env.NO_SSR;
 
 export const createServerEntryMiddleware = (
-  options: CreateMiddlewareOptions,
+  options: CreateServerMiddlewareOptions,
 ) => {
   const renderOnServer = createServerRenderMiddleware(options);
 
