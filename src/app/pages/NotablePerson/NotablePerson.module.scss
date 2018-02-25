@@ -5,16 +5,16 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  // padding-bottom: 20px;
+  padding-bottom: $spacing-20px;
 
   .card,
   .stub {
-    padding: 20px;
+    padding: $spacing-20px;
   }
 
   .comments {
-    margin-top: 15px;
-    padding: 10px;
+    margin-top: $spacing-30px;
+    padding: $spacing-10px;
   }
 
   > * {
@@ -28,17 +28,17 @@
     flex-direction: column;
 
     .editorial-summary {
+      margin-top: $spacing-10px;
       align-self: center;
       max-width: $page-max-width;
     }
   }
 
   .related-people {
-    margin: 20px auto 15px;
+    margin-top: $spacing-30px;
     h2 {
       font-size: 26px;
       font-weight: normal;
-      margin: 0 10px 15px;
     }
   }
 }
