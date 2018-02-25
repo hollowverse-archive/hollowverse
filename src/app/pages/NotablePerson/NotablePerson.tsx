@@ -15,7 +15,6 @@ import { Status } from 'components/Status/Status';
 import { WithData } from 'hocs/WithData/WithData';
 import { LinkButton } from 'components/Button/Button';
 import { withRouter, RouteComponentProps } from 'react-router';
-import { Location } from 'history';
 import { forceReload } from 'helpers/forceReload';
 import query from './NotablePersonQuery.graphql';
 import { PersonDetails } from 'components/PersonDetails/PersonDetails';
@@ -49,12 +48,12 @@ const Page = withRouter(
       return apiClient.request<NotablePersonQuery>(query, { slug });
     };
 
-    getErrorMessage = () => ({ location }: { location: Location }) => (
+    renderErrorMessage = () => (
       <MessageWithIcon
         title="Are you connected to the internet?"
         description="Please check your connection and try again"
         button={
-          <LinkButton to={location} onClick={forceReload}>
+          <LinkButton to={this.props.location} onClick={forceReload}>
             Reload
           </LinkButton>
         }
@@ -64,11 +63,9 @@ const Page = withRouter(
       </MessageWithIcon>
     );
 
-    getNotablePersonContent = () => ({
-      notablePerson,
-    }: {
-      notablePerson: NotablePersonQuery['notablePerson'];
-    }) => {
+    renderNotablePersonContent = (
+      notablePerson: NotablePersonQuery['notablePerson'],
+    ) => {
       if (!notablePerson) {
         return (
           <MessageWithIcon title="Not Found" icon={warningIcon}>
@@ -141,8 +138,6 @@ const Page = withRouter(
     render() {
       const pageUrl = this.props.history.createHref(this.props.location);
       const { slug } = this.props.match.params;
-      const ErrorMessage = this.getErrorMessage();
-      const NotablePersonContent = this.getNotablePersonContent();
 
       return (
         <AppDependenciesContext.Consumer>
@@ -164,16 +159,12 @@ const Page = withRouter(
                   }
 
                   if (isErrorResult(result)) {
-                    const { location } = this.props;
-
-                    return <ErrorMessage location={location} />;
+                    return this.renderErrorMessage();
                   }
 
-                  return (
-                    <NotablePersonContent
-                      // tslint:disable-next-line:no-non-null-assertion
-                      notablePerson={result.value!.notablePerson}
-                    />
+                  return this.renderNotablePersonContent(
+                    // tslint:disable-next-line:no-non-null-assertion
+                    result.value!.notablePerson,
                   );
                 }}
               </WithData>
