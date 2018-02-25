@@ -79,3 +79,8 @@ input[type='search'] {
   appearance: none;
 }
 /* #endregion Disable rounded corners of search fields on Safari for iOS */
+
+/* #region Override certain normalize.css styles */
+h1 {
+  margin: 0;
+}

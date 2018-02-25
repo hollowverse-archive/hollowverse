@@ -83,11 +83,11 @@ export const PersonDetails = ({
         </a>
       ) : null}
       <div className={classes.content}>
-        <h1 className={classes.name}>
+        <h1 className={classes.nameContainer}>
           <div className={classes.caption}>
             Religion, politics, and ideas of
           </div>
-          {name}
+          <div className={classes.name}>{name}</div>
         </h1>
         {labels && labels.length > 0 ? (
           <ul aria-label="Labels" className={classes.labels}>
