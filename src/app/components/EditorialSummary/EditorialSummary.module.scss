@@ -24,7 +24,8 @@
     .source-list {
       padding: 0 $spacing-30px;
       li {
-        margin: $spacing-10px 0 0 $spacing-10px;
+        margin-left: $spacing-10px;
+        margin-top: $spacing-10px;
       }
     }
   }
