@@ -76,12 +76,11 @@
     display: flex;
     justify-content: center;
     .logo {
+      @include font-20px;
+      @include truncate-flex-child;
       text-transform: uppercase;
       text-align: center;
-      font-weight: bold;
-      font-size: 20px;
       letter-spacing: 1px;
-      @include truncate-flex-child;
     }
     animation: navbar-switch 0.15s;
   }

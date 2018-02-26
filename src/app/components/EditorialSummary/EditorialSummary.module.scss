@@ -1,14 +1,15 @@
 @import 'variables.scss';
+@import 'mixins.scss';
 
 .root {
-  line-height: 1.5;
+  @include font-16px;
 
   > *:not(span) {
     display: block;
   }
 
   > h2 {
-    font-size: 20px;
+    @include font-20px;
   }
 
   .br {
