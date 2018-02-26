@@ -1,6 +1,7 @@
 @import 'variables.scss';
 
 .root {
+  // stylelint-disable-next-line property-blacklist
   margin: 48px 0;
   font-size: 11px;
   color: $color-text-lighter;
@@ -19,7 +20,8 @@
 
     > * + *::before {
       content: '\00b7';
-      margin: 5px;
+      // stylelint-disable-next-line property-blacklist
+      margin: 0 $spacing-5px;
     }
   }
 
