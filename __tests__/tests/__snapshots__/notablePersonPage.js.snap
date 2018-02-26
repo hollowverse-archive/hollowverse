@@ -6060,6 +6060,7 @@ exports[`Notable Person page When notable person is found, if notable person has
     </Block>
     <hr />
     <Collapsable
+      className="EditorialSummary-module__source-list-container"
       isOpen={false}
       label={
         <h3>
@@ -6069,7 +6070,7 @@ exports[`Notable Person page When notable person is found, if notable person has
     >
       <Consumer>
         <div
-          className="Collapsable-module__root"
+          className="Collapsable-module__root EditorialSummary-module__source-list-container"
         >
           <input
             aria-checked={false}
@@ -6253,7 +6254,9 @@ exports[`Notable Person page When notable person is found, if notable person has
       </Consumer>
     </Collapsable>
     <hr />
-    <footer>
+    <footer
+      className="EditorialSummary-module__footer"
+    >
       <small>
         This article was written by 
         Tom Kershaw
