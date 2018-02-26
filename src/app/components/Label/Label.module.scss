@@ -1,7 +1,7 @@
 @import 'variables.scss';
 
 .root {
-  padding: 0 12px;
+  padding: 0 $spacing-12px;
   font-size: 12px;
   height: 24px;
   display: inline-flex;
@@ -12,7 +12,7 @@
   border: 1px solid $color-border-light;
 
   &.small {
-    padding: 0 8px;
+    padding: 0 $spacing-8px;
     height: 18px;
     border-radius: 9px;
     font-size: 11px;

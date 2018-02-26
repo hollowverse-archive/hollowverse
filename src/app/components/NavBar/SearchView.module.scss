@@ -23,7 +23,7 @@
   .input-wrapper {
     height: 100%;
     flex-grow: 1;
-    padding: 8px 5px;
+    padding: $spacing-8px $spacing-5px;
     animation: navbar-switch 0.15s;
     animation-fill-mode: backwards;
   }
@@ -31,7 +31,7 @@
   .input {
     width: 100%;
     height: 100%;
-    padding: 0 15px;
+    padding: 0 $spacing-15px;
     font-size: 15px;
     border: 1px solid transparent;
     border-radius: 3px;
