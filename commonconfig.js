@@ -16,6 +16,7 @@ module.exports = {
       validation: 'ignore',
       patterns: [
         '*/**/typings/*',
+        'src/app/pages/NotablePerson/warningIcon.tsx',
         'src/app/__tests__/**/*',
         '__tests__/**/*',
         '_*.scss',

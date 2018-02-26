@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 
 import { Footer } from 'components/Footer/Footer';
 import { TextPage } from 'components/TextPage/TextPage';

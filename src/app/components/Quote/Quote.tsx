@@ -1,7 +1,7 @@
-import * as React from 'react';
+import React from 'react';
 import cc from 'classcat';
 
-import * as classes from './Quote.module.scss';
+import classes from './Quote.module.scss';
 
 type Props = React.BlockquoteHTMLAttributes<HTMLElement> & {
   size?: 'normal' | 'large';

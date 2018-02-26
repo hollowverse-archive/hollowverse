@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { IntersectionObserverProps } from 'react-intersection-observer';
 
 type Props = IntersectionObserverProps & {
@@ -6,7 +6,7 @@ type Props = IntersectionObserverProps & {
 };
 
 export const Shim = ({
-  children = null,
+  children,
   fallbackIsInView = true,
   tag = 'div',
   rootMargin: _,
@@ -16,9 +16,9 @@ export const Shim = ({
   triggerOnce: ______,
   ...rest
 }: Props) => {
-  return React.createElement(tag, {
-    children:
-      typeof children === 'function' ? children(fallbackIsInView) : children,
-    ...rest,
-  });
+  return React.createElement(
+    tag,
+    rest,
+    typeof children === 'function' ? children(fallbackIsInView) : children,
+  );
 };

@@ -1,6 +1,5 @@
-// tslint:disable no-unsafe-any
-import * as express from 'express';
-import * as httpProxy from 'http-proxy';
+import express from 'express';
+import httpProxy from 'http-proxy';
 
 import { redirectToHttps } from './middleware/redirectToHttps';
 import { appServer } from './appServer';

@@ -1,5 +1,4 @@
-import * as React from 'react';
-import { Switch, Route } from 'react-router';
+import React from 'react';
 import { NotablePerson } from 'pages/NotablePerson/NotablePerson';
 import { SearchResults } from 'pages/SearchResults/SearchResults';
 import { About } from 'pages/About/About';
@@ -16,15 +15,15 @@ import {
   defaultAppDependencies,
   AppDependencies,
 } from 'appDependenciesContext';
-import { ConnectedNavBar } from 'components/NavBar/ConnectedNavBar';
 import {
   EpicDependencies,
-  CreateConfiguredStoreOptions,
   createConfiguredStore,
 } from 'store/createConfiguredStore';
 import createMemoryHistory from 'history/createMemoryHistory';
 import { mount, ReactWrapper } from 'enzyme';
 import { delay } from 'helpers/delay';
+import { once } from 'lodash';
+import { AppRoutesMap, App } from 'components/App/App';
 
 type CreateTestTreeOptions = {
   history: History;
@@ -45,9 +44,35 @@ export const createMockGetResponseForDataRequest = <K extends ResolvedDataKey>(
   };
 };
 
-const defaultTestDependencyOverrides: CreateConfiguredStoreOptions['epicDependenciesOverrides'] = {
+export const defaultTestDependencyOverrides: Partial<EpicDependencies> = {
   sendLogs: jest.fn(),
   getResponseForDataRequest: jest.fn(),
+  getGoogleAnalyticsFunction: jest.fn(
+    once(async () => {
+      const mockTracker: UniversalAnalytics.Tracker = {
+        get: jest.fn(),
+        set: jest.fn(),
+        send: jest.fn(),
+      };
+
+      return Object.assign(jest.fn(() => undefined), {
+        getByName: jest.fn(() => mockTracker),
+        getAll: jest.fn(() => [mockTracker]),
+        create: jest.fn(() => mockTracker),
+        remove: jest.fn(() => undefined),
+        l: 0,
+        q: [],
+      });
+    }),
+  ),
+};
+
+export const testRoutesMap: AppRoutesMap = {
+  '/search': SearchResults,
+  '/about': About,
+  '/privacy-policy': PrivacyPolicy,
+  '/:slug': NotablePerson,
+  default: Home,
 };
 
 export const createTestTree = ({
@@ -64,32 +89,21 @@ export const createTestTree = ({
     >
       <Provider store={store}>
         <ConnectedRouter history={history}>
-          <div>
-            <Route>
-              {props => <ConnectedNavBar {...props} title="Hollowverse" />}
-            </Route>
-            <Switch>
-              <Route path="/search" component={SearchResults} />
-              <Route path="/about" component={About} />
-              <Route path="/privacy-policy" component={PrivacyPolicy} />
-              <Route path="/:slug" component={NotablePerson} />
-              <Route component={Home} />
-            </Switch>
-          </div>
+          <App routesMap={testRoutesMap} />
         </ConnectedRouter>
       </Provider>
     </AppDependenciesContext.Provider>
   </HelmetProvider>
 );
 
-export type TestContext = {
+export type ClientSideTestContext = {
   store: Store<StoreState>;
   history: History;
   wrapper: ReactWrapper<any>;
   dependencies: EpicDependencies;
 };
 
-export type CreateTestContextOptions = Partial<{
+export type CreateClientSideTestContextOptions = Partial<{
   epicDependenciesOverrides: Partial<EpicDependencies>;
   createHistoryOptions: MemoryHistoryBuildOptions;
 }>;
@@ -104,11 +118,13 @@ export type CreateTestContextOptions = Partial<{
  *
  * Almost all configuration options can be overridden for convenience.
  */
-export const createTestContext = async ({
+export const createClientSideTestContext = async ({
   epicDependenciesOverrides = {},
   createHistoryOptions = { initialEntries: ['/'] },
   ...rest
-}: Partial<CreateTestContextOptions> = {}): Promise<TestContext> => {
+}: Partial<CreateClientSideTestContextOptions> = {}): Promise<
+  ClientSideTestContext
+> => {
   const { store, dependencies, history } = createConfiguredStore({
     epicDependenciesOverrides: {
       ...defaultTestDependencyOverrides,

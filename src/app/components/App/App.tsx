@@ -1,28 +1,38 @@
-import * as React from 'react';
+import React from 'react';
 import cc from 'classcat';
 import Helmet from 'react-helmet-async';
 import { ConnectedNavBar } from 'components/NavBar/ConnectedNavBar';
-import { Route, Switch } from 'react-router';
+import { Route, Switch, RouteProps } from 'react-router';
 import { isWhitelistedPage } from 'redirectionMap';
 
 import './App.global.scss';
-import * as classes from './App.module.scss';
+import classes from './App.module.scss';
 
-import { LoadableNotablePerson } from 'pages/NotablePerson/LoadableNotablePerson';
-import { LoadableSearchResults } from 'pages/SearchResults/LoadableSearchResults';
-import { LoadableAbout } from 'pages/About/LoadableAbout';
-import { LoadablePrivacyPolicy } from 'pages/PrivacyPolicy/LoadablePrivacyPolicy';
-import { LoadableHome } from 'pages/Home/LoadableHome';
 import { ScrollTo } from 'components/ScrollTo/ScrollTo';
 
 type State = {
   hasMounted: boolean;
 };
 
+type AppPath = '/search' | '/about' | '/privacy-policy' | '/:slug';
+
+export type AppRoutesMap = Record<AppPath | 'default', RouteProps['component']>;
+
+type AppProps = {
+  routesMap: AppRoutesMap;
+};
+
+const orderedPaths: AppPath[] = [
+  '/search',
+  '/about',
+  '/privacy-policy',
+  '/:slug',
+];
+
 /**
  * Main app component
  */
-export const App = class extends React.Component<{}, State> {
+export const App = class extends React.Component<AppProps, State> {
   state: State = {
     hasMounted: false,
   };
@@ -33,6 +43,7 @@ export const App = class extends React.Component<{}, State> {
 
   render() {
     const { hasMounted } = this.state;
+    const { routesMap } = this.props;
 
     return (
       <div className={cc([classes.root, { 'no-js': !hasMounted }])}>
@@ -73,11 +84,10 @@ export const App = class extends React.Component<{}, State> {
         </Route>
         <div className={classes.view}>
           <Switch>
-            <Route path="/search" component={LoadableSearchResults} />
-            <Route path="/about" component={LoadableAbout} />
-            <Route path="/privacy-policy" component={LoadablePrivacyPolicy} />
-            <Route path="/:slug" component={LoadableNotablePerson} />
-            <Route component={LoadableHome} />
+            {orderedPaths.map(path => (
+              <Route key={path} path={path} component={routesMap[path]} />
+            ))}
+            <Route component={routesMap.default} />
           </Switch>
         </div>
       </div>

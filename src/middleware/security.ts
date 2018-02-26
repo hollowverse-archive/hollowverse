@@ -1,5 +1,5 @@
-import * as helmet from 'helmet';
-import * as moment from 'moment';
+import helmet from 'helmet';
+import moment from 'moment';
 
 export const securityMiddleware = [
   helmet({

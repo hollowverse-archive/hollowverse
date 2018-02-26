@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Shim } from './ReactIntersectionObserverShim';
 import { IntersectionObserverProps } from 'react-intersection-observer';
 import universal from 'react-universal-component';

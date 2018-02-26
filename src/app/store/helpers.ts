@@ -96,6 +96,7 @@ export function handleAction<
 >(actionType: A) {
   return (state: S[K], action: Action<A>): S[K] => {
     if (isActionOfType(action, actionType)) {
+      // @ts-ignore
       return action.payload;
     }
 

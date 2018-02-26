@@ -1,45 +1,29 @@
-import { getStatusCode } from 'store/features/status/reducer';
 import {
   createMockGetResponseForDataRequest,
-  TestContext,
-  createTestContext,
+  ClientSideTestContext,
+  createClientSideTestContext,
 } from 'helpers/testHelpers';
 import { pageLoadSucceeded } from 'store/features/logging/actions';
+import {
+  notablePersonWithEditorialSummaryQueryResponse,
+  stubNotablePersonQueryResponse,
+} from 'fixtures/notablePersonQuery';
+import { EditorialSummary } from 'components/EditorialSummary/EditorialSummary';
 
 describe('Notable Person page', () => {
-  let context: TestContext;
+  let context: ClientSideTestContext;
 
   describe('When notable person is found,', () => {
     beforeEach(async () => {
-      context = await createTestContext({
+      context = await createClientSideTestContext({
         epicDependenciesOverrides: {
           getResponseForDataRequest: createMockGetResponseForDataRequest(
             'notablePersonQuery',
-            {
-              notablePerson: {
-                commentsUrl: '',
-                name: 'Tom Hanks',
-                editorialSummary: null,
-                mainPhoto: null,
-                relatedPeople: [
-                  {
-                    mainPhoto: null,
-                    name: 'Al Pacino',
-                    slug: 'Al_Pacino',
-                  },
-                ],
-                slug: 'Tom_Hanks',
-                summary: null,
-              },
-            },
+            stubNotablePersonQueryResponse,
           ),
         },
         createHistoryOptions: { initialEntries: ['/Tom_Hanks'] },
       });
-    });
-
-    it('returns 200', () => {
-      expect(getStatusCode(context.store.getState())).toBe(200);
     });
 
     it('has notable person name', () => {
@@ -69,11 +53,75 @@ describe('Notable Person page', () => {
         );
       });
     });
+
+    describe('sends analytics', () => {
+      it('loads Google Analytics script', () => {
+        expect(
+          context.dependencies.getGoogleAnalyticsFunction,
+        ).toHaveBeenCalled();
+      });
+
+      it('sets the account settings', async () => {
+        const ga = await context.dependencies.getGoogleAnalyticsFunction();
+
+        expect(ga).toHaveBeenCalledWith(
+          'create',
+          expect.stringMatching(/UA-[0-9]{9}-[0-9]{1,2}/g),
+          expect.nonEmptyString(),
+        );
+      });
+
+      it('sets the active page correctly', async () => {
+        const ga = await context.dependencies.getGoogleAnalyticsFunction();
+
+        expect(ga).toHaveBeenCalledWith(
+          'set',
+          'page',
+          context.history.location.pathname,
+        );
+      });
+
+      it('sends pageview event', async () => {
+        const ga = await context.dependencies.getGoogleAnalyticsFunction();
+
+        expect(ga).toHaveBeenLastCalledWith(
+          'send',
+          'pageview',
+          context.history.createHref(context.history.location),
+        );
+      });
+    });
+
+    describe('if notable person does not have an editorial summary', () => {
+      it('shows a call to comment', () => {
+        expect(context.wrapper).toIncludeText('Share what you know');
+      });
+    });
+
+    describe('if notable person has an editorial summary', () => {
+      beforeEach(async () => {
+        context = await createClientSideTestContext({
+          epicDependenciesOverrides: {
+            getResponseForDataRequest: createMockGetResponseForDataRequest(
+              'notablePersonQuery',
+              notablePersonWithEditorialSummaryQueryResponse,
+            ),
+          },
+          createHistoryOptions: { initialEntries: ['/Tom_Hanks'] },
+        });
+      });
+
+      it('shows editorial summary content', () => {
+        const editorialSummary = context.wrapper.find(EditorialSummary);
+        expect(editorialSummary).toBePresent();
+        expect(editorialSummary).toMatchSnapshot();
+      });
+    });
   });
 
   describe('When notable person is not found,', () => {
     beforeEach(async () => {
-      context = await createTestContext({
+      context = await createClientSideTestContext({
         createHistoryOptions: { initialEntries: ['/Tom_Hanks'] },
         epicDependenciesOverrides: {
           getResponseForDataRequest: createMockGetResponseForDataRequest(
@@ -84,10 +132,6 @@ describe('Notable Person page', () => {
           ),
         },
       });
-    });
-
-    it('returns 404', () => {
-      expect(getStatusCode(context.store.getState())).toBe(404);
     });
 
     it('shows "Not Found"', () => {

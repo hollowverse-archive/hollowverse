@@ -1,5 +1,10 @@
 const webpack = require('webpack');
+const LoaderTargetPlugin = require('webpack/lib/LoaderTargetPlugin');
+const FunctionModulePlugin = require('webpack/lib/FunctionModulePlugin');
+const JsonpTemplatePlugin = require('webpack/lib/JsonpTemplatePlugin');
+const NodeTargetPlugin = require('webpack/lib/node/NodeTargetPlugin');
 const webpackMerge = require('webpack-merge');
+const StatsPlugin = require('stats-webpack-plugin');
 
 const { compact } = require('lodash');
 const path = require('path');
@@ -24,7 +29,22 @@ const common = createCommonConfig();
 
 const testSpecificConfig = {
   name: 'tests',
-  target: 'web',
+
+  // The environment provided by Jest is kind of a Node.js/Browser hybrid:
+  // we can `require` built-in Node.js modules like `fs` and `path` and we
+  // can also access `window` and other DOM APIs.
+  // The `target` configuration below allows us to emulate this hybrid environment
+  // in Webpack so modules expecting either type of environment can still work.
+  //
+  // See https://webpack.js.org/configuration/target/
+  // See https://github.com/webpack/webpack/blob/master/lib/WebpackOptionsApply.js#L70-L185
+  // @ts-ignore
+  target: compiler => {
+    new JsonpTemplatePlugin().apply(compiler);
+    new FunctionModulePlugin(testSpecificConfig.output).apply(compiler);
+    new NodeTargetPlugin().apply(compiler);
+    new LoaderTargetPlugin('web').apply(compiler);
+  },
 
   // This plugin watches for newly added test files and
   // updates webpack entries so that we do not have
@@ -64,7 +84,7 @@ const testSpecificConfig = {
       },
 
       // JavaScript and TypeScript
-      ...createScriptRules(false),
+      ...createScriptRules(true),
 
       // Global CSS
       {
@@ -72,19 +92,36 @@ const testSpecificConfig = {
         exclude: [...excludedPatterns, cssModulesPattern],
         use: createGlobalCssLoaders(true),
       },
+
+      {
+        test: /\.html?$/,
+        exclude: [...excludedPatterns],
+        use: {
+          loader: 'html-loader',
+          options: {
+            minimize: false,
+            interpolate: false,
+          },
+        },
+      },
     ]),
   },
 
+  // Do not mock built-in node modules and global
+  // The actual ones will be available (and needed) in
+  // Jest environment
+  node: false,
+
   plugins: compact([
+    // @ts-ignore
+    new StatsPlugin('stats.json', {
+      chunkModules: true,
+    }),
+
     new WildcardsEntryWebpackPlugin(),
 
     // Required for debugging in development and for long-term caching in production
     new webpack.NamedModulesPlugin(),
-
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'common',
-      minChunks: 2,
-    }),
 
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',

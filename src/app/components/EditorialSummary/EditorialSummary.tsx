@@ -1,7 +1,7 @@
-import * as React from 'react';
+import React from 'react';
 import formatDate from 'date-fns/format';
 
-import * as classes from './EditorialSummary.module.scss';
+import classes from './EditorialSummary.module.scss';
 import { prettifyUrl } from 'helpers/prettifyUrl';
 import { EditorialSummaryNodeType } from 'api/types';
 import { Quote } from 'components/Quote/Quote';

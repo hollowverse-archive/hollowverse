@@ -1,10 +1,10 @@
-import * as React from 'react';
+import React from 'react';
 import FlipMove from 'react-flip-move';
 import { AlgoliaResponse } from 'algoliasearch';
 import { Link } from 'react-router-dom';
 
 import { Square } from 'components/Square/Square';
-import * as classes from './SearchResults.module.scss';
+import classes from './SearchResults.module.scss';
 
 type ResultsListProps = {
   hits: AlgoliaResponse['hits'];

@@ -1,4 +1,4 @@
-import * as pathToRegExp from 'path-to-regexp';
+import pathToRegExp from 'path-to-regexp';
 
 /**
  * A map of old slugs to new slugs that are explicitly set to be redirected

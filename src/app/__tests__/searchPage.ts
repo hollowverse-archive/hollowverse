@@ -1,43 +1,22 @@
-import { getStatusCode } from 'store/features/status/reducer';
 import {
   createMockGetResponseForDataRequest,
-  TestContext,
-  createTestContext,
+  ClientSideTestContext,
+  createClientSideTestContext,
 } from 'helpers/testHelpers';
 import { delay } from 'helpers/delay';
 import { LoadingSpinner } from 'components/LoadingSpinner/LoadingSpinner';
 import { isSearchInProgress } from 'store/features/search/selectors';
-
-const stubNonEmptySearchResults = {
-  hits: [
-    {
-      slug: 'Tom_Hanks',
-      name: 'Tom Hanks',
-      mainPhoto: null,
-      objectID: '123',
-    },
-    {
-      slug: 'Tom_Hardy',
-      name: 'Tom Hardy',
-      mainPhoto: null,
-      objectID: '456',
-    },
-  ],
-  hitsPerPage: 10,
-  nbHits: 2,
-  nbPages: 1,
-  page: 0,
-  params: '',
-  processingTimeMS: 1,
-  query: 'Tom',
-};
+import {
+  stubNonEmptySearchResults,
+  emptySearchResults,
+} from 'fixtures/searchResults';
 
 describe('Search page', () => {
-  let context: TestContext;
+  let context: ClientSideTestContext;
 
   describe('While typing,', () => {
     beforeEach(async () => {
-      context = await createTestContext({
+      context = await createClientSideTestContext({
         createHistoryOptions: { initialEntries: ['/search'] },
         epicDependenciesOverrides: {
           getResponseForDataRequest: createMockGetResponseForDataRequest(
@@ -68,7 +47,7 @@ describe('Search page', () => {
 
   describe('While results are being loaded,', () => {
     beforeEach(async () => {
-      context = await createTestContext({
+      context = await createClientSideTestContext({
         createHistoryOptions: { initialEntries: ['/search'] },
         epicDependenciesOverrides: {
           getResponseForDataRequest: async payload => {
@@ -95,7 +74,7 @@ describe('Search page', () => {
 
   describe('When results have finished loading,', () => {
     beforeEach(async () => {
-      context = await createTestContext({
+      context = await createClientSideTestContext({
         createHistoryOptions: { initialEntries: ['/search?query=Tom'] },
         epicDependenciesOverrides: {
           getResponseForDataRequest: createMockGetResponseForDataRequest(
@@ -107,10 +86,6 @@ describe('Search page', () => {
     });
 
     describe('When results are found,', () => {
-      it('returns 200', () => {
-        expect(getStatusCode(context.store.getState())).toBe(200);
-      });
-
       it('shows a list of results', () => {
         expect(context.wrapper).toIncludeText('Tom Hanks');
         expect(context.wrapper).toIncludeText('Tom Hardy');
@@ -131,28 +106,15 @@ describe('Search page', () => {
 
     describe('When no results are found,', () => {
       beforeEach(async () => {
-        context = await createTestContext({
+        context = await createClientSideTestContext({
           createHistoryOptions: { initialEntries: ['/search?query=Tom'] },
           epicDependenciesOverrides: {
             getResponseForDataRequest: createMockGetResponseForDataRequest(
               'searchResults',
-              {
-                hits: [],
-                hitsPerPage: 10,
-                nbHits: 0,
-                nbPages: 1,
-                page: 0,
-                params: '',
-                processingTimeMS: 1,
-                query: 'Tom',
-              },
+              emptySearchResults,
             ),
           },
         });
-      });
-
-      it('returns 404', () => {
-        expect(getStatusCode(context.store.getState())).toBe(404);
       });
 
       it('shows "No results found"', () => {

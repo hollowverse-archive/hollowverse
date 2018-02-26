@@ -1,9 +1,10 @@
-import * as React from 'react';
+import React from 'react';
 import { Label } from 'components/Label/Label';
 import { Image } from 'components/Image/Image';
-import * as classes from './PersonDetails.module.scss';
+import classes from './PersonDetails.module.scss';
 import { prettifyUrl } from 'helpers/prettifyUrl';
 import Helmet from 'react-helmet-async';
+import { oneLineTrim } from 'common-tags';
 
 type PersonDetailsProps = {
   summary: string | null;
@@ -50,7 +51,7 @@ export const PersonDetails = ({
           style={
             colors.length === 2
               ? {
-                  background: `linear-gradient(
+                  background: oneLineTrim`linear-gradient(
                     130deg,
                     #4cfde9 -20%,
                     transparent 30%,
@@ -99,9 +100,7 @@ export const PersonDetails = ({
         ) : null}
         {summary && (
           <div className={classes.summary}>
-            {summary
-              .split('\n')
-              .map((paragraph, i) => <p key={i}>{paragraph}</p>)}
+            {summary.split('\n').map(paragraph => <p>{paragraph}</p>)}
           </div>
         )}
       </div>

@@ -1,7 +1,7 @@
-import * as React from 'react';
+import React from 'react';
 import cc from 'classcat';
 
-import * as classes from './SvgIcon.module.scss';
+import classes from './SvgIcon.module.scss';
 
 type Props = React.HTMLAttributes<SVGElement> &
   SpriteSymbol & {
