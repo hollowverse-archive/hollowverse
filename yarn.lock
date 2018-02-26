@@ -783,11 +783,32 @@
     "@types/node" "*"
     "@types/react" "*"
 
+"@types/react-helmet-async@^0.0.0":
+  version "0.0.0"
+  resolved "https://registry.yarnpkg.com/@types/react-helmet-async/-/react-helmet-async-0.0.0.tgz#553e255eada45207975b612104716345b5bec8f4"
+  dependencies:
+    "@types/react" "*"
+    "@types/react-helmet" "*"
+
+"@types/react-helmet@*":
+  version "5.0.4"
+  resolved "https://registry.yarnpkg.com/@types/react-helmet/-/react-helmet-5.0.4.tgz#e8c8277bf4b0f43ba6ba8d6cd098fc53b518f975"
+  dependencies:
+    "@types/react" "*"
+
 "@types/react-helmet@^5.0.3":
   version "5.0.3"
   resolved "https://registry.yarnpkg.com/@types/react-helmet/-/react-helmet-5.0.3.tgz#614e706cb73120936c7c067404809f8c2f1a840c"
   dependencies:
     "@types/react" "*"
+
+"@types/react-redux-epic@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@types/react-redux-epic/-/react-redux-epic-1.1.0.tgz#04fd12c09721f01032a0f34259c67cb89fd9bfcb"
+  dependencies:
+    "@types/react" "*"
+    redux-observable "^0.18.0"
+    rxjs "^5.5.5"
 
 "@types/react-redux@^5.0.14":
   version "5.0.14"
