@@ -1,4 +1,5 @@
 @import 'variables.scss';
+@import 'mixins.scss';
 
 .root {
   display: block;
@@ -19,8 +20,7 @@
   }
 
   small {
-    font-size: 13px;
-    line-height: 1.4;
+    @include font-13px;
     color: $color-text-light;
   }
 }

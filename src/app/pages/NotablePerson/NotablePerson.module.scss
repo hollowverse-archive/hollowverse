@@ -1,4 +1,5 @@
 @import 'variables.scss';
+@import 'mixins.scss';
 
 .root {
   display: flex;
@@ -37,8 +38,7 @@
   .related-people {
     margin-top: $spacing-30px;
     h2 {
-      font-size: 26px;
-      font-weight: normal;
+      @include font-26px;
     }
   }
 }

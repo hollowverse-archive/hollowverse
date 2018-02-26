@@ -1,4 +1,5 @@
 @import 'variables.scss';
+@import 'mixins.scss';
 
 .root {
   width: 100%;
@@ -53,12 +54,12 @@
   }
 
   .person {
+    @include font-13px;
     flex: 1 0 calc(25% - 2px);
     display: flex;
     align-items: stretch;
     padding: 2px;
     font-weight: bold;
-    font-size: 13px;
     a {
       color: initial;
       text-decoration: none;

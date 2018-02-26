@@ -1,9 +1,10 @@
 @import 'variables.scss';
+@import 'mixins.scss';
 
 .root {
+  @include font-13px;
   // stylelint-disable-next-line property-blacklist
   margin: $spacing-40px 0;
-  font-size: 11px;
   color: $color-text-lighter;
   text-align: center;
 
