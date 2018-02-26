@@ -61,7 +61,7 @@
 
     > *:not(:last-child)::after {
       content: '\00B7';
-      padding-left: 5px;
+      padding-left: $spacing-5px;
       color: $color-text-light;
     }
   }

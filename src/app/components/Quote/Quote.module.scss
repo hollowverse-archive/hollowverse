@@ -1,7 +1,7 @@
 @import 'variables.scss';
 
 .root {
-  $quoation-mark-margin: 5px;
+  $quoation-mark-margin: $spacing-5px;
   $top-offset: 10px;
 
   &.large {
