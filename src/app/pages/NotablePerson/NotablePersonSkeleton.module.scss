@@ -1,3 +1,4 @@
+/* stylelint-disable property-blacklist */
 @import 'variables.scss';
 
 .root {
@@ -8,7 +9,7 @@
     width: 100%;
     max-width: $page-max-width;
     margin: 0 auto;
-    padding: 20px 20px 40px;
+    padding: $spacing-20px $spacing-20px $spacing-40px;
     position: relative;
   }
 
@@ -56,7 +57,7 @@
     width: $person-avatar-size;
     height: $person-avatar-size;
     user-select: none;
-    margin: 20px auto 25px;
+    margin: $spacing-20px auto $spacing-30px;
     background-color: $color-background;
     border-radius: 1px;
   }
@@ -71,14 +72,14 @@
   .name {
     height: 30px;
     width: 55%;
-    margin: 10px auto 22px;
+    margin: $spacing-10px auto $spacing-20px;
     background-color: $color-background;
   }
 
   .lines {
     > * {
       height: 20px;
-      margin: 10px 0;
+      margin: $spacing-10px 0;
       background-color: $color-background;
     }
 
