@@ -4,6 +4,7 @@ import { Image } from 'components/Image/Image';
 import classes from './PersonDetails.module.scss';
 import { prettifyUrl } from 'helpers/prettifyUrl';
 import Helmet from 'react-helmet-async';
+import { oneLineTrim } from 'common-tags';
 
 type PersonDetailsProps = {
   summary: string | null;
@@ -50,7 +51,7 @@ export const PersonDetails = ({
           style={
             colors.length === 2
               ? {
-                  background: `linear-gradient(
+                  background: oneLineTrim`linear-gradient(
                     130deg,
                     #4cfde9 -20%,
                     transparent 30%,

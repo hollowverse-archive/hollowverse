@@ -1,4 +1,3 @@
-// tslint:disable no-unsafe-any
 import path from 'path';
 import express from 'express';
 import loglevel from 'loglevel';

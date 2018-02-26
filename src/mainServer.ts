@@ -1,4 +1,3 @@
-// tslint:disable no-unsafe-any
 import express from 'express';
 import httpProxy from 'http-proxy';
 
