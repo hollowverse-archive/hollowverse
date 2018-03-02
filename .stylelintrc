@@ -3,7 +3,6 @@
   "rules": {
     "plugin/no-unsupported-browser-features": [true, {
       "ignore": ["css-featurequeries", "outline", "css-appearance"]
-    }],
-    "property-blacklist": ["margin-bottom", "margin-right", "margin"]
+    }]
   }
 }
