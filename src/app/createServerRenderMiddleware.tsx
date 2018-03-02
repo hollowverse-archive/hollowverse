@@ -1,6 +1,6 @@
 import { RequestHandler } from 'express';
 import React from 'react';
-import { HelmetProvider, FilledContext } from 'react-helmet-async';
+import { HelmetProvider, PopulatedContext } from 'react-helmet-async';
 import serializeJavaScript from 'serialize-javascript';
 import { renderToString, wrapRootEpic } from 'react-redux-epic';
 import { ConnectedRouter } from 'react-router-redux';
@@ -133,7 +133,7 @@ export const createServerRenderMiddleware = ({
       const icons = iconStats ? iconStats.html.join(' ') : '';
 
       const { title, meta, link, htmlAttributes } = mapValues(
-        (helmetContext as FilledContext).helmet,
+        (helmetContext as PopulatedContext).helmet,
         String,
       );
 

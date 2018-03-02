@@ -90,6 +90,7 @@
   .summary {
     @include font-16px;
     margin-top: $spacing-30px;
+    padding: $spacing-20px;
 
     p + p {
       margin-top: $spacing-10px;
