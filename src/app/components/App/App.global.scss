@@ -1,3 +1,4 @@
+// stylelint-disable property-blacklist
 @import 'variables.scss';
 
 * {
@@ -79,3 +80,9 @@ input[type='search'] {
   appearance: none;
 }
 /* #endregion Disable rounded corners of search fields on Safari for iOS */
+
+/* #region Override certain normalize.css styles */
+h1 {
+  margin: 0;
+}
+/* #endregion Override certain normalize.css styles */

@@ -20,13 +20,12 @@
 
   .icon {
     transition: transform 0.2s ease-in-out;
-    margin: 0 10px;
+    margin-left: $spacing-10px;
     position: relative;
     top: 1px;
   }
 
   .label {
-    margin: 0 5px;
     display: inline-flex;
     align-items: center;
     cursor: pointer;

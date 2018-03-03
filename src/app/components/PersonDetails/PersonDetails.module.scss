@@ -1,10 +1,9 @@
 @import 'variables.scss';
+@import 'mixins.scss';
 
 .root {
   position: relative;
-  margin-bottom: 25px;
   overflow-x: hidden;
-  padding: 20px 20px 0;
   display: flex;
   flex-direction: column;
 
@@ -51,7 +50,7 @@
     display: inline-block;
     width: $person-avatar-size;
     height: $person-avatar-size;
-    margin: 20px auto 25px;
+    margin-top: $spacing-40px;
   }
 
   .photo {
@@ -67,39 +66,34 @@
     object-fit: cover;
   }
 
-  .caption {
-    color: $color-text-light;
-    font-size: 11px;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin: 0 0 5px;
-    text-align: center;
-  }
-
-  .name {
+  .name-container {
+    @include font-26px;
     color: $color-text-default;
-    font-size: 26px;
-    font-weight: normal;
-    line-height: 1;
-    margin: 0 0 26px;
+    margin-top: $spacing-10px;
     text-align: center;
-  }
 
-  .labels {
-    text-align: center;
-    margin: 20px auto;
-    .list-item {
-      display: inline;
+    .caption {
+      @include font-11px;
+      color: $color-text-light;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: $spacing-20px;
+      text-align: center;
+    }
+
+    .name {
+      margin-top: $spacing-5px;
     }
   }
 
   .summary {
-    font-size: 16px;
-    line-height: 1.5;
+    @include font-16px;
+    margin-top: $spacing-30px;
+    padding: $spacing-20px;
 
-    p {
-      margin: 10px 0;
+    p + p {
+      margin-top: $spacing-10px;
     }
   }
 }

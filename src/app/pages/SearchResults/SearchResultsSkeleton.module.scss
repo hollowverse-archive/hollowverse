@@ -32,7 +32,8 @@
     opacity: 0.5;
     display: flex;
     flex-basis: 100%;
-    margin: 10px 20px;
+    margin-top: $spacing-10px;
+    margin-left: $spacing-20px;
 
     .photo {
       width: 36px;
@@ -42,8 +43,9 @@
 
     .text {
       height: 1em;
-      margin: 10px;
-      padding: 10px 20px;
+      margin-top: $spacing-10px;
+      margin-left: $spacing-10px;
+      padding: $spacing-10px $spacing-20px;
       background-color: $color-background;
       width: 65%;
     }

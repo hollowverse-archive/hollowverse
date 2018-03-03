@@ -7,5 +7,7 @@ export const TextPage = ({
   className,
   ...rest
 }: React.HTMLAttributes<HTMLDivElement>) => (
-  <div className={cc([className, classes.root])} {...rest} />
+  <div className={classes.root}>
+    <div className={cc([className, classes.container])} {...rest} />
+  </div>
 );

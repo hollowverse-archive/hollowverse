@@ -1,4 +1,5 @@
 import React from 'react';
+import cc from 'classcat';
 
 import { AppDependenciesContext } from 'appDependenciesContext';
 
@@ -10,6 +11,7 @@ import dropdownIcon from 'icons/dropdown.svg';
 type Props = {
   label: React.ReactNode;
   isOpen?: boolean;
+  className?: string;
   onChange?(isOpen: boolean): void;
 };
 
@@ -49,7 +51,7 @@ export class Collapsable extends React.PureComponent<Props, State> {
   };
 
   render() {
-    const { label, children } = this.props;
+    const { label, children, className } = this.props;
     const { isOpen } = this.state;
 
     return (
@@ -58,7 +60,7 @@ export class Collapsable extends React.PureComponent<Props, State> {
           const id = getUniqueId();
 
           return (
-            <div className={classes.root}>
+            <div className={cc([classes.root, className])}>
               {/*
                 * The input, label, and children container
                 * all have to be siblings in order to hide the children with

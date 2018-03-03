@@ -1,8 +1,10 @@
 @import 'variables.scss';
+@import 'mixins.scss';
 
 .root {
-  margin: 48px 0;
-  font-size: 11px;
+  @include font-13px;
+  // stylelint-disable-next-line property-blacklist
+  margin: $spacing-40px 0;
   color: $color-text-lighter;
   text-align: center;
 
@@ -19,7 +21,8 @@
 
     > * + *::before {
       content: '\00b7';
-      margin: 5px;
+      // stylelint-disable-next-line property-blacklist
+      margin: 0 $spacing-5px;
     }
   }
 

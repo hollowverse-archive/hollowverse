@@ -1,5 +1,4 @@
 import React from 'react';
-import { Label } from 'components/Label/Label';
 import { Image } from 'components/Image/Image';
 import classes from './PersonDetails.module.scss';
 import { prettifyUrl } from 'helpers/prettifyUrl';
@@ -19,14 +18,12 @@ type PersonDetailsProps = {
       darkMuted: string | null;
     } | null;
   } | null;
-  labels?: Array<{ text: string; id: string }>;
 };
 
 export const PersonDetails = ({
   summary,
   name,
   photo,
-  labels,
 }: PersonDetailsProps) => {
   let colors: string[] = [];
   if (photo && photo.colorPalette) {
@@ -83,21 +80,12 @@ export const PersonDetails = ({
         </a>
       ) : null}
       <div className={classes.content}>
-        <h1 className={classes.name}>
+        <h1 className={classes.nameContainer}>
           <div className={classes.caption}>
             Religion, politics, and ideas of
           </div>
-          {name}
+          <div className={classes.name}>{name}</div>
         </h1>
-        {labels && labels.length > 0 ? (
-          <ul aria-label="Labels" className={classes.labels}>
-            {labels.map(({ id, text }) => (
-              <li className={classes.listItem} key={id}>
-                <Label text={text} />
-              </li>
-            ))}
-          </ul>
-        ) : null}
         {summary && (
           <div className={classes.summary}>
             {summary.split('\n').map(paragraph => <p>{paragraph}</p>)}
