@@ -20,54 +20,63 @@ type PersonDetailsProps = {
   } | null;
 };
 
-export const PersonDetails = ({
-  summary,
-  name,
-  photo,
-}: PersonDetailsProps) => {
-  let colors: string[] = [];
-  if (photo && photo.colorPalette) {
-    const { vibrant, muted, darkVibrant, darkMuted } = photo.colorPalette;
-    colors = [darkVibrant || darkMuted, vibrant || muted].filter(
-      color => color !== null,
-    ) as string[];
-  }
+export class PersonDetails extends React.PureComponent<PersonDetailsProps> {
+  renderHead = () => {
+    const { photo } = this.props;
 
-  return (
-    <div className={classes.root}>
-      {photo &&
+    return photo &&
       photo.colorPalette &&
       photo.colorPalette.darkVibrant !== null ? (
-        <Helmet>
-          <meta name="theme-color" content={photo.colorPalette.darkVibrant} />
-        </Helmet>
-      ) : null}
-      <div className={classes.coverBackgroundWrapper} aria-hidden>
-        <div
-          className={classes.coverBackground}
-          style={
-            colors.length === 2
-              ? {
-                  background: oneLineTrim`linear-gradient(
-                    130deg,
-                    #4cfde9 -20%,
-                    transparent 30%,
-                    transparent 60%,
-                    rgb(253, 188, 9) 85%
-                  ) no-repeat,
-                  linear-gradient(
-                    130deg,
-                    transparent -20%,
-                    ${colors[0]} 30%,
-                    ${colors[1]} 60%,
-                    transparent 85%
-                  ) no-repeat`,
-                }
-              : undefined
-          }
-        />
-      </div>
-      {photo ? (
+      <Helmet>
+        <meta name="theme-color" content={photo.colorPalette.darkVibrant} />
+      </Helmet>
+    ) : null;
+  };
+
+  renderCoverBackground = () => {
+    const { photo } = this.props;
+
+    let colors: string[] = [];
+
+    if (photo && photo.colorPalette) {
+      const { vibrant, muted, darkVibrant, darkMuted } = photo.colorPalette;
+      colors = [darkVibrant || darkMuted, vibrant || muted].filter(
+        color => color !== null,
+      ) as string[];
+    }
+
+    return (
+      <div
+        className={classes.coverBackground}
+        style={
+          colors.length === 2
+            ? {
+                background: oneLineTrim`linear-gradient(
+                130deg,
+                #4cfde9 -20%,
+                transparent 30%,
+                transparent 60%,
+                rgb(253, 188, 9) 85%
+              ) no-repeat,
+              linear-gradient(
+                130deg,
+                transparent -20%,
+                ${colors[0]} 30%,
+                ${colors[1]} 60%,
+                transparent 85%
+              ) no-repeat`,
+              }
+            : undefined
+        }
+      />
+    );
+  };
+
+  renderImage = () => {
+    const { photo, name } = this.props;
+
+    if (photo && photo.sourceUrl) {
+      return (
         <a
           className={classes.photoLink}
           href={photo.sourceUrl}
@@ -78,7 +87,22 @@ export const PersonDetails = ({
             Image source: {prettifyUrl(photo.sourceUrl)}
           </span>
         </a>
-      ) : null}
+      );
+    } else if (photo && !photo.sourceUrl) {
+      return (
+        <span className={classes.photoLink}>
+          <Image className={classes.photo} src="#" alt={name} />
+        </span>
+      );
+    }
+
+    return null;
+  };
+
+  renderContent = () => {
+    const { summary, name } = this.props;
+
+    return (
       <div className={classes.content}>
         <h1 className={classes.nameContainer}>
           <div className={classes.caption}>
@@ -88,10 +112,26 @@ export const PersonDetails = ({
         </h1>
         {summary && (
           <div className={classes.summary}>
-            {summary.split('\n').map(paragraph => <p>{paragraph}</p>)}
+            {summary
+              .split('\n')
+              .map((paragraph, i) => <p key={i}>{paragraph}</p>)}
           </div>
         )}
       </div>
-    </div>
-  );
-};
+    );
+  };
+
+  render() {
+    return (
+      <div className={classes.root}>
+        {this.renderHead()}
+        <div className={classes.coverBackgroundWrapper} aria-hidden>
+          {this.renderCoverBackground()}
+        </div>
+
+        {this.renderImage()}
+        {this.renderContent()}
+      </div>
+    );
+  }
+}

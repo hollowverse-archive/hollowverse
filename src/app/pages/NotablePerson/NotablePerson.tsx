@@ -10,7 +10,8 @@ import {
 
 import { NotablePersonQuery } from 'api/types';
 import { MessageWithIcon } from 'components/MessageWithIcon/MessageWithIcon';
-import { NotablePersonSkeleton } from './NotablePersonSkeleton';
+// import { NotablePersonSkeleton } from './NotablePersonSkeleton';
+import { NotablePersonSkeletonData } from './NotablePersonSkeletonData';
 import { Status } from 'components/Status/Status';
 import { WithData } from 'hocs/WithData/WithData';
 import { LinkButton } from 'components/Button/Button';
@@ -134,17 +135,12 @@ const Page = withRouter(
     };
 
     renderBody = (notablePerson: NotablePerson, isSkeleton = false) => {
-      const { mainPhoto, summary } = notablePerson!; // tslint:disable-line:no-non-null-assertion
+      const { mainPhoto, summary, name } = notablePerson!; // tslint:disable-line:no-non-null-assertion
 
       return (
         <>
           <article className={classes.article}>
-            <PersonDetails
-              name={name}
-              photo={mainPhoto}
-              summary={summary}
-              isSkeleton={isSkeleton}
-            />
+            <PersonDetails name={name} photo={mainPhoto} summary={summary} />
 
             {!isSkeleton ? this.renderEditorialSummary(notablePerson) : null}
           </article>
@@ -163,8 +159,16 @@ const Page = withRouter(
       const notablePerson = result.value && result.value.notablePerson;
       const isLoading = result.value === null || isPendingResult(result);
 
+      // return this.renderBody(
+      //   (NotablePersonSkeletonData as any) as NotablePerson,
+      //   isLoading,
+      // );
+
       if (isLoading) {
-        return this.renderBody(notablePerson, isLoading);
+        return this.renderBody(
+          (NotablePersonSkeletonData as any) as NotablePerson,
+          isLoading,
+        );
       } else if (notablePerson) {
         return (
           <>
