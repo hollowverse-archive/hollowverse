@@ -70,6 +70,37 @@
     object-fit: cover;
   }
 
+  .name-container {
+    @include font-26px;
+    color: $color-text-default;
+    margin-top: $spacing-10px;
+    text-align: center;
+
+    .caption {
+      @include font-11px;
+      color: $color-text-light;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: $spacing-20px;
+      text-align: center;
+    }
+
+    .name {
+      margin-top: $spacing-5px;
+    }
+  }
+
+  .summary {
+    @include font-16px;
+    margin-top: $spacing-30px;
+    padding: $spacing-20px;
+
+    p + p {
+      margin-top: $spacing-10px;
+    }
+  }
+
   &.is-loading {
     &::after {
       content: '';
@@ -102,12 +133,9 @@
 
     .photo,
     .text {
-      // stylelint-disable-next-line plugin/no-unsupported-browser-features
-      // filter: blur(3px);
       color: $color-background;
       background: $color-background;
       user-select: none;
-      // display: none;
     }
 
     .gradient {
@@ -123,37 +151,6 @@
         rgba(241, 241, 243, 0) 75%
       );
       animation: animate-gradient 0.8s linear infinite;
-    }
-  }
-
-  .name-container {
-    @include font-26px;
-    color: $color-text-default;
-    margin-top: $spacing-10px;
-    text-align: center;
-
-    .caption {
-      @include font-11px;
-      color: $color-text-light;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-top: $spacing-20px;
-      text-align: center;
-    }
-
-    .name {
-      margin-top: $spacing-5px;
-    }
-  }
-
-  .summary {
-    @include font-16px;
-    margin-top: $spacing-30px;
-    padding: $spacing-20px;
-
-    p + p {
-      margin-top: $spacing-10px;
     }
   }
 }
