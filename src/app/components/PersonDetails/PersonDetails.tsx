@@ -36,7 +36,11 @@ export class PersonDetails extends React.PureComponent<PersonDetailsProps> {
   };
 
   renderCoverBackground = () => {
-    const { photo } = this.props;
+    const { photo, isLoading } = this.props;
+
+    if (isLoading) {
+      return null;
+    }
 
     let colors: string[] = [];
 
@@ -48,12 +52,13 @@ export class PersonDetails extends React.PureComponent<PersonDetailsProps> {
     }
 
     return (
-      <div
-        className={classes.coverBackground}
-        style={
-          colors.length === 2
-            ? {
-                background: oneLineTrim`linear-gradient(
+      <div className={classes.coverBackgroundWrapper} aria-hidden>
+        <div
+          className={classes.coverBackground}
+          style={
+            colors.length === 2
+              ? {
+                  background: oneLineTrim`linear-gradient(
                 130deg,
                 #4cfde9 -20%,
                 transparent 30%,
@@ -67,10 +72,11 @@ export class PersonDetails extends React.PureComponent<PersonDetailsProps> {
                 ${colors[1]} 60%,
                 transparent 85%
               ) no-repeat`,
-              }
-            : undefined
-        }
-      />
+                }
+              : undefined
+          }
+        />
+      </div>
     );
   };
 
@@ -139,12 +145,7 @@ export class PersonDetails extends React.PureComponent<PersonDetailsProps> {
       >
         <div className={classes.gradient} />
         {this.renderHead()}
-        {!this.props.isLoading && (
-          <div className={classes.coverBackgroundWrapper} aria-hidden>
-            {this.renderCoverBackground()}
-          </div>
-        )}
-
+        {this.renderCoverBackground()}
         {this.renderImage()}
         {this.renderContent()}
       </div>
