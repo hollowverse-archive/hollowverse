@@ -117,6 +117,48 @@ describe('Notable Person page', () => {
         expect(editorialSummary).toMatchSnapshot();
       });
     });
+
+    describe('if notable person has an image', () => {
+      beforeEach(async () => {
+        context = await createClientSideTestContext({
+          epicDependenciesOverrides: {
+            getResponseForDataRequest: createMockGetResponseForDataRequest(
+              'notablePersonQuery',
+              {
+                ...stubNotablePersonQueryResponse,
+                notablePerson: {
+                  ...stubNotablePersonQueryResponse.notablePerson!,
+                  mainPhoto: {
+                    url:
+                      'https://files.hollowverse.com/notable-people/Tom_Hanks.jpg',
+                    colorPalette: null,
+                    sourceUrl:
+                      'https://commons.wikimedia.org/wiki/File:Tom_Hanks_2014.jpg',
+                  },
+                },
+              },
+            ),
+          },
+          createHistoryOptions: { initialEntries: ['/Tom_Hanks'] },
+        });
+      });
+
+      it('shows notable person image', () => {
+        expect(
+          context.wrapper.find(
+            `img[src="https://files.hollowverse.com/notable-people/Tom_Hanks.jpg"]`,
+          ),
+        ).toBePresent();
+      });
+
+      it('page includes attribution link', () => {
+        expect(
+          context.wrapper.find(
+            `a[href="https://commons.wikimedia.org/wiki/File:Tom_Hanks_2014.jpg"]`,
+          ),
+        ).toBePresent();
+      });
+    });
   });
 
   describe('When notable person is not found,', () => {
@@ -136,6 +178,24 @@ describe('Notable Person page', () => {
 
     it('shows "Not Found"', () => {
       expect(context.wrapper).toIncludeText('Not Found');
+    });
+  });
+
+  describe('Links to other pages on the website', () => {
+    beforeAll(async () => {
+      context = await createClientSideTestContext({
+        epicDependenciesOverrides: {
+          getResponseForDataRequest: createMockGetResponseForDataRequest(
+            'notablePersonQuery',
+            stubNotablePersonQueryResponse,
+          ),
+        },
+        createHistoryOptions: { initialEntries: ['/Tom_Hanks'] },
+      });
+    });
+
+    it('has a link to search page', () => {
+      expect(context.wrapper.find('a[href="/search"]')).toBePresent();
     });
   });
 });
