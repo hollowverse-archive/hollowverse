@@ -124,10 +124,11 @@ export class PersonDetails extends React.PureComponent<PersonDetailsProps> {
         </h1>
         {summary && (
           <div className={classes.summary}>
-            {summary
-              .split('\n')
-              /* eslint-disable-next-line react/no-array-index-key */
-              .map((paragraph, i) => <p key={i}>{paragraph}</p>)}
+            {summary.split('\n').map(paragraph => (
+              <p key={paragraph}>
+                <span className={classes.text}>{paragraph}</span>
+              </p>
+            ))}
           </div>
         )}
       </div>
