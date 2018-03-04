@@ -20,7 +20,7 @@
 
     button {
       background: transparent;
-      padding: 5px 0;
+      padding: $spacing-5px 0;
       display: flex;
       align-items: center;
       height: 100%;
@@ -38,7 +38,7 @@
     }
 
     .search-box {
-      padding: 10px 10px;
+      padding: $spacing-10px;
       display: flex;
       align-items: center;
 

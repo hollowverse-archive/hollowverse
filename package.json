@@ -128,7 +128,6 @@
   "dependencies": {
     "@babel/polyfill": "^7.0.0-beta.36",
     "@babel/runtime": "^7.0.0-beta.36",
-    "@hollowverse/common": "hollowverse/common",
     "algoliasearch": "^3.24.8",
     "babel-plugin-universal-import": "^1.4.0",
     "bluebird": "^3.5.1",
@@ -189,7 +188,8 @@
     "@babel/preset-es2015": "^7.0.0-beta.40",
     "@babel/preset-react": "^7.0.0-beta.40",
     "@babel/preset-stage-3": "^7.0.0-beta.40",
-    "@hollowverse/validate-filenames": "^1.3.5",
+    "@hollowverse/common": "^3.2.4",
+    "@hollowverse/validate-filenames": "^1.3.7",
     "@types/algoliasearch": "^3.24.5",
     "@types/autoprefixer": "^6.7.3",
     "@types/bluebird": "^3.5.19",
