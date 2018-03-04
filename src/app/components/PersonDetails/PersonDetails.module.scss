@@ -53,8 +53,12 @@
   .photo-link {
     align-self: center;
     display: inline-block;
-    width: $person-avatar-size;
-    height: $person-avatar-size;
+    min-width: $person-avatar-size;
+    min-height: $person-avatar-size;
+    height: 25vw;
+    width: 25vw;
+    max-width: calc(#{$page-max-width} / 4);
+    max-height: calc(#{$page-max-width} / 4);
     margin-top: $spacing-40px;
   }
 
@@ -62,8 +66,8 @@
     @include photo-border;
 
     display: block;
-    width: $person-avatar-size;
-    height: $person-avatar-size;
+    width: 100%;
+    height: 100%;
     background-color: $color-background-light;
 
     // stylelint-disable-next-line plugin/no-unsupported-browser-features
