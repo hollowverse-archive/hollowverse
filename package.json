@@ -8,7 +8,7 @@
     "pretest": "npm-run-all --aggregate-output -s app/graphql/build -p -c validate-filenames lint",
     "test": "run-p --aggregate-output app/test",
     "app/test/webpack/dev": "NODE_ENV=test NO_TYPE_CHECK=1 webpack --config src/webpack/webpack.config.test.js --watch",
-    "app/test/jest/dev": "jest --watchAll",
+    "app/test/jest/dev": "jest --color --watchAll",
     "app/test/dev": "npm-run-all --aggregate-output -s clean/test -p 'app/test/*/dev'",
     "app/test/webpack": "NODE_ENV=test webpack --config src/webpack/webpack.config.test.js",
     "app/test/jest": "jest --coverage --verbose --color",

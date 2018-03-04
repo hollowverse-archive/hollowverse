@@ -1,5 +1,4 @@
 import {
-  createMockGetResponseForDataRequest,
   ClientSideTestContext,
   createClientSideTestContext,
 } from 'helpers/testHelpers';
@@ -16,11 +15,8 @@ describe('Notable Person page', () => {
   describe('When notable person is found,', () => {
     beforeEach(async () => {
       context = await createClientSideTestContext({
-        epicDependenciesOverrides: {
-          getResponseForDataRequest: createMockGetResponseForDataRequest(
-            'notablePersonQuery',
-            stubNotablePersonQueryResponse,
-          ),
+        mockDataResponsesOverrides: {
+          notablePersonQuery: stubNotablePersonQueryResponse,
         },
         createHistoryOptions: { initialEntries: ['/Tom_Hanks'] },
       });
@@ -101,11 +97,8 @@ describe('Notable Person page', () => {
     describe('if notable person has an editorial summary', () => {
       beforeEach(async () => {
         context = await createClientSideTestContext({
-          epicDependenciesOverrides: {
-            getResponseForDataRequest: createMockGetResponseForDataRequest(
-              'notablePersonQuery',
-              notablePersonWithEditorialSummaryQueryResponse,
-            ),
+          mockDataResponsesOverrides: {
+            notablePersonQuery: notablePersonWithEditorialSummaryQueryResponse,
           },
           createHistoryOptions: { initialEntries: ['/Tom_Hanks'] },
         });
@@ -121,23 +114,20 @@ describe('Notable Person page', () => {
     describe('if notable person has an image', () => {
       beforeEach(async () => {
         context = await createClientSideTestContext({
-          epicDependenciesOverrides: {
-            getResponseForDataRequest: createMockGetResponseForDataRequest(
-              'notablePersonQuery',
-              {
-                ...stubNotablePersonQueryResponse,
-                notablePerson: {
-                  ...stubNotablePersonQueryResponse.notablePerson!,
-                  mainPhoto: {
-                    url:
-                      'https://files.hollowverse.com/notable-people/Tom_Hanks.jpg',
-                    colorPalette: null,
-                    sourceUrl:
-                      'https://commons.wikimedia.org/wiki/File:Tom_Hanks_2014.jpg',
-                  },
+          mockDataResponsesOverrides: {
+            notablePersonQuery: {
+              ...stubNotablePersonQueryResponse,
+              notablePerson: {
+                ...stubNotablePersonQueryResponse.notablePerson!,
+                mainPhoto: {
+                  url:
+                    'https://files.hollowverse.com/notable-people/Tom_Hanks.jpg',
+                  colorPalette: null,
+                  sourceUrl:
+                    'https://commons.wikimedia.org/wiki/File:Tom_Hanks_2014.jpg',
                 },
               },
-            ),
+            },
           },
           createHistoryOptions: { initialEntries: ['/Tom_Hanks'] },
         });
@@ -165,13 +155,10 @@ describe('Notable Person page', () => {
     beforeEach(async () => {
       context = await createClientSideTestContext({
         createHistoryOptions: { initialEntries: ['/Tom_Hanks'] },
-        epicDependenciesOverrides: {
-          getResponseForDataRequest: createMockGetResponseForDataRequest(
-            'notablePersonQuery',
-            {
-              notablePerson: null,
-            },
-          ),
+        mockDataResponsesOverrides: {
+          notablePersonQuery: {
+            notablePerson: null,
+          },
         },
       });
     });
@@ -184,12 +171,6 @@ describe('Notable Person page', () => {
   describe('Links to other pages on the website', () => {
     beforeAll(async () => {
       context = await createClientSideTestContext({
-        epicDependenciesOverrides: {
-          getResponseForDataRequest: createMockGetResponseForDataRequest(
-            'notablePersonQuery',
-            stubNotablePersonQueryResponse,
-          ),
-        },
         createHistoryOptions: { initialEntries: ['/Tom_Hanks'] },
       });
     });
