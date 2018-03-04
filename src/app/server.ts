@@ -24,7 +24,8 @@ export type CreateServerMiddlewareOptions = {
   routesMap: AppRoutesMap;
 };
 
-const isSsrDisabled = process.env.NO_SSR;
+const isSsrDisabled = Boolean(Number(process.env.NO_SSR));
+const isProxyDisabled = Boolean(Number(process.env.NO_PROXY));
 
 export const createServerEntryMiddleware = (
   options: CreateServerMiddlewareOptions,
@@ -76,6 +77,7 @@ export const createServerEntryMiddleware = (
         // /tom-hanks => redirect to Tom_Hanks
         res.redirect(redirectionPath);
       } else if (
+        isProxyDisabled ||
         isWhitelistedPage(requestPath) ||
         (await isNewSlug(requestPath.replace('/', '')))
       ) {
