@@ -48,12 +48,12 @@
   .photo-link {
     align-self: center;
     display: inline-block;
-    height: $person-avatar-size;
-    width: $person-avatar-size;
-    @media screen and (min-width: $page-max-width) {
-      width: calc(#{$page-max-width} / 4);
-      height: calc(#{$page-max-width} / 4);
-    }
+    min-width: $person-avatar-size;
+    min-height: $person-avatar-size;
+    height: 25vw;
+    width: 25vw;
+    max-width: calc(#{$page-max-width} / 4);
+    max-height: calc(#{$page-max-width} / 4);
     margin-top: $spacing-40px;
   }
 
