@@ -4,6 +4,7 @@ import classes from './PersonDetails.module.scss';
 import { prettifyUrl } from 'helpers/prettifyUrl';
 import Helmet from 'react-helmet-async';
 import { oneLineTrim } from 'common-tags';
+import cc from 'classcat';
 
 type PersonDetailsProps = {
   summary: string | null;
@@ -18,6 +19,7 @@ type PersonDetailsProps = {
       darkMuted: string | null;
     } | null;
   } | null;
+  isLoading: boolean;
 };
 
 export class PersonDetails extends React.PureComponent<PersonDetailsProps> {
@@ -106,15 +108,21 @@ export class PersonDetails extends React.PureComponent<PersonDetailsProps> {
       <div className={classes.content}>
         <h1 className={classes.nameContainer}>
           <div className={classes.caption}>
-            Religion, politics, and ideas of
+            <span className={classes.text}>
+              Religion, politics, and ideas of
+            </span>
           </div>
-          <div className={classes.name}>{name}</div>
+          <div className={classes.name}>
+            <span className={classes.text}>{name}</span>
+          </div>
         </h1>
         {summary && (
           <div className={classes.summary}>
-            {summary
-              .split('\n')
-              .map((paragraph, i) => <p key={i}>{paragraph}</p>)}
+            {summary.split('\n').map(paragraph => (
+              <p key={paragraph}>
+                <span className={classes.text}>{paragraph}</span>
+              </p>
+            ))}
           </div>
         )}
       </div>
@@ -123,11 +131,19 @@ export class PersonDetails extends React.PureComponent<PersonDetailsProps> {
 
   render() {
     return (
-      <div className={classes.root}>
+      <div
+        className={cc([
+          classes.root,
+          { [classes.isLoading]: this.props.isLoading },
+        ])}
+      >
+        <div className={classes.gradient} />
         {this.renderHead()}
-        <div className={classes.coverBackgroundWrapper} aria-hidden>
-          {this.renderCoverBackground()}
-        </div>
+        {!this.props.isLoading && (
+          <div className={classes.coverBackgroundWrapper} aria-hidden>
+            {this.renderCoverBackground()}
+          </div>
+        )}
 
         {this.renderImage()}
         {this.renderContent()}

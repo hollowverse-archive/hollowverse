@@ -10,7 +10,6 @@ import {
 
 import { NotablePersonQuery } from 'api/types';
 import { MessageWithIcon } from 'components/MessageWithIcon/MessageWithIcon';
-// import { NotablePersonSkeleton } from './NotablePersonSkeleton';
 import { NotablePersonSkeletonData } from './NotablePersonSkeletonData';
 import { Status } from 'components/Status/Status';
 import { WithData } from 'hocs/WithData/WithData';
@@ -37,8 +36,8 @@ import classes from './NotablePerson.module.scss';
 import { setAlternativeSearchBoxText } from 'store/features/search/actions';
 import { isWhitelistedPage } from 'redirectionMap';
 
-type Props = {};
-type NotablePerson = NotablePersonQuery['notablePerson'];
+export type Props = {};
+type NotablePersonType = NotablePersonQuery['notablePerson'];
 type Result = { result: AsyncResult<NotablePersonQuery | null> };
 
 const Page = withRouter(
@@ -66,7 +65,7 @@ const Page = withRouter(
       </MessageWithIcon>
     );
 
-    renderRelatedPeople = (notablePerson: NotablePerson) => {
+    renderRelatedPeople = (notablePerson: NotablePersonType) => {
       const { relatedPeople } = notablePerson!; // tslint:disable-line:no-non-null-assertion
 
       return relatedPeople.length ? (
@@ -77,7 +76,7 @@ const Page = withRouter(
       ) : null;
     };
 
-    renderFbComments = (notablePerson: NotablePerson) => {
+    renderFbComments = (notablePerson: NotablePersonType) => {
       const { commentsUrl } = notablePerson!; // tslint:disable-line:no-non-null-assertion
 
       return (
@@ -93,8 +92,8 @@ const Page = withRouter(
       );
     };
 
-    renderEditorialSummary = (notablePerson: NotablePerson) => {
-      const { editorialSummary, slug } = notablePerson!; // tslint:disable-line:no-non-null-assertion
+    renderEditorialSummary = (notablePerson: NotablePersonType) => {
+      const { editorialSummary, slug, name } = notablePerson!; // tslint:disable-line:no-non-null-assertion
 
       return editorialSummary ? (
         <Card className={cc([classes.card, classes.editorialSummary])}>
@@ -108,7 +107,7 @@ const Page = withRouter(
       );
     };
 
-    renderHead = (notablePerson: NotablePerson) => {
+    renderHead = (notablePerson: NotablePersonType) => {
       const { slug, name, commentsUrl } = notablePerson!; // tslint:disable-line:no-non-null-assertion
       const isWhitelisted = isWhitelistedPage(`/${slug}`);
 
@@ -134,18 +133,23 @@ const Page = withRouter(
       );
     };
 
-    renderBody = (notablePerson: NotablePerson, isSkeleton = false) => {
+    renderBody = (notablePerson: NotablePersonType, isLoading = false) => {
       const { mainPhoto, summary, name } = notablePerson!; // tslint:disable-line:no-non-null-assertion
 
       return (
         <>
           <article className={classes.article}>
-            <PersonDetails name={name} photo={mainPhoto} summary={summary} />
+            <PersonDetails
+              name={name}
+              photo={mainPhoto}
+              summary={summary}
+              isLoading={isLoading}
+            />
 
-            {!isSkeleton ? this.renderEditorialSummary(notablePerson) : null}
+            {!isLoading ? this.renderEditorialSummary(notablePerson) : null}
           </article>
 
-          {!isSkeleton ? (
+          {!isLoading ? (
             <>
               {this.renderRelatedPeople(notablePerson)}
               {this.renderFbComments(notablePerson)}
@@ -159,15 +163,10 @@ const Page = withRouter(
       const notablePerson = result.value && result.value.notablePerson;
       const isLoading = result.value === null || isPendingResult(result);
 
-      // return this.renderBody(
-      //   (NotablePersonSkeletonData as any) as NotablePerson,
-      //   isLoading,
-      // );
-
       if (isLoading) {
         return this.renderBody(
-          (NotablePersonSkeletonData as any) as NotablePerson,
-          isLoading,
+          (NotablePersonSkeletonData as any) as NotablePersonType,
+          true,
         );
       } else if (notablePerson) {
         return (
