@@ -137,6 +137,7 @@ export class PersonDetails extends React.PureComponent<PersonDetailsProps> {
   render() {
     return (
       <div
+        aria-hidden={this.props.isLoading}
         className={cc([
           classes.root,
           { [classes.isLoading]: this.props.isLoading },
