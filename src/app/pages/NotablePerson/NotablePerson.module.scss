@@ -32,6 +32,7 @@
   .related-people {
     margin-top: $spacing-30px;
     h2 {
+      margin-left: $spacing-12px;
       @include font-26px;
     }
   }
