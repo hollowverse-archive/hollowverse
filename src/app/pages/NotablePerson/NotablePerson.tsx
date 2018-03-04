@@ -149,12 +149,8 @@ const Page = withRouter(
             {!isLoading ? this.renderEditorialSummary(notablePerson) : null}
           </article>
 
-          {!isLoading ? (
-            <>
-              {this.renderRelatedPeople(notablePerson)}
-              {this.renderFbComments(notablePerson)}
-            </>
-          ) : null}
+          {!isLoading ? this.renderRelatedPeople(notablePerson) : null}
+          {!isLoading ? this.renderFbComments(notablePerson) : null}
         </>
       );
     };
