@@ -81,7 +81,7 @@ export class PersonDetails extends React.PureComponent<PersonDetailsProps> {
   };
 
   renderImage = () => {
-    const { photo, name } = this.props;
+    const { photo, name, isLoading } = this.props;
 
     if (photo && photo.sourceUrl) {
       return (
@@ -96,7 +96,7 @@ export class PersonDetails extends React.PureComponent<PersonDetailsProps> {
           </span>
         </a>
       );
-    } else if (photo && !photo.sourceUrl) {
+    } else if (isLoading) {
       return (
         <span className={classes.photoLink}>
           <Image className={classes.photo} src="#" alt={name} />
