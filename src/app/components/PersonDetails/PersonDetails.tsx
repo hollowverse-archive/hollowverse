@@ -20,11 +20,7 @@ type PersonDetailsProps = {
   } | null;
 };
 
-export const PersonDetails = ({
-  summary,
-  name,
-  photo,
-}: PersonDetailsProps) => {
+export const PersonDetails = ({ summary, name, photo }: PersonDetailsProps) => {
   let colors: string[] = [];
   if (photo && photo.colorPalette) {
     const { vibrant, muted, darkVibrant, darkMuted } = photo.colorPalette;
@@ -88,7 +84,10 @@ export const PersonDetails = ({
         </h1>
         {summary && (
           <div className={classes.summary}>
-            {summary.split('\n').map(paragraph => <p>{paragraph}</p>)}
+            {summary
+              .split('\n')
+              /* eslint-disable-next-line react/no-array-index-key */
+              .map((paragraph, i) => <p key={i}>{paragraph}</p>)}
           </div>
         )}
       </div>
