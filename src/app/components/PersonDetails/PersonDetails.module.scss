@@ -48,15 +48,19 @@
   .photo-link {
     align-self: center;
     display: inline-block;
-    width: $person-avatar-size;
     height: $person-avatar-size;
+    width: $person-avatar-size;
+    @media screen and (min-width: $page-max-width) {
+      width: calc(#{$page-max-width} / 4);
+      height: calc(#{$page-max-width} / 4);
+    }
     margin-top: $spacing-40px;
   }
 
   .photo {
     display: block;
-    width: $person-avatar-size;
-    height: $person-avatar-size;
+    width: 100%;
+    height: 100%;
     background-color: $color-background-light;
     box-shadow: 0 0 0 1.5px rgba(255, 255, 255, 0.7),
       0 2px 1px 0 rgba(0, 0, 0, 0.1);
