@@ -1,5 +1,6 @@
-export const NotablePersonSkeletonData = {
+export const NotablePersonBodySkeletonData = {
   name: 'Lorem Temporibus',
+  mainPhoto: null,
   summary:
     'Lorem ipsum dolor sit amet, et sit nonumy appareat temporibus, legere scripserit et ' +
     'has. Ea accumsan luptatum maiestatis notcum. ' +

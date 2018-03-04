@@ -10,20 +10,19 @@ import {
 
 import { NotablePersonQuery } from 'api/types';
 import { MessageWithIcon } from 'components/MessageWithIcon/MessageWithIcon';
-import { NotablePersonSkeletonData } from './NotablePersonSkeletonData';
 import { Status } from 'components/Status/Status';
 import { WithData } from 'hocs/WithData/WithData';
 import { LinkButton } from 'components/Button/Button';
 import { withRouter, RouteComponentProps } from 'react-router';
 import { forceReload } from 'helpers/forceReload';
 import query from './NotablePersonQuery.graphql';
-import { PersonDetails } from 'components/PersonDetails/PersonDetails';
 import { FbComments } from 'components/FbComments/FbComments';
 import { OptionalIntersectionObserver } from 'components/OptionalIntersectionObserver/OptionalIntersectionObserver';
 import { Card } from 'components/Card/Card';
 import { EditorialSummary } from 'components/EditorialSummary/EditorialSummary';
 import { RelatedPeople } from './RelatedPeople';
 import { DispatchOnLifecycleEvent } from 'components/DispatchOnLifecycleEvent/DispatchOnLifecycleEvent';
+import { NotablePersonBodySkeleton } from './NotablePersonBodySkeleton';
 
 import {
   AppDependenciesContext,
@@ -133,24 +132,20 @@ const Page = withRouter(
       );
     };
 
-    renderBody = (notablePerson: NotablePersonType, isLoading = false) => {
-      const { mainPhoto, summary, name } = notablePerson!; // tslint:disable-line:no-non-null-assertion
+    renderBody = (notablePerson?: NotablePersonType) => {
+      if (!notablePerson) {
+        return <NotablePersonBodySkeleton />;
+      }
 
       return (
         <>
-          <article className={classes.article}>
-            <PersonDetails
-              name={name}
-              photo={mainPhoto}
-              summary={summary}
-              isLoading={isLoading}
-            />
+          <NotablePersonBodySkeleton
+            notablePerson={notablePerson}
+            editorialSummary={this.renderEditorialSummary(notablePerson)}
+          />
 
-            {!isLoading ? this.renderEditorialSummary(notablePerson) : null}
-          </article>
-
-          {!isLoading ? this.renderRelatedPeople(notablePerson) : null}
-          {!isLoading ? this.renderFbComments(notablePerson) : null}
+          {this.renderRelatedPeople(notablePerson)}
+          {this.renderFbComments(notablePerson)}
         </>
       );
     };
@@ -160,10 +155,7 @@ const Page = withRouter(
       const isLoading = result.value === null || isPendingResult(result);
 
       if (isLoading) {
-        return this.renderBody(
-          (NotablePersonSkeletonData as any) as NotablePersonType,
-          true,
-        );
+        return this.renderBody();
       } else if (notablePerson) {
         return (
           <>

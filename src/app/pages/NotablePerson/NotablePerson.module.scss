@@ -23,16 +23,10 @@
     max-width: $page-max-width;
   }
 
-  .article {
-    max-width: 100%;
-    display: flex;
-    flex-direction: column;
-
-    .editorial-summary {
-      margin-top: $spacing-10px;
-      align-self: center;
-      max-width: $page-max-width;
-    }
+  .editorial-summary {
+    margin-top: $spacing-10px;
+    align-self: center;
+    max-width: $page-max-width;
   }
 
   .related-people {
