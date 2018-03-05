@@ -5,6 +5,7 @@ import { prettifyUrl } from 'helpers/prettifyUrl';
 import Helmet from 'react-helmet-async';
 import { oneLineTrim } from 'common-tags';
 import cc from 'classcat';
+import emptySvg from '!!file-loader!assets/emptySvg.svg';
 
 type PersonDetailsProps = {
   summary: string | null;
@@ -99,7 +100,7 @@ export class PersonDetails extends React.PureComponent<PersonDetailsProps> {
     } else if (isLoading) {
       return (
         <span className={classes.photoLink}>
-          <Image className={classes.photo} src="#" alt={name} />
+          <Image className={classes.photo} src={emptySvg} alt={name} />
         </span>
       );
     }
