@@ -163,13 +163,13 @@
           rgba(241, 241, 243, 1) 50%,
           rgba(241, 241, 243, 0) 75%
         );
-        animation: animate-gradient 0.8s linear infinite;
+        animation: animate-illumination 0.8s linear infinite;
       }
     }
   }
 }
 
-@keyframes animate-gradient {
+@keyframes animate-illumination {
   0% {
     transform: translateX(-100%);
   }
