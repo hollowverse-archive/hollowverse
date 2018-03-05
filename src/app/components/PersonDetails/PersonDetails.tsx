@@ -144,11 +144,18 @@ export class PersonDetails extends React.PureComponent<PersonDetailsProps> {
           { [classes.isLoading]: this.props.isLoading },
         ])}
       >
-        <div className={classes.gradient} />
-        {this.renderHead()}
         {this.renderCoverBackground()}
-        {this.renderImage()}
-        {this.renderContent()}
+        <div
+          className={cc([
+            classes.container,
+            { [classes.isLoading]: this.props.isLoading },
+          ])}
+        >
+          <div className={classes.illumination} />
+          {this.renderHead()}
+          {this.renderImage()}
+          {this.renderContent()}
+        </div>
       </div>
     );
   }
