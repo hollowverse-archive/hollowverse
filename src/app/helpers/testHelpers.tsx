@@ -15,7 +15,7 @@ import {
   createConfiguredStore,
 } from 'store/createConfiguredStore';
 import createMemoryHistory from 'history/createMemoryHistory';
-import { mount, ReactWrapper } from 'enzyme';
+import { mount } from 'enzyme';
 import { delay } from 'helpers/delay';
 import { once } from 'lodash';
 import { AppRoutesMap, App } from 'components/App/App';
@@ -96,13 +96,6 @@ export const createTestTree = ({
   </HelmetProvider>
 );
 
-export type ClientSideTestContext = {
-  store: Store<StoreState>;
-  history: History;
-  wrapper: ReactWrapper<any>;
-  dependencies: EpicDependencies;
-};
-
 export type CreateClientSideTestContextOptions = Partial<{
   epicDependenciesOverrides: Partial<EpicDependencies>;
   createHistoryOptions: MemoryHistoryBuildOptions;
@@ -124,9 +117,7 @@ export const createClientSideTestContext = async ({
   createHistoryOptions = { initialEntries: ['/'] },
   mockDataResponsesOverrides = {},
   ...rest
-}: Partial<CreateClientSideTestContextOptions> = {}): Promise<
-  ClientSideTestContext
-> => {
+}: Partial<CreateClientSideTestContextOptions> = {}) => {
   const { store, dependencies, history } = createConfiguredStore({
     epicDependenciesOverrides: {
       ...defaultTestDependencyOverrides,
@@ -158,3 +149,7 @@ export const createClientSideTestContext = async ({
 
   return { wrapper, store, history, dependencies };
 };
+
+export type ClientSideTestContext = UnboxPromise<
+  ReturnType<typeof createClientSideTestContext>
+>;
