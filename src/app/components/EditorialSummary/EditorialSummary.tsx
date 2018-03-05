@@ -3,25 +3,15 @@ import formatDate from 'date-fns/format';
 
 import classes from './EditorialSummary.module.scss';
 import { prettifyUrl } from 'helpers/prettifyUrl';
-import { EditorialSummaryNodeType } from 'api/types';
+import { EditorialSummaryNodeType, NotablePersonQuery } from 'api/types';
 import { Quote } from 'components/Quote/Quote';
 import { Collapsable } from 'components/Collapsable/Collapsable';
 
-type Node = {
-  id: string;
-  parentId: string | null;
-  text: string | null;
-  type: EditorialSummaryNodeType;
-  sourceUrl: string | null;
-  sourceTitle: string | null;
-};
+type NotablePerson = NonNullable<NotablePersonQuery['notablePerson']>;
 
-type Props = {
-  id: string;
-  author: string;
-  lastUpdatedOn: string | null;
-  nodes: Node[];
-};
+type Props = NonNullable<NotablePerson['editorialSummary']> & { id: string };
+
+type Node = ArrayElement<Props['nodes']>;
 
 const findChildren = (node: Node, nodes: Node[]) => {
   return nodes.filter(child => child.parentId === node.id);

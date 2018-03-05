@@ -50,8 +50,8 @@ const Page = withRouter(
       return apiClient.request<NotablePersonQuery>(query, { slug });
     };
 
-    renderRelatedPeople = (notablePerson: NotablePersonType) => {
-      const { relatedPeople } = notablePerson!; // tslint:disable-line:no-non-null-assertion
+    renderRelatedPeople = (notablePerson: NonNullable<NotablePersonType>) => {
+      const { relatedPeople } = notablePerson;
 
       return relatedPeople.length ? (
         <div className={classes.relatedPeople}>
@@ -61,8 +61,8 @@ const Page = withRouter(
       ) : null;
     };
 
-    renderFbComments = (notablePerson: NotablePersonType) => {
-      const { commentsUrl } = notablePerson!; // tslint:disable-line:no-non-null-assertion
+    renderFbComments = (notablePerson: NonNullable<NotablePersonType>) => {
+      const { commentsUrl } = notablePerson;
 
       return (
         <OptionalIntersectionObserver rootMargin="0% 0% 25% 0%" triggerOnce>
@@ -77,8 +77,10 @@ const Page = withRouter(
       );
     };
 
-    renderEditorialSummary = (notablePerson: NotablePersonType) => {
-      const { editorialSummary, slug, name } = notablePerson!; // tslint:disable-line:no-non-null-assertion
+    renderEditorialSummary = (
+      notablePerson: NonNullable<NotablePersonType>,
+    ) => {
+      const { editorialSummary, slug, name } = notablePerson;
 
       return editorialSummary ? (
         <Card className={cc([classes.card, classes.editorialSummary])}>
@@ -111,8 +113,8 @@ const Page = withRouter(
       </>
     );
 
-    render200Status = (notablePerson: NotablePersonType) => {
-      const { slug, name, commentsUrl } = notablePerson!; // tslint:disable-line:no-non-null-assertion
+    render200Status = (notablePerson: NonNullable<NotablePersonType>) => {
+      const { slug, name, commentsUrl } = notablePerson;
       const isWhitelisted = isWhitelistedPage(`/${slug}`);
 
       return (
