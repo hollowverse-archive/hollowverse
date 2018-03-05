@@ -1,4 +1,4 @@
-export const NotablePersonBodySkeletonData = {
+export const NotablePersonBodyDummyData = {
   name: 'Lorem Temporibus',
   mainPhoto: null,
   summary:

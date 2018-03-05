@@ -22,7 +22,7 @@ import { Card } from 'components/Card/Card';
 import { EditorialSummary } from 'components/EditorialSummary/EditorialSummary';
 import { RelatedPeople } from './RelatedPeople';
 import { DispatchOnLifecycleEvent } from 'components/DispatchOnLifecycleEvent/DispatchOnLifecycleEvent';
-import { NotablePersonBodySkeleton } from './NotablePersonBodySkeleton';
+import { NotablePersonBody } from './NotablePersonBody';
 
 import {
   AppDependenciesContext,
@@ -133,13 +133,14 @@ const Page = withRouter(
     };
 
     renderBody = (notablePerson?: NotablePersonType) => {
+      return <NotablePersonBody />;
       if (!notablePerson) {
-        return <NotablePersonBodySkeleton />;
+        return <NotablePersonBody />;
       }
 
       return (
         <>
-          <NotablePersonBodySkeleton
+          <NotablePersonBody
             notablePerson={notablePerson}
             editorialSummary={this.renderEditorialSummary(notablePerson)}
           />
