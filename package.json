@@ -51,7 +51,7 @@
     "coverage/remap/lcov": "cat coverage/coverage-final.json | remap-istanbul --exclude 'node_modules,src/app/__tests__,^external\\s,webpack/' -o coverage/lcov-remapped.info -t lcovonly",
     "coverage/remap": "run-p --aggregate-output 'coverage/remap/*'",
     "coverage/html": "remap-istanbul --exclude 'node_modules,src/app/__tests__,^external\\s,webpack/' -i coverage/coverage-final.json -o coverage/lcov-report -t html --basePath .",
-    "coverage/coveralls": "cat ./coverage/lcov-remapped.info | coveralls "
+    "coverage/report": "codecov -f coverage/lcov-remapped.info"
   },
   "license": "Unlicense",
   "homepage": "https://github.com/hollowverse/hollowverse#readme",
@@ -241,7 +241,7 @@
     "babel-preset-minify": "^0.3.0",
     "bundlesize": "^0.15.3",
     "circular-dependency-plugin": "^3.0.0",
-    "coveralls": "^3.0.0",
+    "codecov": "^3.0.0",
     "css-chunks-html-webpack-plugin": "^0.1.0",
     "css-loader": "^0.28.4",
     "del-cli": "^1.1.0",
