@@ -133,9 +133,10 @@ const Page = withRouter(
     };
 
     renderBody = (notablePerson?: NotablePersonType) => {
-      return <NotablePersonBody />;
-      if (!notablePerson) {
+      if (notablePerson === undefined) {
         return <NotablePersonBody />;
+      } else if (notablePerson === null) {
+        return null;
       }
 
       return (

@@ -13,9 +13,12 @@ type Props = {
 export class NotablePersonBody extends React.PureComponent<Props> {
   render() {
     const { notablePerson, editorialSummary } = this.props;
-    const { name, mainPhoto, summary } = !notablePerson
-      ? NotablePersonBodyDummyData
-      : notablePerson;
+    if (notablePerson === null) {
+      return null;
+    }
+
+    const { name, mainPhoto, summary } =
+      notablePerson === undefined ? NotablePersonBodyDummyData : notablePerson;
 
     return (
       <article className={classes.root}>
