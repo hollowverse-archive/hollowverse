@@ -60,19 +60,19 @@ export class PersonDetails extends React.PureComponent<PersonDetailsProps> {
             colors.length === 2
               ? {
                   background: oneLineTrim`linear-gradient(
-                130deg,
-                #4cfde9 -20%,
-                transparent 30%,
-                transparent 60%,
-                rgb(253, 188, 9) 85%
-              ) no-repeat,
-              linear-gradient(
-                130deg,
-                transparent -20%,
-                ${colors[0]} 30%,
-                ${colors[1]} 60%,
-                transparent 85%
-              ) no-repeat`,
+                    130deg,
+                    #4cfde9 -20%,
+                    transparent 30%,
+                    transparent 60%,
+                    rgb(253, 188, 9) 85%
+                  ) no-repeat,
+                  linear-gradient(
+                    130deg,
+                    transparent -20%,
+                    ${colors[0]} 30%,
+                    ${colors[1]} 60%,
+                    transparent 85%
+                  ) no-repeat`,
                 }
               : undefined
           }
