@@ -83,6 +83,7 @@
       width: 100%;
       max-width: $page-max-width;
       align-self: center;
+      overflow: hidden;
     }
 
     .photo-link {
@@ -141,6 +142,8 @@
     }
 
     &.is-loading {
+      overflow-x: hidden;
+
       .photo {
         @include photo-border(transparent, transparent);
       }
