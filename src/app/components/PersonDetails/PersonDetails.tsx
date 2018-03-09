@@ -5,7 +5,7 @@ import { prettifyUrl } from 'helpers/prettifyUrl';
 import Helmet from 'react-helmet-async';
 import { oneLineTrim } from 'common-tags';
 import cc from 'classcat';
-import emptySvg from '!!file-loader!assets/emptySvg.svg';
+import emptySvg from '!!url-loader!assets/emptySvg.svg';
 
 type PersonDetailsProps = {
   summary: string | null;
