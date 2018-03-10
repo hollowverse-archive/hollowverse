@@ -7,7 +7,6 @@
 }
 
 .root {
-  overflow-x: hidden;
   display: flex;
   flex-direction: column;
   position: relative;
@@ -83,7 +82,6 @@
       width: 100%;
       max-width: $page-max-width;
       align-self: center;
-      overflow: hidden;
     }
 
     .photo-link {

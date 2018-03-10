@@ -30,6 +30,11 @@ declare module '!!file-loader!*' {
   export default url;
 }
 
+declare module '!!url-loader!*' {
+  const url: string;
+  export default url;
+}
+
 declare module 'file-loader!*' {
   const url: string;
   export default url;
