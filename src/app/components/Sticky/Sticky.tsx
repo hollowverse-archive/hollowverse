@@ -32,7 +32,7 @@ type State = {
  * of view.
  * 7. We communicate the state changes in the render prop (`children`) in case we want
  * to do something with that information, which we do in the case of `NavBar`:
- * we want to transform the `NavBar` to `SearchView`.
+ * we want to transform the `NavBar` to `SearchBar`.
  */
 export class Sticky extends React.PureComponent<Props, State> {
   state: State = {

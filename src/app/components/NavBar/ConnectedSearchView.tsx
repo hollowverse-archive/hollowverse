@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { SearchView, StateProps, DispatchProps, OwnProps } from './SearchView';
+import { SearchBar, StateProps, DispatchProps, OwnProps } from './SearchBar';
 import {
   searchQueryChanged,
   setShouldFocusSearch,
@@ -13,7 +13,7 @@ import {
 } from 'store/features/search/selectors';
 import { isSearchPage } from 'store/features/url/selectors';
 
-export const ConnectedSearchView = connect<
+export const ConnectedSearchBar = connect<
   StateProps,
   DispatchProps,
   OwnProps,
@@ -30,4 +30,4 @@ export const ConnectedSearchView = connect<
     searchQueryChanged,
     setShouldFocusSearch,
   },
-)(SearchView);
+)(SearchBar);
