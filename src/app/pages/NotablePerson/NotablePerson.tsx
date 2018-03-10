@@ -37,7 +37,7 @@ import { isWhitelistedPage } from 'redirectionMap';
 
 export type Props = {};
 type NotablePersonType = NotablePersonQuery['notablePerson'];
-type Result = { result: AsyncResult<NotablePersonQuery | null> };
+type Result = AsyncResult<NotablePersonQuery | null>;
 
 const Page = withRouter(
   class extends React.Component<Props & RouteComponentProps<any>> {
@@ -49,19 +49,23 @@ const Page = withRouter(
       return apiClient.request<NotablePersonQuery>(query, { slug });
     };
 
-    renderErrorMessage = () => (
-      <MessageWithIcon
-        title="Are you connected to the internet?"
-        description="Please check your connection and try again"
-        button={
-          <LinkButton to={this.props.location} onClick={forceReload}>
-            Reload
-          </LinkButton>
-        }
-        icon={warningIcon}
-      >
+    renderError = () => (
+      <>
+        <Helmet>
+          <title>Error loading notable person page</title>
+        </Helmet>
         <Status code={500} />
-      </MessageWithIcon>
+        <MessageWithIcon
+          title="Are you connected to the internet?"
+          description="Please check your connection and try again"
+          button={
+            <LinkButton to={this.props.location} onClick={forceReload}>
+              Reload
+            </LinkButton>
+          }
+          icon={warningIcon}
+        />
+      </>
     );
 
     renderRelatedPeople = (notablePerson: NotablePersonType) => {
@@ -106,32 +110,6 @@ const Page = withRouter(
       );
     };
 
-    renderHead = (notablePerson: NotablePersonType) => {
-      const { slug, name, commentsUrl } = notablePerson!; // tslint:disable-line:no-non-null-assertion
-      const isWhitelisted = isWhitelistedPage(`/${slug}`);
-
-      return (
-        <>
-          <Helmet>
-            <link
-              rel="canonical"
-              href={
-                isWhitelisted
-                  ? String(new URL(`${slug}`, 'https://hollowverse.com'))
-                  : commentsUrl
-              }
-            />
-            <title>{`${name}'s Religion and Political Views`}</title>
-          </Helmet>
-          <Status code={200} />
-          <DispatchOnLifecycleEvent
-            onWillUnmount={setAlternativeSearchBoxText(null)}
-            onWillMount={setAlternativeSearchBoxText(name)}
-          />
-        </>
-      );
-    };
-
     renderBody = (notablePerson?: NotablePersonType) => {
       if (notablePerson === undefined) {
         return <NotablePersonBody />;
@@ -152,25 +130,55 @@ const Page = withRouter(
       );
     };
 
-    renderContent = (result: Result['result']) => {
+    renderContent = (result: Result) => {
       const notablePerson = result.value && result.value.notablePerson;
       const isLoading = result.value === null || isPendingResult(result);
 
       if (isLoading) {
-        return this.renderBody();
-      } else if (notablePerson) {
         return (
           <>
-            {this.renderHead(notablePerson)}
+            <Helmet>
+              <title>Loading notable person...</title>
+            </Helmet>
+            {this.renderBody()}
+          </>
+        );
+      } else if (notablePerson) {
+        const { slug, name, commentsUrl } = notablePerson;
+        const isWhitelisted = isWhitelistedPage(`/${slug}`);
+
+        return (
+          <>
+            <Helmet>
+              <link
+                rel="canonical"
+                href={
+                  isWhitelisted
+                    ? String(new URL(`${slug}`, 'https://hollowverse.com'))
+                    : commentsUrl
+                }
+              />
+              <title>{name}'s Religion and Political Views</title>
+            </Helmet>
+            <Status code={200} />
+            <DispatchOnLifecycleEvent
+              onWillUnmount={setAlternativeSearchBoxText(null)}
+              onWillMount={setAlternativeSearchBoxText(name)}
+            />
+
             {this.renderBody(notablePerson)}
           </>
         );
       }
 
       return (
-        <MessageWithIcon title="Not Found" icon={warningIcon}>
+        <>
+          <Helmet>
+            <title>Page not found</title>
+          </Helmet>
           <Status code={404} />
-        </MessageWithIcon>
+          <MessageWithIcon title="Not Found" icon={warningIcon} />
+        </>
       );
     };
 
@@ -188,14 +196,12 @@ const Page = withRouter(
                 forPage={pageUrl}
                 load={this.createLoad(dependencies)}
               >
-                {({ result }: Result) => {
-                  if (isErrorResult(result)) {
-                    return this.renderErrorMessage();
-                  }
-
+                {({ result }: { result: Result }) => {
                   return (
                     <div className={classes.root}>
-                      {this.renderContent(result)}
+                      {isErrorResult(result)
+                        ? this.renderError()
+                        : this.renderContent(result)}
                     </div>
                   );
                 }}
