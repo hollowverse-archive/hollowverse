@@ -140,6 +140,9 @@ const testSpecificConfig = {
       mapValues(
         {
           __IS_SERVER__: false,
+
+          // This won't actually send any logs or analytics, it's enabled
+          // to test the mock implementations of the logging functions.
           __FORCE_ENABLE_LOGGING__: true,
         },
         v => JSON.stringify(v),
