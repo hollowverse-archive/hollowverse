@@ -1,5 +1,4 @@
 import React from 'react';
-import FlipMove from 'react-flip-move';
 import { AlgoliaResponse } from 'algoliasearch';
 import { Link } from 'react-router-dom';
 
@@ -13,12 +12,7 @@ type ResultsListProps = {
 
 export const ResultsList = ({ hits, onResultClick }: ResultsListProps) => {
   return (
-    <FlipMove
-      typeName="ol"
-      enterAnimation="fade"
-      leaveAnimation="fade"
-      duration={100}
-    >
+    <ol>
       {hits.map(searchResult => {
         const photo = searchResult.mainPhoto;
         const path = `/${searchResult.slug}`;
@@ -43,6 +37,6 @@ export const ResultsList = ({ hits, onResultClick }: ResultsListProps) => {
           </li>
         );
       })}
-    </FlipMove>
+    </ol>
   );
 };
