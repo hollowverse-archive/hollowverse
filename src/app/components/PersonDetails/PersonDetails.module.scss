@@ -154,29 +154,8 @@
       }
 
       .illumination {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: calc(100vw * 0.35);
-        height: 100%;
-        background-image: linear-gradient(
-          79deg,
-          rgba(241, 241, 243, 0) 35%,
-          rgba(241, 241, 243, 1) 50%,
-          rgba(241, 241, 243, 0) 75%
-        );
-        animation: animate-illumination 0.8s linear infinite;
+        @include illumination(#f1f1f3);
       }
     }
-  }
-}
-
-@keyframes animate-illumination {
-  0% {
-    transform: translateX(-100%);
-  }
-
-  100% {
-    transform: translateX($page-max-width);
   }
 }

@@ -1,10 +1,10 @@
 @import 'variables.scss';
+@import 'mixins.scss';
 
 .root {
   width: 100%;
   overflow: hidden;
   position: relative;
-  z-index: 1;
 
   .inner {
     width: 100%;
@@ -12,20 +12,8 @@
     position: relative;
   }
 
-  .gradient {
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 1;
-    width: 180px;
-    height: 100%;
-    background-image: linear-gradient(
-      79deg,
-      rgba(241, 241, 243, 0) 35%,
-      rgba(241, 241, 243, 1) 50%,
-      rgba(241, 241, 243, 0) 75%
-    );
-    animation: animate-gradient 0.8s linear infinite;
+  .illumination {
+    @include illumination(#ffffff, 2);
   }
 
   .result {
@@ -53,15 +41,5 @@
     &:nth-child(2) .text {
       width: 75%;
     }
-  }
-}
-
-@keyframes animate-gradient {
-  0% {
-    transform: translateX(-180px);
-  }
-
-  100% {
-    transform: translateX(780px);
   }
 }
