@@ -2,7 +2,7 @@ const webpack = require('webpack');
 const path = require('path');
 const webpackMerge = require('webpack-merge');
 const { createCommonConfig } = require('./webpack.config.common');
-const compact = require('lodash/compact');
+const { compact, mapValues } = require('lodash');
 
 const common = createCommonConfig();
 
@@ -75,9 +75,15 @@ const serverSpecificConfig = {
     }),
 
     // Environment
-    new webpack.DefinePlugin({
-      __IS_SERVER__: true,
-    }),
+    new webpack.DefinePlugin(
+      mapValues(
+        {
+          __IS_SERVER__: true,
+          __FORCE_ENABLE_LOGGING__: Boolean(process.env.FORCE_ENABLE_LOGGING),
+        },
+        v => JSON.stringify(v),
+      ),
+    ),
 
     new webpack.ProvidePlugin({
       URL: ['url', 'URL'],

@@ -157,7 +157,6 @@ module.exports.createCommonConfig = () => ({
           // which proxies the requests to the actual defined endpoint
           // The proxy is defined in appServer.ts
           __API_ENDPOINT__: isProd ? process.env.API_ENDPOINT : '/__api',
-          __FORCE_ENABLE_LOGGING__: Boolean(process.env.FORCE_ENABLE_LOGGING),
           'process.env.NODE_ENV': process.env.NODE_ENV,
           isHot,
         },
