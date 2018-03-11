@@ -27,3 +27,9 @@ declare const __BASE__: string;
 
 /** @example https://api.hollowverse.com/graphql */
 declare const __API_ENDPOINT__: string;
+
+/**
+ * By default, logging and analytics are disabled in development.
+ * Run `FORCE_ENABLE_LOGGING=1 yarn dev` to set this to `true` and force enable logging.
+ */
+declare const __FORCE_ENABLE_LOGGING__: boolean;
