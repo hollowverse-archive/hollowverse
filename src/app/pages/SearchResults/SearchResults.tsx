@@ -71,73 +71,73 @@ const Page = withRouter(
                   <title>Search</title>
                 </Helmet>
                 <div className={classes.resultsContainer}>
-                  <WithData
-                    requestId={searchQuery}
-                    dataKey="searchResults"
-                    load={this.createLoad(dependencies)}
-                    allowOptimisticUpdates
-                  >
-                    {({
-                      result,
-                    }: {
-                      result: AsyncResult<AlgoliaResponse | null>;
-                    }) => {
-                      if (
-                        isSuccessResult(result) ||
-                        isOptimisticResult(result)
-                      ) {
-                        const value = result.value;
+                  <Card className={classes.card} style={{ flexGrow: 1 }}>
+                    <WithData
+                      requestId={searchQuery}
+                      dataKey="searchResults"
+                      load={this.createLoad(dependencies)}
+                      allowOptimisticUpdates
+                    >
+                      {({
+                        result,
+                      }: {
+                        result: AsyncResult<AlgoliaResponse | null>;
+                      }) => {
+                        if (
+                          isSuccessResult(result) ||
+                          isOptimisticResult(result)
+                        ) {
+                          const value = result.value;
 
-                        // User just landed on search page, page is empty
-                        if (!searchQuery || !value) {
-                          return <Status code={200} />;
-                        }
+                          // User just landed on search page, page is empty
+                          if (!searchQuery || !value) {
+                            return <Status code={200} />;
+                          }
 
-                        if (value.hits.length === 0) {
+                          if (value.hits.length === 0) {
+                            return (
+                              <MessageWithIcon
+                                className={classes.placeholder}
+                                icon={<SvgIcon {...searchIcon} />}
+                                title="No results found"
+                              >
+                                <Status key={searchQuery} code={404} />
+                              </MessageWithIcon>
+                            );
+                          }
+
                           return (
-                            <MessageWithIcon
-                              className={classes.placeholder}
-                              icon={<SvgIcon {...searchIcon} />}
-                              title="No results found"
-                            >
-                              <Status key={searchQuery} code={404} />
-                            </MessageWithIcon>
-                          );
-                        }
-
-                        return (
-                          <div>
-                            <Card className={classes.card}>
+                            <>
                               <ResultsList
                                 hits={value.hits}
                                 onResultClick={this.props.searchResultSelected}
                               />
                               <Status key={searchQuery} code={200} />
-                            </Card>
-                          </div>
+                            </>
+                          );
+                        }
+
+                        if (isPendingResult(result)) {
+                          return <SearchResultsSkeleton />;
+                        }
+
+                        return (
+                          <MessageWithIcon
+                            className={classes.placeholder}
+                            icon={<SvgIcon {...searchIcon} />}
+                            title="Failed to load search results"
+                            button={
+                              <LinkButton to={location} onClick={forceReload}>
+                                Reload
+                              </LinkButton>
+                            }
+                          >
+                            <Status code={500} />
+                          </MessageWithIcon>
                         );
-                      }
-
-                      if (isPendingResult(result)) {
-                        return <SearchResultsSkeleton />;
-                      }
-
-                      return (
-                        <MessageWithIcon
-                          className={classes.placeholder}
-                          icon={<SvgIcon {...searchIcon} />}
-                          title="Failed to load search results"
-                          button={
-                            <LinkButton to={location} onClick={forceReload}>
-                              Reload
-                            </LinkButton>
-                          }
-                        >
-                          <Status code={500} />
-                        </MessageWithIcon>
-                      );
-                    }}
-                  </WithData>
+                      }}
+                    </WithData>
+                  </Card>
                 </div>
                 <small className={classes.algoliaContainer}>
                   Search powered by

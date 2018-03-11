@@ -22,6 +22,7 @@
     .card {
       border-right: none;
       border-left: none;
+      flex-grow: 1;
 
       &:first-child {
         border-top-color: transparent;
