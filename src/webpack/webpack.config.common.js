@@ -18,11 +18,13 @@ const {
   ifDev,
   ifProd,
   isProd,
-  ifEs5,
   ifEsNext,
+  isEs5,
 } = require('./env');
 
 module.exports.createCommonConfig = () => ({
+  mode: isProd ? 'production' : 'development',
+
   devServer:
     ifDev({
       port: process.env.WEBPACK_DEV_PORT || 3001,
@@ -63,14 +65,15 @@ module.exports.createCommonConfig = () => ({
         exclude: excludedPatterns,
         include: [srcDirectory],
         use: [
-          {
-            loader: 'svg-sprite-loader',
-            options: {
-              extract: true,
-              spriteFilename: isProd ? 'icons.[hash].svg' : 'icons.svg',
-              esModule: false,
-            },
-          },
+          'url-loader',
+          // {
+          //   loader: 'svg-sprite-loader',
+          //   options: {
+          //     extract: true,
+          //     spriteFilename: isProd ? 'icons.[hash].svg' : 'icons.svg',
+          //     esModule: false,
+          //   },
+          // },
           {
             loader: 'svgo-loader',
             options: {
@@ -128,6 +131,19 @@ module.exports.createCommonConfig = () => ({
     ],
   },
 
+  optimization: {
+    minimize: isEs5,
+    runtimeChunk: true,
+    splitChunks: {
+      chunks: 'all',
+      minSize: 30000,
+      minChunks: 1,
+      maxAsyncRequests: 5,
+      maxInitialRequests: 3,
+      name: true,
+    },
+  },
+
   plugins: compact([
     // Development
     // Do not watch files in node_modules as this causes a huge overhead
@@ -137,9 +153,6 @@ module.exports.createCommonConfig = () => ({
       // Ignore auto-generated type definitions for CSS module files
       /\.s?css\.d\.ts$/,
     ]),
-
-    // Error handling
-    new webpack.NoEmitOnErrorsPlugin(), // Required to fail the build on errors
 
     // Environment
     new webpack.DefinePlugin(
@@ -168,22 +181,6 @@ module.exports.createCommonConfig = () => ({
 
     ...ifProd([
       new LodashModuleReplacementPlugin(),
-
-      new webpack.optimize.OccurrenceOrderPlugin(true),
-
-      // Scope hoisting a la Rollup (Webpack 3+)
-      new webpack.optimize.ModuleConcatenationPlugin(),
-
-      // Minification
-      ...ifEs5([
-        new webpack.optimize.UglifyJsPlugin({
-          // @ts-ignore
-          minimize: true,
-          comments: false,
-          sourceMap: true,
-        }),
-      ]),
-
       ...ifEsNext([new BabelMinifyPlugin()]),
     ]),
 

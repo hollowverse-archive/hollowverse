@@ -36,6 +36,10 @@ const serverSpecificConfig = {
 
   externals: createExternals(common.resolve.alias),
 
+  optimization: {
+    splitChunks: false,
+  },
+
   module: {
     rules: compact([
       // CSS Modules

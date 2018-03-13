@@ -8,14 +8,7 @@ const { createBabelConfig } = require('./babel');
 
 const { srcDirectory, excludedPatterns } = require('./variables');
 
-const {
-  ifReact,
-  ifHot,
-  isProd,
-  shouldTypeCheck,
-  ifProd,
-  ifTest,
-} = require('./env');
+const { isProd, shouldTypeCheck, ifProd, ifTest, isHot } = require('./env');
 
 const sassLoaders = [
   {
@@ -130,7 +123,7 @@ exports.createScriptRules = (isNode = false) => {
     {
       test: /\.jsx?$/,
       exclude: excludedPatterns,
-      use: compact([ifReact(ifHot('react-hot-loader/webpack')), babelLoader]),
+      use: babelLoader,
     },
 
     // TypeScript
@@ -138,7 +131,6 @@ exports.createScriptRules = (isNode = false) => {
       test: /\.tsx?$/,
       exclude: excludedPatterns,
       use: compact([
-        ifReact(ifHot('react-hot-loader/webpack')),
         babelLoader,
         {
           loader: 'ts-loader',
@@ -147,6 +139,7 @@ exports.createScriptRules = (isNode = false) => {
             transpileOnly: !shouldTypeCheck,
             compilerOptions: {
               noEmitOnError: shouldTypeCheck,
+              module: isHot ? 'commonjs' : 'esnext',
             },
           },
         },

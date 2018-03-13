@@ -123,18 +123,6 @@ const testSpecificConfig = {
     // Required for debugging in development and for long-term caching in production
     new webpack.NamedModulesPlugin(),
 
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendor',
-      minChunks: module => /node_modules/.test(module.context),
-    }),
-
-    // Contains all Webpack bootstraping logic, required for `react-universal-component`
-    new webpack.optimize.CommonsChunkPlugin({
-      names: ['bootstrap'],
-      filename: '[name].js',
-      minChunks: Infinity,
-    }),
-
     // Environment
     new webpack.DefinePlugin({
       __IS_SERVER__: false,
