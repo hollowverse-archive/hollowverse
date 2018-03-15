@@ -65,6 +65,7 @@ module.exports.createCommonConfig = () => ({
         exclude: excludedPatterns,
         include: [srcDirectory],
         use: [
+          // @TODO
           'url-loader',
           // {
           //   loader: 'svg-sprite-loader',
@@ -106,9 +107,6 @@ module.exports.createCommonConfig = () => ({
 
   resolve: {
     alias: {
-      // Replace lodash with lodash-es for better tree shaking
-      lodash: 'lodash-es',
-
       algoliasearch: 'algoliasearch/lite',
 
       'es6-promise': 'empty-module',
@@ -133,14 +131,30 @@ module.exports.createCommonConfig = () => ({
 
   optimization: {
     minimize: isEs5,
-    runtimeChunk: true,
+
+    // Required for debugging in development and for long-term caching in production
+    namedModules: true,
+    namedChunks: true,
+
+    // See https://gist.github.com/sokra/1522d586b8e5c0f5072d7565c2bee693
     splitChunks: {
+      name: true,
       chunks: 'all',
       minSize: 30000,
       minChunks: 1,
       maxAsyncRequests: 5,
       maxInitialRequests: 3,
-      name: true,
+      cacheGroups: {
+        default: {
+          minChunks: 2,
+          priority: -20,
+          reuseExistingChunk: true,
+        },
+        vendors: {
+          test: /[\\/]node_modules[\\/]/,
+          priority: -10,
+        },
+      },
     },
   },
 
@@ -170,7 +184,6 @@ module.exports.createCommonConfig = () => ({
           // which proxies the requests to the actual defined endpoint
           // The proxy is defined in appServer.ts
           __API_ENDPOINT__: isProd ? process.env.API_ENDPOINT : '/__api',
-          'process.env.NODE_ENV': process.env.NODE_ENV,
           isHot,
         },
         v => JSON.stringify(v),

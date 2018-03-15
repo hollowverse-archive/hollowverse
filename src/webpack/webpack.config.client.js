@@ -115,16 +115,8 @@ const clientSpecificConfig = {
     //   include: 'initial',
     // }),
 
-    // Required for debugging in development and for long-term caching in production
-    // new webpack.NamedModulesPlugin(),
-
     // Production-only
     ...ifProd([
-      // Chunks
-      // See https://medium.com/webpack/predictable-long-term-caching-with-webpack-d3eee1d3fa31
-      // new webpack.NamedChunksPlugin(),
-      // new NameAllModulesPlugin(),
-
       // Banner
       new webpack.BannerPlugin({
         entryOnly: true,

@@ -120,9 +120,6 @@ const testSpecificConfig = {
 
     new WildcardsEntryWebpackPlugin(),
 
-    // Required for debugging in development and for long-term caching in production
-    new webpack.NamedModulesPlugin(),
-
     // Environment
     new webpack.DefinePlugin({
       __IS_SERVER__: false,

@@ -36,10 +36,6 @@ const serverSpecificConfig = {
 
   externals: createExternals(common.resolve.alias),
 
-  optimization: {
-    splitChunks: false,
-  },
-
   module: {
     rules: compact([
       // CSS Modules
@@ -83,6 +79,7 @@ const serverSpecificConfig = {
       __IS_SERVER__: true,
     }),
 
+    // Provide polyfills for browser APIs
     new webpack.ProvidePlugin({
       URL: ['url', 'URL'],
       URLSearchParams: ['url', 'URLSearchParams'],
