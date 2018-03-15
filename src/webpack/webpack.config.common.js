@@ -192,10 +192,7 @@ module.exports.createCommonConfig = () => ({
 
     new SpriteLoaderPlugin(),
 
-    ...ifProd([
-      new LodashModuleReplacementPlugin(),
-      ...ifEsNext([new BabelMinifyPlugin()]),
-    ]),
+    ...ifProd([...ifEsNext([new BabelMinifyPlugin()])]),
 
     new CircularDependencyPlugin({
       exclude: /node_modules/,

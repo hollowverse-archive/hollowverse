@@ -76,7 +76,6 @@ module.exports.createBabelConfig = (isNode = false) => ({
           exclude: ['NO_SSR'],
         },
       ],
-      'lodash',
     ]),
   ]),
   sourceMap: 'both',
