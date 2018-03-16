@@ -6,8 +6,6 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
 // const PreloadWebpackPlugin = require('preload-webpack-plugin');
 
-// const NameAllModulesPlugin = require('name-all-modules-plugin');
-
 const path = require('path');
 const compact = require('lodash/compact');
 
