@@ -4,7 +4,7 @@ const webpackMerge = require('webpack-merge');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
-// const PreloadWebpackPlugin = require('preload-webpack-plugin');
+const PreloadWebpackPlugin = require('preload-webpack-plugin');
 
 const path = require('path');
 const compact = require('lodash/compact');
@@ -109,9 +109,9 @@ const clientSpecificConfig = {
 
     new HtmlWebpackHarddiskPlugin(),
 
-    // new PreloadWebpackPlugin({
-    //   include: 'initial',
-    // }),
+    new PreloadWebpackPlugin({
+      include: 'initial',
+    }),
 
     // Production-only
     ...ifProd([

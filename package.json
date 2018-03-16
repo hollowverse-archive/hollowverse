@@ -274,7 +274,7 @@
     "postcss-css-variables": "^0.8.0",
     "postcss-loader": "^2.1.1",
     "postcss-normalize": "^4.0.0",
-    "preload-webpack-plugin": "^2.3.0",
+    "preload-webpack-plugin": "^3.0.0-alpha.1",
     "prettier": "^1.10.2",
     "react-hot-loader": "^4.0.0",
     "remap-istanbul": "^0.10.1",

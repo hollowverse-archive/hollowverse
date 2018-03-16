@@ -3,7 +3,6 @@ const path = require('path');
 
 const CircularDependencyPlugin = require('circular-dependency-plugin');
 const BabelMinifyPlugin = require('babel-minify-webpack-plugin');
-const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 const SpriteLoaderPlugin = require('svg-sprite-loader/plugin');
 
 const { compact, mapValues } = require('lodash');
