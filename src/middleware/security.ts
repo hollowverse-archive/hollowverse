@@ -11,6 +11,9 @@ export const securityMiddleware = [
       includeSubdomains: true,
       preload: true,
     },
+    dnsPrefetchControl: {
+      allow: true,
+    },
     hidePoweredBy: true,
     noSniff: true,
     ieNoOpen: true,

@@ -71,9 +71,10 @@ module.exports.createBabelConfig = (isNode = false) => ({
       [
         'transform-inline-environment-variables',
         {
-          // Do not inline `NO_SSR` so that we can toggle this variable
-          // at runtime without having to re-build
-          exclude: ['NO_SSR'],
+          // Do not inline the following environment variables
+          // so that we can toggle this variable at runtime without
+          // having to re-build
+          exclude: ['NO_SSR', 'NO_PROXY'],
         },
       ],
     ]),

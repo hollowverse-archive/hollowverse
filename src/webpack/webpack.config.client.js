@@ -7,7 +7,7 @@ const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
 const PreloadWebpackPlugin = require('preload-webpack-plugin');
 
 const path = require('path');
-const compact = require('lodash/compact');
+const { compact, mapValues } = require('lodash');
 
 const {
   createGlobalCssLoaders,
@@ -125,9 +125,15 @@ const clientSpecificConfig = {
     ifHot(new webpack.HotModuleReplacementPlugin()),
 
     // Environment
-    new webpack.DefinePlugin({
-      __IS_SERVER__: false,
-    }),
+    new webpack.DefinePlugin(
+      mapValues(
+        {
+          __IS_SERVER__: false,
+          __FORCE_ENABLE_LOGGING__: Boolean(process.env.FORCE_ENABLE_LOGGING),
+        },
+        v => JSON.stringify(v),
+      ),
+    ),
   ]),
 };
 

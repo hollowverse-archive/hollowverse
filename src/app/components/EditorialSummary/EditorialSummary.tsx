@@ -178,7 +178,11 @@ export class EditorialSummary extends React.PureComponent<Props, State> {
             />
           ))}
         <hr />
-        <Collapsable isOpen={shouldShowSources} label={<h3>Sources</h3>}>
+        <Collapsable
+          className={classes.sourceListContainer}
+          isOpen={shouldShowSources}
+          label={<h3>Sources</h3>}
+        >
           <small>
             <ol className={classes.sourceList}>
               {Array.from(this.references.values()).map(ref => {
@@ -204,7 +208,7 @@ export class EditorialSummary extends React.PureComponent<Props, State> {
           </small>
         </Collapsable>
         <hr />
-        <footer>
+        <footer className={classes.footer}>
           <small>
             This article was written by {author}
             {date ? (

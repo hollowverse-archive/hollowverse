@@ -1,5 +1,4 @@
 import {
-  createMockGetResponseForDataRequest,
   ClientSideTestContext,
   createClientSideTestContext,
 } from 'helpers/testHelpers';
@@ -18,11 +17,8 @@ describe('Search page', () => {
     beforeEach(async () => {
       context = await createClientSideTestContext({
         createHistoryOptions: { initialEntries: ['/search'] },
-        epicDependenciesOverrides: {
-          getResponseForDataRequest: createMockGetResponseForDataRequest(
-            'searchResults',
-            stubNonEmptySearchResults,
-          ),
+        mockDataResponsesOverrides: {
+          searchResults: stubNonEmptySearchResults,
         },
       });
     });
@@ -76,11 +72,8 @@ describe('Search page', () => {
     beforeEach(async () => {
       context = await createClientSideTestContext({
         createHistoryOptions: { initialEntries: ['/search?query=Tom'] },
-        epicDependenciesOverrides: {
-          getResponseForDataRequest: createMockGetResponseForDataRequest(
-            'searchResults',
-            stubNonEmptySearchResults,
-          ),
+        mockDataResponsesOverrides: {
+          searchResults: stubNonEmptySearchResults,
         },
       });
     });
@@ -108,11 +101,8 @@ describe('Search page', () => {
       beforeEach(async () => {
         context = await createClientSideTestContext({
           createHistoryOptions: { initialEntries: ['/search?query=Tom'] },
-          epicDependenciesOverrides: {
-            getResponseForDataRequest: createMockGetResponseForDataRequest(
-              'searchResults',
-              emptySearchResults,
-            ),
+          mockDataResponsesOverrides: {
+            searchResults: emptySearchResults,
           },
         });
       });

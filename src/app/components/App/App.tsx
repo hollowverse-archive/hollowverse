@@ -65,7 +65,7 @@ export const App = class extends React.Component<AppProps, State> {
         </Helmet>
         <Route>
           {props => {
-            if (!isWhitelistedPage(props.history.createHref(props.location))) {
+            if (!isWhitelistedPage(props.location.pathname)) {
               return (
                 <Helmet>
                   <meta name="robots" content="noindex" />

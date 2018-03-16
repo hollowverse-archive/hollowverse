@@ -1,7 +1,7 @@
 @import 'variables.scss';
 
 .root {
-  $quoation-mark-margin: 5px;
+  $quoation-mark-margin: $spacing-5px;
   $top-offset: 10px;
 
   &.large {
@@ -21,7 +21,7 @@
     font-size: 175%;
     color: $color-text-light;
     opacity: 0.4;
-    margin: 0 $quoation-mark-margin;
+    margin-left: $quoation-mark-margin;
   }
 
   > :first-child::before {

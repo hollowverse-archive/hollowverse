@@ -34,10 +34,11 @@
     align-self: flex-end;
     display: flex;
     align-items: center;
-    margin: 15px;
+    // stylelint-disable-next-line property-blacklist
+    margin: $spacing-15px;
     .logo {
       height: 1.8em;
-      margin-left: 5px;
+      margin-left: $spacing-5px;
       // stylelint-disable-next-line plugin/no-unsupported-browser-features
       filter: grayscale(100%);
       opacity: 0.3;
@@ -48,7 +49,7 @@
     flex-basis: 100%;
     display: flex;
     .link {
-      padding: 10px 20px;
+      padding: $spacing-10px $spacing-20px;
       @include truncate-flex-child;
       display: flex;
       align-items: center;
@@ -57,11 +58,11 @@
 
       .text {
         flex-grow: 1;
+        margin-left: $spacing-10px;
       }
 
       .photo {
         width: 36px;
-        margin-right: 10px;
         background-color: $color-background;
       }
 

@@ -1,0 +1,9 @@
+.root {
+  width: 100%;
+  // `!important` is needed here to override `> * { max-width: $max-page-width }`
+  // in `NotablePerson.module.scss`
+  max-width: 100% !important;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}

@@ -3,6 +3,8 @@ import { agent, Response } from 'supertest';
 import {
   testRoutesMap,
   defaultTestDependencyOverrides,
+  createMockGetResponseForDataRequest,
+  defaultMockDataResponses,
 } from 'helpers/testHelpers';
 import express from 'express';
 import { promisify } from 'util';
@@ -11,6 +13,7 @@ import { join } from 'path';
 import cheerio from 'cheerio';
 import { Stats } from 'webpack';
 import { CreateServerMiddlewareOptions } from 'server';
+import { ResolvedData } from 'store/types';
 
 const readFile = promisify(fs.readFile);
 
@@ -23,6 +26,7 @@ type CreateServerSideTestContextOptions = Partial<
   Pick<CreateServerMiddlewareOptions, 'epicDependenciesOverrides' | 'routesMap'>
 > & {
   path: string;
+  mockDataResponsesOverrides: Partial<ResolvedData>;
 };
 
 export type ServerSideTestContext = {
@@ -34,6 +38,7 @@ export const createServerSideTestContext = async ({
   path,
   routesMap = testRoutesMap,
   epicDependenciesOverrides = {},
+  mockDataResponsesOverrides = {},
 }: CreateServerSideTestContextOptions): Promise<ServerSideTestContext> => {
   const app = express();
   const ssrMiddleware = createServerRenderMiddleware({
@@ -41,6 +46,12 @@ export const createServerSideTestContext = async ({
     epicDependenciesOverrides: {
       ...defaultTestDependencyOverrides,
       ...epicDependenciesOverrides,
+      getResponseForDataRequest: jest.fn(
+        createMockGetResponseForDataRequest({
+          ...defaultMockDataResponses,
+          ...mockDataResponsesOverrides,
+        }),
+      ),
     },
     routesMap,
   });

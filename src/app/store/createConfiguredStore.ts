@@ -134,12 +134,13 @@ export function createConfiguredStore({
     });
   }
 
-  const rootEpic = combineEpics(
-    analyticsEpic,
-    updateUrlEpic,
-    dataResolverEpic,
-    loggingEpic,
-  );
+  const epics = [updateUrlEpic, dataResolverEpic];
+
+  if (process.env.NODE_ENV === 'production' || __FORCE_ENABLE_LOGGING__) {
+    epics.push(analyticsEpic, loggingEpic);
+  }
+
+  const rootEpic = combineEpics(...epics);
 
   const dependencies = {
     ...defaultEpicDependencies,

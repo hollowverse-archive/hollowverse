@@ -6,7 +6,7 @@ const NodeTargetPlugin = require('webpack/lib/node/NodeTargetPlugin');
 const webpackMerge = require('webpack-merge');
 const StatsPlugin = require('stats-webpack-plugin');
 
-const { compact } = require('lodash');
+const { compact, mapValues } = require('lodash');
 const path = require('path');
 const WildcardsEntryWebpackPlugin = require('wildcards-entry-webpack-plugin');
 
@@ -121,9 +121,18 @@ const testSpecificConfig = {
     new WildcardsEntryWebpackPlugin(),
 
     // Environment
-    new webpack.DefinePlugin({
-      __IS_SERVER__: false,
-    }),
+    new webpack.DefinePlugin(
+      mapValues(
+        {
+          __IS_SERVER__: false,
+
+          // This won't actually send any logs or analytics, it's enabled
+          // to test the mock implementations of the logging functions.
+          __FORCE_ENABLE_LOGGING__: true,
+        },
+        v => JSON.stringify(v),
+      ),
+    ),
   ]),
 };
 
