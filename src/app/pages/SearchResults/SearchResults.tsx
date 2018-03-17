@@ -7,9 +7,9 @@ import Helmet from 'react-helmet-async';
 import { Card } from 'components/Card/Card';
 import {
   AsyncResult,
-  isPendingResult,
   isSuccessResult,
   isOptimisticResult,
+  isErrorResult,
 } from 'helpers/asyncResults';
 import { AlgoliaResponse } from 'algoliasearch';
 import { connect } from 'react-redux';
@@ -38,6 +38,7 @@ type Props = {
   searchQuery: string | null;
   searchResultSelected(path: string): any;
 };
+type Result = AsyncResult<AlgoliaResponse | null>;
 
 const Page = withRouter(
   class extends React.PureComponent<Props & RouteComponentProps<any>> {
@@ -65,75 +66,87 @@ const Page = withRouter(
       </small>
     );
 
-    renderError = () => (
-      <MessageWithIcon
-        className={classes.placeholder}
-        icon={<SvgIcon {...searchIcon} />}
-        title="Failed to load search results"
-        button={
-          <LinkButton to={location} onClick={forceReload}>
-            Reload
-          </LinkButton>
-        }
-      >
-        <Status code={500} />
-      </MessageWithIcon>
-    );
-
-    renderResultsList = (value: AlgoliaResponse, searchQuery: string) => (
+    render500Status = () => (
       <>
-        <ResultsList
-          hits={value.hits}
-          onResultClick={this.props.searchResultSelected}
+        <Status code={500} />
+        <Helmet>
+          <title>Error loading search page</title>
+        </Helmet>
+        <MessageWithIcon
+          className={classes.placeholder}
+          icon={<SvgIcon {...searchIcon} />}
+          title="Failed to load search results"
+          button={
+            <LinkButton to={location} onClick={forceReload}>
+              Reload
+            </LinkButton>
+          }
         />
-        <Status key={searchQuery} code={200} />
       </>
     );
 
-    renderNoResults = (searchQuery: string) => (
-      <MessageWithIcon
-        className={classes.placeholder}
-        icon={<SvgIcon {...searchIcon} />}
-        title="No results found"
-      >
-        <Status key={searchQuery} code={404} />
-      </MessageWithIcon>
+    render404Status = () => (
+      <>
+        <Status code={404} />
+        <Helmet>
+          <title>
+            No search results were found for {this.props.searchQuery}
+          </title>
+        </Helmet>
+        <MessageWithIcon
+          className={classes.placeholder}
+          icon={<SvgIcon {...searchIcon} />}
+          title="No results found"
+        />
+      </>
     );
 
-    renderHead = () => (
-      // tslint:disable:react-a11y-titles
-      <Helmet>
-        <title>Search</title>
-      </Helmet>
-    );
+    render200Status = (value?: AlgoliaResponse | null) => {
+      const { searchQuery } = this.props;
+      const userHasPerformedSearch = !!searchQuery && !!value;
 
-    renderDataResponse = (value: AlgoliaResponse | null) => {
-      const { searchQuery, location } = this.props;
-
-      // User just landed on search page, page is empty
-      if (!searchQuery || !value) {
-        return <Status code={200} />;
-      }
-
-      if (value.hits.length === 0) {
-        return this.renderNoResults(searchQuery);
-      }
-
-      return this.renderResultsList(value, searchQuery);
+      return (
+        <>
+          <Status code={200} />
+          <Helmet>
+            {userHasPerformedSearch ? (
+              <title>Search results for {searchQuery}</title>
+            ) : (
+              <title>Search for influential people</title>
+            )}
+          </Helmet>
+          {userHasPerformedSearch ? (
+            <ResultsList
+              // why can't TS tell that `value` here is guaranteed to be `AlgoliaResponse`? 🤔
+              hits={(value as AlgoliaResponse).hits}
+              onResultClick={this.props.searchResultSelected}
+            />
+          ) : null}
+        </>
+      );
     };
 
-    renderContent = (result: AsyncResult<AlgoliaResponse | null>) => {
-      if (isPendingResult(result)) {
-        return <SearchResultsSkeleton />;
-      }
+    renderLoadingStatus = () => (
+      <>
+        <Helmet>
+          <title>Loading search page...</title>
+        </Helmet>
+        <SearchResultsSkeleton />
+      </>
+    );
+
+    renderLoadingOr200Or404Status = (result: Result) => {
+      const value = result.value;
 
       if (isSuccessResult(result) || isOptimisticResult(result)) {
-        const value = result.value;
+        if (value && value.hits.length === 0) {
+          return this.render404Status();
+        }
 
-        return this.renderDataResponse(value);
+        return this.render200Status(value);
       }
 
-      return this.renderError();
+      return this.renderLoadingStatus();
     };
 
     render() {
@@ -141,34 +154,27 @@ const Page = withRouter(
 
       return (
         <AppDependenciesContext.Consumer>
-          {dependencies => {
-            return (
-              <WithData
-                requestId={searchQuery}
-                dataKey="searchResults"
-                load={this.createLoad(dependencies)}
-                allowOptimisticUpdates
-              >
-                {({
-                  result,
-                }: {
-                  result: AsyncResult<AlgoliaResponse | null>;
-                }) => {
-                  return (
-                    <div className={classes.root}>
-                      {this.renderHead()}
-                      <div className={classes.resultsContainer}>
-                        <Card className={classes.card}>
-                          {this.renderContent(result)}
-                        </Card>
-                      </div>
-                      {this.renderAlgoliaLogo()}
-                    </div>
-                  );
-                }}
-              </WithData>
-            );
-          }}
+          {dependencies => (
+            <WithData
+              requestId={searchQuery}
+              dataKey="searchResults"
+              load={this.createLoad(dependencies)}
+              allowOptimisticUpdates
+            >
+              {({ result }: { result: Result }) => (
+                <div className={classes.root}>
+                  <div className={classes.resultsContainer}>
+                    <Card className={classes.card}>
+                      {isErrorResult(result)
+                        ? this.render500Status()
+                        : this.renderLoadingOr200Or404Status(result)}
+                    </Card>
+                  </div>
+                  {this.renderAlgoliaLogo()}
+                </div>
+              )}
+            </WithData>
+          )}
         </AppDependenciesContext.Consumer>
       );
     }

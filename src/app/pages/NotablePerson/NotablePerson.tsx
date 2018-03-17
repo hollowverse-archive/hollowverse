@@ -49,25 +49,6 @@ const Page = withRouter(
       return apiClient.request<NotablePersonQuery>(query, { slug });
     };
 
-    renderError = () => (
-      <>
-        <Helmet>
-          <title>Error loading notable person page</title>
-        </Helmet>
-        <Status code={500} />
-        <MessageWithIcon
-          title="Are you connected to the internet?"
-          description="Please check your connection and try again"
-          button={
-            <LinkButton to={this.props.location} onClick={forceReload}>
-              Reload
-            </LinkButton>
-          }
-          icon={warningIcon}
-        />
-      </>
-    );
-
     renderRelatedPeople = (notablePerson: NotablePersonType) => {
       const { relatedPeople } = notablePerson!; // tslint:disable-line:no-non-null-assertion
 
@@ -110,76 +91,87 @@ const Page = withRouter(
       );
     };
 
-    renderBody = (notablePerson?: NotablePersonType) => {
-      if (notablePerson === undefined) {
-        return <NotablePersonBody />;
-      } else if (notablePerson === null) {
-        return null;
-      }
+    render500Status = () => (
+      <>
+        <Status code={500} />
+        <Helmet>
+          <title>Error loading notable person page</title>
+        </Helmet>
+        <MessageWithIcon
+          title="Are you connected to the internet?"
+          description="Please check your connection and try again"
+          button={
+            <LinkButton to={this.props.location} onClick={forceReload}>
+              Reload
+            </LinkButton>
+          }
+          icon={warningIcon}
+        />
+      </>
+    );
+
+    renderLoading = () => (
+      <>
+        <Helmet>
+          <title>Loading notable person...</title>
+        </Helmet>
+        <NotablePersonBody />
+      </>
+    );
+
+    render200Status = (notablePerson: NotablePersonType) => {
+      const { slug, name, commentsUrl } = notablePerson!; // tslint:disable-line:no-non-null-assertion
+      const isWhitelisted = isWhitelistedPage(`/${slug}`);
 
       return (
         <>
+          <Status code={200} />
+          <Helmet>
+            <link
+              rel="canonical"
+              href={
+                isWhitelisted
+                  ? String(new URL(`${slug}`, 'https://hollowverse.com'))
+                  : commentsUrl
+              }
+            />
+            <title>{name}'s Religion and Political Views</title>
+          </Helmet>
+          <DispatchOnLifecycleEvent
+            onWillUnmount={setAlternativeSearchBoxText(null)}
+            onWillMount={setAlternativeSearchBoxText(name)}
+          />
           <NotablePersonBody
             notablePerson={notablePerson}
             editorialSummary={this.renderEditorialSummary(notablePerson)}
           />
-
           {this.renderRelatedPeople(notablePerson)}
           {this.renderFbComments(notablePerson)}
         </>
       );
     };
 
-    renderContent = (result: Result) => {
+    render404Status = () => (
+      <>
+        <Status code={404} />
+        <Helmet>
+          <title>Page not found</title>
+        </Helmet>
+        <MessageWithIcon title="Not Found" icon={warningIcon} />
+      </>
+    );
+
+    renderLoadingOr200Or404Status = (result: Result) => {
       const notablePerson = result.value && result.value.notablePerson;
       const isLoading = result.value === null || isPendingResult(result);
 
       if (isLoading) {
-        return (
-          <>
-            <Helmet>
-              <title>Loading notable person...</title>
-            </Helmet>
-            {this.renderBody()}
-          </>
-        );
+        return this.renderLoading();
       } else if (notablePerson) {
-        const { slug, name, commentsUrl } = notablePerson;
-        const isWhitelisted = isWhitelistedPage(`/${slug}`);
-
-        return (
-          <>
-            <Helmet>
-              <link
-                rel="canonical"
-                href={
-                  isWhitelisted
-                    ? String(new URL(`${slug}`, 'https://hollowverse.com'))
-                    : commentsUrl
-                }
-              />
-              <title>{name}'s Religion and Political Views</title>
-            </Helmet>
-            <Status code={200} />
-            <DispatchOnLifecycleEvent
-              onWillUnmount={setAlternativeSearchBoxText(null)}
-              onWillMount={setAlternativeSearchBoxText(name)}
-            />
-
-            {this.renderBody(notablePerson)}
-          </>
-        );
+        return this.render200Status(notablePerson);
       }
 
-      return (
-        <>
-          <Helmet>
-            <title>Page not found</title>
-          </Helmet>
-          <Status code={404} />
-          <MessageWithIcon title="Not Found" icon={warningIcon} />
-        </>
-      );
+      return this.render404Status();
     };
 
     render() {
@@ -200,8 +192,8 @@ const Page = withRouter(
                   return (
                     <div className={classes.root}>
                       {isErrorResult(result)
-                        ? this.renderError()
-                        : this.renderContent(result)}
+                        ? this.render500Status()
+                        : this.renderLoadingOr200Or404Status(result)}
                     </div>
                   );
                 }}
