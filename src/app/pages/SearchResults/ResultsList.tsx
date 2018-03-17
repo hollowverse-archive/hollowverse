@@ -4,16 +4,24 @@ import { Link } from 'react-router-dom';
 
 import { Square } from 'components/Square/Square';
 import classes from './SearchResults.module.scss';
+import { resultsListDummyData } from './ResultsListDummyData';
 
-type ResultsListProps = {
+type ResultsListProps = Partial<{
   hits: AlgoliaResponse['hits'];
+  isLoading: boolean;
   onResultClick(path: string): any;
-};
+}>;
 
-export const ResultsList = ({ hits, onResultClick }: ResultsListProps) => {
+export const ResultsList = (props: ResultsListProps) => {
+  const { hits, onResultClick, isLoading } = {
+    ...resultsListDummyData,
+    ...props,
+  };
+
   return (
     <ol>
       {hits.map(searchResult => {
+        const Wrapper = isLoading ? 'span' : Link;
         const photo = searchResult.mainPhoto;
         const path = `/${searchResult.slug}`;
         const onClick = () => {
@@ -22,7 +30,7 @@ export const ResultsList = ({ hits, onResultClick }: ResultsListProps) => {
 
         return (
           <li key={searchResult.objectID} className={classes.result}>
-            <Link className={classes.link} to={path} onClick={onClick}>
+            <Wrapper className={classes.link} to={path} onClick={onClick}>
               <div className={classes.photo}>
                 <Square>
                   <img
@@ -33,7 +41,7 @@ export const ResultsList = ({ hits, onResultClick }: ResultsListProps) => {
                 </Square>
               </div>
               <div className={classes.text}>{searchResult.name}</div>
-            </Link>
+            </Wrapper>
           </li>
         );
       })}

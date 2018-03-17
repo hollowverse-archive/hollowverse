@@ -131,7 +131,7 @@ const Page = withRouter(
         <Helmet>
           <title>Loading search page...</title>
         </Helmet>
-        <SearchResultsSkeleton />
+        <ResultsList isLoading />
       </>
     );
 
