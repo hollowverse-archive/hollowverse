@@ -58,96 +58,115 @@ const Page = withRouter(
       return null;
     };
 
-    // tslint:disable:react-a11y-titles
-    render() {
+    renderAlgoliaLogo = () => (
+      <small className={classes.algoliaContainer}>
+        Search powered by
+        <img className={classes.logo} src={algoliaLogo} alt="Algolia" />
+      </small>
+    );
+
+    renderError = () => (
+      <MessageWithIcon
+        className={classes.placeholder}
+        icon={<SvgIcon {...searchIcon} />}
+        title="Failed to load search results"
+        button={
+          <LinkButton to={location} onClick={forceReload}>
+            Reload
+          </LinkButton>
+        }
+      >
+        <Status code={500} />
+      </MessageWithIcon>
+    );
+
+    renderResultsList = (value: AlgoliaResponse, searchQuery: string) => (
+      <>
+        <ResultsList
+          hits={value.hits}
+          onResultClick={this.props.searchResultSelected}
+        />
+        <Status key={searchQuery} code={200} />
+      </>
+    );
+
+    renderNoResults = (searchQuery: string) => (
+      <MessageWithIcon
+        className={classes.placeholder}
+        icon={<SvgIcon {...searchIcon} />}
+        title="No results found"
+      >
+        <Status key={searchQuery} code={404} />
+      </MessageWithIcon>
+    );
+
+    renderHead = () => (
+      // tslint:disable:react-a11y-titles
+      <Helmet>
+        <title>Search</title>
+      </Helmet>
+    );
+
+    renderDataResponse = (value: AlgoliaResponse | null) => {
       const { searchQuery, location } = this.props;
+
+      // User just landed on search page, page is empty
+      if (!searchQuery || !value) {
+        return <Status code={200} />;
+      }
+
+      if (value.hits.length === 0) {
+        return this.renderNoResults(searchQuery);
+      }
+
+      return this.renderResultsList(value, searchQuery);
+    };
+
+    renderContent = (result: AsyncResult<AlgoliaResponse | null>) => {
+      if (isPendingResult(result)) {
+        return <SearchResultsSkeleton />;
+      }
+
+      if (isSuccessResult(result) || isOptimisticResult(result)) {
+        const value = result.value;
+
+        return this.renderDataResponse(value);
+      }
+
+      return this.renderError();
+    };
+
+    render() {
+      const { searchQuery } = this.props;
 
       return (
         <AppDependenciesContext.Consumer>
           {dependencies => {
             return (
-              <div className={classes.root}>
-                <Helmet>
-                  <title>Search</title>
-                </Helmet>
-                <div className={classes.resultsContainer}>
-                  <Card className={classes.card} style={{ flexGrow: 1 }}>
-                    <WithData
-                      requestId={searchQuery}
-                      dataKey="searchResults"
-                      load={this.createLoad(dependencies)}
-                      allowOptimisticUpdates
-                    >
-                      {({
-                        result,
-                      }: {
-                        result: AsyncResult<AlgoliaResponse | null>;
-                      }) => {
-                        if (
-                          isSuccessResult(result) ||
-                          isOptimisticResult(result)
-                        ) {
-                          const value = result.value;
-
-                          // User just landed on search page, page is empty
-                          if (!searchQuery || !value) {
-                            return <Status code={200} />;
-                          }
-
-                          if (value.hits.length === 0) {
-                            return (
-                              <MessageWithIcon
-                                className={classes.placeholder}
-                                icon={<SvgIcon {...searchIcon} />}
-                                title="No results found"
-                              >
-                                <Status key={searchQuery} code={404} />
-                              </MessageWithIcon>
-                            );
-                          }
-
-                          return (
-                            <>
-                              <ResultsList
-                                hits={value.hits}
-                                onResultClick={this.props.searchResultSelected}
-                              />
-                              <Status key={searchQuery} code={200} />
-                            </>
-                          );
-                        }
-
-                        if (isPendingResult(result)) {
-                          return <SearchResultsSkeleton />;
-                        }
-
-                        return (
-                          <MessageWithIcon
-                            className={classes.placeholder}
-                            icon={<SvgIcon {...searchIcon} />}
-                            title="Failed to load search results"
-                            button={
-                              <LinkButton to={location} onClick={forceReload}>
-                                Reload
-                              </LinkButton>
-                            }
-                          >
-                            <Status code={500} />
-                          </MessageWithIcon>
-                        );
-                      }}
-                    </WithData>
-                  </Card>
-                </div>
-                <small className={classes.algoliaContainer}>
-                  Search powered by
-                  <img
-                    className={classes.logo}
-                    src={algoliaLogo}
-                    alt="Algolia"
-                  />
-                </small>
-              </div>
+              <WithData
+                requestId={searchQuery}
+                dataKey="searchResults"
+                load={this.createLoad(dependencies)}
+                allowOptimisticUpdates
+              >
+                {({
+                  result,
+                }: {
+                  result: AsyncResult<AlgoliaResponse | null>;
+                }) => {
+                  return (
+                    <div className={classes.root}>
+                      {this.renderHead()}
+                      <div className={classes.resultsContainer}>
+                        <Card className={classes.card}>
+                          {this.renderContent(result)}
+                        </Card>
+                      </div>
+                      {this.renderAlgoliaLogo()}
+                    </div>
+                  );
+                }}
+              </WithData>
             );
           }}
         </AppDependenciesContext.Consumer>
@@ -157,8 +176,6 @@ const Page = withRouter(
 );
 
 export const SearchResults = connect(
-  (state: StoreState) => ({
-    searchQuery: getSearchQuery(state),
-  }),
+  (state: StoreState) => ({ searchQuery: getSearchQuery(state) }),
   { searchResultSelected },
 )(Page);
