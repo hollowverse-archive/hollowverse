@@ -16,7 +16,6 @@ import { connect } from 'react-redux';
 import { getSearchQuery } from 'store/features/search/selectors';
 import { WithData } from 'hocs/WithData/WithData';
 import { Status } from 'components/Status/Status';
-import { SearchResultsSkeleton } from './SearchResultsSkeleton';
 
 import algoliaLogo from '!!file-loader!svgo-loader!assets/algoliaLogo.svg';
 import { MessageWithIcon } from 'components/MessageWithIcon/MessageWithIcon';
