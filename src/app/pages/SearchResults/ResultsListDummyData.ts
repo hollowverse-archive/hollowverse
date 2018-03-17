@@ -1,4 +1,4 @@
-import { noop, times, sample } from 'lodash';
+import { noop, times, random } from 'lodash';
 import emptySvg from '!!url-loader!assets/emptySvg.svg';
 
 export const resultsListDummyData = {
@@ -8,8 +8,7 @@ export const resultsListDummyData = {
     mainPhoto: {
       url: emptySvg,
     },
-    // Generate a name of random length between 10 and 25 chars of `#`
-    name: sample(times(15, n2 => `${'#'.repeat(10)}${'#'.repeat(n2)}`)),
+    name: '#'.repeat(random(10, 25)),
     slug: '#',
   })) as any[],
 };
