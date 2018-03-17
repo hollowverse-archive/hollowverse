@@ -1,10 +1,12 @@
 import React from 'react';
 import { AlgoliaResponse } from 'algoliasearch';
 import { Link } from 'react-router-dom';
+import cc from 'classcat';
 
 import { Square } from 'components/Square/Square';
-import classes from './SearchResults.module.scss';
 import { resultsListDummyData } from './ResultsListDummyData';
+
+import classes from './SearchResults.module.scss';
 
 type ResultsListProps = Partial<{
   hits: AlgoliaResponse['hits'];
@@ -29,7 +31,10 @@ export const ResultsList = (props: ResultsListProps) => {
         };
 
         return (
-          <li key={searchResult.objectID} className={classes.result}>
+          <li
+            key={searchResult.objectID}
+            className={cc([classes.result, { [classes.isLoading]: isLoading }])}
+          >
             <Wrapper className={classes.link} to={path} onClick={onClick}>
               <div className={classes.photo}>
                 <Square>
@@ -40,7 +45,9 @@ export const ResultsList = (props: ResultsListProps) => {
                   />
                 </Square>
               </div>
-              <div className={classes.text}>{searchResult.name}</div>
+              <div className={classes.nameContainer}>
+                <span className={classes.text}>{searchResult.name}</span>
+              </div>
             </Wrapper>
           </li>
         );
