@@ -91,7 +91,7 @@ const Page = withRouter(
       );
     };
 
-    render500Status = () => (
+    renderErrorStatus = () => (
       <>
         <Status code={500} />
         <Helmet>
@@ -110,7 +110,7 @@ const Page = withRouter(
       </>
     );
 
-    renderLoading = () => (
+    renderLoadingStatus = () => (
       <>
         <Helmet>
           <title>Loading notable person...</title>
@@ -161,12 +161,12 @@ const Page = withRouter(
       </>
     );
 
-    renderLoadingOr200Or404Status = (result: Result) => {
+    renderNonErrorStatus = (result: Result) => {
       const notablePerson = result.value && result.value.notablePerson;
       const isLoading = result.value === null || isPendingResult(result);
 
       if (isLoading) {
-        return this.renderLoading();
+        return this.renderLoadingStatus();
       } else if (notablePerson) {
         return this.render200Status(notablePerson);
       }
@@ -192,8 +192,8 @@ const Page = withRouter(
                   return (
                     <div className={classes.root}>
                       {isErrorResult(result)
-                        ? this.render500Status()
-                        : this.renderLoadingOr200Or404Status(result)}
+                        ? this.renderErrorStatus()
+                        : this.renderNonErrorStatus(result)}
                     </div>
                   );
                 }}

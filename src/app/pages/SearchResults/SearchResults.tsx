@@ -65,7 +65,7 @@ const Page = withRouter(
       </small>
     );
 
-    render500Status = () => (
+    renderErrorStatus = () => (
       <>
         <Status code={500} />
         <Helmet>
@@ -134,7 +134,7 @@ const Page = withRouter(
       </>
     );
 
-    renderLoadingOr200Or404Status = (result: Result) => {
+    renderNonErrorStatus = (result: Result) => {
       const value = result.value;
 
       if (isSuccessResult(result) || isOptimisticResult(result)) {
@@ -165,8 +165,8 @@ const Page = withRouter(
                   <div className={classes.resultsContainer}>
                     <Card className={classes.card}>
                       {isErrorResult(result)
-                        ? this.render500Status()
-                        : this.renderLoadingOr200Or404Status(result)}
+                        ? this.renderErrorStatus()
+                        : this.renderNonErrorStatus(result)}
                     </Card>
                   </div>
                   {this.renderAlgoliaLogo()}
