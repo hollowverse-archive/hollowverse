@@ -152,7 +152,6 @@ export class PersonDetails extends React.PureComponent<PersonDetailsProps> {
             { [classes.isLoading]: this.props.isLoading },
           ])}
         >
-          <div className={classes.illumination} />
           {this.renderHead()}
           {this.renderImage()}
           {this.renderContent()}

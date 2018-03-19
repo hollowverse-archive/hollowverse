@@ -9574,10 +9574,6 @@ react-dom@^16.0.0, react-dom@^16.2.0:
     object-assign "^4.1.1"
     prop-types "^15.6.0"
 
-react-flip-move@^2.10.0:
-  version "2.10.0"
-  resolved "https://registry.yarnpkg.com/react-flip-move/-/react-flip-move-2.10.0.tgz#70978ed2ca4a6b94d01fe7a230970460f9127b67"
-
 react-helmet-async@^0.0.4:
   version "0.0.4"
   resolved "https://registry.yarnpkg.com/react-helmet-async/-/react-helmet-async-0.0.4.tgz#641c19b4c5cd2257be00e681944bf7d200f3dc14"

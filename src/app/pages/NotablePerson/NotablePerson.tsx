@@ -37,7 +37,7 @@ import { isWhitelistedPage } from 'redirectionMap';
 
 export type Props = {};
 type NotablePersonType = NotablePersonQuery['notablePerson'];
-type Result = { result: AsyncResult<NotablePersonQuery | null> };
+type Result = AsyncResult<NotablePersonQuery | null>;
 
 const Page = withRouter(
   class extends React.Component<Props & RouteComponentProps<any>> {
@@ -48,21 +48,6 @@ const Page = withRouter(
 
       return apiClient.request<NotablePersonQuery>(query, { slug });
     };
-
-    renderErrorMessage = () => (
-      <MessageWithIcon
-        title="Are you connected to the internet?"
-        description="Please check your connection and try again"
-        button={
-          <LinkButton to={this.props.location} onClick={forceReload}>
-            Reload
-          </LinkButton>
-        }
-        icon={warningIcon}
-      >
-        <Status code={500} />
-      </MessageWithIcon>
-    );
 
     renderRelatedPeople = (notablePerson: NotablePersonType) => {
       const { relatedPeople } = notablePerson!; // tslint:disable-line:no-non-null-assertion
@@ -106,12 +91,32 @@ const Page = withRouter(
       );
     };
 
-    renderHead = (notablePerson: NotablePersonType) => {
+    renderErrorStatus = () => (
+      <>
+        <Status code={500} />
+        <Helmet>
+          <title>Error loading notable person page</title>
+        </Helmet>
+        <MessageWithIcon
+          title="Are you connected to the internet?"
+          description="Please check your connection and try again"
+          button={
+            <LinkButton to={this.props.location} onClick={forceReload}>
+              Reload
+            </LinkButton>
+          }
+          icon={warningIcon}
+        />
+      </>
+    );
+
+    render200Status = (notablePerson: NotablePersonType) => {
       const { slug, name, commentsUrl } = notablePerson!; // tslint:disable-line:no-non-null-assertion
       const isWhitelisted = isWhitelistedPage(`/${slug}`);
 
       return (
         <>
+          <Status code={200} />
           <Helmet>
             <link
               rel="canonical"
@@ -121,57 +126,43 @@ const Page = withRouter(
                   : commentsUrl
               }
             />
-            <title>{`${name}'s Religion and Political Views`}</title>
+            <title>{name}'s Religion and Political Views</title>
           </Helmet>
-          <Status code={200} />
           <DispatchOnLifecycleEvent
             onWillUnmount={setAlternativeSearchBoxText(null)}
             onWillMount={setAlternativeSearchBoxText(name)}
           />
-        </>
-      );
-    };
-
-    renderBody = (notablePerson?: NotablePersonType) => {
-      if (notablePerson === undefined) {
-        return <NotablePersonBody />;
-      } else if (notablePerson === null) {
-        return null;
-      }
-
-      return (
-        <>
           <NotablePersonBody
             notablePerson={notablePerson}
             editorialSummary={this.renderEditorialSummary(notablePerson)}
           />
-
           {this.renderRelatedPeople(notablePerson)}
           {this.renderFbComments(notablePerson)}
         </>
       );
     };
 
-    renderContent = (result: Result['result']) => {
+    render404Status = () => (
+      <>
+        <Status code={404} />
+        <Helmet>
+          <title>Page not found</title>
+        </Helmet>
+        <MessageWithIcon title="Not Found" icon={warningIcon} />
+      </>
+    );
+
+    renderNonErrorStatus = (result: Result) => {
       const notablePerson = result.value && result.value.notablePerson;
       const isLoading = result.value === null || isPendingResult(result);
 
       if (isLoading) {
-        return this.renderBody();
+        return <NotablePersonBody />;
       } else if (notablePerson) {
-        return (
-          <>
-            {this.renderHead(notablePerson)}
-            {this.renderBody(notablePerson)}
-          </>
-        );
+        return this.render200Status(notablePerson);
       }
 
-      return (
-        <MessageWithIcon title="Not Found" icon={warningIcon}>
-          <Status code={404} />
-        </MessageWithIcon>
-      );
+      return this.render404Status();
     };
 
     render() {
@@ -188,14 +179,12 @@ const Page = withRouter(
                 forPage={pageUrl}
                 load={this.createLoad(dependencies)}
               >
-                {({ result }: Result) => {
-                  if (isErrorResult(result)) {
-                    return this.renderErrorMessage();
-                  }
-
+                {({ result }: { result: Result }) => {
                   return (
                     <div className={classes.root}>
-                      {this.renderContent(result)}
+                      {isErrorResult(result)
+                        ? this.renderErrorStatus()
+                        : this.renderNonErrorStatus(result)}
                     </div>
                   );
                 }}

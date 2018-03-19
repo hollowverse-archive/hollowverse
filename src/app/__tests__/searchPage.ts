@@ -112,4 +112,29 @@ describe('Search page', () => {
       });
     });
   });
+
+  describe('On load failure', () => {
+    beforeEach(async () => {
+      context = await createClientSideTestContext({
+        createHistoryOptions: { initialEntries: ['/search?query=Tom'] },
+        epicDependenciesOverrides: {
+          getResponseForDataRequest: async payload => {
+            if (payload.key === 'searchResults') {
+              throw new TypeError();
+            }
+
+            return payload.load();
+          },
+        },
+      });
+    });
+
+    it('offers to reload', () => {
+      const linkButton = context.wrapper.findWhere(
+        el => el.is('a') && Boolean(el.text().match(/reload/i)),
+      );
+      expect(linkButton).toBePresent();
+      expect(linkButton.render().attr('href')).toMatch('/search?query=Tom');
+    });
+  });
 });

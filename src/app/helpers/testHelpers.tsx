@@ -142,10 +142,12 @@ export const createClientSideTestContext = async ({
       ...defaultTestDependencyOverrides,
       ...epicDependenciesOverrides,
       getResponseForDataRequest: jest.fn(
-        createMockGetResponseForDataRequest({
-          ...defaultMockDataResponses,
-          ...mockDataResponsesOverrides,
-        }),
+        epicDependenciesOverrides.getResponseForDataRequest
+          ? epicDependenciesOverrides.getResponseForDataRequest
+          : createMockGetResponseForDataRequest({
+              ...defaultMockDataResponses,
+              ...mockDataResponsesOverrides,
+            }),
       ),
     },
     history: createMemoryHistory(createHistoryOptions),

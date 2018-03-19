@@ -26,7 +26,7 @@ type CreateServerSideTestContextOptions = Partial<
   Pick<CreateServerMiddlewareOptions, 'epicDependenciesOverrides' | 'routesMap'>
 > & {
   path: string;
-  mockDataResponsesOverrides: Partial<ResolvedData>;
+  mockDataResponsesOverrides?: Partial<ResolvedData>;
 };
 
 export type ServerSideTestContext = {
@@ -38,7 +38,7 @@ export const createServerSideTestContext = async ({
   path,
   routesMap = testRoutesMap,
   epicDependenciesOverrides = {},
-  mockDataResponsesOverrides = {},
+  mockDataResponsesOverrides,
 }: CreateServerSideTestContextOptions): Promise<ServerSideTestContext> => {
   const app = express();
   const ssrMiddleware = createServerRenderMiddleware({
@@ -47,10 +47,12 @@ export const createServerSideTestContext = async ({
       ...defaultTestDependencyOverrides,
       ...epicDependenciesOverrides,
       getResponseForDataRequest: jest.fn(
-        createMockGetResponseForDataRequest({
-          ...defaultMockDataResponses,
-          ...mockDataResponsesOverrides,
-        }),
+        epicDependenciesOverrides.getResponseForDataRequest
+          ? epicDependenciesOverrides.getResponseForDataRequest
+          : createMockGetResponseForDataRequest({
+              ...defaultMockDataResponses,
+              ...mockDataResponsesOverrides,
+            }),
       ),
     },
     routesMap,

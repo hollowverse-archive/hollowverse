@@ -11,7 +11,7 @@ import { NavBarButton, NavBarLink } from 'components/NavBar/NavBarButton';
 
 import searchIcon from 'icons/search.svg';
 import backIcon from 'icons/back.svg';
-import { ConnectedSearchView } from 'components/NavBar/ConnectedSearchView';
+import { ConnectedSearchBar } from 'components/NavBar/ConnectedSearchBar';
 
 import textLogo from '!!file-loader!assets/textLogo.svg';
 
@@ -59,11 +59,11 @@ export const NavBar = class extends React.Component<
                 <div className={classes.view}>
                   <Switch>
                     <Route path="/search">
-                      <ConnectedSearchView />
+                      <ConnectedSearchBar />
                     </Route>
                     <Route>
                       {isSticking || shouldFocusSearch ? (
-                        <ConnectedSearchView />
+                        <ConnectedSearchBar />
                       ) : (
                         <div className={classes.logoViewInner}>
                           <div className={classes.logoWrapper}>
