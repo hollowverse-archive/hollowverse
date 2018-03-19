@@ -97,7 +97,7 @@ export class SearchBar extends React.PureComponent<Props> {
             </NavBarButton>
           </Route>
           <Route>
-            <NavBarLink className={classes.button} to="/search">
+            <NavBarLink to="/search">
               <SvgIcon size={20} {...searchIcon} />
               <span className="sr-only">Search</span>
             </NavBarLink>
