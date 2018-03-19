@@ -25,7 +25,7 @@ export const ResultsList = (props: ResultsListProps) => {
     'isLoading' in props ? resultsListDummyData : props;
 
   return (
-    <ol>
+    <ol aria-hidden={isLoading}>
       {hits.map(searchResult => {
         const Wrapper = isLoading ? 'span' : Link;
         const photo = searchResult.mainPhoto;
