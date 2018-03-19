@@ -168,6 +168,31 @@ describe('Notable Person page', () => {
     });
   });
 
+  describe('On load failure', () => {
+    beforeEach(async () => {
+      context = await createClientSideTestContext({
+        createHistoryOptions: { initialEntries: ['/Tom_Hanks'] },
+        epicDependenciesOverrides: {
+          getResponseForDataRequest: async payload => {
+            if (payload.key === 'notablePersonQuery') {
+              throw new TypeError();
+            }
+
+            return payload.load();
+          },
+        },
+      });
+    });
+
+    it('offers to reload', () => {
+      const linkButton = context.wrapper.findWhere(
+        el => el.is('a') && Boolean(el.text().match(/reload/i)),
+      );
+      expect(linkButton).toBePresent();
+      expect(linkButton.render().attr('href')).toMatch('/Tom_Hanks');
+    });
+  });
+
   describe('Links to other pages on the website', () => {
     beforeAll(async () => {
       context = await createClientSideTestContext({

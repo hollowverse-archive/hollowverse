@@ -76,7 +76,7 @@ const Page = withRouter(
           icon={<SvgIcon {...searchIcon} />}
           title="Failed to load search results"
           button={
-            <LinkButton to={location} onClick={forceReload}>
+            <LinkButton to={this.props.location} onClick={forceReload}>
               Reload
             </LinkButton>
           }

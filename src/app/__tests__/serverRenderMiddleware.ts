@@ -47,6 +47,27 @@ describe('Server rendering middleware', () => {
         expect(context.res.status).toBe(404);
       });
     });
+
+    describe('On load failure', () => {
+      beforeEach(async () => {
+        context = await createServerSideTestContext({
+          path: '/Tom_Hanks',
+          epicDependenciesOverrides: {
+            getResponseForDataRequest: async payload => {
+              if (payload.key === 'notablePersonQuery') {
+                throw new TypeError();
+              }
+
+              return payload.load();
+            },
+          },
+        });
+      });
+
+      it('returns 500', () => {
+        expect(context.res.status).toBe(500);
+      });
+    });
   });
 
   describe('Search page', () => {
@@ -78,6 +99,27 @@ describe('Server rendering middleware', () => {
 
         it('returns 404', () => {
           expect(context.res.status).toBe(404);
+        });
+      });
+
+      describe('On load failure', () => {
+        beforeEach(async () => {
+          context = await createServerSideTestContext({
+            path: '/search?query=Tom',
+            epicDependenciesOverrides: {
+              getResponseForDataRequest: async payload => {
+                if (payload.key === 'searchResults') {
+                  throw new TypeError();
+                }
+
+                return payload.load();
+              },
+            },
+          });
+        });
+
+        it('returns 500', () => {
+          expect(context.res.status).toBe(500);
         });
       });
     });
