@@ -110,15 +110,6 @@ const Page = withRouter(
       </>
     );
 
-    renderLoadingStatus = () => (
-      <>
-        <Helmet>
-          <title>Loading notable person...</title>
-        </Helmet>
-        <NotablePersonBody />
-      </>
-    );
-
     render200Status = (notablePerson: NotablePersonType) => {
       const { slug, name, commentsUrl } = notablePerson!; // tslint:disable-line:no-non-null-assertion
       const isWhitelisted = isWhitelistedPage(`/${slug}`);
@@ -166,7 +157,7 @@ const Page = withRouter(
       const isLoading = result.value === null || isPendingResult(result);
 
       if (isLoading) {
-        return this.renderLoadingStatus();
+        return <NotablePersonBody />;
       } else if (notablePerson) {
         return this.render200Status(notablePerson);
       }

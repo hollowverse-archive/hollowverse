@@ -125,15 +125,6 @@ const Page = withRouter(
       );
     };
 
-    renderLoadingStatus = () => (
-      <>
-        <Helmet>
-          <title>Loading search page...</title>
-        </Helmet>
-        <ResultsList isLoading />
-      </>
-    );
-
     renderNonErrorStatus = (result: Result) => {
       const value = result.value;
 
@@ -145,7 +136,7 @@ const Page = withRouter(
         return this.render200Status(value);
       }
 
-      return this.renderLoadingStatus();
+      return <ResultsList isLoading />;
     };
 
     render() {
