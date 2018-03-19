@@ -23,6 +23,8 @@
       border-right: none;
       border-left: none;
       flex-grow: 1;
+      display: flex;
+      flex-direction: column;
 
       &:first-child {
         border-top-color: transparent;
