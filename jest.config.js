@@ -28,8 +28,9 @@ module.exports = {
     '^.+\\.tsx?$': '<rootDir>/node_modules/ts-jest/preprocessor.js',
   },
   moduleNameMapper: {
-    '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|graphql)$':
+    '\\.(jpg|jpeg|png|gif|eot|otf|webp|ttf|woff|woff2|graphql)$':
       '<rootDir>/src/app/__mocks__/fileMock.js',
+    '\\.(svg)$': '<rootDir>/src/app/__mocks__/svgSpriteMock.js',
     '\\.(css|scss)$': 'identity-obj-proxy',
     '^.+\\.html?$': 'html-loader-jest',
   },

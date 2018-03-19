@@ -1,4 +1,4 @@
-const compact = require('lodash/compact');
+const { negate, compact } = require('lodash');
 
 exports.isTest = process.env.NODE_ENV === 'test';
 exports.isProduction = process.env.NODE_ENV === 'production';
@@ -32,6 +32,7 @@ const createConditionalWithFallback = (
 exports.ifProd = createConditionalWithFallback(exports.isProd);
 exports.ifHot = createConditionalWithFallback(exports.isHot);
 exports.ifTest = createConditionalWithFallback(exports.isTest);
+exports.ifNotTest = negate(exports.ifTest);
 exports.ifDev = createConditionalWithFallback(exports.isDev);
 exports.ifReact = createConditionalWithFallback(exports.isReact);
 exports.ifPreact = createConditionalWithFallback(exports.isPreact);

@@ -6088,43 +6088,23 @@ exports[`Notable Person page When notable person is found, if notable person has
               Sources
             </h3>
             <Component
-              0="t"
-              1="e"
-              10="s"
-              11="t"
-              12="u"
-              13="b"
-              2="s"
-              3="t"
-              4="-"
-              5="f"
-              6="i"
-              7="l"
-              8="e"
-              9="-"
               className="icon"
+              content=""
+              id=""
               size={8}
+              url=""
+              viewBox=""
             >
               <svg
-                0="t"
-                1="e"
-                10="s"
-                11="t"
-                12="u"
-                13="b"
-                2="s"
-                3="t"
-                4="-"
-                5="f"
-                6="i"
-                7="l"
-                8="e"
-                9="-"
                 className="icon root"
+                content=""
                 height={8}
                 role="presentation"
+                viewBox=""
               >
-                <use />
+                <use
+                  xlinkHref=""
+                />
               </svg>
             </Component>
           </label>
