@@ -40,7 +40,7 @@
     "clean": "del-cli './src/app/**/*.module.scss.d.ts' './dist' && mkdir -p ./dist",
     "validate-filenames": "validate-filenames -c commonconfig.js",
     "lint-staged": "lint-staged",
-    "coverage/report": "codecov -f coverage/lcov.info"
+    "coverage/report": "codecov"
   },
   "license": "Unlicense",
   "homepage": "https://github.com/hollowverse/hollowverse#readme",
