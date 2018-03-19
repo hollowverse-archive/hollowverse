@@ -81,10 +81,12 @@ module.exports.createBabelConfig = (isNode = false) => ({
       'lodash',
     ]),
   ]),
-  ...(ifTest({
-    sourceMaps: 'both',
-  }) || {
-    sourceMap: 'both',
-  }),
+  ...(isTest
+    ? {
+        sourceMaps: 'both',
+      }
+    : {
+        sourceMap: 'both',
+      }),
   retainLines: true,
 });
