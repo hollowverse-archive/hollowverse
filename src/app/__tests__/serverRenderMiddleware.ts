@@ -8,7 +8,7 @@ import {
   emptySearchResults,
 } from 'fixtures/searchResults';
 
-describe('Server rendering middleware', () => {
+describe.skip('Server rendering middleware', () => {
   let context: ServerSideTestContext;
 
   afterEach(() => {
