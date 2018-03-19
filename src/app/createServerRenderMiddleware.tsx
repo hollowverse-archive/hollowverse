@@ -100,35 +100,38 @@ export const createServerRenderMiddleware = ({
       const url = getRedirectionUrl(state) as string;
       res.redirect(url);
     } else {
-      const {
-        js,
-        styles,
-        cssHash,
-        scripts,
-        stylesheets,
-        publicPath,
-      } = flushChunks(clientStats, { chunkNames: Array.from(chunkNames) });
+      let js: string[] = [];
+      let styles: string[] = [];
+      let cssHash: string[] = [];
 
-      logger.debug(`Request path: ${req.path}`);
-      logger.debug('Dynamic chunk names rendered', chunkNames);
-      logger.debug('Scripts served:', scripts);
-      logger.debug('Stylesheets served:', stylesheets);
-      logger.debug('Icon stats:', iconStats);
-      logger.debug('Public path:', publicPath);
+      if (clientStats) {
+        const flushedChunks = flushChunks(clientStats, {
+          chunkNames: Array.from(chunkNames),
+        });
+        ({ js, styles, cssHash } = flushedChunks);
+        const { scripts, stylesheets, publicPath } = flushedChunks;
 
-      // Tell browsers to start fetching scripts and stylesheets as soon as they
-      // parse the HTTP headers of the page
-      res.setHeader(
-        'Link',
-        [
-          ...stylesheets.map(
-            src => `<${publicPath}/${src}>; rel=preload; as=style`,
-          ),
-          ...scripts.map(
-            src => `<${publicPath}/${src}>; rel=preload; as=script`,
-          ),
-        ].join(','),
-      );
+        logger.debug(`Request path: ${req.path}`);
+        logger.debug('Dynamic chunk names rendered', chunkNames);
+        logger.debug('Scripts served:', scripts);
+        logger.debug('Stylesheets served:', stylesheets);
+        logger.debug('Icon stats:', iconStats);
+        logger.debug('Public path:', publicPath);
+
+        // Tell browsers to start fetching scripts and stylesheets as soon as they
+        // parse the HTTP headers of the page
+        res.setHeader(
+          'Link',
+          [
+            ...stylesheets.map(
+              src => `<${publicPath}/${src}>; rel=preload; as=style`,
+            ),
+            ...scripts.map(
+              src => `<${publicPath}/${src}>; rel=preload; as=script`,
+            ),
+          ].join(','),
+        );
+      }
 
       const icons = iconStats ? iconStats.html.join(' ') : '';
 

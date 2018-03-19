@@ -7,20 +7,9 @@ import {
   defaultMockDataResponses,
 } from 'helpers/testHelpers';
 import express from 'express';
-import { promisify } from 'util';
-import fs from 'fs';
-import { join } from 'path';
 import cheerio from 'cheerio';
-import { Stats } from 'webpack';
 import { CreateServerMiddlewareOptions } from 'server';
 import { ResolvedData } from 'store/types';
-
-const readFile = promisify(fs.readFile);
-
-const clientStats = readFile(
-  join(__dirname, '../bundle/stats.json'),
-  'utf8',
-).then(JSON.parse) as Promise<Stats>;
 
 type CreateServerSideTestContextOptions = Partial<
   Pick<CreateServerMiddlewareOptions, 'epicDependenciesOverrides' | 'routesMap'>
@@ -42,7 +31,6 @@ export const createServerSideTestContext = async ({
 }: CreateServerSideTestContextOptions): Promise<ServerSideTestContext> => {
   const app = express();
   const ssrMiddleware = createServerRenderMiddleware({
-    clientStats: await clientStats,
     epicDependenciesOverrides: {
       ...defaultTestDependencyOverrides,
       ...epicDependenciesOverrides,

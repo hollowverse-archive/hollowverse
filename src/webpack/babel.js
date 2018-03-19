@@ -7,6 +7,7 @@ const {
   ifEsNext,
   ifProd,
   isProd,
+  isTest,
   ifTest,
   ifNotTest,
   isDebug,
@@ -20,7 +21,7 @@ module.exports.createBabelConfig = (isNode = false) => ({
         [
           '@babel/preset-env',
           {
-            modules: 'commonjs',
+            modules: isTest ? 'commonjs' : false,
             loose: true,
             debug: isDebug,
             ignoreBrowserslistConfig: true,
