@@ -11,6 +11,7 @@ script:
     -e AWS_ACCESS_KEY_ID
     -e AWS_SECRET_ACCESS_KEY
     -e ENC_PASS_SUMO
+    -e CI
     -e TRAVIS
     -e TRAVIS_JOB_ID
     -e TRAVIS_JOB_NUMBER

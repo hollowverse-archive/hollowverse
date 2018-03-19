@@ -1,5 +1,5 @@
 const { createBabelConfig } = require('./src/webpack/babel');
-const { isProd, isDebug } = require('./src/webpack/env');
+const { isProd, isDebug, isCi } = require('./src/webpack/env');
 
 module.exports = {
   globals: {
@@ -39,9 +39,9 @@ module.exports = {
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
   setupFiles: ['<rootDir>/jest.setup.js'],
   setupTestFrameworkScriptFile: '<rootDir>/jest.setupTestFramework.js',
-  coverageReporters: ['json'],
+  collectCoverage: isCi,
   collectCoverageFrom: [
-    'src/app/**/*',
+    'src/app/**/*.{ts,tsx}',
     '!src/app/**.d.ts',
     '!**/node_modules/**',
   ],
