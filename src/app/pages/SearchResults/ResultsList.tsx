@@ -8,17 +8,15 @@ import { resultsListDummyData } from './ResultsListDummyData';
 
 import classes from './SearchResults.module.scss';
 
-type ResultsListProps = Partial<{
+export type ResultsListProps = {
   hits: AlgoliaResponse['hits'];
   isLoading: boolean;
   onResultClick(path: string): any;
-}>;
+};
 
 export const ResultsList = (props: ResultsListProps) => {
-  const { hits, onResultClick, isLoading } = {
-    ...resultsListDummyData,
-    ...props,
-  };
+  const { isLoading } = props;
+  const { hits, onResultClick } = isLoading ? props : resultsListDummyData;
 
   return (
     <ol>
