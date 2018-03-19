@@ -8,6 +8,7 @@ import {
   emptySearchResults,
 } from 'fixtures/searchResults';
 
+// tslint:disable-next-line:max-func-body-length
 describe.skip('Server rendering middleware', () => {
   let context: ServerSideTestContext;
 
