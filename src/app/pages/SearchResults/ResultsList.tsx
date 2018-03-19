@@ -8,15 +8,21 @@ import { resultsListDummyData } from './ResultsListDummyData';
 
 import classes from './SearchResults.module.scss';
 
-export type ResultsListProps = {
+export type ResultsListSuccessProps = {
   hits: AlgoliaResponse['hits'];
-  isLoading: boolean;
   onResultClick(path: string): any;
 };
 
+export type ResultsListProps =
+  | {
+      isLoading: true;
+    }
+  | ResultsListSuccessProps;
+
 export const ResultsList = (props: ResultsListProps) => {
-  const { isLoading } = props;
-  const { hits, onResultClick } = isLoading ? props : resultsListDummyData;
+  const isLoading = 'isLoading' in props;
+  const { hits, onResultClick } =
+    'isLoading' in props ? resultsListDummyData : props;
 
   return (
     <ol>
