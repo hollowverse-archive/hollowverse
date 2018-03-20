@@ -170,7 +170,12 @@ module.exports.createCommonConfig = () => ({
         }),
       ]),
 
-      ...ifEsNext([new BabelMinifyPlugin()]),
+      ...ifEsNext([
+        new BabelMinifyPlugin({
+          removeUndefined: false,
+          mangle: false,
+        }),
+      ]),
     ]),
 
     new CircularDependencyPlugin({
