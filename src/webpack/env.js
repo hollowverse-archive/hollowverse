@@ -2,7 +2,7 @@ const { negate, compact } = require('lodash');
 
 exports.isTest = process.env.NODE_ENV === 'test';
 exports.isProduction = process.env.NODE_ENV === 'production';
-exports.isCi = Boolean(Number(process.env.CI));
+exports.isCi = Boolean(process.env.CI);
 exports.isDevelopment = process.env.NODE_ENV === 'development';
 exports.isDev = exports.isDevelopment;
 exports.isProd = exports.isProduction;

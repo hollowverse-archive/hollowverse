@@ -6,8 +6,8 @@
   "repository": "https://github.com/hollowverse/hollowverse.git",
   "scripts": {
     "pretest": "npm-run-all --aggregate-output -s app/graphql/build -p -c validate-filenames lint",
-    "test/dev": "jest --color --watch",
-    "test": "jest --verbose --color",
+    "test/dev": "NODE_ENV=test jest --color --watch",
+    "test": "NODE_ENV=test jest --verbose --color",
     "lint": "run-p -c --aggregate-output lint-css lint-js lint-graphql lint-ts check-ts",
     "lint-css": "stylelint --syntax scss 'src/app/**/*.scss'",
     "lint-js": "eslint '**/*.js{,x}'",
