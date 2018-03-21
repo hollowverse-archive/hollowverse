@@ -173,9 +173,15 @@ module.exports.createCommonConfig = () => ({
       ]),
 
       ...ifEsNext([
-        new BabelMinifyPlugin(undefined, {
-          babel: babelCore,
-        }),
+        new BabelMinifyPlugin(
+          {
+            removeConsole: true,
+            removeDebugger: true,
+          },
+          {
+            babel: babelCore,
+          },
+        ),
       ]),
     ]),
 
