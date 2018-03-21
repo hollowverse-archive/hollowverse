@@ -6,6 +6,8 @@ const BabelMinifyPlugin = require('babel-minify-webpack-plugin');
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 const SpriteLoaderPlugin = require('svg-sprite-loader/plugin');
 
+const babelCore = require('@babel/core');
+
 const { compact, mapValues } = require('lodash');
 
 const { srcDirectory, excludedPatterns, publicPath } = require('./variables');
@@ -171,9 +173,8 @@ module.exports.createCommonConfig = () => ({
       ]),
 
       ...ifEsNext([
-        new BabelMinifyPlugin({
-          removeUndefined: false,
-          mangle: false,
+        new BabelMinifyPlugin(undefined, {
+          babel: babelCore,
         }),
       ]),
     ]),

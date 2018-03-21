@@ -68,7 +68,6 @@ module.exports.createBabelConfig = (isNode = false) => ({
     ...ifProd([
       // Compile gql`query { ... }` at build time to avoid runtime parsing overhead
       'graphql-tag',
-      'transform-node-env-inline',
       [
         'transform-inline-environment-variables',
         {
