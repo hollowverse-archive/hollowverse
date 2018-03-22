@@ -85,6 +85,7 @@ const serverSpecificConfig = {
       ),
     ),
 
+    // Provide polyfills for browser APIs
     new webpack.ProvidePlugin({
       URL: ['url', 'URL'],
       URLSearchParams: ['url', 'URLSearchParams'],

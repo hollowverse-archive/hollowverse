@@ -3,7 +3,6 @@ const path = require('path');
 
 const CircularDependencyPlugin = require('circular-dependency-plugin');
 const BabelMinifyPlugin = require('babel-minify-webpack-plugin');
-const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 const SpriteLoaderPlugin = require('svg-sprite-loader/plugin');
 
 const { compact, mapValues } = require('lodash');
@@ -18,11 +17,13 @@ const {
   ifDev,
   ifProd,
   isProd,
-  ifEs5,
   ifEsNext,
+  isEs5,
 } = require('./env');
 
 module.exports.createCommonConfig = () => ({
+  mode: isProd ? 'production' : 'development',
+
   devServer:
     ifDev({
       port: process.env.WEBPACK_DEV_PORT || 3001,
@@ -63,14 +64,16 @@ module.exports.createCommonConfig = () => ({
         exclude: excludedPatterns,
         include: [srcDirectory],
         use: [
-          {
-            loader: 'svg-sprite-loader',
-            options: {
-              extract: true,
-              spriteFilename: isProd ? 'icons.[hash].svg' : 'icons.svg',
-              esModule: false,
-            },
-          },
+          // @TODO
+          'url-loader',
+          // {
+          //   loader: 'svg-sprite-loader',
+          //   options: {
+          //     extract: true,
+          //     spriteFilename: isProd ? 'icons.[hash].svg' : 'icons.svg',
+          //     esModule: false,
+          //   },
+          // },
           {
             loader: 'svgo-loader',
             options: {
@@ -103,9 +106,6 @@ module.exports.createCommonConfig = () => ({
 
   resolve: {
     alias: {
-      // Replace lodash with lodash-es for better tree shaking
-      lodash: 'lodash-es',
-
       algoliasearch: 'algoliasearch/lite',
 
       'es6-promise': 'empty-module',
@@ -128,6 +128,35 @@ module.exports.createCommonConfig = () => ({
     ],
   },
 
+  optimization: {
+    minimize: isEs5,
+
+    // Required for debugging in development and for long-term caching in production
+    namedModules: true,
+    namedChunks: true,
+
+    // See https://gist.github.com/sokra/1522d586b8e5c0f5072d7565c2bee693
+    splitChunks: {
+      name: true,
+      chunks: 'all',
+      minSize: 30000,
+      minChunks: 1,
+      maxAsyncRequests: 5,
+      maxInitialRequests: 3,
+      cacheGroups: {
+        default: {
+          minChunks: 2,
+          priority: -20,
+          reuseExistingChunk: true,
+        },
+        vendors: {
+          test: /[\\/]node_modules[\\/]/,
+          priority: -10,
+        },
+      },
+    },
+  },
+
   plugins: compact([
     // Development
     // Do not watch files in node_modules as this causes a huge overhead
@@ -137,9 +166,6 @@ module.exports.createCommonConfig = () => ({
       // Ignore auto-generated type definitions for CSS module files
       /\.s?css\.d\.ts$/,
     ]),
-
-    // Error handling
-    new webpack.NoEmitOnErrorsPlugin(), // Required to fail the build on errors
 
     // Environment
     new webpack.DefinePlugin(
@@ -157,7 +183,6 @@ module.exports.createCommonConfig = () => ({
           // which proxies the requests to the actual defined endpoint
           // The proxy is defined in appServer.ts
           __API_ENDPOINT__: isProd ? process.env.API_ENDPOINT : '/__api',
-          'process.env.NODE_ENV': process.env.NODE_ENV,
           isHot,
         },
         v => JSON.stringify(v),
@@ -166,26 +191,7 @@ module.exports.createCommonConfig = () => ({
 
     new SpriteLoaderPlugin(),
 
-    ...ifProd([
-      new LodashModuleReplacementPlugin(),
-
-      new webpack.optimize.OccurrenceOrderPlugin(true),
-
-      // Scope hoisting a la Rollup (Webpack 3+)
-      new webpack.optimize.ModuleConcatenationPlugin(),
-
-      // Minification
-      ...ifEs5([
-        new webpack.optimize.UglifyJsPlugin({
-          // @ts-ignore
-          minimize: true,
-          comments: false,
-          sourceMap: true,
-        }),
-      ]),
-
-      ...ifEsNext([new BabelMinifyPlugin()]),
-    ]),
+    ...ifProd([...ifEsNext([new BabelMinifyPlugin()])]),
 
     new CircularDependencyPlugin({
       exclude: /node_modules/,

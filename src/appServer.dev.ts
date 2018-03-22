@@ -8,9 +8,9 @@ import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 import createProxyMiddleware from 'http-proxy-middleware';
 import noFavIcons from 'express-no-favicons';
-import webpackHotServerMiddleware from 'webpack-hot-server-middleware';
+// import webpackHotServerMiddleware from 'webpack-hot-server-middleware';
 import clientConfig from './webpack/webpack.config.client';
-import serverConfig from './webpack/webpack.config.server';
+// import serverConfig from './webpack/webpack.config.server';
 
 const appServer = express();
 
@@ -27,10 +27,10 @@ const startServer = () => {
 
 logger.info('Starting webpack compilation...');
 
-const compiler = webpack([clientConfig, serverConfig]);
+const compiler = webpack([clientConfig]);
 
 const clientCompiler = compiler.compilers[0];
-const options = serverConfig.devServer;
+const options = clientConfig.devServer;
 
 appServer.use(
   '/__api',
@@ -44,7 +44,7 @@ appServer.use(noFavIcons());
 appServer.use(webpackDevMiddleware(compiler, options));
 appServer.use(webpackHotMiddleware(clientCompiler));
 
-appServer.use(webpackHotServerMiddleware(compiler));
+// appServer.use(webpackHotServerMiddleware(compiler));
 
 // `done` will fire multiple times, on every code change, but
 // `startServer` should only be called once after the first

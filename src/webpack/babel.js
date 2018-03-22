@@ -2,7 +2,15 @@ const { compact } = require('lodash');
 
 const { pkg } = require('./variables');
 
-const { ifEs5, ifEsNext, ifProd, isProd, isDebug } = require('./env');
+const {
+  ifEs5,
+  ifEsNext,
+  ifProd,
+  isProd,
+  isDebug,
+  ifReact,
+  ifHot,
+} = require('./env');
 
 module.exports.createBabelConfig = (isNode = false) => ({
   presets: compact([
@@ -33,6 +41,7 @@ module.exports.createBabelConfig = (isNode = false) => ({
     '@babel/preset-react',
   ]),
   plugins: compact([
+    ifHot(ifReact('react-hot-loader/babel')),
     [
       // This plugin finds imports of `react-universal-component` and rewrites
       // dynamic imports of components to two import calls: one for JS and one for CSS.
@@ -68,7 +77,6 @@ module.exports.createBabelConfig = (isNode = false) => ({
           exclude: ['NO_SSR', 'NO_PROXY'],
         },
       ],
-      'lodash',
     ]),
   ]),
   sourceMap: 'both',
