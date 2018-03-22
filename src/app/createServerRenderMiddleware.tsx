@@ -104,6 +104,13 @@ export const createServerRenderMiddleware = ({
       let styles: string[] = [];
       let cssHash: string[] = [];
 
+      if (process.env.NODE_ENV !== 'test' && !clientStats) {
+        console.error(
+          'Expected `clientStats` to be passed to `createServerRenderMiddleware`',
+        );
+        process.exit(1);
+      }
+
       if (clientStats) {
         const flushedChunks = flushChunks(clientStats, {
           chunkNames: Array.from(chunkNames),

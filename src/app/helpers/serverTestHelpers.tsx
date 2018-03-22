@@ -1,7 +1,6 @@
 import { createServerRenderMiddleware } from 'createServerRenderMiddleware';
 import { agent, Response } from 'supertest';
 import {
-  testRoutesMap,
   defaultTestDependencyOverrides,
   createMockGetResponseForDataRequest,
   defaultMockDataResponses,
@@ -10,6 +9,7 @@ import express from 'express';
 import cheerio from 'cheerio';
 import { CreateServerMiddlewareOptions } from 'server';
 import { ResolvedData } from 'store/types';
+import { routesMap as defaultRoutesMap } from 'routesMap';
 
 type CreateServerSideTestContextOptions = Partial<
   Pick<CreateServerMiddlewareOptions, 'epicDependenciesOverrides' | 'routesMap'>
@@ -25,7 +25,7 @@ export type ServerSideTestContext = {
 
 export const createServerSideTestContext = async ({
   path,
-  routesMap = testRoutesMap,
+  routesMap = defaultRoutesMap,
   epicDependenciesOverrides = {},
   mockDataResponsesOverrides,
 }: CreateServerSideTestContextOptions): Promise<ServerSideTestContext> => {
