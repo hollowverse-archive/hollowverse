@@ -5,8 +5,7 @@ const CircularDependencyPlugin = require('circular-dependency-plugin');
 const BabelMinifyPlugin = require('babel-minify-webpack-plugin');
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 const SpriteLoaderPlugin = require('svg-sprite-loader/plugin');
-
-const babelCore = require('@babel/core');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 const { compact, mapValues } = require('lodash');
 
@@ -164,24 +163,21 @@ module.exports.createCommonConfig = () => ({
 
       // Minification
       ...ifEs5([
-        new webpack.optimize.UglifyJsPlugin({
-          // @ts-ignore
-          minimize: true,
-          comments: false,
+        new UglifyJsPlugin({
+          parallel: true,
           sourceMap: true,
+          uglifyOptions: {
+            comments: false,
+            minimize: true,
+          },
         }),
       ]),
 
       ...ifEsNext([
-        new BabelMinifyPlugin(
-          {
-            removeConsole: true,
-            removeDebugger: true,
-          },
-          {
-            babel: babelCore,
-          },
-        ),
+        new BabelMinifyPlugin({
+          removeConsole: true,
+          removeDebugger: true,
+        }),
       ]),
     ]),
 

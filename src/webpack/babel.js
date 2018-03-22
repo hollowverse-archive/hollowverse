@@ -32,7 +32,7 @@ module.exports.createBabelConfig = (isNode = false) => ({
               : {
                   browsers: pkg.browserslist,
                 },
-            useBuiltIns: 'entry',
+            useBuiltIns: isTest ? 'usage' : 'entry',
             shippedProposals: true,
           },
         ],
@@ -80,12 +80,6 @@ module.exports.createBabelConfig = (isNode = false) => ({
       'lodash',
     ]),
   ]),
-  ...(isTest
-    ? {
-        sourceMaps: 'both',
-      }
-    : {
-        sourceMap: 'both',
-      }),
+  ...ifNotTest({ sourceMap: 'both' }),
   retainLines: true,
 });
