@@ -5,7 +5,6 @@ const CircularDependencyPlugin = require('circular-dependency-plugin');
 const BabelMinifyPlugin = require('babel-minify-webpack-plugin');
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 const SpriteLoaderPlugin = require('svg-sprite-loader/plugin');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 const { compact, mapValues } = require('lodash');
 
@@ -15,6 +14,7 @@ const {
   ifPreact,
   isHot,
   isDev,
+  isDebug,
   ifDev,
   ifProd,
   isProd,
@@ -145,7 +145,20 @@ module.exports.createCommonConfig = () => ({
     new webpack.DefinePlugin(
       mapValues(
         {
+          __IS_DEBUG__: isDebug,
+          __BRANCH__: process.env.BRANCH,
+          __COMMIT_ID__: process.env.COMMIT_ID,
+          __BASE__: isProd
+            ? 'https://hollowverse.com'
+            : `http://localhost:${process.env.APP_SERVER_PORT || 3001}`,
+
+          // To avoid issues with cross-origin requests in development,
+          // the API endpoint is mapped to an endpoint on the same origin
+          // which proxies the requests to the actual defined endpoint
+          // The proxy is defined in appServer.ts
+          __API_ENDPOINT__: isProd ? process.env.API_ENDPOINT : '/__api',
           'process.env.NODE_ENV': process.env.NODE_ENV,
+          isHot,
         },
         v => JSON.stringify(v),
       ),
@@ -163,22 +176,15 @@ module.exports.createCommonConfig = () => ({
 
       // Minification
       ...ifEs5([
-        new UglifyJsPlugin({
-          parallel: true,
+        new webpack.optimize.UglifyJsPlugin({
+          // @ts-ignore
+          minimize: true,
+          comments: false,
           sourceMap: true,
-          uglifyOptions: {
-            comments: false,
-            minimize: true,
-          },
         }),
       ]),
 
-      ...ifEsNext([
-        new BabelMinifyPlugin({
-          removeConsole: true,
-          removeDebugger: true,
-        }),
-      ]),
+      ...ifEsNext([new BabelMinifyPlugin()]),
     ]),
 
     new CircularDependencyPlugin({

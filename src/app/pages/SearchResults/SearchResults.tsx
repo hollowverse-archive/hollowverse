@@ -72,6 +72,7 @@ const Page = withRouter(
           <title>Error loading search page</title>
         </Helmet>
         <MessageWithIcon
+          className={classes.placeholder}
           icon={<SvgIcon {...searchIcon} />}
           title="Failed to load search results"
           button={
@@ -92,6 +93,7 @@ const Page = withRouter(
           </title>
         </Helmet>
         <MessageWithIcon
+          className={classes.placeholder}
           icon={<SvgIcon {...searchIcon} />}
           title="No results found"
         />

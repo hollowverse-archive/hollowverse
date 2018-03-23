@@ -27,7 +27,6 @@ const {
   cssModulesPattern,
 } = require('./variables');
 const { createCommonConfig } = require('./webpack.config.common');
-const { getAppGlobals } = require('./appGlobals');
 
 const common = createCommonConfig();
 
@@ -174,7 +173,13 @@ const clientSpecificConfig = {
 
     // Environment
     new webpack.DefinePlugin(
-      mapValues(getAppGlobals(false), v => JSON.stringify(v)),
+      mapValues(
+        {
+          __IS_SERVER__: false,
+          __FORCE_ENABLE_LOGGING__: Boolean(process.env.FORCE_ENABLE_LOGGING),
+        },
+        v => JSON.stringify(v),
+      ),
     ),
   ]),
 };
