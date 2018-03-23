@@ -2,7 +2,16 @@ const { compact } = require('lodash');
 
 const { pkg } = require('./variables');
 
-const { ifEs5, ifEsNext, ifProd, isProd, isDebug } = require('./env');
+const {
+  ifEs5,
+  ifEsNext,
+  ifProd,
+  isProd,
+  isTest,
+  ifTest,
+  ifNotTest,
+  isDebug,
+} = require('./env');
 
 module.exports.createBabelConfig = (isNode = false) => ({
   presets: compact([
@@ -12,7 +21,7 @@ module.exports.createBabelConfig = (isNode = false) => ({
         [
           '@babel/preset-env',
           {
-            modules: false,
+            modules: isTest ? 'commonjs' : false,
             loose: true,
             debug: isDebug,
             ignoreBrowserslistConfig: true,
@@ -23,7 +32,7 @@ module.exports.createBabelConfig = (isNode = false) => ({
               : {
                   browsers: pkg.browserslist,
                 },
-            useBuiltIns: 'entry',
+            useBuiltIns: isTest ? 'usage' : 'entry',
             shippedProposals: true,
           },
         ],
@@ -33,32 +42,34 @@ module.exports.createBabelConfig = (isNode = false) => ({
     '@babel/preset-react',
   ]),
   plugins: compact([
-    [
-      // This plugin finds imports of `react-universal-component` and rewrites
-      // dynamic imports of components to two import calls: one for JS and one for CSS.
-      // Fetching of CSS and JS will occur in parallel on the client.
-      // It also allows Webpack to determine the chunk name for the imported component
-      // by adding the chunkname as a "magic Webpack comment".
-      // In addition, this plugin will record all import calls that it finds when
-      // parsing the source files. `webpack-flush-chunks` consumes this data
-      // to know which components were part of the server render, and will include
-      // the corresponding chunks as external, synchronous JS scripts in the SSR HTML markup.
-      // For more details, see
-      // https://medium.com/discovery-engineering/b98922382cc1
-      'universal-import',
-      {
-        // Some dynamic imports do not have CSS files associated with them,
-        // by default, the plugin will print a warning to the browser console
-        // when it finds a JS import with no matching CSS.
-        disableWarnings: isProd,
-      },
-    ],
+    ...ifNotTest([
+      [
+        // This plugin finds imports of `react-universal-component` and rewrites
+        // dynamic imports of components to two import calls: one for JS and one for CSS.
+        // Fetching of CSS and JS will occur in parallel on the client.
+        // It also allows Webpack to determine the chunk name for the imported component
+        // by adding the chunkname as a "magic Webpack comment".
+        // In addition, this plugin will record all import calls that it finds when
+        // parsing the source files. `webpack-flush-chunks` consumes this data
+        // to know which components were part of the server render, and will include
+        // the corresponding chunks as external, synchronous JS scripts in the SSR HTML markup.
+        // For more details, see
+        // https://medium.com/discovery-engineering/b98922382cc1
+        'universal-import',
+        {
+          // Some dynamic imports do not have CSS files associated with them,
+          // by default, the plugin will print a warning to the browser console
+          // when it finds a JS import with no matching CSS.
+          disableWarnings: isProd,
+        },
+      ],
+    ]),
     '@babel/plugin-transform-runtime',
     '@babel/plugin-syntax-dynamic-import',
+    ifTest('babel-plugin-dynamic-import-node'),
     ...ifProd([
       // Compile gql`query { ... }` at build time to avoid runtime parsing overhead
       'graphql-tag',
-      'transform-node-env-inline',
       [
         'transform-inline-environment-variables',
         {
@@ -71,6 +82,6 @@ module.exports.createBabelConfig = (isNode = false) => ({
       'lodash',
     ]),
   ]),
-  sourceMap: 'both',
+  ...ifNotTest({ sourceMap: 'both' }),
   retainLines: true,
 });

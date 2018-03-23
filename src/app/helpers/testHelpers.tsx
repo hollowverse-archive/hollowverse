@@ -1,9 +1,4 @@
 import React from 'react';
-import { NotablePerson } from 'pages/NotablePerson/NotablePerson';
-import { SearchResults } from 'pages/SearchResults/SearchResults';
-import { About } from 'pages/About/About';
-import { PrivacyPolicy } from 'pages/PrivacyPolicy/PrivacyPolicy';
-import { Home } from 'pages/Home/Home';
 import { History, MemoryHistoryBuildOptions } from 'history';
 import { StoreState, ResolvedData } from 'store/types';
 import { Store } from 'redux';
@@ -26,11 +21,13 @@ import { once } from 'lodash';
 import { AppRoutesMap, App } from 'components/App/App';
 import { stubNotablePersonQueryResponse } from 'fixtures/notablePersonQuery';
 import { stubNonEmptySearchResults } from 'fixtures/searchResults';
+import { routesMap as defaultRoutesMap } from 'routesMap';
 
 type CreateTestTreeOptions = {
   history: History;
   store: Store<StoreState>;
   appDependencyOverrides?: Partial<AppDependencies>;
+  routesMap?: AppRoutesMap;
 };
 
 export const defaultMockDataResponses: Partial<ResolvedData> = {
@@ -77,18 +74,11 @@ export const defaultTestDependencyOverrides: Partial<EpicDependencies> = {
   ),
 };
 
-export const testRoutesMap: AppRoutesMap = {
-  '/search': SearchResults,
-  '/about': About,
-  '/privacy-policy': PrivacyPolicy,
-  '/:slug': NotablePerson,
-  default: Home,
-};
-
 export const createTestTree = ({
   history,
   store,
   appDependencyOverrides,
+  routesMap = defaultRoutesMap,
 }: CreateTestTreeOptions) => (
   <HelmetProvider>
     <AppDependenciesContext.Provider
@@ -99,7 +89,7 @@ export const createTestTree = ({
     >
       <Provider store={store}>
         <ConnectedRouter history={history}>
-          <App routesMap={testRoutesMap} />
+          <App routesMap={routesMap} />
         </ConnectedRouter>
       </Provider>
     </AppDependenciesContext.Provider>

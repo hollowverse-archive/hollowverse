@@ -10,6 +10,7 @@ script:
     -e IS_PULL_REQUEST=$TRAVIS_PULL_REQUEST
     -e AWS_ACCESS_KEY_ID
     -e AWS_SECRET_ACCESS_KEY
+    -e CI
     --env-file <(env | grep ENC_PASS_)
     --env-file <(env | grep TRAVIS_)
     -e TRAVIS_BUILD_DIR=/repo
