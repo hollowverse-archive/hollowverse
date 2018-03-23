@@ -18,7 +18,7 @@ type IconStats = {
 };
 
 export type CreateServerMiddlewareOptions = {
-  clientStats?: Stats;
+  clientStats: Stats;
   epicDependenciesOverrides: CreateConfiguredStoreOptions['epicDependenciesOverrides'];
   iconStats?: IconStats;
   routesMap: AppRoutesMap;

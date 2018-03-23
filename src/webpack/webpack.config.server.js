@@ -20,7 +20,6 @@ const {
   createScriptRules,
   createExternals,
 } = require('./shared');
-const { getAppGlobals } = require('./appGlobals');
 
 const serverSpecificConfig = {
   name: 'server',
@@ -77,7 +76,13 @@ const serverSpecificConfig = {
 
     // Environment
     new webpack.DefinePlugin(
-      mapValues(getAppGlobals(true), v => JSON.stringify(v)),
+      mapValues(
+        {
+          __IS_SERVER__: true,
+          __FORCE_ENABLE_LOGGING__: Boolean(process.env.FORCE_ENABLE_LOGGING),
+        },
+        v => JSON.stringify(v),
+      ),
     ),
 
     new webpack.ProvidePlugin({

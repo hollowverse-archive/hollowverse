@@ -243,7 +243,7 @@ exports[`Notable Person page When notable person is found, if notable person has
   }
 >
   <div
-    className="root"
+    className="EditorialSummary-module__root"
   >
     <Block
       key="89740c08-4795-48d9-afb0-eb6722b8003f"
@@ -1384,12 +1384,12 @@ exports[`Notable Person page When notable person is found, if notable person has
         ]
       }
     >
-      <Component
+      <Quote
         key="c2f0a449-b1c7-4326-9724-9bbc96cbd965"
         size="large"
       >
         <blockquote
-          className="root large"
+          className="Quote-module__root Quote-module__large"
         >
           <Block
             key="f20b575f-46c2-43f6-a610-919efdce145e"
@@ -1784,7 +1784,7 @@ exports[`Notable Person page When notable person is found, if notable person has
             </p>
           </Block>
         </blockquote>
-      </Component>
+      </Quote>
     </Block>
     <Block
       key="6fe7210a-20cd-4994-bb07-18a5c48aafe6"
@@ -5273,12 +5273,12 @@ exports[`Notable Person page When notable person is found, if notable person has
         ]
       }
     >
-      <Component
+      <Quote
         key="4b37b4f8-95dd-4924-903b-8e0a76824f23"
         size="large"
       >
         <blockquote
-          className="root large"
+          className="Quote-module__root Quote-module__large"
         >
           <Block
             key="94e61f0d-e0e8-443e-871e-15337ff79c81"
@@ -5673,7 +5673,7 @@ exports[`Notable Person page When notable person is found, if notable person has
             </p>
           </Block>
         </blockquote>
-      </Component>
+      </Quote>
     </Block>
     <Block
       key="2ce08d61-2758-4bca-be15-d4f2cd2079ef"
@@ -6060,7 +6060,7 @@ exports[`Notable Person page When notable person is found, if notable person has
     </Block>
     <hr />
     <Collapsable
-      className="sourceListContainer"
+      className="EditorialSummary-module__source-list-container"
       isOpen={false}
       label={
         <h3>
@@ -6070,50 +6070,49 @@ exports[`Notable Person page When notable person is found, if notable person has
     >
       <Consumer>
         <div
-          className="root sourceListContainer"
+          className="Collapsable-module__root EditorialSummary-module__source-list-container"
         >
           <input
             aria-checked={false}
             checked={false}
-            className="input"
+            className="Collapsable-module__input"
             id="2"
             onChange={[Function]}
             type="checkbox"
           />
           <label
-            className="label"
+            className="Collapsable-module__label"
             htmlFor="2"
           >
             <h3>
               Sources
             </h3>
-            <Component
-              className="icon"
-              content=""
-              id=""
+            <SvgIcon
+              className="Collapsable-module__icon"
+              id="dropdown-usage"
               size={8}
-              url=""
-              viewBox=""
+              toString={[Function]}
+              url="/static/icons.svg#dropdown-usage"
+              viewBox="0 0 11 7"
             >
               <svg
-                className="icon root"
-                content=""
+                className="Collapsable-module__icon SvgIcon-module__root"
                 height={8}
                 role="presentation"
-                viewBox=""
+                viewBox="0 0 11 7"
               >
                 <use
-                  xlinkHref=""
+                  xlinkHref="/static/icons.svg#dropdown-usage"
                 />
               </svg>
-            </Component>
+            </SvgIcon>
           </label>
           <div
-            className="children"
+            className="Collapsable-module__children"
           >
             <small>
               <ol
-                className="sourceList"
+                className="EditorialSummary-module__source-list"
               >
                 <li
                   id="source_1"
@@ -6127,7 +6126,7 @@ exports[`Notable Person page When notable person is found, if notable person has
                    johnsanidopoulos.com
                   <a
                     aria-label="Go back to reference"
-                    className="backLink"
+                    className="EditorialSummary-module__back-link"
                     href="#ref_1"
                     role="button"
                   >
@@ -6146,7 +6145,7 @@ exports[`Notable Person page When notable person is found, if notable person has
                    beliefnet.com
                   <a
                     aria-label="Go back to reference"
-                    className="backLink"
+                    className="EditorialSummary-module__back-link"
                     href="#ref_2"
                     role="button"
                   >
@@ -6165,7 +6164,7 @@ exports[`Notable Person page When notable person is found, if notable person has
                    johnsanidopoulos.com
                   <a
                     aria-label="Go back to reference"
-                    className="backLink"
+                    className="EditorialSummary-module__back-link"
                     href="#ref_3"
                     role="button"
                   >
@@ -6184,7 +6183,7 @@ exports[`Notable Person page When notable person is found, if notable person has
                    mormonmatters.org
                   <a
                     aria-label="Go back to reference"
-                    className="backLink"
+                    className="EditorialSummary-module__back-link"
                     href="#ref_4"
                     role="button"
                   >
@@ -6203,7 +6202,7 @@ exports[`Notable Person page When notable person is found, if notable person has
                    latimes.com
                   <a
                     aria-label="Go back to reference"
-                    className="backLink"
+                    className="EditorialSummary-module__back-link"
                     href="#ref_5"
                     role="button"
                   >
@@ -6222,7 +6221,7 @@ exports[`Notable Person page When notable person is found, if notable person has
                    myspace.com
                   <a
                     aria-label="Go back to reference"
-                    className="backLink"
+                    className="EditorialSummary-module__back-link"
                     href="#ref_6"
                     role="button"
                   >
@@ -6241,7 +6240,7 @@ exports[`Notable Person page When notable person is found, if notable person has
                    politico.com
                   <a
                     aria-label="Go back to reference"
-                    className="backLink"
+                    className="EditorialSummary-module__back-link"
                     href="#ref_7"
                     role="button"
                   >
@@ -6256,7 +6255,7 @@ exports[`Notable Person page When notable person is found, if notable person has
     </Collapsable>
     <hr />
     <footer
-      className="footer"
+      className="EditorialSummary-module__footer"
     >
       <small>
         This article was written by 
