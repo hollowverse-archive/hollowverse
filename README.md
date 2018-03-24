@@ -1,6 +1,6 @@
 # Hollowverse
 
-[![Build Status](https://travis-ci.org/hollowverse/hollowverse.svg?branch=master)](https://travis-ci.org/hollowverse/hollowverse) [![Discord Badge](https://img.shields.io/discord/308394001789353985.svg)](https://discordapp.com/invite/KmnPYnu)
+[![Build Status](https://travis-ci.org/hollowverse/hollowverse.svg?branch=master)](https://travis-ci.org/hollowverse/hollowverse) [![codecov](https://codecov.io/gh/hollowverse/hollowverse/branch/master/graph/badge.svg)](https://codecov.io/gh/hollowverse/hollowverse) [![Discord Badge](https://img.shields.io/discord/308394001789353985.svg)](https://discordapp.com/invite/KmnPYnu)
 
 Hollowverse is a website that focuses on the profound ideas of influential individuals.
 
