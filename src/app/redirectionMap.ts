@@ -6,6 +6,15 @@ import pathToRegExp from 'path-to-regexp';
  */
 export const redirectionMap = new Map<string, string>([
   ['/tom-hanks', '/Tom_Hanks'],
+  ['/michael-jordan', '/Michael_Jordan'],
+  ['/shahid-kapoor', '/Shahid_Kapoor'],
+  ['/taylor-swift', '/Taylor_Swift'],
+  ['/leonardo-dicaprio', '/Leonardo_DiCaprio'],
+  ['/joseph-stalin', '/Joseph_Stalin'],
+  ['/will-smith', '/Will_Smith'],
+  ['/morgan-freeman', '/Morgan_Freeman'],
+  ['/jamie-foxx', '/Jamie_Foxx'],
+  ['/robert-downey-jr', '/Robert_Downey_Jr.'],
 ]);
 
 export const whitelistedNewPaths = [

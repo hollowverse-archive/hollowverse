@@ -31,44 +31,55 @@
     width: 100%;
   }
 
-  .square {
-    min-width: 125px;
-    min-height: 125px;
-    background-color: $color-background;
-  }
-
   .lazy-image {
     height: 100%;
   }
 
   .card {
     padding-bottom: $spacing-10px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .square {
+    min-width: $person-avatar-size;
+    min-height: $person-avatar-size;
+    background-color: $color-background;
+    flex-grow: 0;
   }
 
   .link {
     display: block;
+    height: 100%;
 
     > * {
       height: 100%;
     }
   }
 
-  .person {
-    @include font-13px;
-    flex: 1 0 calc(25% - 2px);
+  .name {
+    padding: $spacing-10px;
+    padding-bottom: 0;
+    flex-grow: 1;
     display: flex;
-    align-items: stretch;
-    padding: 2px;
-    font-weight: bold;
-    a {
-      color: initial;
-      text-decoration: none;
-    }
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+  }
 
-    .name {
-      margin-top: $spacing-10px;
-      text-align: center;
-    }
+  a {
+    color: initial;
+    text-decoration: none;
+  }
+
+  .person {
+    $spacing: $spacing-2px;
+    @include font-13px;
+    flex: 1 0 calc(25% - #{$spacing});
+    display: flex;
+    align-items: flex-start;
+    padding: $spacing;
+    font-weight: bold;
 
     img {
       display: block;

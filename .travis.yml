@@ -10,12 +10,9 @@ script:
     -e IS_PULL_REQUEST=$TRAVIS_PULL_REQUEST
     -e AWS_ACCESS_KEY_ID
     -e AWS_SECRET_ACCESS_KEY
-    -e ENC_PASS_SUMO
-    -e TRAVIS
-    -e TRAVIS_JOB_ID
-    -e TRAVIS_PULL_REQUEST
-    -e TRAVIS_BRANCH
-    -e TRAVIS_COMMIT
+    --env-file <(env | grep ENC_PASS_)
+    --env-file <(env | grep TRAVIS_)
+    -e TRAVIS_BUILD_DIR=/repo
     hollowverse/build-env
 
 notifications:

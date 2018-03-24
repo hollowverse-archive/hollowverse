@@ -1,11 +1,15 @@
 @import 'variables.scss';
 @import 'mixins.scss';
 
+@mixin photo-border($color1: rgba(255, 255, 255, 0.7), $color2: rgba(0, 0, 0, 0.1)) {
+  box-shadow: 0 0 0 1.5px $color1, 0 2px 1px 0 $color2;
+  border-radius: 1px;
+}
+
 .root {
-  position: relative;
-  overflow-x: hidden;
   display: flex;
   flex-direction: column;
+  position: relative;
 
   .cover-background-wrapper {
     visibility: hidden;
@@ -39,61 +43,120 @@
     right: 0;
   }
 
-  .content {
+  &.is-loading {
+    &::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      left: 0;
+      top: 0;
+      opacity: 0.2;
+
+      // stylelint-disable-next-line plugin/no-unsupported-browser-features
+      filter: blur(50px);
+
+      background-image: linear-gradient(
+          -180deg,
+          rgba(241, 241, 243, 0) 0%,
+          rgba(241, 241, 243, 1) 50%
+        ),
+        linear-gradient(
+          132deg,
+          #4cfde9 0%,
+          rgba(251, 201, 84, 1) 50%,
+          #4435f7 100%
+        );
+    }
+  }
+
+  .container {
+    align-self: center;
+    display: flex;
+    flex-direction: column;
     width: 100%;
     max-width: $page-max-width;
-    align-self: center;
-  }
+    position: relative;
 
-  .photo-link {
-    align-self: center;
-    display: inline-block;
-    width: $person-avatar-size;
-    height: $person-avatar-size;
-    margin-top: $spacing-40px;
-  }
-
-  .photo {
-    display: block;
-    width: $person-avatar-size;
-    height: $person-avatar-size;
-    background-color: $color-background-light;
-    box-shadow: 0 0 0 1.5px rgba(255, 255, 255, 0.7),
-      0 2px 1px 0 rgba(0, 0, 0, 0.1);
-    border-radius: 1px;
-
-    // stylelint-disable-next-line plugin/no-unsupported-browser-features
-    object-fit: cover;
-  }
-
-  .name-container {
-    @include font-26px;
-    color: $color-text-default;
-    margin-top: $spacing-10px;
-    text-align: center;
-
-    .caption {
-      @include font-11px;
-      color: $color-text-light;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-top: $spacing-20px;
-      text-align: center;
+    .content {
+      width: 100%;
+      max-width: $page-max-width;
+      align-self: center;
     }
 
-    .name {
-      margin-top: $spacing-5px;
+    .photo-link {
+      align-self: center;
+      display: inline-block;
+      min-width: $person-avatar-size;
+      min-height: $person-avatar-size;
+      height: 25vw;
+      width: 25vw;
+      max-width: calc(#{$page-max-width} / 4);
+      max-height: calc(#{$page-max-width} / 4);
+      margin-top: $spacing-40px;
     }
-  }
 
-  .summary {
-    @include font-16px;
-    margin-top: $spacing-30px;
-    padding: $spacing-20px;
+    .photo {
+      @include photo-border;
 
-    p + p {
+      display: block;
+      width: 100%;
+      height: 100%;
+      background-color: $color-background-light;
+
+      // stylelint-disable-next-line plugin/no-unsupported-browser-features
+      object-fit: cover;
+    }
+
+    .name-container {
+      @include font-26px;
+      color: $color-text-default;
       margin-top: $spacing-10px;
+      text-align: center;
+
+      .caption {
+        @include font-11px;
+        color: $color-text-light;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-top: $spacing-20px;
+        text-align: center;
+      }
+
+      .name {
+        margin-top: $spacing-5px;
+      }
+    }
+
+    .summary {
+      @include font-16px;
+      margin-top: $spacing-30px;
+      padding: $spacing-20px;
+
+      p + p {
+        margin-top: $spacing-10px;
+      }
+    }
+
+    &.is-loading {
+      overflow-x: hidden;
+
+      .photo {
+        @include photo-border(transparent, transparent);
+      }
+
+      .photo,
+      .text {
+        color: $color-background;
+        background: $color-background;
+        user-select: none;
+      }
+
+      &:after {
+        content: '';
+        @include illumination(#f1f1f3);
+      }
     }
   }
 }

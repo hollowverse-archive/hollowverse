@@ -10,20 +10,19 @@ import {
 
 import { NotablePersonQuery } from 'api/types';
 import { MessageWithIcon } from 'components/MessageWithIcon/MessageWithIcon';
-import { NotablePersonSkeleton } from './NotablePersonSkeleton';
 import { Status } from 'components/Status/Status';
 import { WithData } from 'hocs/WithData/WithData';
 import { LinkButton } from 'components/Button/Button';
 import { withRouter, RouteComponentProps } from 'react-router';
 import { forceReload } from 'helpers/forceReload';
 import query from './NotablePersonQuery.graphql';
-import { PersonDetails } from 'components/PersonDetails/PersonDetails';
 import { FbComments } from 'components/FbComments/FbComments';
 import { OptionalIntersectionObserver } from 'components/OptionalIntersectionObserver/OptionalIntersectionObserver';
 import { Card } from 'components/Card/Card';
 import { EditorialSummary } from 'components/EditorialSummary/EditorialSummary';
 import { RelatedPeople } from './RelatedPeople';
 import { DispatchOnLifecycleEvent } from 'components/DispatchOnLifecycleEvent/DispatchOnLifecycleEvent';
+import { NotablePersonBody } from './NotablePersonBody';
 
 import {
   AppDependenciesContext,
@@ -37,6 +36,8 @@ import { setAlternativeSearchBoxText } from 'store/features/search/actions';
 import { isWhitelistedPage } from 'redirectionMap';
 
 export type Props = {};
+type NotablePersonType = NotablePersonQuery['notablePerson'];
+type Result = AsyncResult<NotablePersonQuery | null>;
 
 const Page = withRouter(
   class extends React.Component<Props & RouteComponentProps<any>> {
@@ -48,45 +49,74 @@ const Page = withRouter(
       return apiClient.request<NotablePersonQuery>(query, { slug });
     };
 
-    renderErrorMessage = () => (
-      <MessageWithIcon
-        title="Are you connected to the internet?"
-        description="Please check your connection and try again"
-        button={
-          <LinkButton to={this.props.location} onClick={forceReload}>
-            Reload
-          </LinkButton>
-        }
-        icon={warningIcon}
-      >
+    renderRelatedPeople = (notablePerson: NotablePersonType) => {
+      const { relatedPeople } = notablePerson!; // tslint:disable-line:no-non-null-assertion
+
+      return relatedPeople.length ? (
+        <div className={classes.relatedPeople}>
+          <h2>Other interesting profiles</h2>
+          <RelatedPeople people={relatedPeople} />
+        </div>
+      ) : null;
+    };
+
+    renderFbComments = (notablePerson: NotablePersonType) => {
+      const { commentsUrl } = notablePerson!; // tslint:disable-line:no-non-null-assertion
+
+      return (
+        <OptionalIntersectionObserver rootMargin="0% 0% 25% 0%" triggerOnce>
+          {inView =>
+            inView ? (
+              <Card className={cc([classes.card, classes.comments])}>
+                <FbComments url={commentsUrl} />
+              </Card>
+            ) : null
+          }
+        </OptionalIntersectionObserver>
+      );
+    };
+
+    renderEditorialSummary = (notablePerson: NotablePersonType) => {
+      const { editorialSummary, slug, name } = notablePerson!; // tslint:disable-line:no-non-null-assertion
+
+      return editorialSummary ? (
+        <Card className={cc([classes.card, classes.editorialSummary])}>
+          <EditorialSummary id={slug} {...editorialSummary} />
+        </Card>
+      ) : (
+        <div className={classes.stub}>
+          Share what you know about the religion and political views of {name}{' '}
+          in the comments below
+        </div>
+      );
+    };
+
+    renderErrorStatus = () => (
+      <>
         <Status code={500} />
-      </MessageWithIcon>
+        <Helmet>
+          <title>Error loading notable person page</title>
+        </Helmet>
+        <MessageWithIcon
+          title="Are you connected to the internet?"
+          description="Please check your connection and try again"
+          button={
+            <LinkButton to={this.props.location} onClick={forceReload}>
+              Reload
+            </LinkButton>
+          }
+          icon={warningIcon}
+        />
+      </>
     );
 
-    renderNotablePersonContent = (
-      notablePerson: NotablePersonQuery['notablePerson'],
-    ) => {
-      if (!notablePerson) {
-        return (
-          <MessageWithIcon title="Not Found" icon={warningIcon}>
-            <Status code={404} />
-          </MessageWithIcon>
-        );
-      }
-
-      const {
-        name,
-        mainPhoto,
-        summary,
-        commentsUrl,
-        editorialSummary,
-        slug,
-      } = notablePerson;
-
+    render200Status = (notablePerson: NotablePersonType) => {
+      const { slug, name, commentsUrl } = notablePerson!; // tslint:disable-line:no-non-null-assertion
       const isWhitelisted = isWhitelistedPage(`/${slug}`);
 
       return (
-        <div className={classes.root}>
+        <>
+          <Status code={200} />
           <Helmet>
             <link
               rel="canonical"
@@ -96,43 +126,43 @@ const Page = withRouter(
                   : commentsUrl
               }
             />
-            <title>{`${name}'s Religion and Political Views`}</title>
+            <title>{name}'s Religion and Political Views</title>
           </Helmet>
-          <Status code={200} />
           <DispatchOnLifecycleEvent
             onWillUnmount={setAlternativeSearchBoxText(null)}
-            onWillMount={setAlternativeSearchBoxText(notablePerson.name)}
+            onWillMount={setAlternativeSearchBoxText(name)}
           />
-          <article className={classes.article}>
-            <PersonDetails name={name} photo={mainPhoto} summary={summary} />
-            {editorialSummary ? (
-              <Card className={cc([classes.card, classes.editorialSummary])}>
-                <EditorialSummary id={slug} {...editorialSummary} />
-              </Card>
-            ) : (
-              <div className={classes.stub}>
-                Share what you know about the religion and political views of{' '}
-                {name} in the comments below
-              </div>
-            )}
-          </article>
-          {notablePerson.relatedPeople.length ? (
-            <div className={classes.relatedPeople}>
-              <h2>Other interesting profiles</h2>
-              <RelatedPeople people={notablePerson.relatedPeople} />
-            </div>
-          ) : null}
-          <OptionalIntersectionObserver rootMargin="0% 0% 25% 0%" triggerOnce>
-            {inView =>
-              inView ? (
-                <Card className={cc([classes.card, classes.comments])}>
-                  <FbComments url={commentsUrl} />
-                </Card>
-              ) : null
-            }
-          </OptionalIntersectionObserver>
-        </div>
+          <NotablePersonBody
+            notablePerson={notablePerson}
+            editorialSummary={this.renderEditorialSummary(notablePerson)}
+          />
+          {this.renderRelatedPeople(notablePerson)}
+          {this.renderFbComments(notablePerson)}
+        </>
       );
+    };
+
+    render404Status = () => (
+      <>
+        <Status code={404} />
+        <Helmet>
+          <title>Page not found</title>
+        </Helmet>
+        <MessageWithIcon title="Not Found" icon={warningIcon} />
+      </>
+    );
+
+    renderNonErrorStatus = (result: Result) => {
+      const notablePerson = result.value && result.value.notablePerson;
+      const isLoading = result.value === null || isPendingResult(result);
+
+      if (isLoading) {
+        return <NotablePersonBody />;
+      } else if (notablePerson) {
+        return this.render200Status(notablePerson);
+      }
+
+      return this.render404Status();
     };
 
     render() {
@@ -149,22 +179,13 @@ const Page = withRouter(
                 forPage={pageUrl}
                 load={this.createLoad(dependencies)}
               >
-                {({
-                  result,
-                }: {
-                  result: AsyncResult<NotablePersonQuery | null>;
-                }) => {
-                  if (result.value === null || isPendingResult(result)) {
-                    return <NotablePersonSkeleton />;
-                  }
-
-                  if (isErrorResult(result)) {
-                    return this.renderErrorMessage();
-                  }
-
-                  return this.renderNotablePersonContent(
-                    // tslint:disable-next-line:no-non-null-assertion
-                    result.value!.notablePerson,
+                {({ result }: { result: Result }) => {
+                  return (
+                    <div className={classes.root}>
+                      {isErrorResult(result)
+                        ? this.renderErrorStatus()
+                        : this.renderNonErrorStatus(result)}
+                    </div>
                   );
                 }}
               </WithData>

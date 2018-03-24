@@ -22,6 +22,9 @@
     .card {
       border-right: none;
       border-left: none;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
 
       &:first-child {
         border-top-color: transparent;
@@ -56,7 +59,7 @@
       flex-grow: 1;
       color: inherit;
 
-      .text {
+      .name-container {
         flex-grow: 1;
         margin-left: $spacing-10px;
       }
@@ -68,6 +71,26 @@
 
       img {
         width: 100%;
+      }
+    }
+
+    &.is-loading {
+      .link {
+        position: relative;
+      }
+
+      overflow-x: hidden;
+
+      .photo,
+      .text {
+        color: $color-background;
+        background: $color-background;
+        user-select: none;
+      }
+
+      .link:after {
+        content: '';
+        @include illumination(#ffffff);
       }
     }
   }

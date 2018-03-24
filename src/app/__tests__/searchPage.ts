@@ -1,5 +1,4 @@
 import {
-  createMockGetResponseForDataRequest,
   ClientSideTestContext,
   createClientSideTestContext,
 } from 'helpers/testHelpers';
@@ -18,11 +17,8 @@ describe('Search page', () => {
     beforeEach(async () => {
       context = await createClientSideTestContext({
         createHistoryOptions: { initialEntries: ['/search'] },
-        epicDependenciesOverrides: {
-          getResponseForDataRequest: createMockGetResponseForDataRequest(
-            'searchResults',
-            stubNonEmptySearchResults,
-          ),
+        mockDataResponsesOverrides: {
+          searchResults: stubNonEmptySearchResults,
         },
       });
     });
@@ -76,11 +72,8 @@ describe('Search page', () => {
     beforeEach(async () => {
       context = await createClientSideTestContext({
         createHistoryOptions: { initialEntries: ['/search?query=Tom'] },
-        epicDependenciesOverrides: {
-          getResponseForDataRequest: createMockGetResponseForDataRequest(
-            'searchResults',
-            stubNonEmptySearchResults,
-          ),
+        mockDataResponsesOverrides: {
+          searchResults: stubNonEmptySearchResults,
         },
       });
     });
@@ -108,11 +101,8 @@ describe('Search page', () => {
       beforeEach(async () => {
         context = await createClientSideTestContext({
           createHistoryOptions: { initialEntries: ['/search?query=Tom'] },
-          epicDependenciesOverrides: {
-            getResponseForDataRequest: createMockGetResponseForDataRequest(
-              'searchResults',
-              emptySearchResults,
-            ),
+          mockDataResponsesOverrides: {
+            searchResults: emptySearchResults,
           },
         });
       });
@@ -120,6 +110,31 @@ describe('Search page', () => {
       it('shows "No results found"', () => {
         expect(context.wrapper).toIncludeText('No results found');
       });
+    });
+  });
+
+  describe('On load failure', () => {
+    beforeEach(async () => {
+      context = await createClientSideTestContext({
+        createHistoryOptions: { initialEntries: ['/search?query=Tom'] },
+        epicDependenciesOverrides: {
+          getResponseForDataRequest: async payload => {
+            if (payload.key === 'searchResults') {
+              throw new TypeError();
+            }
+
+            return payload.load();
+          },
+        },
+      });
+    });
+
+    it('offers to reload', () => {
+      const linkButton = context.wrapper.findWhere(
+        el => el.is('a') && Boolean(el.text().match(/reload/i)),
+      );
+      expect(linkButton).toBePresent();
+      expect(linkButton.render().attr('href')).toMatch('/search?query=Tom');
     });
   });
 });

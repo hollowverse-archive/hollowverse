@@ -1,5 +1,4 @@
 import {
-  createMockGetResponseForDataRequest,
   ClientSideTestContext,
   createClientSideTestContext,
 } from 'helpers/testHelpers';
@@ -16,11 +15,8 @@ describe('Notable Person page', () => {
   describe('When notable person is found,', () => {
     beforeEach(async () => {
       context = await createClientSideTestContext({
-        epicDependenciesOverrides: {
-          getResponseForDataRequest: createMockGetResponseForDataRequest(
-            'notablePersonQuery',
-            stubNotablePersonQueryResponse,
-          ),
+        mockDataResponsesOverrides: {
+          notablePersonQuery: stubNotablePersonQueryResponse,
         },
         createHistoryOptions: { initialEntries: ['/Tom_Hanks'] },
       });
@@ -101,11 +97,8 @@ describe('Notable Person page', () => {
     describe('if notable person has an editorial summary', () => {
       beforeEach(async () => {
         context = await createClientSideTestContext({
-          epicDependenciesOverrides: {
-            getResponseForDataRequest: createMockGetResponseForDataRequest(
-              'notablePersonQuery',
-              notablePersonWithEditorialSummaryQueryResponse,
-            ),
+          mockDataResponsesOverrides: {
+            notablePersonQuery: notablePersonWithEditorialSummaryQueryResponse,
           },
           createHistoryOptions: { initialEntries: ['/Tom_Hanks'] },
         });
@@ -117,25 +110,98 @@ describe('Notable Person page', () => {
         expect(editorialSummary).toMatchSnapshot();
       });
     });
+
+    describe('if notable person has an image', () => {
+      beforeEach(async () => {
+        context = await createClientSideTestContext({
+          mockDataResponsesOverrides: {
+            notablePersonQuery: {
+              ...stubNotablePersonQueryResponse,
+              notablePerson: {
+                ...stubNotablePersonQueryResponse.notablePerson!,
+                mainPhoto: {
+                  url:
+                    'https://files.hollowverse.com/notable-people/Tom_Hanks.jpg',
+                  colorPalette: null,
+                  sourceUrl:
+                    'https://commons.wikimedia.org/wiki/File:Tom_Hanks_2014.jpg',
+                },
+              },
+            },
+          },
+          createHistoryOptions: { initialEntries: ['/Tom_Hanks'] },
+        });
+      });
+
+      it('shows notable person image', () => {
+        expect(
+          context.wrapper.find(
+            `img[src="https://files.hollowverse.com/notable-people/Tom_Hanks.jpg"]`,
+          ),
+        ).toBePresent();
+      });
+
+      it('page includes attribution link', () => {
+        expect(
+          context.wrapper.find(
+            `a[href="https://commons.wikimedia.org/wiki/File:Tom_Hanks_2014.jpg"]`,
+          ),
+        ).toBePresent();
+      });
+    });
   });
 
   describe('When notable person is not found,', () => {
     beforeEach(async () => {
       context = await createClientSideTestContext({
         createHistoryOptions: { initialEntries: ['/Tom_Hanks'] },
-        epicDependenciesOverrides: {
-          getResponseForDataRequest: createMockGetResponseForDataRequest(
-            'notablePersonQuery',
-            {
-              notablePerson: null,
-            },
-          ),
+        mockDataResponsesOverrides: {
+          notablePersonQuery: {
+            notablePerson: null,
+          },
         },
       });
     });
 
     it('shows "Not Found"', () => {
       expect(context.wrapper).toIncludeText('Not Found');
+    });
+  });
+
+  describe('On load failure', () => {
+    beforeEach(async () => {
+      context = await createClientSideTestContext({
+        createHistoryOptions: { initialEntries: ['/Tom_Hanks'] },
+        epicDependenciesOverrides: {
+          getResponseForDataRequest: async payload => {
+            if (payload.key === 'notablePersonQuery') {
+              throw new TypeError();
+            }
+
+            return payload.load();
+          },
+        },
+      });
+    });
+
+    it('offers to reload', () => {
+      const linkButton = context.wrapper.findWhere(
+        el => el.is('a') && Boolean(el.text().match(/reload/i)),
+      );
+      expect(linkButton).toBePresent();
+      expect(linkButton.render().attr('href')).toMatch('/Tom_Hanks');
+    });
+  });
+
+  describe('Links to other pages on the website', () => {
+    beforeAll(async () => {
+      context = await createClientSideTestContext({
+        createHistoryOptions: { initialEntries: ['/Tom_Hanks'] },
+      });
+    });
+
+    it('has a link to search page', () => {
+      expect(context.wrapper.find('a[href="/search"]')).toBePresent();
     });
   });
 });

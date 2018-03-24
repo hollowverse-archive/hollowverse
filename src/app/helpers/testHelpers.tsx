@@ -5,7 +5,7 @@ import { About } from 'pages/About/About';
 import { PrivacyPolicy } from 'pages/PrivacyPolicy/PrivacyPolicy';
 import { Home } from 'pages/Home/Home';
 import { History, MemoryHistoryBuildOptions } from 'history';
-import { StoreState, ResolvedData, ResolvedDataKey } from 'store/types';
+import { StoreState, ResolvedData } from 'store/types';
 import { Store } from 'redux';
 import { Provider } from 'react-redux';
 import { HelmetProvider } from 'react-helmet-async';
@@ -24,6 +24,8 @@ import { mount, ReactWrapper } from 'enzyme';
 import { delay } from 'helpers/delay';
 import { once } from 'lodash';
 import { AppRoutesMap, App } from 'components/App/App';
+import { stubNotablePersonQueryResponse } from 'fixtures/notablePersonQuery';
+import { stubNonEmptySearchResults } from 'fixtures/searchResults';
 
 type CreateTestTreeOptions = {
   history: History;
@@ -31,12 +33,18 @@ type CreateTestTreeOptions = {
   appDependencyOverrides?: Partial<AppDependencies>;
 };
 
-export const createMockGetResponseForDataRequest = <K extends ResolvedDataKey>(
-  key: K,
-  response: ResolvedData[K],
+export const defaultMockDataResponses: Partial<ResolvedData> = {
+  notablePersonQuery: stubNotablePersonQueryResponse,
+  searchResults: stubNonEmptySearchResults,
+};
+
+export const createMockGetResponseForDataRequest = (
+  responseByDataKey: Partial<ResolvedData>,
 ): EpicDependencies['getResponseForDataRequest'] => {
   return async payload => {
-    if (payload.key === key) {
+    const response = responseByDataKey[payload.key];
+
+    if (response !== undefined) {
       return response;
     }
 
@@ -46,7 +54,9 @@ export const createMockGetResponseForDataRequest = <K extends ResolvedDataKey>(
 
 export const defaultTestDependencyOverrides: Partial<EpicDependencies> = {
   sendLogs: jest.fn(),
-  getResponseForDataRequest: jest.fn(),
+  getResponseForDataRequest: jest.fn(
+    createMockGetResponseForDataRequest(defaultMockDataResponses),
+  ),
   getGoogleAnalyticsFunction: jest.fn(
     once(async () => {
       const mockTracker: UniversalAnalytics.Tracker = {
@@ -106,6 +116,7 @@ export type ClientSideTestContext = {
 export type CreateClientSideTestContextOptions = Partial<{
   epicDependenciesOverrides: Partial<EpicDependencies>;
   createHistoryOptions: MemoryHistoryBuildOptions;
+  mockDataResponsesOverrides: Partial<ResolvedData>;
 }>;
 
 /**
@@ -121,6 +132,7 @@ export type CreateClientSideTestContextOptions = Partial<{
 export const createClientSideTestContext = async ({
   epicDependenciesOverrides = {},
   createHistoryOptions = { initialEntries: ['/'] },
+  mockDataResponsesOverrides = {},
   ...rest
 }: Partial<CreateClientSideTestContextOptions> = {}): Promise<
   ClientSideTestContext
@@ -129,6 +141,14 @@ export const createClientSideTestContext = async ({
     epicDependenciesOverrides: {
       ...defaultTestDependencyOverrides,
       ...epicDependenciesOverrides,
+      getResponseForDataRequest: jest.fn(
+        epicDependenciesOverrides.getResponseForDataRequest
+          ? epicDependenciesOverrides.getResponseForDataRequest
+          : createMockGetResponseForDataRequest({
+              ...defaultMockDataResponses,
+              ...mockDataResponsesOverrides,
+            }),
+      ),
     },
     history: createMemoryHistory(createHistoryOptions),
     ...rest,

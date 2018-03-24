@@ -2,7 +2,6 @@ import {
   createServerSideTestContext,
   ServerSideTestContext,
 } from 'helpers/serverTestHelpers';
-import { createMockGetResponseForDataRequest } from 'helpers/testHelpers';
 import { stubNotablePersonQueryResponse } from 'fixtures/notablePersonQuery';
 import {
   stubNonEmptySearchResults,
@@ -20,11 +19,8 @@ describe('Server rendering middleware', () => {
     beforeEach(async () => {
       context = await createServerSideTestContext({
         path: '/Tom_Hanks',
-        epicDependenciesOverrides: {
-          getResponseForDataRequest: createMockGetResponseForDataRequest(
-            'notablePersonQuery',
-            stubNotablePersonQueryResponse,
-          ),
+        mockDataResponsesOverrides: {
+          notablePersonQuery: stubNotablePersonQueryResponse,
         },
       });
     });
@@ -39,19 +35,37 @@ describe('Server rendering middleware', () => {
       beforeEach(async () => {
         context = await createServerSideTestContext({
           path: '/Tom_Hanks',
-          epicDependenciesOverrides: {
-            getResponseForDataRequest: createMockGetResponseForDataRequest(
-              'notablePersonQuery',
-              {
-                notablePerson: null,
-              },
-            ),
+          mockDataResponsesOverrides: {
+            notablePersonQuery: {
+              notablePerson: null,
+            },
           },
         });
       });
 
       it('returns 404', () => {
         expect(context.res.status).toBe(404);
+      });
+    });
+
+    describe('On load failure', () => {
+      beforeEach(async () => {
+        context = await createServerSideTestContext({
+          path: '/Tom_Hanks',
+          epicDependenciesOverrides: {
+            getResponseForDataRequest: async payload => {
+              if (payload.key === 'notablePersonQuery') {
+                throw new TypeError();
+              }
+
+              return payload.load();
+            },
+          },
+        });
+      });
+
+      it('returns 500', () => {
+        expect(context.res.status).toBe(500);
       });
     });
   });
@@ -61,11 +75,8 @@ describe('Server rendering middleware', () => {
       beforeEach(async () => {
         context = await createServerSideTestContext({
           path: '/search?query=Tom',
-          epicDependenciesOverrides: {
-            getResponseForDataRequest: createMockGetResponseForDataRequest(
-              'searchResults',
-              stubNonEmptySearchResults,
-            ),
+          mockDataResponsesOverrides: {
+            searchResults: stubNonEmptySearchResults,
           },
         });
       });
@@ -80,17 +91,35 @@ describe('Server rendering middleware', () => {
         beforeEach(async () => {
           context = await createServerSideTestContext({
             path: '/search?query=Tom',
-            epicDependenciesOverrides: {
-              getResponseForDataRequest: createMockGetResponseForDataRequest(
-                'searchResults',
-                emptySearchResults,
-              ),
+            mockDataResponsesOverrides: {
+              searchResults: emptySearchResults,
             },
           });
         });
 
         it('returns 404', () => {
           expect(context.res.status).toBe(404);
+        });
+      });
+
+      describe('On load failure', () => {
+        beforeEach(async () => {
+          context = await createServerSideTestContext({
+            path: '/search?query=Tom',
+            epicDependenciesOverrides: {
+              getResponseForDataRequest: async payload => {
+                if (payload.key === 'searchResults') {
+                  throw new TypeError();
+                }
+
+                return payload.load();
+              },
+            },
+          });
+        });
+
+        it('returns 500', () => {
+          expect(context.res.status).toBe(500);
         });
       });
     });

@@ -1,25 +1,33 @@
 import React from 'react';
-import FlipMove from 'react-flip-move';
 import { AlgoliaResponse } from 'algoliasearch';
 import { Link } from 'react-router-dom';
+import cc from 'classcat';
 
 import { Square } from 'components/Square/Square';
+import { resultsListDummyData } from './ResultsListDummyData';
+
 import classes from './SearchResults.module.scss';
 
-type ResultsListProps = {
+export type ResultsListSuccessProps = {
   hits: AlgoliaResponse['hits'];
   onResultClick(path: string): any;
 };
 
-export const ResultsList = ({ hits, onResultClick }: ResultsListProps) => {
+export type ResultsListProps =
+  | {
+      isLoading: true;
+    }
+  | ResultsListSuccessProps;
+
+export const ResultsList = (props: ResultsListProps) => {
+  const isLoading = 'isLoading' in props;
+  const { hits, onResultClick } =
+    'isLoading' in props ? resultsListDummyData : props;
+
   return (
-    <FlipMove
-      typeName="ol"
-      enterAnimation="fade"
-      leaveAnimation="fade"
-      duration={100}
-    >
+    <ol aria-hidden={isLoading}>
       {hits.map(searchResult => {
+        const Wrapper = isLoading ? 'span' : Link;
         const photo = searchResult.mainPhoto;
         const path = `/${searchResult.slug}`;
         const onClick = () => {
@@ -27,8 +35,11 @@ export const ResultsList = ({ hits, onResultClick }: ResultsListProps) => {
         };
 
         return (
-          <li key={searchResult.objectID} className={classes.result}>
-            <Link className={classes.link} to={path} onClick={onClick}>
+          <li
+            key={searchResult.objectID}
+            className={cc([classes.result, { [classes.isLoading]: isLoading }])}
+          >
+            <Wrapper className={classes.link} to={path} onClick={onClick}>
               <div className={classes.photo}>
                 <Square>
                   <img
@@ -38,11 +49,13 @@ export const ResultsList = ({ hits, onResultClick }: ResultsListProps) => {
                   />
                 </Square>
               </div>
-              <div className={classes.text}>{searchResult.name}</div>
-            </Link>
+              <div className={classes.nameContainer}>
+                <span className={classes.text}>{searchResult.name}</span>
+              </div>
+            </Wrapper>
           </li>
         );
       })}
-    </FlipMove>
+    </ol>
   );
 };

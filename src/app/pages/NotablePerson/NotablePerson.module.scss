@@ -4,7 +4,6 @@
 .root {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
   padding-bottom: $spacing-20px;
 
@@ -23,21 +22,16 @@
     max-width: $page-max-width;
   }
 
-  .article {
-    max-width: 100%;
-    display: flex;
-    flex-direction: column;
-
-    .editorial-summary {
-      margin-top: $spacing-10px;
-      align-self: center;
-      max-width: $page-max-width;
-    }
+  .editorial-summary {
+    margin-top: $spacing-10px;
+    align-self: center;
+    max-width: $page-max-width;
   }
 
   .related-people {
     margin-top: $spacing-30px;
     h2 {
+      margin-left: $spacing-12px;
       @include font-26px;
     }
   }

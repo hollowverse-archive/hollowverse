@@ -1,6 +1,6 @@
 import React from 'react';
 
-import classes from './SearchView.module.scss';
+import classes from './SearchBar.module.scss';
 
 import { SvgIcon } from 'components/SvgIcon/SvgIcon';
 import { NavBarButton, NavBarLink } from 'components/NavBar/NavBarButton';
@@ -26,7 +26,7 @@ export type OwnProps = {};
 
 type Props = DispatchProps & StateProps & OwnProps;
 
-export class SearchView extends React.PureComponent<Props> {
+export class SearchBar extends React.PureComponent<Props> {
   searchInput: HTMLInputElement | null = null;
 
   setSearchInput = (node: HTMLInputElement | null) => {
@@ -97,7 +97,7 @@ export class SearchView extends React.PureComponent<Props> {
             </NavBarButton>
           </Route>
           <Route>
-            <NavBarLink className={classes.button} to="/search">
+            <NavBarLink to="/search">
               <SvgIcon size={20} {...searchIcon} />
               <span className="sr-only">Search</span>
             </NavBarLink>
