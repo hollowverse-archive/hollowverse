@@ -1,8 +1,6 @@
-FROM node:9.2-alpine
+FROM node:9.9.0-alpine
 
 RUN apk update -q
-
-RUN apk add -q --no-cache git
 
 # Native dependencies required to compile the shrink-ray package
 RUN apk add -q --no-cache make gcc g++ python
