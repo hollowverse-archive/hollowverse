@@ -1,5 +1,3 @@
 {
-  "extends": [
-    "./node_modules/@hollowverse/common/tslint.json"
-  ]
+  "extends": ["./node_modules/@hollowverse/config/tslint.json"]
 }

@@ -1,6 +1,6 @@
 {
   "extends": [
-    "./node_modules/@hollowverse/common/eslint/base/.eslintrc.json",
-    "./node_modules/@hollowverse/common/eslint/graphql/.eslintrc.json"
+    "./node_modules/@hollowverse/config/eslint/base/.eslintrc.json",
+    "./node_modules/@hollowverse/config/eslint/graphql/.eslintrc.json"
   ]
 }

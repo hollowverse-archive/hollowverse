@@ -4,16 +4,12 @@
 /* eslint import/no-extraneous-dependencies: ["error", {"devDependencies": true}] */
 
 const shelljs = require('shelljs');
-const {
-  decryptSecrets,
-} = require('@hollowverse/common/helpers/decryptSecrets');
-const {
-  executeCommand,
-} = require('@hollowverse/common/helpers/executeCommand');
+const { decryptSecrets } = require('@hollowverse/utils/helpers/decryptSecrets');
+const { executeCommand } = require('@hollowverse/utils/helpers/executeCommand');
 const {
   executeCommands,
-} = require('@hollowverse/common/helpers/executeCommands');
-const { createZipFile } = require('@hollowverse/common/helpers/createZipFile');
+} = require('@hollowverse/utils/helpers/executeCommands');
+const { createZipFile } = require('@hollowverse/utils/helpers/createZipFile');
 
 const { ENC_PASS_SUMO, IS_PULL_REQUEST, PROJECT, BRANCH } = shelljs.env;
 

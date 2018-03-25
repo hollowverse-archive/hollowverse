@@ -1,2 +1,2 @@
 /* eslint import/no-extraneous-dependencies: ["error", {"devDependencies": true}] */
-module.exports = require('@hollowverse/common/prettier.config');
+module.exports = require('@hollowverse/config/prettier.config');

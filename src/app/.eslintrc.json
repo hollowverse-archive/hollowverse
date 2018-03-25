@@ -1,7 +1,7 @@
 {
   "extends": [
-    "../../node_modules/@hollowverse/common/eslint/browser/.eslintrc.json",
-    "../../node_modules/@hollowverse/common/eslint/react/typescript/.eslintrc.json"
+    "../../node_modules/@hollowverse/config/eslint/browser/.eslintrc.json",
+    "../../node_modules/@hollowverse/config/eslint/react/typescript/.eslintrc.json"
   ],
   "env": {
     "shared-node-browser": true
