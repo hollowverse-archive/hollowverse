@@ -1,5 +1,5 @@
-export const delay = async (n = 3000, resolveValue?: any) => {
-  return new Promise(resolve => {
+export const delay = async <T = undefined>(n = 3000, resolveValue?: T) => {
+  return new Promise<T>(resolve => {
     setTimeout(() => {
       resolve(resolveValue);
     }, n);
