@@ -1,4 +1,4 @@
-FROM node:9.2-alpine
+FROM node:9.9.0-alpine
 
 RUN apk update -q
 
