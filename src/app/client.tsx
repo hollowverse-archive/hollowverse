@@ -76,7 +76,7 @@ Promise.all([
 window.onerror = (message, source, line, column) => {
   store.dispatch(
     unhandledErrorThrown({
-      message,
+      message: String(message),
       source,
       line,
       column,
