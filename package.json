@@ -295,7 +295,7 @@
     "tslint-eslint-rules": "^5.0.0",
     "tslint-microsoft-contrib": "^5.0.3",
     "tslint-react": "^3.5.1",
-    "typescript": "^2.8.0-dev.20180302",
+    "typescript": "^2.8.1",
     "typescript-eslint-parser": "^14.0.0",
     "typings-for-css-modules-loader": "^1.7.0",
     "uglify-es": "^3.3.9",
