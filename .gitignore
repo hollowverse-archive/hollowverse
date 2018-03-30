@@ -39,7 +39,8 @@ node_modules/
 .yarn-integrity
 
 # Builds
-dist
+.webpack
+.serverless
 
 # Editor configs
 .vscode/**/*
@@ -62,7 +63,3 @@ secrets/**/*
 build.zip
 build
 
-# Elastic Beanstalk Files
-.elasticbeanstalk/*
-!.elasticbeanstalk/*.cfg.yml
-!.elasticbeanstalk/*.global.yml

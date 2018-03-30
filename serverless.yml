@@ -1,0 +1,40 @@
+service: website
+
+plugins:
+  - serverless-offline
+  - serverless-webpack
+
+custom:
+  webpack:
+    webpackConfig: src/webpack/webpack.config.server.ts
+    packager: yarn
+    includeModules: true # Enable auto-packing of external modules
+
+provider:
+  name: aws
+  runtime: nodejs6.10
+  stage: ${opt:stage, 'development'}
+  memorySize: 512
+  timeout: 10
+  environment:
+    NODE_ENV: ${opt:stage, self:provider.stage, 'local'}
+    SUMO_COLLECTOR_ID: ${file(./secrets/sumo.json):collectorId}
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - 
+      Resource: "*"
+
+functions:
+  serveSsrMarkup:
+    handler: src/serveSsrMarkup.serveSsrMarkup
+    events:
+      - 
+
+package:
+  include:
+    - src/**
+    - secrets/**
+  exclude:
+    - .webpack
+

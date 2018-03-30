@@ -191,6 +191,7 @@
     "@hollowverse/validate-filenames": "latest",
     "@types/algoliasearch": "^3.24.5",
     "@types/autoprefixer": "^6.7.3",
+    "@types/aws-lambda": "^0.0.34",
     "@types/bluebird": "^3.5.19",
     "@types/body-parser": "^1.16.4",
     "@types/common-tags": "^1.4.0",
@@ -278,6 +279,9 @@
     "remotedev-server": "^0.2.4",
     "resolve-url-loader": "^2.1.0",
     "sass-loader": "^6.0.6",
+    "serverless": "^1.26.1",
+    "serverless-offline": "^3.18.0",
+    "serverless-webpack": "^5.1.1",
     "source-map-loader": "^0.2.1",
     "source-map-support": "^0.5.0",
     "stats-webpack-plugin": "^0.6.2",
@@ -310,6 +314,6 @@
     "yarnhook": "latest"
   },
   "engines": {
-    "node": ">= 9.2"
+    "node": ">= 6.10"
   }
 }
