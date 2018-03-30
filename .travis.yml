@@ -14,7 +14,7 @@ script:
     --env-file <(env | grep ^ENC_PASS_)
     --env-file <(env | grep ^TRAVIS)
     -e TRAVIS_BUILD_DIR=/repo
-    hollowverse/build-env
+    hollowverse/build-env:lambda
 
 notifications:
   email: false
