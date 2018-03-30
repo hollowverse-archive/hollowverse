@@ -30,6 +30,11 @@ functions:
     handler: src/serveSsrMarkup.serveSsrMarkup
     events:
       - 
+  
+  logEvents:
+    handler: src/logEvents.logEvents
+    events:
+      - 
 
 package:
   include:
