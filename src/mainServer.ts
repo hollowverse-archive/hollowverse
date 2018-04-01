@@ -7,14 +7,13 @@ import { securityMiddleware } from './middleware/security';
 
 const {
   OLD_SERVER_ADDRESS = 'https://static.legacy.hollowverse.com/',
-  PORT = 8080,
 } = process.env;
 
-const server = express();
+export const mainServer = express();
 
 // server.use(redirectToHttps);
 
-server.use(...securityMiddleware);
+mainServer.use(...securityMiddleware);
 
 const proxyServer = httpProxy.createProxyServer();
 
@@ -28,14 +27,12 @@ proxyServer.on('proxyReq', (proxyReq: any) => {
   }
 });
 
-server.use(appServer);
+mainServer.use(appServer);
 
 // Fallback to old hollowverse
-server.use((req, res) => {
+mainServer.use((req, res) => {
   proxyServer.web(req, res, {
     target: OLD_SERVER_ADDRESS,
     changeOrigin: true,
   });
 });
-
-server.listen(PORT);

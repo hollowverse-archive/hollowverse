@@ -40,6 +40,8 @@ node_modules/
 
 # Builds
 .webpack
+dist
+.build
 .serverless
 
 # Editor configs

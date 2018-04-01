@@ -2,13 +2,6 @@ service: website
 
 plugins:
   - serverless-offline
-  - serverless-webpack
-
-custom:
-  webpack:
-    webpackConfig: src/webpack/webpack.config.server.ts
-    packager: yarn
-    includeModules: true # Enable auto-packing of external modules
 
 provider:
   name: aws
@@ -18,7 +11,6 @@ provider:
   timeout: 10
   environment:
     NODE_ENV: ${opt:stage, self:provider.stage, 'local'}
-    SUMO_COLLECTOR_ID: ${file(./secrets/sumo.json):collectorId}
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -27,14 +19,16 @@ provider:
 
 functions:
   serveSsrMarkup:
-    handler: src/serveSsrMarkup.serveSsrMarkup
+    handler: dist/serveSsrMarkup.serveSsrMarkup
     events:
-      - 
+      - http:
+          method: get
+          path: /{any+}
   
-  logEvents:
-    handler: src/logEvents.logEvents
-    events:
-      - 
+  # logEvents:
+  #   handler: dist/logEvents.logEvents
+  #   events:
+  #     - 
 
 package:
   include:
