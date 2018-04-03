@@ -9,7 +9,11 @@ import { App } from 'components/App/App';
 import { createConfiguredStore } from 'store/createConfiguredStore';
 import { StoreState } from 'store/types';
 import { unhandledErrorThrown } from 'store/features/logging/actions';
-import { loadIntersectionObserverPolyfill } from 'helpers/loadPolyfill';
+import {
+  loadIntersectionObserverPolyfill,
+  loadFetchPolyfill,
+  loadUrlPolyfill,
+} from 'helpers/loadPolyfill';
 import { HelmetProvider } from 'react-helmet-async';
 import {
   AppDependenciesContext,
@@ -60,7 +64,11 @@ const renderOnDomReady = () => {
   domready(renderApp);
 };
 
-loadIntersectionObserverPolyfill()
+Promise.all([
+  loadIntersectionObserverPolyfill(),
+  loadUrlPolyfill(),
+  loadFetchPolyfill(),
+])
   .then(renderOnDomReady)
   .catch(renderOnDomReady);
 

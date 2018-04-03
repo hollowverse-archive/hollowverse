@@ -54,7 +54,15 @@ module.exports.createCommonConfig = () => ({
       {
         test: /\.(graphql|gql)$/,
         exclude: excludedPatterns,
-        loader: 'graphql-tag/loader',
+        use: [
+          {
+            loader: 'webpack-graphql-loader',
+            options: {
+              output: 'string',
+              removeUnusedFragments: true,
+            },
+          },
+        ],
       },
 
       // SVG assets
