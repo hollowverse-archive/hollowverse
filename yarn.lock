@@ -5209,9 +5209,9 @@ graphql-request@^1.2.0, graphql-request@^1.4.0:
   dependencies:
     cross-fetch "0.0.8"
 
-"graphql-request@npm:@forabi/graphql-request@1.6.4":
-  version "1.6.4"
-  resolved "https://registry.yarnpkg.com/@forabi/graphql-request/-/graphql-request-1.6.4.tgz#889c641838b544aba6c7157e4853de6260f3b983"
+"graphql-request@npm:@forabi/graphql-request@1.6.8":
+  version "1.6.8"
+  resolved "https://registry.yarnpkg.com/@forabi/graphql-request/-/graphql-request-1.6.8.tgz#51baa7d73ce51fbf7ad658e6cade0f04e07bde64"
   dependencies:
     cross-fetch "2.0.0"
 
