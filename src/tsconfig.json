@@ -4,8 +4,6 @@
     "module": "commonjs",
     "outDir": "../dist",
     "checkJs": false,
-    "allowJs": false,
-    "maxNodeModuleJsDepth": 0,
     "skipLibCheck": true
   },
   "exclude": [

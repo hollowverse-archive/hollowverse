@@ -10,7 +10,6 @@
 
     "allowJs": false,
     "checkJs": false,
-    "maxNodeModuleJsDepth": 0,
 
     // Allow absolute imports from 'src' dir,
     // e.g. `import 'file';` instead of `'../../file';`
