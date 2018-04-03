@@ -11,8 +11,8 @@ import { StoreState } from 'store/types';
 import { unhandledErrorThrown } from 'store/features/logging/actions';
 import {
   loadIntersectionObserverPolyfill,
-  loadUrlPolyfill,
   loadFetchPolyfill,
+  loadUrlPolyfill,
 } from 'helpers/loadPolyfill';
 import { HelmetProvider } from 'react-helmet-async';
 import {

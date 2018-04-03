@@ -5,8 +5,9 @@ import { importGlobalScript } from 'helpers/importGlobalScript';
 // as a global script.
 // Polyfills must be imported as global scripts because they need to access things
 // like `window` and `global`.
-import intersectionObserverPolyfillUrl from 'file-loader!intersection-observer';
-import fetchPolyfillUrl from 'file-loader!whatwg-fetch';
+import intersectionObserverPolyfillUrl from 'file-loader!uglify-loader!intersection-observer';
+import fetchPolyfillUrl from 'file-loader!uglify-loader!whatwg-fetch';
+import urlPolyfillUrl from 'file-loader!uglify-loader!url-polyfill';
 
 export const loadIntersectionObserverPolyfill = async () => {
   if (__IS_SERVER__) {
@@ -33,8 +34,6 @@ export const loadFetchPolyfill = async () => {
 
 export const loadUrlPolyfill = async () => {
   if (!('URL' in global) || !('URLSearchParams' in global)) {
-    // @ts-ignore
-    const { shim } = await import('universal-url');
-    shim();
+    await importGlobalScript(urlPolyfillUrl);
   }
 };
