@@ -30,3 +30,11 @@ export const loadFetchPolyfill = async () => {
     await importGlobalScript(fetchPolyfillUrl);
   }
 };
+
+export const loadUrlPolyfill = async () => {
+  if (!('URL' in global) || !('URLSearchParams' in global)) {
+    // @ts-ignore
+    const { shim } = await import('universal-url');
+    shim();
+  }
+};
