@@ -56,10 +56,19 @@ module.exports.createCommonConfig = () => ({
         exclude: excludedPatterns,
         use: [
           {
-            loader: 'webpack-graphql-loader',
+            loader: 'raw-loader',
             options: {
               output: 'string',
               removeUnusedFragments: true,
+            },
+          },
+          {
+            loader: 'pattern-replace-loader',
+            options: {
+              multiple: [
+                { search: '#.*\n', flags: 'gi', replace: '' },
+                { search: '[\\s|,]*\n+[\\s|,]*', flags: 'gi', replace: ' ' },
+              ],
             },
           },
         ],

@@ -8726,6 +8726,12 @@ path-type@^3.0.0:
   dependencies:
     pify "^3.0.0"
 
+pattern-replace-loader@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/pattern-replace-loader/-/pattern-replace-loader-1.0.4.tgz#b25a2fe39a0f31e12d1e4f7847b93560d0e1fb2f"
+  dependencies:
+    loader-utils "^1.0.2"
+
 pause-stream@0.0.11:
   version "0.0.11"
   resolved "https://registry.yarnpkg.com/pause-stream/-/pause-stream-0.0.11.tgz#fe5a34b0cbce12b5aa6a2b403ee2e73b602f1445"
@@ -9556,6 +9562,10 @@ raw-body@2.3.2:
     http-errors "1.6.2"
     iconv-lite "0.4.19"
     unpipe "1.0.0"
+
+raw-loader@^0.5.1:
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/raw-loader/-/raw-loader-0.5.1.tgz#0c3d0beaed8a01c966d9787bf778281252a979aa"
 
 rc@^1.0.1, rc@^1.1.6, rc@^1.1.7:
   version "1.2.2"
@@ -12592,13 +12602,6 @@ webpack-dev-server@^2.5.1:
 webpack-flush-chunks@^1.2.1:
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/webpack-flush-chunks/-/webpack-flush-chunks-1.2.2.tgz#8bcce878a68da1edaaca4100ba9e13e356991f34"
-
-webpack-graphql-loader@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/webpack-graphql-loader/-/webpack-graphql-loader-0.1.0.tgz#c9b84073cc98ba27807924c95445f2948ddf1913"
-  dependencies:
-    loader-utils "^1.1.0"
-    pify "^3.0.0"
 
 webpack-hot-middleware@^2.18.2:
   version "2.20.0"
