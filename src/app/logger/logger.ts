@@ -2,8 +2,6 @@ import SumoLogger from 'sumo-logger';
 import bluebird from 'bluebird';
 import { SourceMapConsumer } from 'source-map';
 
-import fs from 'fs';
-import path from 'path';
 import { URL } from 'url';
 
 import { noop } from 'lodash';
@@ -11,15 +9,13 @@ import { noop } from 'lodash';
 import { LoggedAction } from './types';
 import { isActionOfType } from 'store/helpers';
 
-const SECRETS_FILE_PATH = path.resolve(process.cwd(), 'secrets', 'sumo.json');
-const sumoSecrets = JSON.parse(String(fs.readFileSync(SECRETS_FILE_PATH)));
-
-const COLLECTOR_ID: string = sumoSecrets.collectorId;
+const COLLECTOR_ID = process.env.SUMO_COLLECTOR_ID;
 const RECEIVER_URL =
   'https://endpoint2.collection.us2.sumologic.com/receiver/v1/http/';
 
 const sumoLogger = new SumoLogger({
-  endpoint: new URL(COLLECTOR_ID, RECEIVER_URL).toString(),
+  // tslint:disable-next-line:no-non-null-assertion
+  endpoint: new URL(COLLECTOR_ID!, RECEIVER_URL).toString(),
   onSuccess: noop,
   sourceName: 'Elastic Beanstalk Server',
   sourceCategory: `${__BRANCH__}/${__COMMIT_ID__}`,
