@@ -21,7 +21,6 @@ const {
 const {
   srcDirectory,
   clientDistDirectory,
-  pkg,
   publicPath,
   excludedPatterns,
   cssModulesPattern,
@@ -159,7 +158,7 @@ const clientSpecificConfig = {
       // Banner
       new webpack.BannerPlugin({
         entryOnly: true,
-        banner: `${pkg.name} chunkhash:[chunkhash]`,
+        banner: 'chunkhash:[chunkhash]',
       }),
     ]),
 
