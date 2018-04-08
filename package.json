@@ -196,7 +196,7 @@
     "@babel/preset-stage-3": "^7.0.0-beta.40",
     "@hollowverse/clown": "^0.0.4",
     "@hollowverse/config": "^7.2.0",
-    "@hollowverse/utils": "^4.0.2",
+    "@hollowverse/utils": "^5.0.2",
     "@hollowverse/validate-filenames": "^1.4.0",
     "@types/algoliasearch": "^3.24.5",
     "@types/autoprefixer": "^6.7.3",
