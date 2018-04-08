@@ -4,9 +4,6 @@ import { mainServer } from './mainServer';
 
 const server = awsServerlessExpress.createServer(mainServer);
 
-export const serveSsrMarkup: APIGatewayProxyHandler = async (
-  event,
-  context,
-) => {
-  return awsServerlessExpress.proxy(server, event, context);
+export const serveSsrMarkup: APIGatewayProxyHandler = (event, context) => {
+  awsServerlessExpress.proxy(server, event, context);
 };
