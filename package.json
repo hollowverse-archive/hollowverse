@@ -45,14 +45,20 @@
     "test/dev": "run-p --aggregate-output app/test/dev",
     "clean": "del-cli './src/app/**/*.module.scss.d.ts' './dist' && mkdir -p ./dist",
     "clean/test": "del-cli './coverage' './__tests__/bundle' './__tests__/tests/!(__snapshots__)'",
-    "validate-filenames": "validate-filenames -c commonconfig.js",
+    "validate-filenames": "validate-filenames --config validateFilenames.js",
     "lint-staged": "lint-staged",
     "coverage/remap/json": "cat coverage/coverage-final.json | remap-istanbul --exclude 'node_modules,src/app/__tests__,^external\\s,webpack/' -o coverage/coverage-remapped.json",
     "coverage/remap/lcov": "cat coverage/coverage-final.json | remap-istanbul --exclude 'node_modules,src/app/__tests__,^external\\s,webpack/' -o coverage/lcov-remapped.info -t lcovonly",
     "coverage/remap": "run-p --aggregate-output 'coverage/remap/*'",
     "coverage/html": "remap-istanbul --exclude 'node_modules,src/app/__tests__,^external\\s,webpack/' -i coverage/coverage-final.json -o coverage/lcov-report -t html --basePath .",
     "coverage/report": "codecov -f coverage/lcov-remapped.info",
-    "deploy": "node ./deploy.js"
+    "deploy": "node ./deploy.js",
+    "pre-push": "yarn pretest",
+    "pre-commit": "yarn common-check",
+    "common-check": "run-p -l -c --aggregate-output validate-filenames lint-staged 'clown check'",
+    "tslint": "yarn lint-ts",
+    "jest": "jest --colors",
+    "clown": "clown"
   },
   "license": "Unlicense",
   "homepage": "https://github.com/hollowverse/hollowverse#readme",
@@ -106,8 +112,8 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "yarn lint-staged",
-      "pre-push": "yarn pretest",
+      "pre-commit": "yarn pre-commit",
+      "pre-push": "yarn pre-push",
       "post-merge": "yarnhook",
       "post-checkout": "yarnhook",
       "post-rewrite": "yarnhook"
@@ -152,7 +158,6 @@
     "lru-cache": "^4.1.1",
     "moment": "^2.19.1",
     "node-fetch": "^1.7.3",
-    "npm-run-all": "^4.0.2",
     "path-to-regexp": "^2.1.0",
     "preact": "^8.2.7",
     "preact-compat": "^3.17.0",
@@ -190,7 +195,7 @@
     "@babel/preset-react": "^7.0.0-beta.40",
     "@babel/preset-stage-3": "^7.0.0-beta.40",
     "@hollowverse/clown": "^0.0.4",
-    "@hollowverse/config": "^7.1.0",
+    "@hollowverse/config": "^7.2.0",
     "@hollowverse/utils": "^4.0.2",
     "@hollowverse/validate-filenames": "^1.4.0",
     "@types/algoliasearch": "^3.24.5",
@@ -205,7 +210,7 @@
     "@types/google.analytics": "^0.0.36",
     "@types/helmet": "^0.0.37",
     "@types/http-proxy": "^1.12.0",
-    "@types/jest": "^22.1.1",
+    "@types/jest": "^22.2.0",
     "@types/lodash": "^4.14.68",
     "@types/loglevel": "^1.5.3",
     "@types/lru-cache": "^4.1.0",
@@ -250,7 +255,7 @@
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "enzyme-matchers": "^4.2.0",
-    "eslint": "^4.18.0",
+    "eslint": "^4.18.2",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-config-prettier": "^2.9.0",
     "eslint-plugin-compat": "^2.1.0",
@@ -268,7 +273,7 @@
     "html-webpack-plugin": "^2.30.1",
     "http-proxy-middleware": "^0.17.4",
     "husky": "^0.15.0-rc.8",
-    "jest": "^22.2.1",
+    "jest": "^22.4.2",
     "jest-enzyme": "^4.2.0",
     "lint-staged": "^7.0.0",
     "lodash-es": "^4.17.4",
@@ -276,6 +281,7 @@
     "name-all-modules-plugin": "^1.0.1",
     "node-sass": "^4.7.2",
     "nodemon": "^1.11.0",
+    "npm-run-all": "^4.0.2",
     "pattern-replace-loader": "^1.0.4",
     "postcss": "^6.0.16",
     "postcss-css-variables": "^0.8.0",
@@ -302,6 +308,7 @@
     "svg-sprite-loader": "^3.6.2",
     "svgo": "^1.0.3",
     "svgo-loader": "^2.0.0",
+    "ts-jest": "^22.4.1",
     "ts-loader": "^2.3.4",
     "ts-node": "^3.2.0",
     "tslint": "^5.9.1",
@@ -328,5 +335,6 @@
   },
   "engines": {
     "node": ">= 9.2"
-  }
+  },
+  "jest": null
 }

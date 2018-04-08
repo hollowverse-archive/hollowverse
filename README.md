@@ -19,7 +19,3 @@ If you're interested in contributing to the project in any capacity (design, cod
 ## More information
 
 For more information, see the [wiki](https://github.com/hollowverse/hollowverse/wiki).
-
-## License
-
-This is free and unencumbered software released into the public domain. See the [LICENSE.md](./LICENSE.md) file for details.
