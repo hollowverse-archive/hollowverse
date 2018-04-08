@@ -5,7 +5,7 @@
   "main": "index.js",
   "repository": "https://github.com/hollowverse/hollowverse.git",
   "scripts": {
-    "pretest": "npm-run-all --aggregate-output -s app/graphql/build -p -c validate-filenames lint",
+    "pretest": "run-p -l -c --aggregate-output common-check app/graphql/build lint",
     "test": "run-p --aggregate-output app/test",
     "app/test/webpack/dev": "NODE_ENV=test NO_TYPE_CHECK=1 webpack --config src/webpack/webpack.config.test.js --watch",
     "app/test/jest/dev": "jest --color --watchAll",
@@ -255,6 +255,8 @@
     "enzyme-adapter-react-16": "^1.1.1",
     "enzyme-matchers": "^4.2.0",
     "eslint": "^4.18.2",
+    "eslint-plugin-graphql": "^1.5.0",
+    "eslint-plugin-compat": "^2.1.0",
     "expect-more-jest": "^1.0.1",
     "express-no-favicons": "^0.0.1",
     "extract-css-chunks-webpack-plugin": "^2.0.17",
