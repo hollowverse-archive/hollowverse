@@ -24,7 +24,16 @@ functions:
     events:
       - http:
           method: ANY
-          path: /{any+}
+          path: /
+          integration: lambda
+          request:
+            passThrough: WHEN_NO_MATCH
+      - http:
+          method: ANY
+          path: /{proxy+}
+          integration: lambda
+          request:
+            passThrough: WHEN_NO_MATCH
   
   # logEvents:
   #   handler: dist/logEvents.logEvents
