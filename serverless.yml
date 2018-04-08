@@ -1,4 +1,4 @@
-service: website-${self:provider.stage}
+service: website
 
 plugins:
   - serverless-offline
@@ -23,7 +23,7 @@ functions:
     handler: dist/serveSsrMarkup.serveSsrMarkup
     events:
       - http:
-          method: get
+          method: ANY
           path: /{any+}
   
   # logEvents:
