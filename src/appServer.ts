@@ -2,7 +2,6 @@ import path from 'path';
 import express from 'express';
 import loglevel from 'loglevel';
 import moment from 'moment';
-import shrinkRay from 'shrink-ray';
 
 import { securityMiddleware } from './middleware/security';
 import {
@@ -24,9 +23,6 @@ appServer.use(...securityMiddleware);
 // requests to static files, e.g. /static/app.js, are not
 // processed by the server rendering middleware below
 appServer.use(publicPath, [
-  // Enable gzip and brotli compression
-  shrinkRay(),
-
   // Configure Cache-Control header
   express.static(clientDistDirectory, {
     maxAge: moment.duration(30, 'days').asMilliseconds(),
