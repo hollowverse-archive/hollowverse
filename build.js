@@ -22,7 +22,14 @@ if (isProd) {
       );
     })
     .catch(err => {
-      console.error('Failed to build', err);
+      console.error('Failed to build');
+      if (Array.isArray(err) && typeof err[0].errors) {
+        err.forEach(webpackCompilerStats => {
+          console.error(webpackCompilerStats.toString('errors-only'));
+        });
+      } else {
+        console.error(err);
+      }
       process.exit(1);
     });
 } else {
