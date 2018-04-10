@@ -2,7 +2,7 @@ import { APIGatewayProxyHandler } from 'aws-lambda'; // tslint:disable-line no-i
 import awsServerlessExpress from 'aws-serverless-express';
 import { mainServer } from './mainServer';
 
-const server = awsServerlessExpress.createServer(mainServer, null, [
+const server = awsServerlessExpress.createServer(mainServer as any, undefined, [
   'application/javascript',
   'application/json',
   'application/octet-stream',

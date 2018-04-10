@@ -196,6 +196,7 @@
     "@types/algoliasearch": "^3.24.5",
     "@types/autoprefixer": "^6.7.3",
     "@types/aws-lambda": "^0.0.34",
+    "@types/aws-serverless-express": "^3.0.1",
     "@types/bluebird": "^3.5.19",
     "@types/body-parser": "^1.16.4",
     "@types/common-tags": "^1.4.0",
