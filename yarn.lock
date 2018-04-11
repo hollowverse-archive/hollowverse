@@ -550,7 +550,7 @@
     core-js "^2.4.0"
     regenerator-runtime "^0.11.1"
 
-"@babel/polyfill@^7.0.0-beta.42":
+"@babel/polyfill@^7.0.0-beta.44":
   version "7.0.0-beta.44"
   resolved "https://registry.yarnpkg.com/@babel/polyfill/-/polyfill-7.0.0-beta.44.tgz#6bbcddebd8f28f1040b9a78fdac7dc515356e5dc"
   dependencies:
@@ -664,7 +664,7 @@
     core-js "^2.5.3"
     regenerator-runtime "^0.11.1"
 
-"@babel/runtime@^7.0.0-beta.42", "@babel/runtime@^7.0.0-beta.44":
+"@babel/runtime@^7.0.0-beta.44":
   version "7.0.0-beta.44"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.0.0-beta.44.tgz#ea5ad6c6fe9a2c1187b025bf42424d28050ee696"
   dependencies:
@@ -749,35 +749,26 @@
     fast-extend "0.0.2"
     fs-monkey "^0.3.0"
 
-"@hollowverse/clown@^0.0.4":
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/@hollowverse/clown/-/clown-0.0.4.tgz#e4876b51a24d042cd1779e3bc94ba131430d6d81"
+"@hollowverse/clown@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@hollowverse/clown/-/clown-1.0.0.tgz#6f3bea6071ea1f80d995895be06048c3bbdbebf5"
   dependencies:
-    "@babel/polyfill" "^7.0.0-beta.42"
-    "@babel/runtime" "^7.0.0-beta.42"
+    "@babel/polyfill" "^7.0.0-beta.44"
+    "@babel/runtime" "^7.0.0-beta.44"
     "@forabi/memfs" "^2.7.2"
-    "@types/mock-fs" "^3.6.30"
     bluebird "^3.5.1"
     chalk "^2.3.2"
     commander "^2.12.1"
     common-tags "^1.7.2"
     detect-indent "^5.0.0"
     fs-extra "^5.0.0"
-    fs-monkey "^0.3.1"
-    glob "^7.1.2"
     globby "^8.0.1"
-    ignore "^3.3.7"
     jest-diff "^22.4.3"
     lodash "^4.17.4"
-    minimatch "^3.0.4"
-    mkdirp "^0.5.1"
-    mock-fs "^4.4.2"
-    shelljs "^0.7.8"
-    sort-keys "^2.0.0"
 
-"@hollowverse/config@^7.2.0":
-  version "7.2.0"
-  resolved "https://registry.yarnpkg.com/@hollowverse/config/-/config-7.2.0.tgz#ccadd65556bd5a512aec3bf123c6d86bbdbd9e13"
+"@hollowverse/config@^9.0.0":
+  version "9.0.0"
+  resolved "https://registry.yarnpkg.com/@hollowverse/config/-/config-9.0.0.tgz#4c12b8099e2a807164c64a79c21d6fdd55ee03dd"
   dependencies:
     "@babel/core" "7.0.0-beta.44"
     "@babel/plugin-proposal-object-rest-spread" "^7.0.0-beta.44"
@@ -801,10 +792,11 @@
     tslint-react "^3.5.1"
     typescript-eslint-parser "^14.0.0"
 
-"@hollowverse/utils@^5.0.2":
-  version "5.0.2"
-  resolved "https://registry.yarnpkg.com/@hollowverse/utils/-/utils-5.0.2.tgz#bfce9b165741f99b5d9b66d5f34477a66350422d"
+"@hollowverse/utils@^6.0.0":
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/@hollowverse/utils/-/utils-6.0.0.tgz#d9b978531a445f5d031ab72af066424358df1bf0"
   dependencies:
+    "@babel/polyfill" "^7.0.0-beta.44"
     "@babel/runtime" "^7.0.0-beta.44"
     "@types/aws-lambda" "^0.0.34"
     bluebird "^3.5.1"
@@ -954,12 +946,6 @@
 "@types/minimatch@*":
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/@types/minimatch/-/minimatch-3.0.1.tgz#b683eb60be358304ef146f5775db4c0e3696a550"
-
-"@types/mock-fs@^3.6.30":
-  version "3.6.30"
-  resolved "https://registry.yarnpkg.com/@types/mock-fs/-/mock-fs-3.6.30.tgz#4d812541e87b23577261a5aa95f704dd3d01e410"
-  dependencies:
-    "@types/node" "*"
 
 "@types/node-fetch@^1.6.7":
   version "1.6.7"
@@ -5190,7 +5176,7 @@ fs-extra@^5.0.0:
     jsonfile "^4.0.0"
     universalify "^0.1.0"
 
-fs-monkey@^0.3.0, fs-monkey@^0.3.1:
+fs-monkey@^0.3.0:
   version "0.3.1"
   resolved "https://registry.yarnpkg.com/fs-monkey/-/fs-monkey-0.3.1.tgz#69edd8420e04da04d4d3ea200da1ccdc444eecd0"
 
@@ -6013,7 +5999,7 @@ ignore-by-default@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/ignore-by-default/-/ignore-by-default-1.0.1.tgz#48ca6d72f6c6a3af00a9ad4ae6876be3889e2b09"
 
-ignore@^3.3.3, ignore@^3.3.5, ignore@^3.3.7:
+ignore@^3.3.3, ignore@^3.3.5:
   version "3.3.7"
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-3.3.7.tgz#612289bfb3c220e186a58118618d5be8c1bab021"
 
@@ -8230,10 +8216,6 @@ mkdirp@0.5.1, mkdirp@0.5.x, "mkdirp@>=0.5 0", mkdirp@^0.5.0, mkdirp@^0.5.1, mkdi
   resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-0.5.1.tgz#30057438eac6cf7f8c4767f38648d6697d75c903"
   dependencies:
     minimist "0.0.8"
-
-mock-fs@^4.4.2:
-  version "4.4.2"
-  resolved "https://registry.yarnpkg.com/mock-fs/-/mock-fs-4.4.2.tgz#09dec5313f97095a450be6aa2ad8ab6738d63d6b"
 
 moment@2.x.x:
   version "2.20.1"
@@ -11376,12 +11358,6 @@ sockjs@0.3.18:
 sort-keys@^1.0.0:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/sort-keys/-/sort-keys-1.1.2.tgz#441b6d4d346798f1b4e49e8920adfba0e543f9ad"
-  dependencies:
-    is-plain-obj "^1.0.0"
-
-sort-keys@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/sort-keys/-/sort-keys-2.0.0.tgz#658535584861ec97d730d6cf41822e1f56684128"
   dependencies:
     is-plain-obj "^1.0.0"
 
