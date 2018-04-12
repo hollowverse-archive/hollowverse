@@ -2,42 +2,28 @@ const { compact } = require('lodash');
 
 const { pkg } = require('./variables');
 
-const {
-  ifEs5,
-  ifEsNext,
-  ifProd,
-  isProd,
-  isTest,
-  ifTest,
-  ifNotTest,
-  isDebug,
-} = require('./env');
+const { ifProd, isProd, isTest, ifTest, ifNotTest, isDebug } = require('./env');
 
 module.exports.createBabelConfig = (isNode = false) => ({
   presets: compact([
-    ...ifEs5(['@babel/preset-es2015']),
-    ...ifEsNext(
-      compact([
-        [
-          '@babel/preset-env',
-          {
-            modules: isTest ? 'commonjs' : false,
-            loose: false,
-            debug: isDebug,
-            ignoreBrowserslistConfig: true,
-            targets: isNode
-              ? {
-                  node: 'current',
-                }
-              : {
-                  browsers: pkg.browserslist,
-                },
-            useBuiltIns: isTest ? 'usage' : 'entry',
-            shippedProposals: true,
-          },
-        ],
-      ]),
-    ),
+    [
+      '@babel/preset-env',
+      {
+        modules: isTest ? 'commonjs' : false,
+        loose: false,
+        debug: isDebug,
+        ignoreBrowserslistConfig: true,
+        targets: isNode
+          ? {
+              node: 'current',
+            }
+          : {
+              browsers: pkg.browserslist,
+            },
+        useBuiltIns: isTest ? 'usage' : 'entry',
+        shippedProposals: false,
+      },
+    ],
     '@babel/preset-stage-3',
     '@babel/preset-react',
   ]),

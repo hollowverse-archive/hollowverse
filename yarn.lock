@@ -2424,11 +2424,11 @@ browserslist@^2.11.3:
     electron-to-chromium "^1.3.30"
 
 browserslist@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/browserslist/-/browserslist-3.0.0.tgz#5b41520c1a5ce6d0d2fe7c44bdf30e526b650403"
+  version "3.2.4"
+  resolved "https://registry.yarnpkg.com/browserslist/-/browserslist-3.2.4.tgz#fb9ad70fd09875137ae943a31ab815ed76896031"
   dependencies:
-    caniuse-lite "^1.0.30000807"
-    electron-to-chromium "^1.3.33"
+    caniuse-lite "^1.0.30000821"
+    electron-to-chromium "^1.3.41"
 
 bser@^2.0.0:
   version "2.0.0"
@@ -2635,9 +2635,9 @@ caniuse-lite@^1.0.30000792:
   version "1.0.30000824"
   resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30000824.tgz#de3bc1ba0bff4937302f8cb2a8632a8cc1c07f9a"
 
-caniuse-lite@^1.0.30000807:
-  version "1.0.30000808"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30000808.tgz#7d759b5518529ea08b6705a19e70dbf401628ffc"
+caniuse-lite@^1.0.30000821:
+  version "1.0.30000828"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30000828.tgz#048f98de213f7a3c047bf78a9523c611855d4fdd"
 
 capture-stack-trace@^1.0.0:
   version "1.0.0"
@@ -4053,9 +4053,9 @@ electron-to-chromium@^1.3.30:
   dependencies:
     electron-releases "^2.1.0"
 
-electron-to-chromium@^1.3.33:
-  version "1.3.33"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.33.tgz#bf00703d62a7c65238136578c352d6c5c042a545"
+electron-to-chromium@^1.3.41:
+  version "1.3.42"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.42.tgz#95c33bf01d0cc405556aec899fe61fd4d76ea0f9"
 
 elegant-spinner@^1.0.1:
   version "1.0.1"
@@ -7181,7 +7181,7 @@ jest-worker@^22.4.3:
   dependencies:
     merge-stream "^1.0.1"
 
-jest@^22.4.3:
+jest@^22.4.2:
   version "22.4.3"
   resolved "https://registry.yarnpkg.com/jest/-/jest-22.4.3.tgz#2261f4b117dc46d9a4a1a673d2150958dee92f16"
   dependencies:
@@ -12488,7 +12488,7 @@ tryit@^1.0.1:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/tryit/-/tryit-1.0.3.tgz#393be730a9446fd1ead6da59a014308f36c289cb"
 
-ts-jest@^22.4.2:
+ts-jest@^22.4.1:
   version "22.4.2"
   resolved "https://registry.yarnpkg.com/ts-jest/-/ts-jest-22.4.2.tgz#2137bc0899b14dfb1d58257ee10b18ab8a2d92c5"
   dependencies:
