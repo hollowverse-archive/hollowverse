@@ -195,7 +195,7 @@
     "@babel/preset-react": "^7.0.0-beta.40",
     "@babel/preset-stage-3": "^7.0.0-beta.40",
     "@hollowverse/clown": "^1.0.0",
-    "@hollowverse/config": "^9.0.0",
+    "@hollowverse/config": "^9.1.1",
     "@hollowverse/utils": "^6.0.0",
     "@hollowverse/validate-filenames": "^1.4.0",
     "@types/algoliasearch": "^3.24.5",

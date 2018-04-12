@@ -766,9 +766,9 @@
     jest-diff "^22.4.3"
     lodash "^4.17.4"
 
-"@hollowverse/config@^9.0.0":
-  version "9.0.0"
-  resolved "https://registry.yarnpkg.com/@hollowverse/config/-/config-9.0.0.tgz#4c12b8099e2a807164c64a79c21d6fdd55ee03dd"
+"@hollowverse/config@^9.1.1":
+  version "9.1.1"
+  resolved "https://registry.yarnpkg.com/@hollowverse/config/-/config-9.1.1.tgz#79e24ec71fe922bf4ec70be93412438956ea93aa"
   dependencies:
     "@babel/core" "7.0.0-beta.44"
     "@babel/plugin-proposal-object-rest-spread" "^7.0.0-beta.44"

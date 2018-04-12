@@ -1,0 +1,15 @@
+{
+  "recommendations": [
+    "eg2.tslint",
+    "Orta.vscode-jest",
+    "kisstkondoros.csstriggers",
+    "shinnn.stylelint",
+    "streetsidesoftware.code-spell-checker",
+    "esbenp.prettier-vscode",
+    "christian-kohler.path-intellisense",
+    "christian-kohler.npm-intellisense",
+    "kumar-harsh.graphql-for-vscode",
+    "eamodio.gitlens",
+    "EditorConfig.editorconfig"
+  ]
+}
