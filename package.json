@@ -5,7 +5,7 @@
   "main": "index.js",
   "repository": "https://github.com/hollowverse/hollowverse.git",
   "scripts": {
-    "pretest": "run-p -l -c --aggregate-output common-check app/graphql/build lint",
+    "pretest": "npm-run-all --aggregate-output -s app/graphql/build -p common-check lint",
     "test": "run-p --aggregate-output app/test",
     "app/test/webpack/dev": "NODE_ENV=test NO_TYPE_CHECK=1 webpack --config src/webpack/webpack.config.test.js --watch",
     "app/test/jest/dev": "jest --color --watchAll",
