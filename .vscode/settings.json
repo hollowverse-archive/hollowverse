@@ -1,0 +1,17 @@
+{
+  "cSpell.words": ["hollowverse", "loglevel", "promisify", "webpagetest"],
+  "editor.tabSize": 2,
+  "editor.formatOnSave": true,
+  "[json]": {
+    "editor.formatOnSave": false
+  },
+  "typescript.implementationsCodeLens.enabled": true,
+  "typescript.referencesCodeLens.enabled": true,
+  "files.associations": {
+    ".gqlconfig": "javascript",
+    ".stylelintrc": "json"
+  },
+  "files.exclude": {
+    "**/node_modules/**": true
+  }
+}

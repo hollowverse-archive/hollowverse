@@ -1,0 +1,16 @@
+{
+  "extends": "./node_modules/@hollowverse/config/stylelint/.stylelintrc.json",
+  "rules": {
+    "plugin/no-unsupported-browser-features": [
+      true,
+      {
+        "ignore": [
+          "css-featurequeries",
+          "outline",
+          "css-appearance",
+          "viewport-units"
+        ]
+      }
+    ]
+  }
+}

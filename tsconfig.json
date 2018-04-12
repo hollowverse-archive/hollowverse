@@ -1,5 +1,5 @@
 {
-  "extends": "./node_modules/@hollowverse/config/tsconfig.json",
+  "extends": "./node_modules/@hollowverse/config/typescript/tsconfig.json",
   "compilerOptions": {
     "checkJs": true,
     "allowJs": true
