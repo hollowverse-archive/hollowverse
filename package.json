@@ -148,6 +148,7 @@
     "lru-cache": "^4.1.1",
     "moment": "^2.19.1",
     "node-fetch": "^1.7.3",
+    "npm-run-all": "^4.0.2",
     "path-to-regexp": "^2.1.0",
     "preact": "^8.2.7",
     "preact-compat": "^3.17.0",
@@ -264,7 +265,6 @@
     "name-all-modules-plugin": "^1.0.1",
     "node-sass": "^4.7.2",
     "nodemon": "^1.11.0",
-    "npm-run-all": "^4.0.2",
     "pattern-replace-loader": "^1.0.4",
     "postcss": "^6.0.16",
     "postcss-css-variables": "^0.8.0",
@@ -307,7 +307,8 @@
     "webpack-merge": "^4.1.1",
     "webpack-node-externals": "^1.6.0",
     "wildcards-entry-webpack-plugin": "^2.1.0",
-    "yarnhook": "^0.1.1"
+    "yarnhook": "^0.1.1",
+    "npm-run-all": "^4.0.2"
   },
   "engines": {
     "node": ">= 9.2"
