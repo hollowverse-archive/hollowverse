@@ -9,7 +9,7 @@ export type Cancelable<T> = Readonly<{
 
 type CancelRejection = Readonly<{ isCanceled: true }>;
 
-const cancelRejection: CancelRejection = { isCanceled: true };
+const cancelRejection = Object.freeze<CancelRejection>({ isCanceled: true });
 
 export function promiseToCancelable<T>(promise: Promise<T>): Cancelable<T> {
   let wasCanceled = false;
