@@ -49,12 +49,16 @@ const postCssPlugins = [
   }),
 ];
 
-exports.createGlobalCssLoaders = (isNode = false) => [
+/**
+ * @param {object} options
+ * @param {boolean=} options.isNode
+ */
+exports.createGlobalCssLoaders = (options = { isNode: false }) => [
   {
     // For the server bundle, we do not want to generate any CSS files,
     // we are only interested in the class name to use in the SSR markup.
     // That's what css-loader/locals does.
-    loader: isNode ? 'css-loader/locals' : 'css-loader',
+    loader: options.isNode ? 'css-loader/locals' : 'css-loader',
     query: {
       minimize: isProd,
       sourceMap: true,
@@ -76,12 +80,16 @@ exports.createGlobalCssLoaders = (isNode = false) => [
   ...sassLoaders,
 ];
 
-exports.createCssModulesLoaders = (isNode = false) => [
+/**
+ * @param {object} options
+ * @param {boolean=} options.isNode
+ */
+exports.createCssModulesLoaders = (options = { isNode: false }) => [
   {
     // For the server bundle, we do not want to generate any CSS files,
     // we are only interested in the class name to use in the SSR markup.
     // That's what css-loader/locals does.
-    loader: isNode
+    loader: options.isNode
       ? 'css-loader/locals'
       : ifProd('typings-for-css-modules-loader') || 'css-loader',
 
@@ -119,10 +127,14 @@ exports.createCssModulesLoaders = (isNode = false) => [
   ...sassLoaders,
 ];
 
-exports.createScriptRules = (isNode = false) => {
+/**
+ * @param {object} options
+ * @param {boolean=} options.isNode
+ */
+exports.createScriptRules = (options = { isNode: false }) => {
   const babelLoader = {
     loader: 'babel-loader',
-    options: createBabelConfig(isNode),
+    options: createBabelConfig({ isNode: options.isNode }),
   };
 
   return [

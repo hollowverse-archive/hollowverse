@@ -1,11 +1,12 @@
 const { isDebug, isProd, isTest } = require('./env');
 
 /**
- * @param {boolean} isNode
+ * @param {object} options
+ * @param {boolean=} options.isNode
  */
-module.exports.getAppGlobals = isNode => ({
+module.exports.getAppGlobals = (options = { isNode: false }) => ({
   __FORCE_ENABLE_LOGGING__: isTest || Boolean(process.env.FORCE_ENABLE_LOGGING),
-  __IS_SERVER__: isNode && !isTest,
+  __IS_SERVER__: options.isNode && !isTest,
   __IS_DEBUG__: isDebug,
   __BRANCH__: isTest ? 'test' : process.env.BRANCH,
   __COMMIT_ID__: isTest ? '123456' : process.env.COMMIT_ID,

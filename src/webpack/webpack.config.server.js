@@ -43,17 +43,17 @@ const serverSpecificConfig = {
       {
         test: cssModulesPattern,
         exclude: excludedPatterns,
-        use: createCssModulesLoaders(true),
+        use: createCssModulesLoaders({ isNode: true }),
       },
 
       // JavaScript and TypeScript
-      ...createScriptRules(true),
+      ...createScriptRules({ isNode: true }),
 
       // Global CSS
       {
         test: /\.s?css$/,
         exclude: [...excludedPatterns, cssModulesPattern],
-        use: createGlobalCssLoaders(true),
+        use: createGlobalCssLoaders({ isNode: true }),
       },
 
       {
@@ -77,7 +77,7 @@ const serverSpecificConfig = {
 
     // Environment
     new webpack.DefinePlugin(
-      mapValues(getAppGlobals(true), v => JSON.stringify(v)),
+      mapValues(getAppGlobals({ isNode: true }), v => JSON.stringify(v)),
     ),
 
     new webpack.ProvidePlugin({

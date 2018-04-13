@@ -4,7 +4,11 @@ const { pkg } = require('./variables');
 
 const { ifProd, isProd, isTest, ifTest, ifNotTest, isDebug } = require('./env');
 
-module.exports.createBabelConfig = (isNode = false) => ({
+/**
+ * @param {object} options
+ * @param {boolean} options.isNode
+ */
+module.exports.createBabelConfig = options => ({
   presets: compact([
     [
       '@babel/preset-env',
@@ -13,7 +17,7 @@ module.exports.createBabelConfig = (isNode = false) => ({
         loose: false,
         debug: isDebug,
         ignoreBrowserslistConfig: true,
-        targets: isNode
+        targets: options.isNode
           ? {
               node: 'current',
             }
