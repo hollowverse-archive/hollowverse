@@ -19,8 +19,6 @@ export function promiseToCancelable<T>(promise: Promise<T>): Cancelable<T> {
     target.once('cancel', () => {
       wasCanceled = true;
       reject(cancelError);
-
-      return false;
     });
   });
 
