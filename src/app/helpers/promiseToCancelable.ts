@@ -1,4 +1,5 @@
 import { EventEmitter } from 'events';
+import { once } from 'lodash';
 
 export type Cancelable<T> = Readonly<{
   promise: Promise<T>;
@@ -15,7 +16,7 @@ export function promiseToCancelable<T>(promise: Promise<T>): Cancelable<T> {
 
   const target = new EventEmitter();
   const cancelationPromise = new Promise<T>((_, reject) => {
-    target.on('cancel', () => {
+    target.once('cancel', () => {
       wasCanceled = true;
       reject(cancelError);
 
@@ -30,9 +31,9 @@ export function promiseToCancelable<T>(promise: Promise<T>): Cancelable<T> {
     get wasCanceled() {
       return wasCanceled;
     },
-    cancel() {
+    cancel: once(() => {
       target.emit('cancel');
-    },
+    }),
   };
 }
 
