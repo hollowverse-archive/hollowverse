@@ -23,7 +23,6 @@ module.exports = {
   modulePaths: ['<rootDir>/src/app', '<rootDir>/src'],
   testRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$',
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
-  setupFiles: ['<rootDir>/jest.setup.js'],
   setupTestFrameworkScriptFile: '<rootDir>/jest.setupTestFramework.js',
   collectCoverage: isCi,
   collectCoverageFrom: [
