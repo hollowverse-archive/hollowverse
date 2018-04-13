@@ -6,6 +6,11 @@ import {
   SuccessResult,
   ErrorResult,
 } from 'helpers/asyncResults';
+import {
+  promiseToCancelable,
+  Cancelable,
+  isCancelRejection,
+} from 'helpers/promiseToCancelable';
 
 type AsyncProps<T> = {
   /**
@@ -89,8 +94,12 @@ export class AsyncComponent<T = any> extends React.PureComponent<
     isPastDelay: false,
   };
 
+  cancelableLoad: Cancelable<T> | undefined;
+
   tryLoading = () => {
-    const loadPromise = this.props.load();
+    this.cancelableLoad = promiseToCancelable(this.props.load());
+
+    const loadPromise = this.cancelableLoad.promise;
 
     this.setState(
       {
@@ -149,7 +158,11 @@ export class AsyncComponent<T = any> extends React.PureComponent<
               this.setState({ value, isInProgress: false });
             }
           })
-          .catch(() => {
+          .catch(error => {
+            if (isCancelRejection(error)) {
+              return;
+            }
+
             this.setState({ isInProgress: false, hasError: true });
           });
       },
@@ -158,6 +171,12 @@ export class AsyncComponent<T = any> extends React.PureComponent<
 
   componentDidMount() {
     this.tryLoading();
+  }
+
+  componentWillUnmount() {
+    if (this.cancelableLoad) {
+      this.cancelableLoad.cancel();
+    }
   }
 
   render() {
