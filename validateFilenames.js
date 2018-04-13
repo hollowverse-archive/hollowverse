@@ -18,6 +18,7 @@ module.exports = {
         '*/**/typings/*',
         'src/app/pages/NotablePerson/warningIcon.tsx',
         'src/app/__tests__/**/*',
+        'src/app/__mocks__/**/*',
         '__tests__/**/*',
         '_*.scss',
         'Dockerfile*',
