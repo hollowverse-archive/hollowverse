@@ -9,7 +9,7 @@ export type Cancelable<T> = Readonly<{
 
 type CancelRejection = Readonly<{ isCanceled: true }>;
 
-const cancelError: CancelRejection = { isCanceled: true };
+const cancelRejection: CancelRejection = { isCanceled: true };
 
 export function promiseToCancelable<T>(promise: Promise<T>): Cancelable<T> {
   let wasCanceled = false;
@@ -18,7 +18,7 @@ export function promiseToCancelable<T>(promise: Promise<T>): Cancelable<T> {
   const cancelationPromise = new Promise<T>((_, reject) => {
     target.once('cancel', () => {
       wasCanceled = true;
-      reject(cancelError);
+      reject(cancelRejection);
     });
   });
 
@@ -36,5 +36,5 @@ export function promiseToCancelable<T>(promise: Promise<T>): Cancelable<T> {
 }
 
 export function isCancelRejection(obj: any): obj is CancelRejection {
-  return 'isCanceled' in obj && obj.isCanceled === true;
+  return obj === cancelRejection;
 }
