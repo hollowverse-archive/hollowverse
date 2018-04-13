@@ -9,6 +9,9 @@ import {
 } from 'fixtures/notablePersonQuery';
 import { EditorialSummary } from 'components/EditorialSummary/EditorialSummary';
 
+const emptyBase64EncodedImage =
+  'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
+
 describe('Notable Person page', () => {
   let context: ClientSideTestContext;
 
@@ -120,8 +123,7 @@ describe('Notable Person page', () => {
               notablePerson: {
                 ...stubNotablePersonQueryResponse.notablePerson!,
                 mainPhoto: {
-                  url:
-                    'https://files.hollowverse.com/notable-people/Tom_Hanks.jpg',
+                  url: emptyBase64EncodedImage,
                   colorPalette: null,
                   sourceUrl:
                     'https://commons.wikimedia.org/wiki/File:Tom_Hanks_2014.jpg',
@@ -135,9 +137,7 @@ describe('Notable Person page', () => {
 
       it('shows notable person image', () => {
         expect(
-          context.wrapper.find(
-            `img[src="https://files.hollowverse.com/notable-people/Tom_Hanks.jpg"]`,
-          ),
+          context.wrapper.find(`img[src="${emptyBase64EncodedImage}"]`),
         ).toBePresent();
       });
 
