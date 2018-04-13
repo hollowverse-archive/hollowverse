@@ -15,7 +15,7 @@ const {
   shouldTypeCheck,
   ifProd,
   ifTest,
-} = require('./env');
+} = require('@hollowverse/utils/helpers/env');
 
 const sassLoaders = [
   {

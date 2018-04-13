@@ -13,7 +13,7 @@ const {
   cssModulesPattern,
   publicPath,
 } = require('./variables');
-const { isProd } = require('./env');
+const { isProd } = require('@hollowverse/utils/helpers/env');
 const {
   createGlobalCssLoaders,
   createCssModulesLoaders,

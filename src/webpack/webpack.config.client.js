@@ -39,7 +39,7 @@ const {
   ifHot,
   ifPerf,
   isProd,
-} = require('./env');
+} = require('@hollowverse/utils/helpers/env');
 
 const extractGlobalCss = new ExtractCssChunks({
   filename: isProd ? '[name].global.[contenthash].css' : '[name].global.css',

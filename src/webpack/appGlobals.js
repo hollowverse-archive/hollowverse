@@ -1,11 +1,17 @@
-const { isDebug, isProd, isTest } = require('./env');
+const {
+  isDebug,
+  isProd,
+  isTest,
+  parseBooleanEnvVariable,
+} = require('@hollowverse/utils/helpers/env');
 
 /**
  * @param {object} options
  * @param {boolean=} options.isNode
  */
 module.exports.getAppGlobals = (options = { isNode: false }) => ({
-  __FORCE_ENABLE_LOGGING__: isTest || Boolean(process.env.FORCE_ENABLE_LOGGING),
+  __FORCE_ENABLE_LOGGING__:
+    isTest || parseBooleanEnvVariable(process.env.FORCE_ENABLE_LOGGING),
   __IS_SERVER__: options.isNode && !isTest,
   __IS_DEBUG__: isDebug,
   __BRANCH__: isTest ? 'test' : process.env.BRANCH,

@@ -2,7 +2,16 @@ const { compact } = require('lodash');
 
 const { pkg } = require('./variables');
 
-const { ifProd, isProd, isTest, ifTest, ifNotTest, isDebug } = require('./env');
+const {
+  ifProd,
+  isProd,
+  isTest,
+  ifTest,
+  isDebug,
+  createConditionalWithFallback,
+} = require('@hollowverse/utils/helpers/env');
+
+const ifNotTest = createConditionalWithFallback(!isTest);
 
 /**
  * @param {object} options

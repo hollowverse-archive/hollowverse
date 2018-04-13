@@ -1,4 +1,4 @@
-const { isCi } = require('./src/webpack/env');
+const { isCi } = require('@hollowverse/utils/helpers/env');
 const { createBabelConfig } = require('./src/webpack/babel');
 const { getAppGlobals } = require('./src/webpack/appGlobals');
 
