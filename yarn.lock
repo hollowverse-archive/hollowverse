@@ -683,9 +683,9 @@
     fast-extend "0.0.2"
     fs-monkey "^0.3.0"
 
-"@hollowverse/clown@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@hollowverse/clown/-/clown-1.0.0.tgz#6f3bea6071ea1f80d995895be06048c3bbdbebf5"
+"@hollowverse/clown@^2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@hollowverse/clown/-/clown-2.0.1.tgz#fe3e2fff562d2666f0991806b10cf3b712215efa"
   dependencies:
     "@babel/polyfill" "^7.0.0-beta.44"
     "@babel/runtime" "^7.0.0-beta.44"
@@ -699,6 +699,7 @@
     globby "^8.0.1"
     jest-diff "^22.4.3"
     lodash "^4.17.4"
+    sort-keys "^2.0.0"
 
 "@hollowverse/config@^10.0.0":
   version "10.0.0"
@@ -11483,6 +11484,12 @@ sockjs@0.3.18:
 sort-keys@^1.0.0:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/sort-keys/-/sort-keys-1.1.2.tgz#441b6d4d346798f1b4e49e8920adfba0e543f9ad"
+  dependencies:
+    is-plain-obj "^1.0.0"
+
+sort-keys@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/sort-keys/-/sort-keys-2.0.0.tgz#658535584861ec97d730d6cf41822e1f56684128"
   dependencies:
     is-plain-obj "^1.0.0"
 

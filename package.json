@@ -185,7 +185,7 @@
     "@babel/preset-es2015": "^7.0.0-beta.44",
     "@babel/preset-react": "^7.0.0-beta.44",
     "@babel/preset-stage-3": "^7.0.0-beta.44",
-    "@hollowverse/clown": "^1.0.0",
+    "@hollowverse/clown": "^2.0.1",
     "@hollowverse/config": "^10.0.0",
     "@hollowverse/utils": "^6.0.0",
     "@hollowverse/validate-filenames": "^1.4.0",
@@ -265,7 +265,6 @@
     "name-all-modules-plugin": "^1.0.1",
     "node-sass": "^4.7.2",
     "nodemon": "^1.11.0",
-    "npm-run-all": "^4.0.2",
     "pattern-replace-loader": "^1.0.4",
     "postcss": "^6.0.16",
     "postcss-css-variables": "^0.8.0",
@@ -312,6 +311,5 @@
   },
   "engines": {
     "node": ">= 9.2"
-  },
-  "jest": null
+  }
 }
