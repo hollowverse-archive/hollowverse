@@ -23,6 +23,7 @@ import { EditorialSummary } from 'components/EditorialSummary/EditorialSummary';
 import { RelatedPeople } from './RelatedPeople';
 import { DispatchOnLifecycleEvent } from 'components/DispatchOnLifecycleEvent/DispatchOnLifecycleEvent';
 import { NotablePersonBody } from './NotablePersonBody';
+import { oneLine } from 'common-tags';
 
 import {
   AppDependenciesContext,
@@ -127,6 +128,13 @@ const Page = withRouter(
               }
             />
             <title>{name}'s Religion and Political Views</title>
+            <meta
+              name="description"
+              content={oneLine`
+                Quotes, news, and discussions about ${name}'s
+                philosophy, politics, and ideas
+              `}
+            />
           </Helmet>
           <DispatchOnLifecycleEvent
             onWillUnmount={setAlternativeSearchBoxText(null)}
