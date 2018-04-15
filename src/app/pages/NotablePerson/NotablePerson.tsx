@@ -1,6 +1,7 @@
 import React from 'react';
 import cc from 'classcat';
 import Helmet from 'react-helmet-async';
+import { oneLine } from 'common-tags';
 
 import {
   isErrorResult,
@@ -23,7 +24,6 @@ import { EditorialSummary } from 'components/EditorialSummary/EditorialSummary';
 import { RelatedPeople } from './RelatedPeople';
 import { DispatchOnLifecycleEvent } from 'components/DispatchOnLifecycleEvent/DispatchOnLifecycleEvent';
 import { NotablePersonBody } from './NotablePersonBody';
-import { oneLine } from 'common-tags';
 
 import {
   AppDependenciesContext,

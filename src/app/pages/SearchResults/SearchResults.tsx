@@ -3,6 +3,7 @@ import { StoreState } from 'store/types';
 
 import classes from './SearchResults.module.scss';
 import Helmet from 'react-helmet-async';
+import { oneLine } from 'common-tags';
 
 import { Card } from 'components/Card/Card';
 import {
@@ -107,9 +108,27 @@ const Page = withRouter(
           <Status code={200} />
           <Helmet>
             {userHasPerformedSearch ? (
-              <title>Search results for {searchQuery}</title>
+              <>
+                <title>Search results for {searchQuery}</title>
+                <meta
+                  name="description"
+                  content={oneLine`
+                    The philosophy, politics, and ideas of influential people who
+                    match ${searchQuery}
+                  `}
+                />
+              </>
             ) : (
-              <title>Search for influential people</title>
+              <>
+                <title>Search for influential people</title>
+                <meta
+                  name="description"
+                  content={oneLine`
+                    Search for an influential person to find out
+                    about their philosophy, politics, and ideas
+                  `}
+                />
+              </>
             )}
           </Helmet>
           {userHasPerformedSearch ? (
