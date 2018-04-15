@@ -107,29 +107,29 @@ const Page = withRouter(
         <>
           <Status code={200} />
           <Helmet>
-            {userHasPerformedSearch ? (
-              <>
-                <title>Search results for {searchQuery}</title>
-                <meta
-                  name="description"
-                  content={oneLine`
-                    The philosophy, politics, and ideas of influential people who
-                    match ${searchQuery}
+            {userHasPerformedSearch
+              ? [
+                  <title key="title">Search results for {searchQuery}</title>,
+                  <meta
+                    key="description"
+                    name="description"
+                    content={oneLine`
+                      The philosophy, politics, and ideas of influential people who
+                      match ${searchQuery}
                   `}
-                />
-              </>
-            ) : (
-              <>
-                <title>Search for influential people</title>
-                <meta
-                  name="description"
-                  content={oneLine`
-                    Search for an influential person to find out
-                    about their philosophy, politics, and ideas
-                  `}
-                />
-              </>
-            )}
+                  />,
+                ]
+              : [
+                  <title key="title">Search for influential people</title>,
+                  <meta
+                    key="description"
+                    name="description"
+                    content={oneLine`
+                      Search for an influential person to find out
+                      about their philosophy, politics, and ideas
+                    `}
+                  />,
+                ]}
           </Helmet>
           {userHasPerformedSearch ? (
             <ResultsList

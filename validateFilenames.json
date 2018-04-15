@@ -27,7 +27,11 @@
         "src/app/assets/algolia/*",
         "Dockerfile*",
         "_*.scss",
-        "src/app/pages/NotablePerson/warningIcon.tsx"
+        "src/app/pages/NotablePerson/warningIcon.tsx",
+        "**/typings/**/*",
+        "**/__snapshots__/**/*",
+        "**/docker-compose.yml",
+        "**/Dockerfile*"
       ]
     }
   ]
