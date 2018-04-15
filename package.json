@@ -285,6 +285,8 @@
     "resolve-url-loader": "^2.1.0",
     "sass-loader": "^6.0.6",
     "serverless": "^1.26.1",
+    "serverless-apigw-binary": "^0.4.4",
+    "serverless-content-encoding": "^1.0.20",
     "serverless-offline": "^3.18.0",
     "serverless-plugin-typescript": "^1.1.5",
     "source-map-loader": "^0.2.1",
