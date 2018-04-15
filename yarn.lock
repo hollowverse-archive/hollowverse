@@ -759,11 +759,10 @@
     tslint-react "^3.5.1"
     typescript-eslint-parser "^14.0.0"
 
-"@hollowverse/utils@^6.0.0":
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/@hollowverse/utils/-/utils-6.0.0.tgz#d9b978531a445f5d031ab72af066424358df1bf0"
+"@hollowverse/utils@^5.0.2":
+  version "5.0.2"
+  resolved "https://registry.yarnpkg.com/@hollowverse/utils/-/utils-5.0.2.tgz#bfce9b165741f99b5d9b66d5f34477a66350422d"
   dependencies:
-    "@babel/polyfill" "^7.0.0-beta.44"
     "@babel/runtime" "^7.0.0-beta.44"
     "@types/aws-lambda" "^0.0.34"
     bluebird "^3.5.1"

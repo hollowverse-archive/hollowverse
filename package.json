@@ -188,7 +188,7 @@
     "@babel/preset-react": "^7.0.0-beta.44",
     "@babel/preset-stage-3": "^7.0.0-beta.44",
     "@hollowverse/clown": "^3.0.0",
-    "@hollowverse/config": "^13.0.0",
+    "@hollowverse/config": "^10.0.0",
     "@hollowverse/utils": "^6.0.0",
     "@hollowverse/validate-filenames": "latest",
     "@babel/cli": "7.0.0-beta.40",
@@ -322,5 +322,6 @@
   },
   "engines": {
     "node": ">= 6.10"
-  }
+  },
+  "private": true
 }
