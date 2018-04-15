@@ -1,15 +1,8 @@
-const path = require('path');
+/* eslint-disable import/no-extraneous-dependencies */
+const { omit } = require('lodash');
 
 module.exports = function clownCallback(clownFs) {
-  const packageJsonPath = Object.keys(clownFs.fileContents).find(
-    key => path.basename(key) === 'package.json',
+  clownFs.editJson('package.json', json =>
+    omit(json, 'jest', 'devDependencies["npm-run-all"]'),
   );
-
-  /* eslint-disable no-param-reassign */
-  clownFs.editJson(packageJsonPath, json => {
-    delete json.jest;
-    delete json.devDependencies['npm-run-all'];
-
-    return json;
-  });
 };

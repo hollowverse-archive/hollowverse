@@ -1,0 +1,32 @@
+{
+  "rules": [
+    {
+      "validation": "camelCase",
+      "patterns": ["**/*"]
+    },
+    {
+      "validation": "PascalCase",
+      "patterns": [
+        "src/app/components/**",
+        "src/app/pages/**",
+        "src/app/hocs/**"
+      ]
+    },
+    {
+      "validation": "ignore",
+      "patterns": [
+        "**/__tests__/**/*",
+        "**/__mocks__/**/*",
+        "**/__snapshots__/**/*",
+        "**/typings/**/*",
+        "**/LICENSE",
+        "**/README.md",
+        "**/docker-compose.yml",
+        "**/Dockerfile*",
+        "src/app/assets/algolia/*",
+        "_*.scss",
+        "src/app/pages/NotablePerson/warningIcon.tsx"
+      ]
+    }
+  ]
+}

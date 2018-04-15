@@ -622,13 +622,6 @@
     "@babel/plugin-syntax-dynamic-import" "7.0.0-beta.44"
     "@babel/plugin-syntax-import-meta" "7.0.0-beta.44"
 
-"@babel/runtime@^7.0.0-beta.40":
-  version "7.0.0-beta.40"
-  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.0.0-beta.40.tgz#8e3b8f1d2d8639d010e991a7e99c1d9ef578f886"
-  dependencies:
-    core-js "^2.5.3"
-    regenerator-runtime "^0.11.1"
-
 "@babel/runtime@^7.0.0-beta.44":
   version "7.0.0-beta.44"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.0.0-beta.44.tgz#ea5ad6c6fe9a2c1187b025bf42424d28050ee696"
@@ -683,9 +676,9 @@
     fast-extend "0.0.2"
     fs-monkey "^0.3.0"
 
-"@hollowverse/clown@^2.0.1":
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/@hollowverse/clown/-/clown-2.0.1.tgz#fe3e2fff562d2666f0991806b10cf3b712215efa"
+"@hollowverse/clown@^3.0.0":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@hollowverse/clown/-/clown-3.0.0.tgz#8f9e1b235703c80717695e46282d6ee1e1bcb9da"
   dependencies:
     "@babel/polyfill" "^7.0.0-beta.44"
     "@babel/runtime" "^7.0.0-beta.44"
@@ -701,15 +694,15 @@
     lodash "^4.17.4"
     sort-keys "^2.0.0"
 
-"@hollowverse/config@^10.0.0":
-  version "10.0.0"
-  resolved "https://registry.yarnpkg.com/@hollowverse/config/-/config-10.0.0.tgz#e434237f449d0a2f68aa58eae37a3c6f0d80b6d3"
+"@hollowverse/config@^13.0.0":
+  version "13.0.0"
+  resolved "https://registry.yarnpkg.com/@hollowverse/config/-/config-13.0.0.tgz#cdeb0d171e2132a4eba37ab14cf7b13d7d485bde"
   dependencies:
     "@babel/core" "7.0.0-beta.44"
     "@babel/plugin-proposal-object-rest-spread" "^7.0.0-beta.44"
     "@babel/plugin-transform-runtime" "^7.0.0-beta.44"
     babel-eslint "^8.2.2"
-    eslint "^4.18.2"
+    eslint latest
     eslint-config-airbnb "^16.1.0"
     eslint-config-prettier "^2.9.0"
     eslint-plugin-import "^2.9.0"
@@ -742,12 +735,14 @@
     minimatch "^3.0.4"
     shelljs "^0.7.8"
 
-"@hollowverse/validate-filenames@^1.4.0":
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/@hollowverse/validate-filenames/-/validate-filenames-1.4.0.tgz#a246900519d51261c337f8610b67b82a8d304155"
+"@hollowverse/validate-filenames@latest":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@hollowverse/validate-filenames/-/validate-filenames-3.0.1.tgz#a3a6fe488162d19d256e2cc5fa093af16e1b1aff"
   dependencies:
-    "@babel/runtime" "^7.0.0-beta.40"
+    "@babel/polyfill" "^7.0.0-beta.44"
+    "@babel/runtime" "^7.0.0-beta.44"
     commander "^2.12.1"
+    cosmiconfig "^4.0.0"
     lodash "^4.17.4"
     minimatch "^3.0.4"
     shelljs "^0.7.8"
@@ -4429,7 +4424,7 @@ eslint-visitor-keys@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/eslint-visitor-keys/-/eslint-visitor-keys-1.0.0.tgz#3f3180fb2e291017716acb4c9d6d5b5c34a6a81d"
 
-eslint@^4.18.2:
+eslint@latest:
   version "4.19.1"
   resolved "https://registry.yarnpkg.com/eslint/-/eslint-4.19.1.tgz#32d1d653e1d90408854bfb296f076ec7e186a300"
   dependencies:
@@ -6038,9 +6033,9 @@ https-browserify@0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/https-browserify/-/https-browserify-0.0.1.tgz#3f91365cabe60b77ed0ebba24b454e3e09d95a82"
 
-husky@^0.15.0-rc.13:
-  version "0.15.0-rc.13"
-  resolved "https://registry.yarnpkg.com/husky/-/husky-0.15.0-rc.13.tgz#a27550b7b51d2f472e284b48fc9257a6d6b3f681"
+husky@next:
+  version "1.0.0-rc.1"
+  resolved "https://registry.yarnpkg.com/husky/-/husky-1.0.0-rc.1.tgz#f7c54541ac56e3bd2d0b10752ef4ff62a4a03262"
   dependencies:
     cosmiconfig "^4.0.0"
     execa "^0.9.0"
@@ -6049,7 +6044,7 @@ husky@^0.15.0-rc.13:
     pupa "^1.0.0"
     read-pkg "^3.0.0"
     run-node "^0.2.0"
-    slash "^1.0.0"
+    slash "^2.0.0"
 
 iconv-lite@0.4.19, iconv-lite@^0.4.17, iconv-lite@~0.4.13:
   version "0.4.19"
@@ -7542,9 +7537,9 @@ linked-list@0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/linked-list/-/linked-list-0.1.0.tgz#798b0ff97d1b92a4fd08480f55aea4e9d49d37bf"
 
-lint-staged@^7.0.0:
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/lint-staged/-/lint-staged-7.0.0.tgz#57926c63201e7bd38ca0576d74391efa699b4a9d"
+lint-staged@latest:
+  version "7.0.4"
+  resolved "https://registry.yarnpkg.com/lint-staged/-/lint-staged-7.0.4.tgz#1aa7f27427e4c4c85d4d6524ac98aac10cbaf1b8"
   dependencies:
     app-root-path "^2.0.1"
     chalk "^2.3.1"
@@ -7565,7 +7560,8 @@ lint-staged@^7.0.0:
     path-is-inside "^1.0.2"
     pify "^3.0.0"
     please-upgrade-node "^3.0.1"
-    staged-git-files "1.1.0"
+    staged-git-files "1.1.1"
+    string-argv "^0.0.2"
     stringify-object "^3.2.2"
 
 listr-silent-renderer@^1.1.1:
@@ -9790,9 +9786,9 @@ preserve@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/preserve/-/preserve-0.2.0.tgz#815ed1f6ebc65926f865b310c0713bcb3315ce4b"
 
-prettier@^1.10.2:
-  version "1.10.2"
-  resolved "https://registry.yarnpkg.com/prettier/-/prettier-1.10.2.tgz#1af8356d1842276a99a5b5529c82dd9e9ad3cc93"
+prettier@latest:
+  version "1.12.0"
+  resolved "https://registry.yarnpkg.com/prettier/-/prettier-1.12.0.tgz#d26fc5894b9230de97629b39cae225b503724ce8"
 
 pretty-error@^2.0.2:
   version "2.1.1"
@@ -11362,6 +11358,10 @@ slash@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/slash/-/slash-1.0.0.tgz#c41f2f6c39fc16d1cd17ad4b5d896114ae470d55"
 
+slash@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/slash/-/slash-2.0.0.tgz#de552851a1759df3a8f206535442f5ec4ddeab44"
+
 slice-ansi@0.0.4:
   version "0.0.4"
   resolved "https://registry.yarnpkg.com/slice-ansi/-/slice-ansi-0.0.4.tgz#edbf8903f66f7ce2f8eafd6ceed65e264c831b35"
@@ -11690,9 +11690,9 @@ stackframe@^0.3.1:
   version "0.3.1"
   resolved "https://registry.yarnpkg.com/stackframe/-/stackframe-0.3.1.tgz#33aa84f1177a5548c8935533cbfeb3420975f5a4"
 
-staged-git-files@1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/staged-git-files/-/staged-git-files-1.1.0.tgz#1a9bb131c1885601023c7aaddd3d54c22142c526"
+staged-git-files@1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/staged-git-files/-/staged-git-files-1.1.1.tgz#37c2218ef0d6d26178b1310719309a16a59f8f7b"
 
 standalone-react-addons-pure-render-mixin@^0.1.1:
   version "0.1.1"
@@ -11797,6 +11797,10 @@ stream-to@~0.2.0:
 strict-uri-encode@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/strict-uri-encode/-/strict-uri-encode-1.1.0.tgz#279b225df1d582b1f54e65addd4352e18faa0713"
+
+string-argv@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/string-argv/-/string-argv-0.0.2.tgz#dac30408690c21f3c3630a3ff3a05877bdcbd736"
 
 string-length@^2.0.0:
   version "2.0.0"
@@ -13668,9 +13672,9 @@ yargs@~3.10.0:
     decamelize "^1.0.0"
     window-size "0.1.0"
 
-yarnhook@^0.1.1:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/yarnhook/-/yarnhook-0.1.1.tgz#6e67757327e6390cb313f371bdc44ded7c5e047b"
+yarnhook@latest:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/yarnhook/-/yarnhook-0.2.0.tgz#291e49db6066df2d8f745087c407362042a0d055"
   dependencies:
     execa "^0.8.0"
     find-parent-dir "^0.3.0"

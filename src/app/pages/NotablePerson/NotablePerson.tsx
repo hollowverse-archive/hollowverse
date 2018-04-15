@@ -1,6 +1,7 @@
 import React from 'react';
 import cc from 'classcat';
 import Helmet from 'react-helmet-async';
+import { oneLine } from 'common-tags';
 
 import {
   isErrorResult,
@@ -127,6 +128,13 @@ const Page = withRouter(
               }
             />
             <title>{name}'s Religion and Political Views</title>
+            <meta
+              name="description"
+              content={oneLine`
+                Quotes, news, and discussions about ${name}'s
+                philosophy, politics, and ideas
+              `}
+            />
           </Helmet>
           <DispatchOnLifecycleEvent
             onWillUnmount={setAlternativeSearchBoxText(null)}
