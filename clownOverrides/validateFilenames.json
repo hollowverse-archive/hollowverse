@@ -16,7 +16,6 @@
       "validation": "ignore",
       "patterns": [
         "src/app/assets/algolia/*",
-        "Dockerfile*",
         "_*.scss",
         "src/app/pages/NotablePerson/warningIcon.tsx"
       ]

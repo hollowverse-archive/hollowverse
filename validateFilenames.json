@@ -15,23 +15,17 @@
     {
       "validation": "ignore",
       "patterns": [
-        "*/**/typings/*",
-        "__tests__/**/*",
         "**/__tests__/**/*",
-        "__mocks__/**/*",
         "**/__mocks__/**/*",
-        "**/__snapshots__/**",
-        "docker-compose.yml",
+        "**/__snapshots__/**/*",
+        "**/typings/**/*",
         "**/LICENSE",
         "**/README.md",
-        "src/app/assets/algolia/*",
-        "Dockerfile*",
-        "_*.scss",
-        "src/app/pages/NotablePerson/warningIcon.tsx",
-        "**/typings/**/*",
-        "**/__snapshots__/**/*",
         "**/docker-compose.yml",
-        "**/Dockerfile*"
+        "**/Dockerfile*",
+        "src/app/assets/algolia/*",
+        "_*.scss",
+        "src/app/pages/NotablePerson/warningIcon.tsx"
       ]
     }
   ]
