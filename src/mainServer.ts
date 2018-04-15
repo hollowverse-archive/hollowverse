@@ -1,7 +1,6 @@
 import express from 'express';
 import httpProxy from 'http-proxy';
 
-// import { redirectToHttps } from './middleware/redirectToHttps';
 import { appServer } from './appServer';
 import { securityMiddleware } from './middleware/security';
 
@@ -10,8 +9,6 @@ const {
 } = process.env;
 
 export const mainServer = express();
-
-// server.use(redirectToHttps);
 
 mainServer.use(...securityMiddleware);
 
