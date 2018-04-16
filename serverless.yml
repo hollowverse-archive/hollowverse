@@ -1,7 +1,6 @@
 service: website
 
 plugins:
-  - serverless-offline
   - serverless-apigw-binary
   - serverless-content-encoding
 
