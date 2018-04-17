@@ -72,14 +72,25 @@ Promise.all([
   .then(renderOnDomReady)
   .catch(renderOnDomReady);
 
-// Catch unhandled errors and inform the store
-window.onerror = (message, source, line, column) => {
+window.addEventListener('error', ({ message, filename, lineno, colno }) => {
   store.dispatch(
     unhandledErrorThrown({
-      message: String(message),
-      source,
-      line,
-      column,
+      message,
+      source: filename,
+      line: lineno,
+      column: colno,
     }),
   );
-};
+});
+
+window.addEventListener(
+  'unhandledrejection',
+  // @ts-ignore
+  ({ reason }: PromiseRejectionEvent) => {
+    store.dispatch(
+      unhandledErrorThrown({
+        message: reason,
+      }),
+    );
+  },
+);

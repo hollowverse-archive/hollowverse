@@ -64,10 +64,14 @@ export class FbComments extends React.PureComponent<Props> {
       } else if (this.commentsNode) {
         this.commentsObserver = new MutationObserver(mutations => {
           for (const mutation of mutations) {
+            const attr = (mutation.target as Element).attributes.getNamedItem(
+              OBSERVED_FB_ATTR_NAME,
+            );
+
             if (
               mutation.attributeName === OBSERVED_FB_ATTR_NAME &&
-              mutation.target.attributes.getNamedItem(OBSERVED_FB_ATTR_NAME)
-                .value === 'rendered'
+              attr !== null &&
+              attr.value === 'rendered'
             ) {
               resolve();
               if (this.commentsObserver) {

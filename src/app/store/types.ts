@@ -86,10 +86,6 @@ export type ActionTypeToPayloadType = {
     from: string;
     to: string;
   };
-  NOTABLE_PERSON_VISITED_THROUGH_SEARCH: {
-    notablePerson: string | null;
-    searchQuery: string;
-  };
   /** Value is the path to the selected page */
   SEARCH_RESULT_SELECTED: string;
   SET_ALTERNATIVE_SEARCH_BOX_TEXT: string | null;
