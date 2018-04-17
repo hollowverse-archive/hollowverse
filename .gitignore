@@ -39,9 +39,11 @@ node_modules/
 .yarn-integrity
 
 # Builds
-.webpack
 dist
 .build
+
+# Created by Serverless
+.webpack
 .serverless
 
 # Editor configs
@@ -63,8 +65,6 @@ secrets/**/*
 
 build.zip
 build
-
-# Created by Serverless
 
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
