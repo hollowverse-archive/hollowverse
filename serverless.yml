@@ -23,8 +23,8 @@ provider:
     SUMO_COLLECTOR_ID: ${file(./secrets/sumo.json):collectorId}
 
 functions:
-  serveSsrMarkup:
-    handler: dist/serveSsrMarkup.serveSsrMarkup
+  lambdaHandler:
+    handler: dist/lambdaHandler.lambdaHandler
     events:
       - http:
           method: ANY
@@ -32,11 +32,6 @@ functions:
       - http:
           method: ANY
           path: /{proxy+}
-
-  # logEvents:
-  #   handler: dist/logEvents.logEvents
-  #   events:
-  #     -
 
 package:
   excludeDevDependencies: false

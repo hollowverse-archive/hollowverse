@@ -6,6 +6,6 @@ const server = awsServerlessExpress.createServer(mainServer as any, undefined, [
   '*/*',
 ]);
 
-export const serveSsrMarkup: APIGatewayProxyHandler = (event, context) => {
+export const lambdaHandler: APIGatewayProxyHandler = (event, context) => {
   awsServerlessExpress.proxy(server, event, context);
 };
