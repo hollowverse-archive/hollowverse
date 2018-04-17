@@ -89,7 +89,10 @@ window.addEventListener(
   ({ reason }: PromiseRejectionEvent) => {
     store.dispatch(
       unhandledErrorThrown({
-        message: reason,
+        message:
+          typeof reason === 'object' && 'message' in reason
+            ? reason.message
+            : String(reason),
       }),
     );
   },
