@@ -15,7 +15,7 @@
     "lint-ts/tslint/app": "tslint 'src/app/**/*.ts{,x}' --project src/app",
     "lint-ts/tslint/root": "tslint '**/*.ts{,x}' --project . --exclude 'node_modules/**/*' --exclude 'src/app/**/*'",
     "lint-ts/tslint": "run-p -c --aggregate-output 'lint-ts/tslint/*'",
-    "lint-ts": "tslint 'src/**/*.ts' --project .",
+    "lint-ts": "run-p -c --aggregate-output 'lint-ts/*'",
     "server/check-ts": "tsc --project ./src --noEmit",
     "app/check-ts": "tsc --project ./src/app --noEmit",
     "check-ts": "run-p -c --aggregate-output '*/check-ts'",
