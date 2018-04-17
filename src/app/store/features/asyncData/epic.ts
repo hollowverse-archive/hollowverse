@@ -1,3 +1,4 @@
+// tslint:disable no-unnecessary-type-assertion
 import { setResolvedData } from './actions';
 
 import { Action, StoreState, SetResolvedDataPayload } from 'store/types';

@@ -5,7 +5,7 @@
   "main": "index.js",
   "repository": "https://github.com/hollowverse/hollowverse.git",
   "scripts": {
-    "pretest": "npm-run-all --aggregate-output -s app/graphql/build -p common-check lint",
+    "pretest": "npm-run-all --aggregate-output -s app/graphql/build -p -c common-check lint",
     "test": "yarn jest -- --verbose",
     "lint": "run-p -c --aggregate-output lint-css lint-js lint-graphql lint-ts check-ts",
     "lint-css": "stylelint --syntax scss 'src/app/**/*.scss'",

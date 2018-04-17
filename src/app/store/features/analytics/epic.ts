@@ -1,3 +1,4 @@
+// tslint:disable no-unnecessary-type-assertion
 import { LOCATION_CHANGE } from 'react-router-redux';
 
 import { Action, StoreState } from 'store/types';
