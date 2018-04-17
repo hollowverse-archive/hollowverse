@@ -694,9 +694,9 @@
     lodash "^4.17.4"
     sort-keys "^2.0.0"
 
-"@hollowverse/config@^13.0.0":
-  version "13.0.0"
-  resolved "https://registry.yarnpkg.com/@hollowverse/config/-/config-13.0.0.tgz#cdeb0d171e2132a4eba37ab14cf7b13d7d485bde"
+"@hollowverse/config@^17.0.0":
+  version "17.0.0"
+  resolved "https://registry.yarnpkg.com/@hollowverse/config/-/config-17.0.0.tgz#26cf5e6015aa3e58e0a3cf8eafa33581b26291d1"
   dependencies:
     "@babel/core" "7.0.0-beta.44"
     "@babel/plugin-proposal-object-rest-spread" "^7.0.0-beta.44"
@@ -718,7 +718,7 @@
     tslint-eslint-rules "^5.0.0"
     tslint-microsoft-contrib "^5.0.3"
     tslint-react "^3.5.1"
-    typescript-eslint-parser "^14.0.0"
+    typescript-eslint-parser "^15.0.0"
 
 "@hollowverse/utils@^6.0.0":
   version "6.0.0"
@@ -12650,16 +12650,16 @@ typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
 
-typescript-eslint-parser@^14.0.0:
-  version "14.0.0"
-  resolved "https://registry.yarnpkg.com/typescript-eslint-parser/-/typescript-eslint-parser-14.0.0.tgz#c90a8f541c1d96e5c55e2807c61d154e788520f9"
+typescript-eslint-parser@^15.0.0:
+  version "15.0.0"
+  resolved "https://registry.yarnpkg.com/typescript-eslint-parser/-/typescript-eslint-parser-15.0.0.tgz#882fd3d7aabffbab0a7f98d2a59fb9a989c2b37f"
   dependencies:
     lodash.unescape "4.0.1"
     semver "5.5.0"
 
-typescript@^2.7.2:
-  version "2.7.2"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.7.2.tgz#2d615a1ef4aee4f574425cdff7026edf81919836"
+typescript@^2.8.1:
+  version "2.8.1"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.8.1.tgz#6160e4f8f195d5ba81d4876f9c0cc1fbc0820624"
 
 typings-for-css-modules-loader@^1.7.0:
   version "1.7.0"
