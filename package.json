@@ -6,7 +6,7 @@
   "repository": "https://github.com/hollowverse/hollowverse.git",
   "scripts": {
     "pretest": "npm-run-all --aggregate-output -s app/graphql/build -p -c common-check lint",
-    "test": "TZ=UTC jest",
+    "test": "yarn jest",
     "lint": "run-p -c --aggregate-output lint-css lint-js lint-graphql lint-ts check-ts",
     "lint-css": "stylelint --syntax scss 'src/app/**/*.scss'",
     "lint-js": "eslint '**/*.js{,x}'",
@@ -44,7 +44,6 @@
     "pre-push": "yarn pretest",
     "pre-commit": "yarn common-check",
     "common-check": "run-p -l -c --aggregate-output validate-filenames 'clown check' check-integrity",
-    "tslint": "yarn lint-ts",
     "jest": "TZ=UTC NODE_ENV=test jest",
     "clown": "clown",
     "coverage/report": "codecov",
