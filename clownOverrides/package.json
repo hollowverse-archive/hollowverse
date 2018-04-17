@@ -2,7 +2,6 @@
   "scripts": {
     "check-ts": "run-p -c --aggregate-output '*/check-ts'",
     "pre-push": "yarn pretest",
-    "pre-commit": "yarn common-check",
-    "tslint": "yarn lint-ts"
+    "pre-commit": "yarn common-check"
   }
 }

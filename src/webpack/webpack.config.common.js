@@ -20,7 +20,7 @@ const {
   isProd,
   ifEs5,
   ifEsNext,
-} = require('./env');
+} = require('@hollowverse/utils/helpers/env');
 
 module.exports.createCommonConfig = () => ({
   devServer:

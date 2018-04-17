@@ -1,13 +1,13 @@
-const { isCi } = require('./src/webpack/env');
+const { isCi } = require('@hollowverse/utils/helpers/env');
 const { createBabelConfig } = require('./src/webpack/babel');
 const { getAppGlobals } = require('./src/webpack/appGlobals');
 
 module.exports = {
   globals: {
-    ...getAppGlobals(true),
+    ...getAppGlobals({ isNode: true }),
     'ts-jest': {
       tsConfigFile: 'src/app/tsconfig.json',
-      babelConfig: createBabelConfig(true),
+      babelConfig: createBabelConfig({ isNode: true }),
     },
   },
   transform: {
@@ -23,7 +23,6 @@ module.exports = {
   modulePaths: ['<rootDir>/src/app', '<rootDir>/src'],
   testRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$',
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
-  setupFiles: ['<rootDir>/jest.setup.js'],
   setupTestFrameworkScriptFile: '<rootDir>/jest.setupTestFramework.js',
   collectCoverage: isCi,
   collectCoverageFrom: [
