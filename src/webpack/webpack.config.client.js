@@ -38,7 +38,7 @@ const {
   ifHot,
   ifPerf,
   isProd,
-} = require('./env');
+} = require('@hollowverse/utils/helpers/env');
 
 const extractGlobalCss = new ExtractCssChunks({
   filename: isProd ? '[name].global.[contenthash].css' : '[name].global.css',
@@ -84,19 +84,19 @@ const clientSpecificConfig = {
         test: cssModulesPattern,
         exclude: excludedPatterns,
         use: extractLocalCss.extract({
-          use: createCssModulesLoaders(false),
+          use: createCssModulesLoaders({ isNode: false }),
         }),
       },
 
       // JavaScript and TypeScript
-      ...createScriptRules(false),
+      ...createScriptRules({ isNode: false }),
 
       // Global CSS
       {
         test: /\.s?css$/,
         exclude: [...excludedPatterns, cssModulesPattern],
         use: extractGlobalCss.extract({
-          use: createGlobalCssLoaders(false),
+          use: createGlobalCssLoaders({ isNode: false }),
         }),
       },
     ]),
@@ -173,7 +173,7 @@ const clientSpecificConfig = {
 
     // Environment
     new webpack.DefinePlugin(
-      mapValues(getAppGlobals(false), v => JSON.stringify(v)),
+      mapValues(getAppGlobals({ isNode: false }), v => JSON.stringify(v)),
     ),
   ]),
 };

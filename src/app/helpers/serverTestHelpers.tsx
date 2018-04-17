@@ -1,5 +1,5 @@
 import { createServerRenderMiddleware } from 'createServerRenderMiddleware';
-import { agent, Response } from 'supertest';
+import { agent } from 'supertest';
 import {
   defaultTestDependencyOverrides,
   createMockGetResponseForDataRequest,
@@ -18,17 +18,12 @@ type CreateServerSideTestContextOptions = Partial<
   mockDataResponsesOverrides?: Partial<ResolvedData>;
 };
 
-export type ServerSideTestContext = {
-  res: Response;
-  $: CheerioStatic;
-};
-
 export const createServerSideTestContext = async ({
   path,
   routesMap = defaultRoutesMap,
   epicDependenciesOverrides = {},
-  mockDataResponsesOverrides,
-}: CreateServerSideTestContextOptions): Promise<ServerSideTestContext> => {
+  mockDataResponsesOverrides = {},
+}: CreateServerSideTestContextOptions) => {
   const app = express();
   const ssrMiddleware = createServerRenderMiddleware({
     epicDependenciesOverrides: {
@@ -56,3 +51,7 @@ export const createServerSideTestContext = async ({
 
   return { res, $ };
 };
+
+export type ServerSideTestContext = UnboxPromise<
+  ReturnType<typeof createServerSideTestContext>
+>;

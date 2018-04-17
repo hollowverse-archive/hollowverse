@@ -1,10 +1,11 @@
 #! /usr/bin/env node
 
 /* eslint-disable no-console */
+/* eslint import/no-extraneous-dependencies: ["error", {"devDependencies": true}] */
+const { isProd } = require('@hollowverse/utils/helpers/env');
 const clientConfig = require('./src/webpack/webpack.config.client');
 const serverConfig = require('./src/webpack/webpack.config.server');
 const { build } = require('./src/webpack/builder');
-const { isProd } = require('./src/webpack/env');
 const { promisify } = require('util');
 const fs = require('fs');
 

@@ -4,9 +4,22 @@ const path = require('path');
 // eslint-disable-next-line import/no-dynamic-require
 const pkg = require(path.join(process.cwd(), './package.json'));
 
-const { ifProd, isProd, isTest, ifTest, ifNotTest, isDebug } = require('./env');
+const {
+  ifProd,
+  isProd,
+  isTest,
+  ifTest,
+  isDebug,
+  createConditionalWithFallback,
+} = require('@hollowverse/utils/helpers/env');
 
-module.exports.createBabelConfig = (isNode = false) => ({
+const ifNotTest = createConditionalWithFallback(!isTest);
+
+/**
+ * @param {object} options
+ * @param {boolean} options.isNode
+ */
+module.exports.createBabelConfig = options => ({
   presets: compact([
     [
       '@babel/preset-env',
@@ -15,7 +28,7 @@ module.exports.createBabelConfig = (isNode = false) => ({
         loose: false,
         debug: isDebug,
         ignoreBrowserslistConfig: true,
-        targets: isNode
+        targets: options.isNode
           ? {
               node: 'current',
             }

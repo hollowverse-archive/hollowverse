@@ -1,3 +1,5 @@
+// tslint:disable no-unnecessary-type-assertion
+
 import { Action, StoreState } from 'store/types';
 
 import { Epic } from 'redux-observable';
