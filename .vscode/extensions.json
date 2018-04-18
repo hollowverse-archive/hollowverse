@@ -11,6 +11,7 @@
     "kumar-harsh.graphql-for-vscode",
     "eamodio.gitlens",
     "EditorConfig.editorconfig",
-    "asvetliakov.snapshot-tools"
+    "asvetliakov.snapshot-tools",
+    "codezombiech.gitignore"
   ]
 }
