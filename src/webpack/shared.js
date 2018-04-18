@@ -129,7 +129,7 @@ exports.createCssModulesLoaders = (options = { isNode: false }) => [
 
 /**
  * @param {object} options
- * @param {boolean=} options.isNode
+ * @param {boolean} options.isNode
  */
 exports.createScriptRules = (options = { isNode: false }) => {
   const babelLoader = {
