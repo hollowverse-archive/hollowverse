@@ -187,6 +187,9 @@ module.exports.createCommonConfig = () => ({
             comments: false,
             minimize: true,
             safari10: true,
+            compress: {
+              inline: false,
+            },
           },
         }),
       ]),

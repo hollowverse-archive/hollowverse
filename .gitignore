@@ -40,6 +40,11 @@ node_modules/
 
 # Builds
 dist
+.build
+
+# Created by Serverless
+.webpack
+.serverless
 
 # Editor configs
 .vscode/**/*
@@ -65,8 +70,3 @@ build
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
-
-# Created by Serverless
-.build
-.webpack
-.serverless

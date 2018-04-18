@@ -14,6 +14,3 @@ exports.testsDistDirectory = path.join(process.cwd(), '__tests__');
 
 exports.excludedPatterns = [/node_modules/];
 exports.cssModulesPattern = /\.module\.s?css$/;
-
-// eslint-disable-next-line import/no-dynamic-require
-exports.pkg = require(path.join(process.cwd(), './package.json'));

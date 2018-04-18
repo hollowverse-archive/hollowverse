@@ -1,6 +1,8 @@
 const { compact } = require('lodash');
+const path = require('path');
 
-const { pkg } = require('./variables');
+// eslint-disable-next-line import/no-dynamic-require
+const pkg = require(path.join(process.cwd(), './package.json'));
 
 const {
   ifProd,

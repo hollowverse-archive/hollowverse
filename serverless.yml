@@ -1,0 +1,43 @@
+service: website
+
+plugins:
+  - serverless-apigw-binary
+  - serverless-content-encoding
+
+custom:
+  apigwBinary:
+    types:
+      - '*/*'
+  contentEncoding:
+    minimumCompressionSize: 0
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  memorySize: 512
+  timeout: 10
+  stage: ${opt:stage, 'development'}
+  region: us-east-1
+  environment:
+    NODE_ENV: ${self:provider.stage}
+    SUMO_COLLECTOR_ID: ${file(./secrets/sumo.json):collectorId}
+
+functions:
+  lambdaHandler:
+    handler: dist/lambdaHandler.lambdaHandler
+    events:
+      - http:
+          method: ANY
+          path: /
+      - http:
+          method: ANY
+          path: /{proxy+}
+
+package:
+  excludeDevDependencies: false
+  include:
+    - 'dist/**'
+  exclude:
+    - '**/*'
+
+

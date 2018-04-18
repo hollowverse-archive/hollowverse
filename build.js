@@ -24,7 +24,7 @@ if (isProd) {
     })
     .catch(err => {
       console.error('Failed to build');
-      if (Array.isArray(err) && typeof err[0].errors) {
+      if (Array.isArray(err)) {
         err.forEach(webpackCompilerStats => {
           console.error(webpackCompilerStats.toString('errors-only'));
         });
