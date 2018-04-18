@@ -1,10 +1,6 @@
 {
   "rules": [
     {
-      "validation": "camelCase",
-      "patterns": ["**/*"]
-    },
-    {
       "validation": "PascalCase",
       "patterns": [
         "src/app/components/**",
