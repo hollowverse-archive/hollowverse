@@ -34,7 +34,7 @@
     "remotedev": "remotedev --hostname=localhost --port=8000",
     "server/main-server/start": "node dist/mainServer.js",
     "server/build": "tsc --project ./src",
-    "build": "ES5=1 mkdir dist && npm-run-all --aggregate-output -s clean -p app/build server/build",
+    "build": "ES5=1 npm-run-all --aggregate-output -s clean -p app/build server/build",
     "start": "NODE_ENV=production run-p server/main-server/start",
     "dev": "NO_PROXY=${NO_PROXY:-1} NODE_ENV=development API_ENDPOINT=${API_ENDPOINT:-https://api.hollowverse.com/graphql} npm-run-all --aggregate-output -s clean -p app/graphql/dev server/app-server/dev remotedev",
     "clean/build": "del-cli './src/app/**/*.module.scss.d.ts' './dist'",
