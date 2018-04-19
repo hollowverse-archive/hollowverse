@@ -1,35 +1,30 @@
 import express from 'express';
-import httpProxy from 'http-proxy';
+import httpProxyMiddleware from 'http-proxy-middleware';
 
 import { appServer } from './appServer';
 import { securityMiddleware } from './middleware/security';
-
-const {
-  OLD_SERVER_ADDRESS = 'https://static.legacy.hollowverse.com/',
-} = process.env;
 
 export const mainServer = express();
 
 mainServer.use(...securityMiddleware);
 
-const proxyServer = httpProxy.createProxyServer();
-
-// Make sure all forwarded URLs end with / to avoid redirects
-proxyServer.on('proxyReq', (proxyReq: any) => {
-  if (
-    !(proxyReq.path as string).endsWith('/') &&
-    !(proxyReq.path as string).match(/\/.+\.[a-z]{2,4}$/gi)
-  ) {
-    proxyReq.path = `${proxyReq.path}/`;
-  }
-});
-
 mainServer.use(appServer);
 
 // Fallback to old hollowverse
-mainServer.use((req, res) => {
-  proxyServer.web(req, res, {
-    target: OLD_SERVER_ADDRESS,
+mainServer.use(
+  httpProxyMiddleware({
+    // tslint:disable-next-line no-http-string
+    target: 'http://live.hollowverse.com',
+    secure: false,
     changeOrigin: true,
-  });
-});
+    // Make sure all forwarded URLs end with / to avoid redirects
+    onProxyReq(proxyReq: any) {
+      if (
+        !(proxyReq.path as string).endsWith('/') &&
+        !(proxyReq.path as string).match(/\/.+\.[a-z]{2,4}$/gi)
+      ) {
+        proxyReq.path = `${proxyReq.path}/`;
+      }
+    },
+  }),
+);
