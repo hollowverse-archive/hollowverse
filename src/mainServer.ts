@@ -13,6 +13,7 @@ mainServer.use(appServer);
 // Fallback to old hollowverse
 mainServer.use(
   httpProxyMiddleware({
+    // tslint:disable-next-line no-http-string
     target: 'http://live.hollowverse.com',
     secure: false,
     changeOrigin: true,
