@@ -12,6 +12,7 @@
     "EditorConfig.editorconfig",
     "asvetliakov.snapshot-tools",
     "codezombiech.gitignore",
-    "eg2.ts-tslint"
+    "eg2.ts-tslint",
+    "mrmlnc.vscode-json5"
   ]
 }

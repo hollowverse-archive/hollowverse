@@ -1,0 +1,10 @@
+{
+  "files.associations": {
+    ".gqlconfig": "json5",
+    ".graphqlconfig": "json"
+  },
+  "eslint.validate": ["graphql", "typescript", "typescriptreact"],
+  "eslint.options": {
+    "reportUnusedDisableDirectives": true
+  }
+}

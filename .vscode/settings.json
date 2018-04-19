@@ -8,11 +8,17 @@
   "typescript.implementationsCodeLens.enabled": true,
   "typescript.referencesCodeLens.enabled": true,
   "files.associations": {
-    ".gqlconfig": "javascript",
-    ".stylelintrc": "json"
+    ".gqlconfig": "json5",
+    ".stylelintrc": "json",
+    ".graphqlconfig": "json"
   },
   "files.exclude": {
     "**/node_modules/**": true
   },
-  "typescript.tsdk": "node_modules/typescript/lib"
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "eslint.enable": true,
+  "eslint.validate": ["graphql", "typescript", "typescriptreact"],
+  "eslint.options": {
+    "reportUnusedDisableDirectives": true
+  }
 }
