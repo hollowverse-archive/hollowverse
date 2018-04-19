@@ -39,7 +39,7 @@
     "dev": "NO_PROXY=${NO_PROXY:-1} NODE_ENV=development API_ENDPOINT=${API_ENDPOINT:-https://api.hollowverse.com/graphql} npm-run-all --aggregate-output -s clean -p graphql/dev server/app-server/dev remotedev",
     "clean/build": "del-cli './src/app/**/*.module.scss.d.ts' './dist'",
     "clean/test": "del-cli './coverage'",
-    "clean/graphql": "del-cli 'src/api/types.ts' 'graphqlSchema.{json,graphql}'",
+    "clean/graphql": "del-cli src/api/types.ts schema.graphql",
     "clean": "run-p 'clean/*'",
     "validate-filenames": "validate-filenames",
     "lint-staged": "lint-staged",
