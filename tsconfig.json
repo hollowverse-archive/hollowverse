@@ -2,12 +2,7 @@
   "extends": "./node_modules/@hollowverse/config/typescript/tsconfig.json",
   "compilerOptions": {
     "checkJs": true,
-    "allowJs": true,
-    "plugins": [
-      {
-        "name": "tslint-language-service"
-      }
-    ]
+    "allowJs": true
   },
   "exclude": ["*/**/dist", "__tests__", "node_modules"]
 }

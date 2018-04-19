@@ -7,7 +7,8 @@
     "polyfill",
     "promisify",
     "unhandledrejection",
-    "webpagetest"
+    "webpagetest",
+    "graphql"
   ],
   "editor.tabSize": 2,
   "editor.formatOnSave": true,
