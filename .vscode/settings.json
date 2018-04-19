@@ -1,5 +1,14 @@
 {
-  "cSpell.words": ["hollowverse", "loglevel", "promisify", "webpagetest"],
+  "cSpell.words": [
+    "Algolia",
+    "domready",
+    "hollowverse",
+    "loglevel",
+    "polyfill",
+    "promisify",
+    "unhandledrejection",
+    "webpagetest"
+  ],
   "editor.tabSize": 2,
   "editor.formatOnSave": true,
   "[json]": {
