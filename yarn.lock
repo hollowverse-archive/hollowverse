@@ -733,9 +733,9 @@
     lodash "^4.17.4"
     sort-keys "^2.0.0"
 
-"@hollowverse/config@^28.0.0":
-  version "28.0.0"
-  resolved "https://registry.yarnpkg.com/@hollowverse/config/-/config-28.0.0.tgz#04d64b4d80b9d4b590048d3dad353032b2fd56c8"
+"@hollowverse/config@^29.0.0":
+  version "29.0.0"
+  resolved "https://registry.yarnpkg.com/@hollowverse/config/-/config-29.0.0.tgz#f49b5d41690f344fdcecaf02791412436337d7e0"
 
 "@hollowverse/utils@^6.0.1":
   version "6.0.1"
@@ -4798,11 +4798,11 @@ eslint-plugin-compat@^2.1.0:
     mdn-browser-compat-data "^0.0.20"
     requireindex "^1.1.0"
 
-eslint-plugin-graphql@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-graphql/-/eslint-plugin-graphql-2.1.0.tgz#8f8f4ff118eed809fb61ff0df54b868199f7b5a8"
+eslint-plugin-graphql@^1.5.0:
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-graphql/-/eslint-plugin-graphql-1.5.0.tgz#1f0861b6499906f7ce153f9e83633659e4374ef6"
   dependencies:
-    graphql-config "^2.0.1"
+    graphql-config "~1.0.9"
     lodash "^4.11.1"
 
 eslint-plugin-import@^2.9.0:
@@ -6304,6 +6304,16 @@ graphql-config@^1.0.5:
     minimatch "^3.0.4"
     rimraf "^2.6.1"
 
+graphql-config@~1.0.9:
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/graphql-config/-/graphql-config-1.0.9.tgz#8fa416a7c2bdb8f62f441324775dd3ff8a266652"
+  dependencies:
+    graphql "^0.11.7"
+    graphql-request "^1.4.0"
+    js-yaml "^3.10.0"
+    minimatch "^3.0.4"
+    rimraf "^2.6.2"
+
 graphql-import@0.4.5, graphql-import@^0.4.0, graphql-import@^0.4.4:
   version "0.4.5"
   resolved "https://registry.yarnpkg.com/graphql-import/-/graphql-import-0.4.5.tgz#e2f18c28d335733f46df8e0733d8deb1c6e2a645"
@@ -6398,7 +6408,7 @@ graphql-tag@^2.0.0, graphql-tag@^2.4.0, graphql-tag@^2.4.2:
   version "2.8.0"
   resolved "https://registry.yarnpkg.com/graphql-tag/-/graphql-tag-2.8.0.tgz#52cdea07a842154ec11a2e840c11b977f9b835ce"
 
-graphql@0.9.6, graphql@^0.10.0, graphql@^0.10.1, graphql@^0.10.3, "graphql@^0.11.0 || ^0.12.0 || ^0.13.0", graphql@^0.11.3, graphql@^0.11.6, graphql@^0.13.0, graphql@^0.9.5, graphql@^0.9.6:
+graphql@0.9.6, graphql@^0.10.0, graphql@^0.10.1, graphql@^0.10.3, "graphql@^0.11.0 || ^0.12.0 || ^0.13.0", graphql@^0.11.3, graphql@^0.11.6, graphql@^0.11.7, graphql@^0.13.0, graphql@^0.9.5, graphql@^0.9.6:
   version "0.13.2"
   resolved "https://registry.yarnpkg.com/graphql/-/graphql-0.13.2.tgz#4c740ae3c222823e7004096f832e7b93b2108270"
   dependencies:
