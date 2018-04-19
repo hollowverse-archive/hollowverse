@@ -142,7 +142,7 @@ const clientSpecificConfig = {
     new webpack.NamedModulesPlugin(),
 
     // NOTE: Only one instance of CommonsChunkPlugin can be used
-    // with server-side renderning
+    // with server-side rendering
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
       minChunks: module => /node_modules/.test(module.context),
@@ -164,8 +164,8 @@ const clientSpecificConfig = {
 
     // Contains all Webpack bootstraping logic, required for `react-universal-component`
     new webpack.optimize.CommonsChunkPlugin({
-      names: ['bootstrap'],
       filename: isProd ? '[name].[chunkhash].js' : '[name].js',
+      names: ['bootstrap'],
       minChunks: Infinity,
     }),
 

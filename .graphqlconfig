@@ -1,5 +1,5 @@
 {
-  "schemaPath": "graphqlSchema.json",
+  "schemaPath": "schema.graphql",
   "extensions": {
     "endpoints": {
       "dev": "https://api.hollowverse.com/graphql",

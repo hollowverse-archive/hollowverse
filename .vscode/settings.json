@@ -1,5 +1,15 @@
 {
-  "cSpell.words": ["hollowverse", "loglevel", "promisify", "webpagetest"],
+  "cSpell.words": [
+    "Algolia",
+    "domready",
+    "hollowverse",
+    "loglevel",
+    "polyfill",
+    "promisify",
+    "unhandledrejection",
+    "webpagetest",
+    "graphql"
+  ],
   "editor.tabSize": 2,
   "editor.formatOnSave": true,
   "[json]": {
@@ -8,11 +18,17 @@
   "typescript.implementationsCodeLens.enabled": true,
   "typescript.referencesCodeLens.enabled": true,
   "files.associations": {
-    ".gqlconfig": "javascript",
-    ".stylelintrc": "json"
+    ".gqlconfig": "json5",
+    ".stylelintrc": "json",
+    ".graphqlconfig": "json"
   },
   "files.exclude": {
     "**/node_modules/**": true
   },
-  "typescript.tsdk": "node_modules/typescript/lib"
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "eslint.enable": true,
+  "eslint.validate": ["graphql", "typescript", "typescriptreact"],
+  "eslint.options": {
+    "reportUnusedDisableDirectives": true
+  }
 }

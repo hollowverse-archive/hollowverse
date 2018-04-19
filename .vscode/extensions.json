@@ -1,6 +1,5 @@
 {
   "recommendations": [
-    "eg2.tslint",
     "Orta.vscode-jest",
     "kisstkondoros.csstriggers",
     "shinnn.stylelint",
@@ -12,6 +11,10 @@
     "eamodio.gitlens",
     "EditorConfig.editorconfig",
     "asvetliakov.snapshot-tools",
-    "codezombiech.gitignore"
+    "codezombiech.gitignore",
+    "mrmlnc.vscode-json5",
+    "pflannery.vscode-versionlens",
+    "eg2.ts-tslint",
+    "dbaeumer.vscode-eslint"
   ]
 }

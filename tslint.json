@@ -2,5 +2,8 @@
   "extends": [
     "./node_modules/@hollowverse/config/tslint/tslint.json",
     "./node_modules/@hollowverse/config/tslint/rxjs.json"
-  ]
+  ],
+  "jsRules": {
+    "object-literal-sort-keys": false
+  }
 }

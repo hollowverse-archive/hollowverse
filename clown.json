@@ -6,6 +6,7 @@
     "./node_modules/@hollowverse/config/clown/jest",
     "./node_modules/@hollowverse/config/clown/stylelint",
     "./node_modules/@hollowverse/config/clown/lambda",
+    "./node_modules/@hollowverse/config/clown/graphqlClient",
     "./clownOverrides"
   ]
 }
