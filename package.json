@@ -28,7 +28,7 @@
     "app/graphql/types": "apollo-codegen generate 'src/app/**/*.{graphql,gql}' --target typescript --output src/app/api/types.ts",
     "app/graphql/dev": "nodemon -q --watch src/app --ext graphql,gql --exec 'run-s app/graphql/schema app/graphql/types'",
     "app/graphql/build": "run-s app/graphql/schema app/graphql/types",
-    "server/app-server/dev": "API_ENDPOINT=${API_ENDPOINT:-https://api.hollowverse.com/graphql} APP_SERVER_PORT=${APP_SERVER_PORT:-3001} HOT=1 NODE_ENV=development node -r 'source-map-support/register' -r 'ts-node/register' src/appServer.dev.ts",
+    "server/app-server/dev": "API_ENDPOINT=${API_ENDPOINT:-https://api.hollowverse.com/graphql} APP_SERVER_PORT=${APP_SERVER_PORT:-3001} HOT=1 NODE_ENV=development webpack-dev-server --config src/webpack/webpack.config.client.js",
     "server/app-server/start": "node dist/appServer.js",
     "server/main-server/dev": "PORT=${PORT:-8081} API_ENDPOINT=${API_ENDPOINT:-https://api.hollowverse.com/graphql} nodemon -q --watch src --ignore src/app --ignore src/webpack --ext ts,tsx,json --exec 'node -r 'ts-node/register' src/mainServer.ts'",
     "remotedev": "remotedev --hostname=localhost --port=8000",

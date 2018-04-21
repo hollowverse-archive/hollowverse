@@ -6,6 +6,7 @@ const BabelMinifyPlugin = require('babel-minify-webpack-plugin');
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 const SpriteLoaderPlugin = require('svg-sprite-loader/plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const { URL } = require('url');
 
 const { compact, mapValues } = require('lodash');
 
@@ -22,14 +23,6 @@ const {
 } = require('@hollowverse/utils/helpers/env');
 
 const { API_ENDPOINT = 'https://api.hollowverse.com/graphql' } = process.env;
-
-if (!API_ENDPOINT) {
-  throw new TypeError(
-    'API_ENDPOINT must be defined as an environment variable',
-  );
-}
-
-const { URL } = require('url');
 
 module.exports.createCommonConfig = () => ({
   devServer: {
@@ -48,7 +41,7 @@ module.exports.createCommonConfig = () => ({
     publicPath,
     hot: isHot,
     historyApiFallback: {
-      rewrites: [{ from: /./, to: '/static/index.html' }],
+      rewrites: [{ from: /./, to: `${publicPath}index.html` }],
     },
     stats: 'errors-only',
   },
