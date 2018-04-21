@@ -15,28 +15,43 @@ const {
   ifPreact,
   isHot,
   isDev,
-  ifDev,
   ifProd,
   isProd,
   ifEs5,
   ifEsNext,
 } = require('@hollowverse/utils/helpers/env');
 
+const { API_ENDPOINT = 'https://api.hollowverse.com/graphql' } = process.env;
+
+if (!API_ENDPOINT) {
+  throw new TypeError(
+    'API_ENDPOINT must be defined as an environment variable',
+  );
+}
+
+const { URL } = require('url');
+
 module.exports.createCommonConfig = () => ({
-  devServer:
-    ifDev({
-      port: process.env.WEBPACK_DEV_PORT || 3001,
-      publicPath,
-      hot: isHot,
-      historyApiFallback: true,
-      stats: {
-        colors: true,
-        all: false,
-        errors: true,
-        errorDetails: true,
-        warnings: true,
+  devServer: {
+    proxy: {
+      '/__api': {
+        target: API_ENDPOINT,
+        secure: false,
+        logLevel: 'error',
+        pathRewrite: { '^/api': '' },
+        headers: {
+          host: new URL(API_ENDPOINT).host,
+        },
       },
-    }) || undefined,
+    },
+    port: process.env.WEBPACK_DEV_PORT || 3001,
+    publicPath,
+    hot: isHot,
+    historyApiFallback: {
+      rewrites: [{ from: /./, to: '/static/index.html' }],
+    },
+    stats: 'errors-only',
+  },
 
   devtool: isDev ? 'cheap-module-source-map' : 'source-map',
 

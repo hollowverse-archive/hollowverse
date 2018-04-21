@@ -6,12 +6,10 @@ import { once } from 'lodash';
 
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
-import createProxyMiddleware from 'http-proxy-middleware';
 import noFavIcons from 'express-no-favicons';
 import webpackHotServerMiddleware from 'webpack-hot-server-middleware';
 import clientConfig from './webpack/webpack.config.client';
 import serverConfig from './webpack/webpack.config.server';
-import { URL } from 'url';
 
 const appServer = express();
 
@@ -33,28 +31,15 @@ const compiler = webpack([clientConfig, serverConfig]);
 const clientCompiler = compiler.compilers[0];
 const options = serverConfig.devServer;
 
-const { API_ENDPOINT } = process.env;
-
-if (!API_ENDPOINT) {
-  throw new TypeError(
-    'API_ENDPOINT must be defined as an environment variable',
-  );
-}
-
+appServer.use(noFavIcons());
 appServer.use(
-  '/__api',
-  createProxyMiddleware({
-    target: API_ENDPOINT,
-    secure: false,
-    headers: {
-      host: new URL(API_ENDPOINT).host,
-    },
+  webpackDevMiddleware(compiler, {
+    ...options,
+    logLevel: 'error',
+    serverSideRender: true,
   }),
 );
-
-appServer.use(noFavIcons());
-appServer.use(webpackDevMiddleware(compiler, options));
-appServer.use(webpackHotMiddleware(clientCompiler));
+appServer.use(webpackHotMiddleware(clientCompiler, { log: false }));
 
 appServer.use(webpackHotServerMiddleware(compiler));
 
