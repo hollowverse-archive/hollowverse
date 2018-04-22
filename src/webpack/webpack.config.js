@@ -43,9 +43,6 @@ const clientSpecificConfig = {
   },
 
   optimization: {
-    // Required for debugging in development and for long-term caching in production
-    namedModules: true,
-    namedChunks: true,
     runtimeChunk: true,
 
     // See https://gist.github.com/sokra/1522d586b8e5c0f5072d7565c2bee693

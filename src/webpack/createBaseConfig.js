@@ -45,7 +45,12 @@ module.exports.createBaseConfig = () => ({
     stats: 'errors-only',
   },
 
+  // See https://medium.com/webpack/webpack-4-mode-and-optimization-5423a6bc597a
   optimization: {
+    noEmitOnErrors: true,
+    // Required for debugging in development and for long-term caching in production
+    namedModules: true,
+    namedChunks: true,
     minimizer: [
       isEsNext
         ? new BabelMinifyPlugin({
