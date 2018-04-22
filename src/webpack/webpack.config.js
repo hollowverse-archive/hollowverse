@@ -2,10 +2,9 @@ const webpack = require('webpack');
 const webpackMerge = require('webpack-merge');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-// const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const PreloadWebpackPlugin = require('preload-webpack-plugin');
-const NameAllModulesPlugin = require('name-all-modules-plugin');
 
 const path = require('path');
 const { compact, mapValues } = require('lodash');
@@ -101,15 +100,6 @@ const clientSpecificConfig = {
   },
 
   plugins: compact([
-    // new FaviconsWebpackPlugin({
-    //   logo: path.join(srcDirectory, 'assets', 'favicon.png'),
-    //   title: 'Hollowverse',
-    //   inject: true,
-    // }),
-
-    // Required for debugging in development and for long-term caching in production
-    new NameAllModulesPlugin(),
-
     new MiniCssExtractPlugin({
       filename: isProd ? '[name].[contenthash].css' : '[name].css',
       chunkFilename: isProd ? '[name].[contenthash].css' : '[name].css',
@@ -129,11 +119,22 @@ const clientSpecificConfig = {
         : false,
     }),
 
+    new FaviconsWebpackPlugin({
+      logo: path.join(srcDirectory, 'assets', 'favicon.png'),
+      title: 'Hollowverse',
+      inject: true,
+      icons: {
+        android: false,
+        appleIcon: false,
+        appleStartup: false,
+        favicons: true,
+      },
+    }),
+
     new PreloadWebpackPlugin({
       include: 'initial',
     }),
 
-    // Environment
     new webpack.DefinePlugin(
       mapValues(getAppGlobals(), v => JSON.stringify(v)),
     ),

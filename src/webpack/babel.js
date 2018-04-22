@@ -57,7 +57,6 @@ module.exports.createBabelConfig = options => ({
           exclude: ['NO_SSR', 'NO_PROXY'],
         },
       ],
-      'lodash',
     ]),
   ]),
   ...ifNotTest({ sourceMap: 'both' }),

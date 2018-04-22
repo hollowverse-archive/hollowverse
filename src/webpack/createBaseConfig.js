@@ -2,22 +2,22 @@ const webpack = require('webpack');
 const path = require('path');
 
 const CircularDependencyPlugin = require('circular-dependency-plugin');
-const BabelMinifyPlugin = require('babel-minify-webpack-plugin');
-const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 const SpriteLoaderPlugin = require('svg-sprite-loader/plugin');
+
+const BabelMinifyPlugin = require('babel-minify-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+
 const { URL } = require('url');
 
-const { compact, mapValues } = require('lodash');
+const { compact } = require('lodash');
 
 const { srcDirectory, excludedPatterns, publicPath } = require('./variables');
 
 const {
   isHot,
   isDev,
-  ifProd,
   isProd,
-  ifEsNext,
+  isEsNext,
 } = require('@hollowverse/utils/helpers/env');
 
 const { API_ENDPOINT = 'https://api.hollowverse.com/graphql' } = process.env;
@@ -47,18 +47,23 @@ module.exports.createBaseConfig = () => ({
 
   optimization: {
     minimizer: [
-      new UglifyJsPlugin({
-        parallel: true,
-        sourceMap: true,
-        uglifyOptions: {
-          comments: false,
-          minimize: true,
-          safari10: true,
-          compress: {
-            inline: false,
-          },
-        },
-      }),
+      isEsNext
+        ? new BabelMinifyPlugin({
+            removeConsole: true,
+            removeDebugger: true,
+          })
+        : new UglifyJsPlugin({
+            parallel: true,
+            sourceMap: true,
+            uglifyOptions: {
+              comments: false,
+              minimize: true,
+              safari10: true, // Workaround Safari 10 bugs
+              compress: {
+                inline: false, // Buggy
+              },
+            },
+          }),
     ],
   },
 
@@ -185,36 +190,7 @@ module.exports.createBaseConfig = () => ({
       /\.s?css\.d\.ts$/,
     ]),
 
-    // Error handling
-    new webpack.NoEmitOnErrorsPlugin(), // Required to fail the build on errors
-
-    // Environment
-    new webpack.DefinePlugin(
-      mapValues(
-        {
-          'process.env.NODE_ENV': process.env.NODE_ENV,
-        },
-        v => JSON.stringify(v),
-      ),
-    ),
-
     new SpriteLoaderPlugin(),
-
-    ...ifProd([
-      new LodashModuleReplacementPlugin(),
-
-      new webpack.optimize.OccurrenceOrderPlugin(true),
-
-      // Scope hoisting a la Rollup (Webpack 3+)
-      new webpack.optimize.ModuleConcatenationPlugin(),
-
-      ...ifEsNext([
-        new BabelMinifyPlugin({
-          removeConsole: true,
-          removeDebugger: true,
-        }),
-      ]),
-    ]),
 
     new CircularDependencyPlugin({
       exclude: /node_modules/,
