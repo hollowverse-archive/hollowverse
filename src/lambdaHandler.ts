@@ -1,8 +1,8 @@
 import { APIGatewayProxyHandler } from 'aws-lambda'; // tslint:disable-line no-implicit-dependencies
 import awsServerlessExpress from 'aws-serverless-express';
-import { mainServer } from './mainServer';
+import { expressApp } from './expressApp';
 
-const server = awsServerlessExpress.createServer(mainServer as any, undefined, [
+const server = awsServerlessExpress.createServer(expressApp as any, undefined, [
   '*/*',
 ]);
 

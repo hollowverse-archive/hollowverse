@@ -124,33 +124,23 @@ export const loggingEpic: Epic<Action, StoreState, EpicDependencies> = (
 
   const createLoggableActionsObserver = () => {
     const loggableActions$ = action$.filter(shouldActionBeLogged);
-    if (__IS_SERVER__) {
-      // Logs should be sent immediately on the server because a new store instance is created
-      // for each request so we can't `buffer` log events between request, and we can't "flush"
-      // when the request is being sent because the store is not aware of the HTTP request
-      // lifecycle
-      return loggableActions$
-        .map(action => [action])
-        .do(sendLogs)
-        .ignoreElements();
-    } else {
-      const flushOnUnload$ = Observable.fromEvent(window, 'pagehide') // `pagehide` is for Safari
-        .merge(Observable.fromEvent(window, 'unload'));
 
-      const logOnUnload$ = loggableActions$.buffer(flushOnUnload$);
-      const logOnIdle$ = loggableActions$.bufferCount(10);
+    const flushOnUnload$ = Observable.fromEvent(window, 'pagehide') // `pagehide` is for Safari
+      .merge(Observable.fromEvent(window, 'unload'));
 
-      return Observable.fromPromise(getBestAvailableScheduler()).mergeMap(
-        scheduler => {
-          return logOnIdle$
-            .subscribeOn(scheduler)
-            .merge(logOnUnload$)
-            .do(sendLogs)
-            .mergeMap(actions => actions)
-            .ignoreElements();
-        },
-      );
-    }
+    const logOnUnload$ = loggableActions$.buffer(flushOnUnload$);
+    const logOnIdle$ = loggableActions$.bufferCount(10);
+
+    return Observable.fromPromise(getBestAvailableScheduler()).mergeMap(
+      scheduler => {
+        return logOnIdle$
+          .subscribeOn(scheduler)
+          .merge(logOnUnload$)
+          .do(sendLogs)
+          .mergeMap(actions => actions)
+          .ignoreElements();
+      },
+    );
   };
 
   return observePageLoad$.merge(createLoggableActionsObserver());

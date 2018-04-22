@@ -32,13 +32,6 @@ type OwnProps<Key extends ResolvedDataKey = ResolvedDataKey> = {
   allowOptimisticUpdates?: boolean;
 
   /**
-   * If set to `true`, the request will be skipped on the server and
-   * performed when the component mounts on the client.
-   * @default `false`
-   */
-  clientOnly?: boolean;
-
-  /**
    * An async function that returns the data.
    * The results will be passed to the `children` function after being
    * wrapped in an `AsyncResult`.
@@ -91,10 +84,6 @@ class Wrapper extends React.Component<Props> {
   }
 
   componentWillMount() {
-    if (this.props.clientOnly && __IS_SERVER__) {
-      return;
-    }
-
     if (this.props.result.requestId !== this.props.requestId) {
       this.resolve();
     }
@@ -127,18 +116,10 @@ class Wrapper extends React.Component<Props> {
  *
  * It supports:
  * * An arbitrary asynchronous function to load the data (`props.load`)
- * * Server-side rendering with the resolved data from the function
- * * The ability to opt-out of server-side rendering per-component (`props.clientOnly`)
  * * Optimistic results by keeping the results of
  *   the previous call to the load function (`props.allowOptimisticUpdates`)
  * * Integration with Redux: the results are stored in Redux store and provided
  *   to the wrapped component.
- *
- * To be able to use this with server-side rendering, you need to use
- * a helper library to delay React rendering of the component tree
- * until the asynchronous data request is finished.
- *
- * This can be done using libraries like `react-redux-epic` and `redux-observable`.
  *
  * While the data is being fetched, the children are allowed to render and are passed
  * a `AsyncResult` object that describes the progress of the request, and depending on

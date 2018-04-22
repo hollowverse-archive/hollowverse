@@ -2,15 +2,12 @@ const nodeExternals = require('webpack-node-externals');
 const normalize = require('postcss-normalize');
 const autoprefixer = require('autoprefixer');
 const cssVariables = require('postcss-css-variables');
-const { compact } = require('lodash');
 
 const { createBabelConfig } = require('./babel');
 
 const { srcDirectory, excludedPatterns } = require('./variables');
 
 const {
-  ifReact,
-  ifHot,
   isProd,
   shouldTypeCheck,
   ifProd,
@@ -142,15 +139,14 @@ exports.createScriptRules = (options = { isNode: false }) => {
     {
       test: /\.jsx?$/,
       exclude: excludedPatterns,
-      use: compact([ifReact(ifHot('react-hot-loader/webpack')), babelLoader]),
+      use: babelLoader,
     },
 
     // TypeScript
     {
       test: /\.tsx?$/,
       exclude: excludedPatterns,
-      use: compact([
-        ifReact(ifHot('react-hot-loader/webpack')),
+      use: [
         babelLoader,
         {
           loader: 'ts-loader',
@@ -162,7 +158,7 @@ exports.createScriptRules = (options = { isNode: false }) => {
             },
           },
         },
-      ]),
+      ],
     },
   ];
 };

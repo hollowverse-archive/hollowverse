@@ -13,8 +13,6 @@ import 'rxjs/add/operator/merge';
 import { once } from 'lodash';
 import { EpicDependencies } from 'store/createConfiguredStore';
 
-const isServer = () => __IS_SERVER__;
-
 export const analyticsEpic: Epic<Action, StoreState, EpicDependencies> = (
   action$,
   _,
@@ -29,7 +27,6 @@ export const analyticsEpic: Epic<Action, StoreState, EpicDependencies> = (
 
   return action$
     .ofType(LOCATION_CHANGE)
-    .skipWhile(isServer)
     .do(async action => {
       try {
         const ga = await initScript();
@@ -42,18 +39,15 @@ export const analyticsEpic: Epic<Action, StoreState, EpicDependencies> = (
       }
     })
     .merge(
-      action$
-        .ofType('PAGE_LOAD_SUCCEEDED')
-        .skipWhile(isServer)
-        .do(async action => {
-          try {
-            const ga = await initScript();
-            const path = (action as Action<'PAGE_LOAD_SUCCEEDED'>).payload;
-            ga('send', 'pageview', path);
-          } catch (e) {
-            // Do nothing
-          }
-        }),
+      action$.ofType('PAGE_LOAD_SUCCEEDED').do(async action => {
+        try {
+          const ga = await initScript();
+          const path = (action as Action<'PAGE_LOAD_SUCCEEDED'>).payload;
+          ga('send', 'pageview', path);
+        } catch (e) {
+          // Do nothing
+        }
+      }),
     )
     .ignoreElements();
 };

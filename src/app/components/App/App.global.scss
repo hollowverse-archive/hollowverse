@@ -52,7 +52,7 @@ sup {
  * Visibile on screen readers only
  * @see https://accessibility.18f.gov/hidden-content/
  */
-.sr-only {
+:global(.sr-only) {
   border: 0;
   clip: rect(0 0 0 0);
   height: 1px;

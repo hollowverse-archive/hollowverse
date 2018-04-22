@@ -13,7 +13,6 @@ const { compact, mapValues } = require('lodash');
 const { srcDirectory, excludedPatterns, publicPath } = require('./variables');
 
 const {
-  ifPreact,
   isHot,
   isDev,
   ifProd,
@@ -24,7 +23,8 @@ const {
 
 const { API_ENDPOINT = 'https://api.hollowverse.com/graphql' } = process.env;
 
-module.exports.createCommonConfig = () => ({
+module.exports.createBaseConfig = () => ({
+  mode: isProd ? 'production' : 'development',
   devServer: {
     proxy: {
       '/__api': {
@@ -82,6 +82,18 @@ module.exports.createCommonConfig = () => ({
         ],
       },
 
+      {
+        test: /\.html?$/,
+        exclude: excludedPatterns,
+        use: {
+          loader: 'html-loader',
+          options: {
+            minimize: isProd,
+            interpolate: false,
+          },
+        },
+      },
+
       // SVG assets
       {
         test: /\.svg$/,
@@ -134,12 +146,6 @@ module.exports.createCommonConfig = () => ({
       algoliasearch: 'algoliasearch/lite',
 
       'es6-promise': 'empty-module',
-
-      // That's all what we need to use Preact instead of React
-      ...ifPreact({
-        react: 'preact-compat',
-        'react-dom': 'preact-compat',
-      }),
     },
     extensions: ['.tsx', '.ts', '.js', '.css', '.scss', '.module.scss'],
     modules: [

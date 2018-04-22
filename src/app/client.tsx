@@ -2,10 +2,10 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { ConnectedRouter as Router } from 'react-router-redux';
 import domready from 'domready';
-import { hydrate } from 'react-dom';
+import { render } from 'react-dom';
 import createBrowserHistory from 'history/createBrowserHistory';
 
-import { App } from 'components/App/App';
+import App from 'components/App/App';
 import { createConfiguredStore } from 'store/createConfiguredStore';
 import { StoreState } from 'store/types';
 import { unhandledErrorThrown } from 'store/features/logging/actions';
@@ -31,7 +31,7 @@ const { store } = createConfiguredStore({
 });
 
 const renderApp = (NewApp: typeof App = App) => {
-  hydrate(
+  render(
     <HelmetProvider>
       <AppDependenciesContext.Provider value={defaultAppDependencies}>
         <Provider store={store}>
@@ -45,20 +45,6 @@ const renderApp = (NewApp: typeof App = App) => {
     document.getElementById('app')!,
   );
 };
-
-declare const module: {
-  hot?: { accept(path?: string, cb?: () => void): void };
-};
-
-if (module.hot) {
-  module.hot.accept();
-  module.hot.accept('components/App/App', () => {
-    // tslint:disable no-require-imports no-unsafe-any
-    const { App: NewApp } = require('components/App/App');
-    renderApp(NewApp);
-    // tslint:enable no-require-imports no-unsafe-any
-  });
-}
 
 const renderOnDomReady = () => {
   domready(renderApp);

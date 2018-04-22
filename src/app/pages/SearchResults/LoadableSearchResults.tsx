@@ -1,7 +1,8 @@
 import React from 'react';
-import universal from 'react-universal-component';
+import loadable from 'react-loadable';
 
-export const LoadableSearchResults = universal(import('./SearchResults'), {
-  key: 'SearchResults',
+export const LoadableSearchResults = loadable({
+  loader: () =>
+    import('./SearchResults').then(({ SearchResults }) => SearchResults),
   loading: () => <div />,
 });

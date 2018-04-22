@@ -124,14 +124,6 @@ export function createConfiguredStore({
 
   if (global.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) {
     composeEnhancers = global.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__;
-  } else if (__IS_SERVER__ && process.env.NODE_ENV === 'development') {
-    // Enable remote Redux DevTools for server-side Redux
-    // tslint:disable-next-line:no-require-imports no-var-requires
-    // const { composeWithDevTools } = require('remote-redux-devtools');
-    // composeEnhancers = composeWithDevTools({
-    //   hostname: 'localhost',
-    //   port: 8000,
-    // });
   }
 
   const epics = [updateUrlEpic, dataResolverEpic];

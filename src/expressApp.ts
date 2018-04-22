@@ -1,17 +1,17 @@
 import express from 'express';
 import httpProxyMiddleware from 'http-proxy-middleware';
 
-import { appServer } from './appServer';
+import { serveStaticFiles } from './serveStaticFiles';
 import { securityMiddleware } from './middleware/security';
 
-export const mainServer = express();
+export const expressApp = express();
 
-mainServer.use(...securityMiddleware);
+expressApp.use(...securityMiddleware);
 
-mainServer.use(appServer);
+expressApp.use(serveStaticFiles);
 
 // Fallback to old hollowverse
-mainServer.use(
+expressApp.use(
   httpProxyMiddleware({
     // tslint:disable-next-line no-http-string
     target: 'http://live.hollowverse.com',

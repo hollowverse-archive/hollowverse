@@ -32,7 +32,7 @@ const orderedPaths: AppPath[] = [
 /**
  * Main app component
  */
-export const App = class extends React.Component<AppProps, State> {
+export const _App = class extends React.Component<AppProps, State> {
   state: State = {
     hasMounted: false,
   };
@@ -94,3 +94,8 @@ export const App = class extends React.Component<AppProps, State> {
     );
   }
 };
+
+import { hot } from 'react-hot-loader';
+
+const c: any = hot(module)(_App);
+export default c;
