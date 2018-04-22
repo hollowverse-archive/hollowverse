@@ -33,7 +33,7 @@ const clientSpecificConfig = {
   entry: compact([
     ifDev('webpack-dev-server/client?http://localhost:8080/'),
     ifDev('webpack/hot/only-dev-server'),
-    path.join(srcDirectory, 'index.ts'),
+    path.join(srcDirectory, 'index.tsx'),
   ]),
 
   output: {
