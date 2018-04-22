@@ -27,6 +27,6 @@ serveStaticFiles.use(publicPath, [
     immutable: true,
 
     // Send index.html when requesting /
-    index: true,
+    index: 'index.html',
   }),
 ]);

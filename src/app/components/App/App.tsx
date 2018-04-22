@@ -5,7 +5,6 @@ import { ConnectedNavBar } from 'components/NavBar/ConnectedNavBar';
 import { Route, Switch, RouteProps } from 'react-router';
 import { isWhitelistedPage } from 'redirectionMap';
 
-import './App.global.scss';
 import classes from './App.module.scss';
 
 import { ScrollTo } from 'components/ScrollTo/ScrollTo';

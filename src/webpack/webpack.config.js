@@ -6,26 +6,11 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const PreloadWebpackPlugin = require('preload-webpack-plugin');
 const NameAllModulesPlugin = require('name-all-modules-plugin');
-// const ExtractTextPlugin = require('extract-text-webpack-plugin');
-
-// const extractGlobalCss = new ExtractTextPlugin({
-//   allChunks: true,
-//   filename: '[name].global.[md5:contenthash:hex:20].css',
-// });
-
-// const extractCssModules = new ExtractTextPlugin({
-//   allChunks: true,
-//   filename: '[name].module.[md5:contenthash:hex:20].css',
-// });
 
 const path = require('path');
 const { compact, mapValues } = require('lodash');
 
-const {
-  createGlobalCssLoaders,
-  createCssModulesLoaders,
-  createScriptRules,
-} = require('./shared');
+const { createCssModulesLoaders, createScriptRules } = require('./shared');
 const {
   srcDirectory,
   clientDistDirectory,
@@ -46,14 +31,14 @@ const {
 
 const clientSpecificConfig = {
   entry: compact([
-    ifDev('webpack-dev-server/client?http://localhost:3001/'),
+    ifDev('webpack-dev-server/client?http://localhost:8080/'),
     ifDev('webpack/hot/only-dev-server'),
     path.join(srcDirectory, 'index.ts'),
   ]),
 
   output: {
-    filename: isProd ? '[name].[chunkhash].js' : '[name].js',
-    chunkFilename: isProd ? '[name].[chunkhash].js' : '[name].js',
+    filename: isProd ? '[name].[contenthash].js' : '[name].js',
+    chunkFilename: isProd ? '[name].[contenthash].js' : '[name].js',
     path: clientDistDirectory,
     publicPath,
   },
@@ -66,6 +51,7 @@ const clientSpecificConfig = {
 
     // See https://gist.github.com/sokra/1522d586b8e5c0f5072d7565c2bee693
     splitChunks: {
+      name: true,
       chunks: 'all',
       minSize: 30000,
       minChunks: 1,
@@ -80,6 +66,7 @@ const clientSpecificConfig = {
         vendor: {
           test: /[\\/]node_modules[\\/]/,
           priority: -10,
+          reuseExistingChunk: true,
         },
       },
     },
@@ -100,11 +87,11 @@ const clientSpecificConfig = {
   module: {
     rules: compact([
       {
-        test: /\.s?css/,
+        test: /\.module\.s?css/,
         exclude: excludedPatterns,
         use: [
           isProd ? MiniCssExtractPlugin.loader : 'style-loader',
-          ...createCssModulesLoaders({ isNode: false }),
+          ...createCssModulesLoaders(),
         ],
       },
 
@@ -119,20 +106,13 @@ const clientSpecificConfig = {
     //   title: 'Hollowverse',
     //   inject: true,
     // }),
+
     // Required for debugging in development and for long-term caching in production
-    new webpack.NamedModulesPlugin(),
-
-    // extractGlobalCss,
-
-    // extractCssModules,
+    new NameAllModulesPlugin(),
 
     new MiniCssExtractPlugin({
-      filename: isProd
-        ? '[name].module.[contenthash].css'
-        : '[name].module.css',
-      chunkFilename: isProd
-        ? '[name].module.[contenthash].css'
-        : '[name].module.css',
+      filename: isProd ? '[name].[contenthash].css' : '[name].css',
+      chunkFilename: isProd ? '[name].[contenthash].css' : '[name].css',
     }),
 
     new HtmlWebpackPlugin({
@@ -152,18 +132,6 @@ const clientSpecificConfig = {
     new PreloadWebpackPlugin({
       include: 'initial',
     }),
-
-    // Production-only
-    ...ifProd([
-      // See https://medium.com/webpack/predictable-long-term-caching-with-webpack-d3eee1d3fa31
-      new webpack.NamedChunksPlugin(),
-      new NameAllModulesPlugin(),
-      // Banner
-      new webpack.BannerPlugin({
-        entryOnly: true,
-        banner: 'chunkhash:[chunkhash]',
-      }),
-    ]),
 
     // Environment
     new webpack.DefinePlugin(

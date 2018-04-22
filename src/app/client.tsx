@@ -7,7 +7,6 @@ import createBrowserHistory from 'history/createBrowserHistory';
 
 import App from 'components/App/App';
 import { createConfiguredStore } from 'store/createConfiguredStore';
-import { StoreState } from 'store/types';
 import { unhandledErrorThrown } from 'store/features/logging/actions';
 import {
   loadIntersectionObserverPolyfill,
@@ -21,26 +20,32 @@ import {
 } from 'appDependenciesContext';
 import { routesMap } from 'routesMap';
 
-declare const __INITIAL_STATE__: StoreState | undefined;
-
 const history = createBrowserHistory();
 
 const { store } = createConfiguredStore({
   history,
-  initialState: __INITIAL_STATE__,
 });
 
-const renderApp = (NewApp: typeof App = App) => {
+// This has to be a class in order for hot module replacement to work
+class Root extends React.PureComponent {
+  render() {
+    return (
+      <HelmetProvider>
+        <AppDependenciesContext.Provider value={defaultAppDependencies}>
+          <Provider store={store}>
+            <Router history={history}>
+              <App routesMap={routesMap} />
+            </Router>
+          </Provider>
+        </AppDependenciesContext.Provider>
+      </HelmetProvider>
+    );
+  }
+}
+
+const renderApp = () => {
   render(
-    <HelmetProvider>
-      <AppDependenciesContext.Provider value={defaultAppDependencies}>
-        <Provider store={store}>
-          <Router history={history}>
-            <NewApp routesMap={routesMap} />
-          </Router>
-        </Provider>
-      </AppDependenciesContext.Provider>
-    </HelmetProvider>,
+    <Root />,
     // tslint:disable-next-line:no-non-null-assertion
     document.getElementById('app')!,
   );
@@ -49,6 +54,14 @@ const renderApp = (NewApp: typeof App = App) => {
 const renderOnDomReady = () => {
   domready(renderApp);
 };
+
+declare const module: {
+  hot?: { accept(path?: string, cb?: () => void): void };
+};
+
+if (module.hot) {
+  module.hot.accept();
+}
 
 Promise.all([
   loadIntersectionObserverPolyfill(),

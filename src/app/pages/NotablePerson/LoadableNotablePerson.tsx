@@ -1,7 +1,8 @@
+import React from 'react';
 import loadable from 'react-loadable';
-// import { NotablePersonBody } from './NotablePersonBody';
+import { NotablePersonBody } from './NotablePersonBody';
 
 export const LoadableNotablePerson = loadable({
   loader: () => import('./NotablePerson').then(module => module.NotablePerson),
-  loading: () => null,
+  loading: () => <NotablePersonBody />,
 });

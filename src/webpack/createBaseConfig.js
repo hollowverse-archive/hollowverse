@@ -17,7 +17,6 @@ const {
   isDev,
   ifProd,
   isProd,
-  ifEs5,
   ifEsNext,
 } = require('@hollowverse/utils/helpers/env');
 
@@ -37,13 +36,30 @@ module.exports.createBaseConfig = () => ({
         },
       },
     },
-    port: process.env.WEBPACK_DEV_PORT || 3001,
+    port: 8080,
     publicPath,
     hot: isHot,
     historyApiFallback: {
       rewrites: [{ from: /./, to: `${publicPath}index.html` }],
     },
     stats: 'errors-only',
+  },
+
+  optimization: {
+    minimizer: [
+      new UglifyJsPlugin({
+        parallel: true,
+        sourceMap: true,
+        uglifyOptions: {
+          comments: false,
+          minimize: true,
+          safari10: true,
+          compress: {
+            inline: false,
+          },
+        },
+      }),
+    ],
   },
 
   devtool: isDev ? 'cheap-module-source-map' : 'source-map',
@@ -191,22 +207,6 @@ module.exports.createBaseConfig = () => ({
 
       // Scope hoisting a la Rollup (Webpack 3+)
       new webpack.optimize.ModuleConcatenationPlugin(),
-
-      // Minification
-      ...ifEs5([
-        new UglifyJsPlugin({
-          parallel: true,
-          sourceMap: true,
-          uglifyOptions: {
-            comments: false,
-            minimize: true,
-            safari10: true,
-            compress: {
-              inline: false,
-            },
-          },
-        }),
-      ]),
 
       ...ifEsNext([
         new BabelMinifyPlugin({
