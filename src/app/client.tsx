@@ -5,7 +5,7 @@ import domready from 'domready';
 import { render } from 'react-dom';
 import createBrowserHistory from 'history/createBrowserHistory';
 
-import App from 'components/App/App';
+import { HotApp as App } from 'components/App/App';
 import { createConfiguredStore } from 'store/createConfiguredStore';
 import { unhandledErrorThrown } from 'store/features/logging/actions';
 import {

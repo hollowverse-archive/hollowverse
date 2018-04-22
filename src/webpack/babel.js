@@ -6,7 +6,6 @@ const pkg = require(path.join(process.cwd(), './package.json'));
 
 const {
   ifProd,
-  isProd,
   isTest,
   ifTest,
   isDebug,

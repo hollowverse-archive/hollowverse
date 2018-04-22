@@ -6,7 +6,8 @@
   "env": {
     "browser": true,
     "node": false,
-    "shared-node-browser": false
+    "shared-node-browser": true,
+    "commonjs": true
   },
   "settings": {
     "polyfills": ["fetch", "intersectionobserver"]

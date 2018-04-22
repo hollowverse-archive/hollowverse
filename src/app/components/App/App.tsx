@@ -1,4 +1,5 @@
 import React from 'react';
+import { hot } from 'react-hot-loader';
 import cc from 'classcat';
 import Helmet from 'react-helmet-async';
 import { ConnectedNavBar } from 'components/NavBar/ConnectedNavBar';
@@ -31,7 +32,7 @@ const orderedPaths: AppPath[] = [
 /**
  * Main app component
  */
-export const _App = class extends React.Component<AppProps, State> {
+export const App = class extends React.Component<AppProps, State> {
   state: State = {
     hasMounted: false,
   };
@@ -94,7 +95,4 @@ export const _App = class extends React.Component<AppProps, State> {
   }
 };
 
-import { hot } from 'react-hot-loader';
-
-const c: any = hot(module)(_App);
-export default c;
+export const HotApp = hot(module)(App);
