@@ -4,7 +4,21 @@
     "module": "commonjs",
     "outDir": "../dist",
     "checkJs": false,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+
+    // Allow absolute imports from 'src' dir,
+    // e.g. `import 'file';` instead of `'../../file';`
+    // This also has to be set in `webpack.config.json`, check `resolve.modules`
+    "baseUrl": ".",
+
+    // Specifies how to resolve absolute imports relative to baseUrl
+    "paths": {
+      "*": [
+        "*",
+        "./*", // Try exact match first
+        "app/*" // If not found, try client/src,
+      ]
+    }
   },
   "exclude": [
     "app" // "app" will be processed by Webpack

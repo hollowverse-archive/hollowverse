@@ -1,13 +1,8 @@
 import express from 'express';
-import loglevel from 'loglevel';
 import moment from 'moment';
 
-import { securityMiddleware } from './middleware/security';
-import { clientDistDirectory, publicPath } from './webpack/variables';
-
-const logger = loglevel.getLogger('Web App Server');
-
-logger.setLevel(logger.levels.INFO);
+import { securityMiddleware } from 'middleware/security';
+import { clientDistDirectory, publicPath } from 'webpack/variables';
 
 export const serveStaticFiles = express();
 
