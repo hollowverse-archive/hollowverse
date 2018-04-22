@@ -4,7 +4,9 @@
     "../../node_modules/@hollowverse/config/eslint/react/typescript/.eslintrc.json"
   ],
   "env": {
-    "shared-node-browser": true
+    "browser": true,
+    "node": false,
+    "shared-node-browser": false
   },
   "settings": {
     "polyfills": ["fetch", "intersectionobserver"]

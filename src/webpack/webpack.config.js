@@ -9,7 +9,7 @@ const PreloadWebpackPlugin = require('preload-webpack-plugin');
 const path = require('path');
 const { compact, mapValues } = require('lodash');
 
-const { createCssModulesLoaders, createScriptRules } = require('./shared');
+const { createCssModulesLoaders, createScriptRules } = require('./helpers');
 const {
   srcDirectory,
   clientDistDirectory,
