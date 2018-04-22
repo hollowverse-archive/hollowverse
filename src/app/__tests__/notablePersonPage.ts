@@ -2,6 +2,7 @@ import {
   ClientSideTestContext,
   createClientSideTestContext,
 } from 'helpers/testHelpers';
+import { delay } from 'helpers/delay';
 import { pageLoadSucceeded } from 'store/features/logging/actions';
 import {
   notablePersonWithEditorialSummaryQueryResponse,
@@ -25,7 +26,11 @@ describe('Notable Person page', () => {
       });
     });
 
-    it('has notable person name', () => {
+    it('has notable person name', async () => {
+      // We force a 300 ms min delay in our loadable components for better UX. The delay below ensures
+      // that the loadable component has rendered before making the assertion.
+      await delay(301);
+
       expect(context.wrapper).toIncludeText('Tom Hanks');
     });
 
