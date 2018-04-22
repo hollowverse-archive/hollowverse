@@ -1,8 +1,8 @@
 import express from 'express';
 import moment from 'moment';
 
-import { securityMiddleware } from 'middleware/security';
-import { clientDistDirectory, publicPath } from 'webpack/variables';
+import { securityMiddleware } from './middleware/security';
+import { clientDistDirectory, publicPath } from './webpack/variables';
 
 export const serveStaticFiles = express();
 

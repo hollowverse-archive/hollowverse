@@ -14,8 +14,6 @@
     // Specifies how to resolve absolute imports relative to baseUrl
     "paths": {
       "*": [
-        "*",
-        "./*", // Try exact match first
         "app/*" // If not found, try client/src,
       ]
     }
