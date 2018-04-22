@@ -166,9 +166,6 @@ module.exports.createBaseConfig = () => ({
 
   resolve: {
     alias: {
-      // Replace lodash with lodash-es for better tree shaking
-      lodash: 'lodash-es',
-
       algoliasearch: 'algoliasearch/lite',
 
       'es6-promise': 'empty-module',

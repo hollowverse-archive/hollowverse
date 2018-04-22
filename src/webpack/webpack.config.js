@@ -5,6 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const PreloadWebpackPlugin = require('preload-webpack-plugin');
+const { StatsWriterPlugin } = require('webpack-stats-plugin');
 
 const path = require('path');
 const { compact, mapValues } = require('lodash');
@@ -135,6 +136,13 @@ const clientSpecificConfig = {
     new webpack.DefinePlugin(
       mapValues(getAppGlobals(), v => JSON.stringify(v)),
     ),
+
+    ...ifProd([
+      // @ts-ignore
+      new StatsWriterPlugin({
+        fields: null,
+      }),
+    ]),
   ]),
 };
 

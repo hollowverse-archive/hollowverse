@@ -34,7 +34,7 @@ module.exports.createBabelConfig = options => ({
           : {
               browsers: pkg.browserslist,
             },
-        useBuiltIns: isTest ? 'usage' : 'entry',
+        useBuiltIns: 'usage',
         shippedProposals: false,
       },
     ],
@@ -42,6 +42,7 @@ module.exports.createBabelConfig = options => ({
     '@babel/preset-react',
   ]),
   plugins: compact([
+    'lodash',
     ...ifNotTest(['react-hot-loader/babel']),
     '@babel/plugin-transform-runtime',
     '@babel/plugin-syntax-dynamic-import',
