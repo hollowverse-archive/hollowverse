@@ -25,7 +25,7 @@ describe('Notable Person page', () => {
       });
     });
 
-    it('has notable person name', async () => {
+    it('has notable person name', () => {
       expect(context.wrapper).toIncludeText('Tom Hanks');
     });
 
