@@ -2,7 +2,6 @@ import {
   ClientSideTestContext,
   createClientSideTestContext,
 } from 'helpers/testHelpers';
-import { delay } from 'helpers/delay';
 import { pageLoadSucceeded } from 'store/features/logging/actions';
 import {
   notablePersonWithEditorialSummaryQueryResponse,

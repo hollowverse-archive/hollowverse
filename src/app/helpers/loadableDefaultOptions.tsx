@@ -1,3 +1,4 @@
+import React from 'react';
 import { LoadingSpinner } from 'components/LoadingSpinner/LoadingSpinner';
 import { CommonOptions } from 'react-loadable';
 

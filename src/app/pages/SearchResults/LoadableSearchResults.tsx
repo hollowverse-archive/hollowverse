@@ -1,4 +1,3 @@
-import React from 'react';
 import loadable from 'react-loadable';
 import { loadableDefaultOptions } from 'helpers/loadableDefaultOptions';
 
