@@ -21,7 +21,20 @@ import { once } from 'lodash';
 import { App, AppRoutesMap } from 'components/App/App';
 import { stubNotablePersonQueryResponse } from 'fixtures/notablePersonQuery';
 import { stubNonEmptySearchResults } from 'fixtures/searchResults';
-import { routesMap as defaultRoutesMap } from 'routesMap';
+
+import { SearchResults } from 'pages/SearchResults/SearchResults';
+import { About } from 'pages/About/About';
+import { PrivacyPolicy } from 'pages/PrivacyPolicy/PrivacyPolicy';
+import { NotablePerson } from 'pages/NotablePerson/NotablePerson';
+import { Home } from 'pages/Home/Home';
+
+const defaultRoutesMap: AppRoutesMap = {
+  '/search': SearchResults,
+  '/about': About,
+  '/privacy-policy': PrivacyPolicy,
+  '/:slug': NotablePerson,
+  default: Home,
+};
 
 type CreateTestTreeOptions = {
   history: History;

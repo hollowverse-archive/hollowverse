@@ -1,17 +1,23 @@
 @import 'variables.scss';
 
-.loader {
-  &-circular {
-    transform-origin: center center;
-    animation: loader-circular 1.8s linear infinite;
-  }
+.root {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-  &-path {
-    stroke-dasharray: 1, 200;
-    stroke-dashoffset: 0;
-    stroke-linecap: round;
-    stroke: $color-blue;
-    animation: loader-dash 0.9s ease-in-out infinite;
+  .loader {
+    &-circular {
+      transform-origin: center center;
+      animation: loader-circular 1.8s linear infinite;
+    }
+
+    &-path {
+      stroke-dasharray: 1, 200;
+      stroke-dashoffset: 0;
+      stroke-linecap: round;
+      stroke: $color-blue;
+      animation: loader-dash 0.9s ease-in-out infinite;
+    }
   }
 }
 
