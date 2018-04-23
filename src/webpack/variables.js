@@ -9,8 +9,5 @@ const distDirectory = path.join(
 );
 
 exports.clientDistDirectory = path.join(distDirectory, 'client');
-exports.serverDistDirectory = path.join(distDirectory, 'server');
-exports.testsDistDirectory = path.join(process.cwd(), '__tests__');
 
 exports.excludedPatterns = [/node_modules/];
-exports.cssModulesPattern = /\.module\.s?css$/;

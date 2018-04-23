@@ -20,13 +20,8 @@ export class LazyImage extends React.PureComponent<Props> {
         rootMargin="25%"
         triggerOnce
         className={outerClassName}
-        tag={__IS_SERVER__ ? 'noscript' : 'div'}
       >
-        {inView => {
-          if (__IS_SERVER__) {
-            return <Image {...imageProps} />;
-          }
-
+        {(inView: boolean) => {
           if (!inView) {
             return this.props.loadingComponent;
           }

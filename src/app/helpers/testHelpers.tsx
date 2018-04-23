@@ -18,7 +18,7 @@ import createMemoryHistory from 'history/createMemoryHistory';
 import { mount } from 'enzyme';
 import { delay } from 'helpers/delay';
 import { once } from 'lodash';
-import { AppRoutesMap, App } from 'components/App/App';
+import { App, AppRoutesMap } from 'components/App/App';
 import { stubNotablePersonQueryResponse } from 'fixtures/notablePersonQuery';
 import { stubNonEmptySearchResults } from 'fixtures/searchResults';
 import { routesMap as defaultRoutesMap } from 'routesMap';

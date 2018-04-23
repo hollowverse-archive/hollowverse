@@ -1,5 +1,13 @@
 {
-  "cSpell.words": ["hollowverse", "loglevel", "promisify", "webpagetest"],
+  "cSpell.words": [
+    "Favicons",
+    "Polyfill",
+    "Whitelisted",
+    "hollowverse",
+    "loglevel",
+    "promisify",
+    "webpagetest"
+  ],
   "editor.tabSize": 2,
   "editor.formatOnSave": true,
   "[json]": {

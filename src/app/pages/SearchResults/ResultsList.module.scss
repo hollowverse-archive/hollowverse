@@ -1,0 +1,55 @@
+@import 'variables.scss';
+@import 'mixins.scss';
+
+.root {
+  .result {
+    flex-basis: 100%;
+    display: flex;
+    .link {
+      padding: $spacing-10px $spacing-20px;
+      @include truncate-flex-child;
+      display: flex;
+      align-items: center;
+      flex-grow: 1;
+      color: inherit;
+
+      .name-container {
+        flex-grow: 1;
+        margin-left: $spacing-10px;
+      }
+
+      .photo {
+        width: 36px;
+        background-color: $color-background;
+      }
+
+      img {
+        width: 100%;
+      }
+    }
+
+    &.is-loading {
+      .link {
+        position: relative;
+      }
+
+      overflow-x: hidden;
+
+      .photo,
+      .text {
+        color: $color-background;
+        background: $color-background;
+        user-select: none;
+      }
+
+      .link:after {
+        content: '';
+        @include illumination(#ffffff);
+      }
+    }
+  }
+
+  .result + .result {
+    border-top: 1px solid $color-background;
+  }
+}

@@ -6,12 +6,6 @@
 /** Whether the `DEBUG` flag has been passed to the CLI start command */
 declare const __IS_DEBUG__: boolean;
 
-/**
- * `true` if the code is running in Node.js (server-side rendering),
- * `false` otherwise
- */
-declare const __IS_SERVER__: boolean;
-
 /** Git branch of the current build, or `undefined` for development */
 declare const __BRANCH__: string | undefined;
 

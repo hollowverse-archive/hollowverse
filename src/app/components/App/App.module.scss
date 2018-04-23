@@ -1,4 +1,95 @@
 @import 'variables.scss';
+@import-normalize;
+
+// stylelint-disable property-blacklist
+:global {
+  * {
+    scroll-behavior: smooth;
+  }
+
+  *,
+  *::after,
+  *::before {
+    border: 0;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+  }
+
+  html {
+    width: 100%;
+    min-height: 100vh;
+  }
+
+  body {
+    width: 100%;
+    min-height: 100%;
+    min-width: 320px;
+    position: relative;
+    color: $color-text-default;
+    background-color: $color-background-light;
+    font-family: $font-family;
+  }
+
+  input,
+  button,
+  textarea {
+    font-family: $font-family;
+  }
+
+  a {
+    text-decoration-skip: ink;
+    transition: color 0.2s ease-in-out;
+    color: $color-blue;
+  }
+
+  sup {
+    font-weight: normal;
+    font-size: 0.5em;
+    position: relative;
+    margin: 0 0.1em;
+  }
+
+  /**
+   * Visible on screen readers only
+   * @see https://accessibility.18f.gov/hidden-content/
+   */
+  .sr-only {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+  }
+
+  input[type='text'],
+  input[type='search'],
+  button {
+    outline: none;
+  }
+
+  /* #region Disable page auto-zoom when a text input is focused on Safari for iOS */
+  input {
+    font-size: inherit !important;
+  }
+  /* #endregion Disable page auto-zoom when a text input is focused on Safari for iOS */
+
+  // #region Disable rounded corners of search fields on Safari for iOS */
+  input[type='search'] {
+    appearance: none;
+  }
+  /* #endregion Disable rounded corners of search fields on Safari for iOS */
+
+  /* #region Override certain normalize.css styles */
+  h1 {
+    margin: 0;
+  }
+  /* #endregion Override certain normalize.css styles */
+}
+// stylelint-enable property-blacklist
 
 .root {
   width: 100%;

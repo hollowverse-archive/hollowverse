@@ -6,7 +6,7 @@ import cc from 'classcat';
 import { Square } from 'components/Square/Square';
 import { resultsListDummyData } from './ResultsListDummyData';
 
-import classes from './SearchResults.module.scss';
+import classes from './ResultsList.module.scss';
 
 export type ResultsListSuccessProps = {
   hits: AlgoliaResponse['hits'];
@@ -25,7 +25,7 @@ export const ResultsList = (props: ResultsListProps) => {
     'isLoading' in props ? resultsListDummyData : props;
 
   return (
-    <ol aria-hidden={isLoading}>
+    <ol className={classes.root} aria-hidden={isLoading}>
       {hits.map(searchResult => {
         const Wrapper = isLoading ? 'span' : Link;
         const photo = searchResult.mainPhoto;

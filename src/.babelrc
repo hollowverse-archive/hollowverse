@@ -1,0 +1,14 @@
+{
+  "extends": "../node_modules/@hollowverse/config/babel/node/.babelrc",
+  "plugins": [
+    // Rewrite TypeScript absolute imports of local files to the actual
+    // relative paths so the modules can be found at runtime.
+    // require('memoizeOnSuccess') ==> require('./memoizeOnSuccess')
+    ["module-resolver", {
+      "root": [
+        "./dist",
+        "./dist/app"
+      ]
+    }]
+  ]
+}

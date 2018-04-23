@@ -7,9 +7,10 @@ import { URL } from 'url';
 import { noop } from 'lodash';
 
 import { LoggedAction } from './types';
-import { isActionOfType } from 'store/helpers';
+import { isActionOfType } from '../app/store/helpers';
 
-const COLLECTOR_ID = process.env.SUMO_COLLECTOR_ID;
+const { BRANCH, COMMIT_ID, COLLECTOR_ID } = process.env;
+
 const RECEIVER_URL =
   'https://endpoint2.collection.us2.sumologic.com/receiver/v1/http/';
 
@@ -18,7 +19,7 @@ const sumoLogger = new SumoLogger({
   endpoint: new URL(COLLECTOR_ID!, RECEIVER_URL).toString(),
   onSuccess: noop,
   sourceName: 'Elastic Beanstalk Server',
-  sourceCategory: `${__BRANCH__}/${__COMMIT_ID__}`,
+  sourceCategory: `${BRANCH}/${COMMIT_ID}`,
   onError() {
     console.error('Error');
   },
@@ -35,7 +36,7 @@ const transformActionForLogging = async (
   if (isActionOfType(action, 'UNHANDLED_ERROR_THROWN')) {
     const { message, source, line, column } = action.payload;
     if (source && line && column) {
-      const sourceMap = await fetch(`${source}.map?branch=${__BRANCH__}`).then(
+      const sourceMap = await fetch(`${source}.map?branch=${BRANCH}`).then(
         async r => r.json(),
       );
       const consumer = new SourceMapConsumer(sourceMap);

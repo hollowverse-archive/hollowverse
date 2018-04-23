@@ -2,41 +2,75 @@ const webpack = require('webpack');
 const path = require('path');
 
 const CircularDependencyPlugin = require('circular-dependency-plugin');
-const BabelMinifyPlugin = require('babel-minify-webpack-plugin');
-const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 const SpriteLoaderPlugin = require('svg-sprite-loader/plugin');
+
+const BabelMinifyPlugin = require('babel-minify-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
-const { compact, mapValues } = require('lodash');
+const { URL } = require('url');
+
+const { compact } = require('lodash');
 
 const { srcDirectory, excludedPatterns, publicPath } = require('./variables');
 
 const {
-  ifPreact,
   isHot,
   isDev,
-  ifDev,
-  ifProd,
   isProd,
-  ifEs5,
-  ifEsNext,
+  isEsNext,
 } = require('@hollowverse/utils/helpers/env');
 
-module.exports.createCommonConfig = () => ({
-  devServer:
-    ifDev({
-      port: process.env.WEBPACK_DEV_PORT || 3001,
-      publicPath,
-      hot: isHot,
-      historyApiFallback: true,
-      stats: {
-        colors: true,
-        all: false,
-        errors: true,
-        errorDetails: true,
-        warnings: true,
+const { API_ENDPOINT = 'https://api.hollowverse.com/graphql' } = process.env;
+
+module.exports.createBaseConfig = () => ({
+  mode: isProd ? 'production' : 'development',
+  devServer: {
+    proxy: {
+      '/__api': {
+        target: API_ENDPOINT,
+        secure: false,
+        logLevel: 'error',
+        pathRewrite: { '^/api': '' },
+        headers: {
+          host: new URL(API_ENDPOINT).host,
+        },
       },
-    }) || undefined,
+    },
+    port: 8080,
+    publicPath,
+    hot: isHot,
+    historyApiFallback: {
+      rewrites: [{ from: /./, to: `${publicPath}index.html` }],
+    },
+    stats: 'errors-only',
+  },
+
+  // See https://medium.com/webpack/webpack-4-mode-and-optimization-5423a6bc597a
+  optimization: {
+    noEmitOnErrors: true,
+    // Required for debugging in development and for long-term caching in production
+    namedModules: true,
+    namedChunks: true,
+    minimizer: [
+      isEsNext
+        ? new BabelMinifyPlugin({
+            removeConsole: true,
+            removeDebugger: true,
+          })
+        : new UglifyJsPlugin({
+            parallel: true,
+            sourceMap: true,
+            uglifyOptions: {
+              comments: false,
+              minimize: true,
+              safari10: true, // Workaround Safari 10 bugs
+              compress: {
+                inline: false, // Buggy
+              },
+            },
+          }),
+    ],
+  },
 
   devtool: isDev ? 'cheap-module-source-map' : 'source-map',
 
@@ -72,6 +106,18 @@ module.exports.createCommonConfig = () => ({
             },
           },
         ],
+      },
+
+      {
+        test: /\.html?$/,
+        exclude: excludedPatterns,
+        use: {
+          loader: 'html-loader',
+          options: {
+            minimize: isProd,
+            interpolate: false,
+          },
+        },
       },
 
       // SVG assets
@@ -126,12 +172,6 @@ module.exports.createCommonConfig = () => ({
       algoliasearch: 'algoliasearch/lite',
 
       'es6-promise': 'empty-module',
-
-      // That's all what we need to use Preact instead of React
-      ...ifPreact({
-        react: 'preact-compat',
-        'react-dom': 'preact-compat',
-      }),
     },
     extensions: ['.tsx', '.ts', '.js', '.css', '.scss', '.module.scss'],
     modules: [
@@ -155,52 +195,7 @@ module.exports.createCommonConfig = () => ({
       /\.s?css\.d\.ts$/,
     ]),
 
-    // Error handling
-    new webpack.NoEmitOnErrorsPlugin(), // Required to fail the build on errors
-
-    // Environment
-    new webpack.DefinePlugin(
-      mapValues(
-        {
-          'process.env.NODE_ENV': process.env.NODE_ENV,
-        },
-        v => JSON.stringify(v),
-      ),
-    ),
-
     new SpriteLoaderPlugin(),
-
-    ...ifProd([
-      new LodashModuleReplacementPlugin(),
-
-      new webpack.optimize.OccurrenceOrderPlugin(true),
-
-      // Scope hoisting a la Rollup (Webpack 3+)
-      new webpack.optimize.ModuleConcatenationPlugin(),
-
-      // Minification
-      ...ifEs5([
-        new UglifyJsPlugin({
-          parallel: true,
-          sourceMap: true,
-          uglifyOptions: {
-            comments: false,
-            minimize: true,
-            safari10: true,
-            compress: {
-              inline: false,
-            },
-          },
-        }),
-      ]),
-
-      ...ifEsNext([
-        new BabelMinifyPlugin({
-          removeConsole: true,
-          removeDebugger: true,
-        }),
-      ]),
-    ]),
 
     new CircularDependencyPlugin({
       exclude: /node_modules/,

@@ -4,7 +4,7 @@ const { getAppGlobals } = require('./src/webpack/appGlobals');
 
 module.exports = {
   globals: {
-    ...getAppGlobals({ isNode: true }),
+    ...getAppGlobals(),
     'ts-jest': {
       tsConfigFile: 'src/app/tsconfig.json',
       babelConfig: createBabelConfig({ isNode: true }),

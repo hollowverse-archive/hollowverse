@@ -1,11 +1,11 @@
 import React from 'react';
+import { hot } from 'react-hot-loader';
 import cc from 'classcat';
 import Helmet from 'react-helmet-async';
 import { ConnectedNavBar } from 'components/NavBar/ConnectedNavBar';
 import { Route, Switch, RouteProps } from 'react-router';
 import { isWhitelistedPage } from 'redirectionMap';
 
-import './App.global.scss';
 import classes from './App.module.scss';
 
 import { ScrollTo } from 'components/ScrollTo/ScrollTo';
@@ -94,3 +94,5 @@ export const App = class extends React.Component<AppProps, State> {
     );
   }
 };
+
+export const HotApp = hot(module)(App);

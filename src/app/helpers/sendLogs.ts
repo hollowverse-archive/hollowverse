@@ -1,7 +1,6 @@
 import { Action } from 'store/types';
-import { getUniversalUrl } from 'helpers/getUniversalUrl';
 
-const logEndpointUrl = getUniversalUrl(`/log?branch=${__BRANCH__}`);
+const logEndpointUrl = `/log?branch=${__BRANCH__}`;
 
 export const sendLogs = async (actions: Action[]) => {
   try {
@@ -13,21 +12,11 @@ export const sendLogs = async (actions: Action[]) => {
       actions.map(action => ({
         ...action,
         timestamp: new Date(),
-        isServer: __IS_SERVER__,
+        isServer: false,
       })),
     );
 
-    if (__IS_SERVER__) {
-      await fetch(logEndpointUrl, {
-        method: 'POST',
-        body: data,
-
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'text/plain',
-        },
-      });
-    } else if ('sendBeacon' in navigator) {
+    if ('sendBeacon' in navigator) {
       // The most reliable way to send network requests on page unload is to use
       // `navigator.sendBeacon`.
       // Asynchronous requests using `fetch` or `XMLHttpRequest` that are sent on page unload

@@ -1,10 +1,23 @@
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
-    "module": "commonjs",
+    // Babel will compile to a version compatible with current Node.js
+    "target": "esnext",
+    "module": "esnext",
+
     "outDir": "../dist",
     "checkJs": false,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+
+    // Allow absolute imports from 'src' dir,
+    // e.g. `import 'file';` instead of `'../../file';`
+    // This also has to be set in `webpack.config.json`, check `resolve.modules`
+    "baseUrl": ".",
+
+    // Specifies how to resolve absolute imports relative to baseUrl
+    "paths": {
+      "*": ["*", "./*", "app/*"]
+    }
   },
   "exclude": [
     "app" // "app" will be processed by Webpack

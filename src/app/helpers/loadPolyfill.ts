@@ -10,10 +10,6 @@ import fetchPolyfillUrl from 'file-loader!uglify-loader!whatwg-fetch';
 import urlPolyfillUrl from 'file-loader!uglify-loader!url-polyfill';
 
 export const loadIntersectionObserverPolyfill = async () => {
-  if (__IS_SERVER__) {
-    return;
-  }
-
   const supportsIntersectionObserver =
     'IntersectionObserver' in global && 'IntersectionObserverEntry' in global;
 
@@ -23,10 +19,6 @@ export const loadIntersectionObserverPolyfill = async () => {
 };
 
 export const loadFetchPolyfill = async () => {
-  if (__IS_SERVER__) {
-    return;
-  }
-
   if (!('fetch' in global)) {
     await importGlobalScript(fetchPolyfillUrl);
   }

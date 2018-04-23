@@ -1,5 +1,7 @@
-import universal from 'react-universal-component';
+import loadable from 'react-loadable';
 
-export const LoadablePrivacyPolicy = universal(import('./PrivacyPolicy'), {
-  key: module => module.PrivacyPolicy,
+export const LoadablePrivacyPolicy = loadable({
+  loader: async () =>
+    import('./PrivacyPolicy').then(module => module.PrivacyPolicy),
+  loading: () => null,
 });

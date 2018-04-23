@@ -1,11 +1,9 @@
-import universal from 'react-universal-component';
-import { Props } from './NotablePerson';
+import React from 'react';
+import loadable from 'react-loadable';
 import { NotablePersonBody } from './NotablePersonBody';
 
-export const LoadableNotablePerson = universal<Props>(
-  import('./NotablePerson'),
-  {
-    key: module => module.NotablePerson,
-    loading: NotablePersonBody,
-  },
-);
+export const LoadableNotablePerson = loadable({
+  loader: async () =>
+    import('./NotablePerson').then(module => module.NotablePerson),
+  loading: () => <NotablePersonBody />,
+});

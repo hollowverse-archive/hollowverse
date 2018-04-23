@@ -1,5 +1,6 @@
-import universal from 'react-universal-component';
+import loadable from 'react-loadable';
 
-export const LoadableHome = universal(import('./Home'), {
-  key: module => module.Home,
+export const LoadableHome = loadable({
+  loader: async () => import('./Home').then(module => module.Home),
+  loading: () => null,
 });

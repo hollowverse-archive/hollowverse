@@ -1,7 +1,7 @@
 import React from 'react';
 import { Shim } from './ReactIntersectionObserverShim';
 import { IntersectionObserverProps } from 'react-intersection-observer';
-import universal from 'react-universal-component';
+import loadable from 'react-loadable';
 
 export type Props = IntersectionObserverProps &
   Pick<React.HTMLAttributes<HTMLDivElement>, 'className' | 'style'>;
@@ -27,23 +27,18 @@ export type Props = IntersectionObserverProps &
  * the load of non-critical resources until they are (almost) visible on the page, and
  * older browsers can still load these resources, albeit in a less efficient way.
  */
-export const OptionalIntersectionObserver = universal<Props>(
-  {
-    async load() {
-      const supportsIntersectionObserver =
-        'IntersectionObserver' in global &&
-        'IntersectionObserverEntry' in global;
+export const OptionalIntersectionObserver = loadable<Props, typeof Shim>({
+  async loader() {
+    const supportsIntersectionObserver =
+      'IntersectionObserver' in global && 'IntersectionObserverEntry' in global;
 
-      if (supportsIntersectionObserver) {
-        return import('react-intersection-observer');
-      }
+    if (supportsIntersectionObserver) {
+      return import('react-intersection-observer');
+    }
 
-      return Shim;
-    },
+    return Shim;
   },
-  {
-    loading: (props: Props) => {
-      return <Shim {...props} fallbackIsInView={__IS_SERVER__} />;
-    },
+  loading: ({ children }) => {
+    return <Shim fallbackIsInView>{children}</Shim>;
   },
-);
+});
