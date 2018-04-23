@@ -54,7 +54,7 @@ module.exports.createBabelConfig = options => ({
           // Do not inline the following environment variables
           // so that we can toggle this variable at runtime without
           // having to re-build
-          exclude: ['NO_SSR', 'NO_PROXY'],
+          exclude: ['NO_PROXY'],
         },
       ],
     ]),

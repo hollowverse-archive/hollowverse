@@ -1,7 +1,10 @@
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
-    "module": "commonjs",
+    // Babel will compile to a version compatible with current Node.js
+    "target": "esnext",
+    "module": "esnext",
+
     "outDir": "../dist",
     "checkJs": false,
     "skipLibCheck": true,
@@ -13,9 +16,7 @@
 
     // Specifies how to resolve absolute imports relative to baseUrl
     "paths": {
-      "*": [
-        "app/*" // If not found, try client/src,
-      ]
+      "*": ["*", "./*", "app/*"]
     }
   },
   "exclude": [

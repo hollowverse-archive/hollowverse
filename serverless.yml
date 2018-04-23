@@ -20,7 +20,7 @@ provider:
   region: us-east-1
   environment:
     NODE_ENV: ${self:provider.stage}
-    COMMIT_ID: ${env:BRANCH}
+    BRANCH: ${env:BRANCH}
     COMMIT_ID: ${env:COMMIT_ID}
     SUMO_COLLECTOR_ID: ${file(./secrets/sumo.json):collectorId}
 

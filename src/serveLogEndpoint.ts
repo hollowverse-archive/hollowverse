@@ -1,15 +1,12 @@
 import { APIGatewayProxyHandler } from 'aws-lambda'; // tslint:disable-line no-implicit-dependencies
 import awsServerlessExpress from 'aws-serverless-express';
-import express from 'express';
 
-import { securityMiddleware } from './middleware/security';
-import { logEndpoint } from './logger/logEndpoint';
+import { logEndpoint } from 'logger/logEndpoint';
+import { createRouter } from 'createRouter';
 
-export const expressApp = express();
+export const expressApp = createRouter();
 
-expressApp.use(...securityMiddleware);
-
-expressApp.use(logEndpoint);
+expressApp.use('/log', logEndpoint);
 
 const server = awsServerlessExpress.createServer(expressApp as any, undefined, [
   '*/*',
