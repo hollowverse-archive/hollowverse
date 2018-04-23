@@ -8,9 +8,6 @@ import { clientDistDirectory } from 'webpack/variables';
 const isProxyDisabled = Boolean(Number(process.env.NO_PROXY));
 
 const serveNewAppPage: RequestHandler = (_req, res, _next) => {
-  // Tell browsers not to use cached pages if the commit ID of the environment differs
-  res.vary('X-Hollowverse-Actual-Environment-Commit-ID');
-
   res.sendFile('index.html', {
     root: path.resolve(clientDistDirectory),
     maxAge: moment.duration(30, 'days').asMilliseconds(),
