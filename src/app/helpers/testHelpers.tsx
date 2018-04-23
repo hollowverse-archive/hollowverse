@@ -28,7 +28,7 @@ import { PrivacyPolicy } from 'pages/PrivacyPolicy/PrivacyPolicy';
 import { NotablePerson } from 'pages/NotablePerson/NotablePerson';
 import { Home } from 'pages/Home/Home';
 
-export const defaultRoutesMap: AppRoutesMap = {
+const defaultRoutesMap: AppRoutesMap = {
   '/search': SearchResults,
   '/about': About,
   '/privacy-policy': PrivacyPolicy,

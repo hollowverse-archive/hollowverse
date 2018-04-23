@@ -5,5 +5,4 @@ export const LoadablePrivacyPolicy = loadable({
   ...loadableDefaultOptions,
   loader: async () =>
     import('./PrivacyPolicy').then(module => module.PrivacyPolicy),
-  loading: () => null,
 });
