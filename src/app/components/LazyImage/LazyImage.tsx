@@ -21,7 +21,7 @@ export class LazyImage extends React.PureComponent<Props> {
         triggerOnce
         className={outerClassName}
       >
-        {inView => {
+        {(inView: boolean) => {
           if (!inView) {
             return this.props.loadingComponent;
           }
