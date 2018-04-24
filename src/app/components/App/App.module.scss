@@ -105,5 +105,10 @@
     > * {
       flex-grow: 1;
     }
+
+    /* #region Workaround for content jumping on navigation on Safari for iOS */
+    top: 48px;
+    position: absolute;
+    /* #endregion Workaround for content jumping on navigation on Safari for iOS */
   }
 }
