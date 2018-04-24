@@ -66,7 +66,7 @@ const Page = withRouter(
 
       return (
         <OptionalIntersectionObserver rootMargin="0% 0% 25% 0%" triggerOnce>
-          {(inView: boolean) =>
+          {inView =>
             inView ? (
               <Card className={cc([classes.card, classes.comments])}>
                 <FbComments url={commentsUrl} />
