@@ -32,7 +32,7 @@
     "server/app-server/start": "node dist/appServer.js",
     "server/main-server/dev": "PORT=${PORT:-8081} API_ENDPOINT=${API_ENDPOINT:-https://api.hollowverse.com/graphql} nodemon -q --watch src --ignore src/app --ignore src/webpack --ext ts,tsx,json --exec 'node -r 'ts-node/register' src/mainServer.ts'",
     "server/main-server/start": "node dist/mainServer.js",
-    "server/build": "tsc --project ./src && babel ./dist -d dist",
+    "server/build": "tsc --project ./src && babel --config-file ./src/.babelrc ./dist -d dist",
     "build": "npm-run-all --aggregate-output -s clean -s server/build app/build",
     "start": "NODE_ENV=production run-p server/main-server/start",
     "dev": "NO_PROXY=${NO_PROXY:-1} NODE_ENV=development API_ENDPOINT=${API_ENDPOINT:-https://api.hollowverse.com/graphql} npm-run-all --aggregate-output -s clean -p app/graphql/dev server/app-server/dev",
