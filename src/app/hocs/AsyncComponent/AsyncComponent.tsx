@@ -5,6 +5,8 @@ import {
   PendingResult,
   SuccessResult,
   ErrorResult,
+  errorResult,
+  pendingResult,
 } from 'helpers/asyncResults';
 import {
   promiseToCancelable,
@@ -122,28 +124,20 @@ export class AsyncComponent<T = any> extends React.PureComponent<
 
         if (this.props.delay) {
           promises.push(
-            delay(this.props.delay).then(
-              () =>
-                ({
-                  // tslint:disable-next-line:no-object-literal-type-assertion
-                  isInProgress: true,
-                  isPastDelay: true,
-                } as Partial<PendingResult>),
-            ),
+            delay(this.props.delay).then(() => ({
+              ...pendingResult,
+              isPastDelay: true,
+            })),
           );
         }
 
         const { timeout } = this.props;
         if (timeout) {
           promises.push(
-            delay(timeout).then(
-              () =>
-                // tslint:disable-next-line:no-object-literal-type-assertion
-                ({
-                  hasError: true,
-                  hasTimedOut: true,
-                } as Partial<ErrorResult>),
-            ),
+            delay(timeout).then(() => ({
+              ...errorResult,
+              hasTimedOut: true,
+            })),
           );
         }
 
@@ -161,7 +155,7 @@ export class AsyncComponent<T = any> extends React.PureComponent<
               return;
             }
 
-            this.setState({ state: 'error' });
+            this.setState(errorResult);
           });
       },
     );

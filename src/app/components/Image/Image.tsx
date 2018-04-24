@@ -49,11 +49,10 @@ export class Image extends React.PureComponent<Props> {
             ...rest
           } = this.props;
 
-          const hasLoaded = isSuccessResult(result);
-
-          if (hasLoaded) {
+          if (isSuccessResult(result)) {
             return <img className={className} {...rest} />;
           }
+
           const hasError = isErrorResult(result);
           const isInProgress = isPendingResult(result);
 
