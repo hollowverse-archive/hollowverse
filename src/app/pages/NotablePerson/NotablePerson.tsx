@@ -5,8 +5,9 @@ import { oneLine } from 'common-tags';
 
 import {
   isErrorResult,
-  isPendingResult,
   AsyncResult,
+  isSuccessResult,
+  ErrorResult,
 } from 'helpers/asyncResults';
 
 import { NotablePersonQuery } from 'api/types';
@@ -40,7 +41,7 @@ export type Props = {};
 type NotablePersonType = NotablePersonQuery['notablePerson'];
 type Result = AsyncResult<NotablePersonQuery | null>;
 
-const Page = withRouter(
+export const NotablePerson = withRouter(
   class extends React.Component<Props & RouteComponentProps<any>> {
     createLoad = ({
       apiClient,
@@ -162,17 +163,16 @@ const Page = withRouter(
       </>
     );
 
-    renderNonErrorStatus = (result: Result) => {
-      const notablePerson = result.value && result.value.notablePerson;
-      const isLoading = result.value === null || isPendingResult(result);
+    renderNonErrorStatus = (result: Exclude<Result, ErrorResult>) => {
+      if (isSuccessResult(result) && result.value !== null) {
+        if (result.value.notablePerson !== null) {
+          return this.render200Status(result.value.notablePerson);
+        }
 
-      if (isLoading) {
-        return <NotablePersonBody />;
-      } else if (notablePerson) {
-        return this.render200Status(notablePerson);
+        return this.render404Status();
       }
 
-      return this.render404Status();
+      return <NotablePersonBody />;
     };
 
     render() {
@@ -202,5 +202,3 @@ const Page = withRouter(
     }
   },
 );
-
-export const NotablePerson = Page;

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { AsyncResult, pendingResult } from 'helpers/asyncResults';
+import { AsyncResult } from 'helpers/asyncResults';
 import { ResolvedData, ResolvedDataKey, StoreState } from 'store/types';
 import { connect } from 'react-redux';
 import { getResolvedDataForKey } from 'store/features/asyncData/selectors';
@@ -29,6 +29,12 @@ type OwnProps<Key extends ResolvedDataKey = ResolvedDataKey> = {
    * the new results
    * @default `false`
    */
+  keepStaleData?: boolean;
+
+  /**
+   * An incomplete optimistic version of the data that is expected
+   * to be loaded.
+   */
   allowOptimisticUpdates?: boolean;
 
   /**
@@ -41,7 +47,7 @@ type OwnProps<Key extends ResolvedDataKey = ResolvedDataKey> = {
   /**
    * A function that receives the result of the `load` function when
    * it resolves. While resolving, children receive a pending result
-   * or an optimistic result depending on whether `allowOptimisitcUpdates`
+   * or an optimistic result depending on whether `allowOptimisticUpdates`
    * is enabled.
    */
   children({
@@ -67,19 +73,13 @@ type Props<K extends ResolvedDataKey = ResolvedDataKey> = OwnProps<K> &
 
 class Wrapper extends React.Component<Props> {
   resolve(props = this.props) {
-    const {
-      dataKey,
-      forPage,
-      load,
-      requestId,
-      allowOptimisticUpdates = false,
-    } = props;
+    const { dataKey, forPage, load, requestId, keepStaleData = false } = props;
     props.requestData({
       key: dataKey,
       requestId,
       forPage,
       load,
-      allowOptimisticUpdates,
+      keepStaleData,
     });
   }
 
@@ -96,17 +96,9 @@ class Wrapper extends React.Component<Props> {
   }
 
   render() {
-    const { result, requestId, allowOptimisticUpdates } = this.props;
-    let finalResult = result;
+    const { result } = this.props;
 
-    if (result.requestId !== requestId && !allowOptimisticUpdates) {
-      finalResult = {
-        ...pendingResult,
-        requestId,
-      };
-    }
-
-    return this.props.children({ result: finalResult });
+    return this.props.children({ result });
   }
 }
 

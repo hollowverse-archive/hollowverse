@@ -29,6 +29,7 @@ import { ContactUs } from 'pages/ContactUs/ContactUs';
 import { PrivacyPolicy } from 'pages/PrivacyPolicy/PrivacyPolicy';
 import { NotablePerson } from 'pages/NotablePerson/NotablePerson';
 import { Home } from 'pages/Home/Home';
+import { UnboxPromise } from 'typings/typeHelpers';
 
 const defaultRoutesMap: AppRoutesMap = {
   '/search': SearchResults,

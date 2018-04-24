@@ -9,8 +9,9 @@ import { Card } from 'components/Card/Card';
 import {
   AsyncResult,
   isSuccessResult,
-  isOptimisticResult,
   isErrorResult,
+  ErrorResult,
+  isStaleResult,
 } from 'helpers/asyncResults';
 import { AlgoliaResponse } from 'algoliasearch';
 import { connect } from 'react-redux';
@@ -47,7 +48,7 @@ const Page = withRouter(
     }: Pick<
       AppDependencies,
       'loadAlgoliaModule'
-    >) => async (): Promise<null | AlgoliaResponse> => {
+    >) => async (): Promise<AlgoliaResponse | null> => {
       const { searchQuery } = this.props;
 
       if (searchQuery) {
@@ -142,10 +143,10 @@ const Page = withRouter(
       );
     };
 
-    renderNonErrorStatus = (result: Result) => {
-      const { value } = result;
+    renderNonErrorStatus = (result: Exclude<Result, ErrorResult>) => {
+      if (isSuccessResult(result) || isStaleResult(result)) {
+        const {value} = result;
 
-      if (isSuccessResult(result) || isOptimisticResult(result)) {
         if (value && value.hits.length === 0) {
           return this.render404Status();
         }
@@ -166,7 +167,7 @@ const Page = withRouter(
               requestId={searchQuery}
               dataKey="searchResults"
               load={this.createLoad(dependencies)}
-              allowOptimisticUpdates
+              keepStaleData
             >
               {({ result }: { result: Result }) => (
                 <div className={classes.root}>

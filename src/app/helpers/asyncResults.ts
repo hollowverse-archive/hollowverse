@@ -1,81 +1,80 @@
+import { DeepPartial } from 'typings/typeHelpers';
+
 export type ErrorResult = {
-  isInProgress: false;
-  hasError: true;
+  state: 'error';
   value: undefined;
 };
 
-type OptimisticResult<T> = {
-  isInProgress: true;
-  hasError: false;
+type StaleResult<T> = {
+  state: 'stale';
   value: T;
 };
 
+type OptimisticResult<T> = {
+  state: 'optimistic';
+  value: DeepPartial<T>;
+};
+
 export type PendingResult = {
-  isInProgress: true;
-  hasError: false;
+  state: 'pending';
   value: undefined;
 };
 
 export type SuccessResult<T> = {
-  isInProgress: false;
-  hasError: false;
+  state: 'success';
   value: T;
 };
 
 export type AsyncResult<T> =
   | ErrorResult
   | PendingResult
+  | StaleResult<T>
   | OptimisticResult<T>
   | SuccessResult<T>;
 
 export const pendingResult: PendingResult = {
-  isInProgress: true,
-  hasError: false,
+  state: 'pending',
   value: undefined,
 };
 
 export const errorResult: ErrorResult = {
-  isInProgress: false,
-  hasError: true,
+  state: 'error',
   value: undefined,
 };
 
 export const nullResult: SuccessResult<null> = {
-  isInProgress: false,
-  hasError: false,
+  state: 'success',
   value: null,
 };
 
 export function isErrorResult<T>(
   result: AsyncResult<T>,
 ): result is ErrorResult {
-  return result.hasError === true;
+  return result.state === 'error';
 }
 
 export function isPendingResult<T>(
   result: AsyncResult<T>,
 ): result is PendingResult {
-  return result.hasError === false && result.isInProgress === true;
+  return result.state === 'pending';
 }
 
 export function isOptimisticResult<T>(
   result: AsyncResult<T | null>,
 ): result is OptimisticResult<T> {
-  return (
-    result.value !== null &&
-    result.hasError === false &&
-    result.isInProgress === true
-  );
+  return result.state === 'optimistic';
+}
+
+export function isStaleResult<T>(
+  result: AsyncResult<T>,
+): result is StaleResult<T> {
+  return result.state === 'stale';
 }
 
 export function isSuccessResult<T>(
   result: AsyncResult<T>,
 ): result is SuccessResult<T> {
-  return (
-    result.hasError === false &&
-    result.isInProgress === false &&
-    result.value !== undefined
-  );
+  return result.state === 'success';
 }
 
 export async function promiseToAsyncResult<T>(
@@ -86,14 +85,12 @@ export async function promiseToAsyncResult<T>(
 
     return {
       value,
-      isInProgress: false,
-      hasError: false,
+      state: 'success',
     };
   } catch (e) {
     return {
       value: undefined,
-      isInProgress: false,
-      hasError: true,
+      state: 'error',
     };
   }
 }

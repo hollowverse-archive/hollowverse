@@ -6,6 +6,7 @@ import {
 import { AsyncResult } from 'helpers/asyncResults';
 import { AlgoliaResponse } from 'algoliasearch';
 import { NotablePersonQuery } from 'api/types';
+import { DeepPartial } from 'typings/typeHelpers';
 
 export type ResolvedData = {
   notablePersonQuery: NotablePersonQuery | null;
@@ -21,7 +22,13 @@ export type RequestDataPayload<
    * Whether to keep the results of the previous request while loading
    * the new results
    */
-  allowOptimisticUpdates: boolean;
+  keepStaleData: boolean;
+
+  /**
+   * An incomplete optimistic version of the data that is expected
+   * to be loaded.
+   */
+  optimisticResponse?: DeepPartial<ResolvedData[Key]>;
 
   /**
    * The key used to store the results in Redux state
@@ -40,7 +47,7 @@ export type RequestDataPayload<
    */
   forPage?: string;
 
-  /** An asynchronous function that fetchs the data */
+  /** An asynchronous function that fetches the data */
   load(): Promise<ResolvedData[Key]>;
 };
 

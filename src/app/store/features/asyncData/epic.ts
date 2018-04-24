@@ -20,49 +20,63 @@ export const dataResolverEpic: Epic<Action, StoreState, EpicDependencies> = (
   action$,
   state$,
   { getResponseForDataRequest },
-) =>
-  action$.ofType<Action<'REQUEST_DATA'>>('REQUEST_DATA').pipe(
+) => {
+  return action$.ofType<Action<'REQUEST_DATA'>>('REQUEST_DATA').pipe(
     mergeMap(action => {
       const {
         key,
         forPage,
         requestId,
-        allowOptimisticUpdates,
+        keepStaleData,
+        optimisticResponse,
       } = action.payload;
 
       const previousResult = getResolvedDataForKey(state$.value)(key);
+
+      let data: SetResolvedDataPayload['data'];
+
+      if (optimisticResponse !== undefined) {
+        data = {
+          value: optimisticResponse,
+          state: 'optimistic',
+          requestId,
+        };
+      } else if (
+        keepStaleData &&
+        (previousResult.state === 'success' || previousResult.state === 'stale')
+      ) {
+        data = {
+          ...previousResult,
+          state: 'stale',
+          requestId,
+        };
+      } else {
+        data = {
+          ...pendingResult,
+          requestId,
+        };
+      }
 
       return observableOf(
         setResolvedData({
           key,
           forPage,
-          data:
-            allowOptimisticUpdates && isSuccessResult<any>(previousResult)
-              ? {
-                  ...(previousResult as any),
-                  isInProgress: true,
-                  requestId,
-                }
-              : {
-                  ...pendingResult,
-                  requestId,
-                },
+          data,
         }),
       ).pipe(
         merge(
           observableFrom(
             promiseToAsyncResult(getResponseForDataRequest(action.payload)),
           ).pipe(
-            map(data =>
-              // tslint:disable-next-line:no-object-literal-type-assertion
+            map(completionData =>
               setResolvedData({
                 key,
                 forPage,
                 data: {
-                  ...data,
+                  ...completionData,
                   requestId,
                 },
-              } as SetResolvedDataPayload<typeof key>),
+              }),
             ),
           ),
         ),
@@ -78,3 +92,4 @@ export const dataResolverEpic: Epic<Action, StoreState, EpicDependencies> = (
       );
     }),
   );
+};

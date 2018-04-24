@@ -87,8 +87,7 @@ export class AsyncComponent<T = any> extends React.PureComponent<
   };
 
   state: State<T | null> = {
-    isInProgress: false,
-    hasError: false,
+    state: 'success',
     hasTimedOut: false,
     value: null,
     isPastDelay: false,
@@ -104,8 +103,7 @@ export class AsyncComponent<T = any> extends React.PureComponent<
     this.setState(
       {
         value: null,
-        isInProgress: !this.props.delay,
-        hasError: false,
+        state: this.props.delay ? 'success' : 'pending',
         hasTimedOut: false,
       },
       () => {
@@ -155,7 +153,7 @@ export class AsyncComponent<T = any> extends React.PureComponent<
 
             if (!patch.hasTimedOut) {
               const value = await loadPromise;
-              this.setState({ value, isInProgress: false });
+              this.setState({ value, state: 'success' });
             }
           })
           .catch(error => {
@@ -163,7 +161,7 @@ export class AsyncComponent<T = any> extends React.PureComponent<
               return;
             }
 
-            this.setState({ isInProgress: false, hasError: true });
+            this.setState({ state: 'error' });
           });
       },
     );
