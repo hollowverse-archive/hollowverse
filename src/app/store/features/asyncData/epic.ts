@@ -7,11 +7,7 @@ import { Action, StoreState, SetResolvedDataPayload } from 'store/types';
 
 import { Epic } from 'redux-observable';
 
-import {
-  promiseToAsyncResult,
-  pendingResult,
-  isSuccessResult,
-} from 'helpers/asyncResults';
+import { promiseToAsyncResult, pendingResult } from 'helpers/asyncResults';
 import { isActionOfType } from 'store/helpers';
 import { getResolvedDataForKey } from 'store/features/asyncData/selectors';
 import { EpicDependencies } from 'store/createConfiguredStore';

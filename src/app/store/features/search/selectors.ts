@@ -1,6 +1,10 @@
 import { StoreState } from 'store/types';
 import { createSelector } from 'reselect';
-import { isPendingResult, isStaleResult } from 'helpers/asyncResults';
+import {
+  isPendingResult,
+  isStaleResult,
+  isOptimisticResult,
+} from 'helpers/asyncResults';
 import { getRoutingState, isSearchPage } from 'store/features/url/selectors';
 
 const getSearchResults = (state: StoreState) =>
@@ -40,5 +44,8 @@ export const getSearchInputValue = createSelector(
 
 export const isSearchInProgress = createSelector(
   getSearchResults,
-  results => isPendingResult(results) || isStaleResult(results),
+  results =>
+    isPendingResult(results) ||
+    isStaleResult(results) ||
+    isOptimisticResult(results),
 );
