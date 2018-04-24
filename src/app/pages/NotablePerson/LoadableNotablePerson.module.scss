@@ -1,0 +1,13 @@
+@import 'variables.scss';
+
+.root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: $spacing-20px;
+
+  > * {
+    width: 100%;
+    max-width: $page-max-width;
+  }
+}
