@@ -152,6 +152,10 @@
   version "7.0.0-beta.44"
   resolved "https://registry.yarnpkg.com/@babel/helper-plugin-utils/-/helper-plugin-utils-7.0.0-beta.44.tgz#9f590bc3ae6daa8a10b853233baa3e25d263751d"
 
+"@babel/helper-plugin-utils@7.0.0-beta.46":
+  version "7.0.0-beta.46"
+  resolved "https://registry.yarnpkg.com/@babel/helper-plugin-utils/-/helper-plugin-utils-7.0.0-beta.46.tgz#f630adbd9d645d0ba2e43f4955b4ad61f44ccdf4"
+
 "@babel/helper-regex@7.0.0-beta.44":
   version "7.0.0-beta.44"
   resolved "https://registry.yarnpkg.com/@babel/helper-regex/-/helper-regex-7.0.0-beta.44.tgz#f5b6828c1e40f0b74ab6ed90abdd52be0c38a74e"
@@ -251,6 +255,13 @@
     "@babel/helper-plugin-utils" "7.0.0-beta.44"
     "@babel/plugin-syntax-object-rest-spread" "7.0.0-beta.44"
 
+"@babel/plugin-proposal-object-rest-spread@^7.0.0-beta.44":
+  version "7.0.0-beta.46"
+  resolved "https://registry.yarnpkg.com/@babel/plugin-proposal-object-rest-spread/-/plugin-proposal-object-rest-spread-7.0.0-beta.46.tgz#fb3979488a52c1246cdced4a438ace0f47ac985b"
+  dependencies:
+    "@babel/helper-plugin-utils" "7.0.0-beta.46"
+    "@babel/plugin-syntax-object-rest-spread" "7.0.0-beta.46"
+
 "@babel/plugin-proposal-optional-catch-binding@7.0.0-beta.44":
   version "7.0.0-beta.44"
   resolved "https://registry.yarnpkg.com/@babel/plugin-proposal-optional-catch-binding/-/plugin-proposal-optional-catch-binding-7.0.0-beta.44.tgz#87928d30c9fab4803cdba29f9c1260c16bc5d30f"
@@ -301,6 +312,12 @@
   resolved "https://registry.yarnpkg.com/@babel/plugin-syntax-object-rest-spread/-/plugin-syntax-object-rest-spread-7.0.0-beta.44.tgz#c37d271e4edf8a1b5d4623fb2917ba0f5a9da3b3"
   dependencies:
     "@babel/helper-plugin-utils" "7.0.0-beta.44"
+
+"@babel/plugin-syntax-object-rest-spread@7.0.0-beta.46":
+  version "7.0.0-beta.46"
+  resolved "https://registry.yarnpkg.com/@babel/plugin-syntax-object-rest-spread/-/plugin-syntax-object-rest-spread-7.0.0-beta.46.tgz#03d46637f549757b2d6877b6449901698059d7d8"
+  dependencies:
+    "@babel/helper-plugin-utils" "7.0.0-beta.46"
 
 "@babel/plugin-syntax-optional-catch-binding@7.0.0-beta.44":
   version "7.0.0-beta.44"
@@ -700,9 +717,9 @@
     fast-extend "0.0.2"
     fs-monkey "^0.3.0"
 
-"@hollowverse/clown@^3.0.1":
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/@hollowverse/clown/-/clown-3.0.1.tgz#cb49233eefb843552cc1774436d9b3bf13f6840d"
+"@hollowverse/clown@^3.1.1":
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/@hollowverse/clown/-/clown-3.1.1.tgz#42b862aec735c0c1ffb79e39b7b4f4e10e26c347"
   dependencies:
     "@babel/polyfill" "^7.0.0-beta.44"
     "@babel/runtime" "^7.0.0-beta.44"
@@ -715,6 +732,7 @@
     fs-extra "^5.0.0"
     globby "^8.0.1"
     jest-diff "^22.4.3"
+    json5 "^1.0.1"
     lodash "^4.17.4"
     sort-keys "^2.0.0"
 
@@ -1728,7 +1746,7 @@ babel-code-frame@^6.11.0, babel-code-frame@^6.22.0, babel-code-frame@^6.26.0:
     esutils "^2.0.2"
     js-tokens "^3.0.2"
 
-babel-core@7.0.0-bridge.0, babel-core@^6.0.0, babel-core@^6.26.0:
+babel-core@^6.0.0, babel-core@^6.26.0, babel-core@^7.0.0-bridge.0:
   version "7.0.0-bridge.0"
   resolved "https://registry.yarnpkg.com/babel-core/-/babel-core-7.0.0-bridge.0.tgz#95a492ddd90f9b4e9a4a1da14eb335b87b634ece"
 
@@ -8437,6 +8455,12 @@ json3@^3.3.2:
 json5@^0.5.0, json5@^0.5.1:
   version "0.5.1"
   resolved "https://registry.yarnpkg.com/json5/-/json5-0.5.1.tgz#1eade7acc012034ad84e2396767ead9fa5495821"
+
+json5@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/json5/-/json5-1.0.1.tgz#779fb0018604fa854eacbf6252180d83543e3dbe"
+  dependencies:
+    minimist "^1.2.0"
 
 jsonfile@^2.1.0:
   version "2.4.0"

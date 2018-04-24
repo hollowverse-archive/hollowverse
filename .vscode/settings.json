@@ -1,8 +1,13 @@
 {
   "cSpell.words": [
+    "Algolia",
+    "Collapsable",
     "Favicons",
+    "Lifecycle",
     "Polyfill",
     "Whitelisted",
+    "algoliasearch",
+    "classcat",
     "hollowverse",
     "loglevel",
     "promisify",

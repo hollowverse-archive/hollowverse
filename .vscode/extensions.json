@@ -12,6 +12,7 @@
     "eamodio.gitlens",
     "EditorConfig.editorconfig",
     "asvetliakov.snapshot-tools",
-    "codezombiech.gitignore"
+    "codezombiech.gitignore",
+    "dbaeumer.vscode-eslint"
   ]
 }
