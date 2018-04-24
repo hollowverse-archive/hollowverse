@@ -40,6 +40,7 @@ exports.createCssModulesLoaders = () => [
       sourceMap: true,
       modules: true,
       camelCase: 'only',
+      importLoaders: 2,
 
       localIdentName:
         // Shorten the class name in production bundles to save some bytes

@@ -7,6 +7,11 @@
   align-items: center;
   padding-bottom: $spacing-20px;
 
+  > * {
+    width: 100%;
+    max-width: $page-max-width;
+  }
+
   .card,
   .stub {
     padding: $spacing-20px;
@@ -15,11 +20,6 @@
   .comments {
     margin-top: $spacing-30px;
     padding: $spacing-10px;
-  }
-
-  > * {
-    width: 100%;
-    max-width: $page-max-width;
   }
 
   .editorial-summary {
