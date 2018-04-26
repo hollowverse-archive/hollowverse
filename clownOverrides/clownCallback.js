@@ -10,8 +10,4 @@ module.exports = function clownCallback(clownFs) {
       'dependencies["@hollowverse/utils"]',
     ),
   );
-
-  // We don't need this here as we use a custom Babel config based
-  // on target (server/client)
-  clownFs.remove('.babelrc');
 };

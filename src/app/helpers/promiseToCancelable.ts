@@ -24,15 +24,8 @@ export function promiseToCancelable<T>(promise: Promise<T>): Cancelable<T> {
   });
 
   const wrappedPromise = Promise.race([cancelationPromise, promise])
-    .then(value => {
+    .finally(() => {
       target.removeAllListeners();
-
-      return value;
-    })
-    .catch(error => {
-      target.removeAllListeners();
-
-      throw error;
     });
 
   return {
