@@ -14,7 +14,7 @@ type State = {
   hasMounted: boolean;
 };
 
-type AppPath = '/search' | '/about' | '/privacy-policy' | '/:slug';
+type AppPath = '/search' | '/contact' | '/privacy-policy' | '/:slug';
 
 export type AppRoutesMap = Record<AppPath | 'default', RouteProps['component']>;
 
@@ -24,7 +24,7 @@ type AppProps = {
 
 const orderedPaths: AppPath[] = [
   '/search',
-  '/about',
+  '/contact',
   '/privacy-policy',
   '/:slug',
 ];
