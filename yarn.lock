@@ -325,6 +325,12 @@
   dependencies:
     "@babel/helper-plugin-utils" "7.0.0-beta.44"
 
+"@babel/plugin-syntax-typescript@7.0.0-beta.46":
+  version "7.0.0-beta.46"
+  resolved "https://registry.yarnpkg.com/@babel/plugin-syntax-typescript/-/plugin-syntax-typescript-7.0.0-beta.46.tgz#2a9e0e1f3bb3bd918571c5ee4db97bb2b00e8642"
+  dependencies:
+    "@babel/helper-plugin-utils" "7.0.0-beta.46"
+
 "@babel/plugin-transform-arrow-functions@7.0.0-beta.44":
   version "7.0.0-beta.44"
   resolved "https://registry.yarnpkg.com/@babel/plugin-transform-arrow-functions/-/plugin-transform-arrow-functions-7.0.0-beta.44.tgz#718dae35046eca6938c731d1eae10c5471c17398"
@@ -546,6 +552,13 @@
   dependencies:
     "@babel/helper-plugin-utils" "7.0.0-beta.44"
 
+"@babel/plugin-transform-typescript@7.0.0-beta.46":
+  version "7.0.0-beta.46"
+  resolved "https://registry.yarnpkg.com/@babel/plugin-transform-typescript/-/plugin-transform-typescript-7.0.0-beta.46.tgz#bcb57558c87de7ae2f4f3a36322934c799bf3774"
+  dependencies:
+    "@babel/helper-plugin-utils" "7.0.0-beta.46"
+    "@babel/plugin-syntax-typescript" "7.0.0-beta.46"
+
 "@babel/plugin-transform-unicode-regex@7.0.0-beta.44":
   version "7.0.0-beta.44"
   resolved "https://registry.yarnpkg.com/@babel/plugin-transform-unicode-regex/-/plugin-transform-unicode-regex-7.0.0-beta.44.tgz#d7cf607948da5e997e277eba1caed30e80beaf76"
@@ -658,6 +671,13 @@
     "@babel/plugin-proposal-unicode-property-regex" "7.0.0-beta.44"
     "@babel/plugin-syntax-dynamic-import" "7.0.0-beta.44"
     "@babel/plugin-syntax-import-meta" "7.0.0-beta.44"
+
+"@babel/preset-typescript@^7.0.0-beta.46":
+  version "7.0.0-beta.46"
+  resolved "https://registry.yarnpkg.com/@babel/preset-typescript/-/preset-typescript-7.0.0-beta.46.tgz#ab14898e504c7f172cd0fbc03491f6a5685d8638"
+  dependencies:
+    "@babel/helper-plugin-utils" "7.0.0-beta.46"
+    "@babel/plugin-transform-typescript" "7.0.0-beta.46"
 
 "@babel/register@7.0.0-beta.44":
   version "7.0.0-beta.44"
@@ -8234,7 +8254,7 @@ jest-worker@^22.4.3:
   dependencies:
     merge-stream "^1.0.1"
 
-jest@^22.4.2:
+jest@^22.4.3:
   version "22.4.3"
   resolved "https://registry.yarnpkg.com/jest/-/jest-22.4.3.tgz#2261f4b117dc46d9a4a1a673d2150958dee92f16"
   dependencies:

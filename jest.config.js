@@ -1,17 +1,12 @@
 const { isCi } = require('@hollowverse/utils/helpers/env');
-const { createBabelConfig } = require('./src/webpack/babel');
 const { getAppGlobals } = require('./src/webpack/appGlobals');
 
 module.exports = {
   globals: {
     ...getAppGlobals(),
-    'ts-jest': {
-      tsConfigFile: 'src/app/tsconfig.json',
-      babelConfig: createBabelConfig({ isNode: true }),
-    },
   },
   transform: {
-    '^.+\\.tsx?$': '<rootDir>/node_modules/ts-jest/preprocessor.js',
+    '^.+\\.(j|t)sx?$': '<rootDir>/jestPreprocess.js',
   },
   moduleNameMapper: {
     '\\.(jpg|jpeg|png|gif|eot|otf|webp|ttf|woff|woff2|graphql)$':
