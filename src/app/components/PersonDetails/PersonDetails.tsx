@@ -7,6 +7,8 @@ import { oneLineTrim } from 'common-tags';
 import cc from 'classcat';
 import emptySvg from '!!url-loader!assets/emptySvg.svg';
 
+import photoPlaceholderUrl from '!!file-loader!svgo-loader!assets/personPlaceholder.svg';
+
 type PersonDetailsProps = {
   summary: string | null;
   name: string;
@@ -97,10 +99,14 @@ export class PersonDetails extends React.PureComponent<PersonDetailsProps> {
           </span>
         </a>
       );
-    } else if (isLoading) {
+    } else if (isLoading || !photo) {
       return (
         <span className={classes.photoLink}>
-          <Image className={classes.photo} src={emptySvg} alt={name} />
+          <Image
+            className={classes.photo}
+            src={isLoading ? emptySvg : photoPlaceholderUrl}
+            alt={name}
+          />
         </span>
       );
     }

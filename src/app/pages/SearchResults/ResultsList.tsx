@@ -6,6 +6,8 @@ import cc from 'classcat';
 import { Square } from 'components/Square/Square';
 import { resultsListDummyData } from './ResultsListDummyData';
 
+import photoPlaceholderUrl from '!!file-loader!svgo-loader!assets/personPlaceholder.svg';
+
 import classes from './ResultsList.module.scss';
 
 export type ResultsListSuccessProps = {
@@ -43,7 +45,7 @@ export const ResultsList = (props: ResultsListProps) => {
               <div className={classes.photo}>
                 <Square>
                   <img
-                    src={photo ? photo.url : null}
+                    src={photo ? photo.url : photoPlaceholderUrl}
                     role="presentation"
                     alt={undefined}
                   />
