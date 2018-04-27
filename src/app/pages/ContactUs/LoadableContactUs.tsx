@@ -1,7 +1,7 @@
 import loadable from 'react-loadable';
 import { loadableDefaultOptions } from 'helpers/loadableDefaultOptions';
 
-export const LoadableAbout = loadable({
+export const LoadableContactUs = loadable({
   ...loadableDefaultOptions,
-  loader: async () => import('./About').then(module => module.About),
+  loader: async () => import('./ContactUs').then(module => module.ContactUs),
 });

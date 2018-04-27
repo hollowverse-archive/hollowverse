@@ -23,14 +23,14 @@ import { stubNotablePersonQueryResponse } from 'fixtures/notablePersonQuery';
 import { stubNonEmptySearchResults } from 'fixtures/searchResults';
 
 import { SearchResults } from 'pages/SearchResults/SearchResults';
-import { About } from 'pages/About/About';
+import { ContactUs } from 'pages/ContactUs/ContactUs';
 import { PrivacyPolicy } from 'pages/PrivacyPolicy/PrivacyPolicy';
 import { NotablePerson } from 'pages/NotablePerson/NotablePerson';
 import { Home } from 'pages/Home/Home';
 
 const defaultRoutesMap: AppRoutesMap = {
   '/search': SearchResults,
-  '/about': About,
+  '/contact': ContactUs,
   '/privacy-policy': PrivacyPolicy,
   '/:slug': NotablePerson,
   default: Home,
