@@ -12,7 +12,7 @@ import { Route, Switch } from 'react-router';
 export type DispatchProps = {
   goToSearch(_: void): any;
   setShouldFocusSearch(isFocused: boolean): any;
-  searchQueryChanged({ query }: { query: string }): any;
+  searchQueryChanged(options: { query: string }): any;
 };
 
 export type StateProps = {

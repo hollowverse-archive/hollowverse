@@ -8,6 +8,7 @@ module.exports = function clownCallback(clownFs) {
       'jest',
       'devDependencies["npm-run-all"]',
       'dependencies["@hollowverse/utils"]',
+      'devDependencies["ts-jest"]',
     ),
   );
 };

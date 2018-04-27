@@ -44,9 +44,7 @@ type OwnProps<Key extends ResolvedDataKey = ResolvedDataKey> = {
    * or an optimistic result depending on whether `allowOptimisitcUpdates`
    * is enabled.
    */
-  children({
-    result,
-  }: {
+  children(_arg: {
     result: AsyncResult<ResolvedData[Key] | null>;
   }): JSX.Element | null;
 };

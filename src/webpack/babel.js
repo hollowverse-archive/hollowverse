@@ -40,6 +40,7 @@ module.exports.createBabelConfig = options => ({
     ],
     '@babel/preset-stage-3',
     '@babel/preset-react',
+    ifTest('@babel/preset-typescript'),
   ]),
   plugins: compact([
     'lodash',
