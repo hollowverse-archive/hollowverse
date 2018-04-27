@@ -11,7 +11,8 @@
     "hollowverse",
     "loglevel",
     "promisify",
-    "webpagetest"
+    "webpagetest",
+    "unhandledrejection"
   ],
   "editor.tabSize": 2,
   "editor.formatOnSave": true,
@@ -22,10 +23,18 @@
   "typescript.referencesCodeLens.enabled": true,
   "files.associations": {
     ".gqlconfig": "javascript",
-    ".stylelintrc": "json"
+    ".stylelintrc": "json",
+    "**/.babelrc": "jsonc",
+    "**/.babelrc.json": "jsonc",
+    "**/tsconfig.json": "jsonc",
+    "**/.stylelintrc": "json"
   },
   "files.exclude": {
     "**/node_modules/**": true
   },
-  "typescript.tsdk": "node_modules/typescript/lib"
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "eslint.options": {
+    "reportUnusedDisableDirectives": true
+  },
+  "eslint.validate": ["typescript", "typescriptreact"]
 }

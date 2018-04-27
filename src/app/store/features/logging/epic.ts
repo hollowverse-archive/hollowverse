@@ -1,22 +1,20 @@
-// tslint:disable no-unnecessary-type-assertion
+import { fromEvent as observableFromEvent } from 'rxjs';
 
+import {
+  mergeMap,
+  merge,
+  buffer,
+  ignoreElements,
+  tap,
+  bufferCount,
+  map,
+  distinctUntilChanged,
+  withLatestFrom,
+  filter,
+} from 'rxjs/operators';
 import { Action, StoreState } from 'store/types';
 
 import { Epic } from 'redux-observable';
-
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/do';
-import 'rxjs/add/operator/ignoreElements';
-import 'rxjs/add/operator/withLatestFrom';
-import 'rxjs/add/operator/filter';
-import 'rxjs/add/operator/merge';
-import 'rxjs/add/operator/mergeMap';
-import 'rxjs/add/operator/buffer';
-import 'rxjs/add/operator/bufferCount';
-import 'rxjs/add/operator/distinctUntilChanged';
-import 'rxjs/add/operator/subscribeOn';
-import 'rxjs/add/observable/fromEvent';
-import 'rxjs/add/observable/fromPromise';
 
 import {
   pageLoadSucceeded,
@@ -25,10 +23,8 @@ import {
 } from 'store/features/logging/actions';
 import { LOCATION_CHANGE } from 'react-router-redux';
 import { createPath } from 'history';
-import { Observable } from 'rxjs/Observable';
 import { isEqual, pick } from 'lodash';
 
-import { getBestAvailableScheduler } from './helpers';
 import { EpicDependencies } from 'store/createConfiguredStore';
 
 const loggableActions: Array<Action['type']> = [
@@ -45,14 +41,11 @@ const shouldActionBeLogged = (action: Action) =>
 const locationCompareKeys = ['search', 'pathname', 'hash'];
 
 const mapPageLoadActions = ([setStatusCodeAction, locationChangeAction]: [
-  Action,
-  Action
+  Action<'SET_STATUS_CODE'>,
+  Action<typeof LOCATION_CHANGE>
 ]) => {
-  const url = createPath(
-    (locationChangeAction as Action<typeof LOCATION_CHANGE>).payload,
-  );
-  const statusCodePayload = (setStatusCodeAction as Action<'SET_STATUS_CODE'>)
-    .payload;
+  const url = createPath(locationChangeAction.payload);
+  const statusCodePayload = setStatusCodeAction.payload;
 
   if (statusCodePayload.code === 301 || statusCodePayload.code === 302) {
     const to = statusCodePayload.redirectTo;
@@ -69,21 +62,16 @@ const mapPageLoadActions = ([setStatusCodeAction, locationChangeAction]: [
   return pageLoadFailed(url);
 };
 
-const comparePageLoadActions = (x: [Action, Action], y: typeof x) => {
+const comparePageLoadActions = (
+  x: [Action<'SET_STATUS_CODE'>, Action<typeof LOCATION_CHANGE>],
+  y: typeof x,
+) => {
   const [setStatusCodeActionX, locationChangeActionX] = x;
   const [setStatusCodeActionY, locationChangeActionY] = y;
-  const setStatusCodeActionPayloadX = (setStatusCodeActionX as Action<
-    'SET_STATUS_CODE'
-  >).payload;
-  const setStatusCodeActionPayloadY = (setStatusCodeActionY as Action<
-    'SET_STATUS_CODE'
-  >).payload;
-  const locationChangePayloadX = (locationChangeActionX as Action<
-    typeof LOCATION_CHANGE
-  >).payload;
-  const locationChangePayloadY = (locationChangeActionY as Action<
-    typeof LOCATION_CHANGE
-  >).payload;
+  const setStatusCodeActionPayloadX = setStatusCodeActionX.payload;
+  const setStatusCodeActionPayloadY = setStatusCodeActionY.payload;
+  const locationChangePayloadX = locationChangeActionX.payload;
+  const locationChangePayloadY = locationChangeActionY.payload;
   const areStatusCodeActionsEqual = isEqual(
     setStatusCodeActionPayloadX,
     setStatusCodeActionPayloadY,
@@ -113,35 +101,35 @@ const comparePageLoadActions = (x: [Action, Action], y: typeof x) => {
 
 export const loggingEpic: Epic<Action, StoreState, EpicDependencies> = (
   action$,
-  _,
+  _state$,
   { sendLogs },
 ) => {
   const observePageLoad$ = action$
     .ofType('SET_STATUS_CODE')
-    .withLatestFrom(action$.ofType(LOCATION_CHANGE))
-    .distinctUntilChanged(comparePageLoadActions)
-    .map(mapPageLoadActions);
+    .pipe(
+      withLatestFrom(action$.ofType(LOCATION_CHANGE)),
+      distinctUntilChanged<any>(comparePageLoadActions),
+      map(mapPageLoadActions),
+    );
 
   const createLoggableActionsObserver = () => {
-    const loggableActions$ = action$.filter(shouldActionBeLogged);
+    const loggableActions$ = action$.pipe(filter(shouldActionBeLogged));
 
-    const flushOnUnload$ = Observable.fromEvent(window, 'pagehide') // `pagehide` is for Safari
-      .merge(Observable.fromEvent(window, 'unload'));
+    const flushOnUnload$ = observableFromEvent(window, 'pagehide').pipe(
+      // `pagehide` is for Safari
+      merge(observableFromEvent(window, 'unload')),
+    );
 
-    const logOnUnload$ = loggableActions$.buffer(flushOnUnload$);
-    const logOnIdle$ = loggableActions$.bufferCount(10);
+    const logOnUnload$ = loggableActions$.pipe(buffer(flushOnUnload$));
+    const logOnIdle$ = loggableActions$.pipe(bufferCount(10));
 
-    return Observable.fromPromise(getBestAvailableScheduler()).mergeMap(
-      scheduler => {
-        return logOnIdle$
-          .subscribeOn(scheduler)
-          .merge(logOnUnload$)
-          .do(sendLogs)
-          .mergeMap(actions => actions)
-          .ignoreElements();
-      },
+    return logOnIdle$.pipe(
+      merge(logOnUnload$),
+      tap(sendLogs),
+      mergeMap(actions => actions),
+      ignoreElements(),
     );
   };
 
-  return observePageLoad$.merge(createLoggableActionsObserver());
+  return observePageLoad$.pipe(merge(createLoggableActionsObserver()));
 };

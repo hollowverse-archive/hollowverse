@@ -1,19 +1,11 @@
-// tslint:disable no-unnecessary-type-assertion
+import { from as observableFrom, of as observableOf } from 'rxjs';
+
+import { filter, mergeMap, merge, takeUntil, map } from 'rxjs/operators';
 import { setResolvedData } from './actions';
 
 import { Action, StoreState, SetResolvedDataPayload } from 'store/types';
 
 import { Epic } from 'redux-observable';
-
-import { Observable } from 'rxjs/Observable';
-
-import 'rxjs/add/operator/mergeMap';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/merge';
-import 'rxjs/add/operator/takeUntil';
-import 'rxjs/add/operator/filter';
-import 'rxjs/add/observable/fromPromise';
-import 'rxjs/add/observable/of';
 
 import {
   promiseToAsyncResult,
@@ -26,61 +18,64 @@ import { EpicDependencies } from 'store/createConfiguredStore';
 
 export const dataResolverEpic: Epic<Action, StoreState, EpicDependencies> = (
   action$,
-  store,
+  state$,
   { getResponseForDataRequest },
 ) => {
-  return action$.ofType('REQUEST_DATA').mergeMap(action => {
-    const {
-      key,
-      forPage,
-      requestId,
-      allowOptimisticUpdates,
-    } = (action as Action<'REQUEST_DATA'>).payload;
-
-    const previousResult = getResolvedDataForKey(store.getState())(key);
-
-    return Observable.of(
-      setResolvedData({
+  return action$.ofType<Action<'REQUEST_DATA'>>('REQUEST_DATA').pipe(
+    mergeMap(action => {
+      const {
         key,
         forPage,
-        data:
-          allowOptimisticUpdates && isSuccessResult<any>(previousResult)
-            ? {
-                ...(previousResult as any),
-                isInProgress: true,
-                requestId,
-              }
-            : {
-                ...pendingResult,
-                requestId,
-              },
-      }),
-    )
-      .merge(
-        Observable.fromPromise(
-          promiseToAsyncResult(
-            getResponseForDataRequest(
-              (action as Action<'REQUEST_DATA'>).payload,
+        requestId,
+        allowOptimisticUpdates,
+      } = action.payload;
+
+      const previousResult = getResolvedDataForKey(state$.value)(key);
+
+      return observableOf(
+        setResolvedData({
+          key,
+          forPage,
+          data:
+            allowOptimisticUpdates && isSuccessResult<any>(previousResult)
+              ? {
+                  ...(previousResult as any),
+                  isInProgress: true,
+                  requestId,
+                }
+              : {
+                  ...pendingResult,
+                  requestId,
+                },
+        }),
+      ).pipe(
+        merge(
+          observableFrom(
+            promiseToAsyncResult(getResponseForDataRequest(action.payload)),
+          ).pipe(
+            map(data =>
+              // tslint:disable-next-line:no-object-literal-type-assertion
+              setResolvedData({
+                key,
+                forPage,
+                data: {
+                  ...data,
+                  requestId,
+                },
+              } as SetResolvedDataPayload<typeof key>),
             ),
           ),
-        ).map(data =>
-          // tslint:disable-next-line:no-object-literal-type-assertion
-          setResolvedData({
-            key,
-            forPage,
-            data: {
-              ...data,
-              requestId,
-            },
-          } as SetResolvedDataPayload<typeof key>),
         ),
-      )
-      .takeUntil(
-        action$.filter(
-          newAction =>
-            isActionOfType(newAction, 'REQUEST_DATA') &&
-            newAction.payload.key === key,
+        takeUntil(
+          action$.pipe(
+            filter(
+              newAction =>
+                isActionOfType(newAction, 'REQUEST_DATA') &&
+                newAction.payload.key === key,
+            ),
+          ),
         ),
       );
-  });
+    }),
+  );
 };

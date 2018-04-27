@@ -13,6 +13,8 @@
     "EditorConfig.editorconfig",
     "asvetliakov.snapshot-tools",
     "codezombiech.gitignore",
-    "dbaeumer.vscode-eslint"
+    "dbaeumer.vscode-eslint",
+    "pflannery.vscode-versionlens",
+    "eg2.ts-tslint"
   ]
 }

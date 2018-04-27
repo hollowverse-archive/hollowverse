@@ -1,20 +1,16 @@
-// tslint:disable no-unnecessary-type-assertion
+import { tap, merge, ignoreElements } from 'rxjs/operators';
 import { LOCATION_CHANGE } from 'react-router-redux';
 
 import { Action, StoreState } from 'store/types';
 
 import { Epic } from 'redux-observable';
 
-import 'rxjs/add/operator/do';
-import 'rxjs/add/operator/ignoreElements';
-import 'rxjs/add/operator/merge';
-
 import { once } from 'lodash';
 import { EpicDependencies } from 'store/createConfiguredStore';
 
 export const analyticsEpic: Epic<Action, StoreState, EpicDependencies> = (
   action$,
-  _,
+  _state$,
   { getGoogleAnalyticsFunction },
 ) => {
   const initScript = once(async () => {
@@ -24,29 +20,31 @@ export const analyticsEpic: Epic<Action, StoreState, EpicDependencies> = (
     return ga;
   });
 
-  return action$
-    .ofType(LOCATION_CHANGE)
-    .do(async action => {
+  return action$.ofType<Action<typeof LOCATION_CHANGE>>(LOCATION_CHANGE).pipe(
+    tap(async action => {
       try {
         const ga = await initScript();
-        const { pathname } = (action as Action<typeof LOCATION_CHANGE>).payload;
+        const { pathname } = action.payload;
 
         // Set currently active page
         ga('set', 'page', pathname);
       } catch (e) {
         // Do nothing
       }
-    })
-    .merge(
-      action$.ofType('PAGE_LOAD_SUCCEEDED').do(async action => {
-        try {
-          const ga = await initScript();
-          const path = (action as Action<'PAGE_LOAD_SUCCEEDED'>).payload;
-          ga('send', 'pageview', path);
-        } catch (e) {
-          // Do nothing
-        }
-      }),
-    )
-    .ignoreElements();
+    }),
+    merge(
+      action$.ofType<Action<'PAGE_LOAD_SUCCEEDED'>>('PAGE_LOAD_SUCCEEDED').pipe(
+        tap(async action => {
+          try {
+            const ga = await initScript();
+            const path = action.payload;
+            ga('send', 'pageview', path);
+          } catch (e) {
+            // Do nothing
+          }
+        }),
+      ),
+    ),
+    ignoreElements(),
+  );
 };

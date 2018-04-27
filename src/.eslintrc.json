@@ -1,0 +1,5 @@
+{
+  "extends": [
+    "../node_modules/@hollowverse/config/eslint/typescript/.eslintrc.json"
+  ]
+}
