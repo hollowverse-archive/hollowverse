@@ -12,8 +12,8 @@ export const ContactUs = () => (
     <h1>Contact Us</h1>
     <p>
       It is often said that one should avoid discussing politics or religion in
-      polite company. But these are some of the most interesting topics and I
-      hope I can get you talking about them!
+      polite company. But these are some of the most interesting topics and we
+      hope to get you talking about them!
     </p>
     <p>
       Email us at <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a> if

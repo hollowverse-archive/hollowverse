@@ -10,7 +10,7 @@ export const Footer = () => (
   <footer className={classes.root}>
     <ul className={classes.list}>
       <li>
-        <Link to="/about">About</Link>
+        <Link to="/contact">Contact us</Link>
       </li>
       <li>
         <Link to="/privacy-policy">Privacy</Link>
