@@ -12,9 +12,11 @@ export class ScrollTo extends React.PureComponent<Props> {
   };
 
   scroll = () => {
-    if (this.node !== null && 'scrollIntoView' in this.node) {
-      this.node.scrollIntoView(true);
-    }
+    requestAnimationFrame(() => {
+      if (this.node !== null && 'scrollIntoView' in this.node) {
+        this.node.scrollIntoView(true);
+      }
+    });
   };
 
   componentDidMount() {
