@@ -7,6 +7,7 @@ import { Square } from 'components/Square/Square';
 import { resultsListDummyData } from './ResultsListDummyData';
 
 import classes from './ResultsList.module.scss';
+import { NotablePersonPhoto } from 'components/NotablePersonPhoto/NotablePersonPhoto';
 
 export type ResultsListSuccessProps = {
   hits: AlgoliaResponse['hits'];
@@ -42,11 +43,7 @@ export const ResultsList = (props: ResultsListProps) => {
             <Wrapper className={classes.link} to={path} onClick={onClick}>
               <div className={classes.photo}>
                 <Square>
-                  <img
-                    src={photo ? photo.url : null}
-                    role="presentation"
-                    alt={undefined}
-                  />
+                  <NotablePersonPhoto src={photo ? photo.url : undefined} />
                 </Square>
               </div>
               <div className={classes.nameContainer}>

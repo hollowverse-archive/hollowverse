@@ -1,11 +1,12 @@
 import React from 'react';
-import { Image } from 'components/Image/Image';
 import classes from './PersonDetails.module.scss';
 import { prettifyUrl } from 'helpers/prettifyUrl';
 import Helmet from 'react-helmet-async';
 import { oneLineTrim } from 'common-tags';
 import cc from 'classcat';
 import emptySvg from '!!url-loader!assets/emptySvg.svg';
+
+import { NotablePersonPhoto } from '../NotablePersonPhoto/NotablePersonPhoto';
 
 type PersonDetailsProps = {
   summary: string | null;
@@ -91,16 +92,25 @@ export class PersonDetails extends React.PureComponent<PersonDetailsProps> {
           href={photo.sourceUrl}
           title={`Image source: ${prettifyUrl(photo.sourceUrl)}`}
         >
-          <Image className={classes.photo} src={photo.url} alt={name} />
+          <NotablePersonPhoto
+            className={classes.photo}
+            src={photo.url}
+            alt={name}
+          />
           <span className="sr-only">
             Image source: {prettifyUrl(photo.sourceUrl)}
           </span>
         </a>
       );
-    } else if (isLoading) {
+    } else if (isLoading || !photo) {
       return (
         <span className={classes.photoLink}>
-          <Image className={classes.photo} src={emptySvg} alt={name} />
+          <NotablePersonPhoto
+            className={classes.photo}
+            src={isLoading ? emptySvg : undefined}
+            alt={undefined}
+            role="presentation"
+          />
         </span>
       );
     }
