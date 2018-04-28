@@ -1,5 +1,16 @@
+@keyframes slide-down {
+  0% {
+    transform: translateY(-100px);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
 .container {
   position: relative;
+  width: 100%;
 
   .element,
   .placeholder {
@@ -9,11 +20,21 @@
   }
 
   .placeholder {
-    position: static;
-    visibility: hidden;
+    display: none;
   }
 
   .element {
-    position: fixed;
+    position: static;
+  }
+
+  &.is-sticking {
+    .placeholder {
+      display: block;
+    }
+
+    .element {
+      position: fixed;
+      animation: slide-down 0.2s ease-in-out;
+    }
   }
 }

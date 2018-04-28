@@ -55,21 +55,29 @@ export class Sticky extends React.PureComponent<Props, State> {
     const { isSticking } = this.state;
 
     return (
-      <div className={cc([classes.container, className])}>
+      <div
+        className={cc([
+          classes.container,
+          className,
+          { [classes.isSticking]: isSticking },
+        ])}
+      >
         <OptionalIntersectionObserver
           threshold={1}
           rootMargin={rootMargin}
           onChange={this.handleChange}
         >
-          <div className={classes.placeholder} style={{ height }} />
+          <>
+            <div className={classes.placeholder} />
+            <div
+              className={cc([classes.element, innerClassName])}
+              {...rest}
+              style={{ height }}
+            >
+              {children(isSticking)}
+            </div>
+          </>
         </OptionalIntersectionObserver>
-        <div
-          className={cc([classes.element, innerClassName])}
-          {...rest}
-          style={{ height }}
-        >
-          {children(isSticking)}
-        </div>
       </div>
     );
   }
