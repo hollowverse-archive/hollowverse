@@ -6,7 +6,7 @@ import {
 } from 'components/OptionalIntersectionObserver/OptionalIntersectionObserver';
 import { Image, Props as ImageProps } from 'components/Image/Image';
 
-type Props = ImageProps &
+export type Props = ImageProps &
   Pick<IntersectionObserverProps, 'rootMargin'> & {
     outerClassName?: string;
   };
