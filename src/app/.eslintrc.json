@@ -3,6 +3,10 @@
     "../../node_modules/@hollowverse/config/eslint/browser/.eslintrc.json",
     "../../node_modules/@hollowverse/config/eslint/react/typescript/.eslintrc.json"
   ],
+  "rules": {
+    "import/extensions": ["off"],
+    "no-unused-vars": ["off"]
+  },
   "env": {
     "browser": true,
     "node": false,
