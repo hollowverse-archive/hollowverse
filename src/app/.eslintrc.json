@@ -4,7 +4,8 @@
     "../../node_modules/@hollowverse/config/eslint/react/typescript/.eslintrc.json"
   ],
   "rules": {
-    "import/no-unresolved": ["off"]
+    "import/extensions": ["off"],
+    "no-unused-vars": ["off"]
   },
   "env": {
     "browser": true,
