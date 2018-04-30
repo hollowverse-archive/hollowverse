@@ -22,35 +22,35 @@ declare module '*.module.scss' {
 
 declare module '*.svg' {
   const symbol: SpriteSymbol;
-  export default symbol;
+  export = symbol;
 }
 
 declare module '!!file-loader!*' {
   const url: string;
-  export default url;
+  export = url;
 }
 
 declare module '!!url-loader!*' {
   const url: string;
-  export default url;
+  export = url;
 }
 
 declare module 'file-loader!*' {
   const url: string;
-  export default url;
+  export = url;
 }
 
 declare module '*.html' {
   const str: string;
-  export default str;
+  export = str;
 }
 
 declare module '!!json-loader!*' {
   const json: object;
-  export default json;
+  export = json;
 }
 
 declare module 'json-loader!*' {
   const json: object;
-  export default json;
+  export = json;
 }

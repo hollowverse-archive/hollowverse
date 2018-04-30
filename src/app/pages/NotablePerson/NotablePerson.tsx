@@ -181,26 +181,22 @@ const Page = withRouter(
 
       return (
         <AppDependenciesContext.Consumer>
-          {dependencies => {
-            return (
-              <WithData
-                requestId={slug}
-                dataKey="notablePersonQuery"
-                forPage={pageUrl}
-                load={this.createLoad(dependencies)}
-              >
-                {({ result }: { result: Result }) => {
-                  return (
-                    <div className={classes.root}>
-                      {isErrorResult(result)
-                        ? this.renderErrorStatus()
-                        : this.renderNonErrorStatus(result)}
-                    </div>
-                  );
-                }}
-              </WithData>
-            );
-          }}
+          {dependencies => (
+            <WithData
+              requestId={slug}
+              dataKey="notablePersonQuery"
+              forPage={pageUrl}
+              load={this.createLoad(dependencies)}
+            >
+              {({ result }: { result: Result }) => (
+                <div className={classes.root}>
+                  {isErrorResult(result)
+                    ? this.renderErrorStatus()
+                    : this.renderNonErrorStatus(result)}
+                </div>
+              )}
+            </WithData>
+          )}
         </AppDependenciesContext.Consumer>
       );
     }

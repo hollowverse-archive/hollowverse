@@ -15,15 +15,15 @@ import { LocationDescriptor } from 'history';
  * reflect the search query.
  * @example `{ type: 'SEARCH_QUERY_CHANGED', query: 'Tom Ha' }` => '/search?query=Tom+Ha'
  */
-export const updateUrlEpic: Epic<Action, StoreState> = (action$, state$) => {
-  return action$.ofType('SEARCH_QUERY_CHANGED', 'GO_TO_SEARCH').pipe(
+export const updateUrlEpic: Epic<Action, StoreState> = (action$, state$) =>
+  action$.ofType('SEARCH_QUERY_CHANGED', 'GO_TO_SEARCH').pipe(
     map(action => {
       let descriptor: LocationDescriptor = {
         pathname: '/search',
       };
 
       const state = state$.value;
-      const location = getRoutingState(state).location;
+      const { location } = getRoutingState(state);
 
       if (isActionOfType(action, 'GO_TO_SEARCH') && isSearchPage(state)) {
         descriptor = { ...location };
@@ -43,4 +43,3 @@ export const updateUrlEpic: Epic<Action, StoreState> = (action$, state$) => {
         : push(descriptor);
     }),
   );
-};

@@ -24,6 +24,5 @@ export const whitelistedNewPaths = [
 ].map(path => pathToRegExp(path));
 
 /** Determines whether a page on the new app can be accessed directly via the URL */
-export const isWhitelistedPage = (path: string) => {
-  return whitelistedNewPaths.some(regExp => regExp.test(path));
-};
+export const isWhitelistedPage = (path: string) =>
+  whitelistedNewPaths.some(regExp => regExp.test(path));

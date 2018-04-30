@@ -5,7 +5,11 @@
   ],
   "rules": {
     "import/extensions": ["off"],
-    "no-unused-vars": ["off"]
+    "import/no-webpack-loader-syntax": ["off"],
+    "no-unused-vars": ["off"],
+    "no-restricted-globals": ["off"],
+    "import/first": ["off"],
+    "no-multi-str": ["off"]
   },
   "env": {
     "browser": true,

@@ -1,7 +1,7 @@
 import React from 'react';
 import loadable from 'react-loadable';
-import { NotablePersonBody } from './NotablePersonBody';
 import { loadableDefaultOptions } from 'helpers/loadableDefaultOptions';
+import { NotablePersonBody } from './NotablePersonBody';
 
 import classes from './LoadableNotablePerson.module.scss';
 

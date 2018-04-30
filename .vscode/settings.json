@@ -10,9 +10,10 @@
     "classcat",
     "hollowverse",
     "loglevel",
+    "middlewares",
     "promisify",
-    "webpagetest",
-    "unhandledrejection"
+    "unhandledrejection",
+    "webpagetest"
   ],
   "editor.tabSize": 2,
   "editor.formatOnSave": true,

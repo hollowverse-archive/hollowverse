@@ -1,3 +1,5 @@
+/* eslint-disable no-underscore-dangle */
+
 /**
  * The following global constants are defined using Webpack's `DefinePlugin`
  * and are available for use anywhere in the app code.

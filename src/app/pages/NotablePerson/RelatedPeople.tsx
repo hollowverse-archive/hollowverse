@@ -15,26 +15,24 @@ type Person = {
   } | null;
 };
 
-export const RelatedPeople = ({ people }: { people: Person[] }) => {
-  return (
-    <ul className={classes.root}>
-      {people.map(person => (
-        <li key={person.slug} className={classes.person}>
-          <Link className={classes.link} to={`/${person.slug}`}>
-            <Card className={classes.card}>
-              <Square className={classes.square}>
-                <NotablePersonPhoto
-                  isLazy
-                  outerClassName={classes.lazyImage}
-                  alt={person.name}
-                  src={person.mainPhoto ? person.mainPhoto.url : undefined}
-                />
-              </Square>
-              <div className={classes.name}>{person.name}</div>
-            </Card>
-          </Link>
-        </li>
-      ))}
-    </ul>
-  );
-};
+export const RelatedPeople = ({ people }: { people: Person[] }) => (
+  <ul className={classes.root}>
+    {people.map(person => (
+      <li key={person.slug} className={classes.person}>
+        <Link className={classes.link} to={`/${person.slug}`}>
+          <Card className={classes.card}>
+            <Square className={classes.square}>
+              <NotablePersonPhoto
+                isLazy
+                outerClassName={classes.lazyImage}
+                alt={person.name}
+                src={person.mainPhoto ? person.mainPhoto.url : undefined}
+              />
+            </Square>
+            <div className={classes.name}>{person.name}</div>
+          </Card>
+        </Link>
+      </li>
+    ))}
+  </ul>
+);

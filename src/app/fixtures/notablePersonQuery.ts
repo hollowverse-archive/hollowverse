@@ -1,4 +1,5 @@
 // tslint:disable no-http-string max-line-length no-object-literal-type-assertion quotemark
+/* eslint-disable max-len */
 import { NotablePersonQuery } from 'api/types';
 
 export const stubNotablePersonQueryResponse: NotablePersonQuery = {

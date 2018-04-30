@@ -1,3 +1,5 @@
+/* eslint import/no-extraneous-dependencies: ["error", {"devDependencies": true}] */
+
 import React from 'react';
 import { History, MemoryHistoryBuildOptions } from 'history';
 import { StoreState, ResolvedData } from 'store/types';
@@ -50,16 +52,14 @@ export const defaultMockDataResponses: Partial<ResolvedData> = {
 
 export const createMockGetResponseForDataRequest = (
   responseByDataKey: Partial<ResolvedData>,
-): EpicDependencies['getResponseForDataRequest'] => {
-  return async payload => {
-    const response = responseByDataKey[payload.key];
+): EpicDependencies['getResponseForDataRequest'] => async payload => {
+  const response = responseByDataKey[payload.key];
 
-    if (response !== undefined) {
-      return response;
-    }
+  if (response !== undefined) {
+    return response;
+  }
 
-    return payload.load();
-  };
+  return payload.load();
 };
 
 export const defaultTestDependencyOverrides: Partial<EpicDependencies> = {

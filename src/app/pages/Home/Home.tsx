@@ -9,6 +9,7 @@ import { goToSearch } from 'store/features/search/actions';
 import { connect } from 'react-redux';
 import { Footer } from 'components/Footer/Footer';
 import { hot } from 'react-hot-loader';
+
 export const Home = hot(module)(
   connect(undefined, dispatch => ({
     goToSearch: () => dispatch(goToSearch(undefined)),

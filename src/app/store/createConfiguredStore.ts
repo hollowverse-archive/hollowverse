@@ -1,3 +1,5 @@
+/* eslint-disable no-underscore-dangle */
+
 import { routerMiddleware } from 'react-router-redux';
 import { History } from 'history';
 import { createStore, applyMiddleware, compose, Middleware } from 'redux';
@@ -162,9 +164,8 @@ export function createConfiguredStore({
 
   if (module.hot) {
     // Enable Webpack hot module replacement for reducers
-    module.hot.accept('./reducer', () => {
-      // tslint:disable-next-line no-require-imports
-      const nextRootReducer = require('./reducer').reducer;
+    module.hot.accept('./reducer', async () => {
+      const nextRootReducer = await import('./reducer').then(m => m.reducer);
       store.replaceReducer(nextRootReducer);
     });
   }

@@ -16,6 +16,6 @@ type Props = Action<'SET_STATUS_CODE'>['payload'] & {
  * It is only used for its side effect on the Redux store
  * (which is then queried on the server side).
  */
-export const Status = ({ children: _, ...rest }: Props) => {
-  return <DispatchOnLifecycleEvent onWillMount={setStatusCode(rest)} />;
-};
+export const Status = ({ children: _, ...rest }: Props) => (
+  <DispatchOnLifecycleEvent onWillMount={setStatusCode(rest)} />
+);

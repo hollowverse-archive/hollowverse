@@ -3,6 +3,8 @@
     "../node_modules/@hollowverse/config/eslint/typescript/.eslintrc.json"
   ],
   "rules": {
-    "import/no-unresolved": ["off"]
+    "import/no-unresolved": ["off"],
+    "no-restricted-syntax": ["off"],
+    "no-unused-vars": ["off"]
   }
 }

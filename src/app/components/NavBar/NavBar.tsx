@@ -45,54 +45,52 @@ export const NavBar = class extends React.Component<
           innerClassName={classes.viewWrapper}
           height={48}
         >
-          {isSticking => {
-            return (
-              <>
-                <NavBarButton
-                  disabled
-                  onClick={this.goBack}
-                  className={cc([classes.button, { [classes.isHidden]: true }])}
-                >
-                  <SvgIcon size={20} {...backIcon} />
-                  <span className="sr-only">Go Back</span>
-                </NavBarButton>
-                <div className={classes.view}>
-                  <Switch>
-                    <Route path="/search">
+          {isSticking => (
+            <>
+              <NavBarButton
+                disabled
+                onClick={this.goBack}
+                className={cc([classes.button, { [classes.isHidden]: true }])}
+              >
+                <SvgIcon size={20} {...backIcon} />
+                <span className="sr-only">Go Back</span>
+              </NavBarButton>
+              <div className={classes.view}>
+                <Switch>
+                  <Route path="/search">
+                    <ConnectedSearchBar />
+                  </Route>
+                  <Route>
+                    {isSticking || shouldFocusSearch ? (
                       <ConnectedSearchBar />
-                    </Route>
-                    <Route>
-                      {isSticking || shouldFocusSearch ? (
-                        <ConnectedSearchBar />
-                      ) : (
-                        <div className={classes.logoViewInner}>
-                          <div className={classes.logoWrapper}>
-                            <NavBarLink
-                              title="Homepage"
-                              className={classes.logo}
-                              to="/"
-                            >
-                              <img src={textLogo} alt={title} />
-                            </NavBarLink>
-                          </div>
+                    ) : (
+                      <div className={classes.logoViewInner}>
+                        <div className={classes.logoWrapper}>
                           <NavBarLink
-                            className={cc([
-                              classes.button,
-                              { [classes.isHidden]: isHomePage },
-                            ])}
-                            to="/search"
+                            title="Homepage"
+                            className={classes.logo}
+                            to="/"
                           >
-                            <SvgIcon size={20} {...searchIcon} />
-                            <span className="sr-only">Search</span>
+                            <img src={textLogo} alt={title} />
                           </NavBarLink>
                         </div>
-                      )}
-                    </Route>
-                  </Switch>
-                </div>
-              </>
-            );
-          }}
+                        <NavBarLink
+                          className={cc([
+                            classes.button,
+                            { [classes.isHidden]: isHomePage },
+                          ])}
+                          to="/search"
+                        >
+                          <SvgIcon size={20} {...searchIcon} />
+                          <span className="sr-only">Search</span>
+                        </NavBarLink>
+                      </div>
+                    )}
+                  </Route>
+                </Switch>
+              </div>
+            </>
+          )}
         </Sticky>
       </div>
     );

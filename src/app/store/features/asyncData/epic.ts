@@ -20,8 +20,8 @@ export const dataResolverEpic: Epic<Action, StoreState, EpicDependencies> = (
   action$,
   state$,
   { getResponseForDataRequest },
-) => {
-  return action$.ofType<Action<'REQUEST_DATA'>>('REQUEST_DATA').pipe(
+) =>
+  action$.ofType<Action<'REQUEST_DATA'>>('REQUEST_DATA').pipe(
     mergeMap(action => {
       const {
         key,
@@ -78,4 +78,3 @@ export const dataResolverEpic: Epic<Action, StoreState, EpicDependencies> = (
       );
     }),
   );
-};
