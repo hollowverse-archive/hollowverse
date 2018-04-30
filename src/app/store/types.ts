@@ -7,6 +7,13 @@ import { AsyncResult } from 'helpers/asyncResults';
 import { AlgoliaResponse } from 'algoliasearch';
 import { NotablePersonQuery } from 'api/types';
 
+export type ResolvedData = {
+  notablePersonQuery: NotablePersonQuery | null;
+  searchResults: AlgoliaResponse | null;
+};
+
+export type ResolvedDataKey = keyof ResolvedData;
+
 export type RequestDataPayload<
   Key extends ResolvedDataKey = ResolvedDataKey
 > = {
@@ -92,13 +99,6 @@ export type ActionTypeToPayloadType = {
   '@@router/LOCATION_CHANGE': LocationChangeAction['payload'];
   '@@router/CALL_HISTORY_METHOD': RouterAction['payload'];
 };
-
-export type ResolvedData = {
-  notablePersonQuery: NotablePersonQuery | null;
-  searchResults: AlgoliaResponse | null;
-};
-
-export type ResolvedDataKey = keyof ResolvedData;
 
 export type AppState = {
   statusCode: 301 | 302 | 404 | 200 | 500;

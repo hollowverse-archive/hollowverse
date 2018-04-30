@@ -44,6 +44,7 @@ expressApp.use(
         !(proxyReq.path as string).endsWith('/') &&
         !(proxyReq.path as string).match(/\/.+\.[a-z]{2,4}$/gi)
       ) {
+        /* eslint-disable no-param-reassign */
         proxyReq.path = `${proxyReq.path}/`;
       }
     },

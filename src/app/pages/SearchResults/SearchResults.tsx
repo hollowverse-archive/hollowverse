@@ -143,7 +143,7 @@ const Page = withRouter(
     };
 
     renderNonErrorStatus = (result: Result) => {
-      const value = result.value;
+      const { value } = result;
 
       if (isSuccessResult(result) || isOptimisticResult(result)) {
         if (value && value.hits.length === 0) {

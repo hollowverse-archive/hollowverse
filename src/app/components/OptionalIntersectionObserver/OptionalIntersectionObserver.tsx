@@ -38,7 +38,5 @@ export const OptionalIntersectionObserver = loadable<Props, typeof Shim>({
 
     return Shim;
   },
-  loading: ({ children }) => {
-    return <Shim fallbackIsInView>{children}</Shim>;
-  },
+  loading: ({ children }) => <Shim fallbackIsInView>{children}</Shim>,
 });

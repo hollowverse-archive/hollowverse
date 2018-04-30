@@ -1,9 +1,9 @@
 import React from 'react';
-import classes from './PersonDetails.module.scss';
 import { prettifyUrl } from 'helpers/prettifyUrl';
 import Helmet from 'react-helmet-async';
 import { oneLineTrim } from 'common-tags';
 import cc from 'classcat';
+import classes from './PersonDetails.module.scss';
 import emptySvg from '!!url-loader!assets/emptySvg.svg';
 
 import { NotablePersonPhoto } from '../NotablePersonPhoto/NotablePersonPhoto';

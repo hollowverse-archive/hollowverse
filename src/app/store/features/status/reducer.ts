@@ -20,9 +20,9 @@ export const redirectionUrlReducer = createReducerForStoreKey<'redirectionUrl'>(
       if (isActionOfType(action, 'SET_STATUS_CODE')) {
         if (action.payload.code === 301 || action.payload.code === 302) {
           return action.payload.redirectTo;
-        } else {
-          return null;
         }
+
+        return null;
       }
 
       return state;

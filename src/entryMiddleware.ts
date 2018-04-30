@@ -1,13 +1,13 @@
 import express, { RequestHandler } from 'express';
 import path from 'path';
 import moment from 'moment';
-import { isNewSlug } from './isNewSlug';
+import { isNewSlug } from 'isNewSlug';
 import { redirectionMap, isWhitelistedPage } from 'redirectionMap';
 import { clientDistDirectory } from 'webpack/variables';
 
 const isProxyDisabled = Boolean(Number(process.env.NO_PROXY));
 
-const serveNewAppPage: RequestHandler = (_req, res, _next) => {
+const serveNewAppPage: RequestHandler = (_req, res) => {
   res.sendFile('index.html', {
     root: path.resolve(clientDistDirectory),
     maxAge: moment.duration(30, 'days').asMilliseconds(),

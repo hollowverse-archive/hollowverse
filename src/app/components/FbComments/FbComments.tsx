@@ -30,10 +30,13 @@ export class FbComments extends React.PureComponent<Props> {
   commentsParentNode: HTMLDivElement | null = null;
   commentsObserver: MutationObserver | null = null;
 
-  setCommentsParentNode = (node: HTMLDivElement | null) =>
-    (this.commentsParentNode = node);
+  setCommentsParentNode = (node: HTMLDivElement | null) => {
+    this.commentsParentNode = node;
+  };
 
-  setCommentsNode = (node: HTMLDivElement | null) => (this.commentsNode = node);
+  setCommentsNode = (node: HTMLDivElement | null) => {
+    this.commentsNode = node;
+  };
 
   load = async () => {
     await importGlobalScript(
@@ -57,8 +60,8 @@ export class FbComments extends React.PureComponent<Props> {
     await observingComplete;
   };
 
-  observeCommentsRendered = async () => {
-    return new Promise(resolve => {
+  observeCommentsRendered = async () =>
+    new Promise(resolve => {
       if (!('MutationObserver' in window)) {
         resolve();
       } else if (this.commentsNode) {
@@ -89,7 +92,6 @@ export class FbComments extends React.PureComponent<Props> {
         });
       }
     });
-  };
 
   componentWillUnmount() {
     if (this.commentsObserver !== null) {

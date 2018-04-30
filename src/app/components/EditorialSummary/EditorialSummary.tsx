@@ -13,17 +13,15 @@ type Props = NonNullable<NotablePerson['editorialSummary']> & { id: string };
 
 type Node = ArrayElement<Props['nodes']>;
 
-const findChildren = (node: Node, nodes: Node[]) => {
-  return nodes.filter(child => child.parentId === node.id);
-};
+const findChildren = (node: Node, nodes: Node[]) =>
+  nodes.filter(child => child.parentId === node.id);
 
-const isBlockNode = (node: Node) => {
-  return [
+const isBlockNode = (node: Node) =>
+  [
     EditorialSummaryNodeType.heading,
     EditorialSummaryNodeType.paragraph,
     EditorialSummaryNodeType.quote,
   ].includes(node.type);
-};
 
 const isRootBlock = (node: Node) => !node.parentId;
 
@@ -104,7 +102,7 @@ const findRefs = (nodes: Node[], map: Map<Node, Source>) => (node: Node) => {
       number,
       sourceId: `source_${number}`,
       nodeId: `ref_${number}`,
-      sourceUrl: sourceUrl,
+      sourceUrl,
       sourceTitle,
     });
   }

@@ -28,6 +28,7 @@ const { store } = createConfiguredStore({
 
 // This has to be a class in order for hot module replacement to work
 class Root extends React.PureComponent {
+  /* eslint-disable-next-line class-methods-use-this */
   render() {
     return (
       <HelmetProvider>

@@ -26,7 +26,7 @@ export class NotablePersonBody extends React.PureComponent<Props> {
           isLoading={!notablePerson}
         />
 
-        {editorialSummary ? editorialSummary : null}
+        {editorialSummary}
       </article>
     );
   }
