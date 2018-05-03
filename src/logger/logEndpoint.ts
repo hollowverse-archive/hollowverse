@@ -45,7 +45,8 @@ logEndpoint.use(
 // @NOTE: The array is used to trick TypeScript into inferring the right signature
 logEndpoint.use([
   // Error handler signature with 4 parameters
-  (_, __, res, ___) => {
+  (error, __, res, ___) => {
+    console.error('Log endpoint error:', error);
     res.status(500);
     res.send({ error: 'Server Error' });
   },
