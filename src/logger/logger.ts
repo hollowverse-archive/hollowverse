@@ -6,7 +6,7 @@ import got from 'got';
 import { URL } from 'url';
 
 import { LoggedAction } from './types';
-import { isActionOfType, isErrorType } from '../app/store/helpers';
+import { isActionOfType } from '../app/store/helpers';
 
 const { BRANCH, COMMIT_ID, SUMO_COLLECTOR_ID } = process.env;
 
@@ -44,7 +44,7 @@ const transformActionForLogging = async (
 export const convertObjectsToLines = (
   additionalProps?: Record<string, any>,
 ) => (action: LoggedAction) => {
-  const { timestamp, type, ...rest } = action;
+  const { timestamp, ...rest } = action;
 
   const normalizedDate = DateTime.fromISO(timestamp, { zone: 'UTC' });
 
@@ -56,9 +56,7 @@ export const convertObjectsToLines = (
       `${key}=${typeof value === 'string' ? `"${value}"` : value}`,
   );
 
-  const level = isErrorType(type) ? 'ERROR' : 'INFO';
-
-  return `${normalizedDate} [${type}] ${level} ${pairs.join(', ')}`;
+  return `${normalizedDate} ${pairs.join(', ')}`;
 };
 
 export async function log(actions: LoggedAction[]) {

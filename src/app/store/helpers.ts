@@ -103,6 +103,3 @@ export function handleAction<
     return state;
   };
 }
-
-export const isErrorType = (type: ActionType) =>
-  type === 'UNHANDLED_ERROR_THROWN' || type.endsWith('_FAILED');
