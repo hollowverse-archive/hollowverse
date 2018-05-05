@@ -37,5 +37,7 @@
   "eslint.options": {
     "reportUnusedDisableDirectives": true
   },
-  "eslint.validate": ["typescript", "typescriptreact"]
+  "eslint.validate": ["typescript", "typescriptreact"],
+  "css.validate": false,
+  "scss.validate": false
 }
