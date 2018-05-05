@@ -38,7 +38,7 @@
   }
 
   a {
-    text-decoration-skip: ink;
+    text-decoration-skip-ink: auto;
     transition: color 0.2s ease-in-out;
     color: $color-blue;
   }

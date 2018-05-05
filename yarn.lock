@@ -844,9 +844,9 @@
     lodash "^4.17.4"
     sort-keys "^2.0.0"
 
-"@hollowverse/config@^32.0.0":
-  version "32.0.0"
-  resolved "https://registry.yarnpkg.com/@hollowverse/config/-/config-32.0.0.tgz#0e33d5023fea29a1b697f52ec87c5d3f44929391"
+"@hollowverse/config@^33.0.0":
+  version "33.0.0"
+  resolved "https://registry.yarnpkg.com/@hollowverse/config/-/config-33.0.0.tgz#6ac5fcba05874af399dbd5d9a2654c9a4a2d6b3a"
 
 "@hollowverse/utils@^6.0.1":
   version "6.0.1"
@@ -4331,6 +4331,13 @@ css-tokenize@^1.0.1:
   dependencies:
     inherits "^2.0.1"
     readable-stream "^1.0.33"
+
+css-tree@1.0.0-alpha.28:
+  version "1.0.0-alpha.28"
+  resolved "https://registry.yarnpkg.com/css-tree/-/css-tree-1.0.0-alpha.28.tgz#8e8968190d886c9477bc8d61e96f61af3f7ffa7f"
+  dependencies:
+    mdn-data "~1.1.0"
+    source-map "^0.5.3"
 
 css-tree@1.0.0-alpha25:
   version "1.0.0-alpha25"
@@ -9199,6 +9206,10 @@ mdn-data@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/mdn-data/-/mdn-data-1.0.0.tgz#a69d9da76847b4d5834c1465ea25c0653a1fbf66"
 
+mdn-data@~1.1.0:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/mdn-data/-/mdn-data-1.1.2.tgz#ceaa6a831b4de494352af984d301e3a8f2cad6e5"
+
 media-typer@0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/media-typer/-/media-typer-0.3.0.tgz#8710d7af0aa626f8fffa1ce00168545263255748"
@@ -13364,6 +13375,12 @@ stylelint-config-standard@^17.0.0:
   resolved "https://registry.yarnpkg.com/stylelint-config-standard/-/stylelint-config-standard-17.0.0.tgz#42103a090054ee2a3dde9ecaed55e5d4d9d059fc"
   dependencies:
     stylelint-config-recommended "^1.0.0"
+
+stylelint-csstree-validator@^1.2.2:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/stylelint-csstree-validator/-/stylelint-csstree-validator-1.2.2.tgz#b402d63f9967ca3f6556d1065fb706f1fd10aa98"
+  dependencies:
+    css-tree "1.0.0-alpha.28"
 
 stylelint-no-unsupported-browser-features@^1.0.0:
   version "1.0.1"
