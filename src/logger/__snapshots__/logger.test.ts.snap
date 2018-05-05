@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Logger should work 1`] = `"2018-05-05T18:51:07.908Z type=\\"UNHANDLED_ERROR_THROWN\\", branch=\\"master\\", commit=\\"123456\\", message=\\"Unknown error\\", column=0, line=0"`;
+exports[`Logger should work 1`] = `"2018-05-05T18:51:07.908Z type=\\"UNHANDLED_ERROR_THROWN\\", branch=\\"master\\", commit=\\"123456\\", payload.message=\\"Unknown error\\", payload.column=0, payload.line=0"`;
 
 exports[`Logger should work 2`] = `"2018-05-05T19:18:49.053Z type=\\"PAGE_LOAD_FAILED\\", branch=\\"master\\", commit=\\"123456\\", payload=\\"/Tom_Hanks\\""`;
 

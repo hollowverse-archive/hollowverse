@@ -4,6 +4,7 @@ import bluebird from 'bluebird';
 import { SourceMapConsumer } from 'source-map';
 import got from 'got';
 import { URL } from 'url';
+import flattenObject from 'flat';
 
 import { LoggedAction } from './types';
 import { isActionOfType } from '../app/store/helpers';
@@ -48,11 +49,13 @@ export const convertObjectsToLines = (
 
   const normalizedDate = DateTime.fromISO(timestamp, { zone: 'UTC' });
 
-  const pairs = Object.entries({
-    type,
-    ...additionalProps,
-    ...(typeof rest.payload === 'object' ? rest.payload : rest),
-  }).map(
+  const pairs = Object.entries(
+    flattenObject({
+      type,
+      ...additionalProps,
+      ...rest,
+    }),
+  ).map(
     ([key, value]) =>
       `${key}=${typeof value === 'string' ? `"${value}"` : value}`,
   );
