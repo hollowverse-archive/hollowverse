@@ -44,11 +44,12 @@ const transformActionForLogging = async (
 export const convertObjectsToLines = (
   additionalProps?: Record<string, any>,
 ) => (action: LoggedAction) => {
-  const { timestamp, ...rest } = action;
+  const { timestamp, type, ...rest } = action;
 
   const normalizedDate = DateTime.fromISO(timestamp, { zone: 'UTC' });
 
   const pairs = Object.entries({
+    type,
     ...additionalProps,
     ...(typeof rest.payload === 'object' ? rest.payload : rest),
   }).map(
