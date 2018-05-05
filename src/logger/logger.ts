@@ -1,12 +1,12 @@
 // tslint:disable no-console
-
+import { DateTime } from 'luxon';
 import bluebird from 'bluebird';
 import { SourceMapConsumer } from 'source-map';
 import got from 'got';
 import { URL } from 'url';
 
 import { LoggedAction } from './types';
-import { isActionOfType } from '../app/store/helpers';
+import { isActionOfType, isErrorType } from '../app/store/helpers';
 
 const { BRANCH, COMMIT_ID, SUMO_COLLECTOR_ID } = process.env;
 
@@ -41,19 +41,36 @@ const transformActionForLogging = async (
   return action;
 };
 
+export const convertObjectsToLines = (
+  additionalProps?: Record<string, any>,
+) => (action: LoggedAction) => {
+  const { timestamp, type, ...rest } = action;
+
+  const normalizedDate = DateTime.fromISO(timestamp, { zone: 'UTC' });
+
+  const pairs = Object.entries({
+    ...additionalProps,
+    ...(typeof rest.payload === 'object' ? rest.payload : rest),
+  }).map(
+    ([key, value]) =>
+      `${key}=${typeof value === 'string' ? `"${value}"` : value}`,
+  );
+
+  const level = isErrorType(type) ? 'ERROR' : 'INFO';
+
+  return `${normalizedDate} [${type}] ${level} ${pairs.join(', ')}`;
+};
+
 export async function log(actions: LoggedAction[]) {
-  const transformedActions = await bluebird
+  const lines = await bluebird
     .map(actions, transformActionForLogging)
-    .map((action: LoggedAction) => ({
-      ...action,
-      timestamp: new Date(action.timestamp),
-    }));
+    .map(convertObjectsToLines({ branch: BRANCH, commit: COMMIT_ID }));
 
   await got.post(COLLECTOR_URL, {
-    json: true,
-    body: transformedActions,
+    body: lines.join('\n'),
     headers: {
-      'X-Sumo-Category': `${BRANCH}/${COMMIT_ID}`,
+      'Content-Type': 'text/plain',
+      'X-Sumo-Category': 'hollowverse.com',
       'X-Sumo-Host': 'Lambda',
     },
   });

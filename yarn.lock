@@ -1050,6 +1050,10 @@
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/@types/lru-cache/-/lru-cache-4.1.0.tgz#ef69ce9c3ebb46bd146f0d80f0c1ce38b0508eae"
 
+"@types/luxon@^0.5.2":
+  version "0.5.2"
+  resolved "https://registry.yarnpkg.com/@types/luxon/-/luxon-0.5.2.tgz#3a12e672cfde45a83fc92b8b11ba91db0622e6fc"
+
 "@types/mime@*":
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/@types/mime/-/mime-2.0.0.tgz#5a7306e367c539b9f6543499de8dd519fac37a8b"
@@ -9117,6 +9121,10 @@ lru-cache@^4.0.1, lru-cache@^4.1.1:
 lsmod@1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/lsmod/-/lsmod-1.0.0.tgz#9a00f76dca36eb23fa05350afe1b585d4299e64b"
+
+luxon@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/luxon/-/luxon-1.2.0.tgz#d438567c890c05c8fcb2d462af7ea66a5fbb0efa"
 
 macaddress@^0.2.8:
   version "0.2.8"
