@@ -99,13 +99,6 @@
       font-weight: normal;
     }
   }
-
-  .small {
-    @include font-13px;
-    line-height: 1.4;
-    margin-bottom: 10px;
-    color: $color-text-light;
-  }
 }
 
 @keyframes text-page {

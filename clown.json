@@ -5,7 +5,7 @@
     "./node_modules/@hollowverse/config/clown/rxjs",
     "./node_modules/@hollowverse/config/clown/jest",
     "./node_modules/@hollowverse/config/clown/babel",
-    "./node_modules/@hollowverse/config/clown/stylelint",
+    "./node_modules/@hollowverse/config/clown/css",
     "./node_modules/@hollowverse/config/clown/lambda",
     "./clownOverrides"
   ]

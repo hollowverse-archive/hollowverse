@@ -12,10 +12,6 @@
     @include font-20px;
   }
 
-  .br {
-    display: block;
-  }
-
   > * + * {
     margin-top: $spacing-15px;
   }
