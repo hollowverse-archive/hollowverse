@@ -55,10 +55,7 @@ export const convertObjectsToLines = (
       ...additionalProps,
       ...rest,
     }),
-  ).map(
-    ([key, value]) =>
-      `${key}=${typeof value === 'string' ? `"${value}"` : value}`,
-  );
+  ).map(([key, value]) => `${key}=${value}`);
 
   return `${normalizedDate} ${pairs.join(', ')}`;
 };
