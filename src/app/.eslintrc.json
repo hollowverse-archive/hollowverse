@@ -8,8 +8,8 @@
   "rules": {
     "import/extensions": ["off"],
     "import/no-webpack-loader-syntax": ["off"],
-    "css-modules/no-unused-class": [2, { "camelCase": true }],
-    "css-modules/no-undef-class": [2, { "camelCase": true }]
+    "css-modules/no-unused-class": ["error", { "camelCase": true }],
+    "css-modules/no-undef-class": ["error", { "camelCase": true }]
   },
   "env": {
     "browser": true,
