@@ -1,9 +1,10 @@
 // tslint:disable no-console
-
+import { DateTime } from 'luxon';
 import bluebird from 'bluebird';
 import { SourceMapConsumer } from 'source-map';
 import got from 'got';
 import { URL } from 'url';
+import flattenObject from 'flat';
 
 import { LoggedAction } from './types';
 import { isActionOfType } from '../app/store/helpers';
@@ -41,19 +42,34 @@ const transformActionForLogging = async (
   return action;
 };
 
+export const convertObjectsToLines = (
+  additionalProps?: Record<string, any>,
+) => (action: LoggedAction) => {
+  const { timestamp, type, ...rest } = action;
+
+  const normalizedDate = DateTime.fromISO(timestamp, { zone: 'UTC' });
+
+  const pairs = Object.entries(
+    flattenObject({
+      type,
+      ...additionalProps,
+      ...rest,
+    }),
+  ).map(([key, value]) => `[${key}=${value}]`);
+
+  return `${normalizedDate} ${pairs.join(' ')}`;
+};
+
 export async function log(actions: LoggedAction[]) {
-  const transformedActions = await bluebird
+  const lines = await bluebird
     .map(actions, transformActionForLogging)
-    .map((action: LoggedAction) => ({
-      ...action,
-      timestamp: new Date(action.timestamp),
-    }));
+    .map(convertObjectsToLines({ branch: BRANCH, commit: COMMIT_ID }));
 
   await got.post(COLLECTOR_URL, {
-    json: true,
-    body: transformedActions,
+    body: lines.join('\n'),
     headers: {
-      'X-Sumo-Category': `${BRANCH}/${COMMIT_ID}`,
+      'Content-Type': 'text/plain',
+      'X-Sumo-Category': 'hollowverse.com',
       'X-Sumo-Host': 'Lambda',
     },
   });

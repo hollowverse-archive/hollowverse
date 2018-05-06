@@ -12,7 +12,6 @@ export const sendLogs = async (actions: Action[]) => {
       actions.map(action => ({
         ...action,
         timestamp: new Date(),
-        isServer: false,
       })),
     );
 
