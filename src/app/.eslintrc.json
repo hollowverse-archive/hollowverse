@@ -1,15 +1,11 @@
 {
   "extends": [
     "../../node_modules/@hollowverse/config/eslint/browser/.eslintrc.json",
-    "../../node_modules/@hollowverse/config/eslint/react/typescript/.eslintrc.json",
-    "plugin:css-modules/recommended"
+    "../../node_modules/@hollowverse/config/eslint/react/typescript/.eslintrc.json"
   ],
-  "plugins": ["css-modules"],
   "rules": {
     "import/extensions": ["off"],
-    "import/no-webpack-loader-syntax": ["off"],
-    "css-modules/no-unused-class": ["error", { "camelCase": true }],
-    "css-modules/no-undef-class": ["error", { "camelCase": true }]
+    "import/no-webpack-loader-syntax": ["off"]
   },
   "env": {
     "browser": true,
