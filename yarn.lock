@@ -844,9 +844,9 @@
     lodash "^4.17.4"
     sort-keys "^2.0.0"
 
-"@hollowverse/config@^33.0.0":
-  version "33.0.0"
-  resolved "https://registry.yarnpkg.com/@hollowverse/config/-/config-33.0.0.tgz#6ac5fcba05874af399dbd5d9a2654c9a4a2d6b3a"
+"@hollowverse/config@^34.0.0":
+  version "34.0.0"
+  resolved "https://registry.yarnpkg.com/@hollowverse/config/-/config-34.0.0.tgz#a2ab48a9c49dcff8d2485a40f6af948a31d43d5d"
 
 "@hollowverse/utils@^6.0.1":
   version "6.0.1"
@@ -5230,6 +5230,13 @@ eslint-plugin-compat@^2.1.0:
     caniuse-db "^1.0.30000794"
     mdn-browser-compat-data "^0.0.20"
     requireindex "^1.1.0"
+
+eslint-plugin-css-modules@^2.7.5:
+  version "2.7.5"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-css-modules/-/eslint-plugin-css-modules-2.7.5.tgz#a4f49d3b585c721b37a8fee810af40373906bb1c"
+  dependencies:
+    gonzales-pe "^4.0.3"
+    lodash "^4.17.2"
 
 eslint-plugin-graphql@^1.5.0:
   version "1.5.0"
