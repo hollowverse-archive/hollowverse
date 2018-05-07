@@ -3,18 +3,14 @@
 import bluebird from 'bluebird';
 import { SourceMapConsumer } from 'source-map';
 import got from 'got';
-import { URL } from 'url';
 
 import { LoggedAction } from './types';
 import { isActionOfType } from '../app/store/helpers';
 
-const { BRANCH, COMMIT_ID, SUMO_COLLECTOR_ID } = process.env;
+const { BRANCH, COMMIT_ID, SPLUNK_COLLECTOR_TOKEN } = process.env;
 
-const RECEIVER_URL =
-  'https://endpoint2.collection.us2.sumologic.com/receiver/v1/http/';
-
-// tslint:disable-next-line no-non-null-assertion
-const COLLECTOR_URL = new URL(SUMO_COLLECTOR_ID!, RECEIVER_URL).toString();
+const COLLECTOR_URL =
+  'https://input-prd-p-kwnk36xd58jf.cloud.splunk.com:8088/services/collector/event';
 
 const transformActionForLogging = async (
   action: LoggedAction,
@@ -45,16 +41,16 @@ export async function log(actions: LoggedAction[]) {
   const transformedActions = await bluebird
     .map(actions, transformActionForLogging)
     .map((action: LoggedAction) => ({
-      ...action,
-      timestamp: new Date(action.timestamp),
+      event: action,
+      time: new Date(action.timestamp),
+      host: 'Lambda',
+      source: `hollowverse/${BRANCH}/${COMMIT_ID}`,
     }));
 
   await got.post(COLLECTOR_URL, {
-    json: true,
-    body: transformedActions,
+    body: transformedActions.map(event => JSON.stringify(event)).join(''),
     headers: {
-      'X-Sumo-Category': `${BRANCH}/${COMMIT_ID}`,
-      'X-Sumo-Host': 'Lambda',
+      Authorization: `Splunk ${SPLUNK_COLLECTOR_TOKEN}`,
     },
   });
 }
