@@ -1,0 +1,3 @@
+type SplunkSecret = {
+  token: string;
+};
