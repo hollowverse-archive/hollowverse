@@ -1,13 +1,12 @@
 // tslint:disable no-console
 
 import bluebird from 'bluebird';
-import { SourceMapConsumer } from 'source-map';
 import got from 'got';
-
-import { LoggedAction } from './types';
-import { isActionOfType } from '../app/store/helpers';
-import { Agent as HttpsAgent } from 'https';
 import { globalAgent as globalHttpAgent } from 'http';
+import { Agent as HttpsAgent } from 'https';
+import { SourceMapConsumer } from 'source-map';
+import { isActionOfType } from '../app/store/helpers';
+import { LoggedAction } from './types';
 
 const { BRANCH, COMMIT_ID, SPLUNK_COLLECTOR_TOKEN } = process.env;
 
@@ -47,8 +46,8 @@ export async function log(actions: LoggedAction[]) {
     .map(actions, transformActionForLogging)
     .map((action: LoggedAction) => ({
       event: action,
-      host: 'Lambda',
-      source: `hollowverse/${BRANCH}/${COMMIT_ID}`,
+      host: 'HollowverseWebsite',
+      source: `${BRANCH}/${COMMIT_ID}`,
     }));
 
   await got.post(COLLECTOR_URL, {
