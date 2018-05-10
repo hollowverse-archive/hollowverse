@@ -9,14 +9,14 @@ const {
   executeCommands,
 } = require('@hollowverse/utils/helpers/executeCommands');
 
-const { ENC_PASS_SUMO, IS_PULL_REQUEST, BRANCH } = shelljs.env;
+const { ENC_PASS_SPLUNK, IS_PULL_REQUEST, BRANCH } = shelljs.env;
 
 const isPullRequest = IS_PULL_REQUEST !== 'false';
 
 const secrets = [
   {
-    password: ENC_PASS_SUMO,
-    decryptedFilename: 'sumo.json',
+    password: ENC_PASS_SPLUNK,
+    decryptedFilename: 'splunk.json',
   },
 ];
 
