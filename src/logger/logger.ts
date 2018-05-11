@@ -11,7 +11,7 @@ import { LoggedAction } from './types';
 
 const { BRANCH, COMMIT_ID } = process.env;
 
-const splunkToken = readAwsSecretStringForStage(
+const splunkTokenPromise = readAwsSecretStringForStage(
   'splunk/httpCollector/website/token',
 );
 
