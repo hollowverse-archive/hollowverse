@@ -848,13 +848,12 @@
   version "34.0.0"
   resolved "https://registry.yarnpkg.com/@hollowverse/config/-/config-34.0.0.tgz#a2ab48a9c49dcff8d2485a40f6af948a31d43d5d"
 
-"@hollowverse/utils@^6.0.1":
-  version "6.0.1"
-  resolved "https://registry.yarnpkg.com/@hollowverse/utils/-/utils-6.0.1.tgz#2ad5f8a4b7d78320f94c6b9152655e025193baf1"
+"@hollowverse/utils@^7.0.1":
+  version "7.0.1"
+  resolved "https://registry.yarnpkg.com/@hollowverse/utils/-/utils-7.0.1.tgz#f3c7175e7395becc11abe966878c1462853ece02"
   dependencies:
     "@babel/polyfill" "^7.0.0-beta.44"
     "@babel/runtime" "^7.0.0-beta.44"
-    "@types/aws-lambda" "^0.0.34"
     bluebird "^3.5.1"
     common-tags "^1.7.2"
     glob "^7.1.2"
@@ -1786,6 +1785,21 @@ autoprefixer@^8.0.0:
     num2fraction "^1.2.2"
     postcss "^6.0.21"
     postcss-value-parser "^3.2.3"
+
+aws-sdk@^2.238.1:
+  version "2.238.1"
+  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.238.1.tgz#a35fdec122ed915da490840e8828336da5be4e7f"
+  dependencies:
+    buffer "4.9.1"
+    events "1.1.1"
+    ieee754 "1.1.8"
+    jmespath "0.15.0"
+    querystring "0.2.0"
+    sax "1.2.1"
+    url "0.10.3"
+    uuid "3.1.0"
+    xml2js "0.4.17"
+    xmlbuilder "4.2.1"
 
 aws-sdk@^2.75.0:
   version "2.217.1"
@@ -10322,6 +10336,13 @@ p-locate@^2.0.0:
 p-map@^1.1.1:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/p-map/-/p-map-1.2.0.tgz#e4e94f311eabbc8633a1e79908165fca26241b6b"
+
+p-memoize@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/p-memoize/-/p-memoize-1.0.0.tgz#5760138734a553d1b103e4c176cf8866faa5f26e"
+  dependencies:
+    mem "^1.1.0"
+    mimic-fn "^1.0.0"
 
 p-reduce@^1.0.0:
   version "1.0.0"

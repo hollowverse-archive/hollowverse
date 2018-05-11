@@ -5,6 +5,8 @@ plugins:
   - serverless-content-encoding
 
 custom:
+  regionAndAccount: us-east-1:251013100663
+  secretsArnPrefix: arn:aws:secretsmanager:${self:custom.regionAndAccount}:secret:${self:provider.stage}
   apigwBinary:
     types:
       - '*/*'
@@ -19,11 +21,16 @@ provider:
   stage: ${opt:stage, 'development'}
   region: us-east-1
   environment:
-    NODE_ENV: ${self:provider.stage}
+    NODE_ENV: ${env:NODE_ENV, 'development'}
+    STAGE: ${self:provider.stage}
     BRANCH: ${env:BRANCH}
     COMMIT_ID: ${env:COMMIT_ID}
-    SPLUNK_COLLECTOR_TOKEN: ${file(./secrets/splunk.json):token}
-
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - secretsmanager:GetSecretValue
+      Resource:
+        - "${self:custom.secretsArnPrefix}/splunk/httpCollector/website/token-*"
 functions:
   servePages:
     handler: dist/servePages.servePages
