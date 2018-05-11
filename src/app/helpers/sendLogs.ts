@@ -1,6 +1,29 @@
 import { Action } from 'store/types';
+import Cookie from 'js-cookie';
+import uuid from 'uuid/v4';
+import { once } from 'lodash';
 
 const logEndpointUrl = `/log?branch=${__BRANCH__}`;
+
+/**
+ * We try to use the Google Analytics "Client ID" to associate
+ * logs with the same GA user, otherwise we generate a new random
+ * ID.
+ * Note: this function should not be invoked immediately to give
+ * enough time for Google Analytics script to load (since it's loaded lazily).
+ * @see https://developers.google.com/analytics/devguides/collection/analyticsjs/cookies-user-id
+ */
+const getSessionId = once(() => {
+  const existingId = localStorage.getItem('uid') || Cookie.get('_ga');
+  if (existingId) {
+    return existingId;
+  }
+
+  const newId = uuid();
+  localStorage.setItem('uid', newId);
+
+  return newId;
+});
 
 export const sendLogs = async (actions: Action[]) => {
   try {
@@ -12,6 +35,7 @@ export const sendLogs = async (actions: Action[]) => {
       actions.map(action => ({
         ...action,
         timestamp: new Date(),
+        sessionId: getSessionId(),
       })),
     );
 
