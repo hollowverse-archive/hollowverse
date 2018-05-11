@@ -139,6 +139,7 @@
     "history": "^4.6.3",
     "http-proxy-middleware": "^0.18.0",
     "intersection-observer": "^0.5.0",
+    "js-cookie": "^2.2.0",
     "lodash": "^4.17.5",
     "lodash-es": "^4.17.8",
     "loglevel": "^1.5.1",
@@ -165,6 +166,7 @@
     "shelljs": "^0.7.8",
     "source-map": "^0.6.1",
     "url-polyfill": "^1.0.12",
+    "uuid": "^3.2.1",
     "whatwg-fetch": "^2.0.3"
   },
   "devDependencies": {
@@ -196,6 +198,7 @@
     "@types/helmet": "^0.0.37",
     "@types/http-proxy-middleware": "^0.17.4",
     "@types/jest": "^22.2.0",
+    "@types/js-cookie": "^2.1.0",
     "@types/lodash": "^4.14.68",
     "@types/loglevel": "^1.5.3",
     "@types/lru-cache": "^4.1.0",
@@ -215,6 +218,7 @@
     "@types/shelljs": "^0.7.2",
     "@types/stylelint": "^7.10.0",
     "@types/supertest": "^2.0.4",
+    "@types/uuid": "^3.4.3",
     "@types/webpack": "^3.8.8",
     "@types/whatwg-fetch": "^0.0.33",
     "apollo-codegen": "^0.17.1",
