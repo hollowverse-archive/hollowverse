@@ -4,26 +4,17 @@
 /* eslint import/no-extraneous-dependencies: ["error", {"devDependencies": true}] */
 
 const shelljs = require('shelljs');
-const { decryptSecrets } = require('@hollowverse/utils/helpers/decryptSecrets');
 const {
   executeCommands,
 } = require('@hollowverse/utils/helpers/executeCommands');
 
-const { ENC_PASS_SPLUNK, IS_PULL_REQUEST, BRANCH } = shelljs.env;
+const { IS_PULL_REQUEST, BRANCH } = shelljs.env;
 
 const isPullRequest = IS_PULL_REQUEST !== 'false';
-
-const secrets = [
-  {
-    password: ENC_PASS_SPLUNK,
-    decryptedFilename: 'splunk.json',
-  },
-];
 
 async function main() {
   const buildCommands = ['yarn test', 'yarn coverage/report', 'yarn build'];
   const deploymentCommands = [
-    () => decryptSecrets(secrets, './secrets'),
     'cp yarn.lock package.json ./dist && cd dist && yarn --prod',
     `NODE_ENV=production serverless deploy --stage ${BRANCH} --aws-s3-accelerate`,
   ];
@@ -31,10 +22,6 @@ async function main() {
   let isDeployment = false;
   if (isPullRequest === true) {
     console.info('Skipping deployment commands in PRs');
-  } else if (secrets.some(secret => secret.password === undefined)) {
-    console.info(
-      'Skipping deployment commands because some secrets are not provided',
-    );
   } else {
     isDeployment = true;
   }
