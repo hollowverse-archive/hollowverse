@@ -1786,6 +1786,21 @@ autoprefixer@^8.0.0:
     postcss "^6.0.21"
     postcss-value-parser "^3.2.3"
 
+aws-sdk@^2.238.1:
+  version "2.238.1"
+  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.238.1.tgz#a35fdec122ed915da490840e8828336da5be4e7f"
+  dependencies:
+    buffer "4.9.1"
+    events "1.1.1"
+    ieee754 "1.1.8"
+    jmespath "0.15.0"
+    querystring "0.2.0"
+    sax "1.2.1"
+    url "0.10.3"
+    uuid "3.1.0"
+    xml2js "0.4.17"
+    xmlbuilder "4.2.1"
+
 aws-sdk@^2.75.0:
   version "2.217.1"
   resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.217.1.tgz#ed2d6113a54264727f985150407de69b0daed57f"
@@ -10321,6 +10336,13 @@ p-locate@^2.0.0:
 p-map@^1.1.1:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/p-map/-/p-map-1.2.0.tgz#e4e94f311eabbc8633a1e79908165fca26241b6b"
+
+p-memoize@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/p-memoize/-/p-memoize-1.0.0.tgz#5760138734a553d1b103e4c176cf8866faa5f26e"
+  dependencies:
+    mem "^1.1.0"
+    mimic-fn "^1.0.0"
 
 p-reduce@^1.0.0:
   version "1.0.0"

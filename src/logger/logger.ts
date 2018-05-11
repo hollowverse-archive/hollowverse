@@ -8,11 +8,12 @@ import { Agent as HttpsAgent } from 'https';
 import { SourceMapConsumer } from 'source-map';
 import { isActionOfType } from '../app/store/helpers';
 import { LoggedAction } from './types';
+import memoizePromise from 'p-memoize';
 
 const { BRANCH, COMMIT_ID } = process.env;
 
-const splunkTokenPromise = readAwsSecretStringForStage(
-  'splunk/httpCollector/website/token',
+const getSplunkToken = memoizePromise(async () =>
+  readAwsSecretStringForStage('splunk/httpCollector/website/token'),
 );
 
 const COLLECTOR_URL =
@@ -55,7 +56,7 @@ export async function log(actions: LoggedAction[]) {
       source: `${BRANCH}/${COMMIT_ID}`,
     }));
 
-  const token = await splunkTokenPromise;
+  const token = await getSplunkToken();
 
   await got.post(COLLECTOR_URL, {
     body: transformedActions.map(event => JSON.stringify(event)).join(''),
