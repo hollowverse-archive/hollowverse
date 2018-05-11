@@ -55,6 +55,8 @@ export async function log(actions: LoggedAction[]) {
       source: `${BRANCH}/${COMMIT_ID}`,
     }));
 
+  const token = await splunkTokenPromise;
+
   await got.post(COLLECTOR_URL, {
     body: transformedActions.map(event => JSON.stringify(event)).join(''),
     agent: {
@@ -64,7 +66,7 @@ export async function log(actions: LoggedAction[]) {
       }),
     },
     headers: {
-      Authorization: `Splunk ${await splunkToken}`,
+      Authorization: `Splunk ${token}`,
     },
   });
 }
