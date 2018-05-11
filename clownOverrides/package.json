@@ -4,5 +4,8 @@
     "lint-ts": "run-p -c --aggregate-output 'lint-ts/*'",
     "pre-push": "yarn pretest",
     "pre-commit": "yarn common-check"
+  },
+  "dependencies": {
+    "@hollowverse/utils": "^7.0.1"
   }
 }

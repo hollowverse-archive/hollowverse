@@ -2,13 +2,18 @@
 
 import bluebird from 'bluebird';
 import got from 'got';
+import { readAwsSecretStringForStage } from '@hollowverse/utils/helpers/readAwsSecretStringForStage';
 import { globalAgent as globalHttpAgent } from 'http';
 import { Agent as HttpsAgent } from 'https';
 import { SourceMapConsumer } from 'source-map';
 import { isActionOfType } from '../app/store/helpers';
 import { LoggedAction } from './types';
 
-const { BRANCH, COMMIT_ID, SPLUNK_COLLECTOR_TOKEN } = process.env;
+const { BRANCH, COMMIT_ID } = process.env;
+
+const splunkToken = readAwsSecretStringForStage(
+  'splunk/httpCollector/website/token',
+);
 
 const COLLECTOR_URL =
   'https://input-prd-p-kwnk36xd58jf.cloud.splunk.com:8088/services/collector/event';
@@ -59,7 +64,7 @@ export async function log(actions: LoggedAction[]) {
       }),
     },
     headers: {
-      Authorization: `Splunk ${SPLUNK_COLLECTOR_TOKEN}`,
+      Authorization: `Splunk ${await splunkToken}`,
     },
   });
 }
