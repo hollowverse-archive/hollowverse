@@ -12701,9 +12701,9 @@ serverless-apigw-binary@^0.4.4:
   version "0.4.4"
   resolved "https://registry.yarnpkg.com/serverless-apigw-binary/-/serverless-apigw-binary-0.4.4.tgz#f3cffd8365322a2a1d8bde5fd94b306b7a64d4fb"
 
-serverless-cloudfront-invalidate@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/serverless-cloudfront-invalidate/-/serverless-cloudfront-invalidate-1.2.0.tgz#44f4950a446cf83c7e1c3f99be93ff34b9d1138f"
+serverless-cloudfront-invalidate@aghadiry/serverless-cloudfront-invalidate:
+  version "1.1.0"
+  resolved "https://codeload.github.com/aghadiry/serverless-cloudfront-invalidate/tar.gz/632776b9d3d2b54edf4d3a45f0662adf51aee32f"
   dependencies:
     aws-sdk "^2.224.1"
     chalk "^2.3.1"
