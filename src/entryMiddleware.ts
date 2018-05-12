@@ -1,4 +1,4 @@
-import express, { RequestHandler, Response } from 'express';
+import express, { RequestHandler } from 'express';
 import path from 'path';
 import { isNewSlug } from 'isNewSlug';
 import { redirectionMap, isWhitelistedPage } from 'redirectionMap';
@@ -6,16 +6,8 @@ import { clientDistDirectory } from 'webpack/variables';
 
 const isProxyDisabled = Boolean(Number(process.env.NO_PROXY));
 
-const ONE_DAY_IN_SECONDS = 86400;
-
 const serveNewAppPage: RequestHandler = (_req, res) => {
   res.sendFile('index.html', {
-    setHeaders(staticResponse: Response) {
-      staticResponse.set(
-        'Cache-Control',
-        `public, max-age=${ONE_DAY_IN_SECONDS}, s-maxage=0`,
-      );
-    },
     root: path.resolve(clientDistDirectory),
 
     // MUST NOT set the `immutable` directive to `true` because `index.html` filename

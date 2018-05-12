@@ -3,8 +3,13 @@ service: website
 plugins:
   - serverless-apigw-binary
   - serverless-content-encoding
+  - serverless-cloudfront-invalidate
 
 custom:
+  cloudfrontInvalidate:
+    distributionId: 'E3U55U3N2RXSA3'
+    items:
+      - '/*'
   regionAndAccount: us-east-1:251013100663
   secretsArnPrefix: arn:aws:secretsmanager:${self:custom.regionAndAccount}:secret:${self:provider.stage}
   apigwBinary:

@@ -282,6 +282,7 @@
     "sass-loader": "^6.0.6",
     "serverless": "^1.26.1",
     "serverless-apigw-binary": "^0.4.4",
+    "serverless-cloudfront-invalidate": "^1.2.0",
     "serverless-content-encoding": "^1.0.20",
     "serverless-plugin-typescript": "^1.1.5",
     "source-map-loader": "^0.2.1",
