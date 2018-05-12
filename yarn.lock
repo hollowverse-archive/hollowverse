@@ -1632,6 +1632,10 @@ array-union@^1.0.1:
   dependencies:
     array-uniq "^1.0.1"
 
+array-uniq@1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/array-uniq/-/array-uniq-1.0.2.tgz#5fcc373920775723cfd64d65c64bef53bf9eba6d"
+
 array-uniq@^1.0.1:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/array-uniq/-/array-uniq-1.0.3.tgz#af6ac877a25cc7f74e058894753858dfdb24fdb6"
@@ -1786,7 +1790,7 @@ autoprefixer@^8.0.0:
     postcss "^6.0.21"
     postcss-value-parser "^3.2.3"
 
-aws-sdk@^2.238.1:
+aws-sdk@^2.224.1, aws-sdk@^2.238.1:
   version "2.238.1"
   resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.238.1.tgz#a35fdec122ed915da490840e8828336da5be4e7f"
   dependencies:
@@ -11432,6 +11436,12 @@ randombytes@^2.0.0, randombytes@^2.0.1:
   dependencies:
     safe-buffer "^5.1.0"
 
+randomstring@^1.1.5:
+  version "1.1.5"
+  resolved "https://registry.yarnpkg.com/randomstring/-/randomstring-1.1.5.tgz#6df0628f75cbd5932930d9fe3ab4e956a18518c3"
+  dependencies:
+    array-uniq "1.0.2"
+
 range-parser@^1.0.3, range-parser@~1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/range-parser/-/range-parser-1.2.0.tgz#f49be6b487894ddc40dcc94a322f611092e00d5e"
@@ -12690,6 +12700,14 @@ serve-static@1.13.2:
 serverless-apigw-binary@^0.4.4:
   version "0.4.4"
   resolved "https://registry.yarnpkg.com/serverless-apigw-binary/-/serverless-apigw-binary-0.4.4.tgz#f3cffd8365322a2a1d8bde5fd94b306b7a64d4fb"
+
+serverless-cloudfront-invalidate@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/serverless-cloudfront-invalidate/-/serverless-cloudfront-invalidate-1.2.0.tgz#44f4950a446cf83c7e1c3f99be93ff34b9d1138f"
+  dependencies:
+    aws-sdk "^2.224.1"
+    chalk "^2.3.1"
+    randomstring "^1.1.5"
 
 serverless-content-encoding@^1.0.20:
   version "1.0.20"
