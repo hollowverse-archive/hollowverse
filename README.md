@@ -25,3 +25,7 @@ For more information, see the [wiki](https://github.com/hollowverse/hollowverse/
 This repository contains the client-side code as well as the web server which serves the client-side
 code. These are important parts of the overall architecture of hollowverse.com, but they are
 not the only parts. Our architecture is [documented here](https://github.com/hollowverse/architecture#readme).
+
+---
+
+[If you'd like to tell us something, or need help with anything...](https://github.com/hollowverse/hollowverse/wiki/Help)
