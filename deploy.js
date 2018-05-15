@@ -12,6 +12,8 @@ const { IS_PULL_REQUEST, BRANCH } = shelljs.env;
 
 const isPullRequest = IS_PULL_REQUEST !== 'false';
 
+const whitelistedBranches = ['master', 'beta', 'internal'];
+
 async function main() {
   const buildCommands = ['yarn test', 'yarn coverage/report', 'yarn build'];
   const deploymentCommands = [
@@ -22,6 +24,10 @@ async function main() {
   let isDeployment = false;
   if (isPullRequest === true) {
     console.info('Skipping deployment commands in PRs');
+  } else if (!whitelistedBranches.includes(BRANCH)) {
+    console.info(
+      `Skipping deployment because the branch "${BRANCH}" is not whitelisted`,
+    );
   } else {
     isDeployment = true;
   }
