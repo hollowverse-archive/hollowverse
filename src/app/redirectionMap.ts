@@ -15,11 +15,20 @@ export const redirectionMap = new Map<string, string>([
   ['/morgan-freeman', '/Morgan_Freeman'],
   ['/jamie-foxx', '/Jamie_Foxx'],
   ['/robert-downey-jr', '/Robert_Downey_Jr.'],
+  ['/jim-carrey', '/Jim_Carrey'],
+  ['/mel-gibson', '/Mel_Gibson'],
+  ['/paul-newman', '/Paul_Newman'],
+  ['/alan-rickman', '/Alan_Rickman'],
+  ['/cristiano-ronaldo', '/Cristiano_Ronaldo'],
+  ['/bruce-willis', '/Bruce_Willis'],
+  ['/brad-pitt', '/Brad_Pitt'],
 ]);
 
 export const whitelistedNewPaths = [
   ...Array.from(redirectionMap.values()),
   '/search',
+  '/contact',
+  '/privacy-policy',
   // tslint:disable-next-line:no-unnecessary-callback-wrapper
 ].map(path => pathToRegExp(path));
 
