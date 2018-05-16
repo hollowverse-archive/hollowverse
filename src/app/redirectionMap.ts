@@ -22,6 +22,21 @@ export const redirectionMap = new Map<string, string>([
   ['/cristiano-ronaldo', '/Cristiano_Ronaldo'],
   ['/bruce-willis', '/Bruce_Willis'],
   ['/brad-pitt', '/Brad_Pitt'],
+  ['/bella-thorne', '/Bella_Thorne'],
+  ['/al-pacino', '/Al_Pacino'],
+  ['/chris-hemsworth', '/Chris_Hemsworth'],
+  ['/ed-sheeran', '/Ed_Sheeran'],
+  ['/steve_carell', '/Steve_Carell'],
+  ['/stan-lee', '/Stan_Lee'],
+  ['/zinedine-zidane', '/Zinedine_Zidane'],
+  ['/tom-hiddleston', '/Tom_Hiddleston'],
+  ['/seth-macfarlane', '/Seth_MacFarlane'],
+  ['/dwayne-johnson', '/Dwayne_Johnson'],
+  ['/beyonce', '/Beyoncé'],
+  ['/terry-crews', '/Terry_Crews'],
+  ['/rob_lowe', '/Rob_Lowe'],
+  ['/alicia_keys', '/Alicia_Keys'],
+  ['/benedict-cumberbatch', '/Benedict_Cumberbatch'],
 ]);
 
 export const whitelistedNewPaths = [
