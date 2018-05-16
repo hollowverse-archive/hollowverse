@@ -26,7 +26,7 @@ export const redirectionMap = new Map<string, string>([
   ['/al-pacino', '/Al_Pacino'],
   ['/chris-hemsworth', '/Chris_Hemsworth'],
   ['/ed-sheeran', '/Ed_Sheeran'],
-  ['/steve_carell', '/Steve_Carell'],
+  ['/steve-carell', '/Steve_Carell'],
   ['/stan-lee', '/Stan_Lee'],
   ['/zinedine-zidane', '/Zinedine_Zidane'],
   ['/tom-hiddleston', '/Tom_Hiddleston'],
