@@ -167,6 +167,7 @@
     "serialize-javascript": "^1.4.0",
     "shelljs": "^0.7.8",
     "source-map": "^0.6.1",
+    "ua-parser-js": "^0.7.18",
     "url-polyfill": "^1.0.12",
     "uuid": "^3.2.1",
     "whatwg-fetch": "^2.0.3"
@@ -218,6 +219,7 @@
     "@types/shelljs": "^0.7.2",
     "@types/stylelint": "^7.10.0",
     "@types/supertest": "^2.0.4",
+    "@types/ua-parser-js": "^0.7.32",
     "@types/uuid": "^3.4.3",
     "@types/webpack": "^3.8.8",
     "@types/whatwg-fetch": "^0.0.33",

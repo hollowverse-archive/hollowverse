@@ -27,6 +27,7 @@ export const sendLogs = async (actions: Action[]) => {
         ...action,
         timestamp: new Date(),
         sessionId: getSessionId(),
+        userAgent: navigator.userAgent,
       })),
     );
 
