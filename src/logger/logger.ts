@@ -9,6 +9,16 @@ import { SourceMapConsumer } from 'source-map';
 import { isActionOfType } from '../app/store/helpers';
 import { LoggedAction } from './types';
 import memoizePromise from 'p-memoize';
+import { UAParser } from 'ua-parser-js';
+import { memoize } from 'lodash';
+
+const parser = new UAParser();
+
+const parseUserAgent = memoize((userAgent: string) => {
+  parser.setUA(userAgent);
+
+  return parser.getResult();
+});
 
 const { BRANCH, COMMIT_ID } = process.env;
 
@@ -51,7 +61,10 @@ export async function log(actions: LoggedAction[]) {
   const transformedActions = await bluebird
     .map(actions, transformActionForLogging)
     .map((action: LoggedAction) => ({
-      event: action,
+      event: {
+        ...action,
+        userAgent: action.userAgent ? parseUserAgent(action.userAgent) : null,
+      },
       host: 'HollowverseWebsite',
       source: `${BRANCH}/${COMMIT_ID}`,
     }));
