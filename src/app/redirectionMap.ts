@@ -34,8 +34,8 @@ export const redirectionMap = new Map<string, string>([
   ['/dwayne-johnson', '/Dwayne_Johnson'],
   ['/beyonce', '/Beyoncé'],
   ['/terry-crews', '/Terry_Crews'],
-  ['/rob_lowe', '/Rob_Lowe'],
-  ['/alicia_keys', '/Alicia_Keys'],
+  ['/rob-lowe', '/Rob_Lowe'],
+  ['/alicia-keys', '/Alicia_Keys'],
   ['/benedict-cumberbatch', '/Benedict_Cumberbatch'],
 ]);
 
