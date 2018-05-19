@@ -844,9 +844,9 @@
     lodash "^4.17.4"
     sort-keys "^2.0.0"
 
-"@hollowverse/config@^34.0.0":
-  version "34.0.0"
-  resolved "https://registry.yarnpkg.com/@hollowverse/config/-/config-34.0.0.tgz#a2ab48a9c49dcff8d2485a40f6af948a31d43d5d"
+"@hollowverse/config@^36.0.0":
+  version "36.0.0"
+  resolved "https://registry.yarnpkg.com/@hollowverse/config/-/config-36.0.0.tgz#6adca4cc916732ec0fff108af65e2e1e863f9006"
 
 "@hollowverse/utils@^7.0.1":
   version "7.0.1"
@@ -1061,13 +1061,13 @@
   version "8.0.47"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-8.0.47.tgz#968e596f91acd59069054558a00708c445ca30c2"
 
-"@types/node@^8.5.2":
-  version "8.5.2"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-8.5.2.tgz#83b8103fa9a2c2e83d78f701a9aa7c9539739aa5"
+"@types/node@^8.10.17":
+  version "8.10.17"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-8.10.17.tgz#d48cf10f0dc6dcf59f827f5a3fc7a4a6004318d3"
 
-"@types/query-string@^4.3.1":
-  version "4.3.1"
-  resolved "https://registry.yarnpkg.com/@types/query-string/-/query-string-4.3.1.tgz#59ea5c75d425817370158789aa4f6197e5abd987"
+"@types/p-memoize@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@types/p-memoize/-/p-memoize-1.0.0.tgz#cdd1923d60bb2cd62d3356379bb076a60d9dc5d0"
 
 "@types/react-dom@^16.0.3":
   version "16.0.3"

@@ -29,7 +29,9 @@
     "**/.babelrc": "jsonc",
     "**/.babelrc.json": "jsonc",
     "**/tsconfig.json": "jsonc",
-    "**/.stylelintrc": "json"
+    "**/.stylelintrc": "json",
+    "**/tslint.json": "jsonc",
+    "**/.eslintrc.json": "jsonc"
   },
   "files.exclude": {
     "**/node_modules/**": true
