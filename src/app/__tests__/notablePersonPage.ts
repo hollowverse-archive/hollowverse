@@ -2,7 +2,10 @@ import {
   ClientSideTestContext,
   createClientSideTestContext,
 } from 'helpers/testHelpers';
-import { pageLoadSucceeded } from 'store/features/logging/actions';
+import {
+  pageLoadSucceeded,
+  pageLoadFailed,
+} from 'store/features/logging/actions';
 import {
   notablePersonWithEditorialSummaryQueryResponse,
   stubNotablePersonQueryResponse,
@@ -190,6 +193,26 @@ describe('Notable Person page', () => {
       );
       expect(linkButton).toBePresent();
       expect(linkButton.render().attr('href')).toMatch('/Tom_Hanks');
+    });
+
+    describe('logs page load failure event', () => {
+      beforeEach(done => {
+        window.addEventListener('unload', () => {
+          done();
+        });
+
+        window.dispatchEvent(new Event('unload'));
+      });
+
+      it('sends logs on page unload', () => {
+        expect(context.dependencies.sendLogs).toHaveBeenLastCalledWith(
+          expect.arrayContaining([
+            pageLoadFailed({
+              path: context.history.createHref(context.history.location),
+            }),
+          ]),
+        );
+      });
     });
   });
 

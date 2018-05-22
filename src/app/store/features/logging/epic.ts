@@ -55,11 +55,11 @@ const mapPageLoadActions = ([setStatusCodeAction, locationChangeAction]: [
       to,
       statusCode: statusCodePayload.code,
     });
-  } else if (statusCodePayload.code !== 500) {
-    return pageLoadSucceeded({ path });
+  } else if (statusCodePayload.code === 500) {
+    return pageLoadFailed({ path, error: statusCodePayload.error });
   }
 
-  return pageLoadFailed({ path, error: statusCodePayload.error });
+  return pageLoadSucceeded({ path });
 };
 
 const comparePageLoadActions = (
