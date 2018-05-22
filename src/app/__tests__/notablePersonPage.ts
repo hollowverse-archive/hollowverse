@@ -178,7 +178,7 @@ describe('Notable Person page', () => {
         epicDependenciesOverrides: {
           getResponseForDataRequest: async payload => {
             if (payload.key === 'notablePersonQuery') {
-              throw new TypeError();
+              throw new TypeError('Network error');
             }
 
             return payload.load();
@@ -209,6 +209,7 @@ describe('Notable Person page', () => {
           expect.arrayContaining([
             pageLoadFailed({
               path: context.history.createHref(context.history.location),
+              error: 'Network error',
             }),
           ]),
         );

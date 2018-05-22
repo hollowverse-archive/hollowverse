@@ -88,10 +88,11 @@ export async function promiseToAsyncResult<T>(
       value,
       state: 'success',
     };
-  } catch (e) {
+  } catch (error) {
     return {
       value: undefined,
       state: 'error',
+      error,
     };
   }
 }
