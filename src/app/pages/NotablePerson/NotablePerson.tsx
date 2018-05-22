@@ -95,9 +95,9 @@ export const NotablePerson = withRouter(
       );
     };
 
-    renderErrorStatus = () => (
+    renderErrorStatus = (error?: Error) => (
       <>
-        <Status code={500} />
+        <Status code={500} error={error ? error.message : undefined} />
         <Helmet>
           <title>Error loading notable person page</title>
         </Helmet>
@@ -191,7 +191,7 @@ export const NotablePerson = withRouter(
               {({ result }: { result: Result }) => (
                 <div className={classes.root}>
                   {isErrorResult(result)
-                    ? this.renderErrorStatus()
+                    ? this.renderErrorStatus(result.error)
                     : this.renderNonErrorStatus(result)}
                 </div>
               )}

@@ -3,6 +3,7 @@ import { DeepPartial } from 'typings/typeHelpers';
 export type ErrorResult = {
   state: 'error';
   value: undefined;
+  error?: Error;
 };
 
 type StaleResult<T> = {

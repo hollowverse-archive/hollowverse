@@ -45,9 +45,9 @@ describe('Notable Person page', () => {
       it('sends logs on page unload', () => {
         expect(context.dependencies.sendLogs).toHaveBeenLastCalledWith(
           expect.arrayContaining([
-            pageLoadSucceeded(
-              context.history.createHref(context.history.location),
-            ),
+            pageLoadSucceeded({
+              path: context.history.createHref(context.history.location),
+            }),
           ]),
         );
       });

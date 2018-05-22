@@ -155,7 +155,7 @@ export class AsyncComponent<T = any> extends React.PureComponent<
               return;
             }
 
-            this.setState(errorResult);
+            this.setState(state => ({ ...state, ...errorResult, error }));
           });
       },
     );

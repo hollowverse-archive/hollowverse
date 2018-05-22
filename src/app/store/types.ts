@@ -79,7 +79,11 @@ export type ActionTypeToPayloadType = {
   SET_SHOULD_FOCUS_SEARCH: boolean;
   SET_STATUS_CODE:
     | {
-        code: 200 | 404 | 500;
+        code: 200 | 404;
+      }
+    | {
+        code: 500;
+        error?: string;
       }
     | {
         code: 301 | 302;
@@ -93,8 +97,8 @@ export type ActionTypeToPayloadType = {
     line?: number;
     column?: number;
   };
-  PAGE_LOAD_FAILED: string;
-  PAGE_LOAD_SUCCEEDED: string;
+  PAGE_LOAD_FAILED: { path: string; error?: string };
+  PAGE_LOAD_SUCCEEDED: { path: string };
   PAGE_REDIRECTED: {
     statusCode: 301 | 302;
     from: string;

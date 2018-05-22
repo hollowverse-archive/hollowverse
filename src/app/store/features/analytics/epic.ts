@@ -37,7 +37,7 @@ export const analyticsEpic: Epic<Action, StoreState, EpicDependencies> = (
         tap(async action => {
           try {
             const ga = await initScript();
-            const path = action.payload;
+            const { path } = action.payload;
             ga('send', 'pageview', path);
           } catch (e) {
             // Do nothing

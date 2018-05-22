@@ -67,9 +67,9 @@ const Page = withRouter(
       </small>
     );
 
-    renderErrorStatus = () => (
+    renderErrorStatus = (error?: Error) => (
       <>
-        <Status code={500} />
+        <Status code={500} error={error ? error.message : undefined} />
         <Helmet>
           <title>Error loading search page</title>
         </Helmet>
@@ -145,7 +145,7 @@ const Page = withRouter(
 
     renderNonErrorStatus = (result: Exclude<Result, ErrorResult>) => {
       if (isSuccessResult(result) || isStaleResult(result)) {
-        const {value} = result;
+        const { value } = result;
 
         if (value && value.hits.length === 0) {
           return this.render404Status();
@@ -174,7 +174,7 @@ const Page = withRouter(
                   <div className={classes.resultsContainer}>
                     <Card className={classes.card}>
                       {isErrorResult(result)
-                        ? this.renderErrorStatus()
+                        ? this.renderErrorStatus(result.error)
                         : this.renderNonErrorStatus(result)}
                     </Card>
                   </div>
