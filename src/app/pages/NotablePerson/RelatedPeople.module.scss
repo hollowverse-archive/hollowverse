@@ -6,7 +6,7 @@
   list-style: none;
   max-width: $page-max-width;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: stretch;
   margin-top: $spacing-10px;
 
@@ -75,6 +75,7 @@
     $spacing: $spacing-2px;
     @include font-13px;
     flex: 1 0 calc(25% - #{$spacing});
+    max-width: calc(#{$page-max-width} / 4);
     display: flex;
     align-items: flex-start;
     padding: $spacing;
