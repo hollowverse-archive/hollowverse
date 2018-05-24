@@ -8,6 +8,11 @@ export type Props = React.ImgHTMLAttributes<HTMLImageElement> & {
 };
 
 import classes from './Image.module.scss';
+import {
+  isSuccessResult,
+  isErrorResult,
+  isPendingResult,
+} from 'helpers/asyncResults';
 
 /**
  * This component wraps a regular `<img>` tag and optionally shows
@@ -36,7 +41,7 @@ export class Image extends React.PureComponent<Props> {
   render() {
     return (
       <AsyncComponent delay={200} load={this.load}>
-        {({ result: { isInProgress, hasError } }) => {
+        {({ result }) => {
           const {
             className,
             loadingComponent,
@@ -44,11 +49,12 @@ export class Image extends React.PureComponent<Props> {
             ...rest
           } = this.props;
 
-          const hasLoaded = !isInProgress && !hasError;
-
-          if (hasLoaded) {
+          if (isSuccessResult(result)) {
             return <img className={className} {...rest} />;
           }
+
+          const hasError = isErrorResult(result);
+          const isInProgress = isPendingResult(result);
 
           if (errorComponent !== undefined && hasError) {
             return errorComponent;

@@ -44,22 +44,22 @@ const mapPageLoadActions = ([setStatusCodeAction, locationChangeAction]: [
   Action<'SET_STATUS_CODE'>,
   Action<typeof LOCATION_CHANGE>
 ]) => {
-  const url = createPath(locationChangeAction.payload);
+  const path = createPath(locationChangeAction.payload);
   const statusCodePayload = setStatusCodeAction.payload;
 
   if (statusCodePayload.code === 301 || statusCodePayload.code === 302) {
     const to = statusCodePayload.redirectTo;
 
     return pageRedirected({
-      from: url,
+      from: path,
       to,
       statusCode: statusCodePayload.code,
     });
-  } else if (statusCodePayload.code < 500) {
-    return pageLoadSucceeded(url);
+  } else if (statusCodePayload.code === 500) {
+    return pageLoadFailed({ path, error: statusCodePayload.error });
   }
 
-  return pageLoadFailed(url);
+  return pageLoadSucceeded({ path });
 };
 
 const comparePageLoadActions = (

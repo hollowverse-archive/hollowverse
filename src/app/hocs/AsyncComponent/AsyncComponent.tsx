@@ -5,6 +5,8 @@ import {
   PendingResult,
   SuccessResult,
   ErrorResult,
+  errorResult,
+  pendingResult,
 } from 'helpers/asyncResults';
 import {
   promiseToCancelable,
@@ -87,8 +89,7 @@ export class AsyncComponent<T = any> extends React.PureComponent<
   };
 
   state: State<T | null> = {
-    isInProgress: false,
-    hasError: false,
+    state: 'success',
     hasTimedOut: false,
     value: null,
     isPastDelay: false,
@@ -104,8 +105,7 @@ export class AsyncComponent<T = any> extends React.PureComponent<
     this.setState(
       {
         value: null,
-        isInProgress: !this.props.delay,
-        hasError: false,
+        state: this.props.delay ? 'success' : 'pending',
         hasTimedOut: false,
       },
       () => {
@@ -124,28 +124,20 @@ export class AsyncComponent<T = any> extends React.PureComponent<
 
         if (this.props.delay) {
           promises.push(
-            delay(this.props.delay).then(
-              () =>
-                ({
-                  // tslint:disable-next-line:no-object-literal-type-assertion
-                  isInProgress: true,
-                  isPastDelay: true,
-                } as Partial<PendingResult>),
-            ),
+            delay(this.props.delay).then(() => ({
+              ...pendingResult,
+              isPastDelay: true,
+            })),
           );
         }
 
         const { timeout } = this.props;
         if (timeout) {
           promises.push(
-            delay(timeout).then(
-              () =>
-                // tslint:disable-next-line:no-object-literal-type-assertion
-                ({
-                  hasError: true,
-                  hasTimedOut: true,
-                } as Partial<ErrorResult>),
-            ),
+            delay(timeout).then(() => ({
+              ...errorResult,
+              hasTimedOut: true,
+            })),
           );
         }
 
@@ -155,7 +147,7 @@ export class AsyncComponent<T = any> extends React.PureComponent<
 
             if (!patch.hasTimedOut) {
               const value = await loadPromise;
-              this.setState({ value, isInProgress: false });
+              this.setState({ value, state: 'success' });
             }
           })
           .catch(error => {
@@ -163,7 +155,7 @@ export class AsyncComponent<T = any> extends React.PureComponent<
               return;
             }
 
-            this.setState({ isInProgress: false, hasError: true });
+            this.setState(state => ({ ...state, ...errorResult, error }));
           });
       },
     );

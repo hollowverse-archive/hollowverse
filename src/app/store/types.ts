@@ -6,6 +6,7 @@ import {
 import { AsyncResult } from 'helpers/asyncResults';
 import { AlgoliaResponse } from 'algoliasearch';
 import { NotablePersonQuery } from 'api/types';
+import { DeepPartial } from 'typings/typeHelpers';
 
 export type ResolvedData = {
   notablePersonQuery: NotablePersonQuery | null;
@@ -21,7 +22,13 @@ export type RequestDataPayload<
    * Whether to keep the results of the previous request while loading
    * the new results
    */
-  allowOptimisticUpdates: boolean;
+  keepStaleData: boolean;
+
+  /**
+   * An incomplete optimistic version of the data that is expected
+   * to be loaded.
+   */
+  optimisticResponse?: DeepPartial<ResolvedData[Key]>;
 
   /**
    * The key used to store the results in Redux state
@@ -40,7 +47,7 @@ export type RequestDataPayload<
    */
   forPage?: string;
 
-  /** An asynchronous function that fetchs the data */
+  /** An asynchronous function that fetches the data */
   load(): Promise<ResolvedData[Key]>;
 };
 
@@ -72,7 +79,11 @@ export type ActionTypeToPayloadType = {
   SET_SHOULD_FOCUS_SEARCH: boolean;
   SET_STATUS_CODE:
     | {
-        code: 200 | 404 | 500;
+        code: 200 | 404;
+      }
+    | {
+        code: 500;
+        error?: string;
       }
     | {
         code: 301 | 302;
@@ -86,8 +97,8 @@ export type ActionTypeToPayloadType = {
     line?: number;
     column?: number;
   };
-  PAGE_LOAD_FAILED: string;
-  PAGE_LOAD_SUCCEEDED: string;
+  PAGE_LOAD_FAILED: { path: string; error?: string };
+  PAGE_LOAD_SUCCEEDED: { path: string };
   PAGE_REDIRECTED: {
     statusCode: 301 | 302;
     from: string;

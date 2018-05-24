@@ -7,6 +7,7 @@ import { AsyncComponent } from 'hocs/AsyncComponent/AsyncComponent';
 
 import warningIcon from 'icons/warning.svg';
 import { Button } from 'components/Button/Button';
+import { isPendingResult, isErrorResult } from 'helpers/asyncResults';
 
 const warningIconComponent = <SvgIcon {...warningIcon} />;
 
@@ -105,12 +106,12 @@ export class FbComments extends React.PureComponent<Props> {
     return (
       <div {...rest}>
         <AsyncComponent load={this.load}>
-          {({ result: { hasError, isInProgress, hasTimedOut }, retry }) => {
-            if (hasError || hasTimedOut) {
+          {({ result, retry }) => {
+            if (isErrorResult(result) || result.hasTimedOut) {
               return (
                 <MessageWithIcon
                   title={
-                    hasTimedOut
+                    result.hasTimedOut
                       ? 'Comments are taking too long to load'
                       : 'Error loading comments'
                   }
@@ -119,6 +120,8 @@ export class FbComments extends React.PureComponent<Props> {
                 />
               );
             }
+
+            const isInProgress = isPendingResult(result);
 
             return (
               <div>

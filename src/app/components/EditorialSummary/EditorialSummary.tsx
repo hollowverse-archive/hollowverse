@@ -6,6 +6,7 @@ import { prettifyUrl } from 'helpers/prettifyUrl';
 import { EditorialSummaryNodeType, NotablePersonQuery } from 'api/types';
 import { Quote } from 'components/Quote/Quote';
 import { Collapsable } from 'components/Collapsable/Collapsable';
+import { ArrayElement } from 'typings/typeHelpers';
 
 type NotablePerson = NonNullable<NotablePersonQuery['notablePerson']>;
 

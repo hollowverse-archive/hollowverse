@@ -1,6 +1,11 @@
 import React from 'react';
 
-import { AsyncResult, pendingResult } from 'helpers/asyncResults';
+import {
+  AsyncResult,
+  isStaleResult,
+  isOptimisticResult,
+  pendingResult,
+} from 'helpers/asyncResults';
 import { ResolvedData, ResolvedDataKey, StoreState } from 'store/types';
 import { connect } from 'react-redux';
 import { getResolvedDataForKey } from 'store/features/asyncData/selectors';
@@ -29,6 +34,12 @@ type OwnProps<Key extends ResolvedDataKey = ResolvedDataKey> = {
    * the new results
    * @default `false`
    */
+  keepStaleData?: boolean;
+
+  /**
+   * An incomplete optimistic version of the data that is expected
+   * to be loaded.
+   */
   allowOptimisticUpdates?: boolean;
 
   /**
@@ -40,9 +51,9 @@ type OwnProps<Key extends ResolvedDataKey = ResolvedDataKey> = {
 
   /**
    * A function that receives the result of the `load` function when
-   * it resolves. While resolving, children receive a pending result
-   * or an optimistic result depending on whether `allowOptimisitcUpdates`
-   * is enabled.
+   * it resolves. While resolving, children receive a pending result,
+   * an optimistic result or a stale result depending on whether
+   * `allowOptimisticUpdates` or `keepStaleData` is enabled.
    */
   children({
     result,
@@ -67,19 +78,13 @@ type Props<K extends ResolvedDataKey = ResolvedDataKey> = OwnProps<K> &
 
 class Wrapper extends React.Component<Props> {
   resolve(props = this.props) {
-    const {
-      dataKey,
-      forPage,
-      load,
-      requestId,
-      allowOptimisticUpdates = false,
-    } = props;
+    const { dataKey, forPage, load, requestId, keepStaleData = false } = props;
     props.requestData({
       key: dataKey,
       requestId,
       forPage,
       load,
-      allowOptimisticUpdates,
+      keepStaleData,
     });
   }
 
@@ -96,13 +101,16 @@ class Wrapper extends React.Component<Props> {
   }
 
   render() {
-    const { result, requestId, allowOptimisticUpdates } = this.props;
+    const { result, keepStaleData, allowOptimisticUpdates } = this.props;
     let finalResult = result;
 
-    if (result.requestId !== requestId && !allowOptimisticUpdates) {
+    if (
+      (isStaleResult(result) && keepStaleData === false) ||
+      (isOptimisticResult(result) && allowOptimisticUpdates === false)
+    ) {
       finalResult = {
+        ...result,
         ...pendingResult,
-        requestId,
       };
     }
 
@@ -111,19 +119,20 @@ class Wrapper extends React.Component<Props> {
 }
 
 /**
- * This component is used to fetch data needed by a component whether **on the server**
- * or **on the client**.
+ * This component is used to fetch data needed by a component.
  *
  * It supports:
  * * An arbitrary asynchronous function to load the data (`props.load`)
- * * Optimistic results by keeping the results of
- *   the previous call to the load function (`props.allowOptimisticUpdates`)
+ * * Stale results by keeping the results of
+ *   the previous call to the load function (`props.keepStaleData`)
+ * * Partial optimistic responses (`props.allowOptimisticUpdates`)
  * * Integration with Redux: the results are stored in Redux store and provided
  *   to the wrapped component.
  *
  * While the data is being fetched, the children are allowed to render and are passed
  * a `AsyncResult` object that describes the progress of the request, and depending on
- * whether `allowOptimisticUpdates` is enabled, the `AsyncResult` may also contain
+ * whether `allowOptimisticUpdates` or `keepStaleData` are enabled,
+ * the `AsyncResult` may also contain a partial optimistic response or
  * the results of the previous call to `load`.
  */
 export const WithData = connect<
