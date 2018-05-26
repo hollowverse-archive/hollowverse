@@ -1384,7 +1384,7 @@ exports[`Notable Person page When notable person is found, if notable person has
         ]
       }
     >
-      <Component
+      <Quote
         key="c2f0a449-b1c7-4326-9724-9bbc96cbd965"
         size="large"
       >
@@ -1784,7 +1784,7 @@ exports[`Notable Person page When notable person is found, if notable person has
             </p>
           </Block>
         </blockquote>
-      </Component>
+      </Quote>
     </Block>
     <Block
       key="6fe7210a-20cd-4994-bb07-18a5c48aafe6"
@@ -5273,7 +5273,7 @@ exports[`Notable Person page When notable person is found, if notable person has
         ]
       }
     >
-      <Component
+      <Quote
         key="4b37b4f8-95dd-4924-903b-8e0a76824f23"
         size="large"
       >
@@ -5673,7 +5673,7 @@ exports[`Notable Person page When notable person is found, if notable person has
             </p>
           </Block>
         </blockquote>
-      </Component>
+      </Quote>
     </Block>
     <Block
       key="2ce08d61-2758-4bca-be15-d4f2cd2079ef"
@@ -6087,7 +6087,7 @@ exports[`Notable Person page When notable person is found, if notable person has
             <h3>
               Sources
             </h3>
-            <Component
+            <SvgIcon
               className="icon"
               content=""
               id=""
@@ -6106,7 +6106,7 @@ exports[`Notable Person page When notable person is found, if notable person has
                   xlinkHref=""
                 />
               </svg>
-            </Component>
+            </SvgIcon>
           </label>
           <div
             className="children"
