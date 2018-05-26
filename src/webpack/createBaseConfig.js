@@ -4,7 +4,6 @@ const path = require('path');
 const CircularDependencyPlugin = require('circular-dependency-plugin');
 const SpriteLoaderPlugin = require('svg-sprite-loader/plugin');
 
-const BabelMinifyPlugin = require('babel-minify-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 const { URL } = require('url');
@@ -13,12 +12,7 @@ const { compact } = require('lodash');
 
 const { srcDirectory, excludedPatterns, publicPath } = require('./variables');
 
-const {
-  isHot,
-  isDev,
-  isProd,
-  isEsNext,
-} = require('@hollowverse/utils/helpers/env');
+const { isHot, isDev, isProd } = require('@hollowverse/utils/helpers/env');
 
 const { API_ENDPOINT = 'https://api.hollowverse.com/graphql' } = process.env;
 
@@ -53,23 +47,18 @@ module.exports.createBaseConfig = () => ({
     namedModules: true,
     namedChunks: true,
     minimizer: [
-      isEsNext
-        ? new BabelMinifyPlugin({
-            removeConsole: true,
-            removeDebugger: true,
-          })
-        : new UglifyJsPlugin({
-            parallel: true,
-            sourceMap: true,
-            uglifyOptions: {
-              comments: false,
-              minimize: true,
-              safari10: true, // Workaround Safari 10 bugs
-              compress: {
-                inline: false, // Buggy
-              },
-            },
-          }),
+      new UglifyJsPlugin({
+        parallel: true,
+        sourceMap: true,
+        uglifyOptions: {
+          comments: false,
+          minimize: true,
+          safari10: true, // Workaround Safari 10 bugs
+          compress: {
+            inline: false, // Buggy
+          },
+        },
+      }),
     ],
   },
 

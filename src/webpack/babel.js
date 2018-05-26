@@ -1,41 +1,21 @@
 const { compact } = require('lodash');
-const path = require('path');
-
-// eslint-disable-next-line import/no-dynamic-require
-const pkg = require(path.join(process.cwd(), './package.json'));
 
 const {
   ifProd,
   isTest,
   ifTest,
-  isDebug,
   createConditionalWithFallback,
 } = require('@hollowverse/utils/helpers/env');
 
 const ifNotTest = createConditionalWithFallback(!isTest);
 
-/**
- * @param {object} options
- * @param {boolean} options.isNode
- */
-module.exports.createBabelConfig = options => ({
+module.exports.createBabelConfig = () => ({
   presets: compact([
     [
-      '@babel/preset-env',
+      '@babel/preset-es2015',
       {
         modules: isTest ? 'commonjs' : false,
         loose: false,
-        debug: isDebug,
-        ignoreBrowserslistConfig: true,
-        targets: options.isNode
-          ? {
-              node: 'current',
-            }
-          : {
-              browsers: pkg.browserslist,
-            },
-        useBuiltIns: 'usage',
-        shippedProposals: false,
       },
     ],
     '@babel/preset-stage-3',
