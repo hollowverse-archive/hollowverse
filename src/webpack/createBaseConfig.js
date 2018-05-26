@@ -5,7 +5,7 @@ const CircularDependencyPlugin = require('circular-dependency-plugin');
 const SpriteLoaderPlugin = require('svg-sprite-loader/plugin');
 
 const BabelMinifyPlugin = require('babel-minify-webpack-plugin');
-const minifyPreset = require('babel-preset-minify');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 const { URL } = require('url');
 
@@ -13,7 +13,12 @@ const { compact } = require('lodash');
 
 const { srcDirectory, excludedPatterns, publicPath } = require('./variables');
 
-const { isHot, isDev, isProd } = require('@hollowverse/utils/helpers/env');
+const {
+  isHot,
+  isDev,
+  isProd,
+  isEsNext,
+} = require('@hollowverse/utils/helpers/env');
 
 const { API_ENDPOINT = 'https://api.hollowverse.com/graphql' } = process.env;
 
@@ -47,7 +52,25 @@ module.exports.createBaseConfig = () => ({
     // Required for debugging in development and for long-term caching in production
     namedModules: true,
     namedChunks: true,
-    minimize: false, // will be handled by BabelMinifyPlugin, see below
+    minimizer: [
+      isEsNext
+        ? new BabelMinifyPlugin({
+            removeConsole: true,
+            removeDebugger: true,
+          })
+        : new UglifyJsPlugin({
+            parallel: true,
+            sourceMap: true,
+            uglifyOptions: {
+              comments: false,
+              minimize: true,
+              safari10: true, // Workaround Safari 10 bugs
+              compress: {
+                inline: false, // Buggy
+              },
+            },
+          }),
+    ],
   },
 
   devtool: isDev ? 'cheap-module-source-map' : 'source-map',
@@ -142,16 +165,6 @@ module.exports.createBaseConfig = () => ({
   },
 
   plugins: compact([
-    new BabelMinifyPlugin(
-      {
-        removeConsole: true,
-        removeDebugger: true,
-      },
-      {
-        minifyPreset,
-      },
-    ),
-
     // Development
     // Do not watch files in node_modules as this causes a huge overhead
     new webpack.WatchIgnorePlugin([
