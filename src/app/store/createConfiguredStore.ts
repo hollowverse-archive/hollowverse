@@ -2,7 +2,13 @@
 
 import { routerMiddleware } from 'react-router-redux';
 import { History } from 'history';
-import { createStore, applyMiddleware, compose, Middleware } from 'redux';
+import {
+  createStore,
+  applyMiddleware,
+  compose,
+  Middleware,
+  Dispatch,
+} from 'redux';
 import { combineEpics, createEpicMiddleware, Epic } from 'redux-observable';
 import {
   StoreState,
@@ -19,6 +25,8 @@ import { loggingEpic } from 'store/features/logging/epic';
 import { nullResult } from 'helpers/asyncResults';
 import { sendLogs } from 'helpers/sendLogs';
 import { importGlobalScript } from 'helpers/importGlobalScript';
+import { isError } from 'lodash';
+import { serializeError } from 'helpers/serializeError';
 
 declare const global: NodeJS.Global & {
   /**
@@ -150,7 +158,29 @@ export function createConfiguredStore({
     dependencies,
   });
 
+  const serializeErrorsMiddleware = () => (next: Dispatch<Action>) => (
+    action: Action,
+  ) => {
+    if (
+      typeof action.payload === 'object' &&
+      action.payload !== null &&
+      'error' in action.payload &&
+      isError(action.payload.error)
+    ) {
+      return next({
+        ...action,
+        payload: {
+          ...action.payload,
+          error: serializeError(action.payload.error),
+        },
+      });
+    }
+
+    return next(action);
+  };
+
   const middlewares = [
+    serializeErrorsMiddleware as Middleware,
     epicMiddleware,
     routerMiddleware(history),
     ...additionalMiddleware,

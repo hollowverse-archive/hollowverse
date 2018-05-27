@@ -69,7 +69,7 @@ const Page = withRouter(
 
     renderErrorStatus = (error?: Error) => (
       <>
-        <Status code={500} error={error ? error.message : undefined} />
+        <Status code={500} error={error} />
         <Helmet>
           <title>Error loading search page</title>
         </Helmet>
