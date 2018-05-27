@@ -70,6 +70,12 @@ export type SetResolvedDataPayload<
   };
 };
 
+type SerializableError = {
+  name: string;
+  message: string;
+  stack?: string;
+};
+
 /** A map of all app actions to their corresponding payloads */
 export type ActionTypeToPayloadType = {
   GO_TO_SEARCH: void;
@@ -83,7 +89,7 @@ export type ActionTypeToPayloadType = {
       }
     | {
         code: 500;
-        error?: string;
+        error?: SerializableError;
       }
     | {
         code: 301 | 302;
@@ -97,7 +103,7 @@ export type ActionTypeToPayloadType = {
     line?: number;
     column?: number;
   };
-  PAGE_LOAD_FAILED: { path: string; error?: string };
+  PAGE_LOAD_FAILED: { path: string; error?: SerializableError };
   PAGE_LOAD_SUCCEEDED: { path: string };
   PAGE_REDIRECTED: {
     statusCode: 301 | 302;
