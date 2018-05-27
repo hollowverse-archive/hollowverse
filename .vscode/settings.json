@@ -10,6 +10,7 @@
     "algoliasearch",
     "classcat",
     "hollowverse",
+    "loggable",
     "loglevel",
     "middlewares",
     "promisify",

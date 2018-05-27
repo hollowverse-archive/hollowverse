@@ -10,7 +10,6 @@ import { createConfiguredStore } from 'store/createConfiguredStore';
 import { unhandledErrorThrown } from 'store/features/logging/actions';
 import {
   loadIntersectionObserverPolyfill,
-  loadFetchPolyfill,
   loadUrlPolyfill,
 } from 'helpers/loadPolyfill';
 import { HelmetProvider } from 'react-helmet-async';
@@ -64,11 +63,7 @@ if (module.hot) {
   module.hot.accept();
 }
 
-Promise.all([
-  loadIntersectionObserverPolyfill(),
-  loadUrlPolyfill(),
-  loadFetchPolyfill(),
-])
+Promise.all([loadIntersectionObserverPolyfill(), loadUrlPolyfill()])
   .then(renderOnDomReady)
   .catch(renderOnDomReady);
 

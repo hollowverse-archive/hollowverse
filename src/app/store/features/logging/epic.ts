@@ -1,8 +1,7 @@
-import { fromEvent as observableFromEvent } from 'rxjs';
+import { merge, fromEvent as observableFromEvent } from 'rxjs';
 
 import {
   mergeMap,
-  merge,
   buffer,
   ignoreElements,
   tap,
@@ -12,6 +11,7 @@ import {
   withLatestFrom,
   filter,
 } from 'rxjs/operators';
+
 import { Action, StoreState } from 'store/types';
 
 import { Epic } from 'redux-observable';
@@ -115,21 +115,21 @@ export const loggingEpic: Epic<Action, StoreState, EpicDependencies> = (
   const createLoggableActionsObserver = () => {
     const loggableActions$ = action$.pipe(filter(shouldActionBeLogged));
 
-    const flushOnUnload$ = observableFromEvent(window, 'pagehide').pipe(
+    const flushOnUnload$ = merge(
       // `pagehide` is for Safari
-      merge(observableFromEvent(window, 'unload')),
+      observableFromEvent(window, 'pagehide'),
+      observableFromEvent(window, 'unload'),
     );
 
     const logOnUnload$ = loggableActions$.pipe(buffer(flushOnUnload$));
     const logOnIdle$ = loggableActions$.pipe(bufferCount(10));
 
-    return logOnIdle$.pipe(
-      merge(logOnUnload$),
+    return merge(logOnIdle$, logOnUnload$).pipe(
       tap(sendLogs),
       mergeMap(actions => actions),
       ignoreElements(),
     );
   };
 
-  return observePageLoad$.pipe(merge(createLoggableActionsObserver()));
+  return merge(observePageLoad$, createLoggableActionsObserver());
 };
