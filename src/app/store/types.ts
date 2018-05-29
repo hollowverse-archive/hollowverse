@@ -102,6 +102,7 @@ export type ActionTypeToPayloadType = {
     source?: string;
     line?: number;
     column?: number;
+    location: Partial<Pick<Location, 'pathname' | 'search' | 'hash'>>;
   };
   PAGE_LOAD_FAILED: { path: string; error?: SerializableError };
   PAGE_LOAD_SUCCEEDED: { path: string };
