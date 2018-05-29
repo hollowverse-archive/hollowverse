@@ -18,6 +18,7 @@ import {
   defaultAppDependencies,
 } from 'appDependenciesContext';
 import { routesMap } from 'routesMap';
+import { pick } from 'lodash';
 
 const history = createBrowserHistory();
 
@@ -70,6 +71,7 @@ Promise.all([loadIntersectionObserverPolyfill(), loadUrlPolyfill()])
 window.addEventListener('error', ({ message, filename, lineno, colno }) => {
   store.dispatch(
     unhandledErrorThrown({
+      location: pick(location, 'pathname', 'search', 'hash'),
       message,
       source: filename,
       line: lineno,
@@ -84,6 +86,7 @@ window.addEventListener(
   ({ reason }: PromiseRejectionEvent) => {
     store.dispatch(
       unhandledErrorThrown({
+        location: pick(location, 'pathname', 'search', 'hash'),
         message:
           typeof reason === 'object' && 'message' in reason
             ? reason.message

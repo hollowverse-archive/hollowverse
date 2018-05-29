@@ -33,7 +33,7 @@ const transformActionForLogging = async (
   action: LoggedAction,
 ): Promise<LoggedAction> => {
   if (isActionOfType(action, 'UNHANDLED_ERROR_THROWN')) {
-    const { message, source, line, column } = action.payload;
+    const { message, source, line, column, location } = action.payload;
     if (source && line && column) {
       const { body: sourceMap } = await got(`${source}.map`, {
         json: true,
@@ -48,6 +48,7 @@ const transformActionForLogging = async (
         ...action,
         payload: {
           message,
+          location,
           ...originalPosition,
         },
       };
