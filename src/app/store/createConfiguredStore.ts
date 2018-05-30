@@ -16,6 +16,7 @@ import {
   RequestDataPayload,
   ResolvedDataKey,
   ResolvedData,
+  LogBatch,
 } from './types';
 import { reducer } from './reducer';
 import { analyticsEpic } from 'store/features/analytics/epic';
@@ -23,7 +24,7 @@ import { updateUrlEpic } from 'store/features/search/updateUrlEpic';
 import { dataResolverEpic } from 'store/features/asyncData/epic';
 import { loggingEpic } from 'store/features/logging/epic';
 import { nullResult } from 'helpers/asyncResults';
-import { sendLogs } from 'helpers/sendLogs';
+import { sendLogs, getSessionId, getUserAgent } from 'helpers/sendLogs';
 import { importGlobalScript } from 'helpers/importGlobalScript';
 import { isError } from 'lodash';
 import { serializeError } from 'helpers/serializeError';
@@ -69,7 +70,10 @@ export type EpicDependencies = {
    * Replaces the log sending function implementation, which sends
    * logs in batches.
    */
-  sendLogs(actions: Action[]): Promise<void>;
+  sendLogs(batch: LogBatch<Action>): Promise<void>;
+
+  getSessionId(): string;
+  getUserAgent(): string;
 
   getGoogleAnalyticsFunction(): Promise<UniversalAnalytics.ga>;
 };
@@ -116,6 +120,10 @@ const defaultEpicDependencies: EpicDependencies = {
 
   sendLogs,
 
+  getSessionId,
+
+  getUserAgent,
+
   async getGoogleAnalyticsFunction() {
     await importGlobalScript('https://www.google-analytics.com/analytics.js');
 
@@ -136,18 +144,26 @@ export function createConfiguredStore({
     composeEnhancers = global.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__;
   }
 
-  const epics = [updateUrlEpic, dataResolverEpic];
-
-  if (process.env.NODE_ENV === 'production' || __FORCE_ENABLE_LOGGING__) {
-    epics.push(analyticsEpic, loggingEpic);
-  }
-
-  const rootEpic = combineEpics(...epics);
+  const epics = [updateUrlEpic, dataResolverEpic, loggingEpic];
 
   const dependencies = {
     ...defaultEpicDependencies,
     ...epicDependenciesOverrides,
   };
+
+  if (process.env.NODE_ENV === 'production' || __FORCE_ENABLE_LOGGING__) {
+    epics.push(analyticsEpic);
+  } else {
+    dependencies.sendLogs = async batch => {
+      // tslint:disable-next-line no-console
+      console.info(
+        'The following log batch would be sent in production:',
+        batch,
+      );
+    };
+  }
+
+  const rootEpic = combineEpics(...epics);
 
   const wrappedRootEpic = wrapRootEpic ? wrapRootEpic(rootEpic) : rootEpic;
   const epicMiddleware = createEpicMiddleware<

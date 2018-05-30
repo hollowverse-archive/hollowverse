@@ -102,7 +102,7 @@ const comparePageLoadActions = (
 export const loggingEpic: Epic<Action, StoreState, EpicDependencies> = (
   action$,
   _state$,
-  { sendLogs },
+  { sendLogs, getSessionId, getUserAgent },
 ) => {
   const observePageLoad$ = action$
     .ofType('SET_STATUS_CODE')
@@ -131,7 +131,13 @@ export const loggingEpic: Epic<Action, StoreState, EpicDependencies> = (
     const logOnIdle$ = loggableActions$.pipe(bufferCount(10));
 
     return merge(logOnIdle$, logOnUnload$).pipe(
-      tap(sendLogs),
+      tap(async actions =>
+        sendLogs({
+          actions,
+          sessionId: getSessionId(),
+          userAgent: getUserAgent(),
+        }),
+      ),
       mergeMap(actions => actions),
       ignoreElements(),
     );

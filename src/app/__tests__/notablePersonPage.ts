@@ -12,7 +12,7 @@ import {
 } from 'fixtures/notablePersonQuery';
 import { EditorialSummary } from 'components/EditorialSummary/EditorialSummary';
 import { last, find } from 'lodash';
-import { Action } from 'store/types';
+import { Action, LogBatch } from 'store/types';
 
 const emptyBase64EncodedImage =
   'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
@@ -49,14 +49,16 @@ describe('Notable Person page', () => {
 
       it('sends logs on page unload', () => {
         expect(context.dependencies.sendLogs).toHaveBeenLastCalledWith(
-          expect.arrayContaining([
-            {
-              ...pageLoadSucceeded({
-                path: context.history.createHref(context.history.location),
-              }),
-              timestamp: expect.any(Date),
-            },
-          ]),
+          expect.objectContaining({
+            actions: expect.arrayContaining([
+              {
+                ...pageLoadSucceeded({
+                  path: context.history.createHref(context.history.location),
+                }),
+                timestamp: expect.any(Date),
+              },
+            ]),
+          }),
         );
       });
     });
@@ -211,26 +213,30 @@ describe('Notable Person page', () => {
 
       it('sends logs on page unload', () => {
         expect(context.dependencies.sendLogs).toHaveBeenLastCalledWith(
-          expect.arrayContaining([
-            {
-              ...pageLoadFailed({
-                path: context.history.createHref(context.history.location),
-                error: expect.objectContaining({
-                  message: 'Network error',
-                  name: 'TypeError',
+          expect.objectContaining({
+            actions: expect.arrayContaining([
+              {
+                ...pageLoadFailed({
+                  path: context.history.createHref(context.history.location),
+                  error: expect.objectContaining({
+                    message: 'Network error',
+                    name: 'TypeError',
+                  }),
                 }),
-              }),
-              timestamp: expect.any(Date),
-            },
-          ]),
+                timestamp: expect.any(Date),
+              },
+            ]),
+          }),
         );
       });
 
       it('log event `error` property is serialized correctly', () => {
         const sendLogs = context.dependencies.sendLogs as jest.Mock<any>;
-        const [lastCallActions]: Action[][] = last(sendLogs.mock.calls)!;
+        const [{ actions }]: Array<LogBatch<Action>> = last(
+          sendLogs.mock.calls,
+        )!;
         const action = find(
-          lastCallActions,
+          actions,
           ({ type }) => type === 'PAGE_LOAD_FAILED',
         )! as Action<'PAGE_LOAD_FAILED'>;
 

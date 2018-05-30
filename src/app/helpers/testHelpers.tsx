@@ -5,6 +5,7 @@ import { History, MemoryHistoryBuildOptions } from 'history';
 import { StoreState, ResolvedData } from 'store/types';
 import { Store } from 'redux';
 import { Provider } from 'react-redux';
+import uuid from 'uuid/v4';
 import { HelmetProvider } from 'react-helmet-async';
 import { ConnectedRouter } from 'react-router-redux';
 import {
@@ -65,6 +66,10 @@ export const createMockGetResponseForDataRequest = (
 
 export const defaultTestDependencyOverrides: Partial<EpicDependencies> = {
   sendLogs: jest.fn(),
+
+  getSessionId: once(uuid),
+  getUserAgent: () => 'Test Agent',
+
   getResponseForDataRequest: jest.fn(
     createMockGetResponseForDataRequest(defaultMockDataResponses),
   ),
