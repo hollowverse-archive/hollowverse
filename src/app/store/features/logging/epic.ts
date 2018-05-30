@@ -1,7 +1,6 @@
 import { merge, fromEvent as observableFromEvent } from 'rxjs';
 
 import {
-  mergeMap,
   buffer,
   ignoreElements,
   tap,
@@ -10,6 +9,7 @@ import {
   distinctUntilChanged,
   withLatestFrom,
   filter,
+  skipWhile,
 } from 'rxjs/operators';
 
 import { Action, StoreState, LoggedAction } from 'store/types';
@@ -131,14 +131,14 @@ export const loggingEpic: Epic<Action, StoreState, EpicDependencies> = (
     const logOnIdle$ = loggableActions$.pipe(bufferCount(10));
 
     return merge(logOnIdle$, logOnUnload$).pipe(
-      tap(async actions =>
-        sendLogs({
+      skipWhile(actions => actions.length === 0),
+      tap(async actions => {
+        await sendLogs({
           actions,
           sessionId: getSessionId(),
           userAgent: getUserAgent(),
-        }),
-      ),
-      mergeMap(actions => actions),
+        });
+      }),
       ignoreElements(),
     );
   };

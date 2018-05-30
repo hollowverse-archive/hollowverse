@@ -20,10 +20,6 @@ export const getUserAgent = () => navigator.userAgent;
 
 export const sendLogs = async (batch: LogBatch<Action>) => {
   try {
-    if (batch.actions.length === 0) {
-      return;
-    }
-
     const data = JSON.stringify(batch);
 
     if ('sendBeacon' in navigator) {
