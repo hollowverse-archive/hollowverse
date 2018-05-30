@@ -9,7 +9,6 @@ import {
   distinctUntilChanged,
   withLatestFrom,
   filter,
-  skipWhile,
 } from 'rxjs/operators';
 
 import { Action, StoreState, LoggedAction } from 'store/types';
@@ -131,7 +130,7 @@ export const loggingEpic: Epic<Action, StoreState, EpicDependencies> = (
     const logOnIdle$ = loggableActions$.pipe(bufferCount(10));
 
     return merge(logOnIdle$, logOnUnload$).pipe(
-      skipWhile(actions => actions.length === 0),
+      filter(actions => actions.length > 0),
       tap(async actions => {
         await sendLogs({
           actions,

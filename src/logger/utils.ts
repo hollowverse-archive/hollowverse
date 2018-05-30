@@ -15,6 +15,7 @@ export function isValidLogBatch(
     isPlainObject(body) &&
     typeof (body as LogBatch<any>).sessionId === 'string' &&
     Array.isArray((body as LogBatch<any>).actions) &&
+    (body as LogBatch<any>).actions.length > 0 &&
     (body as LogBatch<any>).actions.every(isValidLoggedAction)
   );
 }
