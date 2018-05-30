@@ -24,7 +24,7 @@ import { updateUrlEpic } from 'store/features/search/updateUrlEpic';
 import { dataResolverEpic } from 'store/features/asyncData/epic';
 import { loggingEpic } from 'store/features/logging/epic';
 import { nullResult } from 'helpers/asyncResults';
-import { sendLogs, getSessionId, getUserAgent } from 'helpers/sendLogs';
+import { sendLogs, getSessionId, getUserAgent } from 'helpers/logging';
 import { importGlobalScript } from 'helpers/importGlobalScript';
 import { isError } from 'lodash';
 import { serializeError } from 'helpers/serializeError';
