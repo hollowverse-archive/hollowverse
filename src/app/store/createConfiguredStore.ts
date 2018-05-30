@@ -70,7 +70,7 @@ export type EpicDependencies = {
    * Replaces the log sending function implementation, which sends
    * logs in batches.
    */
-  sendLogs(batch: LogBatch<Action>): Promise<void>;
+  sendLogs(batch: LogBatch): Promise<void>;
 
   getSessionId(): string;
   getUserAgent(): string;

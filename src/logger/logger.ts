@@ -7,7 +7,7 @@ import { globalAgent as globalHttpAgent } from 'http';
 import { Agent as HttpsAgent } from 'https';
 import { SourceMapConsumer } from 'source-map';
 import { isActionOfType } from '../app/store/helpers';
-import { LoggedAction } from './types';
+import { DeserializedLoggedAction } from './types';
 import memoizePromise from 'p-memoize';
 import { UAParser } from 'ua-parser-js';
 import { memoize } from 'lodash';
@@ -31,8 +31,8 @@ const COLLECTOR_URL =
   'https://input-prd-p-kwnk36xd58jf.cloud.splunk.com:8088/services/collector/event';
 
 const transformActionForLogging = async (
-  action: LoggedAction,
-): Promise<LoggedAction> => {
+  action: DeserializedLoggedAction,
+): Promise<DeserializedLoggedAction> => {
   if (isActionOfType(action, 'UNHANDLED_ERROR_THROWN')) {
     const { message, source, line, column, location } = action.payload;
     if (source && line && column) {
@@ -63,10 +63,10 @@ export async function log({
   actions,
   sessionId,
   userAgent,
-}: LogBatch<LoggedAction>) {
+}: LogBatch<DeserializedLoggedAction>) {
   const transformedActions = await bluebird
     .map(actions, transformActionForLogging)
-    .map((action: LoggedAction) => ({
+    .map((action: DeserializedLoggedAction) => ({
       event: {
         ...action,
         sessionId,

@@ -232,9 +232,7 @@ describe('Notable Person page', () => {
 
       it('log event `error` property is serialized correctly', () => {
         const sendLogs = context.dependencies.sendLogs as jest.Mock<any>;
-        const [{ actions }]: Array<LogBatch<Action>> = last(
-          sendLogs.mock.calls,
-        )!;
+        const [{ actions }]: LogBatch[] = last(sendLogs.mock.calls)!;
         const action = find(
           actions,
           ({ type }) => type === 'PAGE_LOAD_FAILED',

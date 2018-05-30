@@ -193,7 +193,7 @@ export type LoggedAction = Action & {
   timestamp: Date;
 };
 
-export type LogBatch<A extends Action> = {
+export type LogBatch<A extends Action = LoggedAction> = {
   actions: A[];
   sessionId: string;
 

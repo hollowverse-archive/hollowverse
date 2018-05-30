@@ -1,4 +1,4 @@
-import { Action, LogBatch } from 'store/types';
+import { LogBatch } from 'store/types';
 import uuid from 'uuid/v4';
 import { once } from 'lodash';
 
@@ -18,7 +18,7 @@ export const getSessionId = once(() => {
 
 export const getUserAgent = () => navigator.userAgent;
 
-export const sendLogs = async (batch: LogBatch<Action>) => {
+export const sendLogs = async (batch: LogBatch) => {
   try {
     const data = JSON.stringify(batch);
 
