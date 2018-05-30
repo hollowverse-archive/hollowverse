@@ -34,7 +34,7 @@ module.exports.createBabelConfig = options => ({
           : {
               browsers: pkg.browserslist,
             },
-        useBuiltIns: 'usage',
+        useBuiltIns: 'entry',
         shippedProposals: false,
       },
     ],
