@@ -307,6 +307,7 @@
     "tslint-react": "^3.5.1",
     "typescript": "^2.8.1",
     "typescript-eslint-parser": "^15.0.0",
+    "uglify-es": "^3.3.9",
     "uglify-js": "^2.4.16",
     "uglify-loader": "^2.0.0",
     "uglifyjs-webpack-plugin": "^1.2.4",
