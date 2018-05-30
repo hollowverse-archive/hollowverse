@@ -12,7 +12,7 @@ import {
   filter,
 } from 'rxjs/operators';
 
-import { Action, StoreState } from 'store/types';
+import { Action, StoreState, LoggedAction } from 'store/types';
 
 import { Epic } from 'redux-observable';
 
@@ -113,7 +113,13 @@ export const loggingEpic: Epic<Action, StoreState, EpicDependencies> = (
     );
 
   const createLoggableActionsObserver = () => {
-    const loggableActions$ = action$.pipe(filter(shouldActionBeLogged));
+    const loggableActions$ = action$.pipe(
+      filter(shouldActionBeLogged),
+      map((action): LoggedAction => ({
+        ...action,
+        timestamp: new Date(),
+      })),
+    );
 
     const flushOnUnload$ = merge(
       // `pagehide` is for Safari

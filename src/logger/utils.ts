@@ -1,12 +1,20 @@
 import { isPlainObject } from 'lodash';
 
-import { LoggedAction } from './types';
+import { LogBatch } from 'store/types';
+import { DeserializedLoggedAction } from './types';
 
-export function isBodyValid(body: any): body is LoggedAction[] {
+const isValidLoggedAction = (event: any): event is DeserializedLoggedAction =>
+  isPlainObject(event) &&
+  typeof event.type === 'string' &&
+  typeof event.timestamp === 'string';
+
+export function isBodyValid(
+  body: any,
+): body is LogBatch<DeserializedLoggedAction> {
   return (
-    Array.isArray(body) &&
-    body.every(
-      action => isPlainObject(action) && typeof action.type === 'string',
-    )
+    isPlainObject(body) &&
+    typeof (body as LogBatch<any>).sessionId === 'string' &&
+    Array.isArray((body as LogBatch<any>).actions) &&
+    (body as LogBatch<any>).actions.every(isValidLoggedAction)
   );
 }

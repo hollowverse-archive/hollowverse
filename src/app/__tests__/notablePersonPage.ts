@@ -50,9 +50,11 @@ describe('Notable Person page', () => {
       it('sends logs on page unload', () => {
         expect(context.dependencies.sendLogs).toHaveBeenLastCalledWith(
           expect.arrayContaining([
-            pageLoadSucceeded({
-              path: context.history.createHref(context.history.location),
-            }),
+            expect.objectContaining(
+              pageLoadSucceeded({
+                path: context.history.createHref(context.history.location),
+              }),
+            ),
           ]),
         );
       });
@@ -209,13 +211,15 @@ describe('Notable Person page', () => {
       it('sends logs on page unload', () => {
         expect(context.dependencies.sendLogs).toHaveBeenLastCalledWith(
           expect.arrayContaining([
-            pageLoadFailed({
-              path: context.history.createHref(context.history.location),
-              error: expect.objectContaining({
-                message: 'Network error',
-                name: 'TypeError',
+            expect.objectContaining(
+              pageLoadFailed({
+                path: context.history.createHref(context.history.location),
+                error: expect.objectContaining({
+                  message: 'Network error',
+                  name: 'TypeError',
+                }),
               }),
-            }),
+            ),
           ]),
         );
       });
