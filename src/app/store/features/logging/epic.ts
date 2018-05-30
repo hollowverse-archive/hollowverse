@@ -1,7 +1,6 @@
 import { merge, fromEvent as observableFromEvent } from 'rxjs';
 
 import {
-  mergeMap,
   buffer,
   ignoreElements,
   tap,
@@ -12,7 +11,7 @@ import {
   filter,
 } from 'rxjs/operators';
 
-import { Action, StoreState } from 'store/types';
+import { Action, StoreState, LoggedAction } from 'store/types';
 
 import { Epic } from 'redux-observable';
 
@@ -102,7 +101,7 @@ const comparePageLoadActions = (
 export const loggingEpic: Epic<Action, StoreState, EpicDependencies> = (
   action$,
   _state$,
-  { sendLogs },
+  { sendLogs, getSessionId, getUserAgent },
 ) => {
   const observePageLoad$ = action$
     .ofType('SET_STATUS_CODE')
@@ -113,7 +112,13 @@ export const loggingEpic: Epic<Action, StoreState, EpicDependencies> = (
     );
 
   const createLoggableActionsObserver = () => {
-    const loggableActions$ = action$.pipe(filter(shouldActionBeLogged));
+    const loggableActions$ = action$.pipe(
+      filter(shouldActionBeLogged),
+      map((action): LoggedAction => ({
+        ...action,
+        timestamp: new Date(),
+      })),
+    );
 
     const flushOnUnload$ = merge(
       // `pagehide` is for Safari
@@ -125,8 +130,14 @@ export const loggingEpic: Epic<Action, StoreState, EpicDependencies> = (
     const logOnIdle$ = loggableActions$.pipe(bufferCount(10));
 
     return merge(logOnIdle$, logOnUnload$).pipe(
-      tap(sendLogs),
-      mergeMap(actions => actions),
+      filter(actions => actions.length > 0),
+      tap(async actions => {
+        await sendLogs({
+          actions,
+          sessionId: getSessionId(),
+          userAgent: getUserAgent(),
+        });
+      }),
       ignoreElements(),
     );
   };

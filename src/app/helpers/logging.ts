@@ -1,10 +1,10 @@
-import { Action } from 'store/types';
+import { LogBatch } from 'store/types';
 import uuid from 'uuid/v4';
 import { once } from 'lodash';
 
 const logEndpointUrl = `/log?branch=${__BRANCH__}`;
 
-const getSessionId = once(() => {
+export const getSessionId = once(() => {
   const existingId = localStorage.getItem('uid');
   if (existingId) {
     return existingId;
@@ -16,20 +16,11 @@ const getSessionId = once(() => {
   return newId;
 });
 
-export const sendLogs = async (actions: Action[]) => {
-  try {
-    if (actions.length === 0) {
-      return;
-    }
+export const getUserAgent = () => navigator.userAgent;
 
-    const data = JSON.stringify(
-      actions.map(action => ({
-        ...action,
-        timestamp: new Date(),
-        sessionId: getSessionId(),
-        userAgent: navigator.userAgent,
-      })),
-    );
+export const sendLogs = async (batch: LogBatch) => {
+  try {
+    const data = JSON.stringify(batch);
 
     if ('sendBeacon' in navigator) {
       // The most reliable way to send network requests on page unload is to use
