@@ -1,5 +1,5 @@
 import { Action } from '../app/store/types';
 
-export type DeserializedLoggedAction = Action & {
+export type LoggedAction = Action & {
   timestamp: string;
 };

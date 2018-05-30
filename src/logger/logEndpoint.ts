@@ -1,7 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 
-import { isBodyValid } from './utils';
+import { isValidLogBatch } from './utils';
 import { log } from './logger';
 
 export const logEndpoint = express();
@@ -21,7 +21,7 @@ logEndpoint.use((_, res, next) => {
 logEndpoint.post('/', async (req, res, next) => {
   try {
     const body = JSON.parse(req.body);
-    if (isBodyValid(body)) {
+    if (isValidLogBatch(body)) {
       await log(body);
       res.status(201); // 201 Created
       res.send({});
