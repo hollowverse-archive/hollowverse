@@ -7,7 +7,9 @@ export type Cancelable<T> = Readonly<{
   cancel(): void;
 }>;
 
-class CancelationError extends Error {}
+class CancelationError extends Error {
+  name = 'CancelationError';
+}
 
 export function promiseToCancelable<T>(promise: Promise<T>): Cancelable<T> {
   let wasCanceled = false;
