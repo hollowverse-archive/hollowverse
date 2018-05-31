@@ -7,9 +7,7 @@ export type Cancelable<T> = Readonly<{
   cancel(): void;
 }>;
 
-type CancelRejection = Readonly<{ isCanceled: true }>;
-
-const cancelRejection = Object.freeze<CancelRejection>({ isCanceled: true });
+class CancelationError extends Error {}
 
 export function promiseToCancelable<T>(promise: Promise<T>): Cancelable<T> {
   let wasCanceled = false;
@@ -19,14 +17,15 @@ export function promiseToCancelable<T>(promise: Promise<T>): Cancelable<T> {
   const cancelationPromise = new Promise<T>((_, reject) => {
     target.addListener('cancel', () => {
       wasCanceled = true;
-      reject(cancelRejection);
+      reject(new CancelationError());
     });
   });
 
-  const wrappedPromise = Promise.race([cancelationPromise, promise])
-    .finally(() => {
+  const wrappedPromise = Promise.race([cancelationPromise, promise]).finally(
+    () => {
       target.removeAllListeners();
-    });
+    },
+  );
 
   return {
     promise: wrappedPromise,
@@ -39,6 +38,6 @@ export function promiseToCancelable<T>(promise: Promise<T>): Cancelable<T> {
   };
 }
 
-export function isCancelRejection(obj: any): obj is CancelRejection {
-  return obj === cancelRejection;
+export function isCancelRejection(obj: any): obj is CancelationError {
+  return obj instanceof CancelationError;
 }
