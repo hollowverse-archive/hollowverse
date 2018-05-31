@@ -24,9 +24,9 @@ export function promiseToCancelable<T>(promise: Promise<T>): Cancelable<T> {
   const target = new EventEmitter();
 
   const cancelationPromise = new Promise<T>((_, reject) => {
-    target.addListener('cancel', message => {
+    target.addListener('cancel', reason => {
       wasCanceled = true;
-      reject(new CancelationError(message));
+      reject(new CancelationError(reason));
     });
   });
 
@@ -41,8 +41,8 @@ export function promiseToCancelable<T>(promise: Promise<T>): Cancelable<T> {
     get wasCanceled() {
       return wasCanceled;
     },
-    cancel: once((message?: string) => {
-      target.emit('cancel', message);
+    cancel: once((reason?: string) => {
+      target.emit('cancel', reason);
     }),
   };
 }
