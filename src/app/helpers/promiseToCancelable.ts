@@ -4,11 +4,18 @@ import { once } from 'lodash';
 export type Cancelable<T> = Readonly<{
   promise: Promise<T>;
   wasCanceled: boolean;
-  cancel(): void;
+  cancel(message?: string): void;
 }>;
 
 class CancelationError extends Error {
   name = 'CancelationError';
+
+  constructor(message?: string) {
+    super(message);
+    if (message) {
+      this.message = message;
+    }
+  }
 }
 
 export function promiseToCancelable<T>(promise: Promise<T>): Cancelable<T> {
@@ -17,9 +24,9 @@ export function promiseToCancelable<T>(promise: Promise<T>): Cancelable<T> {
   const target = new EventEmitter();
 
   const cancelationPromise = new Promise<T>((_, reject) => {
-    target.addListener('cancel', () => {
+    target.addListener('cancel', message => {
       wasCanceled = true;
-      reject(new CancelationError());
+      reject(new CancelationError(message));
     });
   });
 
@@ -34,8 +41,8 @@ export function promiseToCancelable<T>(promise: Promise<T>): Cancelable<T> {
     get wasCanceled() {
       return wasCanceled;
     },
-    cancel: once(() => {
-      target.emit('cancel');
+    cancel: once((message?: string) => {
+      target.emit('cancel', message);
     }),
   };
 }
