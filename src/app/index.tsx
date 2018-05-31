@@ -21,6 +21,7 @@ import {
 } from 'appDependenciesContext';
 import { routesMap } from 'routesMap';
 import { pick } from 'lodash';
+import { isError } from 'util';
 
 const history = createBrowserHistory();
 
@@ -67,20 +68,25 @@ if (module.hot) {
 }
 
 Promise.all([loadIntersectionObserverPolyfill(), loadUrlPolyfill()])
-  .then(renderOnDomReady)
+  .finally(renderOnDomReady)
   .catch(renderOnDomReady);
 
-window.addEventListener('error', ({ message, filename, lineno, colno }) => {
-  store.dispatch(
-    unhandledErrorThrown({
-      location: pick(location, 'pathname', 'search', 'hash'),
-      message,
-      source: filename,
-      line: lineno,
-      column: colno,
-    }),
-  );
-});
+window.addEventListener(
+  'error',
+  ({ message, error, filename, lineno, colno }) => {
+    store.dispatch(
+      unhandledErrorThrown({
+        location: pick(location, 'pathname', 'search', 'hash'),
+        name: 'Unknown Error',
+        source: filename,
+        line: lineno,
+        column: colno,
+        message,
+        ...(isError(error) ? error : undefined),
+      }),
+    );
+  },
+);
 
 window.addEventListener(
   'unhandledrejection',
@@ -89,10 +95,9 @@ window.addEventListener(
     store.dispatch(
       unhandledErrorThrown({
         location: pick(location, 'pathname', 'search', 'hash'),
-        message:
-          typeof reason === 'object' && 'message' in reason
-            ? reason.message
-            : String(reason),
+        name: 'Unhandled Rejection',
+        message: String(reason),
+        ...(isError(reason) ? reason : undefined),
       }),
     );
   },

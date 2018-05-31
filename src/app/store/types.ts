@@ -97,8 +97,7 @@ export type ActionTypeToPayloadType = {
       };
   REQUEST_DATA: RequestDataPayload;
   SET_RESOLVED_DATA: SetResolvedDataPayload;
-  UNHANDLED_ERROR_THROWN: {
-    message: string;
+  UNHANDLED_ERROR_THROWN: SerializableError & {
     source?: string;
     line?: number;
     column?: number;

@@ -34,8 +34,14 @@ const transformActionForLogging = async (
   action: DeserializedLoggedAction,
 ): Promise<DeserializedLoggedAction> => {
   if (isActionOfType(action, 'UNHANDLED_ERROR_THROWN')) {
-    const { message, source, line, column, location } = action.payload;
-    if (source && line && column) {
+    if (
+      'source' in action.payload &&
+      action.payload.source &&
+      action.payload.line &&
+      action.payload.column
+    ) {
+      const { source, line, column } = action.payload;
+
       const { body: sourceMap } = await got(`${source}.map`, {
         json: true,
         headers: {
@@ -48,8 +54,7 @@ const transformActionForLogging = async (
       return {
         ...action,
         payload: {
-          message,
-          location,
+          ...(action.payload as any),
           ...originalPosition,
         },
       };
