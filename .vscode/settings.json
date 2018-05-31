@@ -16,6 +16,7 @@
     "loggable",
     "loglevel",
     "middlewares",
+    "onunhandledrejection",
     "promisify",
     "unhandledrejection",
     "webpagetest"

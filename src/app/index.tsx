@@ -88,17 +88,14 @@ window.addEventListener(
   },
 );
 
-window.addEventListener(
-  'unhandledrejection',
-  // @ts-ignore
-  ({ reason }: PromiseRejectionEvent) => {
-    store.dispatch(
-      unhandledErrorThrown({
-        location: pick(location, 'pathname', 'search', 'hash'),
-        name: 'Unhandled Rejection',
-        message: String(reason),
-        ...(isError(reason) ? reason : undefined),
-      }),
-    );
-  },
-);
+// @ts-ignore
+window.onunhandledrejection = ({ reason }: PromiseRejectionEvent) => {
+  store.dispatch(
+    unhandledErrorThrown({
+      location: pick(location, 'pathname', 'search', 'hash'),
+      name: 'Unhandled Rejection',
+      message: String(reason),
+      ...(isError(reason) ? reason : undefined),
+    }),
+  );
+};
