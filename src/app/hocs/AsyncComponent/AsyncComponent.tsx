@@ -167,7 +167,7 @@ export class AsyncComponent<T = any> extends React.PureComponent<
 
   componentWillUnmount() {
     if (this.cancelableLoad) {
-      this.cancelableLoad.cancel();
+      this.cancelableLoad.cancel('AsyncComponent unmounted');
     }
   }
 

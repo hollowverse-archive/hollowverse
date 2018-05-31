@@ -154,12 +154,11 @@ export function createConfiguredStore({
   if (process.env.NODE_ENV === 'production' || __FORCE_ENABLE_LOGGING__) {
     epics.push(analyticsEpic);
   } else {
-    dependencies.sendLogs = async batch => {
+    dependencies.sendLogs = async ({ actions, sessionId, userAgent }) => {
       // tslint:disable-next-line no-console
-      console.info(
-        'The following log batch would be sent in production:',
-        batch,
-      );
+      console.info('The following log batch would be sent in production:');
+      console.table({ userAgent, sessionId });
+      console.table(actions);
     };
   }
 
