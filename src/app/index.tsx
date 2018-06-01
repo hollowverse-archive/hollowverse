@@ -68,7 +68,7 @@ if (module.hot) {
 }
 
 Promise.all([loadIntersectionObserverPolyfill(), loadUrlPolyfill()])
-  .finally(renderOnDomReady)
+  .then(renderOnDomReady)
   .catch(renderOnDomReady);
 
 window.addEventListener(

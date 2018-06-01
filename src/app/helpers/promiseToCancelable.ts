@@ -50,3 +50,9 @@ export function promiseToCancelable<T>(promise: Promise<T>): Cancelable<T> {
 export function isCancelRejection(obj: any): obj is CancelationError {
   return obj instanceof CancelationError;
 }
+
+export const ignoreCancelRejections = async (error: any) => {
+  if (!isCancelRejection(error)) {
+    throw error;
+  }
+};
