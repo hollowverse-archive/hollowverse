@@ -11,7 +11,7 @@ import {
 import {
   promiseToCancelable,
   Cancelable,
-  isCancelRejection,
+  ignoreCancelRejections,
 } from 'helpers/promiseToCancelable';
 
 type AsyncProps<T> = {
@@ -150,11 +150,8 @@ export class AsyncComponent<T = any> extends React.PureComponent<
               this.setState({ value, state: 'success' });
             }
           })
+          .catch(ignoreCancelRejections)
           .catch(error => {
-            if (isCancelRejection(error)) {
-              return;
-            }
-
             this.setState(state => ({ ...state, ...errorResult, error }));
           });
       },
@@ -167,6 +164,7 @@ export class AsyncComponent<T = any> extends React.PureComponent<
 
   componentWillUnmount() {
     if (this.cancelableLoad) {
+      this.cancelableLoad.promise.catch(ignoreCancelRejections);
       this.cancelableLoad.cancel('AsyncComponent unmounted');
     }
   }
