@@ -1,15 +1,23 @@
-import memoizePromise from 'p-memoize';
+const alreadyLoaded = new Set<string>();
 
-export const importGlobalScript = memoizePromise(async (url: string) => {
+export async function importGlobalScript(url: string) {
   return new Promise((resolve, reject) => {
+    if (alreadyLoaded.has(url)) {
+      resolve();
+
+      return;
+    }
+
     const script = document.createElement('script');
 
     script.onload = () => {
+      alreadyLoaded.add(url);
       resolve();
     };
 
     script.onerror = event => {
       document.body.removeChild(script);
+      alreadyLoaded.delete(url);
 
       reject(event.error);
     };
@@ -18,4 +26,4 @@ export const importGlobalScript = memoizePromise(async (url: string) => {
 
     document.body.appendChild(script);
   });
-});
+}
