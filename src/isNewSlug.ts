@@ -1,5 +1,5 @@
 import { GraphQLClient } from 'graphql-request';
-import memoizePromise from 'p-memoize';
+import { memoizeOnSuccess } from 'memoizeOnSuccess';
 
 const { API_ENDPOINT = 'https://api.hollowverse.com/graphql' } = process.env;
 
@@ -15,18 +15,13 @@ const query = `
   }
 `;
 
-export const isNewSlug = memoizePromise(
-  async (path: string) => {
-    const result = await client.request<any>(query, {
-      slug: path,
-    });
+export const isNewSlug = memoizeOnSuccess(async (path: string) => {
+  const result = await client.request<any>(query, {
+    slug: path,
+  });
 
-    return (
-      result.notablePerson !== null &&
-      result.notablePerson.oldSlug !== path.toLowerCase()
-    );
-  },
-  {
-    maxAge: 43200000,
-  },
-);
+  return (
+    result.notablePerson !== null &&
+    result.notablePerson.oldSlug !== path.toLowerCase()
+  );
+});
