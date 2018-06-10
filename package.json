@@ -127,6 +127,7 @@
     "aws-serverless-express": "^3.2.0",
     "bluebird": "^3.5.1",
     "body-parser": "^1.17.2",
+    "browserslist-useragent": "^1.1.0",
     "classcat": "^1.0.1",
     "common-tags": "^1.7.2",
     "create-react-context": "^0.2.1",

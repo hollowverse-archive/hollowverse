@@ -12,13 +12,17 @@ import memoizePromise from 'p-memoize';
 import { UAParser } from 'ua-parser-js';
 import { memoize } from 'lodash';
 import { LogBatch } from 'store/types';
+import { matchesUA } from 'browserslist-useragent';
 
 const parser = new UAParser();
 
 const parseUserAgent = memoize((userAgent: string) => {
   parser.setUA(userAgent);
 
-  return parser.getResult();
+  return {
+    ...parser.getResult(),
+    isSupported: matchesUA(userAgent, { _allowHigherVersions: true }),
+  };
 });
 
 const { BRANCH, COMMIT_ID } = process.env;
