@@ -21,7 +21,7 @@ const parseUserAgent = memoize((userAgent: string) => {
 
   return {
     ...parser.getResult(),
-    isSupported: matchesUA(userAgent, {}),
+    isSupported: matchesUA(userAgent, { _allowHigherVersions: true }),
   };
 });
 
