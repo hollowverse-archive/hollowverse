@@ -37,6 +37,8 @@ import classes from './NotablePerson.module.scss';
 import { setAlternativeSearchBoxText } from 'store/features/search/actions';
 import { isWhitelistedPage } from 'redirectionMap';
 
+import { LoadableSearchResults } from 'pages/SearchResults/LoadableSearchResults';
+
 export type Props = {};
 type NotablePersonType = NotablePersonQuery['notablePerson'];
 type Result = AsyncResult<NotablePersonQuery | null>;
@@ -48,7 +50,13 @@ export const NotablePerson = withRouter(
     }: Pick<AppDependencies, 'apiClient'>) => async () => {
       const { slug } = this.props.match.params;
 
-      return apiClient.request<NotablePersonQuery>(query, { slug });
+      const result = await apiClient.request<NotablePersonQuery>(query, {
+        slug,
+      });
+
+      LoadableSearchResults.preload();
+
+      return result;
     };
 
     renderRelatedPeople = (notablePerson: NonNullable<NotablePersonType>) => {
