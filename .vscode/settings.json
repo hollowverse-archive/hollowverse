@@ -36,7 +36,8 @@
     "**/tsconfig.json": "jsonc",
     "**/.stylelintrc": "json",
     "**/tslint.json": "jsonc",
-    "**/.eslintrc.json": "jsonc"
+    "**/.eslintrc.json": "jsonc",
+    "**/.prettierignore": "gitignore"
   },
   "files.exclude": {
     "**/node_modules/**": true

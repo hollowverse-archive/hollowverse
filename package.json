@@ -8,6 +8,7 @@
   "scripts": {
     "pretest": "npm-run-all --aggregate-output -s app/graphql/build -p -c common-check lint",
     "test": "yarn jest",
+    "check-prettier": "prettier './**/*.{t,j}s{,x}' '**/*.{css,scss,json,md}' --list-different",
     "lint": "run-p -c --aggregate-output lint-css lint-js lint-graphql lint-ts check-ts",
     "lint-css": "stylelint --syntax scss 'src/app/**/*.scss'",
     "lint-js": "eslint '**/*.js{,x}'",
@@ -44,7 +45,7 @@
     "deploy": "babel-node ./deploy.js",
     "pre-push": "yarn pretest",
     "pre-commit": "yarn common-check",
-    "common-check": "run-p -c --aggregate-output validate-filenames 'clown check' check-integrity",
+    "common-check": "run-p -c --aggregate-output check-prettier validate-filenames 'clown check' check-integrity",
     "jest": "TZ=UTC NODE_ENV=test jest",
     "clown": "clown",
     "coverage/report": "codecov",
@@ -83,7 +84,7 @@
       "prettier --write",
       "git add"
     ],
-    "**/!(package).json": [
+    "**/*.json": [
       "prettier --write",
       "git add"
     ],
@@ -98,7 +99,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "run-p -c --aggregate-output lint-staged pre-commit",
+      "pre-commit": "npm-run-all -s lint-staged -p -c --aggregate-output pre-commit",
       "pre-push": "yarn pre-push",
       "post-merge": "yarnhook",
       "post-checkout": "yarnhook",
@@ -274,7 +275,7 @@
     "postcss-normalize": "^4.0.0",
     "postcss-scss": "^1.0.5",
     "preload-webpack-plugin": "^3.0.0-alpha.3",
-    "prettier": "^1.12.0",
+    "prettier": "^1.13.5",
     "raw-loader": "^0.5.1",
     "remote-redux-devtools": "^0.5.12",
     "resolve-url-loader": "^2.3.0",

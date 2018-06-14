@@ -11,9 +11,12 @@ import { Footer } from 'components/Footer/Footer';
 import { hot } from 'react-hot-loader';
 
 export const Home = hot(module)(
-  connect(undefined, dispatch => ({
-    goToSearch: () => dispatch(goToSearch(undefined)),
-  }))(props => (
+  connect(
+    undefined,
+    dispatch => ({
+      goToSearch: () => dispatch(goToSearch(undefined)),
+    }),
+  )(props => (
     <div className={classes.root}>
       <form method="GET" action="/search" className={classes.searchContainer}>
         <Card className={classes.searchBox}>
