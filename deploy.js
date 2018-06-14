@@ -15,7 +15,7 @@ const isPullRequest = IS_PULL_REQUEST !== 'false';
 const whitelistedBranches = ['master', 'beta', 'internal'];
 
 async function main() {
-  const buildCommands = ['yarn build'];
+  const buildCommands = ['yarn test', 'yarn coverage/report', 'yarn build'];
   const deploymentCommands = [
     'cp yarn.lock package.json ./dist && cd dist && yarn --prod',
     `NODE_ENV=production serverless deploy --stage ${BRANCH} --aws-s3-accelerate`,
