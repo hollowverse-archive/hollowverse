@@ -39,4 +39,10 @@ declare module 'browserslist-useragent' {
   };
 
   export function matchesUA(userAgent: string, options: Options): boolean;
+
+  export function resolveUserAgent(
+    userAgent: string,
+  ): { family: string; version: string };
+
+  export function normalizeQuery(query: string): string;
 }

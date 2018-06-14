@@ -1,7 +1,10 @@
 @import 'variables.scss';
 @import 'mixins.scss';
 
-@mixin photo-border($color1: rgba(255, 255, 255, 0.7), $color2: rgba(0, 0, 0, 0.1)) {
+@mixin photo-border(
+  $color1: rgba(255, 255, 255, 0.7),
+  $color2: rgba(0, 0, 0, 0.1)
+) {
   box-shadow: 0 0 0 1.5px $color1, 0 2px 1px 0 $color2;
   border-radius: 1px;
 }
@@ -13,7 +16,8 @@
 
   .cover-background-wrapper {
     visibility: hidden;
-    @supports (filter: blur(5px)) and (mask-image: linear-gradient(black, transparent)) {
+    @supports (filter: blur(5px)) and
+      (mask-image: linear-gradient(black, transparent)) {
       & {
         visibility: visible;
       }

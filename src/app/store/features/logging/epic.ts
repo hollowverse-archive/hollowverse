@@ -103,21 +103,21 @@ export const loggingEpic: Epic<Action, StoreState, EpicDependencies> = (
   _state$,
   { sendLogs, getSessionId, getUserAgent },
 ) => {
-  const observePageLoad$ = action$
-    .ofType('SET_STATUS_CODE')
-    .pipe(
-      withLatestFrom(action$.ofType(LOCATION_CHANGE)),
-      distinctUntilChanged<any>(comparePageLoadActions),
-      map(mapPageLoadActions),
-    );
+  const observePageLoad$ = action$.ofType('SET_STATUS_CODE').pipe(
+    withLatestFrom(action$.ofType(LOCATION_CHANGE)),
+    distinctUntilChanged<any>(comparePageLoadActions),
+    map(mapPageLoadActions),
+  );
 
   const createLoggableActionsObserver = () => {
     const loggableActions$ = action$.pipe(
       filter(shouldActionBeLogged),
-      map((action): LoggedAction => ({
-        ...action,
-        timestamp: new Date(),
-      })),
+      map(
+        (action): LoggedAction => ({
+          ...action,
+          timestamp: new Date(),
+        }),
+      ),
     );
 
     const flushOnUnload$ = merge(
