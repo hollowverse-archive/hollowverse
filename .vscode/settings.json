@@ -19,13 +19,11 @@
     "onunhandledrejection",
     "promisify",
     "unhandledrejection",
-    "webpagetest"
+    "webpagetest",
+    "graphql"
   ],
   "editor.tabSize": 2,
   "editor.formatOnSave": true,
-  "[json]": {
-    "editor.formatOnSave": false
-  },
   "typescript.implementationsCodeLens.enabled": true,
   "typescript.referencesCodeLens.enabled": true,
   "files.associations": {
@@ -37,7 +35,8 @@
     "**/.stylelintrc": "json",
     "**/tslint.json": "jsonc",
     "**/.eslintrc.json": "jsonc",
-    "**/.prettierignore": "gitignore"
+    "**/.prettierignore": "gitignore",
+    "**/.graphqlconfig": "json"
   },
   "files.exclude": {
     "**/node_modules/**": true
@@ -46,7 +45,7 @@
   "eslint.options": {
     "reportUnusedDisableDirectives": true
   },
-  "eslint.validate": ["typescript", "typescriptreact"],
+  "eslint.validate": ["typescript", "typescriptreact", "graphql"],
   "css.validate": false,
   "scss.validate": false
 }
