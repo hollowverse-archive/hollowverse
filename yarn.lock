@@ -862,9 +862,9 @@
     lodash "^4.17.4"
     sort-keys "^2.0.0"
 
-"@hollowverse/config@^37.0.0":
-  version "37.0.0"
-  resolved "https://registry.yarnpkg.com/@hollowverse/config/-/config-37.0.0.tgz#d3992632de2f8cd01d33c904a87c303b4d112461"
+"@hollowverse/config@^38.0.0":
+  version "38.0.0"
+  resolved "https://registry.yarnpkg.com/@hollowverse/config/-/config-38.0.0.tgz#0d6f820625eaac6f0651eee54cb73ce7305c2000"
 
 "@hollowverse/utils@^7.0.1":
   version "7.0.1"
