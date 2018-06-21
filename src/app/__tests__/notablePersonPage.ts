@@ -17,10 +17,10 @@ import { Action, LogBatch } from 'store/types';
 const emptyBase64EncodedImage =
   'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
 
-describe('Notable Person page', () => {
+describe('notable person page', () => {
   let context: ClientSideTestContext;
 
-  describe('When notable person is found,', () => {
+  describe('when notable person is found,', () => {
     beforeEach(async () => {
       context = await createClientSideTestContext({
         mockDataResponsesOverrides: {
@@ -161,7 +161,7 @@ describe('Notable Person page', () => {
     });
   });
 
-  describe('When notable person is not found,', () => {
+  describe('when notable person is not found,', () => {
     beforeEach(async () => {
       context = await createClientSideTestContext({
         createHistoryOptions: { initialEntries: ['/Tom_Hanks'] },
@@ -178,7 +178,7 @@ describe('Notable Person page', () => {
     });
   });
 
-  describe('On load failure', () => {
+  describe('on load failure', () => {
     beforeEach(async () => {
       context = await createClientSideTestContext({
         createHistoryOptions: { initialEntries: ['/Tom_Hanks'] },
@@ -245,7 +245,7 @@ describe('Notable Person page', () => {
     });
   });
 
-  describe('Links to other pages on the website', () => {
+  describe('links to other pages on the website', () => {
     beforeAll(async () => {
       context = await createClientSideTestContext({
         createHistoryOptions: { initialEntries: ['/Tom_Hanks'] },
