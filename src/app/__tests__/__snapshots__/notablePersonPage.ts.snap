@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Notable Person page When notable person is found, if notable person has an editorial summary shows editorial summary content 1`] = `
+exports[`notable person page when notable person is found, if notable person has an editorial summary shows editorial summary content 1`] = `
 <EditorialSummary
   author="Tom Kershaw"
   id="Tom_Hanks"

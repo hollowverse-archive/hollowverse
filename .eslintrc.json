@@ -2,6 +2,7 @@
   "extends": [
     "./node_modules/@hollowverse/config/eslint/base/.eslintrc.json",
     "./node_modules/@hollowverse/config/eslint/graphql/.eslintrc.json",
-    "./node_modules/@hollowverse/config/eslint/cssModules/.eslintrc.json"
+    "./node_modules/@hollowverse/config/eslint/cssModules/.eslintrc.json",
+    "./node_modules/@hollowverse/config/eslint/jest/.eslintrc.json"
   ]
 }

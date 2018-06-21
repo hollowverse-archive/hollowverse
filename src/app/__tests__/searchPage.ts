@@ -10,10 +10,10 @@ import {
   emptySearchResults,
 } from 'fixtures/searchResults';
 
-describe('Search page', () => {
+describe('search page', () => {
   let context: ClientSideTestContext;
 
-  describe('While typing,', () => {
+  describe('while typing,', () => {
     beforeEach(async () => {
       context = await createClientSideTestContext({
         createHistoryOptions: { initialEntries: ['/search'] },
@@ -41,7 +41,7 @@ describe('Search page', () => {
     });
   });
 
-  describe('While results are being loaded,', () => {
+  describe('while results are being loaded,', () => {
     beforeEach(async () => {
       context = await createClientSideTestContext({
         createHistoryOptions: { initialEntries: ['/search'] },
@@ -68,7 +68,7 @@ describe('Search page', () => {
     });
   });
 
-  describe('When results have finished loading,', () => {
+  describe('when results have finished loading,', () => {
     beforeEach(async () => {
       context = await createClientSideTestContext({
         createHistoryOptions: { initialEntries: ['/search?query=Tom'] },
@@ -78,7 +78,7 @@ describe('Search page', () => {
       });
     });
 
-    describe('When results are found,', () => {
+    describe('when results are found,', () => {
       it('shows a list of results', () => {
         expect(context.wrapper).toIncludeText('Tom Hanks');
         expect(context.wrapper).toIncludeText('Tom Hardy');
@@ -97,7 +97,7 @@ describe('Search page', () => {
       });
     });
 
-    describe('When no results are found,', () => {
+    describe('when no results are found,', () => {
       beforeEach(async () => {
         context = await createClientSideTestContext({
           createHistoryOptions: { initialEntries: ['/search?query=Tom'] },
@@ -113,7 +113,7 @@ describe('Search page', () => {
     });
   });
 
-  describe('On load failure', () => {
+  describe('on load failure', () => {
     beforeEach(async () => {
       context = await createClientSideTestContext({
         createHistoryOptions: { initialEntries: ['/search?query=Tom'] },
