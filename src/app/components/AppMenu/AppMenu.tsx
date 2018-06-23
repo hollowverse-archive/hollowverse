@@ -4,6 +4,8 @@ import cc from 'classcat';
 import { Menu, MenuItem } from 'react-aria-menubutton';
 
 import classes from './AppMenu.module.scss';
+import { SvgIcon } from '../SvgIcon/SvgIcon';
+import closeIcon from 'icons/close.svg';
 
 type Props = {
   isOpen: boolean;
@@ -12,7 +14,6 @@ type Props = {
 
 export class AppMenu extends React.PureComponent<Props> {
   defaultProps: Partial<Props> = {
-    isOpen: true,
     user: {
       name: 'Fawwaz Orabi',
       avatar: 'test',
@@ -51,39 +52,25 @@ export class AppMenu extends React.PureComponent<Props> {
 
     return (
       <Menu className={classes.root}>
-        <button
-          type="button"
-          title="Close menu"
-          aria-label="Close menu"
-          className={classes.fade}
-          onClick={this.handleClose}
-        />
         <div className={classes.body}>
-          <button
-            type="button"
-            title="Close menu"
-            aria-label="Close menu"
-            className={classes.close}
-            onClick={this.handleClose}
-          />
           {this.renderUser()}
-          <ul className={classes.link}>
-            <MenuItem>
+          <ul className={classes.links}>
+            <MenuItem className={classes.menuItem}>
               <li>
-                <Link to="/" className={classes.link}>
+                <Link className={classes.link} to="/">
                   Home
                 </Link>
               </li>
             </MenuItem>
-            <MenuItem>
+            <MenuItem className={classes.menuItem}>
               <li>
-                <Link to="/contact" className={classes.link}>
+                <Link className={classes.link} to="/contact">
                   Contact
                 </Link>
               </li>
             </MenuItem>
             <div className={classes.separator} />
-            <MenuItem>
+            <MenuItem className={classes.menuItem}>
               <li>
                 {user && (
                   <button
@@ -105,7 +92,16 @@ export class AppMenu extends React.PureComponent<Props> {
                 )}
               </li>
             </MenuItem>
+            <MenuItem className={cc([classes.menuItem, classes.close])}>
+              <li>
+                <button type="button" className={classes.link}>
+                  <SvgIcon size={16} {...closeIcon} />
+                  <span className="sr-only">Close</span>
+                </button>
+              </li>
+            </MenuItem>
           </ul>
+          <div className={classes.separator} />
           <div className={classes.footer}>
             <Link to="/privacy-policy" className={classes.link}>
               Privacy Policy
