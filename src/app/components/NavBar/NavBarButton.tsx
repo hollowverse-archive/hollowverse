@@ -9,9 +9,17 @@ import {
   LinkButtonProps,
 } from 'components/Button/Button';
 
-export const NavBarButton = ({ className, ...rest }: ButtonProps) => (
-  <Button className={cc([className, classes.root])} {...rest} />
+export const NavBarButton = ({
+  className,
+  Factory = Button,
+  ...rest
+}: ButtonProps & { Factory?: any }) => (
+  <Factory className={cc([className, classes.root])} {...rest} />
 );
+
+const { root } = classes;
+
+export { root as navButtonClass };
 
 export const NavBarLink = ({ className, ...rest }: LinkButtonProps) => (
   <LinkButton className={cc([className, classes.root])} {...rest} />

@@ -2,18 +2,24 @@ import React from 'react';
 import cc from 'classcat';
 
 import { RouteComponentProps, Route, Switch } from 'react-router';
+import { Button, Wrapper } from 'react-aria-menubutton';
 
 import classes from './NavBar.module.scss';
 
 import { Sticky } from 'components/Sticky/Sticky';
 import { SvgIcon } from 'components/SvgIcon/SvgIcon';
-import { NavBarButton, NavBarLink } from 'components/NavBar/NavBarButton';
+import {
+  NavBarLink,
+  NavBarButton,
+  navButtonClass,
+} from 'components/NavBar/NavBarButton';
 
 import searchIcon from 'icons/search.svg';
-import backIcon from 'icons/back.svg';
+import menuIcon from 'icons/menu.svg';
 import { ConnectedSearchBar } from 'components/NavBar/ConnectedSearchBar';
 
 import textLogo from '!!file-loader!assets/textLogo.svg';
+import { AppMenu } from '../AppMenu/AppMenu';
 
 export type OwnProps = {
   title: string;
@@ -31,8 +37,8 @@ type Props = OwnProps & StateProps & DispatchProps;
 export const NavBar = class extends React.Component<
   Props & RouteComponentProps<any>
 > {
-  goBack = (_: React.MouseEvent<HTMLElement>) => {
-    this.props.history.goBack();
+  showMenu = (_: React.MouseEvent<HTMLElement>) => {
+    // this.props.history.goBack();
   };
 
   render() {
@@ -47,14 +53,13 @@ export const NavBar = class extends React.Component<
         >
           {isSticking => (
             <>
-              <NavBarButton
-                disabled
-                onClick={this.goBack}
-                className={cc([classes.button, { [classes.isHidden]: true }])}
-              >
-                <SvgIcon size={20} {...backIcon} />
-                <span className="sr-only">Go Back</span>
-              </NavBarButton>
+              <Wrapper className={cc([classes.button, navButtonClass])}>
+                <NavBarButton Factory={Button}>
+                  <SvgIcon size={20} {...menuIcon} />
+                  <span className="sr-only">Menu</span>
+                </NavBarButton>
+                <AppMenu isOpen user={undefined} />
+              </Wrapper>
               <div className={classes.view}>
                 <Switch>
                   <Route path="/search">
