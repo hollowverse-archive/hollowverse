@@ -1,12 +1,9 @@
 import React from 'react';
-import {
-  LazyImage,
-  Props as LazyImageProps,
-} from 'components/LazyImage/LazyImage';
+import { LazyImage, Props as LazyImageProps } from 'components/LazyImage/LazyImage';
 import { Image, Props as ImageProps } from 'components/Image/Image';
 import cc from 'classcat';
 
-import classes from './NotablePersonPhoto.module.scss';
+import classes from './PersonPhoto.module.scss';
 
 import photoPlaceholderUrl from '!!file-loader!svgo-loader!assets/personPlaceholder.svg';
 
@@ -16,7 +13,7 @@ type Props =
       isLazy: true;
     });
 
-export class NotablePersonPhoto extends React.PureComponent<Props> {
+export class PersonPhoto extends React.PureComponent<Props> {
   render() {
     const { isLazy, className, role, alt, src, ...imageProps } = this.props;
 
