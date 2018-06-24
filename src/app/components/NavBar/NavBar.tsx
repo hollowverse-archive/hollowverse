@@ -62,7 +62,7 @@ export const NavBar = class extends React.Component<
                   <SvgIcon size={20} {...menuIcon} />
                   <span className="sr-only">Menu</span>
                 </NavBarButton>
-                <AppMenu isOpen user={undefined} />
+                <AppMenu user={{ name: 'Fawwaz Orabi' }} />
               </Wrapper>
               <div className={classes.view}>
                 <Switch>

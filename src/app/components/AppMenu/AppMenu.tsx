@@ -10,7 +10,6 @@ import facebookIcon from 'icons/facebook.svg';
 const Separator = <div aria-hidden className={classes.separator} />;
 
 type Props = {
-  isOpen: boolean;
   user: any;
 };
 
@@ -53,7 +52,7 @@ export class AppMenu extends React.PureComponent<Props> {
             <MenuItemWithLink to="/contact">Contact</MenuItemWithLink>
             {Separator}
             <MenuItemWithButton
-              className={classes.facebook}
+              className={user ? undefined : classes.facebook}
               type="button"
               onClick={this.handleLogin}
               icon={user ? undefined : <SvgIcon size={24} {...facebookIcon} />}
