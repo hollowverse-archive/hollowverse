@@ -1,0 +1,59 @@
+@import 'mixins.scss';
+
+.root {
+  margin: 14px 0;
+  list-style: none;
+
+  &.small {
+    margin: 7px 0;
+
+    a,
+    button {
+      margin: -7px 0;
+      padding: 7px 20px;
+    }
+  }
+
+  a,
+  button {
+    margin: -14px 0;
+    padding: 14px 20px;
+    cursor: pointer;
+  }
+
+  button {
+    background: transparent;
+    border: 0;
+  }
+
+  .link {
+    font-size: 16px;
+    text-decoration: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    color: inherit;
+    text-align: left;
+
+    > * {
+      @include truncate-flex-child();
+    }
+
+    .icon {
+      flex-shrink: 0;
+      position: relative;
+      & + * {
+        margin-left: 10px;
+      }
+    }
+
+    &.small {
+      font-size: 12px;
+      color: $color-text-lighter;
+      &:hover {
+        color: $color-text-default;
+      }
+    }
+  }
+}
