@@ -2,10 +2,12 @@ import React from 'react';
 import { Menu } from 'react-aria-menubutton';
 import { MenuItemWithLink, MenuItemWithButton } from './MenuItem';
 
-import classes from './AppMenu.module.scss';
-import { SvgIcon } from '../SvgIcon/SvgIcon';
+import { PersonPhoto } from 'components/PersonPhoto/PersonPhoto';
+import { SvgIcon } from 'components/SvgIcon/SvgIcon';
 import closeIcon from 'icons/close.svg';
 import facebookIcon from 'icons/facebook.svg';
+
+import classes from './AppMenu.module.scss';
 
 const Separator = <div aria-hidden className={classes.separator} />;
 
@@ -23,12 +25,7 @@ export class AppMenu extends React.PureComponent<Props> {
 
     return (
       <>
-        <div
-          className={classes.userAvatar}
-          style={{
-            backgroundImage: user.avatar ? `url(${user.avatar})` : undefined,
-          }}
-        />
+        <PersonPhoto className={classes.userAvatar} src={user.avatar} />
         <div className={classes.userName}>{user.name}</div>
       </>
     );
