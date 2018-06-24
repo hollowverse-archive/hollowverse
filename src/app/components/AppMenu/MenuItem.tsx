@@ -58,7 +58,7 @@ function MenuItemWithChild<ChildProps extends { className?: string }>(
   );
 }
 
-// Convenience wrappers for `MenuItemWithChild`
+// Strongly-typed convenience wrappers for `MenuItemWithChild`
 export const MenuItemWithLink = (props: Props & LinkProps) => (
   <MenuItemWithChild Child={Link} {...props} />
 );

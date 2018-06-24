@@ -16,7 +16,7 @@ import menuIcon from 'icons/menu.svg';
 import { ConnectedSearchBar } from 'components/NavBar/ConnectedSearchBar';
 
 import textLogo from '!!file-loader!assets/textLogo.svg';
-import { AppMenu } from '../AppMenu/AppMenu';
+import { AppMenu } from 'components/AppMenu/AppMenu';
 
 export type OwnProps = {
   title: string;
