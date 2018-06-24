@@ -1,5 +1,5 @@
 import React from 'react';
-import { Menu } from 'react-aria-menubutton';
+import { Menu, closeMenu } from 'react-aria-menubutton';
 import { MenuItemWithLink, MenuItemWithButton } from './MenuItem';
 
 import { PersonPhoto } from 'components/PersonPhoto/PersonPhoto';
@@ -36,13 +36,22 @@ export class AppMenu extends React.PureComponent<Props> {
   handleLogin = () => null;
   handleLogout = () => null;
 
+  closeMenu = () => {
+    closeMenu('app-menu-wrapper');
+  };
+
   render() {
     const { user } = this.props;
 
     return (
       <nav className={classes.root} aria-label="Hollowverse">
-        <Menu id="app-menu" className={classes.menu}>
-          <div className={classes.overlay} />
+        <Menu className={classes.menu}>
+          <div
+            className={classes.overlay}
+            onClick={this.closeMenu}
+            aria-hidden
+            role="button"
+          />
           <div className={classes.body}>
             {this.renderUser()}
             <MenuItemWithLink to="/">Home</MenuItemWithLink>

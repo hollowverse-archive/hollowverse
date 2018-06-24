@@ -55,6 +55,7 @@ export const NavBar = class extends React.Component<
           {isSticking => (
             <>
               <Wrapper
+                id="app-menu-wrapper"
                 onMenuToggle={this.handleMenuToggle}
                 className={classes.menuWrapper}
               >
