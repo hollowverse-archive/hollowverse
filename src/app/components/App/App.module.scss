@@ -3,10 +3,6 @@
 
 // stylelint-disable property-blacklist
 :global {
-  * {
-    scroll-behavior: smooth;
-  }
-
   *,
   *::after,
   *::before {

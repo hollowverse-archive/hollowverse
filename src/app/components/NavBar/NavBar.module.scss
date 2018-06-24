@@ -34,6 +34,17 @@
     }
   }
 
+  .menu-wrapper {
+    position: relative;
+
+    // ideally we would set display: contents; on .menu-wrapper
+    // and remove the following rule but display: contents; is not
+    // widely supported yet.
+    .button {
+      height: 100%;
+    }
+  }
+
   .view-wrapper {
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.07);
     display: flex;

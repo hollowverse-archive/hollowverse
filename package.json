@@ -149,6 +149,7 @@
     "loglevel": "^1.5.1",
     "lru-cache": "^4.1.1",
     "moment": "^2.19.1",
+    "no-scroll": "^2.1.1",
     "npm-run-all": "^4.0.2",
     "p-memoize": "^1.0.0",
     "path-to-regexp": "^2.1.0",

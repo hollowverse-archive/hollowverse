@@ -1,5 +1,6 @@
 import React from 'react';
 import cc from 'classcat';
+import noScroll from 'no-scroll';
 
 import { RouteComponentProps, Route, Switch } from 'react-router';
 import { Button, Wrapper } from 'react-aria-menubutton';
@@ -8,11 +9,7 @@ import classes from './NavBar.module.scss';
 
 import { Sticky } from 'components/Sticky/Sticky';
 import { SvgIcon } from 'components/SvgIcon/SvgIcon';
-import {
-  NavBarLink,
-  NavBarButton,
-  navButtonClass,
-} from 'components/NavBar/NavBarButton';
+import { NavBarLink, NavBarButton } from 'components/NavBar/NavBarButton';
 
 import searchIcon from 'icons/search.svg';
 import menuIcon from 'icons/menu.svg';
@@ -41,6 +38,10 @@ export const NavBar = class extends React.Component<
     // this.props.history.goBack();
   };
 
+  handleMenuToggle = () => {
+    noScroll.toggle();
+  };
+
   render() {
     const { title, shouldFocusSearch, isHomePage } = this.props;
 
@@ -53,8 +54,11 @@ export const NavBar = class extends React.Component<
         >
           {isSticking => (
             <>
-              <Wrapper className={cc([classes.button, navButtonClass])}>
-                <NavBarButton Factory={Button}>
+              <Wrapper
+                onMenuToggle={this.handleMenuToggle}
+                className={classes.menuWrapper}
+              >
+                <NavBarButton className={classes.button} Factory={Button}>
                   <SvgIcon size={20} {...menuIcon} />
                   <span className="sr-only">Menu</span>
                 </NavBarButton>
