@@ -13,6 +13,7 @@ import { unhandledErrorThrown } from 'store/features/logging/actions';
 import {
   loadIntersectionObserverPolyfill,
   loadUrlPolyfill,
+  loadFocusVisiblePolyfill,
 } from 'helpers/loadPolyfill';
 import { HelmetProvider } from 'react-helmet-async';
 import {
@@ -67,7 +68,11 @@ if (module.hot) {
   module.hot.accept();
 }
 
-Promise.all([loadIntersectionObserverPolyfill(), loadUrlPolyfill()])
+Promise.all([
+  loadIntersectionObserverPolyfill(),
+  loadUrlPolyfill(),
+  loadFocusVisiblePolyfill(),
+])
   .then(renderOnDomReady)
   .catch(renderOnDomReady);
 

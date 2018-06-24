@@ -67,7 +67,7 @@
 
   input[type='text'],
   input[type='search'],
-  button {
+  .js-focus-visible :focus:not(.focus-visible) {
     outline: none;
   }
 

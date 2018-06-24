@@ -8,6 +8,7 @@ import { importGlobalScript } from 'helpers/importGlobalScript';
 import intersectionObserverPolyfillUrl from 'file-loader!uglify-loader!intersection-observer';
 import fetchPolyfillUrl from 'file-loader!uglify-loader!whatwg-fetch';
 import urlPolyfillUrl from 'file-loader!uglify-loader!url-polyfill';
+import focusVisiblePolyfillUrl from 'file-loader!focus-visible';
 
 export const loadIntersectionObserverPolyfill = async () => {
   const supportsIntersectionObserver =
@@ -28,4 +29,8 @@ export const loadUrlPolyfill = async () => {
   if (!('URL' in global) || !('URLSearchParams' in global)) {
     await importGlobalScript(urlPolyfillUrl);
   }
+};
+
+export const loadFocusVisiblePolyfill = async () => {
+  await importGlobalScript(focusVisiblePolyfillUrl);
 };

@@ -136,6 +136,7 @@
     "domready": "^1.0.8",
     "empty-module": "^0.0.2",
     "express": "^4.15.2",
+    "focus-visible": "^4.1.4",
     "got": "^8.3.1",
     "graphql": "^0.13.2",
     "graphql-request": "npm:@forabi/graphql-request@1.6.8",
