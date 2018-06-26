@@ -57,8 +57,10 @@
     }
 
     .close {
-      // padding: 0;
-      // margin:
+      button {
+        padding-right: 15px;
+      }
+
       position: absolute;
       display: block;
       top: 0;
@@ -70,6 +72,11 @@
 
     .facebook {
       color: $color-facebook-blue;
+    }
+
+    .facebook-icon {
+      position: relative;
+      top: 3px;
     }
 
     .separator {

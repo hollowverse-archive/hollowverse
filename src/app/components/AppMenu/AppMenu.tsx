@@ -61,7 +61,17 @@ export class AppMenu extends React.PureComponent<Props> {
               className={user ? undefined : classes.facebook}
               type="button"
               onClick={this.handleLogin}
-              icon={user ? undefined : <SvgIcon size={24} {...facebookIcon} />}
+              icon={
+                user ? (
+                  undefined
+                ) : (
+                  <SvgIcon
+                    className={classes.facebookIcon}
+                    size={24}
+                    {...facebookIcon}
+                  />
+                )
+              }
             >
               {user ? 'Log out' : 'Log in with Facebook'}
             </MenuItemWithButton>
