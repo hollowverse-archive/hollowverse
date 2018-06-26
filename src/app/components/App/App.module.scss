@@ -3,6 +3,11 @@
 
 // stylelint-disable property-blacklist
 :global {
+  .no-scroll {
+    // stylelint-disable-next-line plugin/no-unsupported-browser-features
+    touch-action: none;
+  }
+
   *,
   *::after,
   *::before {

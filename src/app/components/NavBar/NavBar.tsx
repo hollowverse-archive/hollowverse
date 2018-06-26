@@ -1,6 +1,5 @@
 import React from 'react';
 import cc from 'classcat';
-import noScroll from 'no-scroll';
 
 import { RouteComponentProps, Route, Switch } from 'react-router';
 import { Button, Wrapper } from 'react-aria-menubutton';
@@ -39,7 +38,7 @@ export const NavBar = class extends React.Component<
   };
 
   handleMenuToggle = () => {
-    noScroll.toggle();
+    document.body.classList.toggle('no-scroll');
   };
 
   render() {
@@ -63,7 +62,7 @@ export const NavBar = class extends React.Component<
                   <SvgIcon size={20} {...menuIcon} />
                   <span className="sr-only">Menu</span>
                 </NavBarButton>
-                <AppMenu user={{ name: 'Fawwaz Orabi' }} />
+                <AppMenu user={undefined} />
               </Wrapper>
               <div className={classes.view}>
                 <Switch>
