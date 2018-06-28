@@ -47,7 +47,7 @@ export class AppMenu extends React.PureComponent<Props> {
     const { user, getMenuStyle = () => undefined } = this.props;
 
     return (
-      <nav className={classes.root} aria-label="Hollowverse">
+      <nav className={classes.root} aria-label="Main Menu">
         <Menu className={classes.menu}>
           {({ isOpen }: { isOpen: boolean }) => (
             <CSSTransition
