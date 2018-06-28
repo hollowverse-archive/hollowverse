@@ -1,6 +1,5 @@
 import React from 'react';
 import { Menu, closeMenu } from 'react-aria-menubutton';
-import cc from 'classcat';
 import CSSTransition, {
   CSSTransitionClassNames,
 } from 'react-transition-group/CSSTransition';
@@ -66,17 +65,8 @@ export class AppMenu extends React.PureComponent<Props> {
               mountOnEnter
               unmountOnExit
             >
-              <div>
-                <div
-                  className={classes.overlay}
-                  onClick={this.closeMenu}
-                  aria-hidden
-                  role="button"
-                />
-                <div
-                  className={cc(['body', classes.body])}
-                  style={getMenuStyle()}
-                >
+              <div className={classes.body} style={getMenuStyle()}>
+                <ul>
                   {this.renderUser()}
                   <MenuItemWithLink to="/">Home</MenuItemWithLink>
                   <MenuItemWithLink to="/contact">Contact</MenuItemWithLink>
@@ -102,17 +92,17 @@ export class AppMenu extends React.PureComponent<Props> {
                   <MenuItemWithButton
                     type="button"
                     className={classes.close}
+                    onClick={this.closeMenu}
                     icon={<SvgIcon size={16} {...closeIcon} />}
-                  >
-                    <span className="sr-only">Close</span>
-                  </MenuItemWithButton>
+                    aria-label="Close"
+                  />
                   {Separator}
                   <MenuItemWithLink size="small" to="/privacy-policy">
                     Privacy Policy
                   </MenuItemWithLink>
-                  <div className={classes.footer}>
-                    <div className={classes.copy}>&copy; 2018 Hollowverse</div>
-                  </div>
+                </ul>
+                <div className={classes.footer}>
+                  <div className={classes.copy}>&copy; 2018 Hollowverse</div>
                 </div>
               </div>
             </CSSTransition>

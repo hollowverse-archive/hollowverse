@@ -1,15 +1,6 @@
 @import 'variables.scss';
 
 .root {
-  .overlay {
-    z-index: 1;
-    position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-  }
-
   .menu {
     &-enter {
       opacity: 0;
@@ -39,8 +30,6 @@
 
     .body {
       position: relative;
-      top: 10px;
-      left: 10px;
       z-index: 2;
       width: 240px;
       max-height: calc(100vh - 10px);
