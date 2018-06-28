@@ -56,7 +56,7 @@ export class AppMenu extends React.PureComponent<Props> {
 
     return (
       <nav className={classes.root}>
-        <Menu tag="nav" className={classes.menu} aria-label="Main Menu">
+        <Menu className={classes.menu} aria-label="Main Menu">
           {({ isOpen }: { isOpen: boolean }) => (
             <CSSTransition
               classNames={transitionClassNames}

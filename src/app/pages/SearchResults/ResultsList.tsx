@@ -26,7 +26,11 @@ export const ResultsList = (props: ResultsListProps) => {
     'isLoading' in props ? resultsListDummyData : props;
 
   return (
-    <ol className={classes.root} aria-hidden={isLoading}>
+    <ol
+      aria-label="Search Results"
+      className={classes.root}
+      aria-hidden={isLoading}
+    >
       {hits.map(searchResult => {
         const Wrapper = isLoading ? 'span' : Link;
         const photo = searchResult.mainPhoto;
