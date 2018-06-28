@@ -11,7 +11,6 @@
     &-enter-active {
       opacity: 1;
       transform: scale(1);
-      transition: all 100ms ease-in-out;
     }
 
     &-exit {
@@ -23,7 +22,13 @@
     &-exit-active {
       opacity: 0;
       transform: scale(0);
-      transition: all 100ms ease-in-out;
+    }
+
+    &-exit-active,
+    &-enter-active {
+      transition-property: opacity, transform;
+      transition-duration: var(--timeout);
+      transition-timing-function: ease-in-out;
     }
 
     position: absolute;

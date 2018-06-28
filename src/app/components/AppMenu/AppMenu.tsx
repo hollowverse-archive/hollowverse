@@ -13,6 +13,7 @@ import facebookIcon from 'icons/facebook.svg';
 import classes from './AppMenu.module.scss';
 
 const Separator = <li role="separator" className={classes.separator} />;
+const timeoutMilliseconds = 150;
 
 type Props = {
   user: any;
@@ -56,11 +57,19 @@ export class AppMenu extends React.PureComponent<Props> {
 
     return (
       <nav className={classes.root}>
-        <Menu className={classes.menu} aria-label="Main Menu">
+        <Menu
+          className={classes.menu}
+          aria-label="Main Menu"
+          style={
+            {
+              '--timeout': `${timeoutMilliseconds}ms`,
+            } as any
+          }
+        >
           {({ isOpen }: { isOpen: boolean }) => (
             <CSSTransition
               classNames={transitionClassNames}
-              timeout={100}
+              timeout={timeoutMilliseconds}
               in={isOpen}
               mountOnEnter
               unmountOnExit
