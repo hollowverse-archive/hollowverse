@@ -33,12 +33,22 @@ type Props = OwnProps & StateProps & DispatchProps;
 export const NavBar = class extends React.Component<
   Props & RouteComponentProps<any>
 > {
-  showMenu = (_: React.MouseEvent<HTMLElement>) => {
-    // this.props.history.goBack();
-  };
+  navBarChildRef = React.createRef<HTMLDivElement>();
 
   handleMenuToggle = () => {
     document.body.classList.toggle('no-scroll');
+  };
+
+  getMenuStyle = () => {
+    let top = 0;
+    let left = 0;
+    const ref = this.navBarChildRef.current;
+
+    if (ref) {
+      ({ top, left } = ref.getBoundingClientRect());
+    }
+
+    return { top, left };
   };
 
   render() {
@@ -59,10 +69,12 @@ export const NavBar = class extends React.Component<
                 className={classes.menuWrapper}
               >
                 <NavBarButton className={classes.button} Factory={Button}>
-                  <SvgIcon size={20} {...menuIcon} />
-                  <span className="sr-only">Menu</span>
+                  <div ref={this.navBarChildRef}>
+                    <SvgIcon size={20} {...menuIcon} />
+                    <span className="sr-only">Menu</span>
+                  </div>
                 </NavBarButton>
-                <AppMenu user={undefined} />
+                <AppMenu getMenuStyle={this.getMenuStyle} user={undefined} />
               </Wrapper>
               <div className={classes.view}>
                 <Switch>
