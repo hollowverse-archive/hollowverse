@@ -13,9 +13,6 @@
       transition: all 100ms ease-in-out;
     }
 
-    &-enter-done {
-    }
-
     &-exit {
       opacity: 1;
       transform: translateY(0);
@@ -114,7 +111,7 @@
       padding: 0px $spacing-20px;
 
       .copy {
-        margin-top: $spacing-5px;
+        margin-top: $spacing-15px;
       }
     }
   }
