@@ -1,6 +1,15 @@
 @import 'variables.scss';
 
-:global {
+.root {
+  .overlay {
+    z-index: 1;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+  }
+
   .menu {
     &-enter {
       opacity: 0;
@@ -24,23 +33,6 @@
       transition: all 100ms ease-in-out;
     }
 
-    &-exit-done {
-      visibility: hidden;
-    }
-  }
-}
-
-.root {
-  .overlay {
-    z-index: 1;
-    position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-  }
-
-  .menu {
     position: absolute;
     top: 0;
     left: 0;

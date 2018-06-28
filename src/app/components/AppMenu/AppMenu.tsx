@@ -1,7 +1,9 @@
 import React from 'react';
 import { Menu, closeMenu } from 'react-aria-menubutton';
 import cc from 'classcat';
-import CSSTransition from 'react-transition-group/CSSTransition';
+import CSSTransition, {
+  CSSTransitionClassNames,
+} from 'react-transition-group/CSSTransition';
 import { MenuItemWithLink, MenuItemWithButton } from './MenuItem';
 
 import { PersonPhoto } from 'components/PersonPhoto/PersonPhoto';
@@ -16,6 +18,13 @@ const Separator = <li role="separator" className={classes.separator} />;
 type Props = {
   user: any;
   getMenuStyle?(): React.CSSProperties;
+};
+
+const transitionClassNames: CSSTransitionClassNames = {
+  enter: classes.menuEnter,
+  enterActive: classes.menuEnterActive,
+  exit: classes.menuExit,
+  exitActive: classes.menuExitActive,
 };
 
 export class AppMenu extends React.PureComponent<Props> {
@@ -51,7 +60,7 @@ export class AppMenu extends React.PureComponent<Props> {
         <Menu className={classes.menu}>
           {({ isOpen }: { isOpen: boolean }) => (
             <CSSTransition
-              classNames="menu"
+              classNames={transitionClassNames}
               timeout={100}
               in={isOpen}
               mountOnEnter
@@ -91,10 +100,12 @@ export class AppMenu extends React.PureComponent<Props> {
                     {user ? 'Log out' : 'Log in with Facebook'}
                   </MenuItemWithButton>
                   <MenuItemWithButton
+                    type="button"
                     className={classes.close}
-                    aria-label="Close"
                     icon={<SvgIcon size={16} {...closeIcon} />}
-                  />
+                  >
+                    <span className="sr-only">Close</span>
+                  </MenuItemWithButton>
                   {Separator}
                   <MenuItemWithLink size="small" to="/privacy-policy">
                     Privacy Policy
