@@ -11,7 +11,7 @@ import facebookIcon from 'icons/facebook.svg';
 
 import classes from './AppMenu.module.scss';
 
-const Separator = <div aria-hidden className={classes.separator} />;
+const Separator = <li role="separator" className={classes.separator} />;
 
 type Props = {
   user: any;
