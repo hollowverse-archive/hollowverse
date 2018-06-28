@@ -43,7 +43,10 @@ export const ResultsList = (props: ResultsListProps) => {
             <Wrapper className={classes.link} to={path} onClick={onClick}>
               <div className={classes.photo}>
                 <Square>
-                  <PersonPhoto src={photo ? photo.url : undefined} />
+                  <PersonPhoto
+                    role="presentation"
+                    src={photo ? photo.url : undefined}
+                  />
                 </Square>
               </div>
               <div className={classes.nameContainer}>

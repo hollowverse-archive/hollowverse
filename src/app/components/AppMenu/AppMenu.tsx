@@ -55,8 +55,8 @@ export class AppMenu extends React.PureComponent<Props> {
     const { user, getMenuStyle = () => undefined } = this.props;
 
     return (
-      <nav className={classes.root} aria-label="Main Menu">
-        <Menu className={classes.menu}>
+      <nav className={classes.root}>
+        <Menu tag="nav" className={classes.menu} aria-label="Main Menu">
           {({ isOpen }: { isOpen: boolean }) => (
             <CSSTransition
               classNames={transitionClassNames}
@@ -66,41 +66,39 @@ export class AppMenu extends React.PureComponent<Props> {
               unmountOnExit
             >
               <div className={classes.body} style={getMenuStyle()}>
-                <ul>
-                  {this.renderUser()}
-                  <MenuItemWithLink to="/">Home</MenuItemWithLink>
-                  <MenuItemWithLink to="/contact">Contact</MenuItemWithLink>
-                  {Separator}
-                  <MenuItemWithButton
-                    className={user ? undefined : classes.facebook}
-                    type="button"
-                    onClick={this.handleLogin}
-                    icon={
-                      user ? (
-                        undefined
-                      ) : (
-                        <SvgIcon
-                          className={classes.facebookIcon}
-                          size={24}
-                          {...facebookIcon}
-                        />
-                      )
-                    }
-                  >
-                    {user ? 'Log out' : 'Log in with Facebook'}
-                  </MenuItemWithButton>
-                  <MenuItemWithButton
-                    type="button"
-                    className={classes.close}
-                    onClick={this.closeMenu}
-                    icon={<SvgIcon size={16} {...closeIcon} />}
-                    aria-label="Close"
-                  />
-                  {Separator}
-                  <MenuItemWithLink size="small" to="/privacy-policy">
-                    Privacy Policy
-                  </MenuItemWithLink>
-                </ul>
+                {this.renderUser()}
+                <MenuItemWithLink to="/">Home</MenuItemWithLink>
+                <MenuItemWithLink to="/contact">Contact</MenuItemWithLink>
+                {Separator}
+                <MenuItemWithButton
+                  className={user ? undefined : classes.facebook}
+                  type="button"
+                  onClick={this.handleLogin}
+                  icon={
+                    user ? (
+                      undefined
+                    ) : (
+                      <SvgIcon
+                        className={classes.facebookIcon}
+                        size={24}
+                        {...facebookIcon}
+                      />
+                    )
+                  }
+                >
+                  {user ? 'Log out' : 'Log in with Facebook'}
+                </MenuItemWithButton>
+                <MenuItemWithButton
+                  type="button"
+                  className={classes.close}
+                  onClick={this.closeMenu}
+                  icon={<SvgIcon size={16} {...closeIcon} />}
+                  aria-label="Close"
+                />
+                {Separator}
+                <MenuItemWithLink size="small" to="/privacy-policy">
+                  Privacy Policy
+                </MenuItemWithLink>
                 <div className={classes.footer}>
                   <div className={classes.copy}>&copy; 2018 Hollowverse</div>
                 </div>

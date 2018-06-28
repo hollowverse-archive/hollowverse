@@ -18,7 +18,12 @@ export const Home = hot(module)(
     }),
   )(props => (
     <div className={classes.root}>
-      <form method="GET" action="/search" className={classes.searchContainer}>
+      <form
+        method="GET"
+        action="/search"
+        role="search"
+        className={classes.searchContainer}
+      >
         <Card className={classes.searchBox}>
           <input
             type="search"

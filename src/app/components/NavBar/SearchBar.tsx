@@ -70,10 +70,12 @@ export class SearchBar extends React.PureComponent<Props> {
         onBlurCapture={this.handleSearchFormBlur}
         action="/search"
         method="GET"
+        role="search"
       >
         <div className={classes.inputWrapper}>
           <input
             type="search"
+            aria-label="Search"
             ref={this.setSearchInput}
             className={classes.input}
             required

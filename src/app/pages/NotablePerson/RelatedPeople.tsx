@@ -25,7 +25,7 @@ export const RelatedPeople = ({ people }: { people: Person[] }) => (
               <PersonPhoto
                 isLazy
                 outerClassName={classes.lazyImage}
-                alt={person.name}
+                alt={`${person.name}'s photo`}
                 src={person.mainPhoto ? person.mainPhoto.url : undefined}
               />
             </Square>

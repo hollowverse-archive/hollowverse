@@ -1,5 +1,8 @@
 import React from 'react';
-import { LazyImage, Props as LazyImageProps } from 'components/LazyImage/LazyImage';
+import {
+  LazyImage,
+  Props as LazyImageProps,
+} from 'components/LazyImage/LazyImage';
 import { Image, Props as ImageProps } from 'components/Image/Image';
 import cc from 'classcat';
 
