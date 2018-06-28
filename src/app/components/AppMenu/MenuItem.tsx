@@ -1,5 +1,6 @@
 import React from 'react';
 import cc from 'classcat';
+import { MenuItem as AriaMenuItem } from 'react-aria-menubutton';
 
 import classes from './MenuItem.module.scss';
 import { Link, LinkProps } from 'react-router-dom';
@@ -14,15 +15,16 @@ type Props = {
 };
 
 export const MenuItem = ({ children, className, size = 'default' }: Props) => (
-  <li
+  <AriaMenuItem
     className={cc([
       classes.root,
       className,
       { [classes.small]: size === 'small' },
     ])}
+    role="none"
   >
     {children}
-  </li>
+  </AriaMenuItem>
 );
 
 function MenuItemWithChild<ChildProps extends { className?: string }>(
