@@ -36,6 +36,11 @@
     color: inherit;
     text-align: left;
 
+    &:focus,
+    &:hover {
+      background: $color-background-light;
+    }
+
     > * {
       @include truncate-flex-child();
     }
@@ -51,8 +56,10 @@
     &.small {
       font-size: 12px;
       color: $color-text-lighter;
-      &:hover {
+      &:hover,
+      &:focus {
         color: $color-text-default;
+        background: transparent;
       }
     }
   }
