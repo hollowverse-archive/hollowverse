@@ -21,12 +21,20 @@ export const MenuItem = ({ children, className, size = 'default' }: Props) => (
       className,
       { [classes.small]: size === 'small' },
     ])}
+    tag="li"
+    // Override role="menuitem" set by react-aria-menubutton because
+    // it causes Android TalkBalk to read the menu item and its children
+    // each separately. We will instead set `role="menuitem"` on the child
+    // below and make screen reader skip the parent entirely.
     role="none"
+    // tslint:disable-next-line react-a11y-tabindex-no-positive
+    tabIndex={undefined}
   >
     {children}
   </AriaMenuItem>
 );
 
+// tslint:disable-next-line function-name
 function MenuItemWithChild<ChildProps extends { className?: string }>(
   props: Props & ChildProps & { Child: string | React.ComponentType<any> },
 ) {
@@ -51,6 +59,8 @@ function MenuItemWithChild<ChildProps extends { className?: string }>(
         className={cc([classes.link, { [classes.small]: size === 'small' }])}
         {...childProps}
         role="menuitem"
+        // Make this element accessible via keyboard and screen readers
+        tabindex="0"
       >
         {icon && <div className={classes.icon}>{icon}</div>}
         {children && <div>{children}</div>}
