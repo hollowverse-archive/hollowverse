@@ -12,15 +12,16 @@
     "algoliasearch",
     "classcat",
     "destructure",
+    "graphql",
     "hollowverse",
     "loggable",
     "loglevel",
     "middlewares",
     "onunhandledrejection",
     "promisify",
+    "stylelint",
     "unhandledrejection",
-    "webpagetest",
-    "graphql"
+    "webpagetest"
   ],
   "editor.tabSize": 2,
   "editor.formatOnSave": true,
