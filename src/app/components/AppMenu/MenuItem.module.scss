@@ -1,15 +1,15 @@
 @import 'mixins.scss';
 
 .root {
-  margin-top: 14px;
+  margin-top: $spacing-15px;
   list-style: none;
 
   &.small {
-    margin-top: 7px;
+    margin-top: $spacing-8px;
 
     > * {
-      margin-top: -7px;
-      padding: 7px 20px;
+      margin-top: -$spacing-8px;
+      padding: $spacing-8px $spacing-20px;
     }
   }
 
@@ -18,8 +18,8 @@
   }
 
   .child {
-    margin-top: -14px;
-    padding: 14px 20px;
+    margin-top: -$spacing-15px;
+    padding: $spacing-15px $spacing-20px;
   }
 
   button {
@@ -28,7 +28,7 @@
   }
 
   .child {
-    font-size: 16px;
+    font-size: inherit;
     text-decoration: none;
     display: flex;
     align-items: center;
@@ -49,7 +49,7 @@
       flex-shrink: 0;
       position: relative;
       & + * {
-        margin-left: 10px;
+        margin-left: $spacing-10px;
       }
     }
 
