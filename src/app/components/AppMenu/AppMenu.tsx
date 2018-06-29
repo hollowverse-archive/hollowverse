@@ -21,7 +21,10 @@ const timeoutMilliseconds = 150;
 
 type Props = {
   user: any;
-  getMenuStyle?(): React.CSSProperties;
+  getMenuStyle?(): React.CSSProperties & {
+    '--top': string;
+    '--left': string;
+  };
 };
 
 const transitionClassNames: CSSTransitionClassNames = {

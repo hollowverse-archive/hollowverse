@@ -48,7 +48,7 @@ export const NavBar = class extends React.Component<
       ({ top, left } = ref.getBoundingClientRect());
     }
 
-    return { top, left };
+    return { '--top': `${top}px`, '--left': `${left}px` };
   };
 
   render() {
@@ -74,7 +74,10 @@ export const NavBar = class extends React.Component<
                     <span className="sr-only">Menu</span>
                   </div>
                 </NavBarButton>
-                <AppMenu getMenuStyle={this.getMenuStyle} user={undefined} />
+                <AppMenu
+                  getMenuStyle={this.getMenuStyle}
+                  user={{ name: 'Fawwaz Orabi' }}
+                />
               </Wrapper>
               <div className={classes.view}>
                 <Switch>

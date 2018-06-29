@@ -2,6 +2,9 @@
 
 .root {
   .menu {
+    // #region Transitions
+
+    // Transition classes are set by `react-transition-group`
     &-enter {
       opacity: 0;
       transform: scale(0);
@@ -30,20 +33,27 @@
       transition-duration: var(--timeout);
       transition-timing-function: ease-in-out;
     }
+    // #endregion Transitions
 
     position: fixed;
     top: 0;
     left: 0;
 
     .body {
+      // The actual position for the menu body will be set dynamically
+      // vis JS. See the `getMenuStyle` prop on the menu component.
       position: relative;
-      z-index: 2;
-      width: 240px;
-      max-height: calc(100vh - 10px);
+      top: var(--top);
+      left: var(--left);
+
+      // Allow the menu to be scrolled vertically when it has too many items
+      max-height: calc(100vh - var(--top));
       overflow-y: auto;
+
+      width: 240px;
+
       padding: 15px 0;
       border-radius: 4px;
-      text-align: left;
       background-color: $color-white;
       box-shadow: 0 1px 6px 1px rgba(0, 0, 0, 0.1);
     }
@@ -92,7 +102,7 @@
       list-style: none;
 
       > div {
-      border-top: 1px solid $color-border-light;
+        border-top: 1px solid $color-border-light;
       }
     }
 
