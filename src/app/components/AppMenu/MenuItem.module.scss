@@ -27,6 +27,16 @@
     border: 0;
   }
 
+  &.is-clickable .child:focus,
+  &.is-clickable .child:hover {
+    background: $color-background-light;
+  }
+
+  &.is-clickable .child.small:hover,
+  &.is-clickable .child.small:focus {
+    color: inherit;
+  }
+
   .child {
     font-size: inherit;
     text-decoration: none;
@@ -40,11 +50,6 @@
       @include truncate-flex-child();
     }
 
-    .is-clickable &:focus,
-    .is-clickable &:hover {
-      background: $color-background-light;
-    }
-
     .icon {
       flex-shrink: 0;
       position: relative;
@@ -56,11 +61,6 @@
     &.small {
       font-size: 12px;
       color: $color-text-lighter;
-      .is-clickable &:hover,
-      .is-clickable &:focus {
-        color: $color-text-default;
-        background: transparent;
-      }
     }
   }
 }
