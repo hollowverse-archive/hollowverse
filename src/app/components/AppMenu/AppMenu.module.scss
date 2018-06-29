@@ -35,14 +35,11 @@
     }
     // #endregion Transitions
 
-    position: fixed;
-    top: 0;
-    left: 0;
-
     .body {
+      position: fixed;
+
       // The actual position for the menu body will be set dynamically
       // vis JS. See the `getMenuStyle` prop on the menu component.
-      position: relative;
       top: var(--top);
       left: var(--left);
 
