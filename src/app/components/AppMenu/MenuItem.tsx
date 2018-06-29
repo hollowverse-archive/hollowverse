@@ -64,6 +64,7 @@ export function MenuItemWithChild<FactoryProps extends { className?: string }>(
     'children',
     'icon',
     'Factory',
+    'isClickable',
   ) as FactoryProps;
 
   return (
@@ -74,9 +75,9 @@ export function MenuItemWithChild<FactoryProps extends { className?: string }>(
       <Factory
         className={cc([classes.child, { [classes.small]: size === 'small' }])}
         {...childProps}
-        role="menuitem"
+        role={isClickable ? 'menuitem' : 'presentation'}
         // Make this element accessible via keyboard and screen readers
-        tabindex="0"
+        tabindex={isClickable ? 0 : -1}
       >
         {icon && <div className={classes.icon}>{icon}</div>}
         {children && <div>{children}</div>}

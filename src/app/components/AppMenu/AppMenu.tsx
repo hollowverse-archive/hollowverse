@@ -48,8 +48,16 @@ export class AppMenu extends React.PureComponent<Props> {
     }
 
     return (
-      <MenuItemWithChild factory="div" isClickable={false}>
-        <PersonPhoto className={classes.userAvatar} src={user.avatar} />
+      <MenuItemWithChild
+        aria-label={`Signed in as ${user.name}`}
+        factory="div"
+        isClickable={false}
+      >
+        <PersonPhoto
+          alt="Profile Photo"
+          className={classes.userAvatar}
+          src={user.avatar}
+        />
         <div className={classes.userName}>{user.name}</div>
       </MenuItemWithChild>
     );
@@ -120,9 +128,13 @@ export class AppMenu extends React.PureComponent<Props> {
                 <MenuItemWithLink size="small" to="/privacy-policy">
                   Privacy Policy
                 </MenuItemWithLink>
-                <div className={classes.footer}>
-                  <div className={classes.copy}>&copy; 2018 Hollowverse</div>
-                </div>
+                <MenuItemWithChild
+                  size="small"
+                  factory="div"
+                  isClickable={false}
+                >
+                  &copy; 2018 Hollowverse
+                </MenuItemWithChild>
               </div>
             </CSSTransition>
           )}
