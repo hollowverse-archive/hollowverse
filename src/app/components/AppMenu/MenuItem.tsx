@@ -63,7 +63,7 @@ export function MenuItemWithChild<FactoryProps extends { className?: string }>(
     'className',
     'children',
     'icon',
-    'Factory',
+    'factory',
     'isClickable',
   ) as FactoryProps;
 
@@ -77,7 +77,7 @@ export function MenuItemWithChild<FactoryProps extends { className?: string }>(
         {...childProps}
         role={isClickable ? 'menuitem' : 'presentation'}
         // Make this element accessible via keyboard and screen readers
-        tabindex={isClickable ? 0 : -1}
+        tabIndex={isClickable ? 0 : -1}
       >
         {icon && <div className={classes.icon}>{icon}</div>}
         {children && <div>{children}</div>}
