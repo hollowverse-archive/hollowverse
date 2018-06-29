@@ -7,18 +7,24 @@
   &.small {
     margin-top: 7px;
 
-    a,
-    button {
+    > * {
       margin-top: -7px;
       padding: 7px 20px;
     }
   }
 
-  a,
-  button {
+  &.is-clickable {
+    cursor: pointer;
+  }
+
+  .child {
     margin-top: -14px;
     padding: 14px 20px;
-    cursor: pointer;
+  }
+
+  &.is-clickable .child:focus,
+  &.is-clickable .child:hover {
+    background: $color-background-light;
   }
 
   button {
@@ -26,20 +32,14 @@
     border: 0;
   }
 
-  .link {
+  .child {
     font-size: 16px;
     text-decoration: none;
-    cursor: pointer;
     display: flex;
     align-items: center;
     width: 100%;
     color: inherit;
     text-align: left;
-
-    &:focus,
-    &:hover {
-      background: $color-background-light;
-    }
 
     > * {
       @include truncate-flex-child();

@@ -12,9 +12,15 @@ type Props = {
   size?: 'small' | 'default';
   children?: React.ReactNode;
   icon?: React.ReactNode;
+
+  /**
+   * If `false`, disables hover and focus styles on the menu item
+   * @default true
+   */
+  isClickable?: boolean;
 };
 
-export const MenuItem = ({ children, className, size = 'default' }: Props) => (
+const MenuItem = ({ children, className, size = 'default' }: Props) => (
   <AriaMenuItem
     className={cc([
       classes.root,
@@ -35,10 +41,17 @@ export const MenuItem = ({ children, className, size = 'default' }: Props) => (
 );
 
 // tslint:disable-next-line function-name
-function MenuItemWithChild<ChildProps extends { className?: string }>(
-  props: Props & ChildProps & { Child: string | React.ComponentType<any> },
+export function MenuItemWithChild<FactoryProps extends { className?: string }>(
+  props: Props & FactoryProps & { factory: string | React.ComponentType<any> },
 ) {
-  const { size, className, children, icon, Child } = props;
+  const {
+    size,
+    className,
+    children,
+    icon,
+    factory: Factory,
+    isClickable = true,
+  } = props;
 
   // Normally we would do { size, className, ...childProps } = props;
   // but TypeScript does not currently support spreading generic
@@ -50,13 +63,16 @@ function MenuItemWithChild<ChildProps extends { className?: string }>(
     'className',
     'children',
     'icon',
-    'Child',
-  ) as ChildProps;
+    'Factory',
+  ) as FactoryProps;
 
   return (
-    <MenuItem size={size} className={className}>
-      <Child
-        className={cc([classes.link, { [classes.small]: size === 'small' }])}
+    <MenuItem
+      size={size}
+      className={cc([className, { [classes.isClickable]: isClickable }])}
+    >
+      <Factory
+        className={cc([classes.child, { [classes.small]: size === 'small' }])}
         {...childProps}
         role="menuitem"
         // Make this element accessible via keyboard and screen readers
@@ -64,16 +80,16 @@ function MenuItemWithChild<ChildProps extends { className?: string }>(
       >
         {icon && <div className={classes.icon}>{icon}</div>}
         {children && <div>{children}</div>}
-      </Child>
+      </Factory>
     </MenuItem>
   );
 }
 
 // Strongly-typed convenience wrappers for `MenuItemWithChild`
 export const MenuItemWithLink = (props: Props & LinkProps) => (
-  <MenuItemWithChild Child={Link} {...props} />
+  <MenuItemWithChild factory={Link} {...props} />
 );
 
 export const MenuItemWithButton = (
   props: Props & Omit<React.InputHTMLAttributes<HTMLButtonElement>, 'children'>,
-) => <MenuItemWithChild Child="button" {...props} />;
+) => <MenuItemWithChild factory="button" {...props} />;

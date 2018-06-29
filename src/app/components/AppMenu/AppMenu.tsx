@@ -3,7 +3,11 @@ import { Menu, closeMenu } from 'react-aria-menubutton';
 import CSSTransition, {
   CSSTransitionClassNames,
 } from 'react-transition-group/CSSTransition';
-import { MenuItemWithLink, MenuItemWithButton } from './MenuItem';
+import {
+  MenuItemWithLink,
+  MenuItemWithButton,
+  MenuItemWithChild,
+} from './MenuItem';
 
 import { PersonPhoto } from 'components/PersonPhoto/PersonPhoto';
 import { SvgIcon } from 'components/SvgIcon/SvgIcon';
@@ -17,7 +21,8 @@ const Separator = (
     <div />
   </li>
 );
-const timeoutMilliseconds = 150;
+
+const transitionTimeoutMilliseconds = 150;
 
 type Props = {
   user: any;
@@ -43,10 +48,10 @@ export class AppMenu extends React.PureComponent<Props> {
     }
 
     return (
-      <>
+      <MenuItemWithChild factory="div" isClickable={false}>
         <PersonPhoto className={classes.userAvatar} src={user.avatar} />
         <div className={classes.userName}>{user.name}</div>
-      </>
+      </MenuItemWithChild>
     );
   };
 
@@ -69,14 +74,14 @@ export class AppMenu extends React.PureComponent<Props> {
           aria-label="Main Menu"
           style={
             {
-              '--timeout': `${timeoutMilliseconds}ms`,
+              '--timeout': `${transitionTimeoutMilliseconds}ms`,
             } as any
           }
         >
           {({ isOpen }: { isOpen: boolean }) => (
             <CSSTransition
               classNames={transitionClassNames}
-              timeout={timeoutMilliseconds}
+              timeout={transitionTimeoutMilliseconds}
               in={isOpen}
               mountOnEnter
               unmountOnExit
