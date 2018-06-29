@@ -12,7 +12,11 @@ import facebookIcon from 'icons/facebook.svg';
 
 import classes from './AppMenu.module.scss';
 
-const Separator = <li role="separator" className={classes.separator} />;
+const Separator = (
+  <li role="separator" className={classes.separator}>
+    <div />
+  </li>
+);
 const timeoutMilliseconds = 150;
 
 type Props = {
