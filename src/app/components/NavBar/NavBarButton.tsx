@@ -17,10 +17,6 @@ export const NavBarButton = ({
   <Factory className={cc([className, classes.root])} {...rest} />
 );
 
-const { root } = classes;
-
-export { root as navButtonClass };
-
 export const NavBarLink = ({ className, ...rest }: LinkButtonProps) => (
   <LinkButton className={cc([className, classes.root])} {...rest} />
 );
