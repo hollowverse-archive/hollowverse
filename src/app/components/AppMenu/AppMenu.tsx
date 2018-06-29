@@ -17,9 +17,9 @@ import facebookIcon from 'icons/facebook.svg';
 import classes from './AppMenu.module.scss';
 
 const Separator = (
-  <li role="separator" className={classes.separator}>
+  <div role="separator" className={classes.separator}>
     <div />
-  </li>
+  </div>
 );
 
 const transitionTimeoutMilliseconds = 150;
