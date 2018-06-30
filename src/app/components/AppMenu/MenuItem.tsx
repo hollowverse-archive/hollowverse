@@ -28,7 +28,7 @@ const MenuItem = ({ children, className, size = 'default' }: Props) => (
       { [classes.small]: size === 'small' },
     ])}
     // Override role="menuitem" set by react-aria-menubutton because
-    // it causes Android TalkBalk to read the menu item and its children
+    // it causes Android TalkBack to read the menu item and its children
     // each separately. We will instead set `role="menuitem"` on the child
     // below and make screen reader skip the parent entirely.
     role="presentation"
