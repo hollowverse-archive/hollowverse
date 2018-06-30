@@ -1,10 +1,12 @@
+@import 'variables.scss';
+
 .container {
   position: relative;
 
   .element,
   .placeholder {
     width: 100%;
-    z-index: 2;
+    z-index: $z-index-sticky;
     top: 0;
   }
 

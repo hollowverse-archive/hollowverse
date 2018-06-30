@@ -2,6 +2,11 @@
 
 .root {
   .menu {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: $z-index-menu;
+
     // #region Transitions
 
     // Transition classes are set by `react-transition-group`
