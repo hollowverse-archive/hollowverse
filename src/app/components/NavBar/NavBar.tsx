@@ -71,7 +71,7 @@ export const NavBar = class extends React.Component<
                 <NavBarButton className={classes.button} Factory={Button}>
                   <span ref={this.navBarChildRef}>
                     <SvgIcon size={20} {...menuIcon} />
-                    <span className="sr-only">Menu</span>
+                    <span className="sr-only">Main Menu</span>
                   </span>
                 </NavBarButton>
                 <AppMenu getMenuStyle={this.getMenuStyle} />
