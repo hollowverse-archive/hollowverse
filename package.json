@@ -34,7 +34,7 @@
     "server/build": "tsc --project ./src && babel --config-file ./src/.babelrc ./dist -d dist",
     "build": "npm-run-all -s clean server/build app/build",
     "start": "NODE_ENV=production run-p server/main-server/start",
-    "dev": "NO_PROXY=${NO_PROXY:-1} NODE_ENV=development API_ENDPOINT=${API_ENDPOINT:-https://api.hollowverse.com/graphql} npm-run-all -s clean -p --aggregate-output app/graphql/dev server/app-server/dev",
+    "dev": "NO_PROXY=${NO_PROXY:-1} NODE_ENV=development API_ENDPOINT=${API_ENDPOINT:-https://api.hollowverse.com/graphql} npm-run-all -s clean -p app/graphql/dev server/app-server/dev",
     "clean/build": "del-cli './dist'",
     "clean/test": "del-cli './coverage'",
     "clean": "run-p 'clean/*'",
