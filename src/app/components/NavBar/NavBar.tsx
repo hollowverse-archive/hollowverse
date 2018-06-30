@@ -36,6 +36,10 @@ export const NavBar = class extends React.Component<
   navBarChildRef = React.createRef<HTMLSpanElement>();
 
   handleMenuToggle = () => {
+    if (navigator.userAgent.match(/iphone|ipad/i)) {
+      return;
+    }
+
     document.body.classList.toggle('no-scroll');
   };
 
