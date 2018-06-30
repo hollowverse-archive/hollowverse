@@ -25,7 +25,7 @@ const Separator = (
 const transitionTimeoutMilliseconds = 150;
 
 type Props = {
-  user: any;
+  user?: any;
   getMenuStyle?(): React.CSSProperties & {
     '--top': string;
     '--left': string;
@@ -128,13 +128,6 @@ export class AppMenu extends React.PureComponent<Props> {
                 <MenuItemWithLink size="small" to="/privacy-policy">
                   Privacy Policy
                 </MenuItemWithLink>
-                <MenuItemWithChild
-                  size="small"
-                  factory="div"
-                  isClickable={false}
-                >
-                  &copy; 2018 Hollowverse
-                </MenuItemWithChild>
               </div>
             </CSSTransition>
           )}

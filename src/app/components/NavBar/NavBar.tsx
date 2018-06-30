@@ -33,7 +33,7 @@ type Props = OwnProps & StateProps & DispatchProps;
 export const NavBar = class extends React.Component<
   Props & RouteComponentProps<any>
 > {
-  navBarChildRef = React.createRef<HTMLDivElement>();
+  navBarChildRef = React.createRef<HTMLSpanElement>();
 
   handleMenuToggle = () => {
     document.body.classList.toggle('no-scroll');
@@ -74,10 +74,7 @@ export const NavBar = class extends React.Component<
                     <span className="sr-only">Menu</span>
                   </span>
                 </NavBarButton>
-                <AppMenu
-                  getMenuStyle={this.getMenuStyle}
-                  user={{ name: 'Fawwaz Orabi' }}
-                />
+                <AppMenu getMenuStyle={this.getMenuStyle} />
               </Wrapper>
               <div className={classes.view}>
                 <Switch>
