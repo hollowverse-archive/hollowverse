@@ -21,6 +21,7 @@
     "promisify",
     "stylelint",
     "unhandledrejection",
+    "unmount",
     "webpagetest"
   ],
   "editor.tabSize": 2,

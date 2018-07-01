@@ -1,6 +1,5 @@
 {
   "recommendations": [
-    "eg2.tslint",
     "Orta.vscode-jest",
     "kisstkondoros.csstriggers",
     "shinnn.stylelint",
@@ -15,6 +14,7 @@
     "dbaeumer.vscode-eslint",
     "pflannery.vscode-versionlens",
     "eg2.ts-tslint",
-    "prisma.vscode-graphql"
+    "prisma.vscode-graphql",
+    "mrmlnc.vscode-scss"
   ]
 }
