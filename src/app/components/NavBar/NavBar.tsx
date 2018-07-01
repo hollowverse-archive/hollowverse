@@ -67,19 +67,21 @@ export const NavBar = class extends React.Component<
         >
           {isSticking => (
             <>
-              <Wrapper
-                id="app-menu-wrapper"
-                onMenuToggle={this.handleMenuToggle}
-                className={classes.menuWrapper}
-              >
-                <NavBarButton className={classes.button} Factory={Button}>
-                  <span ref={this.navBarChildRef}>
-                    <SvgIcon size={20} {...menuIcon} />
-                    <span className="sr-only">Main Menu</span>
-                  </span>
-                </NavBarButton>
-                <AppMenu getMenuStyle={this.getMenuStyle} />
-              </Wrapper>
+              {false && ( // tslint:disable-line
+                <Wrapper // tslint:disable-line
+                  id="app-menu-wrapper"
+                  onMenuToggle={this.handleMenuToggle}
+                  className={classes.menuWrapper}
+                >
+                  <NavBarButton className={classes.button} Factory={Button}>
+                    <span ref={this.navBarChildRef}>
+                      <SvgIcon size={20} {...menuIcon} />
+                      <span className="sr-only">Main Menu</span>
+                    </span>
+                  </NavBarButton>
+                  <AppMenu getMenuStyle={this.getMenuStyle} />
+                </Wrapper>
+              )}
               <div className={classes.view}>
                 <Switch>
                   <Route path="/search">
