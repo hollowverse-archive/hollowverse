@@ -17,3 +17,5 @@ type NonPartialable =
 export type DeepPartial<T> = T extends NonPartialable
   ? T // eslint-disable-next-line no-use-before-define
   : { [P in keyof T]?: T[P] extends NonPartialable ? T[P] : DeepPartial<T[P]> };
+
+export type Omit<T, KeysToRemove> = Exclude<T, { [K in KeysToRemove]: T[K] }>;

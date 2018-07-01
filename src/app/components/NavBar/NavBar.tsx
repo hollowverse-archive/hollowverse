@@ -2,18 +2,20 @@ import React from 'react';
 import cc from 'classcat';
 
 import { RouteComponentProps, Route, Switch } from 'react-router';
+import { Button, Wrapper } from 'react-aria-menubutton';
 
 import classes from './NavBar.module.scss';
 
 import { Sticky } from 'components/Sticky/Sticky';
 import { SvgIcon } from 'components/SvgIcon/SvgIcon';
-import { NavBarButton, NavBarLink } from 'components/NavBar/NavBarButton';
+import { NavBarLink, NavBarButton } from 'components/NavBar/NavBarButton';
 
 import searchIcon from 'icons/search.svg';
-import backIcon from 'icons/back.svg';
+import menuIcon from 'icons/menu.svg';
 import { ConnectedSearchBar } from 'components/NavBar/ConnectedSearchBar';
 
 import textLogo from '!!file-loader!assets/textLogo.svg';
+import { AppMenu } from 'components/AppMenu/AppMenu';
 
 export type OwnProps = {
   title: string;
@@ -31,8 +33,26 @@ type Props = OwnProps & StateProps & DispatchProps;
 export const NavBar = class extends React.Component<
   Props & RouteComponentProps<any>
 > {
-  goBack = (_: React.MouseEvent<HTMLElement>) => {
-    this.props.history.goBack();
+  navBarChildRef = React.createRef<HTMLSpanElement>();
+
+  handleMenuToggle = () => {
+    if (navigator.userAgent.match(/iphone|ipad/i)) {
+      return;
+    }
+
+    document.body.classList.toggle('no-scroll');
+  };
+
+  getMenuStyle = () => {
+    let top = 0;
+    let left = 0;
+    const ref = this.navBarChildRef.current;
+
+    if (ref) {
+      ({ top, left } = ref.getBoundingClientRect());
+    }
+
+    return { '--top': `${top}px`, '--left': `${left}px` };
   };
 
   render() {
@@ -47,14 +67,21 @@ export const NavBar = class extends React.Component<
         >
           {isSticking => (
             <>
-              <NavBarButton
-                disabled
-                onClick={this.goBack}
-                className={cc([classes.button, { [classes.isHidden]: true }])}
-              >
-                <SvgIcon size={20} {...backIcon} />
-                <span className="sr-only">Go Back</span>
-              </NavBarButton>
+              {false && ( // tslint:disable-line
+                <Wrapper // tslint:disable-line
+                  id="app-menu-wrapper"
+                  onMenuToggle={this.handleMenuToggle}
+                  className={classes.menuWrapper}
+                >
+                  <NavBarButton className={classes.button} Factory={Button}>
+                    <span ref={this.navBarChildRef}>
+                      <SvgIcon size={20} {...menuIcon} />
+                      <span className="sr-only">Main Menu</span>
+                    </span>
+                  </NavBarButton>
+                  <AppMenu getMenuStyle={this.getMenuStyle} />
+                </Wrapper>
+              )}
               <div className={classes.view}>
                 <Switch>
                   <Route path="/search">

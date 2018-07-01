@@ -5,7 +5,7 @@ import classes from './RelatedPeople.module.scss';
 import { Square } from 'components/Square/Square';
 import { Card } from 'components/Card/Card';
 import { Link } from 'react-router-dom';
-import { NotablePersonPhoto } from 'components/NotablePersonPhoto/NotablePersonPhoto';
+import { PersonPhoto } from 'components/PersonPhoto/PersonPhoto';
 
 type Person = {
   slug: string;
@@ -22,10 +22,10 @@ export const RelatedPeople = ({ people }: { people: Person[] }) => (
         <Link className={classes.link} to={`/${person.slug}`}>
           <Card className={classes.card}>
             <Square className={classes.square}>
-              <NotablePersonPhoto
+              <PersonPhoto
                 isLazy
                 outerClassName={classes.lazyImage}
-                alt={person.name}
+                alt={`${person.name}'s photo`}
                 src={person.mainPhoto ? person.mainPhoto.url : undefined}
               />
             </Square>

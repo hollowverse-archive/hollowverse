@@ -7,7 +7,7 @@ import { Square } from 'components/Square/Square';
 import { resultsListDummyData } from './ResultsListDummyData';
 
 import classes from './ResultsList.module.scss';
-import { NotablePersonPhoto } from 'components/NotablePersonPhoto/NotablePersonPhoto';
+import { PersonPhoto } from 'components/PersonPhoto/PersonPhoto';
 
 export type ResultsListSuccessProps = {
   hits: AlgoliaResponse['hits'];
@@ -26,7 +26,11 @@ export const ResultsList = (props: ResultsListProps) => {
     'isLoading' in props ? resultsListDummyData : props;
 
   return (
-    <ol className={classes.root} aria-hidden={isLoading}>
+    <ol
+      aria-label="Search Results"
+      className={classes.root}
+      aria-hidden={isLoading}
+    >
       {hits.map(searchResult => {
         const Wrapper = isLoading ? 'span' : Link;
         const photo = searchResult.mainPhoto;
@@ -43,7 +47,10 @@ export const ResultsList = (props: ResultsListProps) => {
             <Wrapper className={classes.link} to={path} onClick={onClick}>
               <div className={classes.photo}>
                 <Square>
-                  <NotablePersonPhoto src={photo ? photo.url : undefined} />
+                  <PersonPhoto
+                    role="presentation"
+                    src={photo ? photo.url : undefined}
+                  />
                 </Square>
               </div>
               <div className={classes.nameContainer}>

@@ -6,7 +6,7 @@ import cc from 'classcat';
 import classes from './PersonDetails.module.scss';
 import emptySvg from '!!url-loader!assets/emptySvg.svg';
 
-import { NotablePersonPhoto } from '../NotablePersonPhoto/NotablePersonPhoto';
+import { PersonPhoto } from 'components/PersonPhoto/PersonPhoto';
 
 type PersonDetailsProps = {
   summary: string | null;
@@ -92,11 +92,7 @@ export class PersonDetails extends React.PureComponent<PersonDetailsProps> {
           href={photo.sourceUrl}
           title={`Image source: ${prettifyUrl(photo.sourceUrl)}`}
         >
-          <NotablePersonPhoto
-            className={classes.photo}
-            src={photo.url}
-            alt={name}
-          />
+          <PersonPhoto className={classes.photo} src={photo.url} alt={name} />
           <span className="sr-only">
             Image source: {prettifyUrl(photo.sourceUrl)}
           </span>
@@ -105,7 +101,7 @@ export class PersonDetails extends React.PureComponent<PersonDetailsProps> {
     } else if (isLoading || !photo) {
       return (
         <span className={classes.photoLink}>
-          <NotablePersonPhoto
+          <PersonPhoto
             className={classes.photo}
             src={isLoading ? emptySvg : undefined}
             alt={undefined}

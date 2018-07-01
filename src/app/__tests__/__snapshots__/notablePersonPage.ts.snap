@@ -2948,7 +2948,7 @@ exports[`notable person page when notable person is found, if notable person has
         ]
       }
     >
-      <h3
+      <h2
         key="7bbc711c-174e-48fc-8e42-eac3dbdc71a6"
       >
         <span
@@ -2956,7 +2956,7 @@ exports[`notable person page when notable person is found, if notable person has
         >
           Politics is just like a box of chocolates…
         </span>
-      </h3>
+      </h2>
     </Block>
     <Block
       key="2e5cf554-71bc-42bd-802d-411bfef15068"
@@ -6068,191 +6068,189 @@ exports[`notable person page when notable person is found, if notable person has
         </h3>
       }
     >
-      <Consumer>
-        <div
-          className="root sourceListContainer"
+      <div
+        className="root sourceListContainer"
+      >
+        <input
+          aria-checked={false}
+          checked={false}
+          className="input"
+          id="2"
+          onChange={[Function]}
+          type="checkbox"
+        />
+        <label
+          className="label"
+          htmlFor="2"
         >
-          <input
-            aria-checked={false}
-            checked={false}
-            className="input"
-            id="2"
-            onChange={[Function]}
-            type="checkbox"
-          />
-          <label
-            className="label"
-            htmlFor="2"
+          <h3>
+            Sources
+          </h3>
+          <Component
+            className="icon"
+            content=""
+            id=""
+            size={8}
+            url=""
+            viewBox=""
           >
-            <h3>
-              Sources
-            </h3>
-            <Component
-              className="icon"
+            <svg
+              className="icon root"
               content=""
-              id=""
-              size={8}
-              url=""
+              height={8}
+              role="presentation"
               viewBox=""
             >
-              <svg
-                className="icon root"
-                content=""
-                height={8}
-                role="presentation"
-                viewBox=""
+              <use
+                xlinkHref=""
+              />
+            </svg>
+          </Component>
+        </label>
+        <div
+          className="children"
+        >
+          <small>
+            <ol
+              className="sourceList"
+            >
+              <li
+                id="source_1"
+                key="ref_1"
               >
-                <use
-                  xlinkHref=""
-                />
-              </svg>
-            </Component>
-          </label>
-          <div
-            className="children"
-          >
-            <small>
-              <ol
-                className="sourceList"
+                <a
+                  href="http://www.johnsanidopoulos.com/2009/05/orthodoxy-of-tom-hanks.html"
+                >
+                  Mystagogy: The Orthodoxy of Tom Hanks
+                </a>
+                 johnsanidopoulos.com
+                <a
+                  aria-label="Go back to reference"
+                  className="backLink"
+                  href="#ref_1"
+                  role="button"
+                >
+                  ↩︎
+                </a>
+              </li>
+              <li
+                id="source_2"
+                key="ref_2"
               >
-                <li
-                  id="source_1"
-                  key="ref_1"
+                <a
+                  href="http://www.beliefnet.com/Celebrity-Faith-Database/H/Tom-Hanks.aspx"
                 >
-                  <a
-                    href="http://www.johnsanidopoulos.com/2009/05/orthodoxy-of-tom-hanks.html"
-                  >
-                    Mystagogy: The Orthodoxy of Tom Hanks
-                  </a>
-                   johnsanidopoulos.com
-                  <a
-                    aria-label="Go back to reference"
-                    className="backLink"
-                    href="#ref_1"
-                    role="button"
-                  >
-                    ↩︎
-                  </a>
-                </li>
-                <li
-                  id="source_2"
-                  key="ref_2"
+                  Tom Hanks
+                </a>
+                 beliefnet.com
+                <a
+                  aria-label="Go back to reference"
+                  className="backLink"
+                  href="#ref_2"
+                  role="button"
                 >
-                  <a
-                    href="http://www.beliefnet.com/Celebrity-Faith-Database/H/Tom-Hanks.aspx"
-                  >
-                    Tom Hanks
-                  </a>
-                   beliefnet.com
-                  <a
-                    aria-label="Go back to reference"
-                    className="backLink"
-                    href="#ref_2"
-                    role="button"
-                  >
-                    ↩︎
-                  </a>
-                </li>
-                <li
-                  id="source_3"
-                  key="ref_3"
+                  ↩︎
+                </a>
+              </li>
+              <li
+                id="source_3"
+                key="ref_3"
+              >
+                <a
+                  href="http://www.johnsanidopoulos.com/2009/05/orthodoxy-of-tom-hanks.html"
                 >
-                  <a
-                    href="http://www.johnsanidopoulos.com/2009/05/orthodoxy-of-tom-hanks.html"
-                  >
-                    Mystagogy: The Orthodoxy of Tom Hanks
-                  </a>
-                   johnsanidopoulos.com
-                  <a
-                    aria-label="Go back to reference"
-                    className="backLink"
-                    href="#ref_3"
-                    role="button"
-                  >
-                    ↩︎
-                  </a>
-                </li>
-                <li
-                  id="source_4"
-                  key="ref_4"
+                  Mystagogy: The Orthodoxy of Tom Hanks
+                </a>
+                 johnsanidopoulos.com
+                <a
+                  aria-label="Go back to reference"
+                  className="backLink"
+                  href="#ref_3"
+                  role="button"
                 >
-                  <a
-                    href="http://mormonmatters.org/2009/03/11/does-tom-hanks-hate-mormons/"
-                  >
-                    Does Tom Hanks Hate Mormons?
-                  </a>
-                   mormonmatters.org
-                  <a
-                    aria-label="Go back to reference"
-                    className="backLink"
-                    href="#ref_4"
-                    role="button"
-                  >
-                    ↩︎
-                  </a>
-                </li>
-                <li
-                  id="source_5"
-                  key="ref_5"
+                  ↩︎
+                </a>
+              </li>
+              <li
+                id="source_4"
+                key="ref_4"
+              >
+                <a
+                  href="http://mormonmatters.org/2009/03/11/does-tom-hanks-hate-mormons/"
                 >
-                  <a
-                    href="http://www.latimes.com/news/local/la-moneymap,0,2198220.htmlstory"
-                  >
-                    Proposition 8: Tracking the Money
-                  </a>
-                   latimes.com
-                  <a
-                    aria-label="Go back to reference"
-                    className="backLink"
-                    href="#ref_5"
-                    role="button"
-                  >
-                    ↩︎
-                  </a>
-                </li>
-                <li
-                  id="source_6"
-                  key="ref_6"
+                  Does Tom Hanks Hate Mormons?
+                </a>
+                 mormonmatters.org
+                <a
+                  aria-label="Go back to reference"
+                  className="backLink"
+                  href="#ref_4"
+                  role="button"
                 >
-                  <a
-                    href="http://www.myspace.com/video/vid/33546997"
-                  >
-                    Beware: Celebrity Endorsement Video by Tom Hanks
-                  </a>
-                   myspace.com
-                  <a
-                    aria-label="Go back to reference"
-                    className="backLink"
-                    href="#ref_6"
-                    role="button"
-                  >
-                    ↩︎
-                  </a>
-                </li>
-                <li
-                  id="source_7"
-                  key="ref_7"
+                  ↩︎
+                </a>
+              </li>
+              <li
+                id="source_5"
+                key="ref_5"
+              >
+                <a
+                  href="http://www.latimes.com/news/local/la-moneymap,0,2198220.htmlstory"
                 >
-                  <a
-                    href="http://www.politico.com/blogs/click/0611/Tom_Hanks_Im_voting_for_Obama_again.html"
-                  >
-                    Tom Hanks: I'm Voting for Obama Again
-                  </a>
-                   politico.com
-                  <a
-                    aria-label="Go back to reference"
-                    className="backLink"
-                    href="#ref_7"
-                    role="button"
-                  >
-                    ↩︎
-                  </a>
-                </li>
-              </ol>
-            </small>
-          </div>
+                  Proposition 8: Tracking the Money
+                </a>
+                 latimes.com
+                <a
+                  aria-label="Go back to reference"
+                  className="backLink"
+                  href="#ref_5"
+                  role="button"
+                >
+                  ↩︎
+                </a>
+              </li>
+              <li
+                id="source_6"
+                key="ref_6"
+              >
+                <a
+                  href="http://www.myspace.com/video/vid/33546997"
+                >
+                  Beware: Celebrity Endorsement Video by Tom Hanks
+                </a>
+                 myspace.com
+                <a
+                  aria-label="Go back to reference"
+                  className="backLink"
+                  href="#ref_6"
+                  role="button"
+                >
+                  ↩︎
+                </a>
+              </li>
+              <li
+                id="source_7"
+                key="ref_7"
+              >
+                <a
+                  href="http://www.politico.com/blogs/click/0611/Tom_Hanks_Im_voting_for_Obama_again.html"
+                >
+                  Tom Hanks: I'm Voting for Obama Again
+                </a>
+                 politico.com
+                <a
+                  aria-label="Go back to reference"
+                  className="backLink"
+                  href="#ref_7"
+                  role="button"
+                >
+                  ↩︎
+                </a>
+              </li>
+            </ol>
+          </small>
         </div>
-      </Consumer>
+      </div>
     </Collapsable>
     <hr />
     <footer

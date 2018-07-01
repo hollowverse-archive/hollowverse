@@ -79,7 +79,7 @@ const Block = (props: BlockProps): JSX.Element => {
       </Quote>
     );
   } else if (node.type === 'heading') {
-    return <h3 key={node.id}>{children}</h3>;
+    return <h2 key={node.id}>{children}</h2>;
   }
 
   return <p key={node.id}>{children}</p>;

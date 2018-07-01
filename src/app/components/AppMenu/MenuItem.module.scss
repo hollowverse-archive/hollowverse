@@ -1,0 +1,66 @@
+@import 'mixins.scss';
+
+.root {
+  margin-top: $spacing-15px;
+  list-style: none;
+
+  &.small {
+    margin-top: $spacing-8px;
+
+    > * {
+      margin-top: -$spacing-8px;
+      padding: $spacing-8px $spacing-20px;
+    }
+  }
+
+  &.is-clickable * {
+    cursor: pointer;
+  }
+
+  .child {
+    margin-top: -$spacing-15px;
+    padding: $spacing-15px $spacing-20px;
+  }
+
+  button {
+    background: transparent;
+    border: 0;
+  }
+
+  &.is-clickable .child:focus,
+  &.is-clickable .child:hover {
+    background: $color-background-light;
+  }
+
+  &.is-clickable .child.small:hover,
+  &.is-clickable .child.small:focus {
+    color: inherit;
+  }
+
+  .child {
+    font-size: inherit;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    color: inherit;
+    text-align: left;
+
+    > * {
+      @include truncate-flex-child();
+    }
+
+    .icon {
+      flex-shrink: 0;
+      position: relative;
+      & + * {
+        margin-left: $spacing-10px;
+      }
+    }
+
+    &.small {
+      font-size: 12px;
+      color: $color-text-lighter;
+    }
+  }
+}

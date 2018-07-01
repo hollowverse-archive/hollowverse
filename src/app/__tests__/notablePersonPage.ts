@@ -236,7 +236,7 @@ describe('notable person page', () => {
         const action = find(
           actions,
           ({ type }) => type === 'PAGE_LOAD_FAILED',
-        )! as Action<'PAGE_LOAD_FAILED'>;
+        ) as Action<'PAGE_LOAD_FAILED'>;
 
         const error = action.payload.error!;
 

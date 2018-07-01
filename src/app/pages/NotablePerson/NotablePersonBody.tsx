@@ -18,16 +18,18 @@ export class NotablePersonBody extends React.PureComponent<Props> {
       notablePerson === undefined ? NotablePersonBodyDummyData : notablePerson;
 
     return (
-      <article className={classes.root}>
-        <PersonDetails
-          name={name}
-          photo={mainPhoto}
-          summary={summary}
-          isLoading={!notablePerson}
-        />
+      <main className={classes.root}>
+        <article className={classes.article}>
+          <PersonDetails
+            name={name}
+            photo={mainPhoto}
+            summary={summary}
+            isLoading={!notablePerson}
+          />
 
-        {editorialSummary}
-      </article>
+          {editorialSummary}
+        </article>
+      </main>
     );
   }
 }
