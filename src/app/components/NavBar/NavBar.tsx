@@ -12,10 +12,10 @@ import { NavBarLink, NavBarButton } from 'components/NavBar/NavBarButton';
 
 import searchIcon from 'icons/search.svg';
 import menuIcon from 'icons/menu.svg';
-import { ConnectedSearchBar } from 'components/NavBar/ConnectedSearchBar';
-
 import textLogo from '!!file-loader!assets/textLogo.svg';
-import { AppMenu } from 'components/AppMenu/AppMenu';
+
+import { ConnectedSearchBar } from 'components/NavBar/ConnectedSearchBar';
+import { ConnectedAppMenu } from 'components/AppMenu/ConnectedAppMenu';
 
 export type OwnProps = {
   title: string;
@@ -67,21 +67,19 @@ export const NavBar = class extends React.Component<
         >
           {isSticking => (
             <>
-              {false && ( // tslint:disable-line
-                <Wrapper // tslint:disable-line
-                  id="app-menu-wrapper"
-                  onMenuToggle={this.handleMenuToggle}
-                  className={classes.menuWrapper}
-                >
-                  <NavBarButton className={classes.button} Factory={Button}>
-                    <span ref={this.navBarChildRef}>
-                      <SvgIcon size={20} {...menuIcon} />
-                      <span className="sr-only">Main Menu</span>
-                    </span>
-                  </NavBarButton>
-                  <AppMenu getMenuStyle={this.getMenuStyle} />
-                </Wrapper>
-              )}
+              <Wrapper
+                id="app-menu-wrapper"
+                onMenuToggle={this.handleMenuToggle}
+                className={classes.menuWrapper}
+              >
+                <NavBarButton className={classes.button} Factory={Button}>
+                  <span ref={this.navBarChildRef}>
+                    <SvgIcon size={20} {...menuIcon} />
+                    <span className="sr-only">Main Menu</span>
+                  </span>
+                </NavBarButton>
+                <ConnectedAppMenu getMenuStyle={this.getMenuStyle} />
+              </Wrapper>
               <div className={classes.view}>
                 <Switch>
                   <Route path="/search">

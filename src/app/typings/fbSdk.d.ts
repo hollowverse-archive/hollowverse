@@ -1,9 +1,7 @@
 declare const FB: facebookSdk.Fb;
 
 declare namespace facebookSdk {
-  type AuthResponse<
-    T extends LoginStatus
-  > = LoginStatusResponse['authResponse'];
+  type AuthResponse = LoginStatusResponse['authResponse'];
 
   type LoginStatusResponse =
     | {
@@ -20,7 +18,7 @@ declare namespace facebookSdk {
     | {
         /** The user is logged into Facebook but has not authorized your application. */
         status: 'not_authorized';
-        authResponse: null;
+        authResponse: null | undefined;
       }
     | {
         /**
@@ -28,7 +26,7 @@ declare namespace facebookSdk {
          * authorization to access their data has expired.
          */
         status: 'authorization_expired';
-        authResponse: null;
+        authResponse: null | undefined;
       }
     | {
         /**
@@ -37,7 +35,7 @@ declare namespace facebookSdk {
          * we don't know if they've authenticated your application or not.
          */
         status: 'unknown';
-        authResponse: null;
+        authResponse: null | undefined;
       };
 
   type LoginStatus = LoginStatusResponse['status'];

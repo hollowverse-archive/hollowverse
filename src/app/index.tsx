@@ -23,6 +23,8 @@ import {
 import { routesMap } from 'routesMap';
 import { pick } from 'lodash';
 import { isError } from 'util';
+import { importGlobalScript } from 'helpers/importGlobalScript';
+import { facebookAuthResponseChanged } from 'store/features/auth/actions';
 
 const history = createBrowserHistory();
 
@@ -36,17 +38,35 @@ class Root extends React.PureComponent {
   render() {
     return (
       <HelmetProvider>
-        <AppDependenciesContext.Provider value={defaultAppDependencies}>
-          <Provider store={store}>
+        <Provider store={store}>
+          <AppDependenciesContext.Provider value={defaultAppDependencies}>
             <Router history={history}>
               <App routesMap={routesMap} />
             </Router>
-          </Provider>
-        </AppDependenciesContext.Provider>
+          </AppDependenciesContext.Provider>
+        </Provider>
       </HelmetProvider>
     );
   }
 }
+
+// tslint:disable-next-line
+importGlobalScript('https://connect.facebook.net/en_US/sdk.js').finally(() => {
+  FB.init({
+    appId: '1151099935001443',
+    status: true,
+    version: 'v2.7',
+    xfbml: true,
+  });
+
+  FB.getLoginStatus(response => {
+    store.dispatch(facebookAuthResponseChanged(response.authResponse));
+  }, true);
+
+  FB.Event.subscribe('auth.authResponseChange', response => {
+    store.dispatch(facebookAuthResponseChanged(response));
+  });
+});
 
 const renderApp = () => {
   render(

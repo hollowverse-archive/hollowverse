@@ -115,6 +115,8 @@ export type ActionTypeToPayloadType = {
   SET_ALTERNATIVE_SEARCH_BOX_TEXT: string | null;
   '@@router/LOCATION_CHANGE': LocationChangeAction['payload'];
   '@@router/CALL_HISTORY_METHOD': RouterAction['payload'];
+  FACEBOOK_AUTH_TOKEN_CHANGED: facebookSdk.AuthResponse;
+  TOGGLE_AUTH_STATUS: undefined;
 };
 
 export type AppState = {
@@ -132,6 +134,7 @@ export type AppState = {
       requestId: string | null;
     }
   };
+  facebookAuthResponse: facebookSdk.AuthResponse;
 };
 
 /**
