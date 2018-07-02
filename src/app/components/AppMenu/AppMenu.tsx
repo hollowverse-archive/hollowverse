@@ -25,13 +25,22 @@ const Separator = (
 
 const transitionTimeoutMilliseconds = 150;
 
-type Props = {
+export type StateProps = {
   user?: any;
+};
+
+export type DispatchProps = {
+  toggleAuthStatus(payload: undefined): void;
+};
+
+export type OwnProps = {
   getMenuStyle?(): React.CSSProperties & {
     '--top': string;
     '--left': string;
   };
 };
+
+type Props = OwnProps & StateProps & DispatchProps;
 
 const transitionClassNames: CSSTransitionClassNames = {
   enter: classes.menuEnter,
@@ -64,10 +73,9 @@ export class AppMenu extends React.PureComponent<Props> {
     );
   };
 
-  renderMenuLinks = () => null;
-
-  handleLogin = () => null;
-  handleLogout = () => null;
+  handleLoginClick = () => {
+    this.props.toggleAuthStatus(undefined);
+  };
 
   closeMenu = () => {
     closeMenu('app-menu-wrapper');
@@ -103,7 +111,7 @@ export class AppMenu extends React.PureComponent<Props> {
                 <MenuItemWithButton
                   className={user ? undefined : classes.facebook}
                   type="button"
-                  onClick={this.handleLogin}
+                  onClick={this.handleLoginClick}
                   icon={
                     user ? (
                       undefined

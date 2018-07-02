@@ -111,6 +111,7 @@ const defaultInitialState: StoreState = {
     },
   },
   alternativeSearchBoxText: null,
+  facebookAuthResponse: null,
 };
 
 const defaultEpicDependencies: EpicDependencies = {
