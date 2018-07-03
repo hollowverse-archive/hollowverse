@@ -17,6 +17,11 @@ import facebookIcon from 'icons/facebook.svg';
 
 import classes from './AppMenu.module.scss';
 import { ViewerQuery } from 'api/types';
+import {
+  AsyncResult,
+  isSuccessResult,
+  isPendingResult,
+} from 'helpers/asyncResults';
 
 const Separator = (
   <div role="separator" className={classes.separator}>
@@ -26,14 +31,16 @@ const Separator = (
 
 const transitionTimeoutMilliseconds = 150;
 
-export type StateProps = {};
+export type StateProps = {
+  viewerQueryResult: AsyncResult<ViewerQuery>;
+};
 
 export type DispatchProps = {
-  toggleAuthStatus(payload: undefined): void;
+  requestLogin(payload: undefined): void;
+  requestLogout(payload: undefined): void;
 };
 
 export type OwnProps = {
-  viewer?: ViewerQuery['viewer'];
   getMenuStyle?(): React.CSSProperties & {
     '--top': string;
     '--left': string;
@@ -51,11 +58,16 @@ const transitionClassNames: CSSTransitionClassNames = {
 
 export class AppMenu extends React.PureComponent<Props> {
   renderUser = () => {
-    const { viewer } = this.props;
+    const { viewerQueryResult } = this.props;
 
-    if (!viewer) {
+    if (
+      !isSuccessResult(viewerQueryResult) ||
+      !viewerQueryResult.value.viewer
+    ) {
       return undefined;
     }
+
+    const { viewer } = viewerQueryResult.value;
 
     return (
       <MenuItemWithChild
@@ -73,11 +85,50 @@ export class AppMenu extends React.PureComponent<Props> {
     );
   };
 
+  renderLoginButton = () => {
+    const { viewerQueryResult } = this.props;
+    const isChecking = isPendingResult(viewerQueryResult);
+    const canLogIn = !isChecking;
+    const isLoggedIn =
+      isSuccessResult(viewerQueryResult) &&
+      viewerQueryResult.value.viewer !== null;
+    const loggedOut = !isLoggedIn && !isChecking;
+
+    return (
+      <MenuItemWithButton
+        className={loggedOut ? classes.facebook : undefined}
+        type="button"
+        onClick={this.handleLoginClick}
+        disabled={!canLogIn}
+        icon={
+          loggedOut ? (
+            <SvgIcon
+              className={classes.facebookIcon}
+              size={24}
+              {...facebookIcon}
+            />
+          ) : (
+            undefined
+          )
+        }
+      >
+        {isLoggedIn
+          ? 'Log out'
+          : isChecking
+            ? 'Checking log in status...'
+            : 'Log in with Facebook'}
+      </MenuItemWithButton>
+    );
+  };
+
   handleLoginClick = () => {
-    // this.props.toggleAuthStatus(undefined);
-    FB.login(response => {
-      console.log(response);
-    });
+    const { viewerQueryResult, requestLogin, requestLogout } = this.props;
+
+    if (isSuccessResult(viewerQueryResult) && viewerQueryResult.value.viewer) {
+      requestLogout(undefined);
+    } else if (!isPendingResult(viewerQueryResult)) {
+      requestLogin(undefined);
+    }
   };
 
   closeMenu = () => {
@@ -85,7 +136,7 @@ export class AppMenu extends React.PureComponent<Props> {
   };
 
   render() {
-    const { viewer, getMenuStyle = () => undefined } = this.props;
+    const { getMenuStyle = () => undefined } = this.props;
 
     return (
       <nav className={classes.root}>
@@ -111,25 +162,7 @@ export class AppMenu extends React.PureComponent<Props> {
                 <MenuItemWithLink to="/">Home</MenuItemWithLink>
                 <MenuItemWithLink to="/contact">Contact</MenuItemWithLink>
                 {Separator}
-                <MenuItemWithButton
-                  className={viewer ? undefined : classes.facebook}
-                  type="button"
-                  onClick={this.handleLoginClick}
-                  icon={
-                    viewer ? (
-                      undefined
-                    ) : (
-                      <SvgIcon
-                        className={classes.facebookIcon}
-                        color="var(--facebook-blue)"
-                        size={24}
-                        {...facebookIcon}
-                      />
-                    )
-                  }
-                >
-                  {viewer ? 'Log out' : 'Log in with Facebook'}
-                </MenuItemWithButton>
+                {this.renderLoginButton()}
                 <MenuItemWithButton
                   type="button"
                   className={classes.close}

@@ -16,7 +16,7 @@ export const facebookAuthResponseReducer = createReducerForStoreKey<
   null,
 );
 
-export const isUserAuthenticated = (state: StoreState) =>
+export const isUserAuthenticatedToFacebook = (state: StoreState) =>
   !!state.facebookAuthResponse;
 
 export const getAccessToken = (state: StoreState) =>

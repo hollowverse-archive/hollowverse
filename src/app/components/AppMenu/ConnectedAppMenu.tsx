@@ -1,7 +1,8 @@
 import { connect } from 'react-redux';
 import { AppMenu, StateProps, DispatchProps, OwnProps } from './AppMenu';
 import { StoreState } from 'store/types';
-import { toggleAuthStatus } from 'store/features/auth/actions';
+import { requestLogin, requestLogout } from 'store/features/auth/actions';
+import { getResolvedDataForKey } from 'store/features/asyncData/selectors';
 
 export const ConnectedAppMenu = connect<
   StateProps,
@@ -9,6 +10,8 @@ export const ConnectedAppMenu = connect<
   OwnProps,
   StoreState
 >(
-  undefined,
-  { toggleAuthStatus },
+  state => ({
+    viewerQueryResult: getResolvedDataForKey(state)('viewer'),
+  }),
+  { requestLogin, requestLogout },
 )(AppMenu);

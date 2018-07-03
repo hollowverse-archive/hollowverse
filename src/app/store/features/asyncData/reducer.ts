@@ -1,5 +1,5 @@
 import { createReducerForStoreKey, isActionOfType } from 'store/helpers';
-import { nullResult } from 'helpers/asyncResults';
+import { nullResult, pendingResult } from 'helpers/asyncResults';
 
 export const resolvedDataReducer = createReducerForStoreKey<'resolvedData'>(
   {
@@ -26,7 +26,7 @@ export const resolvedDataReducer = createReducerForStoreKey<'resolvedData'>(
       requestId: null,
     },
     viewer: {
-      ...nullResult,
+      ...pendingResult,
       requestId: null,
     },
   },

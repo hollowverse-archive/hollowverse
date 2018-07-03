@@ -23,11 +23,12 @@ import { analyticsEpic } from 'store/features/analytics/epic';
 import { updateUrlEpic } from 'store/features/search/updateUrlEpic';
 import { dataResolverEpic } from 'store/features/asyncData/epic';
 import { loggingEpic } from 'store/features/logging/epic';
-import { nullResult } from 'helpers/asyncResults';
+import { nullResult, pendingResult } from 'helpers/asyncResults';
 import { sendLogs, getSessionId, getUserAgent } from 'helpers/logging';
 import { importGlobalScript } from 'helpers/importGlobalScript';
 import { isError } from 'lodash';
 import { serializeError } from 'helpers/serializeError';
+import { authEpic } from './features/auth/epic';
 
 declare const global: NodeJS.Global & {
   /**
@@ -110,7 +111,7 @@ const defaultInitialState: StoreState = {
       requestId: null,
     },
     viewer: {
-      ...nullResult,
+      ...pendingResult,
       requestId: null,
     },
   },
@@ -149,7 +150,7 @@ export function createConfiguredStore({
     composeEnhancers = global.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__;
   }
 
-  const epics = [updateUrlEpic, dataResolverEpic, loggingEpic];
+  const epics = [updateUrlEpic, dataResolverEpic, authEpic, loggingEpic];
 
   const dependencies = {
     ...defaultEpicDependencies,

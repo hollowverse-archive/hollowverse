@@ -1,7 +1,7 @@
 const alreadyLoaded = new Set<string>();
 
 export async function importGlobalScript(url: string) {
-  return new Promise((resolve, reject) => {
+  return new Promise<void>((resolve, reject) => {
     if (alreadyLoaded.has(url)) {
       resolve();
 
