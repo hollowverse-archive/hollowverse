@@ -97,8 +97,8 @@ declare namespace facebookSdk {
 
     getAuthResponse(callback: Callback<AuthResponse>);
 
-    login(callback: Callback<AuthResponse>): void;
-    logout(callback: Callback<AuthResponse>): void;
+    login(callback?: Callback<AuthResponse>): void;
+    logout(callback?: Callback<AuthResponse>): void;
 
     init(params?: {
       appId?: string;

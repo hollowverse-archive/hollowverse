@@ -11,7 +11,7 @@ import { DeepPartial } from 'typings/typeHelpers';
 export type ResolvedData = {
   notablePersonQuery: NotablePersonQuery | null;
   searchResults: AlgoliaResponse | null;
-  viewer: ViewerQuery | null;
+  viewer: ViewerQuery;
 };
 
 export type ResolvedDataKey = keyof ResolvedData;
@@ -117,7 +117,8 @@ export type ActionTypeToPayloadType = {
   '@@router/LOCATION_CHANGE': LocationChangeAction['payload'];
   '@@router/CALL_HISTORY_METHOD': RouterAction['payload'];
   FACEBOOK_AUTH_RESPONSE_CHANGED: facebookSdk.AuthResponse;
-  TOGGLE_AUTH_STATUS: undefined;
+  REQUEST_LOGIN: undefined;
+  REQUEST_LOGOUT: undefined;
 };
 
 export type AppState = {
@@ -131,7 +132,7 @@ export type AppState = {
    */
   alternativeSearchBoxText: string | null;
   resolvedData: {
-    [K in keyof ResolvedData]: AsyncResult<ResolvedData[K] | null> & {
+    [K in keyof ResolvedData]: AsyncResult<ResolvedData[K]> & {
       requestId: string | null;
     }
   };

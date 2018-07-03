@@ -1,6 +1,8 @@
 import { createActionCreator } from 'store/helpers';
 
-export const toggleAuthStatus = createActionCreator('TOGGLE_AUTH_STATUS');
+export const requestLogin = createActionCreator('REQUEST_LOGIN');
+export const requestLogout = createActionCreator('REQUEST_LOGOUT');
+
 export const facebookAuthResponseChanged = createActionCreator(
   'FACEBOOK_AUTH_RESPONSE_CHANGED',
 );
