@@ -15,6 +15,7 @@ import closeIcon from 'icons/close.svg';
 import facebookIcon from 'icons/facebook.svg';
 
 import classes from './AppMenu.module.scss';
+import { ViewerQuery } from 'api/types';
 
 const Separator = (
   <div role="separator" className={classes.separator}>
@@ -24,15 +25,14 @@ const Separator = (
 
 const transitionTimeoutMilliseconds = 150;
 
-export type StateProps = {
-  user?: any;
-};
+export type StateProps = {};
 
 export type DispatchProps = {
   toggleAuthStatus(payload: undefined): void;
 };
 
 export type OwnProps = {
+  viewer?: ViewerQuery['viewer'];
   getMenuStyle?(): React.CSSProperties & {
     '--top': string;
     '--left': string;
@@ -50,30 +50,33 @@ const transitionClassNames: CSSTransitionClassNames = {
 
 export class AppMenu extends React.PureComponent<Props> {
   renderUser = () => {
-    const { user } = this.props;
+    const { viewer } = this.props;
 
-    if (!user) {
+    if (!viewer) {
       return undefined;
     }
 
     return (
       <MenuItemWithChild
-        aria-label={`Signed in as ${user.name}`}
+        aria-label={`Signed in as ${viewer.name}`}
         factory="div"
         isClickable={false}
       >
         <PersonPhoto
           alt="Profile Photo"
           className={classes.userAvatar}
-          src={user.avatar}
+          src={viewer.photoUrl || undefined}
         />
-        <div className={classes.userName}>{user.name}</div>
+        <div className={classes.userName}>{viewer.name}</div>
       </MenuItemWithChild>
     );
   };
 
   handleLoginClick = () => {
-    this.props.toggleAuthStatus(undefined);
+    // this.props.toggleAuthStatus(undefined);
+    FB.login(response => {
+      console.log(response);
+    });
   };
 
   closeMenu = () => {
@@ -81,7 +84,7 @@ export class AppMenu extends React.PureComponent<Props> {
   };
 
   render() {
-    const { user, getMenuStyle = () => undefined } = this.props;
+    const { viewer, getMenuStyle = () => undefined } = this.props;
 
     return (
       <nav className={classes.root}>
@@ -108,11 +111,11 @@ export class AppMenu extends React.PureComponent<Props> {
                 <MenuItemWithLink to="/contact">Contact</MenuItemWithLink>
                 {Separator}
                 <MenuItemWithButton
-                  className={user ? undefined : classes.facebook}
+                  className={viewer ? undefined : classes.facebook}
                   type="button"
                   onClick={this.handleLoginClick}
                   icon={
-                    user ? (
+                    viewer ? (
                       undefined
                     ) : (
                       <SvgIcon
@@ -123,7 +126,7 @@ export class AppMenu extends React.PureComponent<Props> {
                     )
                   }
                 >
-                  {user ? 'Log out' : 'Log in with Facebook'}
+                  {viewer ? 'Log out' : 'Log in with Facebook'}
                 </MenuItemWithButton>
                 <MenuItemWithButton
                   type="button"

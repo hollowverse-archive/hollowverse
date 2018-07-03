@@ -5,12 +5,13 @@ import {
 } from 'react-router-redux';
 import { AsyncResult } from 'helpers/asyncResults';
 import { AlgoliaResponse } from 'algoliasearch';
-import { NotablePersonQuery } from 'api/types';
+import { NotablePersonQuery, ViewerQuery } from 'api/types';
 import { DeepPartial } from 'typings/typeHelpers';
 
 export type ResolvedData = {
   notablePersonQuery: NotablePersonQuery | null;
   searchResults: AlgoliaResponse | null;
+  viewer: ViewerQuery | null;
 };
 
 export type ResolvedDataKey = keyof ResolvedData;
@@ -115,7 +116,7 @@ export type ActionTypeToPayloadType = {
   SET_ALTERNATIVE_SEARCH_BOX_TEXT: string | null;
   '@@router/LOCATION_CHANGE': LocationChangeAction['payload'];
   '@@router/CALL_HISTORY_METHOD': RouterAction['payload'];
-  FACEBOOK_AUTH_TOKEN_CHANGED: facebookSdk.AuthResponse;
+  FACEBOOK_AUTH_RESPONSE_CHANGED: facebookSdk.AuthResponse;
   TOGGLE_AUTH_STATUS: undefined;
 };
 

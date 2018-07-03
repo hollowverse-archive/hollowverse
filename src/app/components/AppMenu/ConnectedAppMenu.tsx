@@ -9,8 +9,6 @@ export const ConnectedAppMenu = connect<
   OwnProps,
   StoreState
 >(
-  _state => ({
-    user: undefined,
-  }),
+  undefined,
   { toggleAuthStatus },
 )(AppMenu);

@@ -25,5 +25,9 @@ export const resolvedDataReducer = createReducerForStoreKey<'resolvedData'>(
       ...nullResult,
       requestId: null,
     },
+    viewer: {
+      ...nullResult,
+      requestId: null,
+    },
   },
 );
