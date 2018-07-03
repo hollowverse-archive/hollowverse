@@ -1,4 +1,4 @@
-import { map, tap, ignoreElements } from 'rxjs/operators';
+import { map, tap, ignoreElements, distinctUntilChanged } from 'rxjs/operators';
 
 import { Action, StoreState } from 'store/types';
 
@@ -17,54 +17,46 @@ import { isUserAuthenticatedToFacebook } from './reducer';
 import createUserMutation from './CreateUserMutation.graphql';
 import viewerQuery from './ViewerQuery.graphql';
 
+const createLoadViewerAndCreateIfNotExists = (
+  fbAccessToken: string | null,
+) => async () => {
+  const apiClient = new GraphQLClient(__API_ENDPOINT__, {
+    method: 'POST',
+    headers: {
+      Authorization: fbAccessToken ? `Bearer ${fbAccessToken}` : '',
+    },
+  });
+
+  const viewerResult = await apiClient
+    .request<ViewerQuery>(viewerQuery)
+    .catch(r => r.response.data);
+
+  if (viewerResult.viewer === null && fbAccessToken) {
+    const variables: CreateUserMutationVariables = {
+      fbAccessToken,
+    };
+    await apiClient.request<CreateUserMutation>(createUserMutation, variables);
+  }
+
+  return apiClient.request<ViewerQuery>(viewerQuery);
+};
+
 export const authEpic: Epic<Action, StoreState, EpicDependencies> = (
   action$,
   state$,
 ) => {
-  const updateViewerOnAuthChange$ = action$
-    .ofType<Action<'FACEBOOK_AUTH_RESPONSE_CHANGED'>>(
-      'FACEBOOK_AUTH_RESPONSE_CHANGED',
-    )
-    .pipe(
-      map(action => {
-        return requestData({
-          key: 'viewer',
-          requestId: action.payload ? action.payload.accessToken : null,
-          keepStaleData: false,
-          async load() {
-            const apiClient = new GraphQLClient(__API_ENDPOINT__, {
-              method: 'POST',
-              headers: {
-                Authorization: action.payload
-                  ? `Bearer ${action.payload.accessToken}`
-                  : '',
-              },
-            });
-
-            const viewerResult = await apiClient
-              .request<ViewerQuery>(viewerQuery)
-              .catch(r => r.response.data);
-
-            if (
-              viewerResult.viewer === null &&
-              action.payload &&
-              action.payload.accessToken
-            ) {
-              console.log('User not found, creating...');
-              const variables: CreateUserMutationVariables = {
-                fbAccessToken: action.payload.accessToken,
-              };
-              await apiClient.request<CreateUserMutation>(
-                createUserMutation,
-                variables,
-              );
-            }
-
-            return apiClient.request<ViewerQuery>(viewerQuery);
-          },
-        });
-      }),
-    );
+  const updateViewerOnAuthChange$ = state$.pipe(
+    map(s => s.authToken),
+    distinctUntilChanged(),
+    map(accessToken => {
+      return requestData({
+        key: 'viewer',
+        requestId: accessToken,
+        keepStaleData: false,
+        load: createLoadViewerAndCreateIfNotExists(accessToken),
+      });
+    }),
+  );
 
   const handleLoginRequest$ = action$.ofType('REQUEST_LOGIN').pipe(
     tap(() => {

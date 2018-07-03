@@ -1,13 +1,11 @@
 import { createReducerForStoreKey, isActionOfType } from 'store/helpers';
 import { StoreState } from 'store/types';
 
-export const facebookAuthResponseReducer = createReducerForStoreKey<
-  'facebookAuthResponse'
->(
+export const authTokenReducer = createReducerForStoreKey<'authToken'>(
   {
     FACEBOOK_AUTH_RESPONSE_CHANGED: (state, action) => {
       if (isActionOfType(action, 'FACEBOOK_AUTH_RESPONSE_CHANGED')) {
-        return action.payload || null;
+        return action.payload ? action.payload.accessToken : null;
       }
 
       return state;
@@ -17,7 +15,7 @@ export const facebookAuthResponseReducer = createReducerForStoreKey<
 );
 
 export const isUserAuthenticatedToFacebook = (state: StoreState) =>
-  !!state.facebookAuthResponse;
+  !!state.authToken;
 
 export const getAccessToken = (state: StoreState) =>
-  state.facebookAuthResponse ? state.facebookAuthResponse.accessToken : null;
+  state.authToken ? state.authToken : null;
