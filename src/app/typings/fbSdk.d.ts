@@ -45,7 +45,7 @@ declare namespace facebookSdk {
      * Fired when the `authResponse` object has changed,
      * which indicates that the user's access token has changed in some way.
      */
-    'auth.authResponseChange': AuthResponse;
+    'auth.authResponseChange': LoginStatusResponse;
     /**
      * Fired when the user's Facebook Login status changes.
      */
