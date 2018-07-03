@@ -14,8 +14,8 @@ import {
 import { GraphQLClient } from 'graphql-request';
 import { merge } from 'rxjs';
 import { isUserAuthenticatedToFacebook } from './reducer';
-import createUserMutation from './CreateUserMutation.graphql';
-import viewerQuery from './ViewerQuery.graphql';
+import createUserMutation from './createUserMutation.graphql';
+import viewerQuery from './viewerQuery.graphql';
 
 const createLoadViewerAndCreateIfNotExists = (
   fbAccessToken: string | null,

@@ -95,6 +95,8 @@ export class AppMenu extends React.PureComponent<Props> {
       viewerQueryResult.value.viewer !== null;
     const loggedOut = !isLoggedIn && !isChecking;
 
+    /* eslint-disable no-nested-ternary */
+
     return (
       <MenuItemWithButton
         className={loggedOut ? classes.facebook : undefined}
