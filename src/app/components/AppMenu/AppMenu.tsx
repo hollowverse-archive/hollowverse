@@ -22,6 +22,7 @@ import {
   isSuccessResult,
   isPendingResult,
 } from 'helpers/asyncResults';
+import { LoadingSpinner } from 'components/LoadingSpinner/LoadingSpinner';
 
 const Separator = (
   <div role="separator" className={classes.separator}>
@@ -104,9 +105,11 @@ export class AppMenu extends React.PureComponent<Props> {
           loggedOut ? (
             <SvgIcon
               className={classes.facebookIcon}
-              size={24}
+              size={20}
               {...facebookIcon}
             />
+          ) : isChecking ? (
+            <LoadingSpinner size={24} />
           ) : (
             undefined
           )
@@ -115,7 +118,7 @@ export class AppMenu extends React.PureComponent<Props> {
         {isLoggedIn
           ? 'Log out'
           : isChecking
-            ? 'Checking log in status...'
+            ? 'Checking log in...'
             : 'Log in with Facebook'}
       </MenuItemWithButton>
     );
