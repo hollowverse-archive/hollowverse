@@ -1,5 +1,3 @@
-import { DeepPartial } from 'typings/typeHelpers';
-
 export type ErrorResult = {
   state: 'error';
   value: undefined;
@@ -13,7 +11,7 @@ type StaleResult<T> = {
 
 type OptimisticResult<T> = {
   state: 'optimistic';
-  value: DeepPartial<T>;
+  value: T;
 };
 
 export type PendingResult = {

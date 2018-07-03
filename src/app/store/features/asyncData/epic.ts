@@ -36,7 +36,7 @@ export const dataResolverEpic: Epic<Action, StoreState, EpicDependencies> = (
           value: optimisticResponse,
           state: 'optimistic',
           requestId,
-        };
+        } as any;
       } else if (
         keepStaleData &&
         (previousResult.state === 'success' || previousResult.state === 'stale')

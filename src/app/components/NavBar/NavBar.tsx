@@ -15,8 +15,17 @@ import searchIcon from 'icons/search.svg';
 import menuIcon from 'icons/menu.svg';
 import textLogo from '!!file-loader!assets/textLogo.svg';
 
+import viewerQuery from './ViewerQuery.graphql';
+
 import { ConnectedSearchBar } from 'components/NavBar/ConnectedSearchBar';
 import { ConnectedAppMenu } from 'components/AppMenu/ConnectedAppMenu';
+import { WithData } from 'hocs/WithData/WithData';
+import {
+  AppDependenciesContext,
+  AppDependencies,
+} from 'appDependenciesContext';
+import { ViewerQuery } from 'api/types';
+import { AsyncResult } from 'helpers/asyncResults';
 
 export type OwnProps = {
   title: string;
@@ -56,6 +65,12 @@ export const NavBar = class extends React.Component<
     return { '--top': `${top}px`, '--left': `${left}px` };
   };
 
+  createLoadViewer = ({
+    apiClient,
+  }: Pick<AppDependencies, 'apiClient'>) => async () => {
+    return apiClient.request<ViewerQuery>(viewerQuery);
+  };
+
   render() {
     const { title, shouldFocusSearch, isHomePage } = this.props;
 
@@ -68,19 +83,43 @@ export const NavBar = class extends React.Component<
         >
           {isSticking => (
             <>
-              <Wrapper
-                id="app-menu-wrapper"
-                onMenuToggle={this.handleMenuToggle}
-                className={classes.menuWrapper}
-              >
-                <NavBarButton className={classes.button} Factory={Button}>
-                  <span ref={this.navBarChildRef}>
-                    <SvgIcon size={20} {...menuIcon} />
-                    <span className="sr-only">Main Menu</span>
-                  </span>
-                </NavBarButton>
-                <ConnectedAppMenu getMenuStyle={this.getMenuStyle} />
-              </Wrapper>
+              <AppDependenciesContext.Consumer>
+                {({ apiClient }) => (
+                  <WithData
+                    dataKey="viewer"
+                    load={this.createLoadViewer({ apiClient })}
+                    requestId={null}
+                  >
+                    {({
+                      result,
+                    }: {
+                      result: AsyncResult<ViewerQuery | null>;
+                    }) => (
+                      <Wrapper
+                        id="app-menu-wrapper"
+                        onMenuToggle={this.handleMenuToggle}
+                        className={classes.menuWrapper}
+                      >
+                        <NavBarButton
+                          className={classes.button}
+                          Factory={Button}
+                        >
+                          <span ref={this.navBarChildRef}>
+                            <SvgIcon size={20} {...menuIcon} />
+                            <span className="sr-only">Main Menu</span>
+                          </span>
+                        </NavBarButton>
+                        <ConnectedAppMenu
+                          viewer={
+                            result.value ? result.value.viewer : undefined
+                          }
+                          getMenuStyle={this.getMenuStyle}
+                        />
+                      </Wrapper>
+                    )}
+                  </WithData>
+                )}
+              </AppDependenciesContext.Consumer>
               <div className={classes.view}>
                 <Switch>
                   <Route path="/search">

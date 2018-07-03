@@ -109,6 +109,10 @@ const defaultInitialState: StoreState = {
       ...nullResult,
       requestId: null,
     },
+    viewer: {
+      ...nullResult,
+      requestId: null,
+    },
   },
   alternativeSearchBoxText: null,
   facebookAuthResponse: null,
