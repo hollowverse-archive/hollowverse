@@ -13,7 +13,7 @@
     }
   }
 
-  &.is-clickable * {
+  &.is-clickable .child:not([disabled]) {
     cursor: pointer;
   }
 
@@ -25,10 +25,12 @@
   button {
     background: transparent;
     border: 0;
+    padding: 0;
+    margin: 0;
   }
 
-  &.is-clickable .child:focus,
-  &.is-clickable .child:hover {
+  &.is-clickable .child:not([disabled]):focus,
+  &.is-clickable .child:not([disabled]):hover {
     background: $color-background-light;
   }
 
@@ -45,6 +47,10 @@
     width: 100%;
     color: inherit;
     text-align: left;
+
+    &[disabled] {
+      color: $color-text-light;
+    }
 
     > * {
       @include truncate-flex-child();
