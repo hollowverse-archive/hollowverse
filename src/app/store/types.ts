@@ -136,7 +136,7 @@ export type AppState = {
       requestId: string | null;
     }
   };
-  facebookAuthResponse: facebookSdk.AuthResponse;
+  authToken: string | null;
 };
 
 /**

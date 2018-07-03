@@ -10,7 +10,7 @@ import {
   alternativeSearchBoxTextReducer,
 } from 'store/features/search/reducer';
 import { resolvedDataReducer } from 'store/features/asyncData/reducer';
-import { facebookAuthResponseReducer } from './features/auth/reducer';
+import { authTokenReducer } from './features/auth/reducer';
 
 const appReducers: ReducerMap = {
   statusCode: statusCodeReducer,
@@ -18,7 +18,7 @@ const appReducers: ReducerMap = {
   resolvedData: resolvedDataReducer,
   redirectionUrl: redirectionUrlReducer,
   alternativeSearchBoxText: alternativeSearchBoxTextReducer,
-  facebookAuthResponse: facebookAuthResponseReducer,
+  authToken: authTokenReducer,
 };
 
 /**
