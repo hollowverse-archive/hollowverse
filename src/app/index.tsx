@@ -1,7 +1,7 @@
 import '@babel/polyfill';
 
 import React from 'react';
-import { Provider } from 'react-redux';
+import { Provider, connect } from 'react-redux';
 import { ConnectedRouter as Router } from 'react-router-redux';
 import domready from 'domready';
 import { render } from 'react-dom';
@@ -25,12 +25,39 @@ import { pick } from 'lodash';
 import { isError } from 'util';
 import { importGlobalScript } from 'helpers/importGlobalScript';
 import { facebookAuthResponseChanged } from 'store/features/auth/actions';
+import { GraphQLClient } from 'graphql-request';
+import { getAccessToken } from 'store/features/auth/reducer';
+import { StoreState } from 'store/types';
 
 const history = createBrowserHistory();
 
 const { store } = createConfiguredStore({
   history,
 });
+
+const ConnectedApp = connect((state: StoreState) => ({
+  accessToken: getAccessToken(state),
+}))(({ accessToken }) => (
+  <AppDependenciesContext.Provider
+    value={{
+      ...defaultAppDependencies,
+      apiClient: new GraphQLClient(__API_ENDPOINT__, {
+        // Use `GET` for public queries to take advantage from
+        // CDN caching of API responses.
+        // `POST` is used for logged-in users because mutations
+        // require `POST` requests. `POST` requests are never cached.
+        method: accessToken ? 'POST' : 'GET',
+        headers: {
+          Authorization: accessToken ? `Bearer ${accessToken}` : '',
+        },
+      }),
+    }}
+  >
+    <Router history={history}>
+      <App routesMap={routesMap} />
+    </Router>
+  </AppDependenciesContext.Provider>
+));
 
 // This has to be a class in order for hot module replacement to work
 class Root extends React.PureComponent {
@@ -39,11 +66,7 @@ class Root extends React.PureComponent {
     return (
       <HelmetProvider>
         <Provider store={store}>
-          <AppDependenciesContext.Provider value={defaultAppDependencies}>
-            <Router history={history}>
-              <App routesMap={routesMap} />
-            </Router>
-          </AppDependenciesContext.Provider>
+          <ConnectedApp />
         </Provider>
       </HelmetProvider>
     );
@@ -59,12 +82,8 @@ importGlobalScript('https://connect.facebook.net/en_US/sdk.js').finally(() => {
     xfbml: true,
   });
 
-  FB.getLoginStatus(response => {
-    store.dispatch(facebookAuthResponseChanged(response.authResponse));
-  }, true);
-
   FB.Event.subscribe('auth.authResponseChange', response => {
-    store.dispatch(facebookAuthResponseChanged(response));
+    store.dispatch(facebookAuthResponseChanged(response.authResponse));
   });
 });
 

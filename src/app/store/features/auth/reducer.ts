@@ -5,8 +5,8 @@ export const facebookAuthResponseReducer = createReducerForStoreKey<
   'facebookAuthResponse'
 >(
   {
-    FACEBOOK_AUTH_TOKEN_CHANGED: (state, action) => {
-      if (isActionOfType(action, 'FACEBOOK_AUTH_TOKEN_CHANGED')) {
+    FACEBOOK_AUTH_RESPONSE_CHANGED: (state, action) => {
+      if (isActionOfType(action, 'FACEBOOK_AUTH_RESPONSE_CHANGED')) {
         return action.payload || null;
       }
 
@@ -18,3 +18,6 @@ export const facebookAuthResponseReducer = createReducerForStoreKey<
 
 export const isUserAuthenticated = (state: StoreState) =>
   !!state.facebookAuthResponse;
+
+export const getAccessToken = (state: StoreState) =>
+  state.facebookAuthResponse ? state.facebookAuthResponse.accessToken : null;
