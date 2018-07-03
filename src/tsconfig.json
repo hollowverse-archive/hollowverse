@@ -19,7 +19,9 @@
       "*": ["*", "./*", "app/*"]
     }
   },
+  "include": ["**/*"],
   "exclude": [
     "app" // "app" will be processed by Webpack
-  ]
+  ],
+  "files": ["./app/typings/fbSdk.d.ts"]
 }
