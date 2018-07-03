@@ -75,6 +75,10 @@ class Root extends React.PureComponent {
 
 // tslint:disable-next-line
 importGlobalScript('https://connect.facebook.net/en_US/sdk.js').finally(() => {
+  if (!('FB' in global)) {
+    store.dispatch(facebookAuthResponseChanged(null));
+  }
+
   FB.init({
     appId: '1151099935001443',
     status: true,
@@ -82,9 +86,13 @@ importGlobalScript('https://connect.facebook.net/en_US/sdk.js').finally(() => {
     xfbml: true,
   });
 
-  FB.Event.subscribe('auth.authResponseChange', response => {
+  FB.getLoginStatus(response => {
     store.dispatch(facebookAuthResponseChanged(response.authResponse));
-  });
+
+    FB.Event.subscribe('auth.authResponseChange', event => {
+      store.dispatch(facebookAuthResponseChanged(event.authResponse));
+    });
+  }, true);
 });
 
 const renderApp = () => {
