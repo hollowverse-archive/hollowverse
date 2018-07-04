@@ -50,6 +50,7 @@
 
     &[disabled] {
       color: $color-text-light;
+      --fill: $color-text-light;
     }
 
     > * {
