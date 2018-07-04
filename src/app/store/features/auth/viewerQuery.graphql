@@ -1,6 +1,5 @@
 query Viewer {
   viewer {
-    email
     name
     photoUrl
   }
