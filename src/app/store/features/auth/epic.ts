@@ -59,6 +59,12 @@ export const authEpic: Epic<Action, StoreState, EpicDependencies> = (
       return requestData({
         key: 'viewer',
         requestId: accessToken,
+        optimisticResponse:
+          accessToken === null
+            ? {
+                viewer: null,
+              }
+            : undefined,
         keepStaleData: false,
         load: createLoadViewerAndCreateIfNotExists(accessToken),
       });
