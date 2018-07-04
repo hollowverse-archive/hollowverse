@@ -28,18 +28,24 @@ const createLoadViewerAndCreateIfNotExists = (
     },
   });
 
-  const viewerResult = await apiClient
-    .request<ViewerQuery>(viewerQuery)
-    .catch(r => r.response.data);
+  let viewerResult = await apiClient.request<ViewerQuery>(viewerQuery);
 
+  // If an access token is provider but not matching user is found,
+  // that means the user has not signed up to Hollowverse yet.
+  // We'll go ahead and create a new account.
   if (viewerResult.viewer === null && fbAccessToken) {
     const variables: CreateUserMutationVariables = {
       fbAccessToken,
     };
+
+    // Create new user
     await apiClient.request<CreateUserMutation>(createUserMutation, variables);
+
+    // Re-query the API to fetch the newly created user
+    viewerResult = await apiClient.request<ViewerQuery>(viewerQuery);
   }
 
-  return apiClient.request<ViewerQuery>(viewerQuery);
+  return viewerResult;
 };
 
 export const authEpic: Epic<Action, StoreState, EpicDependencies> = (
