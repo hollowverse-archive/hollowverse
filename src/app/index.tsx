@@ -76,7 +76,7 @@ class Root extends React.PureComponent {
 importGlobalScript('https://connect.facebook.net/en_US/sdk.js')
   .then(() => {
     FB.init({
-      appId: '1151099935001443',
+      appId: __FB_APP_ID__,
       status: true,
       version: 'v2.7',
       xfbml: true,

@@ -19,4 +19,6 @@ module.exports.getAppGlobals = () => ({
   // which proxies the requests to the actual defined endpoint
   // The proxy is defined in appServer.ts
   __API_ENDPOINT__: isProd ? process.env.API_ENDPOINT : '/__api',
+  __FB_APP_ID__:
+    process.env.FB_APP_ID || isProd ? '1151099935001443' : '181885059294060',
 });
