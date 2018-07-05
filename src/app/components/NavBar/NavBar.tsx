@@ -1,5 +1,6 @@
 import React from 'react';
 import cc from 'classcat';
+import noScroll from 'no-scroll';
 
 import { RouteComponentProps, Route, Switch } from 'react-router';
 import { Button, Wrapper } from 'react-aria-menubutton';
@@ -40,7 +41,7 @@ export const NavBar = class extends React.Component<
       return;
     }
 
-    document.body.classList.toggle('no-scroll');
+    noScroll.toggle();
   };
 
   getMenuStyle = () => {
@@ -67,21 +68,19 @@ export const NavBar = class extends React.Component<
         >
           {isSticking => (
             <>
-              {false && ( // tslint:disable-line
-                <Wrapper // tslint:disable-line
-                  id="app-menu-wrapper"
-                  onMenuToggle={this.handleMenuToggle}
-                  className={classes.menuWrapper}
-                >
-                  <NavBarButton className={classes.button} Factory={Button}>
-                    <span ref={this.navBarChildRef}>
-                      <SvgIcon size={20} {...menuIcon} />
-                      <span className="sr-only">Main Menu</span>
-                    </span>
-                  </NavBarButton>
-                  <AppMenu getMenuStyle={this.getMenuStyle} />
-                </Wrapper>
-              )}
+              <Wrapper
+                id="app-menu-wrapper"
+                onMenuToggle={this.handleMenuToggle}
+                className={classes.menuWrapper}
+              >
+                <NavBarButton className={classes.button} Factory={Button}>
+                  <span ref={this.navBarChildRef}>
+                    <SvgIcon size={20} {...menuIcon} />
+                    <span className="sr-only">Main Menu</span>
+                  </span>
+                </NavBarButton>
+                <AppMenu getMenuStyle={this.getMenuStyle} />
+              </Wrapper>
               <div className={classes.view}>
                 <Switch>
                   <Route path="/search">

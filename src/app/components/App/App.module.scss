@@ -3,19 +3,6 @@
 
 // stylelint-disable property-blacklist
 :global {
-  .no-scroll {
-    overflow: hidden;
-
-    // stylelint-disable-next-line plugin/no-unsupported-browser-features
-    touch-action: none;
-
-    @supports (touch-action: none) {
-      @media (pointer: coarse) {
-        overflow: auto;
-      }
-    }
-  }
-
   *,
   *::after,
   *::before {
