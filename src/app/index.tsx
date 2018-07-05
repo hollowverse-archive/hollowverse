@@ -24,7 +24,10 @@ import { routesMap } from 'routesMap';
 import { pick } from 'lodash';
 import { isError } from 'util';
 import { importGlobalScript } from 'helpers/importGlobalScript';
-import { facebookAuthResponseChanged } from 'store/features/auth/actions';
+import {
+  setFbSdkAuthState,
+  facebookAuthResponseChanged,
+} from 'store/features/auth/actions';
 import { GraphQLClient } from 'graphql-request';
 import { getAccessToken } from 'store/features/auth/reducer';
 import { StoreState } from 'store/types';
@@ -89,9 +92,17 @@ importGlobalScript('https://connect.facebook.net/en_US/sdk.js')
         store.dispatch(facebookAuthResponseChanged(event.authResponse));
       });
     }, true);
+
+    FB.Event.subscribe('auth.login', () => {
+      store.dispatch(setFbSdkAuthState({ state: 'loggingIn' }));
+    });
+
+    FB.Event.subscribe('auth.logout', () => {
+      store.dispatch(setFbSdkAuthState({ state: 'loggingOut' }));
+    });
   })
-  .catch(_error => {
-    store.dispatch(facebookAuthResponseChanged(null));
+  .catch(error => {
+    store.dispatch(setFbSdkAuthState({ state: 'error', error }));
   });
 
 const renderApp = () => {

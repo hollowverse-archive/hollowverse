@@ -13,7 +13,7 @@ import {
 } from 'api/types';
 import { GraphQLClient } from 'graphql-request';
 import { merge } from 'rxjs';
-import { isUserAuthenticatedToFacebook } from './reducer';
+import { isUserAuthenticatedToFacebook, getAccessToken } from './reducer';
 
 import createUserMutation from './createUserMutation.graphql';
 import viewerQuery from './viewerQuery.graphql';
@@ -52,19 +52,13 @@ export const authEpic: Epic<Action, StoreState, EpicDependencies> = (
   action$,
   state$,
 ) => {
-  const updateViewerOnAuthChange$ = state$.pipe(
-    map(s => s.authToken),
+  const updateViewerOnAccessTokenChange$ = state$.pipe(
+    map(getAccessToken),
     distinctUntilChanged(),
     map(accessToken => {
       return requestData({
         key: 'viewer',
         requestId: accessToken,
-        optimisticResponse:
-          accessToken === null
-            ? {
-                viewer: null,
-              }
-            : undefined,
         keepStaleData: false,
         load: createLoadViewerAndCreateIfNotExists(accessToken),
       });
@@ -88,7 +82,7 @@ export const authEpic: Epic<Action, StoreState, EpicDependencies> = (
   );
 
   return merge(
-    updateViewerOnAuthChange$,
+    updateViewerOnAccessTokenChange$,
     handleLoginRequest$,
     handleLogoutRequest$,
   );

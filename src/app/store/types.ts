@@ -77,6 +77,32 @@ type SerializableError = {
   stack?: string;
 };
 
+export type AuthState =
+  | {
+      state: 'initializing' | 'loggingIn' | 'loggingOut' | 'loggedOut';
+    }
+  | {
+      state: 'loggedIn';
+      viewer: NonNullable<ViewerQuery['viewer']>;
+    }
+  | {
+      state: 'error';
+      error?: Error;
+    };
+
+export type FbSdkAuthState =
+  | {
+      state: 'initializing' | 'loggingIn' | 'loggingOut' | 'loggedOut';
+    }
+  | {
+      state: 'loggedIn';
+      accessToken: string;
+    }
+  | {
+      state: 'error';
+      error?: Error;
+    };
+
 /** A map of all app actions to their corresponding payloads */
 export type ActionTypeToPayloadType = {
   GO_TO_SEARCH: void;
@@ -116,7 +142,8 @@ export type ActionTypeToPayloadType = {
   SET_ALTERNATIVE_SEARCH_BOX_TEXT: string | null;
   '@@router/LOCATION_CHANGE': LocationChangeAction['payload'];
   '@@router/CALL_HISTORY_METHOD': RouterAction['payload'];
-  FACEBOOK_AUTH_RESPONSE_CHANGED: any;
+  SET_FB_SDK_AUTH_STATE: FbSdkAuthState;
+  FACEBOOK_AUTH_RESPONSE_CHANGED: facebookSdk.AuthResponse;
   REQUEST_LOGIN: undefined;
   REQUEST_LOGOUT: undefined;
 };

@@ -116,7 +116,9 @@ const defaultInitialState: StoreState = {
     },
   },
   alternativeSearchBoxText: null,
-  authToken: null,
+  fbSdkAuthState: {
+    state: 'initializing',
+  },
 };
 
 const defaultEpicDependencies: EpicDependencies = {

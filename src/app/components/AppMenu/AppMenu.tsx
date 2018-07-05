@@ -1,4 +1,5 @@
 import React from 'react';
+import cc from 'classcat';
 import { Menu, closeMenu } from 'react-aria-menubutton';
 import CSSTransition, {
   CSSTransitionClassNames,
@@ -16,13 +17,8 @@ import closeIcon from 'icons/close.svg';
 import facebookIcon from 'icons/facebook.svg';
 
 import classes from './AppMenu.module.scss';
-import { ViewerQuery } from 'api/types';
-import {
-  AsyncResult,
-  isSuccessResult,
-  isPendingResult,
-} from 'helpers/asyncResults';
 import { LoadingSpinner } from 'components/LoadingSpinner/LoadingSpinner';
+import { AuthState } from 'store/types';
 
 const Separator = (
   <div role="separator" className={classes.separator}>
@@ -33,7 +29,7 @@ const Separator = (
 const transitionTimeoutMilliseconds = 150;
 
 export type StateProps = {
-  viewerQueryResult: AsyncResult<ViewerQuery>;
+  authState: AuthState;
 };
 
 export type DispatchProps = {
@@ -57,18 +53,38 @@ const transitionClassNames: CSSTransitionClassNames = {
   exitActive: classes.menuExitActive,
 };
 
+const messageForAuthState: Partial<Record<AuthState['state'], string>> = {
+  initializing: 'Checking log in...',
+  loggingIn: 'Checking log in...',
+  loggingOut: 'Logging out...',
+  loggedIn: 'Log out',
+  loggedOut: 'Log in with Facebook',
+  error: 'Log in with Facebook',
+};
+
+const spinner = <LoadingSpinner size={24} />;
+const fbIcon = (
+  <SvgIcon className={classes.facebookIcon} size={20} {...facebookIcon} />
+);
+
+const iconForAuthState: Partial<Record<AuthState['state'], React.ReactNode>> = {
+  loggedOut: fbIcon,
+  loggedIn: null,
+  loggingIn: spinner,
+  loggingOut: spinner,
+  initializing: spinner,
+  error: fbIcon,
+};
+
 export class AppMenu extends React.PureComponent<Props> {
   renderUser = () => {
-    const { viewerQueryResult } = this.props;
+    const { authState } = this.props;
 
-    if (
-      !isSuccessResult(viewerQueryResult) ||
-      !viewerQueryResult.value.viewer
-    ) {
+    if (authState.state !== 'loggedIn') {
       return undefined;
     }
 
-    const { viewer } = viewerQueryResult.value;
+    const { viewer } = authState;
 
     return (
       <MenuItemWithChild
@@ -87,51 +103,35 @@ export class AppMenu extends React.PureComponent<Props> {
   };
 
   renderLoginButton = () => {
-    const { viewerQueryResult } = this.props;
-    const isChecking = isPendingResult(viewerQueryResult);
-    const canLogIn = !isChecking;
-    const isLoggedIn =
-      isSuccessResult(viewerQueryResult) &&
-      viewerQueryResult.value.viewer !== null;
-    const loggedOut = !isLoggedIn && !isChecking;
-
-    /* eslint-disable no-nested-ternary */
+    const {
+      authState: { state },
+    } = this.props;
+    const canClick =
+      state === 'loggedIn' || state === 'loggedOut' || state === 'error';
 
     return (
       <MenuItemWithButton
-        className={loggedOut ? classes.facebook : undefined}
+        className={cc([
+          {
+            [classes.facebook]: state === 'loggedOut' || state === 'error',
+          },
+        ])}
         type="button"
         onClick={this.handleLoginClick}
-        disabled={!canLogIn}
-        icon={
-          loggedOut ? (
-            <SvgIcon
-              className={classes.facebookIcon}
-              size={20}
-              {...facebookIcon}
-            />
-          ) : isChecking ? (
-            <LoadingSpinner size={24} />
-          ) : (
-            undefined
-          )
-        }
+        disabled={!canClick}
+        icon={iconForAuthState[state]}
       >
-        {isLoggedIn
-          ? 'Log out'
-          : isChecking
-            ? 'Checking log in...'
-            : 'Log in with Facebook'}
+        {messageForAuthState[state] || messageForAuthState.loggedOut}
       </MenuItemWithButton>
     );
   };
 
   handleLoginClick = () => {
-    const { viewerQueryResult, requestLogin, requestLogout } = this.props;
+    const { authState, requestLogin, requestLogout } = this.props;
 
-    if (isSuccessResult(viewerQueryResult) && viewerQueryResult.value.viewer) {
+    if (authState.state === 'loggedIn') {
       requestLogout(undefined);
-    } else if (!isPendingResult(viewerQueryResult)) {
+    } else if (authState.state === 'loggedOut') {
       requestLogin(undefined);
     }
   };
