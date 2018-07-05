@@ -64,7 +64,12 @@ const messageForAuthState: Partial<Record<AuthState['state'], string>> = {
 
 const spinner = <LoadingSpinner size={24} />;
 const fbIcon = (
-  <SvgIcon className={classes.facebookIcon} size={20} {...facebookIcon} />
+  <SvgIcon
+    className={classes.facebookIcon}
+    color="var(--facebook-blue)"
+    size={20}
+    {...facebookIcon}
+  />
 );
 
 const iconForAuthState: Partial<Record<AuthState['state'], React.ReactNode>> = {
