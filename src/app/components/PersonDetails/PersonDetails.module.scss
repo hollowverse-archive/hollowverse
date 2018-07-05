@@ -159,7 +159,7 @@
 
       &:after {
         content: '';
-        @include illumination(#f1f1f3);
+        @include illumination($color-background);
       }
     }
   }

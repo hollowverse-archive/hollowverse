@@ -33,6 +33,12 @@
     font-family: $font-family;
   }
 
+  input,
+  textarea {
+    background: $color-background;
+    color: $color-text-default;
+  }
+
   a {
     text-decoration-skip-ink: auto;
     transition: color 0.2s ease-in-out;

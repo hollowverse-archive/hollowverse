@@ -1,33 +1,57 @@
 $font-family: system-ui, -apple-ui, -apple-system, BlinkMacSystemFont,
   'Segoe UI', Helvetica, Arial, sans-serif;
 
+:root {
+  --color-blue: #4b31f6;
+  --color-facebook-blue: #4267b2;
+  --color-blue-opacity: rgba(110, 99, 207, 0.05);
+  --color-pink: #6e63cf;
+  --color-yellow: #f5ca23;
+
+  --color-text-default: #111;
+  --color-text-light: rgba(0, 0, 0, 0.6);
+  --color-text-lighter: rgba(0, 0, 0, 0.35);
+
+  --color-border-light: rgba(0, 0, 0, 0.08);
+
+  --color-background-light: #f1f1f3;
+  --color-background: #dfdfe1;
+  --color-paper: #feffff;
+
+  &:global(.night) {
+    --color-text-default: rgb(255, 255, 255);
+    --color-text-light: rgba(199, 199, 199, 0.6);
+    --color-text-lighter: rgba(233, 233, 233, 0.35);
+
+    --color-border-light: rgba(216, 216, 216, 0.08);
+
+    --color-background-light: #383838;
+    --color-background: #1b1b1b;
+    --color-paper: #616161;
+  }
+}
+
 //#region Colors
-$color-blue: #4b31f6;
-$color-facebook-blue: #4267b2;
-$color-blue-opacity: rgba(110, 99, 207, 0.05);
-$color-pink: #6e63cf;
-$color-yellow: #f5ca23;
+$color-blue: var(--color-blue);
+$color-facebook-blue: var(--color-facebook-blue);
+$color-blue-opacity: var(--color-blue-opacity);
+$color-pink: var(--color-pink);
+$color-yellow: var(--color-yellow);
 
-$color-text-default: #111;
-$color-text-light: rgba(0, 0, 0, 0.6);
-$color-text-lighter: rgba(0, 0, 0, 0.35);
+$color-text-default: var(--color-text-default);
+$color-text-light: var(--color-text-light);
+$color-text-lighter: var(--color-text-lighter);
 
-$color-border-light: rgba(0, 0, 0, 0.08);
+$color-border-light: var(--color-border-light);
 
-$color-background-light: #f1f1f3;
-$color-background: #dfdfe1;
-$color-white: #feffff;
+$color-background-light: var(--color-background-light);
+$color-background: var(--color-background);
+$color-paper: var(--color-paper);
 //#endregion
 
 //#region Sizes
 $person-avatar-size: 120px;
-
-$person-card-width: 170px;
-$person-card-height: 260px;
-
-$page-min-width: 320px;
 $page-max-width: 720px;
-$page-mobile-width: 640px;
 //#endregion
 
 //#region Spacing

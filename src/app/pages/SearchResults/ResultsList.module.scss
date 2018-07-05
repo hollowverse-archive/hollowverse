@@ -44,7 +44,7 @@
 
       .link:after {
         content: '';
-        @include illumination(#ffffff);
+        @include illumination($color-background);
       }
     }
   }
