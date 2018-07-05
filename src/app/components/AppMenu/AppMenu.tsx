@@ -94,7 +94,7 @@ export class AppMenu extends React.PureComponent<Props> {
               mountOnEnter
               unmountOnExit
             >
-              <div className={classes.body} style={getMenuStyle()}>
+              <Paper className={classes.body} style={getMenuStyle()}>
                 {this.renderUser()}
                 <MenuItemWithLink to="/">Home</MenuItemWithLink>
                 <MenuItemWithLink to="/contact">Contact</MenuItemWithLink>
@@ -128,7 +128,7 @@ export class AppMenu extends React.PureComponent<Props> {
                 <MenuItemWithLink size="small" to="/privacy-policy">
                   Privacy Policy
                 </MenuItemWithLink>
-              </div>
+              </Paper>
             </CSSTransition>
           )}
         </Menu>

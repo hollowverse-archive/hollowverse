@@ -53,9 +53,6 @@
       overflow-y: auto;
 
       width: 240px;
-      border-radius: 4px;
-      background-color: $color-white;
-      box-shadow: 0 1px 6px 1px rgba(0, 0, 0, 0.1);
     }
 
     .user-avatar {
@@ -83,7 +80,6 @@
 
     .facebook {
       color: $color-facebook-blue;
-      --fill: $color-facebook-blue;
     }
 
     .facebook-icon {
