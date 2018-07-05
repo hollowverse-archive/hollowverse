@@ -7,6 +7,7 @@ type Props = React.HTMLAttributes<SVGElement> &
   SpriteSymbol & {
     /** Height of icon in pixels */
     size?: number | string;
+    color?: string;
   };
 
 export const SvgIcon = ({
@@ -15,6 +16,7 @@ export const SvgIcon = ({
   url,
   viewBox,
   className,
+  color,
   size = 32,
   ...rest
 }: Props) => (
@@ -24,6 +26,7 @@ export const SvgIcon = ({
     role="presentation"
     viewBox={viewBox}
     className={cc([className, classes.root])}
+    style={{ '--fill': color } as any}
   >
     <use xlinkHref={url} />
   </svg>
