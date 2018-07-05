@@ -19,6 +19,10 @@ import facebookIcon from 'icons/facebook.svg';
 import classes from './AppMenu.module.scss';
 import { LoadingSpinner } from 'components/LoadingSpinner/LoadingSpinner';
 import { AuthState } from 'store/types';
+import { MessageWithIcon } from '../MessageWithIcon/MessageWithIcon';
+import { warningIcon } from 'pages/NotablePerson/warningIcon';
+import { Dialog } from 'components/Dialog/Dialog';
+import { Paper } from '../Paper/Paper';
 
 const Separator = (
   <div role="separator" className={classes.separator}>
@@ -81,7 +85,15 @@ const iconForAuthState: Partial<Record<AuthState['state'], React.ReactNode>> = {
   error: fbIcon,
 };
 
-export class AppMenu extends React.PureComponent<Props> {
+type State = {
+  isDialogShown: boolean;
+};
+
+export class AppMenu extends React.PureComponent<Props, State> {
+  state = {
+    isDialogShown: false,
+  };
+
   renderUser = () => {
     const { authState } = this.props;
 
@@ -131,6 +143,30 @@ export class AppMenu extends React.PureComponent<Props> {
     );
   };
 
+  renderFbSdkBlockedDialog = () => {
+    return (
+      <Dialog
+        titleText="Could not connect to Facebook"
+        onExit={this.toggleFbSdkBlockedDialog}
+        mounted={this.state.isDialogShown}
+      >
+        <MessageWithIcon
+          title="We could not connect to Facebook"
+          icon={warningIcon}
+        />
+        <p>This could be due to a slow network. Try reloading the page.</p>
+        <p>
+          If the issue persists, your browser might have a tracking protection
+          feature which blocks loading of Facebook scripts.
+        </p>
+      </Dialog>
+    );
+  };
+
+  toggleFbSdkBlockedDialog = () => {
+    this.setState(state => ({ isDialogShown: !state.isDialogShown }));
+  };
+
   handleLoginClick = () => {
     const { authState, requestLogin, requestLogout } = this.props;
 
@@ -138,6 +174,8 @@ export class AppMenu extends React.PureComponent<Props> {
       requestLogout(undefined);
     } else if (authState.state === 'loggedOut') {
       requestLogin(undefined);
+    } else if (authState.state === 'error') {
+      this.toggleFbSdkBlockedDialog();
     }
   };
 
@@ -150,6 +188,7 @@ export class AppMenu extends React.PureComponent<Props> {
 
     return (
       <nav className={classes.root}>
+        {this.renderFbSdkBlockedDialog()}
         <Menu
           className={classes.menu}
           aria-label="Main Menu"
