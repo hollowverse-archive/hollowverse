@@ -31,11 +31,6 @@ export const fbSdkAuthStateReducer: Reducer<StoreState['fbSdkAuthState']> = (
 
 export const getFbSdkAuthState = (state: StoreState) => state.fbSdkAuthState;
 
-export const isUserAuthenticatedToFacebook = createSelector(
-  getFbSdkAuthState,
-  fbAuthState => fbAuthState.state === 'loggedIn',
-);
-
 export const getAccessToken = createSelector(
   getFbSdkAuthState,
   fbAuthState =>

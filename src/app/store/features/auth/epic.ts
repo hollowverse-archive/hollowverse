@@ -13,7 +13,7 @@ import {
 } from 'api/types';
 import { GraphQLClient } from 'graphql-request';
 import { merge } from 'rxjs';
-import { isUserAuthenticatedToFacebook, getAccessToken } from './reducer';
+import { getAccessToken } from './reducer';
 
 import createUserMutation from './createUserMutation.graphql';
 import viewerQuery from './viewerQuery.graphql';
@@ -67,9 +67,7 @@ export const authEpic: Epic<Action, StoreState, EpicDependencies> = (
 
   const handleLoginRequest$ = action$.ofType('REQUEST_LOGIN').pipe(
     tap(() => {
-      if (!isUserAuthenticatedToFacebook(state$.value)) {
-        FB.login();
-      }
+      FB.login();
     }),
     ignoreElements(),
   );
