@@ -76,34 +76,35 @@ class Root extends React.PureComponent {
   }
 }
 
-importGlobalScript('https://connect.facebook.net/en_US/sdk.js')
-  .then(() => {
-    FB.init({
-      appId: __FB_APP_ID__,
-      status: true,
-      version: 'v2.7',
-      xfbml: true,
-    });
-
-    FB.getLoginStatus(response => {
-      store.dispatch(facebookAuthResponseChanged(response.authResponse));
-
-      FB.Event.subscribe('auth.authResponseChange', event => {
-        store.dispatch(facebookAuthResponseChanged(event.authResponse));
+const initializeAuthentication = async () =>
+  importGlobalScript('https://connect.facebook.net/en_US/sdk.js')
+    .then(() => {
+      FB.init({
+        appId: __FB_APP_ID__,
+        status: true,
+        version: 'v2.7',
+        xfbml: true,
       });
-    }, true);
 
-    FB.Event.subscribe('auth.login', () => {
-      store.dispatch(setFbSdkAuthState({ state: 'loggingIn' }));
-    });
+      FB.getLoginStatus(response => {
+        store.dispatch(facebookAuthResponseChanged(response.authResponse));
 
-    FB.Event.subscribe('auth.logout', () => {
-      store.dispatch(setFbSdkAuthState({ state: 'loggingOut' }));
+        FB.Event.subscribe('auth.authResponseChange', event => {
+          store.dispatch(facebookAuthResponseChanged(event.authResponse));
+        });
+      }, true);
+
+      FB.Event.subscribe('auth.login', () => {
+        store.dispatch(setFbSdkAuthState({ state: 'loggingIn' }));
+      });
+
+      FB.Event.subscribe('auth.logout', () => {
+        store.dispatch(setFbSdkAuthState({ state: 'loggingOut' }));
+      });
+    })
+    .catch(error => {
+      store.dispatch(setFbSdkAuthState({ state: 'error', error }));
     });
-  })
-  .catch(error => {
-    store.dispatch(setFbSdkAuthState({ state: 'error', error }));
-  });
 
 const renderApp = () => {
   render(
@@ -131,7 +132,9 @@ Promise.all([
   loadFocusVisiblePolyfill(),
 ])
   .then(renderOnDomReady)
-  .catch(renderOnDomReady);
+  .catch(renderOnDomReady)
+  .then(initializeAuthentication)
+  .catch();
 
 window.addEventListener(
   'error',
