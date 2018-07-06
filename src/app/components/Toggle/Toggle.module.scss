@@ -2,72 +2,69 @@
 
 .root {
   display: flex;
-  align-items: stretch;
-  height: 100%;
-
-  --toggle-height: 1.2em;
-  --toggle-width: calc(var(--toggle-height) * 2.1);
-  --knob-size: calc(var(--toggle-height) - 2px);
-
-  input {
-    position: absolute;
-    opacity: 0;
-    width: 0;
-    height: 0;
-  }
-
-  .label {
+  button {
     align-self: stretch;
     flex-grow: 1;
     display: flex;
     align-items: center;
+    cursor: inherit;
+    padding: 0;
+    color: inherit;
+    background: transparent;
+    font-size: inherit;
+    text-align: inherit;
+  }
 
-    .children {
-      @include truncate-flex-child();
-      flex-grow: 1;
+  .label {
+    flex-grow: 1;
+    cursor: inherit;
+    @include truncate-flex-child();
+  }
+
+  --toggle-height: 1.15em;
+  --toggle-width: calc(var(--toggle-height) * 2.1);
+  --knob-size: calc(var(--toggle-height) - 2px);
+
+  .switch {
+    position: relative;
+    align-self: flex-end;
+    flex-grow: 0;
+    flex-shrink: 0;
+    width: var(--toggle-width);
+    height: var(--toggle-height);
+
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 1px;
+      width: var(--toggle-width);
+      height: calc(var(--toggle-height) - 3px);
+      border: 1px solid var(--color-border);
+      background: var(--color-toggle-off-background);
+      border-radius: var(--toggle-height);
     }
 
-    .switch {
-      position: relative;
-      align-self: flex-end;
-      flex-grow: 0;
-      flex-shrink: 0;
-      width: var(--toggle-width);
-      height: var(--toggle-height);
-
-      &::before {
-        content: '';
-        position: absolute;
-        left: 0;
-        top: 1px;
-        width: var(--toggle-width);
-        height: calc(var(--toggle-height) - 3px);
-        border: 1px solid var(--color-border);
-        background: var(--color-toggle-off-background);
-        border-radius: var(--toggle-height);
-      }
-
-      &::after {
-        box-shadow: 0px 0px 1px var(--color-shadow);
-        position: absolute;
-        left: 1px;
-        transition-property: transform, background-color;
-        transition-duration: 0.1s;
-        transition-timing-function: ease-in-out;
-        content: '';
-        background: var(--color-toggle-off-knob);
-        border-radius: 50%;
-        height: var(--knob-size);
-        width: var(--knob-size);
-      }
+    &::after {
+      box-shadow: 0px 0px 1px var(--color-shadow);
+      position: absolute;
+      left: 1px;
+      transition-property: transform, background-color;
+      transition-duration: 0.1s;
+      transition-timing-function: ease-in-out;
+      content: '';
+      background: var(--color-toggle-off-knob);
+      border-radius: 50%;
+      height: var(--knob-size);
+      width: var(--knob-size);
     }
   }
 
-  input:not(:checked) ~ .switch::after {
+  button:not([aria-checked='true']) .switch::after {
     transform: translateX(0%);
   }
 
-  input:checked ~ .switch {
+  button[aria-checked='true'] .switch {
     &::before {
       background: var(--color-toggle-on-background);
     }

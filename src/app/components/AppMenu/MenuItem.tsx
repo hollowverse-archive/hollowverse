@@ -5,7 +5,7 @@ import classes from './MenuItem.module.scss';
 
 import { MenuItem as AriaMenuItem } from 'react-aria-menubutton';
 import { Link, LinkProps } from 'react-router-dom';
-import { Toggle } from 'components/Toggle/Toggle';
+import { Toggle, Props as ToggleProps } from 'components/Toggle/Toggle';
 
 import { Omit } from 'typings/typeHelpers';
 import { omit } from 'lodash';
@@ -97,6 +97,6 @@ export const MenuItemWithButton = (
   props: Props & Omit<React.InputHTMLAttributes<HTMLButtonElement>, 'children'>,
 ) => <MenuItemWithChild factory="button" {...props} />;
 
-export const MenuItemWithToggle = (
-  props: Props & Omit<React.InputHTMLAttributes<HTMLInputElement>, 'children'>,
-) => <MenuItemWithChild factory={Toggle} {...props} />;
+export const MenuItemWithToggle = (props: Props & ToggleProps) => (
+  <MenuItemWithChild factory={Toggle} {...props} />
+);

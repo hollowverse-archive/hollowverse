@@ -1,16 +1,38 @@
 import React from 'react';
-import cc from 'classcat';
 
 import classes from './Toggle.module.scss';
 
-type Props = React.InputHTMLAttributes<HTMLInputElement>;
+export type Props = {
+  id: string;
+  children: React.ReactNode;
+  className?: string;
+  defaultChecked?: boolean;
+  onChange(): void;
+};
 
-export const Toggle = ({ className, children, ...rest }: Props) => (
+export const Toggle = ({
+  id,
+  className,
+  onChange,
+  defaultChecked,
+  children,
+  ...rest
+}: Props) => (
   <div className={classes.root}>
-    <label htmlFor="toggle" className={cc([className, classes.label])}>
-      <input id="toggle" type="checkbox" {...rest} />
-      <div className={classes.children}>{children}</div>
-      <div className={classes.switch} />
-    </label>
+    <button
+      id={id}
+      className={className}
+      {...rest}
+      aria-checked={defaultChecked}
+      onClick={onChange}
+      role="switch"
+      type="button"
+    >
+      <label htmlFor={id} className={classes.label}>
+        {children}
+        <span className="sr-only">: {defaultChecked ? 'On' : 'Off'}</span>
+      </label>
+      <div aria-hidden className={classes.switch} />
+    </button>
   </div>
 );
