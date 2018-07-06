@@ -115,6 +115,7 @@ export type ActionTypeToPayloadType = {
   SET_ALTERNATIVE_SEARCH_BOX_TEXT: string | null;
   '@@router/LOCATION_CHANGE': LocationChangeAction['payload'];
   '@@router/CALL_HISTORY_METHOD': RouterAction['payload'];
+  TOGGLE_NIGHT_MODE: undefined;
 };
 
 export type AppState = {
@@ -132,6 +133,7 @@ export type AppState = {
       requestId: string | null;
     }
   };
+  theme: 'dark' | 'light';
 };
 
 /**

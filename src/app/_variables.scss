@@ -49,7 +49,7 @@ $z-index-menu: 2;
   --color-toggle-on-background: var(--color-toggle-off-background);
   --color-toggle-on-knob: var(--color-text-link);
 
-  &:global(.night) {
+  &:global(.night-mode) {
     --color-facebook-blue: hsl(220, 46%, 48%);
 
     --color-text-default: hsl(0, 0%, 100%);

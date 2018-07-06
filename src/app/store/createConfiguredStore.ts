@@ -28,6 +28,7 @@ import { sendLogs, getSessionId, getUserAgent } from 'helpers/logging';
 import { importGlobalScript } from 'helpers/importGlobalScript';
 import { isError } from 'lodash';
 import { serializeError } from 'helpers/serializeError';
+import { themeEpic } from './features/theme/epic';
 
 declare const global: NodeJS.Global & {
   /**
@@ -111,6 +112,7 @@ const defaultInitialState: StoreState = {
     },
   },
   alternativeSearchBoxText: null,
+  theme: 'light',
 };
 
 const defaultEpicDependencies: EpicDependencies = {
@@ -144,7 +146,7 @@ export function createConfiguredStore({
     composeEnhancers = global.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__;
   }
 
-  const epics = [updateUrlEpic, dataResolverEpic, loggingEpic];
+  const epics = [updateUrlEpic, dataResolverEpic, loggingEpic, themeEpic];
 
   const dependencies = {
     ...defaultEpicDependencies,
