@@ -45,6 +45,25 @@
     bottom: 0;
     left: 0;
     right: 0;
+
+    &.has-gradient {
+      background: linear-gradient(
+            130deg,
+            #4cfde9 -20%,
+            transparent 30%,
+            transparent 60%,
+            rgb(253, 188, 9) 85%
+          )
+          no-repeat,
+        linear-gradient(
+            130deg,
+            transparent -20%,
+            var(--color-1) 30%,
+            var(--color-2) 60%,
+            transparent 85%
+          )
+          no-repeat;
+    }
   }
 
   &.is-loading {
