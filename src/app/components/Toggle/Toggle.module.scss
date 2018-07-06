@@ -5,6 +5,10 @@
   align-items: stretch;
   height: 100%;
 
+  --toggle-height: 1.2em;
+  --toggle-width: calc(var(--toggle-height) * 2.1);
+  --knob-size: calc(var(--toggle-height) - 2px);
+
   input {
     position: absolute;
     opacity: 0;
@@ -28,23 +32,33 @@
       align-self: flex-end;
       flex-grow: 0;
       flex-shrink: 0;
-      width: 35px;
-      height: 18px;
-      background: var(--color-toggle-off-background);
-      border-radius: 10px;
+      width: var(--toggle-width);
+      height: var(--toggle-height);
+
+      &::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 1px;
+        width: var(--toggle-width);
+        height: calc(var(--toggle-height) - 3px);
+        border: 1px solid var(--color-border);
+        background: var(--color-toggle-off-background);
+        border-radius: var(--toggle-height);
+      }
 
       &::after {
+        box-shadow: 0px 0px 1px var(--color-shadow);
         position: absolute;
+        left: 1px;
         transition-property: transform, background-color;
         transition-duration: 0.1s;
         transition-timing-function: ease-in-out;
         content: '';
-        width: 100%;
-        height: 100%;
         background: var(--color-toggle-off-knob);
         border-radius: 50%;
-        height: 18px;
-        width: 18px;
+        height: var(--knob-size);
+        width: var(--knob-size);
       }
     }
   }
@@ -54,10 +68,13 @@
   }
 
   input:checked ~ .switch {
-    background: var(--color-toggle-on-background);
+    &::before {
+      background: var(--color-toggle-on-background);
+    }
 
-    &:after {
-      transform: translateX(100%);
+    &::after {
+      transform: translateX(130%);
+      left: 0;
       background: var(--color-toggle-on-knob);
     }
   }
