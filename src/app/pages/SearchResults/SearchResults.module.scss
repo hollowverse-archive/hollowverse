@@ -33,18 +33,17 @@
   }
 
   .algolia-container {
-    color: $color-text-lighter;
+    color: var(--color-text-lighter);
     align-self: flex-end;
     display: flex;
     align-items: center;
-    // stylelint-disable-next-line property-blacklist
-    margin: $spacing-15px;
+    padding: $spacing-15px;
     .logo {
+      --color-text: var(--color-text-lighter);
+      --color-background: var(--color-background-light);
+      display: inline-block;
       height: 1.8em;
       margin-left: $spacing-5px;
-      // stylelint-disable-next-line plugin/no-unsupported-browser-features
-      filter: grayscale(100%);
-      opacity: 0.3;
     }
   }
 }
