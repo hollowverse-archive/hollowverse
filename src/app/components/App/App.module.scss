@@ -22,8 +22,8 @@
     min-height: 100%;
     min-width: 320px;
     position: relative;
-    color: $color-text-default;
-    background-color: $color-background-light;
+    color: var(--color-text-default);
+    background-color: var(--color-background-light);
     font-family: $font-family;
   }
 
@@ -35,14 +35,14 @@
 
   input,
   textarea {
-    background: $color-background;
-    color: $color-text-default;
+    background: var(--color-paper);
+    color: var(--color-text-default);
   }
 
   a {
     text-decoration-skip-ink: auto;
     transition: color 0.2s ease-in-out;
-    color: $color-blue;
+    color: var(--color-text-link);
   }
 
   sup {

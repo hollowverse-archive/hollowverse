@@ -35,7 +35,7 @@
     padding: 0 $spacing-15px;
     border: 1px solid transparent;
     border-radius: 3px;
-    background: $color-background-light;
+    background: var(--color-background-light);
     text-align: center;
 
     &:focus {

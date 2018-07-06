@@ -31,7 +31,7 @@
     cursor: pointer;
 
     &:hover {
-      color: $color-blue;
+      color: var(--color-text-link);
     }
   }
 

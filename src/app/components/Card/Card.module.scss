@@ -3,7 +3,7 @@
 
 .root {
   display: block;
-  background-color: $color-paper;
+  background-color: var(--color-paper);
   border: 1px solid rgba(0, 0, 0, 0.08);
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.04);
   border-radius: 3px;
@@ -15,12 +15,12 @@
 
   hr {
     height: 1px;
-    background-color: $color-border-light;
+    background-color: var(--color-border);
     margin-top: $spacing-20px;
   }
 
   small {
     @include font-13px;
-    color: $color-text-light;
+    color: var(--color-text-light);
   }
 }

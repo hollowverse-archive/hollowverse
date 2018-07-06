@@ -19,7 +19,7 @@
     position: absolute;
     font-family: Georgia, 'Times New Roman', Times, serif;
     font-size: 175%;
-    color: $color-text-light;
+    color: var(--color-text-light);
     opacity: 0.4;
     margin-left: $quoation-mark-margin;
   }

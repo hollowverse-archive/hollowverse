@@ -34,7 +34,7 @@
     display: inline-block;
     &:hover {
       text-decoration: none;
-      background-color: $color-blue-opacity;
+      background-color: var(--color-text-link-hover);
     }
   }
 

@@ -15,7 +15,7 @@
       stroke-dasharray: 1, 200;
       stroke-dashoffset: 0;
       stroke-linecap: round;
-      stroke: $color-blue;
+      stroke: var(--color-text-link);
       animation: loader-dash 0.9s ease-in-out infinite;
     }
   }

@@ -1,5 +1,5 @@
 @import 'variables.scss';
 
 .root {
-  background-color: $color-background-light;
+  background-color: var(--color-background-light);
 }

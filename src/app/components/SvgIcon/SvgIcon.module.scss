@@ -1,5 +1,5 @@
 @import 'variables.scss';
 
 .root {
-  --default-fill: $color-text-light;
+  --default-fill: var(--color-text-light);
 }
