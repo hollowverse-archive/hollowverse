@@ -11,6 +11,7 @@ import {
 
 import { PersonPhoto } from 'components/PersonPhoto/PersonPhoto';
 import { SvgIcon } from 'components/SvgIcon/SvgIcon';
+import { Paper } from 'components/Paper/Paper';
 import closeIcon from 'icons/close.svg';
 import facebookIcon from 'icons/facebook.svg';
 
