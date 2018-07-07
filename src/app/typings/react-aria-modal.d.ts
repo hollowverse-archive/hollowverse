@@ -1,3 +1,5 @@
+// tslint:disable
+
 declare module 'react-aria-modal' {
   import * as React from 'react';
 
