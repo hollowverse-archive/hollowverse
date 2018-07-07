@@ -1,4 +1,5 @@
 @import 'mixins.scss';
+@import 'variables.scss';
 
 .root {
   margin-top: $spacing-15px;
@@ -13,7 +14,7 @@
     }
   }
 
-  &.is-clickable * {
+  &.is-clickable .child:not([disabled]) {
     cursor: pointer;
   }
 
@@ -25,15 +26,18 @@
   button {
     background: transparent;
     border: 0;
+    padding: 0;
   }
 
-  &.is-clickable .child:focus,
-  &.is-clickable .child:hover {
+  &.is-clickable .child:not([disabled]):focus,
+  &.is-clickable .child:not([disabled]):focus-within,
+  &.is-clickable .child:not([disabled]):hover {
     background: $color-background-light;
   }
 
-  &.is-clickable .child.small:hover,
-  &.is-clickable .child.small:focus {
+  &.is-clickable .child.small:focus,
+  &.is-clickable .child.small:focus-within,
+  &.is-clickable .child.small:hover {
     color: inherit;
   }
 
@@ -45,6 +49,11 @@
     width: 100%;
     color: inherit;
     text-align: left;
+
+    &[disabled] {
+      color: $color-text-light;
+      --fill: $color-text-light;
+    }
 
     > * {
       @include truncate-flex-child();

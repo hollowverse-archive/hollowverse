@@ -83,11 +83,13 @@
 
     .facebook {
       color: $color-facebook-blue;
+      --fill: $color-facebook-blue;
     }
 
     .facebook-icon {
+      --facebook-blue: $color-facebook-blue;
       position: relative;
-      top: 3px;
+      top: 2px;
     }
 
     .separator {

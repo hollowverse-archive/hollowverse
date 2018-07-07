@@ -6099,6 +6099,11 @@ exports[`notable person page when notable person is found, if notable person has
               content=""
               height={8}
               role="presentation"
+              style={
+                Object {
+                  "--fill": undefined,
+                }
+              }
               viewBox=""
             >
               <use
