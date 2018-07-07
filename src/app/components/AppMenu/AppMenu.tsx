@@ -110,6 +110,7 @@ export class AppMenu extends React.PureComponent<Props> {
                     ) : (
                       <SvgIcon
                         className={classes.facebookIcon}
+                        color="var(--facebook-blue)"
                         size={24}
                         {...facebookIcon}
                       />
