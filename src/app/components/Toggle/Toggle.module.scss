@@ -2,6 +2,7 @@
 
 .root {
   display: flex;
+
   button {
     align-self: stretch;
     flex-grow: 1;
@@ -23,40 +24,45 @@
 
   --toggle-height: 1.15em;
   --toggle-width: calc(var(--toggle-height) * 2.1);
-  --knob-size: calc(var(--toggle-height) - 2px);
+  --knob-size: calc(var(--toggle-height) - 0.1em);
 
   .switch {
     position: relative;
     align-self: flex-end;
     flex-grow: 0;
     flex-shrink: 0;
-    width: var(--toggle-width);
     height: var(--toggle-height);
+    width: var(--toggle-width);
+    padding: 3px;
 
     &::before {
+      $slider-diff: 0.3em;
+
       content: '';
       position: absolute;
-      left: 0;
-      top: 1px;
-      width: var(--toggle-width);
-      height: calc(var(--toggle-height) - 3px);
-      border: 1px solid var(--color-border);
+      left: $slider-diff / 2;
+      top: $slider-diff / 2;
+      width: calc(var(--toggle-width) - #{$slider-diff});
+      height: calc(var(--knob-size) - #{$slider-diff});
       background: var(--color-toggle-off-background);
       border-radius: var(--toggle-height);
     }
 
     &::after {
-      box-shadow: 0px 0px 1px var(--color-shadow);
+      $shadow-size: 0.1em;
+
+      box-shadow: 0px 0px $shadow-size var(--color-shadow);
       position: absolute;
-      left: 1px;
+      top: $shadow-size / 2;
+      left: $shadow-size / 2;
       transition-property: transform, background-color;
       transition-duration: 0.1s;
       transition-timing-function: ease-in-out;
       content: '';
       background: var(--color-toggle-off-knob);
       border-radius: 50%;
-      height: var(--knob-size);
-      width: var(--knob-size);
+      height: calc(var(--knob-size) - #{$shadow-size});
+      width: calc(var(--knob-size) - #{$shadow-size});
     }
   }
 
@@ -70,8 +76,7 @@
     }
 
     &::after {
-      transform: translateX(130%);
-      left: 0;
+      transform: translateX(135%);
       background: var(--color-toggle-on-knob);
     }
   }
