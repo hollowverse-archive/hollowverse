@@ -16,7 +16,7 @@ import menuIcon from 'icons/menu.svg';
 import { ConnectedSearchBar } from 'components/NavBar/ConnectedSearchBar';
 
 import textLogo from '!!file-loader!assets/textLogo.svg';
-import { AppMenu } from 'components/AppMenu/AppMenu';
+import { ConnectedAppMenu } from 'components/AppMenu/ConnectedAppMenu';
 
 export type OwnProps = {
   title: string;
@@ -79,7 +79,7 @@ export const NavBar = class extends React.Component<
                     <span className="sr-only">Main Menu</span>
                   </span>
                 </NavBarButton>
-                <AppMenu getMenuStyle={this.getMenuStyle} />
+                <ConnectedAppMenu getMenuStyle={this.getMenuStyle} />
               </Wrapper>
               <div className={classes.view}>
                 <Switch>

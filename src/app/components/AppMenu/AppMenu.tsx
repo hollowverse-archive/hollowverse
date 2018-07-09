@@ -34,11 +34,14 @@ export type DispatchProps = {
 };
 
 export type OwnProps = {
+  user?: any;
   getMenuStyle?(): React.CSSProperties & {
     '--top': string;
     '--left': string;
   };
 };
+
+type Props = OwnProps & StateProps & DispatchProps;
 
 const transitionClassNames: CSSTransitionClassNames = {
   enter: classes.menuEnter,
