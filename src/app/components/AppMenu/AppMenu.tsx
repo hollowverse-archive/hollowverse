@@ -25,6 +25,9 @@ const Separator = (
 
 const transitionTimeoutMilliseconds = 150;
 
+const isNightModeAvailable =
+  'CSS' in window && CSS.supports('color', 'var(--primary)');
+
 export type StateProps = {
   isNightModeEnabled: boolean;
 };
@@ -89,8 +92,6 @@ export class AppMenu extends React.PureComponent<Props> {
 
   render() {
     const { getMenuStyle = () => undefined, isNightModeEnabled } = this.props;
-
-    const isNightModeAvailable = CSS.supports('color', 'var(--primary)');
 
     return (
       <nav className={classes.root}>
