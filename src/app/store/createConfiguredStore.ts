@@ -29,6 +29,7 @@ import { importGlobalScript } from 'helpers/importGlobalScript';
 import { isError } from 'lodash';
 import { serializeError } from 'helpers/serializeError';
 import { themeEpic } from './features/theme/epic';
+import { persistenceEpic } from './features/persistence/epic';
 
 declare const global: NodeJS.Global & {
   /**
@@ -146,7 +147,13 @@ export function createConfiguredStore({
     composeEnhancers = global.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__;
   }
 
-  const epics = [updateUrlEpic, dataResolverEpic, loggingEpic, themeEpic];
+  const epics = [
+    persistenceEpic,
+    updateUrlEpic,
+    dataResolverEpic,
+    loggingEpic,
+    themeEpic,
+  ];
 
   const dependencies = {
     ...defaultEpicDependencies,
