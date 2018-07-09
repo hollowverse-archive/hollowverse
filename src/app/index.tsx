@@ -23,7 +23,7 @@ import {
 import { routesMap } from 'routesMap';
 import { pick } from 'lodash';
 import { isError } from 'util';
-import { getPersistedStateToRestore } from 'store/features/persistence/epic';
+import { getPersistedStateToRestore } from 'store/features/persistence/helpers';
 
 declare const module: {
   hot?: { accept(path?: string, cb?: () => void): void };

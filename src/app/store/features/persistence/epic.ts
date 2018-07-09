@@ -1,5 +1,3 @@
-import * as idbKeyVal from 'idb-keyval';
-
 import { tap, map, ignoreElements, distinctUntilChanged } from 'rxjs/operators';
 
 import { Action, StoreState } from 'store/types';
@@ -10,14 +8,6 @@ import { EpicDependencies } from 'store/createConfiguredStore';
 
 const getStateToPersist = ({ theme }: StoreState) => {
   return { theme };
-};
-
-export const getPersistedStateToRestore = async () => {
-  try {
-    return await idbKeyVal.get<StoreState>('state');
-  } catch {
-    return undefined;
-  }
 };
 
 export const persistenceEpic: Epic<Action, StoreState, EpicDependencies> = (
