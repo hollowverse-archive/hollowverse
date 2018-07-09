@@ -32,6 +32,7 @@ const loggableActions: Array<Action['type']> = [
   'PAGE_REDIRECTED',
   'UNHANDLED_ERROR_THROWN',
   'SEARCH_RESULT_SELECTED',
+  'TOGGLE_NIGHT_MODE',
 ];
 
 const shouldActionBeLogged = (action: Action) =>
