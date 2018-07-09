@@ -107,7 +107,7 @@
   "browserslist": [
     "and_chr >= 62",
     "chrome >= 41",
-    "edge >= 14",
+    "edge >= 16",
     "firefox >= 57",
     "ios_saf >= 9.3",
     "safari >= 9.1"
