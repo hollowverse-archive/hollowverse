@@ -87,3 +87,13 @@
     transform: translateX($page-max-width);
   }
 }
+
+@mixin define-theme-variable($variable-name, $light-value, $night-value) {
+  #{$variable-name}: $light-value;
+
+  @if ($night-value) {
+    &:global(.night-mode) {
+      #{$variable-name}: $night-value;
+    }
+  }
+}

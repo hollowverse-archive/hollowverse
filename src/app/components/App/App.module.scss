@@ -1,54 +1,90 @@
 @import 'variables.scss';
+@import 'mixins.scss';
 @import-normalize;
 
 // stylelint-disable property-blacklist
 :global {
   //#region Theme
   :root {
-    --color-facebook-blue: hsl(220, 46%, 48%);
-    --color-text-link-hover: hsla(246, 53%, 60%, 0.05);
+    @include define-theme-variable(
+      --color-facebook-blue,
+      hsl(220, 46%, 48%),
+      hsl(220, 46%, 75%)
+    );
 
-    --color-text-default: hsl(0, 0%, 20%);
-    --color-text-light: hsl(0, 0%, 24%);
-    --color-text-lighter: hsl(0, 0%, 35%);
-    --color-text-link: hsl(248, 100%, 31%);
-    --color-text-link-hover: hsl(248, 100%, 75%);
+    @include define-theme-variable(
+      --color-text-default,
+      hsl(0, 0%, 20%),
+      hsl(0, 0%, 95%)
+    );
 
-    --color-background: hsl(240, 3%, 88%);
-    --color-background-light: hsl(240, 8%, 95%);
-    --color-paper: hsl(180, 100%, 100%);
+    @include define-theme-variable(
+      --color-text-link,
+      hsl(248, 100%, 31%),
+      hsl(32, 100%, 66%)
+    );
 
-    --color-border: hsl(0, 0%, 85%);
-    --color-shadow: hsl(0, 0%, 70%);
+    @include define-theme-variable(
+      --color-text-link-hover,
+      hsl(248, 100%, 75%),
+      hsl(59, 100%, 95%)
+    );
+
+    @include define-theme-variable(
+      --color-text-light,
+      hsl(0, 0%, 24%),
+      hsl(0, 3%, 90%)
+    );
+
+    @include define-theme-variable(
+      --color-text-lighter,
+      hsl(0, 0%, 35%),
+      hsl(0, 0%, 85%)
+    );
+
+    @include define-theme-variable(
+      --color-background,
+      hsl(240, 3%, 88%),
+      hsl(0, 0%, 5%)
+    );
+
+    @include define-theme-variable(
+      --color-background-light,
+      hsl(240, 8%, 95%),
+      hsl(0, 0%, 10%)
+    );
+
+    @include define-theme-variable(
+      --color-paper,
+      hsl(180, 100%, 100%),
+      hsl(0, 0%, 15%)
+    );
+
+    @include define-theme-variable(
+      --color-border,
+      hsl(0, 0%, 85%),
+      hsl(0, 0%, 25%)
+    );
+
+    @include define-theme-variable(
+      --color-shadow,
+      hsl(0, 0%, 70%),
+      hsl(0, 0%, 25%)
+    );
+
+    @include define-theme-variable(
+      --color-menu-item-hover,
+      hsl(201, 81%, 96%),
+      hsl(0, 0%, 21%)
+    );
 
     --color-control-active: hsl(203, 89%, 53%);
     --color-control-active-background: hsl(201, 91%, 71%);
-
-    --color-menu-item-hover: hsl(201, 81%, 96%);
 
     --color-toggle-off-background: hsl(0, 0%, 38%);
     --color-toggle-off-knob: var(--color-background-light);
     --color-toggle-on-background: var(--color-control-active-background);
     --color-toggle-on-knob: var(--color-control-active);
-
-    &.night-mode {
-      --color-facebook-blue: hsl(220, 46%, 75%);
-
-      --color-text-default: #f2f2f2;
-      --color-text-light: hsl(0, 3%, 90%);
-      --color-text-lighter: hsl(0, 0%, 85%);
-      --color-text-link: hsl(32, 100%, 66%);
-      --color-text-link-hover: hsl(59, 100%, 95%);
-
-      --color-menu-item-hover: hsl(0, 0%, 21%);
-
-      --color-background: #0c0c0c;
-      --color-background-light: hsl(0, 0%, 10%);
-      --color-paper: #262626;
-
-      --color-border: hsl(0, 0%, 25%);
-      --color-shadow: hsl(0, 0%, 25%);
-    }
 
     &.night-mode .fb-comments[fb-xfbml-state='rendered'] {
       filter: grayscale(100%) invert(1);
