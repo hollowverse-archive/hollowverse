@@ -21,7 +21,7 @@ export class PersonPhoto extends React.PureComponent<Props> {
     const { isLazy, className, role, alt, src, ...imageProps } = this.props;
 
     const overrides = {
-      className: cc([classes.root, className]),
+      className: cc([classes.root, className, { [classes.noSrc]: !src }]),
       src: src || photoPlaceholderUrl,
       role: !src ? 'presentation' : role,
       alt: !src ? undefined : alt,
