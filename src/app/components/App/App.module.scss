@@ -34,15 +34,15 @@
     &.night-mode {
       --color-facebook-blue: hsl(220, 46%, 75%);
 
-      --color-text-default: hsl(0, 0%, 100%);
-      --color-text-light: hsla(0, 0%, 78%, 0.329);
-      --color-text-lighter: hsla(0, 0%, 91%, 0.35);
-      --color-text-link: hsl(59, 100%, 80%);
+      --color-text-default: hsl(0, 0%, 95%);
+      --color-text-light: hsl(0, 3%, 90%);
+      --color-text-lighter: hsl(0, 0%, 85%);
+      --color-text-link: hsl(32, 100%, 66%);
       --color-text-link-hover: hsl(59, 100%, 95%);
 
       --color-menu-item-hover: hsl(0, 0%, 21%);
 
-      --color-background: hsl(0, 0%, 15%);
+      --color-background: hsl(0, 0%, 5%);
       --color-background-light: hsl(0, 0%, 10%);
       --color-paper: hsl(0, 0%, 15%);
 
@@ -92,13 +92,6 @@
     text-decoration-skip-ink: auto;
     transition: color 0.2s ease-in-out;
     color: var(--color-text-link);
-  }
-
-  sup {
-    font-weight: normal;
-    font-size: 0.5em;
-    position: relative;
-    margin: 0 0.1em;
   }
 
   /**
