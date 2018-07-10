@@ -9,9 +9,9 @@
     --color-text-link-hover: hsla(246, 53%, 60%, 0.05);
 
     --color-text-default: hsl(0, 0%, 20%);
-    --color-text-light: hsl(0, 0%, 40%);
-    --color-text-lighter: hsl(0, 0%, 50%);
-    --color-text-link: hsl(248, 100%, 50%);
+    --color-text-light: hsl(0, 0%, 24%);
+    --color-text-lighter: hsl(0, 0%, 35%);
+    --color-text-link: hsl(248, 100%, 31%);
     --color-text-link-hover: hsl(248, 100%, 75%);
 
     --color-background: hsl(240, 3%, 88%);
@@ -34,7 +34,7 @@
     &.night-mode {
       --color-facebook-blue: hsl(220, 46%, 75%);
 
-      --color-text-default: hsl(0, 0%, 95%);
+      --color-text-default: #f2f2f2;
       --color-text-light: hsl(0, 3%, 90%);
       --color-text-lighter: hsl(0, 0%, 85%);
       --color-text-link: hsl(32, 100%, 66%);
@@ -42,9 +42,9 @@
 
       --color-menu-item-hover: hsl(0, 0%, 21%);
 
-      --color-background: hsl(0, 0%, 5%);
+      --color-background: #0c0c0c;
       --color-background-light: hsl(0, 0%, 10%);
-      --color-paper: hsl(0, 0%, 15%);
+      --color-paper: #262626;
 
       --color-border: hsl(0, 0%, 25%);
       --color-shadow: hsl(0, 0%, 25%);
