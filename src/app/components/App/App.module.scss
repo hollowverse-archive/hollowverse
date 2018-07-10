@@ -85,10 +85,6 @@
     --color-toggle-off-knob: var(--color-background-light);
     --color-toggle-on-background: var(--color-control-active-background);
     --color-toggle-on-knob: var(--color-control-active);
-
-    &.night-mode .fb-comments[fb-xfbml-state='rendered'] {
-      filter: grayscale(100%) invert(1);
-    }
   }
   //#endregion Theme
 

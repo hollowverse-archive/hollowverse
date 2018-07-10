@@ -1,0 +1,5 @@
+.root {
+  :root(:global(.night-mode)) & .target [fb-xfbml-state='rendered'] {
+    filter: grayscale(100%) invert(1);
+  }
+}
