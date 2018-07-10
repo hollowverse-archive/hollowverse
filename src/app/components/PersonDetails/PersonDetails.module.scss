@@ -38,7 +38,6 @@
   }
 
   .cover-background {
-    // stylelint-disable-next-line plugin/no-unsupported-browser-features
     filter: blur(25px);
     position: absolute;
     top: 0;
@@ -76,7 +75,6 @@
       top: 0;
       opacity: 0.2;
 
-      // stylelint-disable-next-line plugin/no-unsupported-browser-features
       filter: blur(50px);
 
       background-image: linear-gradient(

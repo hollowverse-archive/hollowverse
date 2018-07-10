@@ -6,6 +6,7 @@
       {
         "ignore": [
           "css-featurequeries",
+          "css-filters",
           "outline",
           "css-appearance",
           "viewport-units"
