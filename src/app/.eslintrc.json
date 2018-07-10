@@ -5,7 +5,8 @@
   ],
   "rules": {
     "import/extensions": ["off"],
-    "import/no-webpack-loader-syntax": ["off"]
+    "import/no-webpack-loader-syntax": ["off"],
+    "no-shadow-restricted-names": ["off"] // Buggy for TS
   },
   "env": {
     "browser": true,
