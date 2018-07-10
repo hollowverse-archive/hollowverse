@@ -49,6 +49,10 @@
       --color-border: hsl(0, 0%, 25%);
       --color-shadow: hsl(0, 0%, 25%);
     }
+
+    &.night-mode .fb-comments[fb-xfbml-state='rendered'] {
+      filter: grayscale(100%) invert(1);
+    }
   }
   //#endregion Theme
 
