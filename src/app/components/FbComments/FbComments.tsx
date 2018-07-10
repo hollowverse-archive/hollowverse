@@ -104,10 +104,10 @@ export class FbComments extends React.PureComponent<Props> {
   }
 
   render() {
-    const { url, numPosts = 5, ...rest } = this.props;
+    const { url, numPosts = 5, className, ...rest } = this.props;
 
     return (
-      <div {...rest}>
+      <div className={cc([className, classes.root])} {...rest}>
         <AsyncComponent load={this.load}>
           {({ result, retry }) => {
             if (isErrorResult(result) || result.hasTimedOut) {
