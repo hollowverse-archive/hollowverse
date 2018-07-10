@@ -46,6 +46,16 @@
   line-height: 1;
 }
 
+@mixin box-shadow($variant: default, $color: var(--color-shadow)) {
+  $map: (
+    popup: 0px 3px 10px 0px,
+    paper: 0px 2px 10px 0px,
+    default: 0px 1px 10px -3px,
+  );
+
+  box-shadow: map-get($map, $variant) $color;
+}
+
 /*
 * Effects
 */

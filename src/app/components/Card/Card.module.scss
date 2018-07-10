@@ -4,8 +4,8 @@
 .root {
   display: block;
   background-color: var(--color-paper);
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.04);
+  border: 1px solid var(--color-border);
+  @include box-shadow();
   border-radius: 3px;
 
   a,
