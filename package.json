@@ -54,7 +54,7 @@
   "bundlesize": [
     {
       "path": "./dist/client/**/!(vendor~main).*.js",
-      "maxSize": "15 kB"
+      "maxSize": "16 kB"
     },
     {
       "path": "./dist/client/**/vendor~main.*.js",
@@ -154,6 +154,7 @@
     "prop-types": "^15.6.1",
     "react": "^16.4.1",
     "react-aria-menubutton": "^6.0.0",
+    "react-aria-modal": "^2.12.2",
     "react-dom": "^16.4.1",
     "react-helmet-async": "^0.1.0-alpha",
     "react-hot-loader": "^4.3.3",

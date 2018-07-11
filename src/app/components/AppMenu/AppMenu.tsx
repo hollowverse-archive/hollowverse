@@ -11,6 +11,7 @@ import {
 
 import { PersonPhoto } from 'components/PersonPhoto/PersonPhoto';
 import { SvgIcon } from 'components/SvgIcon/SvgIcon';
+import { Paper } from 'components/Paper/Paper';
 import closeIcon from 'icons/close.svg';
 import facebookIcon from 'icons/facebook.svg';
 
@@ -94,7 +95,7 @@ export class AppMenu extends React.PureComponent<Props> {
               mountOnEnter
               unmountOnExit
             >
-              <div className={classes.body} style={getMenuStyle()}>
+              <Paper className={classes.body} style={getMenuStyle()}>
                 {this.renderUser()}
                 <MenuItemWithLink to="/">Home</MenuItemWithLink>
                 <MenuItemWithLink to="/contact">Contact</MenuItemWithLink>
@@ -109,6 +110,7 @@ export class AppMenu extends React.PureComponent<Props> {
                     ) : (
                       <SvgIcon
                         className={classes.facebookIcon}
+                        color="var(--facebook-blue)"
                         size={24}
                         {...facebookIcon}
                       />
@@ -128,7 +130,7 @@ export class AppMenu extends React.PureComponent<Props> {
                 <MenuItemWithLink size="small" to="/privacy-policy">
                   Privacy Policy
                 </MenuItemWithLink>
-              </div>
+              </Paper>
             </CSSTransition>
           )}
         </Menu>

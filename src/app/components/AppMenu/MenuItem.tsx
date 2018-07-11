@@ -1,9 +1,12 @@
 import React from 'react';
 import cc from 'classcat';
-import { MenuItem as AriaMenuItem } from 'react-aria-menubutton';
 
 import classes from './MenuItem.module.scss';
+
+import { MenuItem as AriaMenuItem } from 'react-aria-menubutton';
 import { Link, LinkProps } from 'react-router-dom';
+import { Toggle, Props as ToggleProps } from 'components/Toggle/Toggle';
+
 import { Omit } from 'typings/typeHelpers';
 import { omit } from 'lodash';
 
@@ -93,3 +96,7 @@ export const MenuItemWithLink = (props: Props & LinkProps) => (
 export const MenuItemWithButton = (
   props: Props & Omit<React.InputHTMLAttributes<HTMLButtonElement>, 'children'>,
 ) => <MenuItemWithChild factory="button" {...props} />;
+
+export const MenuItemWithToggle = (props: Props & ToggleProps) => (
+  <MenuItemWithChild factory={Toggle} {...props} />
+);

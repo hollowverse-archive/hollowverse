@@ -1,0 +1,26 @@
+@import 'variables.scss';
+
+.root {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  position: absolute;
+  pointer-events: none;
+
+  .child {
+    pointer-events: auto;
+    padding: $spacing-25px;
+    width: 75%;
+    min-width: 300px;
+    max-width: 400px;
+    min-height: 100px;
+
+    p {
+      margin-top: 15px;
+    }
+  }
+}
