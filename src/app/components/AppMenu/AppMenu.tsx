@@ -120,6 +120,7 @@ export class AppMenu extends React.PureComponent<Props> {
                 {isNightModeAvailable && (
                   <>
                     <MenuItemWithToggle
+                      id="night-mode-toggle"
                       defaultChecked={isNightModeEnabled}
                       onChange={this.toggleNightMode}
                     >
