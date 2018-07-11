@@ -88,8 +88,8 @@
   }
 }
 
-@mixin define-theme-variable($variable-name, $light-value, $night-value) {
-  #{$variable-name}: $light-value;
+@mixin define-theme-variable($variable-name, $default-value, $night-value) {
+  #{$variable-name}: $default-value;
 
   @if ($night-value) {
     &:global(.night-mode) {
