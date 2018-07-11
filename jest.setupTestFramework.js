@@ -1,5 +1,5 @@
 /* eslint import/no-extraneous-dependencies: ["error", {"devDependencies": true}] */
-/* eslint-env node, jest */
+/* eslint-env browser, node, jest */
 require('expect-more-jest');
 
 const { configure } = require('enzyme');
