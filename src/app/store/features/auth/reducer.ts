@@ -22,6 +22,10 @@ export const fbSdkAuthStateReducer: Reducer<StoreState['fbSdkAuthState']> = (
     return { state: 'loggedOut' };
   }
 
+  if (isActionOfType(action, 'REQUEST_LOGOUT')) {
+    return { state: 'loggingOut' };
+  }
+
   return (
     state || {
       state: 'initializing',
