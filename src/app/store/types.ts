@@ -163,7 +163,7 @@ export type AppState = {
       requestId: string | null;
     }
   };
-  authToken: string | null;
+  fbSdkAuthState: FbSdkAuthState;
 };
 
 /**

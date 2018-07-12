@@ -12,17 +12,17 @@ import {
 
 import { PersonPhoto } from 'components/PersonPhoto/PersonPhoto';
 import { SvgIcon } from 'components/SvgIcon/SvgIcon';
-import { Paper } from 'components/Paper/Paper';
-import closeIcon from 'icons/close.svg';
-import facebookIcon from 'icons/facebook.svg';
 
-import classes from './AppMenu.module.scss';
 import { LoadingSpinner } from 'components/LoadingSpinner/LoadingSpinner';
 import { AuthState } from 'store/types';
 import { MessageWithIcon } from '../MessageWithIcon/MessageWithIcon';
 import { warningIcon } from 'pages/NotablePerson/warningIcon';
 import { Dialog } from 'components/Dialog/Dialog';
 import { Paper } from '../Paper/Paper';
+
+import facebookIcon from 'icons/facebook.svg';
+import closeIcon from 'icons/close.svg';
+import classes from './AppMenu.module.scss';
 
 const Separator = (
   <div role="separator" className={classes.separator}>
