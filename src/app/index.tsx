@@ -97,6 +97,10 @@ const initializeAuthentication = async () =>
       FB.Event.subscribe('auth.login', () => {
         store.dispatch(setFbSdkAuthState({ state: 'loggingIn' }));
       });
+
+      FB.Event.subscribe('auth.logout', () => {
+        store.dispatch(setFbSdkAuthState({ state: 'loggingOut' }));
+      });
     })
     .catch(error => {
       store.dispatch(setFbSdkAuthState({ state: 'error', error }));
@@ -127,7 +131,8 @@ Promise.all([
   loadUrlPolyfill(),
   loadFocusVisiblePolyfill(),
 ])
-  .finally(renderOnDomReady)
+  .then(renderOnDomReady)
+  .catch(renderOnDomReady)
   .then(initializeAuthentication)
   .catch();
 

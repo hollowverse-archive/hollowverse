@@ -1,10 +1,4 @@
-import {
-  map,
-  tap,
-  ignoreElements,
-  distinctUntilChanged,
-  mapTo,
-} from 'rxjs/operators';
+import { map, tap, ignoreElements, distinctUntilChanged } from 'rxjs/operators';
 
 import { Action, StoreState } from 'store/types';
 
@@ -23,7 +17,6 @@ import { getAccessToken } from './reducer';
 
 import createUserMutation from './createUserMutation.graphql';
 import viewerQuery from './viewerQuery.graphql';
-import { setFbSdkAuthState } from './actions';
 
 const createLoadViewerAndCreateIfNotExists = (
   fbAccessToken: string | null,
@@ -66,11 +59,6 @@ export const authEpic: Epic<Action, StoreState, EpicDependencies> = (
       return requestData({
         key: 'viewer',
         requestId: accessToken,
-        optimisticResponse: accessToken
-          ? undefined
-          : {
-              viewer: null,
-            },
         keepStaleData: false,
         load: createLoadViewerAndCreateIfNotExists(accessToken),
       });
@@ -85,10 +73,10 @@ export const authEpic: Epic<Action, StoreState, EpicDependencies> = (
   );
 
   const handleLogoutRequest$ = action$.ofType('REQUEST_LOGOUT').pipe(
-    mapTo(setFbSdkAuthState({ state: 'loggedOut' })),
     tap(() => {
       FB.logout();
     }),
+    ignoreElements(),
   );
 
   return merge(
