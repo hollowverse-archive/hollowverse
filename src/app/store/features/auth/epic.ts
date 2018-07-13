@@ -23,6 +23,7 @@ const createLoadViewerAndCreateIfNotExists = (
 ) => async () => {
   const apiClient = new GraphQLClient(__API_ENDPOINT__, {
     method: 'POST',
+    cache: 'no-store',
     headers: {
       Authorization: fbAccessToken ? `Bearer ${fbAccessToken}` : '',
     },
