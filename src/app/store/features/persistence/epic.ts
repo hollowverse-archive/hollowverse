@@ -1,4 +1,4 @@
-import * as idbKeyVal from 'idb-keyval';
+import idbKeyVal from 'idb-keyval';
 
 import { tap, map, ignoreElements, distinctUntilChanged } from 'rxjs/operators';
 

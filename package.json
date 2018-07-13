@@ -54,11 +54,11 @@
   "bundlesize": [
     {
       "path": "./dist/client/**/!(vendor~main).*.js",
-      "maxSize": "16 kB"
+      "maxSize": "25 kB"
     },
     {
       "path": "./dist/client/**/vendor~main.*.js",
-      "maxSize": "130 kB"
+      "maxSize": "150 kB"
     },
     {
       "path": "./dist/client/**/*.css",
@@ -142,7 +142,7 @@
     "helmet": "^3.9.0",
     "history": "^4.6.3",
     "http-proxy-middleware": "^0.18.0",
-    "idb-keyval": "^3.0.5",
+    "idb-keyval": "2",
     "intersection-observer": "^0.5.0",
     "lodash": "^4.17.5",
     "lodash-es": "^4.17.8",
