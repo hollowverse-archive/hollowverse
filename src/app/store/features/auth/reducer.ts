@@ -45,11 +45,9 @@ export const getViewerResult = createSelector(getResolvedDataForKey, get =>
   get('viewer'),
 );
 
-export const getFbAuthState = (state: StoreState) => state.fbSdkAuthState;
-
 export const getAuthState = createSelector(
   getViewerResult,
-  getFbAuthState,
+  getFbSdkAuthState,
   (viewerQueryResult, fbAuthState): AuthState => {
     if (fbAuthState.state !== 'loggedIn') {
       return fbAuthState;
