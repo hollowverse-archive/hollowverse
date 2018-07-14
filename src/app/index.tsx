@@ -23,11 +23,6 @@ import {
 import { routesMap } from 'routesMap';
 import { pick } from 'lodash';
 import { isError } from 'util';
-import { importGlobalScript } from 'helpers/importGlobalScript';
-import {
-  setFbSdkAuthState,
-  facebookAuthResponseChanged,
-} from 'store/features/auth/actions';
 import { GraphQLClient } from 'graphql-request';
 import { getAccessToken } from 'store/features/auth/reducer';
 import { StoreState } from 'store/types';
@@ -76,36 +71,6 @@ class Root extends React.PureComponent {
   }
 }
 
-const initializeAuthentication = async () =>
-  importGlobalScript('https://connect.facebook.net/en_US/sdk.js')
-    .then(() => {
-      FB.init({
-        appId: __FB_APP_ID__,
-        status: true,
-        version: 'v2.7',
-        xfbml: true,
-      });
-
-      FB.getLoginStatus(response => {
-        store.dispatch(facebookAuthResponseChanged(response.authResponse));
-
-        FB.Event.subscribe('auth.authResponseChange', event => {
-          store.dispatch(facebookAuthResponseChanged(event.authResponse));
-        });
-      }, true);
-
-      FB.Event.subscribe('auth.login', () => {
-        store.dispatch(setFbSdkAuthState({ state: 'loggingIn' }));
-      });
-
-      FB.Event.subscribe('auth.logout', () => {
-        store.dispatch(setFbSdkAuthState({ state: 'loggingOut' }));
-      });
-    })
-    .catch(error => {
-      store.dispatch(setFbSdkAuthState({ state: 'error', error }));
-    });
-
 const renderApp = () => {
   render(
     <Root />,
@@ -133,7 +98,6 @@ Promise.all([
 ])
   .then(renderOnDomReady)
   .catch(renderOnDomReady)
-  .then(initializeAuthentication)
   .catch();
 
 window.addEventListener(

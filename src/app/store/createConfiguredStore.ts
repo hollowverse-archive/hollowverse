@@ -77,6 +77,8 @@ export type EpicDependencies = {
   getUserAgent(): string;
 
   getGoogleAnalyticsFunction(): Promise<UniversalAnalytics.ga>;
+
+  getFbSdk(): Promise<facebookSdk.Fb>;
 };
 
 export type CreateConfiguredStoreOptions = {
@@ -136,6 +138,12 @@ const defaultEpicDependencies: EpicDependencies = {
     await importGlobalScript('https://www.google-analytics.com/analytics.js');
 
     return ga;
+  },
+
+  async getFbSdk() {
+    await importGlobalScript('https://connect.facebook.net/en_US/sdk.js');
+
+    return FB;
   },
 };
 
