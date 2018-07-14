@@ -17,12 +17,14 @@ export const themeEpic: Epic<Action, StoreState, EpicDependencies> = (
     map(getTheme),
     distinctUntilChanged(),
     tap(theme => {
-      if (html) {
-        if (theme === 'dark') {
-          html.classList.add('night-mode');
-        } else {
-          html.classList.remove('night-mode');
-        }
+      if (!html) {
+        return;
+      }
+
+      if (theme === 'dark') {
+        html.classList.add('night-mode');
+      } else {
+        html.classList.remove('night-mode');
       }
     }),
     ignoreElements(),
