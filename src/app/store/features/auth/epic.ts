@@ -1,4 +1,11 @@
-import { map, tap, ignoreElements, distinctUntilChanged } from 'rxjs/operators';
+import {
+  map,
+  tap,
+  ignoreElements,
+  distinctUntilChanged,
+  catchError,
+  mergeMap,
+} from 'rxjs/operators';
 
 import { Action, StoreState } from 'store/types';
 
@@ -12,11 +19,12 @@ import {
   CreateUserMutationVariables,
 } from 'api/types';
 import { GraphQLClient } from 'graphql-request';
-import { merge } from 'rxjs';
+import { merge, of as observableOf, defer, Observable } from 'rxjs';
 import { getAccessToken } from './reducer';
 
 import createUserMutation from './createUserMutation.graphql';
 import viewerQuery from './viewerQuery.graphql';
+import { setFbSdkAuthState, facebookAuthResponseChanged } from './actions';
 
 const createLoadViewerAndCreateIfNotExists = (
   fbAccessToken: string | null,
@@ -52,7 +60,42 @@ const createLoadViewerAndCreateIfNotExists = (
 export const authEpic: Epic<Action, StoreState, EpicDependencies> = (
   action$,
   state$,
+  { getFbSdk },
 ) => {
+  const initFbSdk$ = defer(getFbSdk).pipe(
+    tap(FB => {
+      FB.init({
+        appId: __FB_APP_ID__,
+        status: true,
+        version: 'v2.7',
+        xfbml: true,
+      });
+    }),
+    mergeMap(
+      FB =>
+        new Observable<Action>(subscriber => {
+          FB.getLoginStatus(response => {
+            subscriber.next(facebookAuthResponseChanged(response.authResponse));
+
+            FB.Event.subscribe('auth.authResponseChange', event => {
+              subscriber.next(facebookAuthResponseChanged(event.authResponse));
+            });
+          }, true);
+
+          FB.Event.subscribe('auth.login', () => {
+            subscriber.next(setFbSdkAuthState({ state: 'loggingIn' }));
+          });
+
+          FB.Event.subscribe('auth.logout', () => {
+            subscriber.next(setFbSdkAuthState({ state: 'loggingOut' }));
+          });
+        }),
+    ),
+    catchError(error =>
+      observableOf(setFbSdkAuthState({ state: 'error', error })),
+    ),
+  );
+
   const updateViewerOnAccessTokenChange$ = state$.pipe(
     map(getAccessToken),
     distinctUntilChanged(),
@@ -81,6 +124,7 @@ export const authEpic: Epic<Action, StoreState, EpicDependencies> = (
   );
 
   return merge(
+    initFbSdk$,
     updateViewerOnAccessTokenChange$,
     handleLoginRequest$,
     handleLogoutRequest$,
