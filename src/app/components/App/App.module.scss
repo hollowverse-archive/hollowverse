@@ -45,19 +45,19 @@
     @include define-theme-variable(
       --color-background,
       hsl(240, 3%, 88%),
-      hsl(0, 0%, 5%)
+      hsl(0, 0%, 10%)
     );
 
     @include define-theme-variable(
       --color-background-light,
       hsl(240, 8%, 95%),
-      hsl(0, 0%, 10%)
+      hsl(0, 0%, 15%)
     );
 
     @include define-theme-variable(
       --color-paper,
       hsl(180, 100%, 100%),
-      hsl(0, 0%, 15%)
+      hsl(0, 0%, 5%)
     );
 
     @include define-theme-variable(
