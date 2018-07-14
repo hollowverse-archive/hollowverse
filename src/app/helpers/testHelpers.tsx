@@ -69,7 +69,7 @@ export const createMockFbSdk = () => {
   const state = new class FbSdkInternalState {
     emitter = new EventEmitter();
 
-    private actualStatus: facebookSdk.LoginStatusResponse = {
+    private actualStatus: FB.LoginStatusResponse = {
       status: 'not_authorized',
       authResponse: undefined,
     };
@@ -91,34 +91,30 @@ export const createMockFbSdk = () => {
   }();
 
   // tslint:disable-next-line no-unnecessary-local-variable
-  const sdk: facebookSdk.Fb = {
+  const sdk: FB = {
     init() {
       return undefined;
     },
 
     Event: {
-      subscribe: jest.fn<facebookSdk.Fb['Event']['subscribe']>(
-        (event, listener) => {
-          state.emitter.addListener(event, listener);
-        },
-      ),
+      subscribe: jest.fn<FB['Event']['subscribe']>((event, listener) => {
+        state.emitter.addListener(event, listener);
+      }),
 
-      unsubscribe: jest.fn<facebookSdk.Fb['Event']['unsubscribe']>(
-        (event, listener) => {
-          state.emitter.removeListener(event, listener);
-        },
-      ),
+      unsubscribe: jest.fn<FB['Event']['unsubscribe']>((event, listener) => {
+        state.emitter.removeListener(event, listener);
+      }),
     },
 
-    getAuthResponse: jest.fn<facebookSdk.Fb['getAuthResponse']>(() => {
+    getAuthResponse: jest.fn<FB['getAuthResponse']>(() => {
       return state.status.authResponse;
     }),
 
-    getLoginStatus: jest.fn<facebookSdk.Fb['getLoginStatus']>(callback => {
+    getLoginStatus: jest.fn<FB['getLoginStatus']>(callback => {
       callback(state.status);
     }),
 
-    login: jest.fn<facebookSdk.Fb['login']>(async callback => {
+    login: jest.fn<FB['login']>(async callback => {
       state.emitter.emit('auth.login');
 
       await delay(0);
@@ -138,7 +134,7 @@ export const createMockFbSdk = () => {
       }
     }),
 
-    logout: jest.fn<facebookSdk.Fb['logout']>(async callback => {
+    logout: jest.fn<FB['logout']>(async callback => {
       state.emitter.emit('auth.logout');
 
       await delay(0);

@@ -143,7 +143,7 @@ export type ActionTypeToPayloadType = {
   '@@router/LOCATION_CHANGE': LocationChangeAction['payload'];
   '@@router/CALL_HISTORY_METHOD': RouterAction['payload'];
   SET_FB_SDK_AUTH_STATE: FbSdkAuthState;
-  FACEBOOK_AUTH_RESPONSE_CHANGED: facebookSdk.AuthResponse;
+  FACEBOOK_AUTH_RESPONSE_CHANGED: FB.AuthResponse;
   REQUEST_LOGIN: undefined;
   REQUEST_LOGOUT: undefined;
 };

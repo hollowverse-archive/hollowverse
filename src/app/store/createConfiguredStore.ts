@@ -78,7 +78,7 @@ export type EpicDependencies = {
 
   getGoogleAnalyticsFunction(): Promise<UniversalAnalytics.ga>;
 
-  getFbSdk(): Promise<facebookSdk.Fb>;
+  getFbSdk(): Promise<FB>;
 };
 
 export type CreateConfiguredStoreOptions = {

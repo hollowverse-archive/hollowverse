@@ -1,6 +1,43 @@
-declare const FB: facebookSdk.Fb;
+const FB: FB;
 
-declare namespace facebookSdk {
+interface FB {
+  Event: {
+    subscribe<T extends FB.EventType>(
+      eventToSubscribeTo: T,
+      callback: FB.Callback<FB.EventResponse<T>>,
+    ): void;
+
+    unsubscribe<T extends FB.EventType>(
+      event: EventType,
+      callback: FB.Callback<FB, EventResponse<T>>,
+    ): void;
+  };
+
+  XFBML: {
+    parse(node?: Node, callback?: () => void): void;
+  };
+
+  getLoginStatus(
+    callback: FB.Callback<FB.LoginStatusResponse>,
+    cache?: boolean,
+  ): void;
+
+  getAuthResponse(): FB.AuthResponse;
+
+  login(callback?: FB.Callback<FB.AuthResponse>): void;
+  logout(callback?: FB.Callback<FB.AuthResponse>): void;
+
+  init(params?: {
+    appId?: string;
+    xfbml?: boolean;
+    autoLogAppEvents?: boolean;
+    status?: boolean;
+    version?: string;
+    cookie?: boolean;
+  }): void;
+}
+
+declare namespace FB {
   type AuthResponse = LoginStatusResponse['authResponse'];
 
   type LoginStatusResponse =
@@ -72,41 +109,4 @@ declare namespace facebookSdk {
   type Callback<T> = (response: T) => void;
 
   type EventResponse<T extends EventType> = EventTypeToResponse[T];
-
-  interface Fb {
-    Event: {
-      subscribe<T extends EventType>(
-        eventToSubscribeTo: T,
-        callback: Callback<EventResponse<T>>,
-      ): void;
-
-      unsubscribe<T extends EventType>(
-        event: EventType,
-        callback: Callback<EventResponse<T>>,
-      ): void;
-    };
-
-    XFBML: {
-      parse(node?: Node, callback?: () => void): void;
-    };
-
-    getLoginStatus(
-      callback: Callback<LoginStatusResponse>,
-      cache?: boolean,
-    ): void;
-
-    getAuthResponse(): AuthResponse;
-
-    login(callback?: Callback<AuthResponse>): void;
-    logout(callback?: Callback<AuthResponse>): void;
-
-    init(params?: {
-      appId?: string;
-      xfbml?: boolean;
-      autoLogAppEvents?: boolean;
-      status?: boolean;
-      version?: string;
-      cookie?: boolean;
-    }): void;
-  }
 }
