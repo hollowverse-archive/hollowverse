@@ -31,6 +31,7 @@ import { PrivacyPolicy } from 'pages/PrivacyPolicy/PrivacyPolicy';
 import { NotablePerson } from 'pages/NotablePerson/NotablePerson';
 import { Home } from 'pages/Home/Home';
 import { UnboxPromise } from 'typings/typeHelpers';
+import { EventEmitter } from 'events';
 
 const defaultRoutesMap: AppRoutesMap = {
   '/search': SearchResults,
@@ -64,6 +65,103 @@ export const createMockGetResponseForDataRequest = (
   return payload.load();
 };
 
+export const createMockFbSdk = () => {
+  const state = new class FbSdkInternalState {
+    emitter = new EventEmitter();
+
+    private actualStatus: facebookSdk.LoginStatusResponse = {
+      status: 'not_authorized',
+      authResponse: undefined,
+    };
+
+    get status() {
+      return this.actualStatus;
+    }
+
+    set status(newStatus) {
+      const oldStatus = { ...this.actualStatus };
+      this.actualStatus = newStatus;
+
+      this.emitter.emit('auth.authResponseChange', newStatus);
+
+      if (newStatus.status !== oldStatus.status) {
+        this.emitter.emit('auth.statusChange', newStatus);
+      }
+    }
+  }();
+
+  // tslint:disable-next-line no-unnecessary-local-variable
+  const sdk: facebookSdk.Fb = {
+    init() {
+      return undefined;
+    },
+
+    Event: {
+      subscribe: jest.fn<facebookSdk.Fb['Event']['subscribe']>(
+        (event, listener) => {
+          state.emitter.addListener(event, listener);
+        },
+      ),
+
+      unsubscribe: jest.fn<facebookSdk.Fb['Event']['unsubscribe']>(
+        (event, listener) => {
+          state.emitter.removeListener(event, listener);
+        },
+      ),
+    },
+
+    getAuthResponse: jest.fn<facebookSdk.Fb['getAuthResponse']>(() => {
+      return state.status.authResponse;
+    }),
+
+    getLoginStatus: jest.fn<facebookSdk.Fb['getLoginStatus']>(callback => {
+      callback(status);
+    }),
+
+    login: jest.fn<facebookSdk.Fb['login']>(async callback => {
+      state.emitter.emit('auth.login');
+
+      await delay(0);
+
+      state.status = {
+        status: 'connected',
+        authResponse: {
+          accessToken: '<FB_SDK_ACCESS_TOKEN>',
+          expiresIn: 3600,
+          signedRequest: '<FB_SDK_SIGNED_REQUEST>',
+          userID: '1234567',
+        },
+      };
+
+      if (callback) {
+        callback(state.status.authResponse);
+      }
+    }),
+
+    logout: jest.fn<facebookSdk.Fb['logout']>(async callback => {
+      state.emitter.emit('auth.logout');
+
+      await delay(0);
+
+      state.status = { status: 'not_authorized', authResponse: undefined };
+
+      if (callback) {
+        callback(state.status.authResponse);
+      }
+    }),
+
+    XFBML: {
+      parse(_node, callback) {
+        if (typeof callback === 'function') {
+          callback();
+        }
+      },
+    },
+  };
+
+  return sdk;
+};
+
 export const defaultTestDependencyOverrides: Partial<EpicDependencies> = {
   sendLogs: jest.fn(),
 
@@ -91,6 +189,7 @@ export const defaultTestDependencyOverrides: Partial<EpicDependencies> = {
       });
     }),
   ),
+  getFbSdk: jest.fn(once(async () => createMockFbSdk())),
 };
 
 export const createTestTree = ({
