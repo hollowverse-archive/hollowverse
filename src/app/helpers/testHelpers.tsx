@@ -115,7 +115,7 @@ export const createMockFbSdk = () => {
     }),
 
     getLoginStatus: jest.fn<facebookSdk.Fb['getLoginStatus']>(callback => {
-      callback(status);
+      callback(state.status);
     }),
 
     login: jest.fn<facebookSdk.Fb['login']>(async callback => {
