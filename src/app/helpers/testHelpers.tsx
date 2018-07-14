@@ -265,7 +265,17 @@ export const createClientSideTestContext = async ({
   await delay(0);
   wrapper.update();
 
-  return { wrapper, store, history, dependencies };
+  const openAppMenu = () => {
+    const menuButton = wrapper
+      .find('#app-menu-wrapper [role="button"]')
+      .first();
+
+    menuButton.simulate('click');
+
+    return wrapper.find('#app-menu-wrapper [role="menu"]').first();
+  };
+
+  return { wrapper, openAppMenu, store, history, dependencies };
 };
 
 export type ClientSideTestContext = UnboxPromise<
