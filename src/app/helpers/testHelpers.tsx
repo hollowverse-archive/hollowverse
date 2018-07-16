@@ -170,6 +170,7 @@ export const createMockFbSdk = ({
     },
   };
 
+  // @ts-ignore
   global.FB = sdk;
 
   return sdk;

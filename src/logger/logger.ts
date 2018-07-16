@@ -58,7 +58,7 @@ const transformActionForLogging = async (
       return {
         ...action,
         payload: {
-          ...action.payload,
+          ...(action.payload as any),
           ...originalPosition,
         },
       };
