@@ -36,7 +36,7 @@ describe('authentication', () => {
   });
 });
 
-describe('succesful log in and log out', () => {
+describe('successful log in and log out', () => {
   let context: ClientSideTestContext;
 
   beforeAll(async () => {
