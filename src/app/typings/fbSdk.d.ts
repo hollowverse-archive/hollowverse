@@ -1,3 +1,4 @@
+/* tslint:disable */
 const FB: FB;
 
 interface FB {
