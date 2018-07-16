@@ -10,12 +10,10 @@ import {
   notablePersonWithEditorialSummaryQueryResponse,
   stubNotablePersonQueryResponse,
 } from 'fixtures/notablePersonQuery';
+import { emptyBase64EncodedImage } from 'fixtures/images';
 import { EditorialSummary } from 'components/EditorialSummary/EditorialSummary';
 import { last, find } from 'lodash';
 import { Action, LogBatch } from 'store/types';
-
-const emptyBase64EncodedImage =
-  'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
 
 describe('notable person page', () => {
   let context: ClientSideTestContext;

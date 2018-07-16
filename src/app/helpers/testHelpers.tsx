@@ -65,7 +65,30 @@ export const createMockGetResponseForDataRequest = (
   return payload.load();
 };
 
-export const createMockFbSdk = () => {
+type CreateMockFbSdkOption = {
+  onLoginRequested?(): FB.LoginStatusResponse;
+  onLogoutRequested?(): FB.LoginStatusResponse;
+};
+
+const respondWithSuccessfulLogoutState: CreateMockFbSdkOption['onLogoutRequested'] = () => ({
+  authResponse: undefined,
+  status: 'not_authorized',
+});
+
+const respondWithSuccessfulLoginState: CreateMockFbSdkOption['onLoginRequested'] = () => ({
+  authResponse: {
+    accessToken: '<valid access token>',
+    expiresIn: 3600,
+    signedRequest: '<valid signed request>',
+    userID: '<valid user ID>',
+  },
+  status: 'connected',
+});
+
+export const createMockFbSdk = ({
+  onLoginRequested = respondWithSuccessfulLoginState,
+  onLogoutRequested = respondWithSuccessfulLogoutState,
+}: CreateMockFbSdkOption = {}) => {
   const state = new class FbSdkInternalState {
     emitter = new EventEmitter();
 
@@ -119,15 +142,7 @@ export const createMockFbSdk = () => {
 
       await delay(0);
 
-      state.status = {
-        status: 'connected',
-        authResponse: {
-          accessToken: '<FB_SDK_ACCESS_TOKEN>',
-          expiresIn: 3600,
-          signedRequest: '<FB_SDK_SIGNED_REQUEST>',
-          userID: '1234567',
-        },
-      };
+      state.status = onLoginRequested();
 
       if (callback) {
         callback(state.status.authResponse);
@@ -139,7 +154,7 @@ export const createMockFbSdk = () => {
 
       await delay(0);
 
-      state.status = { status: 'not_authorized', authResponse: undefined };
+      state.status = onLogoutRequested();
 
       if (callback) {
         callback(state.status.authResponse);
@@ -154,6 +169,8 @@ export const createMockFbSdk = () => {
       },
     },
   };
+
+  global.FB = sdk;
 
   return sdk;
 };
