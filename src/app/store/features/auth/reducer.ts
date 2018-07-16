@@ -45,6 +45,12 @@ export const getViewerResult = createSelector(getResolvedDataForKey, get =>
   get('viewer'),
 );
 
+/**
+ * The final authentication state depends on both Facebook SDK authentication state
+ * and the result of the `viewer` API query.
+ * A successful authentication is a combination of a successful Facebook login
+ * and a successful, non-`null` `viewer` API query.
+ */
 export const getAuthState = createSelector(
   getViewerResult,
   getFbSdkAuthState,
