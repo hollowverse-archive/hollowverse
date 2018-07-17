@@ -218,7 +218,7 @@ export class AppMenu extends React.PureComponent<Props, State> {
   };
 
   render() {
-    const { getMenuStyle = () => undefined, authState } = this.props;
+    const { getMenuStyle = () => undefined } = this.props;
 
     return (
       <nav className={classes.root}>
