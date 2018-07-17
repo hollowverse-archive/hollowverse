@@ -102,7 +102,7 @@ export const createMockFbSdk = ({
     }
 
     set status(newStatus) {
-      const oldStatus = { ...this.actualStatus };
+      const oldStatus = this.actualStatus;
       this.actualStatus = newStatus;
 
       this.emitter.emit('auth.authResponseChange', newStatus);

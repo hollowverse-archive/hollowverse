@@ -77,6 +77,8 @@ type SerializableError = {
   stack?: string;
 };
 
+export type AuthErrorCode = 'FB_INIT_ERROR';
+
 export type AuthState =
   | {
       state: 'initializing' | 'loggingIn' | 'loggingOut' | 'loggedOut';
@@ -87,6 +89,7 @@ export type AuthState =
     }
   | {
       state: 'error';
+      code?: AuthErrorCode;
       error?: Error;
     };
 
@@ -100,6 +103,7 @@ export type FbSdkAuthState =
     }
   | {
       state: 'error';
+      code?: AuthErrorCode;
       error?: Error;
     };
 

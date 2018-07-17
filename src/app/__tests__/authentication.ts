@@ -2,7 +2,7 @@ import {
   createClientSideTestContext,
   ClientSideTestContext,
 } from 'helpers/testHelpers';
-import { getFbSdkAuthState } from 'store/features/auth/reducer';
+import { getAuthState } from 'store/features/auth/reducer';
 import { emptyBase64EncodedImage } from 'fixtures/images';
 import { delay } from 'helpers/delay';
 
@@ -84,6 +84,38 @@ describe('successful log in and log out', () => {
   });
 });
 
+describe('failed log in', () => {
+  let context: ClientSideTestContext;
+
+  beforeAll(async () => {
+    context = await createClientSideTestContext({
+      epicDependenciesOverrides: {
+        async getResponseForDataRequest(payload) {
+          if (payload.key === 'viewer') {
+            throw new Error('API error');
+          }
+
+          return payload.load();
+        },
+      },
+    });
+  });
+
+  it('shows error dialog', async () => {
+    context
+      .openAppMenu()
+      .find('button')
+      .filterWhere(el => !!el.text().match(/log in/i))
+      .simulate('click');
+
+    await delay(10);
+
+    expect(context.wrapper.find('[role="alertdialog"]')).toIncludeText(
+      'Login failed',
+    );
+  });
+});
+
 describe('on FB SDK initialization failure', () => {
   let context: ClientSideTestContext;
 
@@ -98,7 +130,7 @@ describe('on FB SDK initialization failure', () => {
   });
 
   it('error state is handled', () => {
-    expect(getFbSdkAuthState(context.store.getState())).toMatchObject({
+    expect(getAuthState(context.store.getState())).toMatchObject({
       state: 'error',
     });
   });
@@ -110,7 +142,7 @@ describe('on FB SDK initialization failure', () => {
       .filterWhere(el => !!el.text().match(/log in/i))
       .simulate('click');
 
-    expect(context.wrapper.find('[role="dialog"]')).toIncludeText(
+    expect(context.wrapper.find('[role="alertdialog"]')).toIncludeText(
       'tracking protection',
     );
   });

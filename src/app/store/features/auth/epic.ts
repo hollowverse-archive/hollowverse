@@ -92,7 +92,9 @@ export const authEpic: Epic<Action, StoreState, EpicDependencies> = (
         }),
     ),
     catchError(error =>
-      observableOf(setFbSdkAuthState({ state: 'error', error })),
+      observableOf(
+        setFbSdkAuthState({ state: 'error', error, code: 'FB_INIT_ERROR' }),
+      ),
     ),
   );
 
