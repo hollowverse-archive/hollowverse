@@ -9,6 +9,7 @@
     "Polyfills",
     "Splunk",
     "Whitelisted",
+    "alertdialog",
     "algoliasearch",
     "classcat",
     "destructure",

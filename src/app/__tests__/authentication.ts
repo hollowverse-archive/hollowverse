@@ -2,9 +2,12 @@ import {
   createClientSideTestContext,
   ClientSideTestContext,
 } from 'helpers/testHelpers';
-import { getAuthState } from 'store/features/auth/reducer';
 import { emptyBase64EncodedImage } from 'fixtures/images';
 import { delay } from 'helpers/delay';
+
+afterEach(() => {
+  document.querySelector('body')!.innerHTML = '';
+});
 
 describe('authentication', () => {
   let context: ClientSideTestContext;
@@ -29,7 +32,7 @@ describe('authentication', () => {
   it('shows login button', async () => {
     expect(
       context
-        .openAppMenu()
+        .toggleAppMenu()
         .find('button')
         .filterWhere(el => !!el.text().match(/log in/i)),
     ).toBeDefined();
@@ -38,6 +41,7 @@ describe('authentication', () => {
 
 describe('successful log in and log out', () => {
   let context: ClientSideTestContext;
+  let menu;
 
   beforeAll(async () => {
     context = await createClientSideTestContext({
@@ -50,10 +54,8 @@ describe('successful log in and log out', () => {
         },
       },
     });
-  });
 
-  it('shows profile data after login', async () => {
-    let menu = context.openAppMenu();
+    menu = context.toggleAppMenu();
 
     menu
       .find('button')
@@ -62,25 +64,34 @@ describe('successful log in and log out', () => {
 
     await delay(10);
 
-    menu = context.openAppMenu();
+    menu = context.toggleAppMenu();
+  });
 
+  it('shows profile data after login', async () => {
     expect(menu).toIncludeText('John Doe');
     expect(menu.find('img')).toHaveProp('src', emptyBase64EncodedImage);
   });
 
-  it('shows login button after logout', async () => {
-    let menu = context.openAppMenu();
+  describe('on logout', () => {
+    beforeAll(async () => {
+      menu = context.toggleAppMenu();
+      menu
+        .find('button')
+        .filterWhere(el => !!el.text().match(/log out/i))
+        .simulate('click');
+    });
 
-    menu
-      .find('button')
-      .filterWhere(el => !!el.text().match(/log out/i))
-      .simulate('click');
+    it('calls FB.logout', () => {
+      expect(FB.logout).toHaveBeenCalled();
+    });
 
-    await delay(10);
+    it('shows login button after logout', async () => {
+      await delay(0);
 
-    menu = context.openAppMenu();
+      menu = context.toggleAppMenu();
 
-    expect(menu).toIncludeText('Log in');
+      expect(menu).toIncludeText('Log in');
+    });
   });
 });
 
@@ -99,27 +110,27 @@ describe('failed log in', () => {
         },
       },
     });
-  });
 
-  it('shows error dialog', async () => {
     context
-      .openAppMenu()
+      .toggleAppMenu()
       .find('button')
       .filterWhere(el => !!el.text().match(/log in/i))
       .simulate('click');
 
-    await delay(10);
+    await delay(1000);
+  });
 
-    expect(context.wrapper.find('[role="alertdialog"]')).toIncludeText(
-      'Login failed',
-    );
+  it('shows error dialog on login button click', async () => {
+    expect(
+      document.querySelector('[role="alertdialog"]')!.textContent,
+    ).toContain('Login failed');
   });
 });
 
 describe('on FB SDK initialization failure', () => {
   let context: ClientSideTestContext;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     context = await createClientSideTestContext({
       epicDependenciesOverrides: {
         async getFbSdk() {
@@ -127,23 +138,19 @@ describe('on FB SDK initialization failure', () => {
         },
       },
     });
-  });
 
-  it('error state is handled', () => {
-    expect(getAuthState(context.store.getState())).toMatchObject({
-      state: 'error',
-    });
+    await delay(10);
   });
 
   it('shows error dialog with possible reasons for failure', async () => {
     context
-      .openAppMenu()
+      .toggleAppMenu()
       .find('button')
       .filterWhere(el => !!el.text().match(/log in/i))
       .simulate('click');
 
-    expect(context.wrapper.find('[role="alertdialog"]')).toIncludeText(
-      'tracking protection',
-    );
+    expect(
+      document.querySelector('[role="alertdialog"]')!.textContent,
+    ).toContain('tracking protection');
   });
 });

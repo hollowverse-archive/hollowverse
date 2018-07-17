@@ -23,6 +23,7 @@ import { Paper } from '../Paper/Paper';
 import facebookIcon from 'icons/facebook.svg';
 import closeIcon from 'icons/close.svg';
 import classes from './AppMenu.module.scss';
+import { forceReload } from 'helpers/forceReload';
 
 const Separator = (
   <div role="separator" className={classes.separator}>
@@ -96,6 +97,13 @@ export class AppMenu extends React.PureComponent<Props, State> {
     isLoginFailedDialogShown: false,
   };
 
+  componentWillReceiveProps({ authState }: Props) {
+    this.setState({
+      isLoginFailedDialogShown:
+        authState.state === 'error' && authState.code !== 'FB_INIT_ERROR',
+    });
+  }
+
   renderUser = () => {
     const { authState } = this.props;
 
@@ -152,6 +160,7 @@ export class AppMenu extends React.PureComponent<Props, State> {
         titleText="Could not connect to Facebook"
         onExit={this.toggleFbSdkBlockedDialog}
         mounted={this.state.isFbSdkBlockedDialogShown}
+        focusDialog={false}
       >
         <MessageWithIcon
           title="We could not connect to Facebook"
@@ -162,6 +171,7 @@ export class AppMenu extends React.PureComponent<Props, State> {
           If the issue persists, your browser might have a tracking protection
           feature which blocks loading of Facebook scripts.
         </p>
+        <button onClick={forceReload}>Reload</button>
       </Dialog>
     );
   };
@@ -180,6 +190,7 @@ export class AppMenu extends React.PureComponent<Props, State> {
           If the issue persists, it is most likely an issue on our side. Please
           try again in a few hours.
         </p>
+        <button onClick={forceReload}>Reload</button>
       </Dialog>
     );
   };

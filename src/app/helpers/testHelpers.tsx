@@ -279,7 +279,7 @@ export const createClientSideTestContext = async ({
   await delay(0);
   wrapper.update();
 
-  const openAppMenu = () => {
+  const toggleAppMenu = () => {
     const menuButton = wrapper
       .find('#app-menu-wrapper [role="button"]')
       .first();
@@ -289,7 +289,7 @@ export const createClientSideTestContext = async ({
     return wrapper.find('#app-menu-wrapper [role="menu"]').first();
   };
 
-  return { wrapper, openAppMenu, store, history, dependencies };
+  return { wrapper, toggleAppMenu, store, history, dependencies };
 };
 
 export type ClientSideTestContext = UnboxPromise<
