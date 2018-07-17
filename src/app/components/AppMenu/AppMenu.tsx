@@ -58,8 +58,8 @@ const transitionClassNames: CSSTransitionClassNames = {
 };
 
 const messageForAuthState: Partial<Record<AuthState['state'], string>> = {
-  initializing: 'Checking log in...',
-  loggingIn: 'Checking log in...',
+  initializing: 'Checking login...',
+  loggingIn: 'Checking login...',
   loggingOut: 'Logging out...',
   loggedIn: 'Log out',
   loggedOut: 'Log in with Facebook',
@@ -86,12 +86,14 @@ const iconForAuthState: Partial<Record<AuthState['state'], React.ReactNode>> = {
 };
 
 type State = {
-  isDialogShown: boolean;
+  isFbSdkBlockedDialogShown: boolean;
+  isLoginFailedDialogShown: boolean;
 };
 
 export class AppMenu extends React.PureComponent<Props, State> {
   state = {
-    isDialogShown: false,
+    isFbSdkBlockedDialogShown: false,
+    isLoginFailedDialogShown: false,
   };
 
   renderUser = () => {
@@ -146,9 +148,10 @@ export class AppMenu extends React.PureComponent<Props, State> {
   renderFbSdkBlockedDialog = () => {
     return (
       <Dialog
+        alert
         titleText="Could not connect to Facebook"
         onExit={this.toggleFbSdkBlockedDialog}
-        mounted={this.state.isDialogShown}
+        mounted={this.state.isFbSdkBlockedDialogShown}
       >
         <MessageWithIcon
           title="We could not connect to Facebook"
@@ -163,8 +166,34 @@ export class AppMenu extends React.PureComponent<Props, State> {
     );
   };
 
+  renderLoginFailedDialog = () => {
+    return (
+      <Dialog
+        alert
+        titleText="Login failed"
+        onExit={this.toggleLoginFailedDialog}
+        mounted={this.state.isLoginFailedDialogShown}
+      >
+        <MessageWithIcon title="Login failed" icon={warningIcon} />
+        <p>This could be due to a slow network. Try reloading the page.</p>
+        <p>
+          If the issue persists, it is most likely an issue on our side. Please
+          try again in a few hours.
+        </p>
+      </Dialog>
+    );
+  };
+
   toggleFbSdkBlockedDialog = () => {
-    this.setState(state => ({ isDialogShown: !state.isDialogShown }));
+    this.setState(state => ({
+      isFbSdkBlockedDialogShown: !state.isFbSdkBlockedDialogShown,
+    }));
+  };
+
+  toggleLoginFailedDialog = () => {
+    this.setState(state => ({
+      isLoginFailedDialogShown: !state.isLoginFailedDialogShown,
+    }));
   };
 
   handleLoginClick = () => {
@@ -174,8 +203,13 @@ export class AppMenu extends React.PureComponent<Props, State> {
       requestLogout(undefined);
     } else if (authState.state === 'loggedOut') {
       requestLogin(undefined);
-    } else if (authState.state === 'error') {
+    } else if (
+      authState.state === 'error' &&
+      authState.code === 'FB_INIT_ERROR'
+    ) {
       this.toggleFbSdkBlockedDialog();
+    } else if (authState.state === 'error') {
+      this.toggleLoginFailedDialog();
     }
   };
 
@@ -184,11 +218,12 @@ export class AppMenu extends React.PureComponent<Props, State> {
   };
 
   render() {
-    const { getMenuStyle = () => undefined } = this.props;
+    const { getMenuStyle = () => undefined, authState } = this.props;
 
     return (
       <nav className={classes.root}>
         {this.renderFbSdkBlockedDialog()}
+        {this.renderLoginFailedDialog()}
         <Menu
           className={classes.menu}
           aria-label="Main Menu"
