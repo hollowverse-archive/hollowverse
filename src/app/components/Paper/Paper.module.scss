@@ -1,7 +1,8 @@
 @import 'variables.scss';
+@import 'mixins.scss';
 
 .root {
   border-radius: 4px;
-  background-color: $color-white;
-  box-shadow: 0 1px 6px 1px rgba(0, 0, 0, 0.1);
+  background-color: var(--color-paper);
+  @include box-shadow(paper);
 }

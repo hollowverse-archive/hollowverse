@@ -28,6 +28,7 @@
 @mixin font-11px {
   font-size: 11px;
 }
+
 @mixin font-13px {
   font-size: 13px;
   line-height: 1.4;
@@ -36,14 +37,26 @@
   font-size: 16px;
   line-height: 1.6;
 }
+
 @mixin font-20px {
   font-size: 20px;
   font-weight: bold;
 }
+
 @mixin font-26px {
   font-size: 26px;
   font-weight: normal;
   line-height: 1;
+}
+
+@mixin box-shadow($variant: default, $color: var(--color-shadow)) {
+  $map: (
+    popup: 0px 3px 10px 0px,
+    paper: 0px 2px 10px 0px,
+    default: 0px 1px 3px -1px,
+  );
+
+  box-shadow: map-get($map, $variant) $color;
 }
 
 /*
@@ -56,12 +69,12 @@
   z-index: $zIndex;
   width: calc(100vw * 0.35);
   height: 100%;
-  background-image: linear-gradient(
-    79deg,
-    rgba($color, 0) 35%,
-    rgba($color, 1) 50%,
-    rgba($color, 0) 75%
-  );
+  // background-image: linear-gradient(
+  //   79deg,
+  //   rgb($color, 0) 35%,light
+  //   rgb($color, 1) 50%,
+  //   rgb($color, 0) 75%
+  // );
   animation: animate-illumination 0.8s linear infinite;
 }
 
@@ -72,5 +85,15 @@
 
   100% {
     transform: translateX($page-max-width);
+  }
+}
+
+@mixin define-theme-variable($variable-name, $default-value, $night-value) {
+  #{$variable-name}: $default-value;
+
+  @if ($night-value) {
+    &:global(.night-mode) {
+      #{$variable-name}: $night-value;
+    }
   }
 }

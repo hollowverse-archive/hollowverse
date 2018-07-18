@@ -76,6 +76,30 @@ type SerializableError = {
   stack?: string;
 };
 
+export type AppState = {
+  statusCode: 301 | 302 | 404 | 200 | 500;
+  redirectionUrl: string | null;
+  shouldFocusSearch: boolean;
+  /**
+   * Used to display text in place of the search box when the user
+   * scrolls the page down, like the notable person's name on the notable
+   * person's page.
+   */
+  alternativeSearchBoxText: string | null;
+  resolvedData: {
+    [K in keyof ResolvedData]: AsyncResult<ResolvedData[K] | null> & {
+      requestId: string | null;
+    }
+  };
+  theme: 'dark' | 'light';
+};
+
+/**
+ * Contains AppState as well as other state keys that are
+ * required by external modules
+ */
+export type StoreState = Readonly<AppState & { routing: RouterState }>;
+
 /** A map of all app actions to their corresponding payloads */
 export type ActionTypeToPayloadType = {
   GO_TO_SEARCH: void;
@@ -115,30 +139,9 @@ export type ActionTypeToPayloadType = {
   SET_ALTERNATIVE_SEARCH_BOX_TEXT: string | null;
   '@@router/LOCATION_CHANGE': LocationChangeAction['payload'];
   '@@router/CALL_HISTORY_METHOD': RouterAction['payload'];
+  TOGGLE_NIGHT_MODE: undefined;
+  SET_PARTIAL_STATE: Partial<StoreState>;
 };
-
-export type AppState = {
-  statusCode: 301 | 302 | 404 | 200 | 500;
-  redirectionUrl: string | null;
-  shouldFocusSearch: boolean;
-  /**
-   * Used to display text in place of the search box when the user
-   * scrolls the page down, like the notable person's name on the notable
-   * person's page.
-   */
-  alternativeSearchBoxText: string | null;
-  resolvedData: {
-    [K in keyof ResolvedData]: AsyncResult<ResolvedData[K] | null> & {
-      requestId: string | null;
-    }
-  };
-};
-
-/**
- * Contains AppState as well as other state keys that are
- * required by external modules
- */
-export type StoreState = Readonly<AppState & { routing: RouterState }>;
 
 export type StoreKey = keyof AppState;
 

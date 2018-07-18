@@ -1,5 +1,9 @@
 @import 'variables.scss';
 
 .root {
-  background-color: $color-background-light;
+  background-color: var(--color-background-light);
+
+  :root:global(.night-mode) &.no-src {
+    filter: invert(0.65) contrast(200%);
+  }
 }

@@ -12,7 +12,7 @@
 
   .title {
     @include font-16px;
-    color: $color-text-light;
+    color: var(--color-text-light);
     padding: $spacing-5px 0;
   }
 
@@ -26,11 +26,11 @@
   }
 
   &.has-description .title {
-    color: $color-text-default;
+    color: var(--color-text-default);
     font-weight: bold;
   }
 
   .description {
-    color: $color-text-light;
+    color: var(--color-text-light);
   }
 }

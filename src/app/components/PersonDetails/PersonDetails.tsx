@@ -1,7 +1,6 @@
 import React from 'react';
 import { prettifyUrl } from 'helpers/prettifyUrl';
 import Helmet from 'react-helmet-async';
-import { oneLineTrim } from 'common-tags';
 import cc from 'classcat';
 import classes from './PersonDetails.module.scss';
 import emptySvg from '!!url-loader!assets/emptySvg.svg';
@@ -56,26 +55,15 @@ export class PersonDetails extends React.PureComponent<PersonDetailsProps> {
     return (
       <div className={classes.coverBackgroundWrapper} aria-hidden>
         <div
-          className={classes.coverBackground}
+          className={cc([
+            classes.coverBackground,
+            { [classes.hasGradient]: colors.length === 2 },
+          ])}
           style={
-            colors.length === 2
-              ? {
-                  background: oneLineTrim`linear-gradient(
-                    130deg,
-                    #4cfde9 -20%,
-                    transparent 30%,
-                    transparent 60%,
-                    rgb(253, 188, 9) 85%
-                  ) no-repeat,
-                  linear-gradient(
-                    130deg,
-                    transparent -20%,
-                    ${colors[0]} 30%,
-                    ${colors[1]} 60%,
-                    transparent 85%
-                  ) no-repeat`,
-                }
-              : undefined
+            {
+              '--color-1': colors[0],
+              '--color-2': colors[1],
+            } as any
           }
         />
       </div>

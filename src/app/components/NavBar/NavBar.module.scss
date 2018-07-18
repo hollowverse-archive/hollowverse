@@ -13,9 +13,9 @@
 }
 
 .root {
-  border-bottom: 1px solid $color-border-light;
+  border-bottom: 1px solid var(--color-border);
   user-select: none;
-  color: $color-text-default;
+  color: var(--color-text-default);
   position: relative;
   width: 100%;
   display: flex;
@@ -35,7 +35,7 @@
   }
 
   .menu-wrapper {
-    visibility: hidden;
+    // visibility: hidden;
     position: relative;
 
     // ideally we would set display: contents; on .menu-wrapper
@@ -47,9 +47,9 @@
   }
 
   .view-wrapper {
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.07);
+    @include box-shadow();
     display: flex;
-    background-color: rgba(255, 255, 255, 0.98);
+    background-color: var(--color-paper);
     justify-content: center;
     align-items: stretch;
     height: 100%;

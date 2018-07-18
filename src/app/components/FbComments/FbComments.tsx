@@ -1,4 +1,5 @@
 import React from 'react';
+import cc from 'classcat';
 import { importGlobalScript } from 'helpers/importGlobalScript';
 import { MessageWithIcon } from 'components/MessageWithIcon/MessageWithIcon';
 import { LoadingSpinner } from 'components/LoadingSpinner/LoadingSpinner';
@@ -8,6 +9,8 @@ import { AsyncComponent } from 'hocs/AsyncComponent/AsyncComponent';
 import warningIcon from 'icons/warning.svg';
 import { Button } from 'components/Button/Button';
 import { isPendingResult, isErrorResult } from 'helpers/asyncResults';
+
+import classes from './FbComments.module.scss';
 
 const warningIconComponent = <SvgIcon {...warningIcon} />;
 
@@ -101,10 +104,10 @@ export class FbComments extends React.PureComponent<Props> {
   }
 
   render() {
-    const { url, numPosts = 5, ...rest } = this.props;
+    const { url, numPosts = 5, className, ...rest } = this.props;
 
     return (
-      <div {...rest}>
+      <div className={cc([className, classes.root])} {...rest}>
         <AsyncComponent load={this.load}>
           {({ result, retry }) => {
             if (isErrorResult(result) || result.hasTimedOut) {
@@ -144,7 +147,7 @@ export class FbComments extends React.PureComponent<Props> {
                     // and causes the component to be stuck
                     // at "Loading..."
                     key={url}
-                    className="fb-comments"
+                    className={cc([classes.target, 'fb-comments'])}
                     data-href={url}
                     data-width="100%"
                     data-numposts={numPosts}

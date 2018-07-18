@@ -13,7 +13,7 @@ import { PersonPhoto } from 'components/PersonPhoto/PersonPhoto';
 import { SvgIcon } from 'components/SvgIcon/SvgIcon';
 import { Paper } from 'components/Paper/Paper';
 import closeIcon from 'icons/close.svg';
-import facebookIcon from 'icons/facebook.svg';
+import Switch from '@material-ui/core/Switch';
 
 import classes from './AppMenu.module.scss';
 
@@ -25,13 +25,26 @@ const Separator = (
 
 const transitionTimeoutMilliseconds = 150;
 
-type Props = {
+const isNightModeAvailable =
+  'CSS' in window && CSS.supports('color', 'var(--primary)');
+
+export type StateProps = {
+  isNightModeEnabled: boolean;
+};
+
+export type DispatchProps = {
+  toggleNightMode(payload: undefined): void;
+};
+
+export type OwnProps = {
   user?: any;
   getMenuStyle?(): React.CSSProperties & {
     '--top': string;
     '--left': string;
   };
 };
+
+type Props = OwnProps & StateProps & DispatchProps;
 
 const transitionClassNames: CSSTransitionClassNames = {
   enter: classes.menuEnter,
@@ -73,8 +86,12 @@ export class AppMenu extends React.PureComponent<Props> {
     closeMenu('app-menu-wrapper');
   };
 
+  toggleNightMode = () => {
+    this.props.toggleNightMode(undefined);
+  };
+
   render() {
-    const { user, getMenuStyle = () => undefined } = this.props;
+    const { getMenuStyle = () => undefined, isNightModeEnabled } = this.props;
 
     return (
       <nav className={classes.root}>
@@ -100,25 +117,21 @@ export class AppMenu extends React.PureComponent<Props> {
                 <MenuItemWithLink to="/">Home</MenuItemWithLink>
                 <MenuItemWithLink to="/contact">Contact</MenuItemWithLink>
                 {Separator}
-                <MenuItemWithButton
-                  className={user ? undefined : classes.facebook}
-                  type="button"
-                  onClick={this.handleLogin}
-                  icon={
-                    user ? (
-                      undefined
-                    ) : (
-                      <SvgIcon
-                        className={classes.facebookIcon}
-                        color="var(--facebook-blue)"
-                        size={24}
-                        {...facebookIcon}
+                {isNightModeAvailable && (
+                  <>
+                    <MenuItemWithChild
+                      factory="label"
+                      className={classes.switch}
+                    >
+                      <div>Night mode</div>
+                      <Switch
+                        checked={isNightModeEnabled}
+                        onChange={this.toggleNightMode}
                       />
-                    )
-                  }
-                >
-                  {user ? 'Log out' : 'Log in with Facebook'}
-                </MenuItemWithButton>
+                    </MenuItemWithChild>
+                    {Separator}
+                  </>
+                )}
                 <MenuItemWithButton
                   type="button"
                   className={classes.close}
@@ -126,7 +139,6 @@ export class AppMenu extends React.PureComponent<Props> {
                   icon={<SvgIcon size={16} {...closeIcon} />}
                   aria-label="Close"
                 />
-                {Separator}
                 <MenuItemWithLink size="small" to="/privacy-policy">
                   Privacy Policy
                 </MenuItemWithLink>

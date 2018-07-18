@@ -1,8 +1,93 @@
 @import 'variables.scss';
+@import 'mixins.scss';
 @import-normalize;
 
 // stylelint-disable property-blacklist
 :global {
+  //#region Theme
+  :root {
+    @include define-theme-variable(
+      --color-facebook-blue,
+      hsl(220, 46%, 48%),
+      hsl(220, 46%, 75%)
+    );
+
+    @include define-theme-variable(
+      --color-text-default,
+      hsl(0, 0%, 20%),
+      hsl(0, 0%, 95%)
+    );
+
+    @include define-theme-variable(
+      --color-text-link,
+      hsl(248, 100%, 31%),
+      hsl(32, 100%, 66%)
+    );
+
+    @include define-theme-variable(
+      --color-text-link-hover,
+      hsl(248, 100%, 75%),
+      hsl(59, 100%, 95%)
+    );
+
+    @include define-theme-variable(
+      --color-text-light,
+      hsl(0, 0%, 24%),
+      hsl(0, 3%, 90%)
+    );
+
+    @include define-theme-variable(
+      --color-text-lighter,
+      hsl(0, 0%, 35%),
+      hsl(0, 0%, 85%)
+    );
+
+    @include define-theme-variable(
+      --color-background,
+      hsl(240, 3%, 88%),
+      hsl(0, 0%, 10%)
+    );
+
+    @include define-theme-variable(
+      --color-background-light,
+      hsl(240, 8%, 95%),
+      hsl(0, 0%, 15%)
+    );
+
+    @include define-theme-variable(
+      --color-paper,
+      hsl(180, 100%, 100%),
+      hsl(0, 0%, 5%)
+    );
+
+    @include define-theme-variable(
+      --color-border,
+      hsl(0, 0%, 85%),
+      hsl(0, 0%, 25%)
+    );
+
+    @include define-theme-variable(
+      --color-shadow,
+      hsl(0, 0%, 70%),
+      hsl(0, 0%, 80%)
+    );
+
+    @include define-theme-variable(
+      --color-menu-item-hover,
+      hsl(201, 81%, 96%),
+      hsl(0, 0%, 21%)
+    );
+
+    --color-control-active: hsl(203, 89%, 53%);
+    --color-control-active-background: hsl(201, 91%, 71%);
+
+    --color-toggle-off-background: hsl(0, 0%, 38%);
+    --color-toggle-off-knob: var(--color-background-light);
+    --color-toggle-on-background: var(--color-control-active-background);
+    --color-toggle-on-knob: var(--color-control-active);
+  }
+  //#endregion Theme
+
   *,
   *::after,
   *::before {
@@ -22,8 +107,8 @@
     min-height: 100%;
     min-width: 320px;
     position: relative;
-    color: $color-text-default;
-    background-color: $color-background-light;
+    color: var(--color-text-default);
+    background-color: var(--color-background-light);
     font-family: $font-family;
   }
 
@@ -33,17 +118,16 @@
     font-family: $font-family;
   }
 
+  input,
+  textarea {
+    background: var(--color-paper);
+    color: var(--color-text-default);
+  }
+
   a {
     text-decoration-skip-ink: auto;
     transition: color 0.2s ease-in-out;
-    color: $color-blue;
-  }
-
-  sup {
-    font-weight: normal;
-    font-size: 0.5em;
-    position: relative;
-    margin: 0 0.1em;
+    color: var(--color-text-link);
   }
 
   /**

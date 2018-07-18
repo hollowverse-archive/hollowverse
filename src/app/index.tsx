@@ -23,42 +23,7 @@ import {
 import { routesMap } from 'routesMap';
 import { pick } from 'lodash';
 import { isError } from 'util';
-
-const history = createBrowserHistory();
-
-const { store } = createConfiguredStore({
-  history,
-});
-
-// This has to be a class in order for hot module replacement to work
-class Root extends React.PureComponent {
-  /* eslint-disable-next-line class-methods-use-this */
-  render() {
-    return (
-      <HelmetProvider>
-        <AppDependenciesContext.Provider value={defaultAppDependencies}>
-          <Provider store={store}>
-            <Router history={history}>
-              <App routesMap={routesMap} />
-            </Router>
-          </Provider>
-        </AppDependenciesContext.Provider>
-      </HelmetProvider>
-    );
-  }
-}
-
-const renderApp = () => {
-  render(
-    <Root />,
-    // tslint:disable-next-line:no-non-null-assertion
-    document.getElementById('app')!,
-  );
-};
-
-const renderOnDomReady = () => {
-  domready(renderApp);
-};
+import { getPersistedStateToRestore } from 'store/features/persistence/helpers';
 
 declare const module: {
   hot?: { accept(path?: string, cb?: () => void): void };
@@ -68,39 +33,76 @@ if (module.hot) {
   module.hot.accept();
 }
 
-Promise.all([
-  loadIntersectionObserverPolyfill(),
-  loadUrlPolyfill(),
-  loadFocusVisiblePolyfill(),
-])
-  .then(renderOnDomReady)
-  .catch(renderOnDomReady);
+// tslint:disable-next-line no-floating-promises
+(async () => {
+  const loadPolyfills = Promise.all([
+    loadIntersectionObserverPolyfill(),
+    loadUrlPolyfill(),
+    loadFocusVisiblePolyfill(),
+  ]);
 
-window.addEventListener(
-  'error',
-  ({ message, error, filename, lineno, colno }) => {
+  const persistedState = getPersistedStateToRestore();
+
+  const history = createBrowserHistory();
+  const { store } = createConfiguredStore({
+    history,
+    initialState: await persistedState,
+  });
+
+  window.addEventListener(
+    'error',
+    ({ message, error, filename, lineno, colno }) => {
+      store.dispatch(
+        unhandledErrorThrown({
+          location: pick(location, 'pathname', 'search', 'hash'),
+          name: 'Unknown Error',
+          source: filename,
+          line: lineno,
+          column: colno,
+          message,
+          ...(isError(error) ? error : undefined),
+        }),
+      );
+    },
+  );
+
+  // @ts-ignore
+  window.onunhandledrejection = ({ reason }: PromiseRejectionEvent) => {
     store.dispatch(
       unhandledErrorThrown({
         location: pick(location, 'pathname', 'search', 'hash'),
-        name: 'Unknown Error',
-        source: filename,
-        line: lineno,
-        column: colno,
-        message,
-        ...(isError(error) ? error : undefined),
+        name: 'Unhandled Rejection',
+        message: String(reason),
+        ...(isError(reason) ? reason : undefined),
       }),
     );
-  },
-);
+  };
 
-// @ts-ignore
-window.onunhandledrejection = ({ reason }: PromiseRejectionEvent) => {
-  store.dispatch(
-    unhandledErrorThrown({
-      location: pick(location, 'pathname', 'search', 'hash'),
-      name: 'Unhandled Rejection',
-      message: String(reason),
-      ...(isError(reason) ? reason : undefined),
-    }),
-  );
-};
+  await loadPolyfills.catch();
+
+  // This has to be a class in order for hot module replacement to work
+  class Root extends React.PureComponent {
+    /* eslint-disable-next-line class-methods-use-this */
+    render() {
+      return (
+        <HelmetProvider>
+          <AppDependenciesContext.Provider value={defaultAppDependencies}>
+            <Provider store={store}>
+              <Router history={history}>
+                <App routesMap={routesMap} />
+              </Router>
+            </Provider>
+          </AppDependenciesContext.Provider>
+        </HelmetProvider>
+      );
+    }
+  }
+
+  domready(() => {
+    render(
+      <Root />,
+      // tslint:disable-next-line:no-non-null-assertion
+      document.getElementById('app')!,
+    );
+  });
+})();

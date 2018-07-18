@@ -1,4 +1,5 @@
 @import 'variables.scss';
+@import 'mixins.scss';
 
 .root {
   .menu {
@@ -55,11 +56,22 @@
       width: 240px;
     }
 
+    .switch label {
+      display: block;
+    }
+
+    .switch label > div {
+      display: flex;
+      align-items: center;
+      div {
+        flex-grow: 1;
+      }
+    }
+
     .user-avatar {
       width: 50px;
       height: 50px;
       border-radius: 50%;
-      background-color: $color-background-light;
     }
 
     .user-name {
@@ -78,16 +90,6 @@
       right: 0;
     }
 
-    .facebook {
-      color: $color-facebook-blue;
-    }
-
-    .facebook-icon {
-      --facebook-blue: $color-facebook-blue;
-      position: relative;
-      top: 2px;
-    }
-
     .separator {
       width: 100%;
       height: 1px;
@@ -95,7 +97,7 @@
       list-style: none;
 
       > div {
-        border-top: 1px solid $color-border-light;
+        border-top: 1px solid var(--color-border);
       }
     }
   }

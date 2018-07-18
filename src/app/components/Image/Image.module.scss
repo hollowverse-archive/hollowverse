@@ -7,7 +7,7 @@
   &.has-error {
     background-size: 50%;
     background-repeat: no-repeat;
-    background-color: $color-border-light;
+    background-color: var(--color-border);
     background-position: center;
   }
 

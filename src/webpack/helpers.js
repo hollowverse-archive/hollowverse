@@ -1,6 +1,5 @@
 const normalize = require('postcss-normalize');
 const autoprefixer = require('autoprefixer');
-const cssVariables = require('postcss-css-variables');
 const postCssSassParser = require('postcss-scss');
 
 const { createBabelConfig } = require('./babel');
@@ -13,21 +12,7 @@ const {
   ifProd,
 } = require('@hollowverse/utils/helpers/env');
 
-const postCssPlugins = [
-  autoprefixer,
-
-  // Inlines the value of custom CSS properties
-  // for browsers that do not support them
-  cssVariables({
-    /**
-     * `preserve` keeps both the custom property declarations and usages
-     * as well as the resolved values as a fallback, so that we can change
-     * the values dynamically via JavaScript in browsers that do
-     * support custom properties.
-     */
-    preserve: true,
-  }),
-];
+const postCssPlugins = [autoprefixer];
 
 /**
  */
