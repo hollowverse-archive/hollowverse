@@ -7,13 +7,13 @@ import {
   MenuItemWithLink,
   MenuItemWithButton,
   MenuItemWithChild,
-  MenuItemWithToggle,
 } from './MenuItem';
 
 import { PersonPhoto } from 'components/PersonPhoto/PersonPhoto';
 import { SvgIcon } from 'components/SvgIcon/SvgIcon';
 import { Paper } from 'components/Paper/Paper';
 import closeIcon from 'icons/close.svg';
+import Switch from '@material-ui/core/Switch';
 
 import classes from './AppMenu.module.scss';
 
@@ -119,14 +119,16 @@ export class AppMenu extends React.PureComponent<Props> {
                 {Separator}
                 {isNightModeAvailable && (
                   <>
-                    <MenuItemWithToggle
-                      id="night-mode-toggle"
-                      defaultChecked={isNightModeEnabled}
-                      onChange={this.toggleNightMode}
+                    <MenuItemWithChild
+                      factory="label"
+                      className={classes.switch}
                     >
-                      Night mode
-                    </MenuItemWithToggle>
-
+                      <div>Night mode</div>
+                      <Switch
+                        checked={isNightModeEnabled}
+                        onChange={this.toggleNightMode}
+                      />
+                    </MenuItemWithChild>
                     {Separator}
                   </>
                 )}
