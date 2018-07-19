@@ -1,1 +1,1 @@
-/home/f/Projects/hollowverse/hollowverse/src/app/typings/fbSdk.d.ts
+./src/app/typings/fbSdk.d.ts
