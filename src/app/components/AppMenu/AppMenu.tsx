@@ -15,9 +15,6 @@ import { SvgIcon } from 'components/SvgIcon/SvgIcon';
 
 import { LoadingSpinner } from 'components/LoadingSpinner/LoadingSpinner';
 import { AuthState } from 'store/types';
-import { MessageWithIcon } from '../MessageWithIcon/MessageWithIcon';
-import { warningIcon } from 'pages/NotablePerson/warningIcon';
-import { Dialog } from 'components/Dialog/Dialog';
 import { Paper } from '../Paper/Paper';
 
 import facebookIcon from 'icons/facebook.svg';
@@ -27,6 +24,8 @@ import { forceReload } from 'helpers/forceReload';
 
 import Snackbar from '@material-ui/core/Snackbar';
 import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import { DialogTitle, DialogContent, DialogActions } from '@material-ui/core';
 
 const Separator = (
   <div role="separator" className={classes.separator}>
@@ -162,52 +161,39 @@ export class AppMenu extends React.PureComponent<Props, State> {
     );
   };
 
-  renderFbSdkBlockedDialog = () => {
-    return (
-      <Dialog
-        alert
-        titleText="Could not connect to Facebook"
-        onExit={this.toggleFbSdkBlockedDialog}
-        mounted={this.state.isFbSdkBlockedDialogShown}
-        focusDialog={false}
-      >
-        <MessageWithIcon
-          title="We could not connect to Facebook"
-          icon={warningIcon}
-        />
-        <p>This could be due to a slow network. Try reloading the page.</p>
-        <p>
-          If the issue persists, your browser might have a tracking protection
-          feature which blocks loading of Facebook scripts.
-        </p>
-        <button onClick={forceReload}>Reload</button>
-      </Dialog>
-    );
-  };
-
   renderLoginFailedDialog = () => {
+    const { authState } = this.props;
+    const isFbInitError =
+      authState.state === 'error' && authState.code === 'FB_INIT_ERROR';
+
     return (
       <Dialog
-        alert
-        titleText="Login failed"
-        onExit={this.toggleLoginFailedDialog}
-        mounted={this.state.isLoginFailedDialogShown}
+        aria-labelledby="login-failed-dialog-title"
+        onClose={this.toggleLoginFailedDialog}
+        open={this.state.isLoginFailedDialogShown}
       >
-        <MessageWithIcon title="Login failed" icon={warningIcon} />
-        <p>This could be due to a slow network. Try reloading the page.</p>
-        <p>
-          If the issue persists, it is most likely an issue on our side. Please
-          try again in a few hours.
-        </p>
-        <button onClick={forceReload}>Reload</button>
+        <DialogTitle id="login-failed-dialog-title">
+          {isFbInitError ? 'Could not connect to Facebook' : 'Login failed'}
+        </DialogTitle>
+        <DialogContent>
+          <p>This could be due to a slow network. Try reloading the page.</p>
+          {isFbInitError ? (
+            <p>
+              If the issue persists, your browser might have a tracking
+              protection feature which blocks loading of Facebook scripts.
+            </p>
+          ) : (
+            <p>
+              If the issue persists, it is most likely an issue on our side.
+              Please try again in a few hours.
+            </p>
+          )}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={forceReload}>Reload</Button>
+        </DialogActions>
       </Dialog>
     );
-  };
-
-  toggleFbSdkBlockedDialog = () => {
-    this.setState(state => ({
-      isFbSdkBlockedDialogShown: !state.isFbSdkBlockedDialogShown,
-    }));
   };
 
   toggleLoginFailedDialog = () => {
@@ -223,11 +209,6 @@ export class AppMenu extends React.PureComponent<Props, State> {
       requestLogout(undefined);
     } else if (authState.state === 'loggedOut') {
       requestLogin(undefined);
-    } else if (
-      authState.state === 'error' &&
-      authState.code === 'FB_INIT_ERROR'
-    ) {
-      this.toggleFbSdkBlockedDialog();
     } else if (authState.state === 'error') {
       this.toggleLoginFailedDialog();
     }
@@ -292,7 +273,6 @@ export class AppMenu extends React.PureComponent<Props, State> {
 
     return (
       <nav className={classes.root}>
-        {this.renderFbSdkBlockedDialog()}
         {this.renderLoginFailedDialog()}
         {this.renderLoginStateChangeSnackbar()}
         <Menu
