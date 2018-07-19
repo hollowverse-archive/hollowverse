@@ -6,6 +6,7 @@ import { emptyBase64EncodedImage } from 'fixtures/images';
 import { delay } from 'helpers/delay';
 
 afterEach(() => {
+  // tslint:disable-next-line no-inner-html
   document.querySelector('body')!.innerHTML = '';
 });
 
@@ -41,7 +42,7 @@ describe('authentication', () => {
 
 describe('successful log in and log out', () => {
   let context: ClientSideTestContext;
-  let menu;
+  let menu: ReturnType<typeof context['toggleAppMenu']>;
 
   beforeAll(async () => {
     context = await createClientSideTestContext({
