@@ -5,12 +5,13 @@ import {
 } from 'react-router-redux';
 import { AsyncResult } from 'helpers/asyncResults';
 import { AlgoliaResponse } from 'algoliasearch';
-import { NotablePersonQuery } from 'api/types';
+import { NotablePersonQuery, ViewerQuery } from 'api/types';
 import { DeepPartial } from 'typings/typeHelpers';
 
 export type ResolvedData = {
   notablePersonQuery: NotablePersonQuery | null;
   searchResults: AlgoliaResponse | null;
+  viewer: ViewerQuery;
 };
 
 export type ResolvedDataKey = keyof ResolvedData;
@@ -76,6 +77,36 @@ type SerializableError = {
   stack?: string;
 };
 
+export type AuthErrorCode = 'FB_INIT_ERROR' | 'API_ERROR' | 'UNKNOWN_ERROR';
+
+export type AuthState =
+  | {
+      state: 'initializing' | 'loggingIn' | 'loggingOut' | 'loggedOut';
+    }
+  | {
+      state: 'loggedIn';
+      viewer: NonNullable<ViewerQuery['viewer']>;
+    }
+  | {
+      state: 'error';
+      code?: AuthErrorCode;
+      error?: Error;
+    };
+
+export type FbSdkAuthState =
+  | {
+      state: 'initializing' | 'loggingIn' | 'loggingOut' | 'loggedOut';
+    }
+  | {
+      state: 'loggedIn';
+      accessToken: string;
+    }
+  | {
+      state: 'error';
+      code?: AuthErrorCode;
+      error?: Error;
+    };
+
 /** A map of all app actions to their corresponding payloads */
 export type ActionTypeToPayloadType = {
   GO_TO_SEARCH: void;
@@ -115,6 +146,10 @@ export type ActionTypeToPayloadType = {
   SET_ALTERNATIVE_SEARCH_BOX_TEXT: string | null;
   '@@router/LOCATION_CHANGE': LocationChangeAction['payload'];
   '@@router/CALL_HISTORY_METHOD': RouterAction['payload'];
+  SET_FB_SDK_AUTH_STATE: FbSdkAuthState;
+  FACEBOOK_AUTH_RESPONSE_CHANGED: FB.AuthResponse;
+  REQUEST_LOGIN: undefined;
+  REQUEST_LOGOUT: undefined;
 };
 
 export type AppState = {
@@ -128,10 +163,11 @@ export type AppState = {
    */
   alternativeSearchBoxText: string | null;
   resolvedData: {
-    [K in keyof ResolvedData]: AsyncResult<ResolvedData[K] | null> & {
+    [K in keyof ResolvedData]: AsyncResult<ResolvedData[K]> & {
       requestId: string | null;
     }
   };
+  fbSdkAuthState: FbSdkAuthState;
 };
 
 /**

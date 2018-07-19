@@ -1,0 +1,5 @@
+mutation CreateUser($fbAccessToken: String!) {
+  createUser(input: { fbAccessToken: $fbAccessToken }) {
+    id
+  }
+}

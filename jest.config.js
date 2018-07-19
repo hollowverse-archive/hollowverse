@@ -30,4 +30,5 @@ module.exports = {
     '!src/app/**.d.ts',
     '!**/node_modules/**',
   ],
+  watchPathIgnorePatterns: ['node_modules', 'dist', '.webpack', '.serverless'],
 };

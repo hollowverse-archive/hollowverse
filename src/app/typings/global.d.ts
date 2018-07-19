@@ -24,6 +24,9 @@ declare const __BASE__: string;
 /** @example https://api.hollowverse.com/graphql */
 declare const __API_ENDPOINT__: string;
 
+/** Used to initialize the FB JS SDK  */
+declare const __FB_APP_ID__: string;
+
 /**
  * By default, logging and analytics are disabled in development.
  * Run `FORCE_ENABLE_LOGGING=1 yarn dev` to set this to `true` and force enable logging.

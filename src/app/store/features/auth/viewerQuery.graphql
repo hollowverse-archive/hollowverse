@@ -1,0 +1,6 @@
+query Viewer {
+  viewer {
+    name
+    photoUrl
+  }
+}

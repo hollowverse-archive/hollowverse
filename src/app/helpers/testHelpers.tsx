@@ -31,6 +31,7 @@ import { PrivacyPolicy } from 'pages/PrivacyPolicy/PrivacyPolicy';
 import { NotablePerson } from 'pages/NotablePerson/NotablePerson';
 import { Home } from 'pages/Home/Home';
 import { UnboxPromise } from 'typings/typeHelpers';
+import { EventEmitter } from 'events';
 
 const defaultRoutesMap: AppRoutesMap = {
   '/search': SearchResults,
@@ -64,6 +65,117 @@ export const createMockGetResponseForDataRequest = (
   return payload.load();
 };
 
+type CreateMockFbSdkOption = {
+  onLoginRequested?(): FB.LoginStatusResponse;
+  onLogoutRequested?(): FB.LoginStatusResponse;
+};
+
+const respondWithSuccessfulLogoutState: CreateMockFbSdkOption['onLogoutRequested'] = () => ({
+  authResponse: undefined,
+  status: 'not_authorized',
+});
+
+const respondWithSuccessfulLoginState: CreateMockFbSdkOption['onLoginRequested'] = () => ({
+  authResponse: {
+    accessToken: '<valid access token>',
+    expiresIn: 3600,
+    signedRequest: '<valid signed request>',
+    userID: '<valid user ID>',
+  },
+  status: 'connected',
+});
+
+export const createMockFbSdk = ({
+  onLoginRequested = respondWithSuccessfulLoginState,
+  onLogoutRequested = respondWithSuccessfulLogoutState,
+}: CreateMockFbSdkOption = {}) => {
+  const state = new class FbSdkInternalState {
+    emitter = new EventEmitter();
+
+    private actualStatus: FB.LoginStatusResponse = {
+      status: 'not_authorized',
+      authResponse: undefined,
+    };
+
+    get status() {
+      return this.actualStatus;
+    }
+
+    set status(newStatus) {
+      const oldStatus = this.actualStatus;
+      this.actualStatus = newStatus;
+
+      this.emitter.emit('auth.authResponseChange', newStatus);
+
+      if (newStatus.status !== oldStatus.status) {
+        this.emitter.emit('auth.statusChange', newStatus);
+      }
+    }
+  }();
+
+  // tslint:disable-next-line no-unnecessary-local-variable
+  const sdk: FB = {
+    init() {
+      return undefined;
+    },
+
+    Event: {
+      subscribe: jest.fn<FB['Event']['subscribe']>((event, listener) => {
+        state.emitter.addListener(event, listener);
+      }),
+
+      unsubscribe: jest.fn<FB['Event']['unsubscribe']>((event, listener) => {
+        state.emitter.removeListener(event, listener);
+      }),
+    },
+
+    getAuthResponse: jest.fn<FB['getAuthResponse']>(() => {
+      return state.status.authResponse;
+    }),
+
+    getLoginStatus: jest.fn<FB['getLoginStatus']>(callback => {
+      callback(state.status);
+    }),
+
+    login: jest.fn<FB['login']>(async callback => {
+      state.emitter.emit('auth.login');
+
+      await delay(0);
+
+      state.status = onLoginRequested();
+
+      if (callback) {
+        callback(state.status.authResponse);
+      }
+    }),
+
+    logout: jest.fn<FB['logout']>(async callback => {
+      state.emitter.emit('auth.logout');
+
+      await delay(0);
+
+      state.status = onLogoutRequested();
+
+      if (callback) {
+        callback(state.status.authResponse);
+      }
+    }),
+
+    XFBML: {
+      parse(_node, callback) {
+        if (typeof callback === 'function') {
+          callback();
+        }
+      },
+    },
+  };
+
+  // @ts-ignore
+  global.FB = sdk;
+
+  return sdk;
+};
+
 export const defaultTestDependencyOverrides: Partial<EpicDependencies> = {
   sendLogs: jest.fn(),
 
@@ -91,6 +203,7 @@ export const defaultTestDependencyOverrides: Partial<EpicDependencies> = {
       });
     }),
   ),
+  getFbSdk: jest.fn(once(async () => createMockFbSdk())),
 };
 
 export const createTestTree = ({
@@ -166,7 +279,17 @@ export const createClientSideTestContext = async ({
   await delay(0);
   wrapper.update();
 
-  return { wrapper, store, history, dependencies };
+  const toggleAppMenu = () => {
+    const menuButton = wrapper
+      .find('#app-menu-wrapper [role="button"]')
+      .first();
+
+    menuButton.simulate('click');
+
+    return wrapper.find('#app-menu-wrapper [role="menu"]').first();
+  };
+
+  return { wrapper, toggleAppMenu, store, history, dependencies };
 };
 
 export type ClientSideTestContext = UnboxPromise<

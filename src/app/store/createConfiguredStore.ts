@@ -23,11 +23,12 @@ import { analyticsEpic } from 'store/features/analytics/epic';
 import { updateUrlEpic } from 'store/features/search/updateUrlEpic';
 import { dataResolverEpic } from 'store/features/asyncData/epic';
 import { loggingEpic } from 'store/features/logging/epic';
-import { nullResult } from 'helpers/asyncResults';
+import { nullResult, pendingResult } from 'helpers/asyncResults';
 import { sendLogs, getSessionId, getUserAgent } from 'helpers/logging';
 import { importGlobalScript } from 'helpers/importGlobalScript';
 import { isError } from 'lodash';
 import { serializeError } from 'helpers/serializeError';
+import { authEpic } from './features/auth/epic';
 
 declare const global: NodeJS.Global & {
   /**
@@ -76,6 +77,8 @@ export type EpicDependencies = {
   getUserAgent(): string;
 
   getGoogleAnalyticsFunction(): Promise<UniversalAnalytics.ga>;
+
+  getFbSdk(): Promise<FB>;
 };
 
 export type CreateConfiguredStoreOptions = {
@@ -109,8 +112,15 @@ const defaultInitialState: StoreState = {
       ...nullResult,
       requestId: null,
     },
+    viewer: {
+      ...pendingResult,
+      requestId: null,
+    },
   },
   alternativeSearchBoxText: null,
+  fbSdkAuthState: {
+    state: 'initializing',
+  },
 };
 
 const defaultEpicDependencies: EpicDependencies = {
@@ -129,6 +139,12 @@ const defaultEpicDependencies: EpicDependencies = {
 
     return ga;
   },
+
+  async getFbSdk() {
+    await importGlobalScript('https://connect.facebook.net/en_US/sdk.js');
+
+    return FB;
+  },
 };
 
 export function createConfiguredStore({
@@ -144,7 +160,7 @@ export function createConfiguredStore({
     composeEnhancers = global.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__;
   }
 
-  const epics = [updateUrlEpic, dataResolverEpic, loggingEpic];
+  const epics = [updateUrlEpic, dataResolverEpic, authEpic, loggingEpic];
 
   const dependencies = {
     ...defaultEpicDependencies,

@@ -1,7 +1,7 @@
 import '@babel/polyfill';
 
 import React from 'react';
-import { Provider } from 'react-redux';
+import { Provider, connect } from 'react-redux';
 import { ConnectedRouter as Router } from 'react-router-redux';
 import domready from 'domready';
 import { render } from 'react-dom';
@@ -23,6 +23,9 @@ import {
 import { routesMap } from 'routesMap';
 import { pick } from 'lodash';
 import { isError } from 'util';
+import { GraphQLClient } from 'graphql-request';
+import { getAccessToken } from 'store/features/auth/reducer';
+import { StoreState } from 'store/types';
 
 const history = createBrowserHistory();
 
@@ -30,19 +33,39 @@ const { store } = createConfiguredStore({
   history,
 });
 
+const ConnectedApp = connect((state: StoreState) => ({
+  accessToken: getAccessToken(state),
+}))(({ accessToken }) => (
+  <AppDependenciesContext.Provider
+    value={{
+      ...defaultAppDependencies,
+      apiClient: new GraphQLClient(__API_ENDPOINT__, {
+        // Use `GET` for public queries to take advantage from
+        // CDN caching of API responses.
+        // `POST` is used for logged-in users because mutations
+        // require `POST` requests. `POST` requests are never cached.
+        method: accessToken ? 'POST' : 'GET',
+        headers: {
+          Authorization: accessToken ? `Bearer ${accessToken}` : '',
+        },
+      }),
+    }}
+  >
+    <Router history={history}>
+      <App routesMap={routesMap} />
+    </Router>
+  </AppDependenciesContext.Provider>
+));
+
 // This has to be a class in order for hot module replacement to work
 class Root extends React.PureComponent {
   /* eslint-disable-next-line class-methods-use-this */
   render() {
     return (
       <HelmetProvider>
-        <AppDependenciesContext.Provider value={defaultAppDependencies}>
-          <Provider store={store}>
-            <Router history={history}>
-              <App routesMap={routesMap} />
-            </Router>
-          </Provider>
-        </AppDependenciesContext.Provider>
+        <Provider store={store}>
+          <ConnectedApp />
+        </Provider>
       </HelmetProvider>
     );
   }
