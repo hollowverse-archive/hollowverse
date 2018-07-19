@@ -97,8 +97,7 @@ Promise.all([
   loadFocusVisiblePolyfill(),
 ])
   .then(renderOnDomReady)
-  .catch(renderOnDomReady)
-  .catch();
+  .catch(renderOnDomReady);
 
 window.addEventListener(
   'error',

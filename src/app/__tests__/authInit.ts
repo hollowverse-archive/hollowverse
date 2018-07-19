@@ -37,7 +37,7 @@ describe('authentication', () => {
 describe('on FB SDK initialization failure', () => {
   let context: ClientSideTestContext;
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     context = await createClientSideTestContext({
       epicDependenciesOverrides: {
         async getFbSdk() {

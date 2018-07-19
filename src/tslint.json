@@ -4,6 +4,6 @@
     "no-multiline-string": false,
     "no-submodule-imports": false,
     "no-implicit-dependencies": false,
-    "use-default-type-parameter": false
+    "use-default-type-parameter": false // Buggy
   }
 }
