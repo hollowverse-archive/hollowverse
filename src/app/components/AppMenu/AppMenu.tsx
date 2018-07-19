@@ -25,6 +25,9 @@ import closeIcon from 'icons/close.svg';
 import classes from './AppMenu.module.scss';
 import { forceReload } from 'helpers/forceReload';
 
+import Snackbar from '@material-ui/core/Snackbar';
+import Button from '@material-ui/core/Button';
+
 const Separator = (
   <div role="separator" className={classes.separator}>
     <div />
@@ -89,18 +92,24 @@ const iconForAuthState: Partial<Record<AuthState['state'], React.ReactNode>> = {
 type State = {
   isFbSdkBlockedDialogShown: boolean;
   isLoginFailedDialogShown: boolean;
+  isLoginStateChangeSnackbarShown: boolean;
 };
 
 export class AppMenu extends React.PureComponent<Props, State> {
   state = {
     isFbSdkBlockedDialogShown: false,
     isLoginFailedDialogShown: false,
+    isLoginStateChangeSnackbarShown: false,
   };
 
   componentWillReceiveProps({ authState }: Props) {
     this.setState({
-      isLoginFailedDialogShown:
-        authState.state === 'error' && authState.code !== 'FB_INIT_ERROR',
+      isLoginStateChangeSnackbarShown:
+        authState.state !== this.props.authState.state &&
+        !(
+          this.props.authState.state === 'initializing' &&
+          authState.state === 'loggedOut'
+        ),
     });
   }
 
@@ -224,6 +233,56 @@ export class AppMenu extends React.PureComponent<Props, State> {
     }
   };
 
+  renderLoginStateChangeSnackbar() {
+    let message: React.ReactElement<any> | undefined;
+    const { authState } = this.props;
+
+    if (authState.state === 'loggedIn') {
+      message = (
+        <span>
+          Logged in as <b>{authState.viewer.name}</b>
+        </span>
+      );
+    } else if (authState.state === 'loggedOut') {
+      message = <span>Logged out</span>;
+    } else if (authState.state === 'error') {
+      message = <span>Login failed</span>;
+    }
+
+    if (!message) {
+      return undefined;
+    }
+
+    return (
+      <Snackbar
+        anchorOrigin={{
+          horizontal: 'left',
+          vertical: 'bottom',
+        }}
+        open={this.state.isLoginStateChangeSnackbarShown}
+        onClose={this.toggleLoginStateChangeSnackbar}
+        autoHideDuration={6000}
+        message={message}
+        action={
+          <Button
+            key="undo"
+            color="secondary"
+            size="small"
+            onClick={this.toggleLoginStateChangeSnackbar}
+          >
+            Dismiss
+          </Button>
+        }
+      />
+    );
+  }
+
+  toggleLoginStateChangeSnackbar = () => {
+    this.setState(state => ({
+      isLoginStateChangeSnackbarShown: !state.isLoginStateChangeSnackbarShown,
+    }));
+  };
+
   closeMenu = () => {
     closeMenu('app-menu-wrapper');
   };
@@ -235,6 +294,7 @@ export class AppMenu extends React.PureComponent<Props, State> {
       <nav className={classes.root}>
         {this.renderFbSdkBlockedDialog()}
         {this.renderLoginFailedDialog()}
+        {this.renderLoginStateChangeSnackbar()}
         <Menu
           className={classes.menu}
           aria-label="Main Menu"
