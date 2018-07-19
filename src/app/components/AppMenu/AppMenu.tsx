@@ -14,7 +14,7 @@ import { PersonPhoto } from 'components/PersonPhoto/PersonPhoto';
 import { SvgIcon } from 'components/SvgIcon/SvgIcon';
 
 import { LoadingSpinner } from 'components/LoadingSpinner/LoadingSpinner';
-import { AuthState } from 'store/types';
+import { AuthState, AuthErrorCode } from 'store/types';
 import { Paper } from '../Paper/Paper';
 
 import facebookIcon from 'icons/facebook.svg';
@@ -25,7 +25,9 @@ import { forceReload } from 'helpers/forceReload';
 import Snackbar from '@material-ui/core/Snackbar';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
-import { DialogTitle, DialogContent, DialogActions } from '@material-ui/core';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 const Separator = (
   <div role="separator" className={classes.separator}>
@@ -88,6 +90,28 @@ const iconForAuthState: Partial<Record<AuthState['state'], React.ReactNode>> = {
   error: fbIcon,
 };
 
+const dialogContentForErrorCode: Partial<
+  Record<AuthErrorCode, React.ReactNode>
+> = {
+  FB_INIT_ERROR: (
+    <p>
+      If the issue persists, your browser might have a tracking protection
+      feature which blocks loading of Facebook scripts.
+    </p>
+  ),
+  UNKNOWN_ERROR: (
+    <p>
+      If the issue persists, it is most likely an issue on our side. Please try
+      again in a few hours.
+    </p>
+  ),
+};
+
+const titleForErrorCode: Partial<Record<AuthErrorCode, string>> = {
+  FB_INIT_ERROR: 'Could not connect to Facebook',
+  UNKNOWN_ERROR: 'Login failed',
+};
+
 type State = {
   isLoginFailedDialogShown: boolean;
   isLoginStateChangeSnackbarShown: boolean;
@@ -107,6 +131,10 @@ export class AppMenu extends React.PureComponent<Props, State> {
           this.props.authState.state === 'initializing' &&
           authState.state === 'loggedOut'
         ),
+      isLoginFailedDialogShown:
+        authState.state !== this.props.authState.state &&
+        authState.state === 'error' &&
+        authState.code !== 'FB_INIT_ERROR',
     });
   }
 
@@ -161,34 +189,30 @@ export class AppMenu extends React.PureComponent<Props, State> {
 
   renderLoginFailedDialog = () => {
     const { authState } = this.props;
-    const isFbInitError =
-      authState.state === 'error' && authState.code === 'FB_INIT_ERROR';
+
+    if (authState.state !== 'error') {
+      return undefined;
+    }
+
+    const { code = 'UNKNOWN_ERROR' } = authState;
 
     return (
       <Dialog
         aria-labelledby="login-failed-dialog-title"
+        role="alertdialog"
         onClose={this.toggleLoginFailedDialog}
         open={this.state.isLoginFailedDialogShown}
       >
         <DialogTitle id="login-failed-dialog-title">
-          {isFbInitError ? 'Could not connect to Facebook' : 'Login failed'}
+          {titleForErrorCode[code] || titleForErrorCode.UNKNOWN_ERROR}
         </DialogTitle>
         <DialogContent>
           <p>This could be due to a slow network. Try reloading the page.</p>
-          {isFbInitError ? (
-            <p>
-              If the issue persists, your browser might have a tracking
-              protection feature which blocks loading of Facebook scripts.
-            </p>
-          ) : (
-            <p>
-              If the issue persists, it is most likely an issue on our side.
-              Please try again in a few hours.
-            </p>
-          )}
+          {dialogContentForErrorCode[code] || titleForErrorCode.UNKNOWN_ERROR}
         </DialogContent>
         <DialogActions>
           <Button onClick={forceReload}>Reload</Button>
+          <Button onClick={this.toggleLoginFailedDialog}>Dismiss</Button>
         </DialogActions>
       </Dialog>
     );
@@ -213,9 +237,9 @@ export class AppMenu extends React.PureComponent<Props, State> {
   };
 
   renderLoginStateChangeSnackbar() {
-    let message: React.ReactElement<any> | undefined;
     const { authState } = this.props;
 
+    let message: React.ReactElement<any> | undefined;
     if (authState.state === 'loggedIn') {
       message = (
         <span>
@@ -224,8 +248,6 @@ export class AppMenu extends React.PureComponent<Props, State> {
       );
     } else if (authState.state === 'loggedOut') {
       message = <span>Logged out</span>;
-    } else if (authState.state === 'error') {
-      message = <span>Login failed</span>;
     }
 
     if (!message) {

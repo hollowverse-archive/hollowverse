@@ -77,7 +77,7 @@ type SerializableError = {
   stack?: string;
 };
 
-export type AuthErrorCode = 'FB_INIT_ERROR';
+export type AuthErrorCode = 'FB_INIT_ERROR' | 'API_ERROR' | 'UNKNOWN_ERROR';
 
 export type AuthState =
   | {
