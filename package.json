@@ -54,11 +54,11 @@
   "bundlesize": [
     {
       "path": "./dist/client/**/!(vendor~main).*.js",
-      "maxSize": "16 kB"
+      "maxSize": "35 kB"
     },
     {
       "path": "./dist/client/**/vendor~main.*.js",
-      "maxSize": "130 kB"
+      "maxSize": "200 kB"
     },
     {
       "path": "./dist/client/**/*.css",
