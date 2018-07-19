@@ -89,14 +89,12 @@ const iconForAuthState: Partial<Record<AuthState['state'], React.ReactNode>> = {
 };
 
 type State = {
-  isFbSdkBlockedDialogShown: boolean;
   isLoginFailedDialogShown: boolean;
   isLoginStateChangeSnackbarShown: boolean;
 };
 
 export class AppMenu extends React.PureComponent<Props, State> {
   state = {
-    isFbSdkBlockedDialogShown: false,
     isLoginFailedDialogShown: false,
     isLoginStateChangeSnackbarShown: false,
   };
