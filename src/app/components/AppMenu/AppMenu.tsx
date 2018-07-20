@@ -1,7 +1,6 @@
 import React from 'react';
 import cc from 'classcat';
 
-import { PersonPhoto } from 'components/PersonPhoto/PersonPhoto';
 import { SvgIcon } from 'components/SvgIcon/SvgIcon';
 
 import { LoadingSpinner } from 'components/LoadingSpinner/LoadingSpinner';
@@ -23,6 +22,8 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import MenuIcon from '@material-ui/icons/Menu';
+import Avatar from '@material-ui/core/Avatar';
+
 import { MenuItemWithLink } from './MenuItem';
 
 export type StateProps = {
@@ -127,12 +128,10 @@ export class AppMenu extends React.PureComponent<Props, State> {
 
     return (
       <MenuItem aria-label={`Signed in as ${viewer.name}`}>
-        <PersonPhoto
-          alt="Profile Photo"
-          className={classes.userAvatar}
-          src={viewer.photoUrl || undefined}
-        />
-        <div className={classes.userName}>{viewer.name}</div>
+        <ListItemIcon>
+          <Avatar alt="Profile Photo" src={viewer.photoUrl || undefined} />
+        </ListItemIcon>
+        {viewer.name}
       </MenuItem>
     );
   };
