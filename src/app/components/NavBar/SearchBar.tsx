@@ -2,10 +2,9 @@ import React from 'react';
 
 import classes from './SearchBar.module.scss';
 
-import { SvgIcon } from 'components/SvgIcon/SvgIcon';
+import SearchIcon from '@material-ui/icons/Search';
 import { NavBarButton, NavBarLink } from 'components/NavBar/NavBarButton';
 
-import searchIcon from 'icons/search.svg';
 import { LoadingSpinner } from 'components/LoadingSpinner/LoadingSpinner';
 import { Route, Switch } from 'react-router';
 
@@ -93,14 +92,14 @@ export class SearchBar extends React.PureComponent<Props> {
               {isSearchInProgress ? (
                 <LoadingSpinner size={20} />
               ) : (
-                <SvgIcon size={20} {...searchIcon} />
+                <SearchIcon />
               )}
               <span className="sr-only">Search</span>
             </NavBarButton>
           </Route>
           <Route>
             <NavBarLink to="/search">
-              <SvgIcon size={20} {...searchIcon} />
+              <SearchIcon />
               <span className="sr-only">Search</span>
             </NavBarLink>
           </Route>

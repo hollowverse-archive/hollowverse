@@ -7,14 +7,15 @@ import { RouteComponentProps, Route, Switch } from 'react-router';
 import classes from './NavBar.module.scss';
 
 import { Sticky } from 'components/Sticky/Sticky';
-import { SvgIcon } from 'components/SvgIcon/SvgIcon';
 import { NavBarLink } from 'components/NavBar/NavBarButton';
 
-import searchIcon from 'icons/search.svg';
+import SearchIcon from '@material-ui/icons/Search';
+import IconButton from '@material-ui/core/IconButton';
 import textLogo from '!!file-loader!assets/textLogo.svg';
 
 import { ConnectedSearchBar } from 'components/NavBar/ConnectedSearchBar';
 import { ConnectedAppMenu } from 'components/AppMenu/ConnectedAppMenu';
+import { Link } from 'react-router-dom';
 
 export type OwnProps = {
   title: string;
@@ -86,16 +87,14 @@ export const NavBar = class extends React.Component<
                             <img src={textLogo} alt={title} />
                           </NavBarLink>
                         </div>
-                        <NavBarLink
-                          className={cc([
-                            classes.button,
-                            { [classes.isHidden]: isHomePage },
-                          ])}
-                          to="/search"
+                        <IconButton
+                          aria-label="Search"
+                          className={cc([{ [classes.isHidden]: isHomePage }])}
+                          component={Link as any}
+                          {...{ to: '/search' } as any}
                         >
-                          <SvgIcon size={20} {...searchIcon} />
-                          <span className="sr-only">Search</span>
-                        </NavBarLink>
+                          <SearchIcon />
+                        </IconButton>
                       </div>
                     )}
                   </Route>

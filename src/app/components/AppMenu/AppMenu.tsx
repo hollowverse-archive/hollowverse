@@ -14,6 +14,7 @@ import { forceReload } from 'helpers/forceReload';
 
 import Snackbar from '@material-ui/core/Snackbar';
 import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -125,14 +126,14 @@ export class AppMenu extends React.PureComponent<Props, State> {
     const { viewer } = authState;
 
     return (
-      <div aria-label={`Signed in as ${viewer.name}`}>
+      <MenuItem aria-label={`Signed in as ${viewer.name}`}>
         <PersonPhoto
           alt="Profile Photo"
           className={classes.userAvatar}
           src={viewer.photoUrl || undefined}
         />
         <div className={classes.userName}>{viewer.name}</div>
-      </div>
+      </MenuItem>
     );
   };
 
@@ -276,14 +277,14 @@ export class AppMenu extends React.PureComponent<Props, State> {
       <>
         {this.renderLoginFailedDialog()}
         {this.renderLoginStateChangeSnackbar()}
-        <Button
+        <IconButton
           aria-owns={anchorElement ? 'app-menu' : undefined}
           aria-haspopup="true"
           aria-label="Open menu"
           onClick={this.handleClick}
         >
           <MenuIcon />
-        </Button>
+        </IconButton>
         {!!anchorElement && (
           <Menu
             id="app-menu"
