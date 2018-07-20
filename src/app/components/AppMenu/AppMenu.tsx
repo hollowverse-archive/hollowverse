@@ -21,9 +21,8 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
-import Divider from '@material-ui/core/Divider';
 import MenuIcon from '@material-ui/icons/Menu';
-import { Link } from 'react-router-dom';
+import { MenuItemWithLink } from './MenuItem';
 
 export type StateProps = {
   authState: AuthState;
@@ -126,14 +125,14 @@ export class AppMenu extends React.PureComponent<Props, State> {
     const { viewer } = authState;
 
     return (
-      <MenuItem aria-label={`Signed in as ${viewer.name}`}>
+      <div aria-label={`Signed in as ${viewer.name}`}>
         <PersonPhoto
           alt="Profile Photo"
           className={classes.userAvatar}
           src={viewer.photoUrl || undefined}
         />
         <div className={classes.userName}>{viewer.name}</div>
-      </MenuItem>
+      </div>
     );
   };
 
@@ -157,6 +156,7 @@ export class AppMenu extends React.PureComponent<Props, State> {
         ])}
         onClick={this.handleLoginClick}
         disabled={!canClick}
+        divider
       >
         {icon && <ListItemIcon>{icon as any}</ListItemIcon>}
         {messageForAuthState[state] || messageForAuthState.loggedOut}
@@ -282,28 +282,26 @@ export class AppMenu extends React.PureComponent<Props, State> {
         >
           <MenuIcon />
         </Button>
-        <Menu
-          id="app-menu"
-          anchorEl={anchorElement!}
-          open={Boolean(anchorElement)}
-          onClose={this.handleClose}
-        >
-          {this.renderLoginFailedDialog()}
-          {this.renderLoginStateChangeSnackbar()}
-          {this.renderUser()}
-          <MenuItem button>
-            <Link to="/">Home</Link>
-          </MenuItem>
-          <MenuItem>
-            <Link to="/contact">Contact</Link>
-          </MenuItem>
-          <Divider />
-          {this.renderLoginButton()}
-          <Divider />
-          <MenuItem>
-            <Link to="/privacy-policy">Privacy Policy</Link>
-          </MenuItem>
-        </Menu>
+        {!!anchorElement && (
+          <Menu
+            id="app-menu"
+            anchorEl={anchorElement}
+            open={Boolean(anchorElement)}
+            onClose={this.handleClose}
+          >
+            {this.renderLoginFailedDialog()}
+            {this.renderLoginStateChangeSnackbar()}
+            {this.renderUser()}
+            <MenuItemWithLink to="/">Home</MenuItemWithLink>
+            <MenuItemWithLink divider to="/contact">
+              Contact
+            </MenuItemWithLink>
+            {this.renderLoginButton()}
+            <MenuItemWithLink to="/privacy-policy">
+              Privacy Policy
+            </MenuItemWithLink>
+          </Menu>
+        )}
       </>
     );
   }
