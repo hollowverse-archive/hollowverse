@@ -13,5 +13,3 @@ require('jest-enzyme');
 beforeEach(() => {
   expect.hasAssertions();
 });
-
-jest.mock('no-scroll');

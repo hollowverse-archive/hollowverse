@@ -1,6 +1,5 @@
 import React from 'react';
 import cc from 'classcat';
-import noScroll from 'no-scroll';
 
 import { RouteComponentProps, Route, Switch } from 'react-router';
 
@@ -32,28 +31,6 @@ type Props = OwnProps & StateProps & DispatchProps;
 export const NavBar = class extends React.Component<
   Props & RouteComponentProps<any>
 > {
-  navBarChildRef = React.createRef<HTMLSpanElement>();
-
-  handleMenuToggle = () => {
-    if (navigator.userAgent.match(/iphone|ipad/i)) {
-      return;
-    }
-
-    noScroll.toggle();
-  };
-
-  getMenuStyle = () => {
-    let top = 0;
-    let left = 0;
-    const ref = this.navBarChildRef.current;
-
-    if (ref) {
-      ({ top, left } = ref.getBoundingClientRect());
-    }
-
-    return { '--top': `${top}px`, '--left': `${left}px` };
-  };
-
   render() {
     const { title, shouldFocusSearch, isHomePage } = this.props;
 
