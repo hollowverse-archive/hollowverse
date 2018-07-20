@@ -3,16 +3,14 @@ import cc from 'classcat';
 import noScroll from 'no-scroll';
 
 import { RouteComponentProps, Route, Switch } from 'react-router';
-import { Button, Wrapper } from 'react-aria-menubutton';
 
 import classes from './NavBar.module.scss';
 
 import { Sticky } from 'components/Sticky/Sticky';
 import { SvgIcon } from 'components/SvgIcon/SvgIcon';
-import { NavBarLink, NavBarButton } from 'components/NavBar/NavBarButton';
+import { NavBarLink } from 'components/NavBar/NavBarButton';
 
 import searchIcon from 'icons/search.svg';
-import menuIcon from 'icons/menu.svg';
 import textLogo from '!!file-loader!assets/textLogo.svg';
 
 import { ConnectedSearchBar } from 'components/NavBar/ConnectedSearchBar';
@@ -68,19 +66,7 @@ export const NavBar = class extends React.Component<
         >
           {isSticking => (
             <>
-              <Wrapper
-                id="app-menu-wrapper"
-                onMenuToggle={this.handleMenuToggle}
-                className={classes.menuWrapper}
-              >
-                <NavBarButton className={classes.button} Factory={Button}>
-                  <span ref={this.navBarChildRef}>
-                    <SvgIcon size={20} {...menuIcon} />
-                    <span className="sr-only">Main Menu</span>
-                  </span>
-                </NavBarButton>
-                <ConnectedAppMenu getMenuStyle={this.getMenuStyle} />
-              </Wrapper>
+              <ConnectedAppMenu />
               <div className={classes.view}>
                 <Switch>
                   <Route path="/search">

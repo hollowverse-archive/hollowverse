@@ -1,24 +1,14 @@
 import React from 'react';
 import cc from 'classcat';
-import { Menu, closeMenu } from 'react-aria-menubutton';
-import CSSTransition, {
-  CSSTransitionClassNames,
-} from 'react-transition-group/CSSTransition';
-import {
-  MenuItemWithLink,
-  MenuItemWithButton,
-  MenuItemWithChild,
-} from './MenuItem';
 
 import { PersonPhoto } from 'components/PersonPhoto/PersonPhoto';
 import { SvgIcon } from 'components/SvgIcon/SvgIcon';
 
 import { LoadingSpinner } from 'components/LoadingSpinner/LoadingSpinner';
 import { AuthState, AuthErrorCode } from 'store/types';
-import { Paper } from '../Paper/Paper';
 
 import facebookIcon from 'icons/facebook.svg';
-import closeIcon from 'icons/close.svg';
+// import closeIcon from 'icons/close.svg';
 import classes from './AppMenu.module.scss';
 import { forceReload } from 'helpers/forceReload';
 
@@ -28,14 +18,12 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogTitle from '@material-ui/core/DialogTitle';
-
-const Separator = (
-  <div role="separator" className={classes.separator}>
-    <div />
-  </div>
-);
-
-const transitionTimeoutMilliseconds = 150;
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import Divider from '@material-ui/core/Divider';
+import MenuIcon from '@material-ui/icons/Menu';
+import { Link } from 'react-router-dom';
 
 export type StateProps = {
   authState: AuthState;
@@ -46,21 +34,9 @@ export type DispatchProps = {
   requestLogout(payload: undefined): void;
 };
 
-export type OwnProps = {
-  getMenuStyle?(): React.CSSProperties & {
-    '--top': string;
-    '--left': string;
-  };
-};
+export type OwnProps = {};
 
 type Props = OwnProps & StateProps & DispatchProps;
-
-const transitionClassNames: CSSTransitionClassNames = {
-  enter: classes.menuEnter,
-  enterActive: classes.menuEnterActive,
-  exit: classes.menuExit,
-  exitActive: classes.menuExitActive,
-};
 
 const messageForAuthState: Partial<Record<AuthState['state'], string>> = {
   initializing: 'Checking login...',
@@ -115,12 +91,14 @@ const titleForErrorCode: Partial<Record<AuthErrorCode, string>> = {
 type State = {
   isLoginFailedDialogShown: boolean;
   isLoginStateChangeSnackbarShown: boolean;
+  anchorElement: HTMLElement | null;
 };
 
 export class AppMenu extends React.PureComponent<Props, State> {
   state = {
     isLoginFailedDialogShown: false,
     isLoginStateChangeSnackbarShown: false,
+    anchorElement: null,
   };
 
   componentWillReceiveProps({ authState }: Props) {
@@ -148,18 +126,14 @@ export class AppMenu extends React.PureComponent<Props, State> {
     const { viewer } = authState;
 
     return (
-      <MenuItemWithChild
-        aria-label={`Signed in as ${viewer.name}`}
-        factory="div"
-        isClickable={false}
-      >
+      <MenuItem aria-label={`Signed in as ${viewer.name}`}>
         <PersonPhoto
           alt="Profile Photo"
           className={classes.userAvatar}
           src={viewer.photoUrl || undefined}
         />
         <div className={classes.userName}>{viewer.name}</div>
-      </MenuItemWithChild>
+      </MenuItem>
     );
   };
 
@@ -167,23 +141,26 @@ export class AppMenu extends React.PureComponent<Props, State> {
     const {
       authState: { state },
     } = this.props;
+
     const canClick =
       state === 'loggedIn' || state === 'loggedOut' || state === 'error';
 
+    const icon = iconForAuthState[state];
+
     return (
-      <MenuItemWithButton
+      <MenuItem
+        button
         className={cc([
           {
             [classes.facebook]: state === 'loggedOut' || state === 'error',
           },
         ])}
-        type="button"
         onClick={this.handleLoginClick}
         disabled={!canClick}
-        icon={iconForAuthState[state]}
       >
+        {icon && <ListItemIcon>{icon as any}</ListItemIcon>}
         {messageForAuthState[state] || messageForAuthState.loggedOut}
-      </MenuItemWithButton>
+      </MenuItem>
     );
   };
 
@@ -284,56 +261,50 @@ export class AppMenu extends React.PureComponent<Props, State> {
     }));
   };
 
-  closeMenu = () => {
-    closeMenu('app-menu-wrapper');
+  handleClick = (event: React.MouseEvent<any>) => {
+    this.setState({ anchorElement: event.currentTarget });
+  };
+
+  handleClose = () => {
+    this.setState({ anchorElement: null });
   };
 
   render() {
-    const { getMenuStyle = () => undefined } = this.props;
+    const { anchorElement } = this.state;
 
     return (
-      <nav className={classes.root}>
-        {this.renderLoginFailedDialog()}
-        {this.renderLoginStateChangeSnackbar()}
-        <Menu
-          className={classes.menu}
-          aria-label="Main Menu"
-          style={
-            {
-              '--timeout': `${transitionTimeoutMilliseconds}ms`,
-            } as any
-          }
+      <>
+        <Button
+          aria-owns={anchorElement ? 'app-menu' : undefined}
+          aria-haspopup="true"
+          aria-label="Open menu"
+          onClick={this.handleClick}
         >
-          {({ isOpen }: { isOpen: boolean }) => (
-            <CSSTransition
-              classNames={transitionClassNames}
-              timeout={transitionTimeoutMilliseconds}
-              in={isOpen}
-              mountOnEnter
-              unmountOnExit
-            >
-              <Paper className={classes.body} style={getMenuStyle()}>
-                {this.renderUser()}
-                <MenuItemWithLink to="/">Home</MenuItemWithLink>
-                <MenuItemWithLink to="/contact">Contact</MenuItemWithLink>
-                {Separator}
-                {this.renderLoginButton()}
-                <MenuItemWithButton
-                  type="button"
-                  className={classes.close}
-                  onClick={this.closeMenu}
-                  icon={<SvgIcon size={16} {...closeIcon} />}
-                  aria-label="Close"
-                />
-                {Separator}
-                <MenuItemWithLink size="small" to="/privacy-policy">
-                  Privacy Policy
-                </MenuItemWithLink>
-              </Paper>
-            </CSSTransition>
-          )}
+          <MenuIcon />
+        </Button>
+        <Menu
+          id="app-menu"
+          anchorEl={anchorElement!}
+          open={Boolean(anchorElement)}
+          onClose={this.handleClose}
+        >
+          {this.renderLoginFailedDialog()}
+          {this.renderLoginStateChangeSnackbar()}
+          {this.renderUser()}
+          <MenuItem button>
+            <Link to="/">Home</Link>
+          </MenuItem>
+          <MenuItem>
+            <Link to="/contact">Contact</Link>
+          </MenuItem>
+          <Divider />
+          {this.renderLoginButton()}
+          <Divider />
+          <MenuItem>
+            <Link to="/privacy-policy">Privacy Policy</Link>
+          </MenuItem>
         </Menu>
-      </nav>
+      </>
     );
   }
 }
