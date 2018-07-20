@@ -274,6 +274,8 @@ export class AppMenu extends React.PureComponent<Props, State> {
 
     return (
       <>
+        {this.renderLoginFailedDialog()}
+        {this.renderLoginStateChangeSnackbar()}
         <Button
           aria-owns={anchorElement ? 'app-menu' : undefined}
           aria-haspopup="true"
@@ -289,8 +291,6 @@ export class AppMenu extends React.PureComponent<Props, State> {
             open={Boolean(anchorElement)}
             onClose={this.handleClose}
           >
-            {this.renderLoginFailedDialog()}
-            {this.renderLoginStateChangeSnackbar()}
             {this.renderUser()}
             <MenuItemWithLink to="/">Home</MenuItemWithLink>
             <MenuItemWithLink divider to="/contact">
