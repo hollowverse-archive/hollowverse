@@ -3,17 +3,10 @@ import IconButton, { IconButtonProps } from '@material-ui/core/IconButton';
 
 import { Link, LinkProps } from 'react-router-dom';
 
-export const NavBarButton = ({
-  className,
-  Factory = IconButton,
-  ...rest
-}: IconButtonProps & { Factory?: any }) => (
-  <IconButton component={Factory} {...rest} />
-);
-
 export const NavBarLink = ({
   className,
+  component = Link,
   ...rest
 }: IconButtonProps & LinkProps) => (
-  <IconButton component={Link as any} {...rest} />
+  <IconButton component={component as any} {...rest} />
 );

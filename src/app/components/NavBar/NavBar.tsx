@@ -7,7 +7,6 @@ import { RouteComponentProps, Route, Switch } from 'react-router';
 import classes from './NavBar.module.scss';
 
 import { Sticky } from 'components/Sticky/Sticky';
-import { NavBarLink } from 'components/NavBar/NavBarButton';
 
 import SearchIcon from '@material-ui/icons/Search';
 import IconButton from '@material-ui/core/IconButton';
@@ -79,13 +78,13 @@ export const NavBar = class extends React.Component<
                     ) : (
                       <div className={classes.logoViewInner}>
                         <div className={classes.logoWrapper}>
-                          <NavBarLink
+                          <Link
                             title="Homepage"
                             className={classes.logo}
                             to="/"
                           >
                             <img src={textLogo} alt={title} />
-                          </NavBarLink>
+                          </Link>
                         </div>
                         <IconButton
                           aria-label="Search"
