@@ -1,4 +1,5 @@
 /* eslint import/no-extraneous-dependencies: ["error", {"devDependencies": true}] */
+/* tslint:disable no-non-null-assertion */
 
 import React from 'react';
 import { History, MemoryHistoryBuildOptions, createPath } from 'history';
@@ -54,18 +55,6 @@ type CreateTestTreeOptions = {
   routesMap?: AppRoutesMap;
 };
 
-export const createGetLoginMenuItem = menu => () =>
-  getByText(menu, 'log in', {
-    selector: '[role="menuitem"]',
-    exact: false,
-  });
-
-export const createGetLogoutButton = menu => () =>
-  getByText(menu, 'log out', {
-    selector: '[role="menuitem"]',
-    exact: false,
-  });
-
 export const defaultMockDataResponses: Partial<ResolvedData> = {
   notablePersonQuery: stubNotablePersonQueryResponse,
   searchResults: stubNonEmptySearchResults,
@@ -116,7 +105,7 @@ export const createMockFbSdk = ({
     };
 
     constructor() {
-      this.emitter.setMaxListeners(15);
+      this.emitter.setMaxListeners(16);
     }
 
     get status() {
@@ -315,28 +304,30 @@ export const createClientSideTestContext = async ({
   await delay(0);
 
   const toggleAppMenu = () => {
-    const menuButton = document.querySelector('[aria-label="Open menu"]')!;
+    const menuButton = document.querySelector(
+      '[aria-label="Open menu"]',
+    ) as HTMLElement;
 
     fireEvent.click(menuButton as any);
 
-    const menu = document.querySelector('#app-menu')!;
+    const menu = document.querySelector('#app-menu') as HTMLElement;
 
     // tslint:disable-next-line:prefer-object-spread
     return Object.assign(menu, {
       getLoginButton: async () =>
-        waitForElement(() =>
+        (await waitForElement(() =>
           getByText(menu, 'log in', {
             selector: '[role="menuitem"]',
             exact: false,
           }),
-        ),
+        ))!,
       getLogoutButton: async () =>
-        waitForElement(() =>
+        (await waitForElement(() =>
           getByText(menu, 'log out', {
             selector: '[role="menuitem"]',
             exact: false,
           }),
-        ),
+        ))!,
     });
   };
 

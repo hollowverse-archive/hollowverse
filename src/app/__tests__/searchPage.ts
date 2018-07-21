@@ -4,13 +4,12 @@ import {
   assertPageHasReloadButton,
 } from 'helpers/testHelpers';
 import { delay } from 'helpers/delay';
-import { LoadingSpinner } from 'components/LoadingSpinner/LoadingSpinner';
 import { isSearchInProgress } from 'store/features/search/selectors';
 import {
   stubNonEmptySearchResults,
   emptySearchResults,
 } from 'fixtures/searchResults';
-import { fireEvent, waitForElement, getByText } from 'react-testing-library';
+import { fireEvent } from 'react-testing-library';
 
 describe('search page', () => {
   let context: ClientSideTestContext;

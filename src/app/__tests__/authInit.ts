@@ -2,7 +2,6 @@ import {
   createClientSideTestContext,
   ClientSideTestContext,
 } from 'helpers/testHelpers';
-import { delay } from 'helpers/delay';
 import { fireEvent } from 'react-testing-library';
 
 describe('authentication', () => {
