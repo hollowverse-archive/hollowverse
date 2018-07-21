@@ -6,7 +6,8 @@ import { SvgIcon } from 'components/SvgIcon/SvgIcon';
 import { AsyncComponent } from 'hocs/AsyncComponent/AsyncComponent';
 
 import warningIcon from 'icons/warning.svg';
-import { Button } from 'components/Button/Button';
+import Button from '@material-ui/core/Button';
+import RefreshIcon from '@material-ui/icons/Refresh';
 import { isPendingResult, isErrorResult } from 'helpers/asyncResults';
 
 const warningIconComponent = <SvgIcon {...warningIcon} />;
@@ -118,7 +119,12 @@ export class FbComments extends React.PureComponent<Props> {
                       : 'Error loading comments'
                   }
                   icon={warningIconComponent}
-                  button={<Button onClick={retry}>Retry</Button>}
+                  button={
+                    <Button size="small" onClick={retry}>
+                      <RefreshIcon />
+                      Retry
+                    </Button>
+                  }
                 />
               );
             }
