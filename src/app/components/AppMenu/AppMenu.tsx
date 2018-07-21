@@ -25,6 +25,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Avatar from '@material-ui/core/Avatar';
 
 import { MenuItemWithLink } from './MenuItem';
+import { callAll } from 'helpers/callAll';
 
 export type StateProps = {
   authState: AuthState;
@@ -148,13 +149,14 @@ export class AppMenu extends React.PureComponent<Props, State> {
 
     return (
       <MenuItem
+        id="login-button"
         button
         className={cc([
           {
             [classes.facebook]: state === 'loggedOut' || state === 'error',
           },
         ])}
-        onClick={this.handleLoginClick}
+        onClick={callAll(this.handleLoginClick, this.handleClose)}
         disabled={!canClick}
         divider
       >
@@ -292,12 +294,14 @@ export class AppMenu extends React.PureComponent<Props, State> {
             onClose={this.handleClose}
           >
             {this.renderUser()}
-            <MenuItemWithLink to="/">Home</MenuItemWithLink>
-            <MenuItemWithLink divider to="/contact">
+            <MenuItemWithLink onClick={this.handleClose} to="/">
+              Home
+            </MenuItemWithLink>
+            <MenuItemWithLink onClick={this.handleClose} divider to="/contact">
               Contact
             </MenuItemWithLink>
             {this.renderLoginButton()}
-            <MenuItemWithLink to="/privacy-policy">
+            <MenuItemWithLink onClick={this.handleClose} to="/privacy-policy">
               Privacy Policy
             </MenuItemWithLink>
           </Menu>

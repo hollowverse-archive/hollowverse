@@ -1,6 +1,7 @@
 import {
   ClientSideTestContext,
   createClientSideTestContext,
+  assertPageHasReloadButton,
 } from 'helpers/testHelpers';
 import {
   pageLoadSucceeded,
@@ -11,7 +12,6 @@ import {
   stubNotablePersonQueryResponse,
 } from 'fixtures/notablePersonQuery';
 import { emptyBase64EncodedImage } from 'fixtures/images';
-import { EditorialSummary } from 'components/EditorialSummary/EditorialSummary';
 import { last, find } from 'lodash';
 import { Action, LogBatch } from 'store/types';
 
@@ -29,11 +29,11 @@ describe('notable person page', () => {
     });
 
     it('has notable person name', () => {
-      expect(context.wrapper).toIncludeText('Tom Hanks');
+      expect(context.wrapper.container).toHaveTextContent('Tom Hanks');
     });
 
     it('shows related people', () => {
-      expect(context.wrapper).toIncludeText('Al Pacino');
+      expect(context.wrapper.container).toHaveTextContent('Al Pacino');
     });
 
     describe('logs page load event', () => {
@@ -101,7 +101,9 @@ describe('notable person page', () => {
 
     describe('if notable person does not have an editorial summary', () => {
       it('shows a call to comment', () => {
-        expect(context.wrapper).toIncludeText('Share what you know');
+        expect(context.wrapper.container).toHaveTextContent(
+          'Share what you know',
+        );
       });
     });
 
@@ -116,8 +118,11 @@ describe('notable person page', () => {
       });
 
       it('shows editorial summary content', () => {
-        const editorialSummary = context.wrapper.find(EditorialSummary);
-        expect(editorialSummary).toBePresent();
+        const editorialSummary = context.wrapper.container.querySelector(
+          'main article .editorialSummary',
+        );
+        expect(editorialSummary).toHaveTextContent('Tom Hanks');
+        expect(editorialSummary).toBeDefined();
         expect(editorialSummary).toMatchSnapshot();
       });
     });
@@ -145,16 +150,18 @@ describe('notable person page', () => {
 
       it('shows notable person image', () => {
         expect(
-          context.wrapper.find(`img[src="${emptyBase64EncodedImage}"]`),
-        ).toBePresent();
+          context.wrapper.container.querySelector(
+            `img[src="${emptyBase64EncodedImage}"]`,
+          ),
+        ).toBeDefined();
       });
 
       it('page includes attribution link', () => {
         expect(
-          context.wrapper.find(
+          context.wrapper.container.querySelector(
             `a[href="https://commons.wikimedia.org/wiki/File:Tom_Hanks_2014.jpg"]`,
           ),
-        ).toBePresent();
+        ).toBeDefined();
       });
     });
   });
@@ -172,7 +179,7 @@ describe('notable person page', () => {
     });
 
     it('shows "Not Found"', () => {
-      expect(context.wrapper).toIncludeText('Not Found');
+      expect(context.wrapper.container).toHaveTextContent('Not Found');
     });
   });
 
@@ -193,11 +200,7 @@ describe('notable person page', () => {
     });
 
     it('offers to reload', () => {
-      const linkButton = context.wrapper.findWhere(
-        el => el.is('a') && Boolean(el.text().match(/reload/i)),
-      );
-      expect(linkButton).toBePresent();
-      expect(linkButton.render().attr('href')).toMatch('/Tom_Hanks');
+      assertPageHasReloadButton(context);
     });
 
     describe('logs page load failure event', () => {
@@ -251,7 +254,9 @@ describe('notable person page', () => {
     });
 
     it('has a link to search page', () => {
-      expect(context.wrapper.find('a[href="/search"]')).toBePresent();
+      expect(
+        context.wrapper.container.querySelector('a[href="/search"]'),
+      ).toBeDefined();
     });
   });
 });

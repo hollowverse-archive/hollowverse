@@ -2,14 +2,6 @@
 /* eslint-env node, jest */
 require('expect-more-jest');
 
-const { configure } = require('enzyme');
+require('react-testing-library/cleanup-after-each');
 
-const Adapter = require('enzyme-adapter-react-16');
-
-configure({ adapter: new Adapter() });
-
-require('jest-enzyme');
-
-beforeEach(() => {
-  expect.hasAssertions();
-});
+require('jest-dom/extend-expect');

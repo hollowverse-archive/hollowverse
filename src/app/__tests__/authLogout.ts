@@ -3,17 +3,10 @@ import {
   ClientSideTestContext,
 } from 'helpers/testHelpers';
 import { emptyBase64EncodedImage } from 'fixtures/images';
-import { delay } from 'helpers/delay';
-
-afterEach(() => {
-  Array.from(document.body.childNodes).forEach(child => {
-    child.remove();
-  });
-});
+import { fireEvent } from 'react-testing-library';
 
 describe('successful log out', () => {
   let context: ClientSideTestContext;
-  let menu: ReturnType<typeof context['toggleAppMenu']>;
 
   beforeEach(async () => {
     context = await createClientSideTestContext({
@@ -27,32 +20,16 @@ describe('successful log out', () => {
       },
     });
 
-    await delay(10);
-    menu = context.toggleAppMenu();
+    fireEvent.click(await context.toggleAppMenu().getLoginButton());
 
-    menu
-      .find('button')
-      .filterWhere(el => !!el.text().match(/log in/i))
-      .simulate('click');
-
-    await delay(10);
-    menu = context.toggleAppMenu();
-
-    menu
-      .find('button')
-      .filterWhere(el => !!el.text().match(/log out/i))
-      .simulate('click');
-
-    await delay(100);
-
-    menu = context.toggleAppMenu();
+    fireEvent.click(await context.toggleAppMenu().getLogoutButton());
   });
 
   it('calls FB.logout', () => {
     expect(FB.logout).toHaveBeenCalled();
   });
 
-  it('shows login button after logout', () => {
-    expect(menu).toIncludeText('Log in');
+  it('shows login button after logout', async () => {
+    await context.toggleAppMenu().getLoginButton();
   });
 });

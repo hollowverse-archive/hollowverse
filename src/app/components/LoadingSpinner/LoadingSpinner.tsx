@@ -6,7 +6,7 @@ type Props = {
 } & React.HTMLAttributes<SVGElement>;
 
 export const LoadingSpinner = ({ size = 50, ...rest }: Props) => (
-  <div className={classes.root}>
+  <div aria-label="Loading..." className={classes.root}>
     <svg
       {...rest}
       className={classes.loaderCircular}

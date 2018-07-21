@@ -1,6 +1,7 @@
 import {
   ClientSideTestContext,
   createClientSideTestContext,
+  assertPageHasReloadButton,
 } from 'helpers/testHelpers';
 import { delay } from 'helpers/delay';
 import { LoadingSpinner } from 'components/LoadingSpinner/LoadingSpinner';
@@ -9,6 +10,7 @@ import {
   stubNonEmptySearchResults,
   emptySearchResults,
 } from 'fixtures/searchResults';
+import { fireEvent, waitForElement, getByText } from 'react-testing-library';
 
 describe('search page', () => {
   let context: ClientSideTestContext;
@@ -24,16 +26,20 @@ describe('search page', () => {
     });
 
     it('updates the URL to match the search query', () => {
-      const searchBox = context.wrapper.find('input[type="search"]');
+      const searchBox = context.wrapper.container.querySelector(
+        'input[type="search"]',
+      ) as HTMLInputElement;
       let params: URLSearchParams;
 
-      searchBox.simulate('change', { target: { value: 'T' } });
+      searchBox.value = 'T';
+      fireEvent.change(searchBox);
 
       params = new URLSearchParams(context.history.location.search);
 
       expect(params.get('query')).toBe('T');
 
-      searchBox.simulate('change', { target: { value: 'To' } });
+      searchBox.value = 'To';
+      fireEvent.change(searchBox);
 
       params = new URLSearchParams(context.history.location.search);
 
@@ -61,10 +67,17 @@ describe('search page', () => {
 
     it('indicates loading status', () => {
       expect(isSearchInProgress(context.store.getState())).toBe(false);
-      const searchBox = context.wrapper.find('input[type="search"]');
-      searchBox.simulate('change', { target: { value: 'T' } });
+      const searchBox = context.wrapper.container.querySelector(
+        'input[type="search"]',
+      ) as HTMLInputElement;
+
+      searchBox.value = 'T';
+      fireEvent.change(searchBox);
+
       expect(isSearchInProgress(context.store.getState())).toBe(true);
-      expect(context.wrapper.find(LoadingSpinner)).toBePresent();
+      expect(
+        context.wrapper.container.querySelector('[aria-label="Loading..."]'),
+      ).toBeInTheDocument();
     });
   });
 
@@ -80,20 +93,21 @@ describe('search page', () => {
 
     describe('when results are found,', () => {
       it('shows a list of results', () => {
-        expect(context.wrapper).toIncludeText('Tom Hanks');
-        expect(context.wrapper).toIncludeText('Tom Hardy');
+        expect(context.wrapper.container).toHaveTextContent('Tom Hanks');
+        expect(context.wrapper.container).toHaveTextContent('Tom Hardy');
       });
 
       it('results link to the respective notable person page', () => {
-        context.wrapper.find('li').forEach(li => {
-          for (const result of stubNonEmptySearchResults.hits) {
-            if (li.contains(result.name)) {
-              const a = li.find('a');
-              expect(a).toBePresent();
-              expect(a.render().attr('href')).toContain(result.slug);
+        Array.from(context.wrapper.container.querySelectorAll('li')).forEach(
+          li => {
+            for (const result of stubNonEmptySearchResults.hits) {
+              if (li.textContent && li.textContent.includes(result.name)) {
+                const a = li.querySelector('a');
+                expect(a!.getAttribute('href')).toMatch(result.slug);
+              }
             }
-          }
-        });
+          },
+        );
       });
     });
 
@@ -108,7 +122,7 @@ describe('search page', () => {
       });
 
       it('shows "No results found"', () => {
-        expect(context.wrapper).toIncludeText('No results found');
+        expect(context.wrapper.container).toHaveTextContent('No results found');
       });
     });
   });
@@ -130,11 +144,7 @@ describe('search page', () => {
     });
 
     it('offers to reload', () => {
-      const linkButton = context.wrapper.findWhere(
-        el => el.is('a') && Boolean(el.text().match(/reload/i)),
-      );
-      expect(linkButton).toBePresent();
-      expect(linkButton.render().attr('href')).toMatch('/search?query=Tom');
+      assertPageHasReloadButton(context);
     });
   });
 });

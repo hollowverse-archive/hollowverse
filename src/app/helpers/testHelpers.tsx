@@ -1,7 +1,7 @@
 /* eslint import/no-extraneous-dependencies: ["error", {"devDependencies": true}] */
 
 import React from 'react';
-import { History, MemoryHistoryBuildOptions } from 'history';
+import { History, MemoryHistoryBuildOptions, createPath } from 'history';
 import { StoreState, ResolvedData } from 'store/types';
 import { Store } from 'redux';
 import { Provider } from 'react-redux';
@@ -18,7 +18,6 @@ import {
   createConfiguredStore,
 } from 'store/createConfiguredStore';
 import createMemoryHistory from 'history/createMemoryHistory';
-import { mount } from 'enzyme';
 import { delay } from 'helpers/delay';
 import { once } from 'lodash';
 import { App, AppRoutesMap } from 'components/App/App';
@@ -32,6 +31,13 @@ import { NotablePerson } from 'pages/NotablePerson/NotablePerson';
 import { Home } from 'pages/Home/Home';
 import { UnboxPromise } from 'typings/typeHelpers';
 import { EventEmitter } from 'events';
+
+import {
+  render,
+  fireEvent,
+  getByText,
+  waitForElement,
+} from 'react-testing-library';
 
 const defaultRoutesMap: AppRoutesMap = {
   '/search': SearchResults,
@@ -47,6 +53,18 @@ type CreateTestTreeOptions = {
   appDependencyOverrides?: Partial<AppDependencies>;
   routesMap?: AppRoutesMap;
 };
+
+export const createGetLoginMenuItem = menu => () =>
+  getByText(menu, 'log in', {
+    selector: '[role="menuitem"]',
+    exact: false,
+  });
+
+export const createGetLogoutButton = menu => () =>
+  getByText(menu, 'log out', {
+    selector: '[role="menuitem"]',
+    exact: false,
+  });
 
 export const defaultMockDataResponses: Partial<ResolvedData> = {
   notablePersonQuery: stubNotablePersonQueryResponse,
@@ -96,6 +114,10 @@ export const createMockFbSdk = ({
       status: 'not_authorized',
       authResponse: undefined,
     };
+
+    constructor() {
+      this.emitter.setMaxListeners(15);
+    }
 
     get status() {
       return this.actualStatus;
@@ -206,6 +228,20 @@ export const defaultTestDependencyOverrides: Partial<EpicDependencies> = {
   getFbSdk: jest.fn(once(async () => createMockFbSdk())),
 };
 
+export const assertPageHasReloadButton = (context: ClientSideTestContext) => {
+  const linkButton = getByText(
+    context.wrapper.container,
+    (_, el) => el.textContent !== null && el.textContent.includes('Reload'),
+    {
+      selector: 'a',
+      exact: false,
+    },
+  );
+  expect(linkButton.getAttribute('href')).toBe(
+    createPath(context.history.location),
+  );
+};
+
 export const createTestTree = ({
   history,
   store,
@@ -272,21 +308,36 @@ export const createClientSideTestContext = async ({
     store,
   });
 
-  const wrapper = mount(tree);
+  const wrapper = render(tree);
 
   // Wait for immediately-resolved promises
   // to settle before executing the following statements
   await delay(0);
-  wrapper.update();
 
   const toggleAppMenu = () => {
-    const menuButton = wrapper
-      .find('#app-menu-wrapper [role="button"]')
-      .first();
+    const menuButton = document.querySelector('[aria-label="Open menu"]')!;
 
-    menuButton.simulate('click');
+    fireEvent.click(menuButton as any);
 
-    return wrapper.find('#app-menu-wrapper [role="menu"]').first();
+    const menu = document.querySelector('#app-menu')!;
+
+    // tslint:disable-next-line:prefer-object-spread
+    return Object.assign(menu, {
+      getLoginButton: async () =>
+        waitForElement(() =>
+          getByText(menu, 'log in', {
+            selector: '[role="menuitem"]',
+            exact: false,
+          }),
+        ),
+      getLogoutButton: async () =>
+        waitForElement(() =>
+          getByText(menu, 'log out', {
+            selector: '[role="menuitem"]',
+            exact: false,
+          }),
+        ),
+    });
   };
 
   return { wrapper, toggleAppMenu, store, history, dependencies };
