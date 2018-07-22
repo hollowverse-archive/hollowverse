@@ -3,11 +3,9 @@ import cc from 'classcat';
 
 import { SvgIcon } from 'components/SvgIcon/SvgIcon';
 
-import { LoadingSpinner } from 'components/LoadingSpinner/LoadingSpinner';
 import { AuthState, AuthErrorCode } from 'store/types';
 
 import facebookIcon from 'icons/facebook.svg';
-// import closeIcon from 'icons/close.svg';
 import classes from './AppMenu.module.scss';
 import { forceReload } from 'helpers/forceReload';
 
@@ -18,15 +16,16 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import MenuIcon from '@material-ui/icons/Menu';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import { MenuItemWithLink, InertMenuItem } from './MenuItem';
 import { callAll } from 'helpers/callAll';
+import { LocationAwareMenu } from 'components/LocationAwareMenu/LocationAwareMenu';
 
 export type StateProps = {
   authState: AuthState;
@@ -50,7 +49,12 @@ const messageForAuthState: Partial<Record<AuthState['state'], string>> = {
   error: 'Log in with Facebook',
 };
 
-const spinner = <LoadingSpinner size={24} />;
+const spinner = (
+  <ListItemIcon>
+    <CircularProgress size={24} />
+  </ListItemIcon>
+);
+
 const fbIcon = (
   <SvgIcon
     className={classes.facebookIcon}
@@ -280,7 +284,7 @@ export class AppMenu extends React.PureComponent<Props, State> {
         {this.renderLoginFailedDialog()}
         {this.renderLoginStateChangeSnackbar()}
         <IconButton
-          style={{ visibility: 'hidden' }}
+          // style={{ visibility: 'hidden' }}
           aria-owns={anchorElement ? 'app-menu' : undefined}
           aria-haspopup="true"
           aria-label="Open menu"
@@ -290,9 +294,11 @@ export class AppMenu extends React.PureComponent<Props, State> {
         </IconButton>
         {!!anchorElement && (
           <nav>
-            <Menu
+            <LocationAwareMenu
               id="app-menu"
               anchorEl={anchorElement}
+              getContentAnchorEl={undefined}
+              anchorOrigin={{ horizontal: 'center', vertical: 'center' }}
               open={Boolean(anchorElement)}
               onClose={this.handleClose}
             >
@@ -311,7 +317,7 @@ export class AppMenu extends React.PureComponent<Props, State> {
               <MenuItemWithLink onClick={this.handleClose} to="/privacy-policy">
                 <Typography color="textSecondary">Privacy Policy</Typography>
               </MenuItemWithLink>
-            </Menu>
+            </LocationAwareMenu>
           </nav>
         )}
       </>
