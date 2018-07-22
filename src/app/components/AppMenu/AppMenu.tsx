@@ -23,8 +23,9 @@ import MenuItem from '@material-ui/core/MenuItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import MenuIcon from '@material-ui/icons/Menu';
 import Avatar from '@material-ui/core/Avatar';
+import Typography from '@material-ui/core/Typography';
 
-import { MenuItemWithLink } from './MenuItem';
+import { MenuItemWithLink, InertMenuItem } from './MenuItem';
 import { callAll } from 'helpers/callAll';
 
 export type StateProps = {
@@ -128,12 +129,12 @@ export class AppMenu extends React.PureComponent<Props, State> {
     const { viewer } = authState;
 
     return (
-      <MenuItem aria-label={`Signed in as ${viewer.name}`}>
+      <InertMenuItem aria-label={`Signed in as ${viewer.name}`}>
         <ListItemIcon>
           <Avatar alt="Profile Photo" src={viewer.photoUrl || undefined} />
         </ListItemIcon>
         {viewer.name}
-      </MenuItem>
+      </InertMenuItem>
     );
   };
 
@@ -279,6 +280,7 @@ export class AppMenu extends React.PureComponent<Props, State> {
         {this.renderLoginFailedDialog()}
         {this.renderLoginStateChangeSnackbar()}
         <IconButton
+          style={{ visibility: 'hidden' }}
           aria-owns={anchorElement ? 'app-menu' : undefined}
           aria-haspopup="true"
           aria-label="Open menu"
@@ -287,24 +289,30 @@ export class AppMenu extends React.PureComponent<Props, State> {
           <MenuIcon />
         </IconButton>
         {!!anchorElement && (
-          <Menu
-            id="app-menu"
-            anchorEl={anchorElement}
-            open={Boolean(anchorElement)}
-            onClose={this.handleClose}
-          >
-            {this.renderUser()}
-            <MenuItemWithLink onClick={this.handleClose} to="/">
-              Home
-            </MenuItemWithLink>
-            <MenuItemWithLink onClick={this.handleClose} divider to="/contact">
-              Contact
-            </MenuItemWithLink>
-            {this.renderLoginButton()}
-            <MenuItemWithLink onClick={this.handleClose} to="/privacy-policy">
-              Privacy Policy
-            </MenuItemWithLink>
-          </Menu>
+          <nav>
+            <Menu
+              id="app-menu"
+              anchorEl={anchorElement}
+              open={Boolean(anchorElement)}
+              onClose={this.handleClose}
+            >
+              {this.renderUser()}
+              <MenuItemWithLink onClick={this.handleClose} to="/">
+                Home
+              </MenuItemWithLink>
+              <MenuItemWithLink
+                onClick={this.handleClose}
+                divider
+                to="/contact"
+              >
+                Contact
+              </MenuItemWithLink>
+              {this.renderLoginButton()}
+              <MenuItemWithLink onClick={this.handleClose} to="/privacy-policy">
+                <Typography color="textSecondary">Privacy Policy</Typography>
+              </MenuItemWithLink>
+            </Menu>
+          </nav>
         )}
       </>
     );
