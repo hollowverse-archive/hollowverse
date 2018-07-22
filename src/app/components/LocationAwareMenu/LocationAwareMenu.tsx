@@ -3,6 +3,10 @@ import React from 'react';
 import Menu, { MenuProps } from '@material-ui/core/Menu';
 import { RouteComponentProps, withRouter } from 'react-router';
 
+/**
+ * A wrapper around `material-ui`'s `Menu` component that automatically calls
+ * the `onClose` handler on navigation changes.
+ */
 export const LocationAwareMenu = withRouter(
   class extends React.PureComponent<MenuProps & RouteComponentProps<any>> {
     componentDidMount() {
