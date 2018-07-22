@@ -1,21 +1,24 @@
 import React from 'react';
-import { importGlobalScript } from 'helpers/importGlobalScript';
+
+import Button from '@material-ui/core/Button';
+import RefreshIcon from '@material-ui/icons/Refresh';
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 import { MessageWithIcon } from 'components/MessageWithIcon/MessageWithIcon';
-import { LoadingSpinner } from 'components/LoadingSpinner/LoadingSpinner';
 import { SvgIcon } from 'components/SvgIcon/SvgIcon';
 import { AsyncComponent } from 'hocs/AsyncComponent/AsyncComponent';
 
-import warningIcon from 'icons/warning.svg';
-import Button from '@material-ui/core/Button';
-import RefreshIcon from '@material-ui/icons/Refresh';
+import { importGlobalScript } from 'helpers/importGlobalScript';
 import { isPendingResult, isErrorResult } from 'helpers/asyncResults';
+
+import warningIcon from 'icons/warning.svg';
 
 const warningIconComponent = <SvgIcon {...warningIcon} />;
 
 const loadingComponent = (
   <MessageWithIcon
     title="Loading Facebook comments..."
-    icon={<LoadingSpinner size={50} />}
+    icon={<CircularProgress size={50} />}
   />
 );
 

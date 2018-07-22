@@ -5,9 +5,9 @@ import classes from './SearchBar.module.scss';
 import SearchIcon from '@material-ui/icons/Search';
 import { NavBarLink } from 'components/NavBar/NavBarButton';
 
-import { LoadingSpinner } from 'components/LoadingSpinner/LoadingSpinner';
 import { Route, Switch } from 'react-router';
-import { IconButton } from '@material-ui/core';
+import IconButton from '@material-ui/core/IconButton';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 export type DispatchProps = {
   goToSearch(_: void): any;
@@ -89,16 +89,18 @@ export class SearchBar extends React.PureComponent<Props> {
         </div>
         <Switch>
           <Route path="/search">
-            <IconButton
-              aria-label="Search"
-              type={isSearchInProgress ? 'button' : 'submit'}
-            >
-              {isSearchInProgress ? (
-                <LoadingSpinner size={20} />
-              ) : (
-                <SearchIcon />
-              )}
-            </IconButton>
+            <>
+              <IconButton
+                aria-label="Search"
+                type={isSearchInProgress ? 'button' : 'submit'}
+              >
+                {isSearchInProgress ? (
+                  <CircularProgress size={20} />
+                ) : (
+                  <SearchIcon />
+                )}
+              </IconButton>
+            </>
           </Route>
           <Route>
             <NavBarLink to="/search">
