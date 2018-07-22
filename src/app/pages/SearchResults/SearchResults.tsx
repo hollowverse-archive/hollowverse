@@ -12,6 +12,7 @@ import {
   isErrorResult,
   ErrorResult,
   isStaleResult,
+  isPendingResult,
 } from 'helpers/asyncResults';
 import { AlgoliaResponse } from 'algoliasearch';
 import { connect } from 'react-redux';
@@ -137,6 +138,7 @@ const Page = withRouter(
               // why can't TS tell that `value` here is guaranteed to be `AlgoliaResponse`? 🤔
               hits={(value as AlgoliaResponse).hits}
               onResultClick={this.props.searchResultSelected}
+              aria-live="polite"
             />
           ) : null}
         </>
@@ -170,7 +172,10 @@ const Page = withRouter(
               keepStaleData
             >
               {({ result }: { result: Result }) => (
-                <div className={classes.root}>
+                <div
+                  aria-busy={isPendingResult(result)}
+                  className={classes.root}
+                >
                   <div className={classes.resultsContainer}>
                     <Card className={classes.card}>
                       {isErrorResult(result)

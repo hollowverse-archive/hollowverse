@@ -8,7 +8,7 @@ import {
   stubNonEmptySearchResults,
   emptySearchResults,
 } from 'fixtures/searchResults';
-import { fireEvent } from 'react-testing-library';
+import { fireEvent, getByText } from 'react-testing-library';
 
 describe('search page', () => {
   let context: TestContext;
@@ -72,7 +72,7 @@ describe('search page', () => {
       fireEvent.change(searchBox);
 
       expect(
-        document.body.querySelector('[aria-label="Loading..."]'),
+        getByText(document.body, 'Loading...', { exact: false }),
       ).toBeInTheDocument();
     });
   });

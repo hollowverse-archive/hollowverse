@@ -90,6 +90,7 @@ export class SearchBar extends React.PureComponent<Props> {
         <Switch>
           <Route path="/search">
             <>
+              <div className="sr-only">Loading...</div>
               <IconButton
                 aria-label="Search"
                 type={isSearchInProgress ? 'button' : 'submit'}
