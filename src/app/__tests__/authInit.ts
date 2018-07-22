@@ -1,14 +1,11 @@
-import {
-  createClientSideTestContext,
-  ClientSideTestContext,
-} from 'helpers/testHelpers';
+import { createTestContext, TestContext } from 'helpers/testHelpers';
 import { fireEvent } from 'react-testing-library';
 
 describe('authentication', () => {
-  let context: ClientSideTestContext;
+  let context: TestContext;
 
   beforeEach(async () => {
-    context = await createClientSideTestContext();
+    context = await createTestContext();
   });
 
   it('tries to load FB SDK', () => {
@@ -30,10 +27,10 @@ describe('authentication', () => {
 });
 
 describe('on FB SDK initialization failure', () => {
-  let context: ClientSideTestContext;
+  let context: TestContext;
 
   beforeEach(async () => {
-    context = await createClientSideTestContext({
+    context = await createTestContext({
       epicDependenciesOverrides: {
         async getFbSdk() {
           throw new Error('Script failed to load');

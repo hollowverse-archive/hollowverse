@@ -1,15 +1,12 @@
-import {
-  createClientSideTestContext,
-  ClientSideTestContext,
-} from 'helpers/testHelpers';
+import { createTestContext, TestContext } from 'helpers/testHelpers';
 import { emptyBase64EncodedImage } from 'fixtures/images';
 import { fireEvent } from 'react-testing-library';
 
 describe('successful log out', () => {
-  let context: ClientSideTestContext;
+  let context: TestContext;
 
   beforeEach(async () => {
-    context = await createClientSideTestContext({
+    context = await createTestContext({
       mockDataResponsesOverrides: {
         viewer: {
           viewer: {

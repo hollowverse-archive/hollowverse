@@ -1,16 +1,13 @@
-import {
-  createClientSideTestContext,
-  ClientSideTestContext,
-} from 'helpers/testHelpers';
+import { createTestContext, TestContext } from 'helpers/testHelpers';
 import { emptyBase64EncodedImage } from 'fixtures/images';
 import { fireEvent } from 'react-testing-library';
 import 'jest-dom/extend-expect';
 
 describe('successful log in', () => {
-  let context: ClientSideTestContext;
+  let context: TestContext;
 
   beforeEach(async () => {
-    context = await createClientSideTestContext({
+    context = await createTestContext({
       mockDataResponsesOverrides: {
         viewer: {
           viewer: {
@@ -36,10 +33,10 @@ describe('successful log in', () => {
 });
 
 describe('failed log in', () => {
-  let context: ClientSideTestContext;
+  let context: TestContext;
 
   beforeEach(async () => {
-    context = await createClientSideTestContext({
+    context = await createTestContext({
       epicDependenciesOverrides: {
         async getResponseForDataRequest(payload) {
           if (payload.key === 'viewer') {

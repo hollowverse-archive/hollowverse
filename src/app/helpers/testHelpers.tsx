@@ -217,9 +217,9 @@ export const defaultTestDependencyOverrides: Partial<EpicDependencies> = {
   getFbSdk: jest.fn(once(async () => createMockFbSdk())),
 };
 
-export const assertPageHasReloadButton = (context: ClientSideTestContext) => {
+export const assertPageHasReloadButton = (context: TestContext) => {
   const linkButton = getByText(
-    context.wrapper.container,
+    document.body,
     (_, el) => el.textContent !== null && el.textContent.includes('Reload'),
     {
       selector: 'a',
@@ -269,7 +269,7 @@ export type CreateClientSideTestContextOptions = Partial<{
  *
  * Almost all configuration options can be overridden for convenience.
  */
-export const createClientSideTestContext = async ({
+export const createTestContext = async ({
   epicDependenciesOverrides = {},
   createHistoryOptions = { initialEntries: ['/'] },
   mockDataResponsesOverrides = {},
@@ -297,7 +297,7 @@ export const createClientSideTestContext = async ({
     store,
   });
 
-  const wrapper = render(tree);
+  render(tree);
 
   // Wait for immediately-resolved promises
   // to settle before executing the following statements
@@ -331,9 +331,7 @@ export const createClientSideTestContext = async ({
     });
   };
 
-  return { wrapper, toggleAppMenu, store, history, dependencies };
+  return { toggleAppMenu, history, dependencies };
 };
 
-export type ClientSideTestContext = UnboxPromise<
-  ReturnType<typeof createClientSideTestContext>
->;
+export type TestContext = UnboxPromise<ReturnType<typeof createTestContext>>;
