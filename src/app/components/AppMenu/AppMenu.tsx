@@ -157,7 +157,7 @@ export class AppMenu extends React.PureComponent<Props, State> {
             [classes.facebook]: state === 'loggedOut' || state === 'error',
           },
         ])}
-        onClick={callAll(this.handleLoginClick, this.handleClose)}
+        onClick={callAll(this.handleClose, this.handleLoginClick)}
         disabled={!canClick}
         divider
       >
