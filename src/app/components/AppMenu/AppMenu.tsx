@@ -284,7 +284,7 @@ export class AppMenu extends React.PureComponent<Props, State> {
         {this.renderLoginFailedDialog()}
         {this.renderLoginStateChangeSnackbar()}
         <IconButton
-          // style={{ visibility: 'hidden' }}
+          style={{ visibility: 'hidden' }}
           aria-owns={anchorElement ? 'app-menu' : undefined}
           aria-haspopup="true"
           aria-label="Open menu"
