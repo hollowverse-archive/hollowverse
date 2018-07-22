@@ -5,7 +5,26 @@
   ],
   "rules": {
     "import/extensions": ["off"],
-    "import/no-webpack-loader-syntax": ["off"]
+    "import/no-webpack-loader-syntax": ["off"],
+    "no-restricted-imports": [
+      "error",
+      {
+        "paths": [
+          {
+            "name": "@material-ui/core",
+            "message": "Import components from submodules to reduce bundle size"
+          },
+          {
+            "name": "@material-ui/core/Menu",
+            "message": "Use LocationAwareMenu instead."
+          },
+          {
+            "name": "@material-ui/core/Menu/Menu",
+            "message": "Use LocationAwareMenu instead."
+          }
+        ]
+      }
+    ]
   },
   "env": {
     "browser": true,

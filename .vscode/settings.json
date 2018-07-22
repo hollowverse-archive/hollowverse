@@ -51,5 +51,6 @@
   },
   "eslint.validate": ["typescript", "typescriptreact", "graphql"],
   "css.validate": false,
-  "scss.validate": false
+  "scss.validate": false,
+  "eslint.enable": true
 }

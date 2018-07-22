@@ -1,4 +1,5 @@
 import React from 'react';
+/* eslint-disable-next-line no-restricted-imports */
 import Menu, { MenuProps } from '@material-ui/core/Menu';
 import { RouteComponentProps, withRouter } from 'react-router';
 
