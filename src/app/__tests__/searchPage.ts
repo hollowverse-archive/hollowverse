@@ -1,21 +1,21 @@
 import {
-  ClientSideTestContext,
-  createClientSideTestContext,
+  TestContext,
+  createTestContext,
+  assertPageHasReloadButton,
 } from 'helpers/testHelpers';
 import { delay } from 'helpers/delay';
-import { LoadingSpinner } from 'components/LoadingSpinner/LoadingSpinner';
-import { isSearchInProgress } from 'store/features/search/selectors';
 import {
   stubNonEmptySearchResults,
   emptySearchResults,
 } from 'fixtures/searchResults';
+import { fireEvent, getByText } from 'react-testing-library';
 
 describe('search page', () => {
-  let context: ClientSideTestContext;
+  let context: TestContext;
 
   describe('while typing,', () => {
     beforeEach(async () => {
-      context = await createClientSideTestContext({
+      context = await createTestContext({
         createHistoryOptions: { initialEntries: ['/search'] },
         mockDataResponsesOverrides: {
           searchResults: stubNonEmptySearchResults,
@@ -24,16 +24,20 @@ describe('search page', () => {
     });
 
     it('updates the URL to match the search query', () => {
-      const searchBox = context.wrapper.find('input[type="search"]');
+      const searchBox = document.body.querySelector(
+        'input[type="search"]',
+      ) as HTMLInputElement;
       let params: URLSearchParams;
 
-      searchBox.simulate('change', { target: { value: 'T' } });
+      searchBox.value = 'T';
+      fireEvent.change(searchBox);
 
       params = new URLSearchParams(context.history.location.search);
 
       expect(params.get('query')).toBe('T');
 
-      searchBox.simulate('change', { target: { value: 'To' } });
+      searchBox.value = 'To';
+      fireEvent.change(searchBox);
 
       params = new URLSearchParams(context.history.location.search);
 
@@ -43,7 +47,7 @@ describe('search page', () => {
 
   describe('while results are being loaded,', () => {
     beforeEach(async () => {
-      context = await createClientSideTestContext({
+      context = await createTestContext({
         createHistoryOptions: { initialEntries: ['/search'] },
         epicDependenciesOverrides: {
           getResponseForDataRequest: async payload => {
@@ -60,17 +64,22 @@ describe('search page', () => {
     });
 
     it('indicates loading status', () => {
-      expect(isSearchInProgress(context.store.getState())).toBe(false);
-      const searchBox = context.wrapper.find('input[type="search"]');
-      searchBox.simulate('change', { target: { value: 'T' } });
-      expect(isSearchInProgress(context.store.getState())).toBe(true);
-      expect(context.wrapper.find(LoadingSpinner)).toBePresent();
+      const searchBox = document.body.querySelector(
+        'input[type="search"]',
+      ) as HTMLInputElement;
+
+      searchBox.value = 'T';
+      fireEvent.change(searchBox);
+
+      expect(
+        getByText(document.body, 'Loading...', { exact: false }),
+      ).toBeInTheDocument();
     });
   });
 
   describe('when results have finished loading,', () => {
     beforeEach(async () => {
-      context = await createClientSideTestContext({
+      context = await createTestContext({
         createHistoryOptions: { initialEntries: ['/search?query=Tom'] },
         mockDataResponsesOverrides: {
           searchResults: stubNonEmptySearchResults,
@@ -80,17 +89,16 @@ describe('search page', () => {
 
     describe('when results are found,', () => {
       it('shows a list of results', () => {
-        expect(context.wrapper).toIncludeText('Tom Hanks');
-        expect(context.wrapper).toIncludeText('Tom Hardy');
+        expect(document.body).toHaveTextContent('Tom Hanks');
+        expect(document.body).toHaveTextContent('Tom Hardy');
       });
 
       it('results link to the respective notable person page', () => {
-        context.wrapper.find('li').forEach(li => {
+        Array.from(document.body.querySelectorAll('li')).forEach(li => {
           for (const result of stubNonEmptySearchResults.hits) {
-            if (li.contains(result.name)) {
-              const a = li.find('a');
-              expect(a).toBePresent();
-              expect(a.render().attr('href')).toContain(result.slug);
+            if (li.textContent && li.textContent.includes(result.name)) {
+              const a = li.querySelector('a');
+              expect(a!.getAttribute('href')).toMatch(result.slug);
             }
           }
         });
@@ -99,7 +107,7 @@ describe('search page', () => {
 
     describe('when no results are found,', () => {
       beforeEach(async () => {
-        context = await createClientSideTestContext({
+        context = await createTestContext({
           createHistoryOptions: { initialEntries: ['/search?query=Tom'] },
           mockDataResponsesOverrides: {
             searchResults: emptySearchResults,
@@ -108,14 +116,14 @@ describe('search page', () => {
       });
 
       it('shows "No results found"', () => {
-        expect(context.wrapper).toIncludeText('No results found');
+        expect(document.body).toHaveTextContent('No results found');
       });
     });
   });
 
   describe('on load failure', () => {
     beforeEach(async () => {
-      context = await createClientSideTestContext({
+      context = await createTestContext({
         createHistoryOptions: { initialEntries: ['/search?query=Tom'] },
         epicDependenciesOverrides: {
           getResponseForDataRequest: async payload => {
@@ -130,11 +138,7 @@ describe('search page', () => {
     });
 
     it('offers to reload', () => {
-      const linkButton = context.wrapper.findWhere(
-        el => el.is('a') && Boolean(el.text().match(/reload/i)),
-      );
-      expect(linkButton).toBePresent();
-      expect(linkButton.render().attr('href')).toMatch('/search?query=Tom');
+      assertPageHasReloadButton(context);
     });
   });
 });

@@ -2,12 +2,12 @@ import React from 'react';
 
 import classes from './SearchBar.module.scss';
 
-import { SvgIcon } from 'components/SvgIcon/SvgIcon';
-import { NavBarButton, NavBarLink } from 'components/NavBar/NavBarButton';
+import SearchIcon from '@material-ui/icons/Search';
+import { NavBarLink } from 'components/NavBar/NavBarButton';
 
-import searchIcon from 'icons/search.svg';
-import { LoadingSpinner } from 'components/LoadingSpinner/LoadingSpinner';
 import { Route, Switch } from 'react-router';
+import IconButton from '@material-ui/core/IconButton';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 export type DispatchProps = {
   goToSearch(_: void): any;
@@ -89,18 +89,23 @@ export class SearchBar extends React.PureComponent<Props> {
         </div>
         <Switch>
           <Route path="/search">
-            <NavBarButton type={isSearchInProgress ? 'button' : 'submit'}>
-              {isSearchInProgress ? (
-                <LoadingSpinner size={20} />
-              ) : (
-                <SvgIcon size={20} {...searchIcon} />
-              )}
-              <span className="sr-only">Search</span>
-            </NavBarButton>
+            <>
+              <div className="sr-only">Loading...</div>
+              <IconButton
+                aria-label="Search"
+                type={isSearchInProgress ? 'button' : 'submit'}
+              >
+                {isSearchInProgress ? (
+                  <CircularProgress size={20} />
+                ) : (
+                  <SearchIcon />
+                )}
+              </IconButton>
+            </>
           </Route>
           <Route>
             <NavBarLink to="/search">
-              <SvgIcon size={20} {...searchIcon} />
+              <SearchIcon />
               <span className="sr-only">Search</span>
             </NavBarLink>
           </Route>

@@ -1,22 +1,13 @@
-import {
-  createClientSideTestContext,
-  ClientSideTestContext,
-} from 'helpers/testHelpers';
+import { createTestContext, TestContext } from 'helpers/testHelpers';
 import { emptyBase64EncodedImage } from 'fixtures/images';
-import { delay } from 'helpers/delay';
-
-afterEach(() => {
-  Array.from(document.body.childNodes).forEach(child => {
-    child.remove();
-  });
-});
+import { fireEvent } from 'react-testing-library';
+import 'jest-dom/extend-expect';
 
 describe('successful log in', () => {
-  let context: ClientSideTestContext;
-  let menu: ReturnType<typeof context['toggleAppMenu']>;
+  let context: TestContext;
 
   beforeEach(async () => {
-    context = await createClientSideTestContext({
+    context = await createTestContext({
       mockDataResponsesOverrides: {
         viewer: {
           viewer: {
@@ -27,30 +18,25 @@ describe('successful log in', () => {
       },
     });
 
-    menu = context.toggleAppMenu();
-
-    await delay(10);
-
-    menu
-      .find('button')
-      .filterWhere(el => !!el.text().match(/log in/i))
-      .simulate('click');
-
-    await delay(10);
-    menu = context.toggleAppMenu();
+    fireEvent.click(await context.toggleAppMenu().getLoginButton());
+    await context.toggleAppMenu().getLogoutButton();
   });
 
   it('shows profile data after login', async () => {
-    expect(menu).toIncludeText('John Doe');
-    expect(menu.find('img')).toHaveProp('src', emptyBase64EncodedImage);
+    const menu = context.toggleAppMenu();
+    expect(menu).toHaveTextContent('John Doe');
+    expect(menu.querySelector('img')).toHaveAttribute(
+      'src',
+      emptyBase64EncodedImage,
+    );
   });
 });
 
 describe('failed log in', () => {
-  let context: ClientSideTestContext;
+  let context: TestContext;
 
   beforeEach(async () => {
-    context = await createClientSideTestContext({
+    context = await createTestContext({
       epicDependenciesOverrides: {
         async getResponseForDataRequest(payload) {
           if (payload.key === 'viewer') {
@@ -62,18 +48,12 @@ describe('failed log in', () => {
       },
     });
 
-    context
-      .toggleAppMenu()
-      .find('button')
-      .filterWhere(el => !!el.text().match(/log in/i))
-      .simulate('click');
-
-    await delay(10);
+    fireEvent.click(await context.toggleAppMenu().getLoginButton());
   });
 
-  it('shows error message', async () => {
-    expect(
-      document.querySelector('[role="alertdialog"]')!.textContent,
-    ).toContain('Login failed');
+  it('shows error message', () => {
+    expect(document.querySelector('[role="alertdialog"]')).toHaveTextContent(
+      'Login failed',
+    );
   });
 });

@@ -1,22 +1,12 @@
 import React from 'react';
-import cc from 'classcat';
+import IconButton, { IconButtonProps } from '@material-ui/core/IconButton';
 
-import classes from './NavBarButton.module.scss';
-import {
-  Button,
-  ButtonProps,
-  LinkButton,
-  LinkButtonProps,
-} from 'components/Button/Button';
+import { Link, LinkProps } from 'react-router-dom';
 
-export const NavBarButton = ({
+export const NavBarLink = ({
   className,
-  Factory = Button,
+  component = Link,
   ...rest
-}: ButtonProps & { Factory?: any }) => (
-  <Factory className={cc([className, classes.root])} {...rest} />
-);
-
-export const NavBarLink = ({ className, ...rest }: LinkButtonProps) => (
-  <LinkButton className={cc([className, classes.root])} {...rest} />
+}: IconButtonProps & LinkProps) => (
+  <IconButton component={component as any} {...rest} />
 );

@@ -39,7 +39,7 @@ const createLoadViewerAndCreateIfNotExists = (
 
   let viewerResult = await apiClient.request<ViewerQuery>(viewerQuery);
 
-  // If an access token is provider but not matching user is found,
+  // If an access token is provided but no matching user is found,
   // that means the user has not signed up to Hollowverse yet.
   // We'll go ahead and create a new account.
   if (viewerResult.viewer === null && fbAccessToken) {

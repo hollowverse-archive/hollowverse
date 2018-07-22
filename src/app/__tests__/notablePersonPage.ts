@@ -1,6 +1,7 @@
 import {
-  ClientSideTestContext,
-  createClientSideTestContext,
+  TestContext,
+  createTestContext,
+  assertPageHasReloadButton,
 } from 'helpers/testHelpers';
 import {
   pageLoadSucceeded,
@@ -11,16 +12,15 @@ import {
   stubNotablePersonQueryResponse,
 } from 'fixtures/notablePersonQuery';
 import { emptyBase64EncodedImage } from 'fixtures/images';
-import { EditorialSummary } from 'components/EditorialSummary/EditorialSummary';
 import { last, find } from 'lodash';
 import { Action, LogBatch } from 'store/types';
 
 describe('notable person page', () => {
-  let context: ClientSideTestContext;
+  let context: TestContext;
 
   describe('when notable person is found,', () => {
     beforeEach(async () => {
-      context = await createClientSideTestContext({
+      context = await createTestContext({
         mockDataResponsesOverrides: {
           notablePersonQuery: stubNotablePersonQueryResponse,
         },
@@ -29,11 +29,11 @@ describe('notable person page', () => {
     });
 
     it('has notable person name', () => {
-      expect(context.wrapper).toIncludeText('Tom Hanks');
+      expect(document.body).toHaveTextContent('Tom Hanks');
     });
 
     it('shows related people', () => {
-      expect(context.wrapper).toIncludeText('Al Pacino');
+      expect(document.body).toHaveTextContent('Al Pacino');
     });
 
     describe('logs page load event', () => {
@@ -101,13 +101,13 @@ describe('notable person page', () => {
 
     describe('if notable person does not have an editorial summary', () => {
       it('shows a call to comment', () => {
-        expect(context.wrapper).toIncludeText('Share what you know');
+        expect(document.body).toHaveTextContent('Share what you know');
       });
     });
 
     describe('if notable person has an editorial summary', () => {
       beforeEach(async () => {
-        context = await createClientSideTestContext({
+        context = await createTestContext({
           mockDataResponsesOverrides: {
             notablePersonQuery: notablePersonWithEditorialSummaryQueryResponse,
           },
@@ -116,15 +116,18 @@ describe('notable person page', () => {
       });
 
       it('shows editorial summary content', () => {
-        const editorialSummary = context.wrapper.find(EditorialSummary);
-        expect(editorialSummary).toBePresent();
+        const editorialSummary = document.body.querySelector(
+          'main article .editorialSummary',
+        );
+        expect(editorialSummary).toHaveTextContent('Tom Hanks');
+        expect(editorialSummary).toBeDefined();
         expect(editorialSummary).toMatchSnapshot();
       });
     });
 
     describe('if notable person has an image', () => {
       beforeEach(async () => {
-        context = await createClientSideTestContext({
+        context = await createTestContext({
           mockDataResponsesOverrides: {
             notablePersonQuery: {
               ...stubNotablePersonQueryResponse,
@@ -145,23 +148,23 @@ describe('notable person page', () => {
 
       it('shows notable person image', () => {
         expect(
-          context.wrapper.find(`img[src="${emptyBase64EncodedImage}"]`),
-        ).toBePresent();
+          document.body.querySelector(`img[src="${emptyBase64EncodedImage}"]`),
+        ).toBeDefined();
       });
 
       it('page includes attribution link', () => {
         expect(
-          context.wrapper.find(
+          document.body.querySelector(
             `a[href="https://commons.wikimedia.org/wiki/File:Tom_Hanks_2014.jpg"]`,
           ),
-        ).toBePresent();
+        ).toBeDefined();
       });
     });
   });
 
   describe('when notable person is not found,', () => {
     beforeEach(async () => {
-      context = await createClientSideTestContext({
+      context = await createTestContext({
         createHistoryOptions: { initialEntries: ['/Tom_Hanks'] },
         mockDataResponsesOverrides: {
           notablePersonQuery: {
@@ -172,13 +175,13 @@ describe('notable person page', () => {
     });
 
     it('shows "Not Found"', () => {
-      expect(context.wrapper).toIncludeText('Not Found');
+      expect(document.body).toHaveTextContent('Not Found');
     });
   });
 
   describe('on load failure', () => {
     beforeEach(async () => {
-      context = await createClientSideTestContext({
+      context = await createTestContext({
         createHistoryOptions: { initialEntries: ['/Tom_Hanks'] },
         epicDependenciesOverrides: {
           getResponseForDataRequest: async payload => {
@@ -193,11 +196,7 @@ describe('notable person page', () => {
     });
 
     it('offers to reload', () => {
-      const linkButton = context.wrapper.findWhere(
-        el => el.is('a') && Boolean(el.text().match(/reload/i)),
-      );
-      expect(linkButton).toBePresent();
-      expect(linkButton.render().attr('href')).toMatch('/Tom_Hanks');
+      assertPageHasReloadButton(context);
     });
 
     describe('logs page load failure event', () => {
@@ -245,13 +244,13 @@ describe('notable person page', () => {
 
   describe('links to other pages on the website', () => {
     beforeAll(async () => {
-      context = await createClientSideTestContext({
+      context = await createTestContext({
         createHistoryOptions: { initialEntries: ['/Tom_Hanks'] },
       });
     });
 
     it('has a link to search page', () => {
-      expect(context.wrapper.find('a[href="/search"]')).toBePresent();
+      expect(document.body.querySelector('a[href="/search"]')).toBeDefined();
     });
   });
 });

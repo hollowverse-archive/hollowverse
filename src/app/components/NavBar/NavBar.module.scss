@@ -12,6 +12,10 @@
   }
 }
 
+.is-hidden {
+  visibility: hidden;
+}
+
 .root {
   border-bottom: 1px solid $color-border-light;
   user-select: none;
@@ -31,18 +35,6 @@
     100% {
       opacity: 1;
       transform: translateY(0);
-    }
-  }
-
-  .menu-wrapper {
-    visibility: hidden;
-    position: relative;
-
-    // ideally we would set display: contents; on .menu-wrapper
-    // and remove the following rule but display: contents; is not
-    // widely supported yet.
-    .button {
-      height: 100%;
     }
   }
 
@@ -68,17 +60,12 @@
     display: flex;
   }
 
-  .button {
-    &.is-hidden {
-      visibility: hidden;
-    }
-  }
-
   .logo-wrapper {
     flex-grow: 1;
     display: flex;
     justify-content: center;
     .logo {
+      display: flex;
       @include font-20px;
       @include truncate-flex-child;
       text-transform: uppercase;

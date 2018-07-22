@@ -1,41 +1,31 @@
 import React from 'react';
 import cc from 'classcat';
-import { Menu, closeMenu } from 'react-aria-menubutton';
-import CSSTransition, {
-  CSSTransitionClassNames,
-} from 'react-transition-group/CSSTransition';
-import {
-  MenuItemWithLink,
-  MenuItemWithButton,
-  MenuItemWithChild,
-} from './MenuItem';
 
-import { PersonPhoto } from 'components/PersonPhoto/PersonPhoto';
 import { SvgIcon } from 'components/SvgIcon/SvgIcon';
 
-import { LoadingSpinner } from 'components/LoadingSpinner/LoadingSpinner';
 import { AuthState, AuthErrorCode } from 'store/types';
-import { Paper } from '../Paper/Paper';
 
 import facebookIcon from 'icons/facebook.svg';
-import closeIcon from 'icons/close.svg';
 import classes from './AppMenu.module.scss';
 import { forceReload } from 'helpers/forceReload';
 
 import Snackbar from '@material-ui/core/Snackbar';
 import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import MenuItem from '@material-ui/core/MenuItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import MenuIcon from '@material-ui/icons/Menu';
+import Avatar from '@material-ui/core/Avatar';
+import Typography from '@material-ui/core/Typography';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
-const Separator = (
-  <div role="separator" className={classes.separator}>
-    <div />
-  </div>
-);
-
-const transitionTimeoutMilliseconds = 150;
+import { MenuItemWithLink, InertMenuItem } from './MenuItem';
+import { callAll } from 'helpers/callAll';
+import { LocationAwareMenu } from 'components/LocationAwareMenu/LocationAwareMenu';
 
 export type StateProps = {
   authState: AuthState;
@@ -46,21 +36,9 @@ export type DispatchProps = {
   requestLogout(payload: undefined): void;
 };
 
-export type OwnProps = {
-  getMenuStyle?(): React.CSSProperties & {
-    '--top': string;
-    '--left': string;
-  };
-};
+export type OwnProps = {};
 
 type Props = OwnProps & StateProps & DispatchProps;
-
-const transitionClassNames: CSSTransitionClassNames = {
-  enter: classes.menuEnter,
-  enterActive: classes.menuEnterActive,
-  exit: classes.menuExit,
-  exitActive: classes.menuExitActive,
-};
 
 const messageForAuthState: Partial<Record<AuthState['state'], string>> = {
   initializing: 'Checking login...',
@@ -71,7 +49,12 @@ const messageForAuthState: Partial<Record<AuthState['state'], string>> = {
   error: 'Log in with Facebook',
 };
 
-const spinner = <LoadingSpinner size={24} />;
+const spinner = (
+  <ListItemIcon>
+    <CircularProgress size={24} />
+  </ListItemIcon>
+);
+
 const fbIcon = (
   <SvgIcon
     className={classes.facebookIcon}
@@ -115,12 +98,14 @@ const titleForErrorCode: Partial<Record<AuthErrorCode, string>> = {
 type State = {
   isLoginFailedDialogShown: boolean;
   isLoginStateChangeSnackbarShown: boolean;
+  anchorElement: HTMLElement | null;
 };
 
 export class AppMenu extends React.PureComponent<Props, State> {
   state = {
     isLoginFailedDialogShown: false,
     isLoginStateChangeSnackbarShown: false,
+    anchorElement: null,
   };
 
   componentWillReceiveProps({ authState }: Props) {
@@ -148,18 +133,12 @@ export class AppMenu extends React.PureComponent<Props, State> {
     const { viewer } = authState;
 
     return (
-      <MenuItemWithChild
-        aria-label={`Signed in as ${viewer.name}`}
-        factory="div"
-        isClickable={false}
-      >
-        <PersonPhoto
-          alt="Profile Photo"
-          className={classes.userAvatar}
-          src={viewer.photoUrl || undefined}
-        />
-        <div className={classes.userName}>{viewer.name}</div>
-      </MenuItemWithChild>
+      <InertMenuItem aria-label={`Signed in as ${viewer.name}`}>
+        <ListItemIcon>
+          <Avatar alt="Profile Photo" src={viewer.photoUrl || undefined} />
+        </ListItemIcon>
+        {viewer.name}
+      </InertMenuItem>
     );
   };
 
@@ -167,23 +146,28 @@ export class AppMenu extends React.PureComponent<Props, State> {
     const {
       authState: { state },
     } = this.props;
+
     const canClick =
       state === 'loggedIn' || state === 'loggedOut' || state === 'error';
 
+    const icon = iconForAuthState[state];
+
     return (
-      <MenuItemWithButton
+      <MenuItem
+        id="login-button"
+        button
         className={cc([
           {
             [classes.facebook]: state === 'loggedOut' || state === 'error',
           },
         ])}
-        type="button"
-        onClick={this.handleLoginClick}
+        onClick={callAll(this.handleClose, this.handleLoginClick)}
         disabled={!canClick}
-        icon={iconForAuthState[state]}
+        divider
       >
+        {icon && <ListItemIcon>{icon as any}</ListItemIcon>}
         {messageForAuthState[state] || messageForAuthState.loggedOut}
-      </MenuItemWithButton>
+      </MenuItem>
     );
   };
 
@@ -284,56 +268,59 @@ export class AppMenu extends React.PureComponent<Props, State> {
     }));
   };
 
-  closeMenu = () => {
-    closeMenu('app-menu-wrapper');
+  handleClick = (event: React.MouseEvent<any>) => {
+    this.setState({ anchorElement: event.currentTarget });
+  };
+
+  handleClose = () => {
+    this.setState({ anchorElement: null });
   };
 
   render() {
-    const { getMenuStyle = () => undefined } = this.props;
+    const { anchorElement } = this.state;
 
     return (
-      <nav className={classes.root}>
+      <>
         {this.renderLoginFailedDialog()}
         {this.renderLoginStateChangeSnackbar()}
-        <Menu
-          className={classes.menu}
-          aria-label="Main Menu"
-          style={
-            {
-              '--timeout': `${transitionTimeoutMilliseconds}ms`,
-            } as any
-          }
+        <IconButton
+          style={{ visibility: 'hidden' }}
+          aria-owns={anchorElement ? 'app-menu' : undefined}
+          aria-haspopup="true"
+          aria-label="Open menu"
+          onClick={this.handleClick}
         >
-          {({ isOpen }: { isOpen: boolean }) => (
-            <CSSTransition
-              classNames={transitionClassNames}
-              timeout={transitionTimeoutMilliseconds}
-              in={isOpen}
-              mountOnEnter
-              unmountOnExit
+          <MenuIcon />
+        </IconButton>
+        {!!anchorElement && (
+          <nav>
+            <LocationAwareMenu
+              id="app-menu"
+              anchorEl={anchorElement}
+              getContentAnchorEl={undefined}
+              anchorOrigin={{ horizontal: 'center', vertical: 'center' }}
+              open={Boolean(anchorElement)}
+              onClose={this.handleClose}
             >
-              <Paper className={classes.body} style={getMenuStyle()}>
-                {this.renderUser()}
-                <MenuItemWithLink to="/">Home</MenuItemWithLink>
-                <MenuItemWithLink to="/contact">Contact</MenuItemWithLink>
-                {Separator}
-                {this.renderLoginButton()}
-                <MenuItemWithButton
-                  type="button"
-                  className={classes.close}
-                  onClick={this.closeMenu}
-                  icon={<SvgIcon size={16} {...closeIcon} />}
-                  aria-label="Close"
-                />
-                {Separator}
-                <MenuItemWithLink size="small" to="/privacy-policy">
-                  Privacy Policy
-                </MenuItemWithLink>
-              </Paper>
-            </CSSTransition>
-          )}
-        </Menu>
-      </nav>
+              {this.renderUser()}
+              <MenuItemWithLink onClick={this.handleClose} to="/">
+                Home
+              </MenuItemWithLink>
+              <MenuItemWithLink
+                onClick={this.handleClose}
+                divider
+                to="/contact"
+              >
+                Contact
+              </MenuItemWithLink>
+              {this.renderLoginButton()}
+              <MenuItemWithLink onClick={this.handleClose} to="/privacy-policy">
+                <Typography color="textSecondary">Privacy Policy</Typography>
+              </MenuItemWithLink>
+            </LocationAwareMenu>
+          </nav>
+        )}
+      </>
     );
   }
 }

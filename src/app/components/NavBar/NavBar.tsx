@@ -1,22 +1,19 @@
 import React from 'react';
 import cc from 'classcat';
-import noScroll from 'no-scroll';
 
 import { RouteComponentProps, Route, Switch } from 'react-router';
-import { Button, Wrapper } from 'react-aria-menubutton';
 
 import classes from './NavBar.module.scss';
 
 import { Sticky } from 'components/Sticky/Sticky';
-import { SvgIcon } from 'components/SvgIcon/SvgIcon';
-import { NavBarLink, NavBarButton } from 'components/NavBar/NavBarButton';
 
-import searchIcon from 'icons/search.svg';
-import menuIcon from 'icons/menu.svg';
+import SearchIcon from '@material-ui/icons/Search';
+import IconButton from '@material-ui/core/IconButton';
 import textLogo from '!!file-loader!assets/textLogo.svg';
 
 import { ConnectedSearchBar } from 'components/NavBar/ConnectedSearchBar';
 import { ConnectedAppMenu } from 'components/AppMenu/ConnectedAppMenu';
+import { Link } from 'react-router-dom';
 
 export type OwnProps = {
   title: string;
@@ -34,28 +31,6 @@ type Props = OwnProps & StateProps & DispatchProps;
 export const NavBar = class extends React.Component<
   Props & RouteComponentProps<any>
 > {
-  navBarChildRef = React.createRef<HTMLSpanElement>();
-
-  handleMenuToggle = () => {
-    if (navigator.userAgent.match(/iphone|ipad/i)) {
-      return;
-    }
-
-    noScroll.toggle();
-  };
-
-  getMenuStyle = () => {
-    let top = 0;
-    let left = 0;
-    const ref = this.navBarChildRef.current;
-
-    if (ref) {
-      ({ top, left } = ref.getBoundingClientRect());
-    }
-
-    return { '--top': `${top}px`, '--left': `${left}px` };
-  };
-
   render() {
     const { title, shouldFocusSearch, isHomePage } = this.props;
 
@@ -68,19 +43,7 @@ export const NavBar = class extends React.Component<
         >
           {isSticking => (
             <>
-              <Wrapper
-                id="app-menu-wrapper"
-                onMenuToggle={this.handleMenuToggle}
-                className={classes.menuWrapper}
-              >
-                <NavBarButton className={classes.button} Factory={Button}>
-                  <span ref={this.navBarChildRef}>
-                    <SvgIcon size={20} {...menuIcon} />
-                    <span className="sr-only">Main Menu</span>
-                  </span>
-                </NavBarButton>
-                <ConnectedAppMenu getMenuStyle={this.getMenuStyle} />
-              </Wrapper>
+              <ConnectedAppMenu />
               <div className={classes.view}>
                 <Switch>
                   <Route path="/search">
@@ -92,24 +55,22 @@ export const NavBar = class extends React.Component<
                     ) : (
                       <div className={classes.logoViewInner}>
                         <div className={classes.logoWrapper}>
-                          <NavBarLink
+                          <Link
                             title="Homepage"
                             className={classes.logo}
                             to="/"
                           >
                             <img src={textLogo} alt={title} />
-                          </NavBarLink>
+                          </Link>
                         </div>
-                        <NavBarLink
-                          className={cc([
-                            classes.button,
-                            { [classes.isHidden]: isHomePage },
-                          ])}
-                          to="/search"
+                        <IconButton
+                          aria-label="Search"
+                          className={cc([{ [classes.isHidden]: isHomePage }])}
+                          component={Link as any}
+                          {...{ to: '/search' } as any}
                         >
-                          <SvgIcon size={20} {...searchIcon} />
-                          <span className="sr-only">Search</span>
-                        </NavBarLink>
+                          <SearchIcon />
+                        </IconButton>
                       </div>
                     )}
                   </Route>
