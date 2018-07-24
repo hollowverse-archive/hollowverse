@@ -5,8 +5,12 @@ import classes from './EditorialSummary.module.scss';
 import { prettifyUrl } from 'helpers/prettifyUrl';
 import { EditorialSummaryNodeType, NotablePersonQuery } from 'api/types';
 import { Quote } from 'components/Quote/Quote';
-import { Collapsable } from 'components/Collapsable/Collapsable';
 import { ArrayElement } from 'typings/typeHelpers';
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import Typography from '@material-ui/core/Typography';
 
 type NotablePerson = NonNullable<NotablePersonQuery['notablePerson']>;
 
@@ -79,10 +83,18 @@ const Block = (props: BlockProps): JSX.Element => {
       </Quote>
     );
   } else if (node.type === 'heading') {
-    return <h2 key={node.id}>{children}</h2>;
+    return (
+      <Typography variant="title" key={node.id}>
+        {children}
+      </Typography>
+    );
   }
 
-  return <p key={node.id}>{children}</p>;
+  return (
+    <Typography variant="body1" paragraph key={node.id}>
+      {children}
+    </Typography>
+  );
 };
 
 /**
@@ -119,7 +131,7 @@ export class EditorialSummary extends React.PureComponent<Props, State> {
   references = new Map<Node, Source>();
 
   state: State = {
-    shouldShowSources: true,
+    shouldShowSources: false,
   };
 
   constructor(props: Props, context: any) {
@@ -132,19 +144,12 @@ export class EditorialSummary extends React.PureComponent<Props, State> {
     nodes.filter(isRootBlock).forEach(findRefs(nodes, this.references));
   }
 
-  componentDidMount() {
-    // The server markup should have the sources shown by default (see default `state` above)
-    // so that users can click on a reference in the content to go the source.
-    // even if they have disabled JavaScript in the browser.
-    //
-    // When JS is executed on the client, React calls `componentDidMount`
-    // and sees that, `shouldShowSources` is now `false`,
-    // so it hides them.
-    this.setState({ shouldShowSources: false });
-  }
-
   onSourceClick: BlockProps['onSourceClick'] = () => {
     this.setState({ shouldShowSources: true });
+  };
+
+  toggleSources = () => {
+    this.setState(state => ({ shouldShowSources: !state.shouldShowSources }));
   };
 
   render() {
@@ -167,38 +172,43 @@ export class EditorialSummary extends React.PureComponent<Props, State> {
             />
           ))}
         <hr />
-        <Collapsable
+        <ExpansionPanel
+          onChange={this.toggleSources}
           className={classes.sourceListContainer}
-          isOpen={shouldShowSources}
-          label={<h3>Sources</h3>}
+          expanded={shouldShowSources}
         >
-          <small>
-            <ol className={classes.sourceList}>
-              {Array.from(this.references.values()).map(ref => {
-                const { nodeId, sourceId, sourceUrl, sourceTitle } = ref;
-                const prettifiedUrl = prettifyUrl(sourceUrl);
+          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+            <Typography variant="subheading">Sources</Typography>
+          </ExpansionPanelSummary>
+          <ExpansionPanelDetails>
+            <small>
+              <ol className={classes.sourceList}>
+                {Array.from(this.references.values()).map(ref => {
+                  const { nodeId, sourceId, sourceUrl, sourceTitle } = ref;
+                  const prettifiedUrl = prettifyUrl(sourceUrl);
 
-                return (
-                  <li key={nodeId} id={sourceId}>
-                    <a href={sourceUrl}>{sourceTitle || prettifiedUrl}</a>
-                    {sourceTitle ? ` ${prettifiedUrl}` : null}
-                    <a
-                      className={classes.backLink}
-                      href={`#${nodeId}`}
-                      role="button"
-                      aria-label="Go back to reference"
-                    >
-                      ↩&#xFE0E;
-                    </a>
-                  </li>
-                );
-              })}
-            </ol>
-          </small>
-        </Collapsable>
+                  return (
+                    <li key={nodeId} id={sourceId}>
+                      <a href={sourceUrl}>{sourceTitle || prettifiedUrl}</a>
+                      {sourceTitle ? ` ${prettifiedUrl}` : null}
+                      <a
+                        className={classes.backLink}
+                        href={`#${nodeId}`}
+                        role="button"
+                        aria-label="Go back to reference"
+                      >
+                        ↩&#xFE0E;
+                      </a>
+                    </li>
+                  );
+                })}
+              </ol>
+            </small>
+          </ExpansionPanelDetails>
+        </ExpansionPanel>
         <hr />
         <footer className={classes.footer}>
-          <small>
+          <Typography color="textSecondary" component="small">
             This article was written by {author}
             {date ? (
               <time dateTime={date.toISOString()}>
@@ -206,7 +216,7 @@ export class EditorialSummary extends React.PureComponent<Props, State> {
                 and was last updated on {formatDate(date, 'MMMM D, YYYY')}
               </time>
             ) : null}.
-          </small>
+          </Typography>
         </footer>
       </div>
     );

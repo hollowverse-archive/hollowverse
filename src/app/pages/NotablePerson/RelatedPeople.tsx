@@ -3,7 +3,7 @@ import React from 'react';
 import classes from './RelatedPeople.module.scss';
 
 import { Square } from 'components/Square/Square';
-import { Card } from 'components/Card/Card';
+import Card from '@material-ui/core/Card';
 import { Link } from 'react-router-dom';
 import { PersonPhoto } from 'components/PersonPhoto/PersonPhoto';
 

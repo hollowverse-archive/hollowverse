@@ -20,7 +20,6 @@ import { forceReload } from 'helpers/forceReload';
 import query from './NotablePersonQuery.graphql';
 import { FbComments } from 'components/FbComments/FbComments';
 import { OptionalIntersectionObserver } from 'components/OptionalIntersectionObserver/OptionalIntersectionObserver';
-import { Card } from 'components/Card/Card';
 import { EditorialSummary } from 'components/EditorialSummary/EditorialSummary';
 import { RelatedPeople } from './RelatedPeople';
 import { DispatchOnLifecycleEvent } from 'components/DispatchOnLifecycleEvent/DispatchOnLifecycleEvent';
@@ -38,6 +37,8 @@ import { setAlternativeSearchBoxText } from 'store/features/search/actions';
 import { isWhitelistedPage } from 'redirectionMap';
 
 import { LoadableSearchResults } from 'pages/SearchResults/LoadableSearchResults';
+import Card from '@material-ui/core/Card';
+import Typography from '@material-ui/core/Typography';
 
 export type Props = {};
 type NotablePersonType = NotablePersonQuery['notablePerson'];
@@ -64,7 +65,7 @@ export const NotablePerson = withRouter(
 
       return relatedPeople.length ? (
         <div className={classes.relatedPeople}>
-          <h2>Other interesting profiles</h2>
+          <Typography variant="display1">Other interesting profiles</Typography>
           <RelatedPeople people={relatedPeople} />
         </div>
       ) : null;
@@ -77,7 +78,7 @@ export const NotablePerson = withRouter(
         <OptionalIntersectionObserver rootMargin="0% 0% 25% 0%" triggerOnce>
           {inView =>
             inView ? (
-              <Card className={cc([classes.card, classes.comments])}>
+              <Card className={cc([classes.comments])}>
                 <FbComments url={commentsUrl} />
               </Card>
             ) : null
@@ -92,7 +93,7 @@ export const NotablePerson = withRouter(
       const { editorialSummary, slug, name } = notablePerson;
 
       return editorialSummary ? (
-        <Card className={cc([classes.card, classes.editorialSummary])}>
+        <Card className={cc([classes.editorialSummary])}>
           <EditorialSummary id={slug} {...editorialSummary} />
         </Card>
       ) : (
