@@ -14,6 +14,8 @@ import textLogo from '!!file-loader!assets/textLogo.svg';
 import { ConnectedSearchBar } from 'components/NavBar/ConnectedSearchBar';
 import { ConnectedAppMenu } from 'components/AppMenu/ConnectedAppMenu';
 import { Link } from 'react-router-dom';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
 
 export type OwnProps = {
   title: string;
@@ -35,16 +37,16 @@ export const NavBar = class extends React.Component<
     const { title, shouldFocusSearch, isHomePage } = this.props;
 
     return (
-      <div className={classes.root}>
-        <Sticky
-          rootMargin="30% 0% 0% 0%"
-          innerClassName={classes.viewWrapper}
-          height={48}
-        >
-          {isSticking => (
-            <>
-              <ConnectedAppMenu />
-              <div className={classes.view}>
+      <Sticky rootMargin="30% 0% 0% 0%" height={56}>
+        {isSticking => (
+          <>
+            <AppBar
+              position="static"
+              // elevation={isSticking ? 1 : 0}
+              color="inherit"
+            >
+              <Toolbar>
+                <ConnectedAppMenu />
                 <Switch>
                   <Route path="/search">
                     <ConnectedSearchBar />
@@ -53,7 +55,7 @@ export const NavBar = class extends React.Component<
                     {isSticking || shouldFocusSearch ? (
                       <ConnectedSearchBar />
                     ) : (
-                      <div className={classes.logoViewInner}>
+                      <>
                         <div className={classes.logoWrapper}>
                           <Link
                             title="Homepage"
@@ -71,15 +73,15 @@ export const NavBar = class extends React.Component<
                         >
                           <SearchIcon />
                         </IconButton>
-                      </div>
+                      </>
                     )}
                   </Route>
                 </Switch>
-              </div>
-            </>
-          )}
-        </Sticky>
-      </div>
+              </Toolbar>
+            </AppBar>
+          </>
+        )}
+      </Sticky>
     );
   }
 };

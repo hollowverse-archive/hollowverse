@@ -1,31 +1,11 @@
 @import 'variables.scss';
 @import 'mixins.scss';
 
-@supports (-webkit-background-clip: text) {
-  .root {
-    .logo {
-      background: linear-gradient(50deg, #4cfde9 0%, #fbc954 50%, #4435f7 120%);
-      // stylelint-disable-next-line property-no-vendor-prefix
-      -webkit-background-clip: text;
-      color: transparent;
-    }
-  }
-}
-
 .is-hidden {
   visibility: hidden;
 }
 
-.root {
-  border-bottom: 1px solid $color-border-light;
-  user-select: none;
-  color: $color-text-default;
-  position: relative;
-  width: 100%;
-  display: flex;
-  align-items: stretch;
-  justify-content: space-between;
-
+.logo-wrapper {
   @keyframes navbar-switch {
     0% {
       opacity: 0;
@@ -37,41 +17,30 @@
       transform: translateY(0);
     }
   }
+  animation: navbar-switch 0.15s;
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
 
-  .view-wrapper {
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.07);
+  .logo {
     display: flex;
-    background-color: rgba(255, 255, 255, 0.98);
-    justify-content: center;
-    align-items: stretch;
-    height: 100%;
-  }
+    @include font-20px;
+    @include truncate-flex-child;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 
-  .view {
-    width: 100%;
-    display: flex;
-    max-width: $page-max-width;
-    align-items: stretch;
-    animation: navbar-switch 0.15s;
-  }
-
-  .logo-view-inner {
-    width: 100%;
-    display: flex;
-  }
-
-  .logo-wrapper {
-    flex-grow: 1;
-    display: flex;
-    justify-content: center;
-    .logo {
-      display: flex;
-      @include font-20px;
-      @include truncate-flex-child;
-      text-transform: uppercase;
-      text-align: center;
-      letter-spacing: 1px;
+    @supports (-webkit-background-clip: text) {
+      & {
+        background: linear-gradient(
+          50deg,
+          #4cfde9 0%,
+          #fbc954 50%,
+          #4435f7 120%
+        );
+        // stylelint-disable-next-line property-no-vendor-prefix
+        -webkit-background-clip: text;
+        color: transparent;
+      }
     }
-    animation: navbar-switch 0.15s;
   }
 }
