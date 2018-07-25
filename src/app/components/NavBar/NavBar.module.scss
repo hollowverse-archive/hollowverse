@@ -5,6 +5,11 @@
   visibility: hidden;
 }
 
+.max-width {
+  width: 100%;
+  max-width: $page-max-width;
+}
+
 .logo-wrapper {
   @keyframes navbar-switch {
     0% {
@@ -21,6 +26,7 @@
   flex-grow: 1;
   display: flex;
   align-items: center;
+  justify-content: center;
 
   .logo {
     display: flex;
@@ -28,7 +34,7 @@
     @include truncate-flex-child;
     text-transform: uppercase;
     letter-spacing: 1px;
-
+    // filter: drop-shadow(0px 0px 1px lightgray);
     @supports (-webkit-background-clip: text) {
       & {
         background: linear-gradient(

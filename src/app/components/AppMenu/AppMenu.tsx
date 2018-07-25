@@ -22,6 +22,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Tooltip from '@material-ui/core/Tooltip';
 
 import { MenuItemWithLink, InertMenuItem } from './MenuItem';
 import { callAll } from 'helpers/callAll';
@@ -283,16 +284,18 @@ export class AppMenu extends React.PureComponent<Props, State> {
       <>
         {this.renderLoginFailedDialog()}
         {this.renderLoginStateChangeSnackbar()}
-        <IconButton
-          style={{ visibility: 'hidden' }}
-          aria-owns={anchorElement ? 'app-menu' : undefined}
-          aria-haspopup="true"
-          aria-label="Open menu"
-          onClick={this.handleClick}
-        >
-          <MenuIcon />
-        </IconButton>
-        {!!anchorElement && (
+        <Tooltip title="Main Menu">
+          <IconButton
+            // style={{ visibility: 'hidden' }}
+            aria-owns={anchorElement ? 'app-menu' : undefined}
+            aria-haspopup="true"
+            aria-label="Open menu"
+            onClick={this.handleClick}
+          >
+            <MenuIcon />
+          </IconButton>
+        </Tooltip>
+        {anchorElement !== null ? (
           <nav>
             <LocationAwareMenu
               id="app-menu"
@@ -319,7 +322,7 @@ export class AppMenu extends React.PureComponent<Props, State> {
               </MenuItemWithLink>
             </LocationAwareMenu>
           </nav>
-        )}
+        ) : null}
       </>
     );
   }

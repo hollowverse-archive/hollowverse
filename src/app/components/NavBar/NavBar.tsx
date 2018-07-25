@@ -12,10 +12,14 @@ import IconButton from '@material-ui/core/IconButton';
 import textLogo from '!!file-loader!assets/textLogo.svg';
 
 import { ConnectedSearchBar } from 'components/NavBar/ConnectedSearchBar';
-import { ConnectedAppMenu } from 'components/AppMenu/ConnectedAppMenu';
+// import { ConnectedAppMenu } from 'components/AppMenu/ConnectedAppMenu';
 import { Link } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
+import Tooltip from '@material-ui/core/Tooltip';
+import Avatar from '@material-ui/core/Avatar';
+import PersonIcon from '@material-ui/icons/Person';
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 export type OwnProps = {
   title: string;
@@ -24,6 +28,7 @@ export type OwnProps = {
 export type StateProps = {
   shouldFocusSearch: boolean;
   isHomePage: boolean;
+  shouldShowGlobalProgress: boolean;
 };
 
 export type DispatchProps = {};
@@ -34,19 +39,26 @@ export const NavBar = class extends React.Component<
   Props & RouteComponentProps<any>
 > {
   render() {
-    const { title, shouldFocusSearch, isHomePage } = this.props;
+    const {
+      title,
+      shouldFocusSearch,
+      shouldShowGlobalProgress,
+      isHomePage,
+    } = this.props;
 
     return (
-      <Sticky rootMargin="30% 0% 0% 0%" height={56}>
+      <Sticky rootMargin="0% 0% 0% 0%" height={56}>
         {isSticking => (
           <>
             <AppBar
               position="static"
-              // elevation={isSticking ? 1 : 0}
+              elevation={isSticking ? 1 : 0}
               color="inherit"
+              style={{
+                alignItems: 'center',
+              }}
             >
-              <Toolbar>
-                <ConnectedAppMenu />
+              <Toolbar className={classes.maxWidth}>
                 <Switch>
                   <Route path="/search">
                     <ConnectedSearchBar />
@@ -56,6 +68,16 @@ export const NavBar = class extends React.Component<
                       <ConnectedSearchBar />
                     ) : (
                       <>
+                        <Tooltip title="Search">
+                          <IconButton
+                            aria-label="Search"
+                            className={cc([{ [classes.isHidden]: isHomePage }])}
+                            component={Link as any}
+                            {...{ to: '/search' } as any}
+                          >
+                            <SearchIcon />
+                          </IconButton>
+                        </Tooltip>
                         <div className={classes.logoWrapper}>
                           <Link
                             title="Homepage"
@@ -65,19 +87,19 @@ export const NavBar = class extends React.Component<
                             <img src={textLogo} alt={title} />
                           </Link>
                         </div>
-                        <IconButton
-                          aria-label="Search"
-                          className={cc([{ [classes.isHidden]: isHomePage }])}
-                          component={Link as any}
-                          {...{ to: '/search' } as any}
-                        >
-                          <SearchIcon />
-                        </IconButton>
                       </>
                     )}
                   </Route>
                 </Switch>
+                <IconButton>{true ? <PersonIcon /> : <Avatar />}</IconButton>
               </Toolbar>
+              <LinearProgress
+                style={{
+                  visibility: shouldShowGlobalProgress ? undefined : 'hidden',
+                  width: '100%',
+                  height: '1px',
+                }}
+              />
             </AppBar>
           </>
         )}
