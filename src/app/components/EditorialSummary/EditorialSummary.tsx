@@ -1,7 +1,6 @@
 import React from 'react';
 import formatDate from 'date-fns/format';
 
-import classes from './EditorialSummary.module.scss';
 import { prettifyUrl } from 'helpers/prettifyUrl';
 import { EditorialSummaryNodeType, NotablePersonQuery } from 'api/types';
 import { Quote } from 'components/Quote/Quote';
@@ -11,6 +10,8 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Typography from '@material-ui/core/Typography';
+
+import classes from './EditorialSummary.module.scss';
 
 type NotablePerson = NonNullable<NotablePersonQuery['notablePerson']>;
 
@@ -84,7 +85,7 @@ const Block = (props: BlockProps): JSX.Element => {
     );
   } else if (node.type === 'heading') {
     return (
-      <Typography variant="title" key={node.id}>
+      <Typography gutterBottom variant="title" key={node.id}>
         {children}
       </Typography>
     );
@@ -159,23 +160,35 @@ export class EditorialSummary extends React.PureComponent<Props, State> {
     const date = lastUpdatedOn ? new Date(lastUpdatedOn) : undefined;
 
     return (
-      <div className={classes.root}>
-        {nodes
-          .filter(isRootBlock)
-          .map(node => (
-            <Block
-              key={node.id}
-              node={node}
-              nodes={nodes}
-              referencesMap={this.references}
-              onSourceClick={this.onSourceClick}
-            />
-          ))}
-        <hr />
+      <>
+        <div className={classes.articleText}>
+          {nodes
+            .filter(isRootBlock)
+            .map(node => (
+              <Block
+                key={node.id}
+                node={node}
+                nodes={nodes}
+                referencesMap={this.references}
+                onSourceClick={this.onSourceClick}
+              />
+            ))}
+          <footer>
+            <Typography color="textSecondary" component="small">
+              This article was written by {author}
+              {date ? (
+                <time dateTime={date.toISOString()}>
+                  {' '}
+                  and was last updated on {formatDate(date, 'MMMM D, YYYY')}
+                </time>
+              ) : null}.
+            </Typography>
+          </footer>
+        </div>
         <ExpansionPanel
           onChange={this.toggleSources}
-          className={classes.sourceListContainer}
           expanded={shouldShowSources}
+          elevation={0}
         >
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
             <Typography variant="subheading">Sources</Typography>
@@ -206,19 +219,7 @@ export class EditorialSummary extends React.PureComponent<Props, State> {
             </small>
           </ExpansionPanelDetails>
         </ExpansionPanel>
-        <hr />
-        <footer className={classes.footer}>
-          <Typography color="textSecondary" component="small">
-            This article was written by {author}
-            {date ? (
-              <time dateTime={date.toISOString()}>
-                {' '}
-                and was last updated on {formatDate(date, 'MMMM D, YYYY')}
-              </time>
-            ) : null}.
-          </Typography>
-        </footer>
-      </div>
+      </>
     );
   }
 }
