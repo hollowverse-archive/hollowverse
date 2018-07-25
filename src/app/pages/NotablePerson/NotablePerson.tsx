@@ -65,7 +65,7 @@ export const NotablePerson = withRouter(
 
       return relatedPeople.length ? (
         <div className={classes.relatedPeople}>
-          <Typography variant="display1">Other interesting profiles</Typography>
+          <Typography variant="title">Other interesting profiles</Typography>
           <RelatedPeople people={relatedPeople} />
         </div>
       ) : null;
