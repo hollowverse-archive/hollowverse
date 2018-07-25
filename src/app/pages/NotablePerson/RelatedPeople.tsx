@@ -20,7 +20,7 @@ export const RelatedPeople = ({ people }: { people: Person[] }) => (
     {people.map(person => (
       <li key={person.slug} className={classes.person}>
         <Link className={classes.link} to={`/${person.slug}`}>
-          <Card className={classes.card}>
+          <Card>
             <Square className={classes.square}>
               <PersonPhoto
                 isLazy
@@ -29,8 +29,8 @@ export const RelatedPeople = ({ people }: { people: Person[] }) => (
                 src={person.mainPhoto ? person.mainPhoto.url : undefined}
               />
             </Square>
-            <div className={classes.name}>{person.name}</div>
           </Card>
+          <div className={classes.name}>{person.name}</div>
         </Link>
       </li>
     ))}
