@@ -17,9 +17,8 @@ import { Link } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Tooltip from '@material-ui/core/Tooltip';
-import Avatar from '@material-ui/core/Avatar';
-import PersonIcon from '@material-ui/icons/Person';
 import LinearProgress from '@material-ui/core/LinearProgress';
+import { ConnectedAppMenu } from 'components/AppMenu/ConnectedAppMenu';
 
 export type OwnProps = {
   title: string;
@@ -59,6 +58,7 @@ export const NavBar = class extends React.Component<
               }}
             >
               <Toolbar className={classes.maxWidth}>
+                <ConnectedAppMenu />
                 <Switch>
                   <Route path="/search">
                     <ConnectedSearchBar />
@@ -68,6 +68,15 @@ export const NavBar = class extends React.Component<
                       <ConnectedSearchBar />
                     ) : (
                       <>
+                        <div className={classes.logoWrapper}>
+                          <Link
+                            title="Homepage"
+                            className={classes.logo}
+                            to="/"
+                          >
+                            <img src={textLogo} alt={title} />
+                          </Link>
+                        </div>
                         <Tooltip title="Search">
                           <IconButton
                             aria-label="Search"
@@ -78,20 +87,10 @@ export const NavBar = class extends React.Component<
                             <SearchIcon />
                           </IconButton>
                         </Tooltip>
-                        <div className={classes.logoWrapper}>
-                          <Link
-                            title="Homepage"
-                            className={classes.logo}
-                            to="/"
-                          >
-                            <img src={textLogo} alt={title} />
-                          </Link>
-                        </div>
                       </>
                     )}
                   </Route>
                 </Switch>
-                <IconButton>{true ? <PersonIcon /> : <Avatar />}</IconButton>
               </Toolbar>
               <LinearProgress
                 style={{
