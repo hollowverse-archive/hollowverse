@@ -120,8 +120,8 @@ export class PersonDetails extends React.PureComponent<PersonDetailsProps> {
 
     return (
       <div className={classes.content}>
-        <Typography variant="display1">
-          <Typography variant="subheading">
+        <Typography align="center" variant="display1">
+          <Typography align="center" variant="subheading" component="span">
             Religion, politics, and ideas of
           </Typography>
           {name}
