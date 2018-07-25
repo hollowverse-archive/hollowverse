@@ -7,6 +7,7 @@ import classes from './PersonDetails.module.scss';
 import emptySvg from '!!url-loader!assets/emptySvg.svg';
 
 import { PersonPhoto } from 'components/PersonPhoto/PersonPhoto';
+import Typography from '@material-ui/core/Typography';
 
 type PersonDetailsProps = {
   summary: string | null;
@@ -119,22 +120,18 @@ export class PersonDetails extends React.PureComponent<PersonDetailsProps> {
 
     return (
       <div className={classes.content}>
-        <h1 className={classes.nameContainer}>
-          <div className={classes.caption}>
-            <span className={classes.text}>
-              Religion, politics, and ideas of
-            </span>
-          </div>
-          <div className={classes.name}>
-            <span className={classes.text}>{name}</span>
-          </div>
-        </h1>
+        <Typography variant="display1">
+          <Typography variant="subheading">
+            Religion, politics, and ideas of
+          </Typography>
+          {name}
+        </Typography>
         {summary && (
           <div className={classes.summary}>
             {summary.split('\n').map(paragraph => (
-              <p key={paragraph}>
-                <span className={classes.text}>{paragraph}</span>
-              </p>
+              <Typography variant="body2" paragraph key={paragraph}>
+                {paragraph}
+              </Typography>
             ))}
           </div>
         )}
