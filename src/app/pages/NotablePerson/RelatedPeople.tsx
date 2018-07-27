@@ -6,6 +6,7 @@ import { Square } from 'components/Square/Square';
 import Card from '@material-ui/core/Card';
 import { Link } from 'react-router-dom';
 import { PersonPhoto } from 'components/PersonPhoto/PersonPhoto';
+import Typography from '@material-ui/core/Typography';
 
 type Person = {
   slug: string;
@@ -30,7 +31,7 @@ export const RelatedPeople = ({ people }: { people: Person[] }) => (
               />
             </Square>
           </Card>
-          <div className={classes.name}>{person.name}</div>
+          <Typography align="center">{person.name}</Typography>
         </Link>
       </li>
     ))}
