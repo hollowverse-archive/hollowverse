@@ -63,7 +63,6 @@
 
   .person {
     $spacing: $spacing-5px;
-    @include font-13px;
     flex: 1 0 calc(25% - #{$spacing});
     max-width: calc(#{$page-max-width} / 4);
     display: flex;
