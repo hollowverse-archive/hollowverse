@@ -12,12 +12,7 @@ const { IS_PULL_REQUEST, BRANCH } = shelljs.env;
 
 const isPullRequest = IS_PULL_REQUEST !== 'false';
 
-const whitelistedBranches = [
-  'master',
-  'beta',
-  'internal',
-  'migrate-more-components-to-material-ui',
-];
+const whitelistedBranches = ['master', 'beta', 'internal', 'materialize-more'];
 
 async function main() {
   const buildCommands = ['yarn test', 'yarn coverage/report', 'yarn build'];
