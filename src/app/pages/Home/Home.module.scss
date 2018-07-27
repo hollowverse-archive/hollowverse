@@ -25,12 +25,6 @@
       align-items: center;
       height: 100%;
       cursor: pointer;
-      &:hover,
-      &:focus {
-        .icon {
-          opacity: 1;
-        }
-      }
     }
 
     .search-box {
