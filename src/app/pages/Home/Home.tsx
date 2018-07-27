@@ -1,10 +1,9 @@
 import React from 'react';
 
 import classes from './Home.module.scss';
-import { Card } from 'components/Card/Card';
-import { SvgIcon } from 'components/SvgIcon/SvgIcon';
+import Paper from '@material-ui/core/Paper';
 
-import searchIcon from 'icons/search.svg';
+import SearchIcon from '@material-ui/icons/Search';
 import { goToSearch } from 'store/features/search/actions';
 import { connect } from 'react-redux';
 import { Footer } from 'components/Footer/Footer';
@@ -24,7 +23,7 @@ export const Home = hot(module)(
         role="search"
         className={classes.searchContainer}
       >
-        <Card className={classes.searchBox}>
+        <Paper className={classes.searchBox}>
           <input
             type="search"
             className={classes.input}
@@ -34,10 +33,10 @@ export const Home = hot(module)(
             required
           />
           <button type="submit">
-            <SvgIcon size={20} className={classes.icon} {...searchIcon} />
+            <SearchIcon />
             <span className="sr-only">Search</span>
           </button>
-        </Card>
+        </Paper>
       </form>
       <Footer />
     </div>
