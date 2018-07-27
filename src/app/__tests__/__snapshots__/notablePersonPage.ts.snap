@@ -2,20 +2,20 @@
 
 exports[`notable person page when notable person is found, if notable person has an editorial summary shows editorial summary content 1`] = `
 <div
-  class="MuiPaper-root-953 MuiPaper-elevation1-956 MuiPaper-rounded-954 MuiCard-root-1062 editorialSummary"
+  class="MuiPaper-root MuiPaper-elevation1 MuiPaper-rounded MuiCard-root editorialSummary"
 >
   <div
     class="articleText"
   >
     <p
-      class="MuiTypography-root-1031 MuiTypography-body1-1040 MuiTypography-paragraph-1049"
+      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph"
     >
       <span>
         Tom Hanks was born in Concord, California.
       </span>
     </p>
     <p
-      class="MuiTypography-root-1031 MuiTypography-body1-1040 MuiTypography-paragraph-1049"
+      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph"
     >
       <span>
         His religious beliefs are about as diverse as the characters he has played. Hanks' childhood was a hodgepodge of divorce and step-parents, each with their own views. Hanks has identified with everything from Mormonism to his most recent and enduring faith–Greek Orthodox. In his own words:
@@ -25,7 +25,7 @@ exports[`notable person page when notable person is found, if notable person has
       class="root large"
     >
       <p
-        class="MuiTypography-root-1031 MuiTypography-body1-1040 MuiTypography-paragraph-1049"
+        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph"
       >
         <span>
           The major religion I was exposed to in the first 10 years of my life was Catholicism. My stepmother became a Mormon. My aunt, whom I lived with for a long time, was a Nazarene, which is kind of ultra-super Methodist, and in high school, all my friends were Jews. For years I went to Wednesday-night Bible studies with my church group. So I had this peripatetic overview of various faiths, and the one thing I got from that was the intellectual pursuit involved. There was a lot of great stuff to think about.
@@ -41,14 +41,14 @@ exports[`notable person page when notable person is found, if notable person has
       </p>
     </blockquote>
     <p
-      class="MuiTypography-root-1031 MuiTypography-body1-1040 MuiTypography-paragraph-1049"
+      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph"
     >
       <span>
         Hanks' second and current wife, Rita Wilson, was raised a member of the Greek Orthodox Church and Hanks has taken on her religion.
       </span>
     </p>
     <p
-      class="MuiTypography-root-1031 MuiTypography-body1-1040 MuiTypography-paragraph-1049"
+      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph"
     >
       <span>
         Hanks is said to be a deeply religious man and goes to church regularly.
@@ -74,21 +74,21 @@ exports[`notable person page when notable person is found, if notable person has
       </span>
     </p>
     <h2
-      class="MuiTypography-root-1031 MuiTypography-title-1037 MuiTypography-gutterBottom-1048"
+      class="MuiTypography-root MuiTypography-title MuiTypography-gutterBottom"
     >
       <span>
         Politics is just like a box of chocolates…
       </span>
     </h2>
     <p
-      class="MuiTypography-root-1031 MuiTypography-body1-1040 MuiTypography-paragraph-1049"
+      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph"
     >
       <span>
         Politically, Hanks falls squarely in the Democrat/liberal camp, like the vast majority of his Hollywood counterparts. He's stuck up for quite a few liberal causes like gay marriage and the environment, and has a large collection of electric and hybrid cars.
       </span>
     </p>
     <p
-      class="MuiTypography-root-1031 MuiTypography-body1-1040 MuiTypography-paragraph-1049"
+      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph"
     >
       <span>
         He even slandered his old church–The Church of Jesus Christ of Latter Day Saints (Mormons) when they donated money to advance proposition 8 in California, effectively banning gay marriage.
@@ -103,7 +103,7 @@ exports[`notable person page when notable person is found, if notable person has
       </span>
     </p>
     <p
-      class="MuiTypography-root-1031 MuiTypography-body1-1040 MuiTypography-paragraph-1049"
+      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph"
     >
       <span>
         However, he quickly rescinded his statement but fought fire with fire, contributing his star power to raising over $44 million to defeat proposition 8–which passed anyway.
@@ -118,7 +118,7 @@ exports[`notable person page when notable person is found, if notable person has
       </span>
     </p>
     <p
-      class="MuiTypography-root-1031 MuiTypography-body1-1040 MuiTypography-paragraph-1049"
+      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph"
     >
       <span>
         Hanks backed Obama in 2008, posting a video on his Myspace page, explaining his position.
@@ -133,7 +133,7 @@ exports[`notable person page when notable person is found, if notable person has
       </span>
     </p>
     <p
-      class="MuiTypography-root-1031 MuiTypography-body1-1040 MuiTypography-paragraph-1049"
+      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph"
     >
       <span>
         In 2012, Hanks forcefully said he would back Obama once again and, despite widespread opinion to the opposite effect, said Obama had exceeded his expectations, saying:
@@ -143,7 +143,7 @@ exports[`notable person page when notable person is found, if notable person has
       class="root large"
     >
       <p
-        class="MuiTypography-root-1031 MuiTypography-body1-1040 MuiTypography-paragraph-1049"
+        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph"
       >
         <span>
           If you would have told me a few years ago that 'don't ask, don't tell' would be repealed and about a billion jobs at General Motors and Chrysler would have been saved because the president was smart enough and strong enough and bold enough to do so, I would have said, 'Wow. That's a good president, I think I'll vote for him again.'
@@ -159,7 +159,7 @@ exports[`notable person page when notable person is found, if notable person has
       </p>
     </blockquote>
     <p
-      class="MuiTypography-root-1031 MuiTypography-body1-1040 MuiTypography-paragraph-1049"
+      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph"
     >
       <span>
         He doesn't seem to acknowledge the billions upon billions of taxpayer dollars that were funneled to some of the country's richest men during that bailout, but hey, that's what the PR machine is all about.
@@ -167,7 +167,7 @@ exports[`notable person page when notable person is found, if notable person has
     </p>
     <footer>
       <small
-        class="MuiTypography-root-1031 MuiTypography-body1-1040 MuiTypography-colorTextSecondary-1053"
+        class="MuiTypography-root MuiTypography-body1 MuiTypography-colorTextSecondary"
       >
         This article was written by 
         Tom Kershaw
@@ -183,35 +183,35 @@ exports[`notable person page when notable person is found, if notable person has
     </footer>
   </div>
   <div
-    class="MuiPaper-root-953 MuiPaper-elevation0-955 MuiExpansionPanel-root-1063"
+    class="MuiPaper-root MuiPaper-elevation0 MuiExpansionPanel-root"
   >
     <div
       aria-expanded="false"
-      class="MuiButtonBase-root-997 MuiExpansionPanelSummary-root-1066"
+      class="MuiButtonBase-root MuiExpansionPanelSummary-root"
       role="button"
       tabindex="0"
     >
       <div
-        class="MuiExpansionPanelSummary-content-1070"
+        class="MuiExpansionPanelSummary-content"
       >
         <h3
-          class="MuiTypography-root-1031 MuiTypography-subheading-1038"
+          class="MuiTypography-root MuiTypography-subheading"
         >
           Sources
         </h3>
       </div>
       <div
         aria-hidden="true"
-        class="MuiButtonBase-root-997 MuiIconButton-root-991 MuiExpansionPanelSummary-expandIcon-1071"
+        class="MuiButtonBase-root MuiIconButton-root MuiExpansionPanelSummary-expandIcon"
         role="button"
         tabindex="-1"
       >
         <span
-          class="MuiIconButton-label-996"
+          class="MuiIconButton-label"
         >
           <svg
             aria-hidden="true"
-            class="MuiSvgIcon-root-1000"
+            class="MuiSvgIcon-root"
             focusable="false"
             viewBox="0 0 24 24"
           >
@@ -225,23 +225,23 @@ exports[`notable person page when notable person is found, if notable person has
           </svg>
         </span>
         <span
-          class="MuiTouchRipple-root-1007"
+          class="MuiTouchRipple-root"
         />
       </div>
     </div>
     <div
       aria-hidden="true"
-      class="MuiCollapse-container-1072"
+      class="MuiCollapse-container"
       style="min-height: 0px;"
     >
       <div
-        class="MuiCollapse-wrapper-1074"
+        class="MuiCollapse-wrapper"
       >
         <div
-          class="MuiCollapse-wrapperInner-1075"
+          class="MuiCollapse-wrapperInner"
         >
           <div
-            class="MuiExpansionPanelDetails-root-1076"
+            class="MuiExpansionPanelDetails-root"
           >
             <small>
               <ol
