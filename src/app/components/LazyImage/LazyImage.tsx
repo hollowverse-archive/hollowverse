@@ -18,7 +18,7 @@ export class LazyImage extends React.PureComponent<Props> {
       <IntersectionObserver
         rootMargin="25%"
         triggerOnce
-        {...{ className: outerClassName as any }}
+        {...{ className: outerClassName }}
       >
         {inView => {
           if (!inView) {
