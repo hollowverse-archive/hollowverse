@@ -2,17 +2,21 @@
 
 exports[`notable person page when notable person is found, if notable person has an editorial summary shows editorial summary content 1`] = `
 <div
-  class="root card editorialSummary"
+  class="MuiPaper-root MuiPaper-elevation1 MuiPaper-rounded MuiCard-root editorialSummary"
 >
   <div
-    class="root"
+    class="articleText"
   >
-    <p>
+    <p
+      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph"
+    >
       <span>
         Tom Hanks was born in Concord, California.
       </span>
     </p>
-    <p>
+    <p
+      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph"
+    >
       <span>
         His religious beliefs are about as diverse as the characters he has played. Hanks' childhood was a hodgepodge of divorce and step-parents, each with their own views. Hanks has identified with everything from Mormonism to his most recent and enduring faith–Greek Orthodox. In his own words:
       </span>
@@ -20,7 +24,9 @@ exports[`notable person page when notable person is found, if notable person has
     <blockquote
       class="root large"
     >
-      <p>
+      <p
+        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph"
+      >
         <span>
           The major religion I was exposed to in the first 10 years of my life was Catholicism. My stepmother became a Mormon. My aunt, whom I lived with for a long time, was a Nazarene, which is kind of ultra-super Methodist, and in high school, all my friends were Jews. For years I went to Wednesday-night Bible studies with my church group. So I had this peripatetic overview of various faiths, and the one thing I got from that was the intellectual pursuit involved. There was a lot of great stuff to think about.
           <a
@@ -34,12 +40,16 @@ exports[`notable person page when notable person is found, if notable person has
         </span>
       </p>
     </blockquote>
-    <p>
+    <p
+      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph"
+    >
       <span>
         Hanks' second and current wife, Rita Wilson, was raised a member of the Greek Orthodox Church and Hanks has taken on her religion.
       </span>
     </p>
-    <p>
+    <p
+      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph"
+    >
       <span>
         Hanks is said to be a deeply religious man and goes to church regularly.
         <a
@@ -63,17 +73,23 @@ exports[`notable person page when notable person is found, if notable person has
         </a>
       </span>
     </p>
-    <h2>
+    <h2
+      class="MuiTypography-root MuiTypography-title MuiTypography-gutterBottom"
+    >
       <span>
         Politics is just like a box of chocolates…
       </span>
     </h2>
-    <p>
+    <p
+      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph"
+    >
       <span>
         Politically, Hanks falls squarely in the Democrat/liberal camp, like the vast majority of his Hollywood counterparts. He's stuck up for quite a few liberal causes like gay marriage and the environment, and has a large collection of electric and hybrid cars.
       </span>
     </p>
-    <p>
+    <p
+      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph"
+    >
       <span>
         He even slandered his old church–The Church of Jesus Christ of Latter Day Saints (Mormons) when they donated money to advance proposition 8 in California, effectively banning gay marriage.
         <a
@@ -86,7 +102,9 @@ exports[`notable person page when notable person is found, if notable person has
         </a>
       </span>
     </p>
-    <p>
+    <p
+      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph"
+    >
       <span>
         However, he quickly rescinded his statement but fought fire with fire, contributing his star power to raising over $44 million to defeat proposition 8–which passed anyway.
         <a
@@ -99,7 +117,9 @@ exports[`notable person page when notable person is found, if notable person has
         </a>
       </span>
     </p>
-    <p>
+    <p
+      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph"
+    >
       <span>
         Hanks backed Obama in 2008, posting a video on his Myspace page, explaining his position.
         <a
@@ -112,7 +132,9 @@ exports[`notable person page when notable person is found, if notable person has
         </a>
       </span>
     </p>
-    <p>
+    <p
+      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph"
+    >
       <span>
         In 2012, Hanks forcefully said he would back Obama once again and, despite widespread opinion to the opposite effect, said Obama had exceeded his expectations, saying:
       </span>
@@ -120,7 +142,9 @@ exports[`notable person page when notable person is found, if notable person has
     <blockquote
       class="root large"
     >
-      <p>
+      <p
+        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph"
+      >
         <span>
           If you would have told me a few years ago that 'don't ask, don't tell' would be repealed and about a billion jobs at General Motors and Chrysler would have been saved because the president was smart enough and strong enough and bold enough to do so, I would have said, 'Wow. That's a good president, I think I'll vote for him again.'
           <a
@@ -134,182 +158,17 @@ exports[`notable person page when notable person is found, if notable person has
         </span>
       </p>
     </blockquote>
-    <p>
+    <p
+      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph"
+    >
       <span>
         He doesn't seem to acknowledge the billions upon billions of taxpayer dollars that were funneled to some of the country's richest men during that bailout, but hey, that's what the PR machine is all about.
       </span>
     </p>
-    <hr />
-    <div
-      class="root sourceListContainer"
-    >
-      <input
-        aria-checked="false"
-        class="input"
-        id="2"
-        type="checkbox"
-      />
-      <label
-        class="label"
-        for="2"
+    <footer>
+      <small
+        class="MuiTypography-root MuiTypography-body1 MuiTypography-colorTextSecondary"
       >
-        <h3>
-          Sources
-        </h3>
-        <svg
-          class="icon root"
-          content=""
-          height="8"
-          role="presentation"
-          viewBox=""
-        >
-          <use
-            xlink:href=""
-          />
-        </svg>
-      </label>
-      <div
-        class="children"
-      >
-        <small>
-          <ol
-            class="sourceList"
-          >
-            <li
-              id="source_1"
-            >
-              <a
-                href="http://www.johnsanidopoulos.com/2009/05/orthodoxy-of-tom-hanks.html"
-              >
-                Mystagogy: The Orthodoxy of Tom Hanks
-              </a>
-               johnsanidopoulos.com
-              <a
-                aria-label="Go back to reference"
-                class="backLink"
-                href="#ref_1"
-                role="button"
-              >
-                ↩︎
-              </a>
-            </li>
-            <li
-              id="source_2"
-            >
-              <a
-                href="http://www.beliefnet.com/Celebrity-Faith-Database/H/Tom-Hanks.aspx"
-              >
-                Tom Hanks
-              </a>
-               beliefnet.com
-              <a
-                aria-label="Go back to reference"
-                class="backLink"
-                href="#ref_2"
-                role="button"
-              >
-                ↩︎
-              </a>
-            </li>
-            <li
-              id="source_3"
-            >
-              <a
-                href="http://www.johnsanidopoulos.com/2009/05/orthodoxy-of-tom-hanks.html"
-              >
-                Mystagogy: The Orthodoxy of Tom Hanks
-              </a>
-               johnsanidopoulos.com
-              <a
-                aria-label="Go back to reference"
-                class="backLink"
-                href="#ref_3"
-                role="button"
-              >
-                ↩︎
-              </a>
-            </li>
-            <li
-              id="source_4"
-            >
-              <a
-                href="http://mormonmatters.org/2009/03/11/does-tom-hanks-hate-mormons/"
-              >
-                Does Tom Hanks Hate Mormons?
-              </a>
-               mormonmatters.org
-              <a
-                aria-label="Go back to reference"
-                class="backLink"
-                href="#ref_4"
-                role="button"
-              >
-                ↩︎
-              </a>
-            </li>
-            <li
-              id="source_5"
-            >
-              <a
-                href="http://www.latimes.com/news/local/la-moneymap,0,2198220.htmlstory"
-              >
-                Proposition 8: Tracking the Money
-              </a>
-               latimes.com
-              <a
-                aria-label="Go back to reference"
-                class="backLink"
-                href="#ref_5"
-                role="button"
-              >
-                ↩︎
-              </a>
-            </li>
-            <li
-              id="source_6"
-            >
-              <a
-                href="http://www.myspace.com/video/vid/33546997"
-              >
-                Beware: Celebrity Endorsement Video by Tom Hanks
-              </a>
-               myspace.com
-              <a
-                aria-label="Go back to reference"
-                class="backLink"
-                href="#ref_6"
-                role="button"
-              >
-                ↩︎
-              </a>
-            </li>
-            <li
-              id="source_7"
-            >
-              <a
-                href="http://www.politico.com/blogs/click/0611/Tom_Hanks_Im_voting_for_Obama_again.html"
-              >
-                Tom Hanks: I'm Voting for Obama Again
-              </a>
-               politico.com
-              <a
-                aria-label="Go back to reference"
-                class="backLink"
-                href="#ref_7"
-                role="button"
-              >
-                ↩︎
-              </a>
-            </li>
-          </ol>
-        </small>
-      </div>
-    </div>
-    <hr />
-    <footer
-      class="footer"
-    >
-      <small>
         This article was written by 
         Tom Kershaw
         <time
@@ -322,6 +181,204 @@ exports[`notable person page when notable person is found, if notable person has
         .
       </small>
     </footer>
+  </div>
+  <div
+    class="MuiPaper-root MuiPaper-elevation0 MuiExpansionPanel-root"
+  >
+    <div
+      aria-expanded="false"
+      class="MuiButtonBase-root MuiExpansionPanelSummary-root"
+      role="button"
+      tabindex="0"
+    >
+      <div
+        class="MuiExpansionPanelSummary-content"
+      >
+        <h3
+          class="MuiTypography-root MuiTypography-subheading"
+        >
+          Sources
+        </h3>
+      </div>
+      <div
+        aria-hidden="true"
+        class="MuiButtonBase-root MuiIconButton-root MuiExpansionPanelSummary-expandIcon"
+        role="button"
+        tabindex="-1"
+      >
+        <span
+          class="MuiIconButton-label"
+        >
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"
+            />
+            <path
+              d="M0 0h24v24H0z"
+              fill="none"
+            />
+          </svg>
+        </span>
+        <span
+          class="MuiTouchRipple-root"
+        />
+      </div>
+    </div>
+    <div
+      aria-hidden="true"
+      class="MuiCollapse-container"
+      style="min-height: 0px;"
+    >
+      <div
+        class="MuiCollapse-wrapper"
+      >
+        <div
+          class="MuiCollapse-wrapperInner"
+        >
+          <div
+            class="MuiExpansionPanelDetails-root"
+          >
+            <small>
+              <ol
+                class="sourceList"
+              >
+                <li
+                  id="source_1"
+                >
+                  <a
+                    href="http://www.johnsanidopoulos.com/2009/05/orthodoxy-of-tom-hanks.html"
+                  >
+                    Mystagogy: The Orthodoxy of Tom Hanks
+                  </a>
+                   johnsanidopoulos.com
+                  <a
+                    aria-label="Go back to reference"
+                    class="backLink"
+                    href="#ref_1"
+                    role="button"
+                  >
+                    ↩︎
+                  </a>
+                </li>
+                <li
+                  id="source_2"
+                >
+                  <a
+                    href="http://www.beliefnet.com/Celebrity-Faith-Database/H/Tom-Hanks.aspx"
+                  >
+                    Tom Hanks
+                  </a>
+                   beliefnet.com
+                  <a
+                    aria-label="Go back to reference"
+                    class="backLink"
+                    href="#ref_2"
+                    role="button"
+                  >
+                    ↩︎
+                  </a>
+                </li>
+                <li
+                  id="source_3"
+                >
+                  <a
+                    href="http://www.johnsanidopoulos.com/2009/05/orthodoxy-of-tom-hanks.html"
+                  >
+                    Mystagogy: The Orthodoxy of Tom Hanks
+                  </a>
+                   johnsanidopoulos.com
+                  <a
+                    aria-label="Go back to reference"
+                    class="backLink"
+                    href="#ref_3"
+                    role="button"
+                  >
+                    ↩︎
+                  </a>
+                </li>
+                <li
+                  id="source_4"
+                >
+                  <a
+                    href="http://mormonmatters.org/2009/03/11/does-tom-hanks-hate-mormons/"
+                  >
+                    Does Tom Hanks Hate Mormons?
+                  </a>
+                   mormonmatters.org
+                  <a
+                    aria-label="Go back to reference"
+                    class="backLink"
+                    href="#ref_4"
+                    role="button"
+                  >
+                    ↩︎
+                  </a>
+                </li>
+                <li
+                  id="source_5"
+                >
+                  <a
+                    href="http://www.latimes.com/news/local/la-moneymap,0,2198220.htmlstory"
+                  >
+                    Proposition 8: Tracking the Money
+                  </a>
+                   latimes.com
+                  <a
+                    aria-label="Go back to reference"
+                    class="backLink"
+                    href="#ref_5"
+                    role="button"
+                  >
+                    ↩︎
+                  </a>
+                </li>
+                <li
+                  id="source_6"
+                >
+                  <a
+                    href="http://www.myspace.com/video/vid/33546997"
+                  >
+                    Beware: Celebrity Endorsement Video by Tom Hanks
+                  </a>
+                   myspace.com
+                  <a
+                    aria-label="Go back to reference"
+                    class="backLink"
+                    href="#ref_6"
+                    role="button"
+                  >
+                    ↩︎
+                  </a>
+                </li>
+                <li
+                  id="source_7"
+                >
+                  <a
+                    href="http://www.politico.com/blogs/click/0611/Tom_Hanks_Im_voting_for_Obama_again.html"
+                  >
+                    Tom Hanks: I'm Voting for Obama Again
+                  </a>
+                   politico.com
+                  <a
+                    aria-label="Go back to reference"
+                    class="backLink"
+                    href="#ref_7"
+                    role="button"
+                  >
+                    ↩︎
+                  </a>
+                </li>
+              </ol>
+            </small>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 `;

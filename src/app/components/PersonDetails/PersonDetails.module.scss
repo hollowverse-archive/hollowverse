@@ -12,67 +12,6 @@
 .root {
   display: flex;
   flex-direction: column;
-  position: relative;
-
-  .cover-background-wrapper {
-    visibility: hidden;
-    @supports (filter: blur(5px)) and
-      (mask-image: linear-gradient(black, transparent)) {
-      & {
-        visibility: visible;
-      }
-    }
-    // stylelint-disable plugin/no-unsupported-browser-features
-    mask-image: linear-gradient(to bottom, black, transparent);
-    mask-repeat: no-repeat;
-    mask-size: 100% 100%;
-    // stylelint-enable plugin/no-unsupported-browser-features
-    border: 1px solid transparent;
-    border-top: none;
-    position: absolute;
-    z-index: $z-index-background;
-    right: 0px;
-    left: 0;
-    top: 0;
-    height: 200px;
-  }
-
-  .cover-background {
-    // stylelint-disable-next-line plugin/no-unsupported-browser-features
-    filter: blur(25px);
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-  }
-
-  &.is-loading {
-    &::after {
-      content: '';
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      left: 0;
-      top: 0;
-      opacity: 0.2;
-
-      // stylelint-disable-next-line plugin/no-unsupported-browser-features
-      filter: blur(50px);
-
-      background-image: linear-gradient(
-          -180deg,
-          rgba(241, 241, 243, 0) 0%,
-          rgba(241, 241, 243, 1) 50%
-        ),
-        linear-gradient(
-          132deg,
-          #4cfde9 0%,
-          rgba(251, 201, 84, 1) 50%,
-          #4435f7 100%
-        );
-    }
-  }
 
   .container {
     align-self: center;
@@ -80,12 +19,12 @@
     flex-direction: column;
     width: 100%;
     max-width: $page-max-width;
-    position: relative;
 
     .content {
       width: 100%;
       max-width: $page-max-width;
       align-self: center;
+      margin-top: $spacing-10px;
     }
 
     .photo-link {
@@ -112,29 +51,7 @@
       object-fit: cover;
     }
 
-    .name-container {
-      @include font-26px;
-      color: $color-text-default;
-      margin-top: $spacing-10px;
-      text-align: center;
-
-      .caption {
-        @include font-11px;
-        color: $color-text-light;
-        font-weight: 500;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        margin-top: $spacing-20px;
-        text-align: center;
-      }
-
-      .name {
-        margin-top: $spacing-5px;
-      }
-    }
-
     .summary {
-      @include font-16px;
       margin-top: $spacing-30px;
       padding: $spacing-20px;
 
@@ -144,7 +61,7 @@
     }
 
     &.is-loading {
-      overflow-x: hidden;
+      @include pulse;
 
       .photo {
         @include photo-border(transparent, transparent);
@@ -155,11 +72,6 @@
         color: $color-background;
         background: $color-background;
         user-select: none;
-      }
-
-      &:after {
-        content: '';
-        @include illumination(#f1f1f3);
       }
     }
   }

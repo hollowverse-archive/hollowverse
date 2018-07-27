@@ -7,7 +7,7 @@ import { NavBarLink } from 'components/NavBar/NavBarButton';
 
 import { Route, Switch } from 'react-router';
 import IconButton from '@material-ui/core/IconButton';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import Input from '@material-ui/core/Input';
 
 export type DispatchProps = {
   goToSearch(_: void): any;
@@ -48,7 +48,7 @@ export class SearchBar extends React.PureComponent<Props> {
   focusIfNecessary = (props: Props = this.props) => {
     if (props.isFocused && this.searchInput) {
       if (document.activeElement !== this.searchInput) {
-        this.searchInput.focus();
+        // this.searchInput.focus();
       }
     }
   };
@@ -62,7 +62,7 @@ export class SearchBar extends React.PureComponent<Props> {
   };
 
   render() {
-    const { inputValue, isSearchInProgress, isSearchPage } = this.props;
+    const { inputValue, isSearchPage } = this.props;
 
     return (
       <form
@@ -73,12 +73,15 @@ export class SearchBar extends React.PureComponent<Props> {
         role="search"
       >
         <div className={classes.inputWrapper}>
-          <input
+          <Input
             type="search"
             aria-label="Search"
-            ref={this.setSearchInput}
+            innerRef={this.setSearchInput}
             className={classes.input}
-            required
+            fullWidth
+            inputProps={{
+              required: true,
+            }}
             name="query"
             value={inputValue}
             placeholder="Search for notable people..."
@@ -91,15 +94,8 @@ export class SearchBar extends React.PureComponent<Props> {
           <Route path="/search">
             <>
               <div className="sr-only">Loading...</div>
-              <IconButton
-                aria-label="Search"
-                type={isSearchInProgress ? 'button' : 'submit'}
-              >
-                {isSearchInProgress ? (
-                  <CircularProgress size={20} />
-                ) : (
-                  <SearchIcon />
-                )}
+              <IconButton aria-label="Search" type="submit">
+                <SearchIcon />
               </IconButton>
             </>
           </Route>

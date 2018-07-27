@@ -8,7 +8,6 @@
   display: flex;
   justify-content: flex-start;
   align-items: stretch;
-  margin-top: $spacing-10px;
 
   /**
    * Enable momentum-based scrolling, Safari only
@@ -34,12 +33,6 @@
     height: 100%;
   }
 
-  .card {
-    padding-bottom: $spacing-10px;
-    display: flex;
-    flex-direction: column;
-  }
-
   .square {
     min-width: $person-avatar-size;
     min-height: $person-avatar-size;
@@ -50,20 +43,6 @@
   .link {
     display: block;
     height: 100%;
-
-    > * {
-      height: 100%;
-    }
-  }
-
-  .name {
-    padding: $spacing-10px;
-    padding-bottom: 0;
-    flex-grow: 1;
-    display: flex;
-    text-align: center;
-    justify-content: center;
-    align-items: center;
   }
 
   a {
@@ -72,8 +51,7 @@
   }
 
   .person {
-    $spacing: $spacing-2px;
-    @include font-13px;
+    $spacing: $spacing-5px;
     flex: 1 0 calc(25% - #{$spacing});
     max-width: calc(#{$page-max-width} / 4);
     display: flex;
