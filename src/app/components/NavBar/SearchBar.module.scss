@@ -5,7 +5,7 @@
   height: 100%;
   width: 100%;
   display: flex;
-  align-items: stretch;
+  align-items: center;
   justify-content: center;
 
   @keyframes navbar-switch {
@@ -29,7 +29,6 @@
   }
 
   .input {
-    @include font-16px;
     text-align: center;
 
     &:focus {
