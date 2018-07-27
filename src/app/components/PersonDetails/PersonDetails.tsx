@@ -1,7 +1,6 @@
 import React from 'react';
 import { prettifyUrl } from 'helpers/prettifyUrl';
 import Helmet from 'react-helmet-async';
-import { oneLineTrim } from 'common-tags';
 import cc from 'classcat';
 import classes from './PersonDetails.module.scss';
 import emptySvg from '!!url-loader!assets/emptySvg.svg';
@@ -78,7 +77,7 @@ export class PersonDetails extends React.PureComponent<PersonDetailsProps> {
         <Typography align="center" variant="display1">
           <Typography align="center" variant="subheading" component="span">
             <span className={classes.text}>
-            Religion, politics, and ideas of
+              Religion, politics, and ideas of
             </span>
           </Typography>
           <span className={classes.text}>{name}</span>
