@@ -9,6 +9,7 @@ import {
   isSuccessResult,
   ErrorResult,
 } from 'helpers/asyncResults';
+import IntersectionObserver from 'react-intersection-observer';
 
 import { NotablePersonQuery } from 'api/types';
 import { MessageWithIcon } from 'components/MessageWithIcon/MessageWithIcon';
@@ -19,7 +20,6 @@ import { withRouter, RouteComponentProps } from 'react-router';
 import { forceReload } from 'helpers/forceReload';
 import query from './NotablePersonQuery.graphql';
 import { FbComments } from 'components/FbComments/FbComments';
-import { OptionalIntersectionObserver } from 'components/OptionalIntersectionObserver/OptionalIntersectionObserver';
 import { EditorialSummary } from 'components/EditorialSummary/EditorialSummary';
 import { RelatedPeople } from './RelatedPeople';
 import { DispatchOnLifecycleEvent } from 'components/DispatchOnLifecycleEvent/DispatchOnLifecycleEvent';
@@ -75,7 +75,7 @@ export const NotablePerson = withRouter(
       const { commentsUrl } = notablePerson;
 
       return (
-        <OptionalIntersectionObserver rootMargin="0% 0% 25% 0%" triggerOnce>
+        <IntersectionObserver rootMargin="0% 0% 25% 0%" triggerOnce>
           {inView =>
             inView ? (
               <Card className={cc([classes.comments])}>
@@ -83,7 +83,7 @@ export const NotablePerson = withRouter(
               </Card>
             ) : null
           }
-        </OptionalIntersectionObserver>
+        </IntersectionObserver>
       );
     };
 

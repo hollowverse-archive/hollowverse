@@ -1,9 +1,8 @@
 import React from 'react';
 
-import {
-  OptionalIntersectionObserver,
-  Props as IntersectionObserverProps,
-} from 'components/OptionalIntersectionObserver/OptionalIntersectionObserver';
+import IntersectionObserver, {
+  IntersectionObserverProps,
+} from 'react-intersection-observer';
 import { Image, Props as ImageProps } from 'components/Image/Image';
 
 export type Props = ImageProps &
@@ -16,10 +15,10 @@ export class LazyImage extends React.PureComponent<Props> {
     const { rootMargin, outerClassName, ...imageProps } = this.props;
 
     return (
-      <OptionalIntersectionObserver
+      <IntersectionObserver
         rootMargin="25%"
         triggerOnce
-        className={outerClassName}
+        {...{ className: outerClassName as any }}
       >
         {inView => {
           if (!inView) {
@@ -28,7 +27,7 @@ export class LazyImage extends React.PureComponent<Props> {
 
           return <Image {...imageProps} />;
         }}
-      </OptionalIntersectionObserver>
+      </IntersectionObserver>
     );
   }
 }
