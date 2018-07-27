@@ -12,7 +12,6 @@
 .root {
   display: flex;
   flex-direction: column;
-  position: relative;
 
   .container {
     align-self: center;
@@ -20,7 +19,6 @@
     flex-direction: column;
     width: 100%;
     max-width: $page-max-width;
-    position: relative;
 
     .content {
       width: 100%;
@@ -74,7 +72,6 @@
     }
 
     .summary {
-      @include font-16px;
       margin-top: $spacing-30px;
       padding: $spacing-20px;
 
@@ -84,7 +81,7 @@
     }
 
     &.is-loading {
-      overflow-x: hidden;
+      @include pulse;
 
       .photo {
         @include photo-border(transparent, transparent);
@@ -95,11 +92,6 @@
         color: $color-background;
         background: $color-background;
         user-select: none;
-      }
-
-      &:after {
-        content: '';
-        // @include illumination(#f1f1f3);
       }
     }
   }

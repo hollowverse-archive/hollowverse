@@ -7,7 +7,7 @@
     display: flex;
 
     &.is-loading {
-      overflow-x: hidden;
+      @include pulse;
 
       .text {
         color: $color-background;

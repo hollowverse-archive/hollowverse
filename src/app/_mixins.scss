@@ -49,28 +49,18 @@
 /*
 * Effects
 */
-@mixin illumination($color, $zIndex: auto) {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: $zIndex;
-  width: calc(100vw * 0.35);
-  height: 100%;
-  background-image: linear-gradient(
-    79deg,
-    rgba($color, 0) 35%,
-    rgba($color, 1) 50%,
-    rgba($color, 0) 75%
-  );
-  animation: animate-illumination 0.8s linear infinite;
-}
+@mixin pulse() {
+  @keyframes pulse-animation {
+    0%,
+    100% {
+      opacity: 0.2;
+    }
 
-@keyframes animate-illumination {
-  0% {
-    transform: translateX(-100%);
+    50% {
+      opacity: 1;
+    }
   }
 
-  100% {
-    transform: translateX($page-max-width);
-  }
+  animation: pulse-animation 0.8s ease-in-out infinite;
+  animation-fill-mode: both;
 }

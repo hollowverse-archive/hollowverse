@@ -77,15 +77,17 @@ export class PersonDetails extends React.PureComponent<PersonDetailsProps> {
       <div className={classes.content}>
         <Typography align="center" variant="display1">
           <Typography align="center" variant="subheading" component="span">
+            <span className={classes.text}>
             Religion, politics, and ideas of
+            </span>
           </Typography>
-          {name}
+          <span className={classes.text}>{name}</span>
         </Typography>
         {summary && (
           <div className={classes.summary}>
             {summary.split('\n').map(paragraph => (
               <Typography variant="body2" paragraph key={paragraph}>
-                {paragraph}
+                <span className={classes.text}>{paragraph}</span>
               </Typography>
             ))}
           </div>
