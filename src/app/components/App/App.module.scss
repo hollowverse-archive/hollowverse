@@ -36,6 +36,12 @@
     font-family: var(--font-family);
   }
 
+  a {
+    text-decoration: none;
+    transition: color 0.2s ease-in-out;
+    color: $color-blue;
+  }
+
   /**
    * Visible on screen readers only
    * @see https://accessibility.18f.gov/hidden-content/
