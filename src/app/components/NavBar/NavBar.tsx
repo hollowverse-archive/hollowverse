@@ -46,12 +46,11 @@ export const NavBar = class extends React.Component<
     } = this.props;
 
     return (
-      <Sticky rootMargin="0% 0% 0% 0%" height={56}>
+      <Sticky rootMargin="30% 0% 0% 0%" height={56}>
         {isSticking => (
           <>
             <AppBar
               position="static"
-              elevation={isSticking ? 1 : 0}
               color="inherit"
               style={{
                 alignItems: 'center',
