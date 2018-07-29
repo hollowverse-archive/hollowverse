@@ -23,6 +23,11 @@ const theme = createMuiTheme({
     },
   },
   overrides: {
+    MuiMenu: {
+      paper: {
+        minWidth: 250,
+      },
+    },
     MuiPaper: {
       root: {
         marginBottom: 10,
