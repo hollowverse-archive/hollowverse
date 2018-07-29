@@ -8,6 +8,7 @@
   display: flex;
   justify-content: flex-start;
   align-items: stretch;
+  padding: 0 $spacing-20px;
 
   /**
    * Enable momentum-based scrolling, Safari only
