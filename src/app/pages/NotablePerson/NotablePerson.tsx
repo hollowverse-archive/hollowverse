@@ -64,12 +64,16 @@ export const NotablePerson = withRouter(
       const { relatedPeople } = notablePerson;
 
       return relatedPeople.length ? (
-        <div className={classes.relatedPeople}>
-          <Typography gutterBottom variant="title">
+        <Card>
+          <Typography
+            className={classes.relatedPeopleTitle}
+            gutterBottom
+            variant="title"
+          >
             Other interesting profiles
           </Typography>
           <RelatedPeople people={relatedPeople} />
-        </div>
+        </Card>
       ) : null;
     };
 
