@@ -7,6 +7,7 @@ import emptySvg from '!!url-loader!assets/emptySvg.svg';
 
 import { PersonPhoto } from 'components/PersonPhoto/PersonPhoto';
 import Typography from '@material-ui/core/Typography';
+import { oneLineTrim } from 'common-tags';
 
 type PersonDetailsProps = {
   summary: string | null;
@@ -95,6 +96,49 @@ export class PersonDetails extends React.PureComponent<PersonDetailsProps> {
     );
   };
 
+  renderCoverBackground = () => {
+    const { photo, isLoading } = this.props;
+    if (isLoading) {
+      return null;
+    }
+
+    let colors: string[] = [];
+    if (photo && photo.colorPalette) {
+      const { vibrant, muted, darkVibrant, darkMuted } = photo.colorPalette;
+      colors = [darkVibrant || darkMuted, vibrant || muted].filter(
+        color => color !== null,
+      ) as string[];
+    }
+
+    return (
+      <div className={classes.coverBackgroundWrapper} aria-hidden>
+        <div
+          className={classes.coverBackground}
+          style={
+            colors.length === 2
+              ? {
+                  background: oneLineTrim`linear-gradient(
+                    130deg,
+                    #4cfde9 -20%,
+                    transparent 30%,
+                    transparent 60%,
+                    rgb(253, 188, 9) 85%
+                  ) no-repeat,
+                  linear-gradient(
+                    130deg,
+                    transparent -20%,
+                    ${colors[0]} 30%,
+                    ${colors[1]} 60%,
+                    transparent 85%
+                  ) no-repeat`,
+                }
+              : undefined
+          }
+        />
+      </div>
+    );
+  };
+
   render() {
     return (
       <div
@@ -104,6 +148,7 @@ export class PersonDetails extends React.PureComponent<PersonDetailsProps> {
           { [classes.isLoading]: this.props.isLoading },
         ])}
       >
+        {this.renderCoverBackground()}
         <div
           className={cc([
             classes.container,

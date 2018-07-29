@@ -13,6 +13,64 @@
   display: flex;
   flex-direction: column;
 
+  .cover-background-wrapper {
+    visibility: hidden;
+    @supports (filter: blur(5px)) and
+      (mask-image: linear-gradient(black, transparent)) {
+      & {
+        visibility: visible;
+      }
+    }
+    // stylelint-disable plugin/no-unsupported-browser-features
+    mask-image: linear-gradient(to bottom, black, transparent);
+    mask-repeat: no-repeat;
+    mask-size: 100% 100%;
+    // stylelint-enable plugin/no-unsupported-browser-features
+    border: 1px solid transparent;
+    border-top: none;
+    position: absolute;
+    z-index: $z-index-background;
+    right: 0px;
+    left: 0;
+    top: 0;
+    height: 200px;
+  }
+
+  .cover-background {
+    // stylelint-disable-next-line plugin/no-unsupported-browser-features
+    filter: blur(25px);
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+
+  &.is-loading {
+    &::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      left: 0;
+      top: 0;
+      opacity: 0.2;
+      // stylelint-disable-next-line plugin/no-unsupported-browser-features
+      filter: blur(50px);
+      background-image: linear-gradient(
+          -180deg,
+          rgba(241, 241, 243, 0) 0%,
+          rgba(241, 241, 243, 1) 50%
+        ),
+        linear-gradient(
+          132deg,
+          #4cfde9 0%,
+          rgba(251, 201, 84, 1) 50%,
+          #4435f7 100%
+        );
+    }
+  }
+
   .container {
     align-self: center;
     display: flex;
@@ -52,12 +110,8 @@
     }
 
     .summary {
-      margin-top: $spacing-30px;
       padding: $spacing-20px;
-
-      p + p {
-        margin-top: $spacing-10px;
-      }
+      padding-bottom: 0;
     }
 
     &.is-loading {
