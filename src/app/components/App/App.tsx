@@ -15,6 +15,44 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 const theme = createMuiTheme({
   typography: {
     fontFamily: 'var(--font-family)',
+    fontSize: 14,
+  },
+  palette: {
+    background: {
+      default: '#f1f1f3',
+    },
+  },
+  overrides: {
+    MuiPaper: {
+      root: {
+        marginBottom: 10,
+      },
+    },
+    MuiTooltip: {
+      tooltip: {
+        fontSize: 13,
+      },
+    },
+
+    MuiExpansionPanel: {
+      expanded: {
+        '&::before': {
+          opacity: 'inherit',
+        },
+      },
+    },
+  },
+  props: {
+    MuiTooltip: {
+      enterDelay: 400,
+    },
+    MuiPaper: {
+      // square: false,
+      elevation: 1,
+    },
+    MuiCard: {
+      // square: true,
+    },
   },
 });
 
