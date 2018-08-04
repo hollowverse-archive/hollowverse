@@ -28,7 +28,7 @@ not the only parts. Our architecture is [documented here](https://github.com/hol
 
 ---
 
-[If you'd like to tell us something, or need help with anything...](https://github.com/hollowverse/hollowverse/wiki/Help)
+[If you need help or wanna get in touch...](https://github.com/hollowverse/hollowverse/wiki/Help)
 
 ---
 
@@ -36,7 +36,7 @@ not the only parts. Our architecture is [documented here](https://github.com/hol
 
 ![BrowserStack](./browserstack.png)
 
-Shout-out to BrowserStack for offering us free unlimited access to their services!
+Shout-out to [BrowserStack](https://browserstack.com) for offering us free unlimited access to their services!
 
 We currently use the BrowserStack Screenshots API in [our performance tracking AWS Lambda](https://github.com/hollowverse/track-performance). The Lambda calls BrowserStack to ask for a screenshot of the website in Chrome 41, and we upload this image to the analytics report which we monitor.
 
