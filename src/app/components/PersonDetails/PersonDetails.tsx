@@ -75,8 +75,15 @@ export class PersonDetails extends React.PureComponent<PersonDetailsProps> {
 
     return (
       <div className={classes.content}>
-        <Typography align="center" variant="display1">
-          <Typography align="center" variant="subheading" component="span">
+        <Typography gutterBottom align="center" variant="display1">
+          <Typography
+            style={{
+              textTransform: 'uppercase',
+            }}
+            align="center"
+            variant="caption"
+            component="small"
+          >
             <span className={classes.text}>
               Religion, politics, and ideas of
             </span>

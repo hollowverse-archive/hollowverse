@@ -16,8 +16,22 @@ const theme = createMuiTheme({
   typography: {
     fontFamily: 'var(--font-family)',
     fontSize: 14,
+    display1: {
+      fontSize: 26,
+      color: 'inherit',
+    },
+    body1: {
+      fontSize: 16,
+    },
+    body2: {
+      fontSize: 15,
+    },
   },
   palette: {
+    text: {
+      primary: '#111',
+      secondary: 'rgba(0, 0, 0, 0.6)',
+    },
     background: {
       default: '#f1f1f3',
     },
@@ -41,6 +55,7 @@ const theme = createMuiTheme({
 
     MuiExpansionPanel: {
       expanded: {
+        marginTop: 0,
         '&::before': {
           opacity: 'inherit',
         },
@@ -52,11 +67,7 @@ const theme = createMuiTheme({
       enterDelay: 400,
     },
     MuiPaper: {
-      // square: false,
       elevation: 1,
-    },
-    MuiCard: {
-      // square: true,
     },
   },
 });
