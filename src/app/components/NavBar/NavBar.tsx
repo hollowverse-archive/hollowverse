@@ -46,7 +46,7 @@ export const NavBar = class extends React.Component<
     } = this.props;
 
     return (
-      <Sticky rootMargin="30% 0% 0% 0%" height={56}>
+      <Sticky rootMargin="30% 0% 0% 0%" height={48}>
         {isSticking => (
           <>
             <AppBar
@@ -56,7 +56,7 @@ export const NavBar = class extends React.Component<
                 alignItems: 'center',
               }}
             >
-              <Toolbar className={classes.maxWidth}>
+              <Toolbar variant="dense" className={classes.maxWidth}>
                 <ConnectedAppMenu />
                 <Switch>
                   <Route path="/search">
