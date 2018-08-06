@@ -82,7 +82,7 @@
       width: 100%;
       max-width: $page-max-width;
       align-self: center;
-      margin-top: $spacing-10px;
+      margin-top: $spacing-20px;
     }
 
     .photo-link {
@@ -111,7 +111,6 @@
 
     .summary {
       padding: $spacing-20px;
-      padding-bottom: 0;
     }
 
     &.is-loading {

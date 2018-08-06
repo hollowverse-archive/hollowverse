@@ -22,9 +22,14 @@ const theme = createMuiTheme({
     },
     body1: {
       fontSize: 16,
+      lineHeight: 1.6,
     },
     body2: {
       fontSize: 15,
+    },
+    title: {
+      lineHeight: 1.6,
+      fontWeight: 700,
     },
   },
   palette: {
@@ -37,6 +42,11 @@ const theme = createMuiTheme({
     },
   },
   overrides: {
+    MuiTypography: {
+      gutterBottom: {
+        marginBottom: '15px',
+      },
+    },
     MuiMenu: {
       paper: {
         minWidth: 250,
@@ -52,7 +62,6 @@ const theme = createMuiTheme({
         fontSize: 13,
       },
     },
-
     MuiExpansionPanel: {
       expanded: {
         marginTop: 0,

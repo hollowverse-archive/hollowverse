@@ -79,6 +79,8 @@ export class PersonDetails extends React.PureComponent<PersonDetailsProps> {
           <Typography
             style={{
               textTransform: 'uppercase',
+              letterSpacing: 1,
+              fontSize: 11,
             }}
             align="center"
             variant="caption"
@@ -93,7 +95,7 @@ export class PersonDetails extends React.PureComponent<PersonDetailsProps> {
         {summary && (
           <div className={classes.summary}>
             {summary.split('\n').map(paragraph => (
-              <Typography variant="body2" paragraph key={paragraph}>
+              <Typography variant="body1" paragraph key={paragraph}>
                 <span className={classes.text}>{paragraph}</span>
               </Typography>
             ))}
