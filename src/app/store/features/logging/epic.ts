@@ -121,9 +121,11 @@ export const loggingEpic: Epic<Action, StoreState, EpicDependencies> = (
     );
 
     const flushOnUnload$ = merge(
-      // `pagehide` is for Safari
+      // See https://www.igvita.com/2015/11/20/dont-lose-user-and-app-state-use-page-visibility/
+      observableFromEvent(document, 'visibilitychange').pipe(
+        filter(() => document.visibilityState === 'hidden'),
+      ),
       observableFromEvent(window, 'pagehide'),
-      observableFromEvent(window, 'unload'),
     );
 
     const logOnUnload$ = loggableActions$.pipe(buffer(flushOnUnload$));
