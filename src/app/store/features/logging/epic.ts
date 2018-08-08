@@ -120,7 +120,7 @@ export const loggingEpic: Epic<Action, StoreState, EpicDependencies> = (
       ),
     );
 
-    const flushOnUnload$ = merge(
+    const flushOnPageVisibilityChange$ = merge(
       // See https://www.igvita.com/2015/11/20/dont-lose-user-and-app-state-use-page-visibility/
       observableFromEvent(document, 'visibilitychange').pipe(
         filter(() => document.visibilityState === 'hidden'),
@@ -128,7 +128,9 @@ export const loggingEpic: Epic<Action, StoreState, EpicDependencies> = (
       observableFromEvent(window, 'pagehide'),
     );
 
-    const logOnUnload$ = loggableActions$.pipe(buffer(flushOnUnload$));
+    const logOnUnload$ = loggableActions$.pipe(
+      buffer(flushOnPageVisibilityChange$),
+    );
     const logOnIdle$ = loggableActions$.pipe(bufferCount(10));
 
     return merge(logOnIdle$, logOnUnload$).pipe(
