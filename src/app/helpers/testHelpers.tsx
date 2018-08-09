@@ -72,6 +72,14 @@ export const createMockGetResponseForDataRequest = (
   return payload.load();
 };
 
+export const setUpLogListener: jest.ProvidesCallback = done => {
+  window.addEventListener('pagehide', () => {
+    done();
+  });
+
+  window.dispatchEvent(new Event('pagehide'));
+};
+
 type CreateMockFbSdkOption = {
   onLoginRequested?(): FB.LoginStatusResponse;
   onLogoutRequested?(): FB.LoginStatusResponse;
@@ -275,6 +283,8 @@ export const createTestContext = async ({
   mockDataResponsesOverrides = {},
   ...rest
 }: Partial<CreateClientSideTestContextOptions> = {}) => {
+  jest.restoreAllMocks();
+
   const { store, dependencies, history } = createConfiguredStore({
     epicDependenciesOverrides: {
       ...defaultTestDependencyOverrides,
