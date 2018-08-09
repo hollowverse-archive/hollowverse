@@ -2,6 +2,7 @@ import {
   TestContext,
   createTestContext,
   assertPageHasReloadButton,
+  setUpLogListener,
 } from 'helpers/testHelpers';
 import {
   pageLoadSucceeded,
@@ -37,15 +38,9 @@ describe('notable person page', () => {
     });
 
     describe('logs page load event', () => {
-      beforeEach(done => {
-        window.addEventListener('unload', () => {
-          done();
-        });
+      beforeEach(setUpLogListener);
 
-        window.dispatchEvent(new Event('unload'));
-      });
-
-      it('sends logs on page unload', () => {
+      it('sends logs on page hide', () => {
         expect(context.dependencies.sendLogs).toHaveBeenLastCalledWith(
           expect.objectContaining({
             actions: expect.arrayContaining([
@@ -200,15 +195,9 @@ describe('notable person page', () => {
     });
 
     describe('logs page load failure event', () => {
-      beforeEach(done => {
-        window.addEventListener('unload', () => {
-          done();
-        });
+      beforeEach(setUpLogListener);
 
-        window.dispatchEvent(new Event('unload'));
-      });
-
-      it('sends logs on page unload', () => {
+      it('sends logs on page hide', () => {
         expect(context.dependencies.sendLogs).toHaveBeenLastCalledWith(
           expect.objectContaining({
             actions: expect.arrayContaining([
