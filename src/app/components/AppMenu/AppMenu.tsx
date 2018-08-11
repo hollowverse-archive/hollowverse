@@ -286,7 +286,7 @@ export class AppMenu extends React.PureComponent<Props, State> {
         {this.renderLoginStateChangeSnackbar()}
         <Tooltip title="Main Menu">
           <IconButton
-            // style={{ visibility: 'hidden' }}
+            style={{ visibility: 'hidden' }}
             aria-owns={anchorElement ? 'app-menu' : undefined}
             aria-haspopup="true"
             aria-label="Open menu"
