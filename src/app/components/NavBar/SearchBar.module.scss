@@ -27,12 +27,4 @@
     animation: navbar-switch 0.15s;
     animation-fill-mode: backwards;
   }
-
-  .input {
-    text-align: center;
-
-    &:focus {
-      text-align: left;
-    }
-  }
 }

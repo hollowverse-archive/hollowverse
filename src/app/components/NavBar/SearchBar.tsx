@@ -7,7 +7,7 @@ import { NavBarLink } from 'components/NavBar/NavBarButton';
 
 import { Route, Switch } from 'react-router';
 import IconButton from '@material-ui/core/IconButton';
-import Input from '@material-ui/core/Input';
+import { Input } from 'components/Input/Input';
 
 export type DispatchProps = {
   goToSearch(_: void): any;
@@ -77,7 +77,6 @@ export class SearchBar extends React.PureComponent<Props> {
             type="search"
             aria-label="Search"
             innerRef={this.setSearchInput}
-            className={classes.input}
             fullWidth
             inputProps={{
               required: true,
