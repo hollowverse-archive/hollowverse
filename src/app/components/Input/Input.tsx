@@ -18,6 +18,12 @@ const styles = createStyles({
 
 type Props = InputProps & WithStyles<typeof styles>;
 
-export const Input = withStyles(styles)<Props>(({ classes, ...rest }) => (
-  <DefaultInput disableUnderline classes={classes} {...rest} />
-));
+export const Input = withStyles(styles)(
+  class extends React.Component<Props> {
+    render() {
+      const { classes, ...rest } = this.props;
+
+      return <DefaultInput disableUnderline classes={classes} {...rest} />;
+    }
+  },
+);
