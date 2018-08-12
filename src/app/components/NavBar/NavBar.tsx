@@ -12,8 +12,13 @@ import IconButton from '@material-ui/core/IconButton';
 import textLogo from '!!file-loader!assets/textLogo.svg';
 
 import { ConnectedSearchBar } from 'components/NavBar/ConnectedSearchBar';
-import { ConnectedAppMenu } from 'components/AppMenu/ConnectedAppMenu';
+// import { ConnectedAppMenu } from 'components/AppMenu/ConnectedAppMenu';
 import { Link } from 'react-router-dom';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Tooltip from '@material-ui/core/Tooltip';
+import LinearProgress from '@material-ui/core/LinearProgress';
+import { ConnectedAppMenu } from 'components/AppMenu/ConnectedAppMenu';
 
 export type OwnProps = {
   title: string;
@@ -22,6 +27,7 @@ export type OwnProps = {
 export type StateProps = {
   shouldFocusSearch: boolean;
   isHomePage: boolean;
+  shouldShowGlobalProgress: boolean;
 };
 
 export type DispatchProps = {};
@@ -32,19 +38,26 @@ export const NavBar = class extends React.Component<
   Props & RouteComponentProps<any>
 > {
   render() {
-    const { title, shouldFocusSearch, isHomePage } = this.props;
+    const {
+      title,
+      shouldFocusSearch,
+      shouldShowGlobalProgress,
+      isHomePage,
+    } = this.props;
 
     return (
-      <div className={classes.root}>
-        <Sticky
-          rootMargin="30% 0% 0% 0%"
-          innerClassName={classes.viewWrapper}
-          height={48}
-        >
-          {isSticking => (
-            <>
-              <ConnectedAppMenu />
-              <div className={classes.view}>
+      <Sticky rootMargin="30% 0% 0% 0%" height={48}>
+        {isSticking => (
+          <>
+            <AppBar
+              position="static"
+              color="inherit"
+              style={{
+                alignItems: 'center',
+              }}
+            >
+              <Toolbar variant="dense" className={classes.maxWidth}>
+                <ConnectedAppMenu />
                 <Switch>
                   <Route path="/search">
                     <ConnectedSearchBar />
@@ -53,7 +66,7 @@ export const NavBar = class extends React.Component<
                     {isSticking || shouldFocusSearch ? (
                       <ConnectedSearchBar />
                     ) : (
-                      <div className={classes.logoViewInner}>
+                      <>
                         <div className={classes.logoWrapper}>
                           <Link
                             title="Homepage"
@@ -63,23 +76,32 @@ export const NavBar = class extends React.Component<
                             <img src={textLogo} alt={title} />
                           </Link>
                         </div>
-                        <IconButton
-                          aria-label="Search"
-                          className={cc([{ [classes.isHidden]: isHomePage }])}
-                          component={Link as any}
-                          {...{ to: '/search' } as any}
-                        >
-                          <SearchIcon />
-                        </IconButton>
-                      </div>
+                        <Tooltip title="Search">
+                          <IconButton
+                            aria-label="Search"
+                            className={cc([{ [classes.isHidden]: isHomePage }])}
+                            component={Link as any}
+                            {...{ to: '/search' } as any}
+                          >
+                            <SearchIcon />
+                          </IconButton>
+                        </Tooltip>
+                      </>
                     )}
                   </Route>
                 </Switch>
-              </div>
-            </>
-          )}
-        </Sticky>
-      </div>
+              </Toolbar>
+              <LinearProgress
+                style={{
+                  visibility: shouldShowGlobalProgress ? undefined : 'hidden',
+                  width: '100%',
+                  height: '1px',
+                }}
+              />
+            </AppBar>
+          </>
+        )}
+      </Sticky>
     );
   }
 };

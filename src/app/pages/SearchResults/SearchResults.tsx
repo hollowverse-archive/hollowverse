@@ -5,7 +5,7 @@ import classes from './SearchResults.module.scss';
 import Helmet from 'react-helmet-async';
 import { oneLine } from 'common-tags';
 
-import { Card } from 'components/Card/Card';
+import Paper from '@material-ui/core/Paper';
 import {
   AsyncResult,
   isSuccessResult,
@@ -177,11 +177,11 @@ const Page = withRouter(
                   className={classes.root}
                 >
                   <div className={classes.resultsContainer}>
-                    <Card className={classes.card}>
+                    <Paper square={false} className={classes.card}>
                       {isErrorResult(result)
                         ? this.renderErrorStatus(result.error)
                         : this.renderNonErrorStatus(result)}
-                    </Card>
+                    </Paper>
                   </div>
                   {this.renderAlgoliaLogo()}
                 </div>

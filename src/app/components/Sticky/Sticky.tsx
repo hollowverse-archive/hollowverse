@@ -1,10 +1,9 @@
 import React from 'react';
 import cc from 'classcat';
 
-import {
-  OptionalIntersectionObserver,
-  Props as OptionalIntersectionObserverProps,
-} from 'components/OptionalIntersectionObserver/OptionalIntersectionObserver';
+import IntersectionObserver, {
+  IntersectionObserverProps,
+} from 'react-intersection-observer';
 
 import classes from './Sticky.module.scss';
 
@@ -13,7 +12,7 @@ type Props = {
   innerClassName?: string;
   children(isInView: boolean): React.ReactNode | React.ReactNode[];
 } & React.HTMLAttributes<HTMLDivElement> &
-  Pick<OptionalIntersectionObserverProps, 'rootMargin'>;
+  Pick<IntersectionObserverProps, 'rootMargin'>;
 
 type State = {
   isSticking: boolean;
@@ -56,13 +55,13 @@ export class Sticky extends React.PureComponent<Props, State> {
 
     return (
       <div className={cc([classes.container, className])}>
-        <OptionalIntersectionObserver
+        <IntersectionObserver
           threshold={1}
           rootMargin={rootMargin}
           onChange={this.handleChange}
         >
           <div className={classes.placeholder} style={{ height }} />
-        </OptionalIntersectionObserver>
+        </IntersectionObserver>
         <div
           className={cc([classes.element, innerClassName])}
           {...rest}

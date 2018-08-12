@@ -4,27 +4,21 @@
 .root {
   composes: root from './LoadableNotablePerson.module.scss';
 
-  .card,
   .stub {
     padding: $spacing-20px;
   }
 
   .comments {
-    margin-top: $spacing-30px;
     padding: $spacing-10px;
   }
 
   .editorial-summary {
-    margin-top: $spacing-10px;
     align-self: center;
     max-width: $page-max-width;
   }
 
-  .related-people {
-    margin-top: $spacing-30px;
-    h2 {
-      margin-left: $spacing-12px;
-      @include font-26px;
-    }
+  .related-people-title {
+    margin-top: $spacing-20px;
+    margin-left: $spacing-20px;
   }
 }

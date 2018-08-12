@@ -12,7 +12,6 @@
 .root {
   display: flex;
   flex-direction: column;
-  position: relative;
 
   .cover-background-wrapper {
     visibility: hidden;
@@ -56,10 +55,8 @@
       left: 0;
       top: 0;
       opacity: 0.2;
-
       // stylelint-disable-next-line plugin/no-unsupported-browser-features
       filter: blur(50px);
-
       background-image: linear-gradient(
           -180deg,
           rgba(241, 241, 243, 0) 0%,
@@ -80,12 +77,12 @@
     flex-direction: column;
     width: 100%;
     max-width: $page-max-width;
-    position: relative;
 
     .content {
       width: 100%;
       max-width: $page-max-width;
       align-self: center;
+      margin-top: $spacing-20px;
     }
 
     .photo-link {
@@ -112,39 +109,12 @@
       object-fit: cover;
     }
 
-    .name-container {
-      @include font-26px;
-      color: $color-text-default;
-      margin-top: $spacing-10px;
-      text-align: center;
-
-      .caption {
-        @include font-11px;
-        color: $color-text-light;
-        font-weight: 500;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        margin-top: $spacing-20px;
-        text-align: center;
-      }
-
-      .name {
-        margin-top: $spacing-5px;
-      }
-    }
-
     .summary {
-      @include font-16px;
-      margin-top: $spacing-30px;
       padding: $spacing-20px;
-
-      p + p {
-        margin-top: $spacing-10px;
-      }
     }
 
     &.is-loading {
-      overflow-x: hidden;
+      @include pulse;
 
       .photo {
         @include photo-border(transparent, transparent);
@@ -155,11 +125,6 @@
         color: $color-background;
         background: $color-background;
         user-select: none;
-      }
-
-      &:after {
-        content: '';
-        @include illumination(#f1f1f3);
       }
     }
   }
