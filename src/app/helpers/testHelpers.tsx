@@ -33,6 +33,12 @@ import { Home } from 'pages/Home/Home';
 import { UnboxPromise } from 'typings/typeHelpers';
 import { EventEmitter } from 'events';
 
+import JssProvider from 'react-jss/lib/JssProvider';
+import { create, GenerateClassName } from 'jss';
+import { jssPreset } from '@material-ui/core/styles';
+
+/* eslint-disable react/jsx-max-depth */
+
 import {
   render,
   fireEvent,
@@ -239,6 +245,12 @@ export const assertPageHasReloadButton = (context: TestContext) => {
   );
 };
 
+const jss = create(jssPreset());
+
+const generateClassName: GenerateClassName = (rule, styleSheet) =>
+  // @ts-ignore
+  `${styleSheet.options.classNamePrefix}-${rule.key}`;
+
 export const createTestTree = ({
   history,
   store,
@@ -252,11 +264,18 @@ export const createTestTree = ({
         ...appDependencyOverrides,
       }}
     >
-      <Provider store={store}>
-        <ConnectedRouter history={history}>
-          <App routesMap={routesMap} />
-        </ConnectedRouter>
-      </Provider>
+      {/*
+        We use a customied JSS provider here to produce predictable class names in tests
+        for snapshot tests
+        See: https://github.com/mui-org/material-ui/issues/9492#issuecomment-368205258
+        */}
+      <JssProvider jss={jss} generateClassName={generateClassName}>
+        <Provider store={store}>
+          <ConnectedRouter history={history}>
+            <App routesMap={routesMap} />
+          </ConnectedRouter>
+        </Provider>
+      </JssProvider>
     </AppDependenciesContext.Provider>
   </HelmetProvider>
 );

@@ -1,12 +1,13 @@
 import React from 'react';
 import { prettifyUrl } from 'helpers/prettifyUrl';
 import Helmet from 'react-helmet-async';
-import { oneLineTrim } from 'common-tags';
 import cc from 'classcat';
 import classes from './PersonDetails.module.scss';
 import emptySvg from '!!url-loader!assets/emptySvg.svg';
 
 import { PersonPhoto } from 'components/PersonPhoto/PersonPhoto';
+import Typography from '@material-ui/core/Typography';
+import { oneLineTrim } from 'common-tags';
 
 type PersonDetailsProps = {
   summary: string | null;
@@ -35,51 +36,6 @@ export class PersonDetails extends React.PureComponent<PersonDetailsProps> {
         <meta name="theme-color" content={photo.colorPalette.darkVibrant} />
       </Helmet>
     ) : null;
-  };
-
-  renderCoverBackground = () => {
-    const { photo, isLoading } = this.props;
-
-    if (isLoading) {
-      return null;
-    }
-
-    let colors: string[] = [];
-
-    if (photo && photo.colorPalette) {
-      const { vibrant, muted, darkVibrant, darkMuted } = photo.colorPalette;
-      colors = [darkVibrant || darkMuted, vibrant || muted].filter(
-        color => color !== null,
-      ) as string[];
-    }
-
-    return (
-      <div className={classes.coverBackgroundWrapper} aria-hidden>
-        <div
-          className={classes.coverBackground}
-          style={
-            colors.length === 2
-              ? {
-                  background: oneLineTrim`linear-gradient(
-                    130deg,
-                    #4cfde9 -20%,
-                    transparent 30%,
-                    transparent 60%,
-                    rgb(253, 188, 9) 85%
-                  ) no-repeat,
-                  linear-gradient(
-                    130deg,
-                    transparent -20%,
-                    ${colors[0]} 30%,
-                    ${colors[1]} 60%,
-                    transparent 85%
-                  ) no-repeat`,
-                }
-              : undefined
-          }
-        />
-      </div>
-    );
   };
 
   renderImage = () => {
@@ -119,25 +75,75 @@ export class PersonDetails extends React.PureComponent<PersonDetailsProps> {
 
     return (
       <div className={classes.content}>
-        <h1 className={classes.nameContainer}>
-          <div className={classes.caption}>
+        <Typography gutterBottom align="center" variant="display1">
+          <Typography
+            style={{
+              textTransform: 'uppercase',
+              letterSpacing: 1,
+              fontSize: 11,
+            }}
+            align="center"
+            variant="caption"
+            component="small"
+          >
             <span className={classes.text}>
               Religion, politics, and ideas of
             </span>
-          </div>
-          <div className={classes.name}>
-            <span className={classes.text}>{name}</span>
-          </div>
-        </h1>
+          </Typography>
+          <span className={classes.text}>{name}</span>
+        </Typography>
         {summary && (
           <div className={classes.summary}>
             {summary.split('\n').map(paragraph => (
-              <p key={paragraph}>
+              <Typography variant="body1" paragraph key={paragraph}>
                 <span className={classes.text}>{paragraph}</span>
-              </p>
+              </Typography>
             ))}
           </div>
         )}
+      </div>
+    );
+  };
+
+  renderCoverBackground = () => {
+    const { photo, isLoading } = this.props;
+    if (isLoading) {
+      return null;
+    }
+
+    let colors: string[] = [];
+    if (photo && photo.colorPalette) {
+      const { vibrant, muted, darkVibrant, darkMuted } = photo.colorPalette;
+      colors = [darkVibrant || darkMuted, vibrant || muted].filter(
+        color => color !== null,
+      ) as string[];
+    }
+
+    return (
+      <div className={classes.coverBackgroundWrapper} aria-hidden>
+        <div
+          className={classes.coverBackground}
+          style={
+            colors.length === 2
+              ? {
+                  background: oneLineTrim`linear-gradient(
+                    130deg,
+                    #4cfde9 -20%,
+                    transparent 30%,
+                    transparent 60%,
+                    rgb(253, 188, 9) 85%
+                  ) no-repeat,
+                  linear-gradient(
+                    130deg,
+                    transparent -20%,
+                    ${colors[0]} 30%,
+                    ${colors[1]} 60%,
+                    transparent 85%
+                  ) no-repeat`,
+                }
+              : undefined
+          }
+        />
       </div>
     );
   };
