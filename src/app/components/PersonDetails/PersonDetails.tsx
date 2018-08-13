@@ -30,15 +30,58 @@ type PersonDetailsProps = {
   isLoading: boolean;
 };
 
+// tslint:disable-next-line max-func-body-length
 const styles = (theme: Theme) =>
   createStyles({
+    '@keyframes pulse-animation': {
+      '0%, 100%': {
+        opacity: 0.2,
+      },
+
+      '50%': {
+        opacity: 1,
+      },
+    },
+
     root: {
       display: 'flex',
       flexDirection: 'column',
+      '&$isLoading $text, &$isLoading $photo': {
+        color: 'transparent',
+        background: theme.palette.grey['300'],
+        userSelect: 'none',
+      },
+      '&$isLoading::after': {
+        content: ' ',
+        position: 'absolute',
+        width: '100%',
+        height: '100%',
+        left: 0,
+        top: 0,
+        opacity: 0.2,
+        filter: 'blur(50px)',
+        backgroundImage: `
+        linear-gradient(
+          -180deg,
+          rgba(241, 241, 243, 0) 0%,
+          rgba(241, 241, 243, 1) 50%
+        ),
+        linear-gradient(
+          132deg,
+          #4cfde9 0%,
+          rgba(251, 201, 84, 1) 50%,
+          #4435f7 100%
+        )`,
+      },
+    },
+
+    isLoading: {
+      animation: 'pulse-animation 0.8s ease-in-out infinite',
+      animationFillMode: 'both',
     },
 
     coverBackgroundWrapper: {
-      maskImage: 'linear-gradient()',
+      maskImage: 'linear-gradient(to bottom, black, transparent)',
       maskRepeat: 'no-repeat',
       maskSize: '100% 100%',
       border: '1px solid transparent',
@@ -49,10 +92,6 @@ const styles = (theme: Theme) =>
       top: 0,
       height: 200,
       zIndex: -1,
-      visibility: 'hidden',
-      '@supports (filter: blur(5px)) and (mask-image: linear-gradient(black, transparent))': {
-        visibility: 'visible',
-      },
     },
 
     coverBackground: {
@@ -82,20 +121,30 @@ const styles = (theme: Theme) =>
     photoLink: {
       alignSelf: 'center',
       display: 'inline-block',
-      minWidth: '',
-      minHeight: '',
+      maxWidth: theme.breakpoints.values.sm / 4,
+      maxHeight: theme.breakpoints.values.sm / 4,
       height: '25vw',
       width: '25vw',
       marginTop: theme.spacing.unit * 5,
     },
 
     photo: {
+      boxShadow: `0 0 0 1.5px ${
+        theme.palette.background.default
+      }, 0 2px 1px 0 ${theme.palette.grey['300']}`,
+      minWidth: 120,
+      minHeight: 120,
+      maxHeight: theme.breakpoints.values.sm / 4,
+      maxWidth: theme.breakpoints.values.sm / 4,
+      borderRadius: 1,
       display: 'block',
       width: '100%',
       height: '100%',
       backgroundColor: theme.palette.background.default,
       objectFit: 'cover',
     },
+
+    text: {},
 
     summary: {
       padding: theme.spacing.unit * 2,
@@ -240,12 +289,7 @@ export const PersonDetails = withStyles(styles)(
           ])}
         >
           {this.renderCoverBackground()}
-          <div
-            className={cc([
-              classes.container,
-              { [classes.isLoading]: this.props.isLoading },
-            ])}
-          >
+          <div className={classes.container}>
             {this.renderHead()}
             {this.renderImage()}
             {this.renderContent()}

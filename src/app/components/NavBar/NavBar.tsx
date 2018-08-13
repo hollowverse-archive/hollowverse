@@ -64,6 +64,7 @@ const styles = (theme: Theme) =>
           )`,
         color: 'transparent',
         backgroundClip: 'text',
+        '-webkit-background-clip': 'text',
       },
     },
     progressBar: {
