@@ -1,7 +1,6 @@
 const webpack = require('webpack');
 const path = require('path');
 
-const CircularDependencyPlugin = require('circular-dependency-plugin');
 const SpriteLoaderPlugin = require('svg-sprite-loader/plugin');
 
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
@@ -164,10 +163,5 @@ module.exports.createBaseConfig = () => ({
     ]),
 
     new SpriteLoaderPlugin(),
-
-    new CircularDependencyPlugin({
-      exclude: /node_modules/,
-      failOnError: true,
-    }),
   ]),
 });

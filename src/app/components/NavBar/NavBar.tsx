@@ -20,7 +20,18 @@ import Tooltip from '@material-ui/core/Tooltip';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import createStyles from '@material-ui/core/styles/createStyles';
 import withStyles, { WithStyles } from '@material-ui/core/styles/withStyles';
-import { Theme } from '@material-ui/core';
+import { Theme } from '@material-ui/core/styles';
+
+export const navBarSwitch = {
+  from: {
+    opacity: 0,
+    transform: 'translateY(10px)',
+  },
+  to: {
+    opacity: 1,
+    transform: 'translateY(0)',
+  },
+};
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -31,18 +42,10 @@ const styles = (theme: Theme) =>
       width: '100%',
       maxWidth: theme.breakpoints.values.sm,
     },
-    '@keyframes navbar-switch': {
-      from: {
-        opacity: 0,
-        transform: 'translateY(10px)',
-      },
-      to: {
-        opacity: 1,
-        transform: 'translateY(0)',
-      },
-    },
+    '@keyframes navbar-switch': navBarSwitch,
     logoWrapper: {
-      animation: 'navbar-switch 0.15s',
+      animationName: 'navbar-switch',
+      animationDuration: `${theme.transitions.duration.shortest}ms`,
       display: 'flex',
       flexGrow: 1,
       alignItems: 'center',

@@ -1,13 +1,18 @@
 import React, { createRef } from 'react';
 
-import classes from './SearchBar.module.scss';
-
 import SearchIcon from '@material-ui/icons/Search';
 import { NavBarLink } from 'components/NavBar/NavBarButton';
 
 import { Route, Switch } from 'react-router';
 import IconButton from '@material-ui/core/IconButton';
 import { Input } from 'components/Input/Input';
+import {
+  Theme,
+  createStyles,
+  WithStyles,
+  withStyles,
+} from '@material-ui/core/styles';
+import { navBarSwitch } from './NavBar';
 
 export type DispatchProps = {
   goToSearch(_: void): any;
@@ -24,84 +29,109 @@ export type StateProps = {
 
 export type OwnProps = {};
 
-type Props = DispatchProps & StateProps & OwnProps;
+const styles = (theme: Theme) =>
+  createStyles({
+    root: {
+      height: '100%',
+      width: '100%',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    '@keyframes navbar-switch': navBarSwitch,
+    inputWrapper: {
+      height: '100%',
+      flexGrow: 1,
+      padding: theme.spacing.unit,
+      animationName: 'navbar-switch',
+      animationDuration: `${theme.transitions.duration.shortest}ms`,
+      animationFillMode: 'backwards',
+    },
+  });
 
-export class SearchBar extends React.PureComponent<Props> {
-  searchInput = createRef<HTMLInputElement>();
+type Props = DispatchProps &
+  StateProps &
+  OwnProps &
+  WithStyles<ReturnType<typeof styles>>;
 
-  handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    this.props.searchQueryChanged({ query: e.target.value });
-  };
+export const SearchBar = withStyles(styles)(
+  class extends React.PureComponent<Props> {
+    searchInput = createRef<HTMLInputElement>();
 
-  componentWillReceiveProps(nextProps: Props) {
-    this.focusIfNecessary(nextProps);
-  }
+    handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      this.props.searchQueryChanged({ query: e.target.value });
+    };
 
-  componentDidMount() {
-    this.focusIfNecessary();
-  }
-
-  focusIfNecessary = (props: Props = this.props) => {
-    if (props.isFocused && this.searchInput.current) {
-      if (document.activeElement !== this.searchInput.current) {
-        this.searchInput.current.focus();
-      }
+    componentWillReceiveProps(nextProps: Props) {
+      this.focusIfNecessary(nextProps);
     }
-  };
 
-  goToSearchIfNecessary = () => {
-    this.props.goToSearch(undefined);
-  };
+    componentDidMount() {
+      this.focusIfNecessary();
+    }
 
-  handleSearchFormBlur = () => {
-    this.props.setShouldFocusSearch(false);
-  };
+    focusIfNecessary = (props: Props = this.props) => {
+      if (props.isFocused && this.searchInput.current) {
+        if (document.activeElement !== this.searchInput.current) {
+          this.searchInput.current.focus();
+        }
+      }
+    };
 
-  render() {
-    const { inputValue, isSearchPage } = this.props;
+    goToSearchIfNecessary = () => {
+      this.props.goToSearch(undefined);
+    };
 
-    return (
-      <form
-        className={classes.root}
-        onBlurCapture={this.handleSearchFormBlur}
-        action="/search"
-        method="GET"
-        role="search"
-      >
-        <div className={classes.inputWrapper}>
-          <Input
-            inputRef={this.searchInput}
-            type="search"
-            aria-label="Search"
-            fullWidth
-            inputProps={{
-              required: true,
-            }}
-            name="query"
-            value={inputValue}
-            placeholder="Search for notable people..."
-            onFocus={this.goToSearchIfNecessary}
-            autoFocus={isSearchPage}
-            onChange={this.handleChange}
-          />
-        </div>
-        <Switch>
-          <Route path="/search">
-            <>
-              <div className="sr-only">Loading...</div>
-              <IconButton aria-label="Search" type="submit">
+    handleSearchFormBlur = () => {
+      this.props.setShouldFocusSearch(false);
+    };
+
+    render() {
+      const { classes, inputValue, isSearchPage } = this.props;
+
+      return (
+        <form
+          className={classes.root}
+          onBlurCapture={this.handleSearchFormBlur}
+          action="/search"
+          method="GET"
+          role="search"
+        >
+          <div className={classes.inputWrapper}>
+            <Input
+              inputRef={this.searchInput}
+              type="search"
+              aria-label="Search"
+              fullWidth
+              inputProps={{
+                required: true,
+              }}
+              name="query"
+              value={inputValue}
+              placeholder="Search for notable people..."
+              onFocus={this.goToSearchIfNecessary}
+              autoFocus={isSearchPage}
+              onChange={this.handleChange}
+            />
+          </div>
+          <Switch>
+            <Route path="/search">
+              <>
+                <div className="sr-only">Loading...</div>
+                <IconButton aria-label="Search" type="submit">
+                  <SearchIcon />
+                </IconButton>
+              </>
+            </Route>
+            <Route>
+              <NavBarLink to="/search">
                 <SearchIcon />
-              </IconButton>
-            </>
-          </Route>
-          <Route>
-            <NavBarLink to="/search">
-              <SearchIcon />
-              <span className="sr-only">Search</span>
-            </NavBarLink>
-          </Route>
-        </Switch>
-      </form>
-    );
-  }
-}
+                <span className="sr-only">Search</span>
+              </NavBarLink>
+            </Route>
+          </Switch>
+        </form>
+      );
+    }
+  },
+);
