@@ -31,6 +31,16 @@ const styles = (theme: Theme) =>
       width: '100%',
       maxWidth: theme.breakpoints.values.sm,
     },
+    '@keyframes navbar-switch': {
+      from: {
+        opacity: 0,
+        transform: 'translateY(10px)',
+      },
+      to: {
+        opacity: 1,
+        transform: 'translateY(0)',
+      },
+    },
     logoWrapper: {
       animation: 'navbar-switch 0.15s',
       display: 'flex',
@@ -53,15 +63,9 @@ const styles = (theme: Theme) =>
         backgroundClip: 'text',
       },
     },
-    '@keyframes navbar-switch': {
-      from: {
-        opacity: 0,
-        transform: 'translateY(10px)',
-      },
-      to: {
-        opacity: 1,
-        transform: 'translateY(0)',
-      },
+    progressBar: {
+      width: '100%',
+      height: 1,
     },
   });
 
@@ -142,10 +146,9 @@ export const NavBar = withStyles(styles)(
                   </Switch>
                 </Toolbar>
                 <LinearProgress
+                  className={classes.progressBar}
                   style={{
                     visibility: shouldShowGlobalProgress ? undefined : 'hidden',
-                    width: '100%',
-                    height: '1px',
                   }}
                 />
               </AppBar>
