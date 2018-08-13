@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { createRef } from 'react';
 
 import classes from './SearchBar.module.scss';
 
@@ -27,11 +27,7 @@ export type OwnProps = {};
 type Props = DispatchProps & StateProps & OwnProps;
 
 export class SearchBar extends React.PureComponent<Props> {
-  searchInput: HTMLInputElement | null = null;
-
-  setSearchInput = (node: HTMLInputElement | null) => {
-    this.searchInput = node;
-  };
+  searchInput = createRef<HTMLInputElement>();
 
   handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     this.props.searchQueryChanged({ query: e.target.value });
@@ -46,9 +42,9 @@ export class SearchBar extends React.PureComponent<Props> {
   }
 
   focusIfNecessary = (props: Props = this.props) => {
-    if (props.isFocused && this.searchInput) {
-      if (document.activeElement !== this.searchInput) {
-        // this.searchInput.focus();
+    if (props.isFocused && this.searchInput.current) {
+      if (document.activeElement !== this.searchInput.current) {
+        this.searchInput.current.focus();
       }
     }
   };
@@ -74,9 +70,9 @@ export class SearchBar extends React.PureComponent<Props> {
       >
         <div className={classes.inputWrapper}>
           <Input
+            inputRef={this.searchInput}
             type="search"
             aria-label="Search"
-            innerRef={this.setSearchInput}
             fullWidth
             inputProps={{
               required: true,
