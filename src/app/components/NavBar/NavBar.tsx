@@ -42,6 +42,16 @@ const styles = (theme: Theme) =>
       display: 'flex',
       textTransform: 'uppercase',
       letterSpacing: 1,
+      '@supports (-webkit-background-clip: text)': {
+        background: `linear-gradient(
+            50deg,
+            #4cfde9 0%,
+            #fbc954 50%,
+            #4435f7 120%
+          )`,
+        color: 'transparent',
+        backgroundClip: 'text',
+      },
     },
     '@keyframes navbar-switch': {
       from: {
