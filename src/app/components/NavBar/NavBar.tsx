@@ -29,7 +29,7 @@ const styles = (theme: Theme) =>
     },
     maxWidth: {
       width: '100%',
-      maxWidth: theme.breakpoints.values.md,
+      maxWidth: theme.breakpoints.values.sm,
     },
     logoWrapper: {
       animation: 'navbar-switch 0.15s',
