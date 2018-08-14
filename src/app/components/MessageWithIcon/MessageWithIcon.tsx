@@ -23,10 +23,10 @@ const styles = (theme: Theme) =>
     hasDescription: {},
     title: {
       color: theme.palette.text.secondary,
-    },
-    '$hasDescription $title': {
-      fontWeight: 'bold',
-      color: theme.palette.text.primary,
+      '$hasDescription &': {
+        fontWeight: 'bold',
+        color: theme.palette.text.primary,
+      },
     },
     icon: {
       padding: theme.spacing.unit,
@@ -67,7 +67,7 @@ export const MessageWithIcon = withStyles(styles)(
       {...rest}
     >
       <div className={classes.icon}>{icon}</div>
-      <Typography variant="title" component="div">
+      <Typography className={classes.title} variant="body1" component="div">
         {title}
       </Typography>
       <Typography component="div" color="textSecondary">

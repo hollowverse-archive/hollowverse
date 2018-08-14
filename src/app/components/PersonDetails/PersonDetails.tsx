@@ -52,7 +52,7 @@ const styles = (theme: Theme) =>
         userSelect: 'none',
       },
       '&$isLoading::after': {
-        content: ' ',
+        content: '""',
         position: 'absolute',
         width: '100%',
         height: '100%',
