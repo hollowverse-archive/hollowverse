@@ -5,14 +5,39 @@ import IntersectionObserver, {
   IntersectionObserverProps,
 } from 'react-intersection-observer';
 
-import classes from './Sticky.module.scss';
+import {
+  Theme,
+  WithStyles,
+  createStyles,
+  withStyles,
+} from '@material-ui/core/styles';
+
+const styles = (theme: Theme) =>
+  createStyles({
+    container: {
+      position: 'relative',
+      '& $element, & $placeholder': {
+        width: '100%',
+        zIndex: theme.zIndex.appBar,
+        top: 0,
+      },
+    },
+    element: {
+      position: 'fixed',
+    },
+    placeholder: {
+      position: 'static',
+      visibility: 'hidden',
+    },
+  });
 
 type Props = {
   height: number;
   innerClassName?: string;
   children(isInView: boolean): React.ReactNode | React.ReactNode[];
 } & React.HTMLAttributes<HTMLDivElement> &
-  Pick<IntersectionObserverProps, 'rootMargin'>;
+  Pick<IntersectionObserverProps, 'rootMargin'> &
+  WithStyles<ReturnType<typeof styles>>;
 
 type State = {
   isSticking: boolean;
@@ -33,43 +58,46 @@ type State = {
  * to do something with that information, which we do in the case of `NavBar`:
  * we want to transform the `NavBar` to `SearchBar`.
  */
-export class Sticky extends React.PureComponent<Props, State> {
-  state: State = {
-    isSticking: false,
-  };
+export const Sticky = withStyles(styles)(
+  class extends React.PureComponent<Props, State> {
+    state: State = {
+      isSticking: false,
+    };
 
-  handleChange = (isInView: boolean) => {
-    this.setState({ isSticking: !isInView });
-  };
+    handleChange = (isInView: boolean) => {
+      this.setState({ isSticking: !isInView });
+    };
 
-  render() {
-    const {
-      children,
-      height,
-      className,
-      rootMargin,
-      innerClassName,
-      ...rest
-    } = this.props;
-    const { isSticking } = this.state;
+    render() {
+      const {
+        children,
+        height,
+        className,
+        rootMargin,
+        classes,
+        innerClassName,
+        ...rest
+      } = this.props;
+      const { isSticking } = this.state;
 
-    return (
-      <div className={cc([classes.container, className])}>
-        <IntersectionObserver
-          threshold={1}
-          rootMargin={rootMargin}
-          onChange={this.handleChange}
-        >
-          <div className={classes.placeholder} style={{ height }} />
-        </IntersectionObserver>
-        <div
-          className={cc([classes.element, innerClassName])}
-          {...rest}
-          style={{ height }}
-        >
-          {children(isSticking)}
+      return (
+        <div className={cc([classes.container, className])}>
+          <IntersectionObserver
+            threshold={1}
+            rootMargin={rootMargin}
+            onChange={this.handleChange}
+          >
+            <div className={classes.placeholder} style={{ height }} />
+          </IntersectionObserver>
+          <div
+            className={cc([classes.element, innerClassName])}
+            {...rest}
+            style={{ height }}
+          >
+            {children(isSticking)}
+          </div>
         </div>
-      </div>
-    );
-  }
-}
+      );
+    }
+  },
+);
