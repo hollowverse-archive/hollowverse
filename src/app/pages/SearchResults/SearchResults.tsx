@@ -136,7 +136,7 @@ const Page = withRouter(
           {userHasPerformedSearch ? (
             <ResultsList
               // why can't TS tell that `value` here is guaranteed to be `AlgoliaResponse`? 🤔
-              hits={(value as AlgoliaResponse).hits}
+              {...{ hits: (value as AlgoliaResponse).hits } as any}
               onResultClick={this.props.searchResultSelected}
               aria-live="polite"
             />
@@ -156,7 +156,7 @@ const Page = withRouter(
         return this.render200Status(value);
       }
 
-      return <ResultsList isLoading />;
+      return <ResultsList {...{ isLoading: true } as any} />;
     };
 
     render() {
