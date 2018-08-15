@@ -51,6 +51,9 @@ const styles = (theme: Theme) =>
         background: theme.palette.grey['300'],
         userSelect: 'none',
       },
+      '&$isLoading $text': {
+        borderRadius: theme.shape.borderRadius,
+      },
       '&$isLoading::after': {
         content: '""',
         position: 'absolute',
@@ -76,7 +79,8 @@ const styles = (theme: Theme) =>
     },
 
     isLoading: {
-      animation: 'pulse-animation 0.8s ease-in-out infinite',
+      animation: `pulse-animation ${theme.transitions.duration.standard *
+        3}ms ${theme.transitions.easing.easeInOut} infinite`,
       animationFillMode: 'both',
     },
 
@@ -177,7 +181,12 @@ export const PersonDetails = withStyles(styles)(
             href={photo.sourceUrl}
             title={`Image source: ${prettifyUrl(photo.sourceUrl)}`}
           >
-            <PersonPhoto className={classes.photo} src={photo.url} alt={name} />
+            <PersonPhoto
+              isLazy={false}
+              className={classes.photo}
+              src={photo.url}
+              alt={name}
+            />
             <span className="sr-only">
               Image source: {prettifyUrl(photo.sourceUrl)}
             </span>
@@ -187,6 +196,7 @@ export const PersonDetails = withStyles(styles)(
         return (
           <span className={classes.photoLink}>
             <PersonPhoto
+              isLazy={false}
               className={classes.photo}
               src={isLoading ? emptySvg : undefined}
               alt={undefined}
