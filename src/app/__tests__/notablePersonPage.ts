@@ -111,9 +111,7 @@ describe('notable person page', () => {
       });
 
       it('shows editorial summary content', () => {
-        const editorialSummary = document.body.querySelector(
-          'main article .editorialSummary',
-        );
+        const editorialSummary = document.body.querySelector('main article');
         expect(editorialSummary).toHaveTextContent('Tom Hanks');
         expect(editorialSummary).toBeDefined();
         expect(editorialSummary).toMatchSnapshot();
