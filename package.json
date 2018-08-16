@@ -9,7 +9,7 @@
     "pretest": "npm-run-all -s app/graphql/build -p --aggregate-output -c common-check lint",
     "test": "yarn jest",
     "check-prettier": "prettier './**/*.{t,j}s{,x}' '**/*.{css,scss,json,md}' --list-different",
-    "lint": "run-p -c --aggregate-output lint-css lint-js lint-graphql lint-ts check-ts",
+    "lint": "run-p -c --aggregate-output lint-js lint-graphql lint-ts check-ts",
     "lint-js": "eslint '**/*.js{,x}'",
     "lint-graphql": "run-s app/graphql/schema && eslint --ext .graphql --ext .gql 'src/**/*.{gql,graphql}'",
     "lint-ts/eslint": "eslint '**/*.ts{,x}'",
