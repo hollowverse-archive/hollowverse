@@ -3,19 +3,17 @@ const webpackMerge = require('webpack-merge');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const PreloadWebpackPlugin = require('preload-webpack-plugin');
 const { StatsWriterPlugin } = require('webpack-stats-plugin');
 
 const path = require('path');
 const { compact, mapValues } = require('lodash');
 
-const { createCssModulesLoaders, createScriptRules } = require('./helpers');
+const { createScriptRules } = require('./helpers');
 const {
   srcDirectory,
   clientDistDirectory,
   publicPath,
-  excludedPatterns,
 } = require('./variables');
 const { createBaseConfig } = require('./createBaseConfig');
 const { getAppGlobals } = require('./appGlobals');
@@ -83,26 +81,12 @@ const clientSpecificConfig = {
 
   module: {
     rules: compact([
-      {
-        test: /\.module\.s?css/,
-        exclude: excludedPatterns,
-        use: [
-          isProd ? MiniCssExtractPlugin.loader : 'style-loader',
-          ...createCssModulesLoaders(),
-        ],
-      },
-
       // JavaScript and TypeScript
       ...createScriptRules({ isNode: false }),
     ]),
   },
 
   plugins: compact([
-    new MiniCssExtractPlugin({
-      filename: isProd ? '[name].[contenthash].css' : '[name].css',
-      chunkFilename: isProd ? '[name].[contenthash].css' : '[name].css',
-    }),
-
     new HtmlWebpackPlugin({
       template: path.join(srcDirectory, 'index.html'),
       filename: 'index.html',

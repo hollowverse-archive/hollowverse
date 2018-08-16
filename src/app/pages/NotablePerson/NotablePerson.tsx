@@ -31,189 +31,226 @@ import {
 } from 'appDependenciesContext';
 import { warningIcon } from './warningIcon';
 
-import classes from './NotablePerson.module.scss';
-
 import { setAlternativeSearchBoxText } from 'store/features/search/actions';
 import { isWhitelistedPage } from 'redirectionMap';
 
 import { LoadableSearchResults } from 'pages/SearchResults/LoadableSearchResults';
 import Card from '@material-ui/core/Card';
 import Typography from '@material-ui/core/Typography';
+import {
+  withStyles,
+  createStyles,
+  WithStyles,
+  Theme,
+} from '@material-ui/core/styles';
+import { styles as getLoadableStyles } from './LoadableNotablePerson';
 
-export type Props = {};
+const styles = (theme: Theme) =>
+  createStyles({
+    root: {
+      ...getLoadableStyles(theme).root,
+    },
+    stub: {
+      padding: 20,
+    },
+    comments: {
+      padding: 10,
+    },
+    editorialSummary: {
+      alignSelf: 'center',
+      maxWidth: theme.breakpoints.values.sm,
+    },
+    relatedPeopleTitle: {
+      marginTop: 20,
+      marginLeft: 20,
+    },
+  });
+
+type Props = WithStyles<ReturnType<typeof styles>>;
+
 type NotablePersonType = NotablePersonQuery['notablePerson'];
 type Result = AsyncResult<NotablePersonQuery | null>;
 
 export const NotablePerson = withRouter(
-  class extends React.Component<Props & RouteComponentProps<any>> {
-    createLoad = ({
-      apiClient,
-    }: Pick<AppDependencies, 'apiClient'>) => async () => {
-      const { slug } = this.props.match.params;
+  withStyles(styles)(
+    class extends React.Component<Props & RouteComponentProps<any>> {
+      createLoad = ({
+        apiClient,
+      }: Pick<AppDependencies, 'apiClient'>) => async () => {
+        const { slug } = this.props.match.params;
 
-      const result = await apiClient.request<NotablePersonQuery>(query, {
-        slug,
-      });
+        const result = await apiClient.request<NotablePersonQuery>(query, {
+          slug,
+        });
 
-      LoadableSearchResults.preload();
+        LoadableSearchResults.preload();
 
-      return result;
-    };
+        return result;
+      };
 
-    renderRelatedPeople = (notablePerson: NonNullable<NotablePersonType>) => {
-      const { relatedPeople } = notablePerson;
+      renderRelatedPeople = (notablePerson: NonNullable<NotablePersonType>) => {
+        const { relatedPeople } = notablePerson;
+        const { classes } = this.props;
 
-      return relatedPeople.length ? (
-        <Card>
-          <Typography
-            className={classes.relatedPeopleTitle}
-            gutterBottom
-            variant="title"
-          >
-            Other interesting profiles
-          </Typography>
-          <RelatedPeople people={relatedPeople} />
-        </Card>
-      ) : null;
-    };
+        return relatedPeople.length ? (
+          <Card>
+            <Typography
+              className={classes.relatedPeopleTitle}
+              gutterBottom
+              variant="title"
+            >
+              Other interesting profiles
+            </Typography>
+            <RelatedPeople people={relatedPeople} />
+          </Card>
+        ) : null;
+      };
 
-    renderFbComments = (notablePerson: NonNullable<NotablePersonType>) => {
-      const { commentsUrl } = notablePerson;
+      renderFbComments = (notablePerson: NonNullable<NotablePersonType>) => {
+        const { commentsUrl } = notablePerson;
+        const { classes } = this.props;
 
-      return (
-        <IntersectionObserver rootMargin="0% 0% 25% 0%" triggerOnce>
-          {inView =>
-            inView ? (
-              <Card className={cc([classes.comments])}>
-                <FbComments url={commentsUrl} />
-              </Card>
-            ) : null
-          }
-        </IntersectionObserver>
-      );
-    };
+        return (
+          <IntersectionObserver rootMargin="0% 0% 25% 0%" triggerOnce>
+            {inView =>
+              inView ? (
+                <Card className={cc([classes.comments])}>
+                  <FbComments url={commentsUrl} />
+                </Card>
+              ) : null
+            }
+          </IntersectionObserver>
+        );
+      };
 
-    renderEditorialSummary = (
-      notablePerson: NonNullable<NotablePersonType>,
-    ) => {
-      const { editorialSummary, slug, name } = notablePerson;
+      renderEditorialSummary = (
+        notablePerson: NonNullable<NotablePersonType>,
+      ) => {
+        const { editorialSummary, slug, name } = notablePerson;
+        const { classes } = this.props;
 
-      return editorialSummary ? (
-        <Card className={cc([classes.editorialSummary])}>
-          <EditorialSummary id={slug} {...editorialSummary} />
-        </Card>
-      ) : (
-        <div className={classes.stub}>
-          Share what you know about the religion and political views of {name}{' '}
-          in the comments below
-        </div>
-      );
-    };
+        return editorialSummary ? (
+          <Card className={cc([classes.editorialSummary])}>
+            <EditorialSummary id={slug} {...editorialSummary} />
+          </Card>
+        ) : (
+          <div className={classes.stub}>
+            Share what you know about the religion and political views of {name}{' '}
+            in the comments below
+          </div>
+        );
+      };
 
-    renderErrorStatus = (error?: Error) => (
-      <>
-        <Status code={500} error={error} />
-        <Helmet>
-          <title>Error loading notable person page</title>
-        </Helmet>
-        <MessageWithIcon
-          title="Are you connected to the internet?"
-          description="Please check your connection and try again"
-          button={
-            <LinkButton to={this.props.location} onClick={forceReload}>
-              Reload
-            </LinkButton>
-          }
-          icon={warningIcon}
-        />
-      </>
-    );
-
-    render200Status = (notablePerson: NonNullable<NotablePersonType>) => {
-      const { slug, name, commentsUrl } = notablePerson;
-      const isWhitelisted = isWhitelistedPage(`/${slug}`);
-
-      return (
+      renderErrorStatus = (error?: Error) => (
         <>
-          <Status code={200} />
+          <Status code={500} error={error} />
           <Helmet>
-            <link
-              rel="canonical"
-              href={
-                isWhitelisted
-                  ? String(new URL(`${slug}`, 'https://hollowverse.com'))
-                  : commentsUrl
-              }
-            />
-            <title>{name}'s Religion and Political Views</title>
-            <meta
-              name="description"
-              content={oneLine`
+            <title>Error loading notable person page</title>
+          </Helmet>
+          <MessageWithIcon
+            title="Are you connected to the internet?"
+            description="Please check your connection and try again"
+            button={
+              <LinkButton to={this.props.location} onClick={forceReload}>
+                Reload
+              </LinkButton>
+            }
+            icon={warningIcon}
+          />
+        </>
+      );
+
+      render200Status = (notablePerson: NonNullable<NotablePersonType>) => {
+        const { slug, name, commentsUrl } = notablePerson;
+        const isWhitelisted = isWhitelistedPage(`/${slug}`);
+
+        return (
+          <>
+            <Status code={200} />
+            <Helmet>
+              <link
+                rel="canonical"
+                href={
+                  isWhitelisted
+                    ? String(new URL(`${slug}`, 'https://hollowverse.com'))
+                    : commentsUrl
+                }
+              />
+              <title>{name}'s Religion and Political Views</title>
+              <meta
+                name="description"
+                content={oneLine`
                 Quotes, news, and discussions about ${name}'s
                 philosophy, politics, and ideas
               `}
+              />
+            </Helmet>
+            <DispatchOnLifecycleEvent
+              onWillUnmount={setAlternativeSearchBoxText(null)}
+              onWillMount={setAlternativeSearchBoxText(name)}
             />
+            <NotablePersonBody
+              notablePerson={notablePerson}
+              editorialSummary={this.renderEditorialSummary(notablePerson)}
+            />
+            {this.renderRelatedPeople(notablePerson)}
+            {this.renderFbComments(notablePerson)}
+          </>
+        );
+      };
+
+      render404Status = () => (
+        <>
+          <Status code={404} />
+          <Helmet>
+            <title>Page not found</title>
           </Helmet>
-          <DispatchOnLifecycleEvent
-            onWillUnmount={setAlternativeSearchBoxText(null)}
-            onWillMount={setAlternativeSearchBoxText(name)}
-          />
-          <NotablePersonBody
-            notablePerson={notablePerson}
-            editorialSummary={this.renderEditorialSummary(notablePerson)}
-          />
-          {this.renderRelatedPeople(notablePerson)}
-          {this.renderFbComments(notablePerson)}
+          <MessageWithIcon title="Not Found" icon={warningIcon} />
         </>
       );
-    };
 
-    render404Status = () => (
-      <>
-        <Status code={404} />
-        <Helmet>
-          <title>Page not found</title>
-        </Helmet>
-        <MessageWithIcon title="Not Found" icon={warningIcon} />
-      </>
-    );
+      renderNonErrorStatus = (result: Exclude<Result, ErrorResult>) => {
+        if (isSuccessResult(result) && result.value !== null) {
+          if (result.value.notablePerson !== null) {
+            return this.render200Status(result.value.notablePerson);
+          }
 
-    renderNonErrorStatus = (result: Exclude<Result, ErrorResult>) => {
-      if (isSuccessResult(result) && result.value !== null) {
-        if (result.value.notablePerson !== null) {
-          return this.render200Status(result.value.notablePerson);
+          return this.render404Status();
         }
 
-        return this.render404Status();
+        return <NotablePersonBody />;
+      };
+
+      render() {
+        const {
+          classes,
+          match: {
+            params: { slug },
+          },
+        } = this.props;
+        const pageUrl = this.props.history.createHref(this.props.location);
+
+        return (
+          <AppDependenciesContext.Consumer>
+            {dependencies => (
+              <WithData
+                requestId={slug}
+                dataKey="notablePersonQuery"
+                forPage={pageUrl}
+                load={this.createLoad(dependencies)}
+              >
+                {({ result }: { result: Result }) => (
+                  <div className={classes.root}>
+                    {isErrorResult(result)
+                      ? this.renderErrorStatus(result.error)
+                      : this.renderNonErrorStatus(result)}
+                  </div>
+                )}
+              </WithData>
+            )}
+          </AppDependenciesContext.Consumer>
+        );
       }
-
-      return <NotablePersonBody />;
-    };
-
-    render() {
-      const pageUrl = this.props.history.createHref(this.props.location);
-      const { slug } = this.props.match.params;
-
-      return (
-        <AppDependenciesContext.Consumer>
-          {dependencies => (
-            <WithData
-              requestId={slug}
-              dataKey="notablePersonQuery"
-              forPage={pageUrl}
-              load={this.createLoad(dependencies)}
-            >
-              {({ result }: { result: Result }) => (
-                <div className={classes.root}>
-                  {isErrorResult(result)
-                    ? this.renderErrorStatus(result.error)
-                    : this.renderNonErrorStatus(result)}
-                </div>
-              )}
-            </WithData>
-          )}
-        </AppDependenciesContext.Consumer>
-      );
-    }
-  },
+    },
+  ),
 );

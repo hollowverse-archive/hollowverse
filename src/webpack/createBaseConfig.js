@@ -1,7 +1,6 @@
 const webpack = require('webpack');
 const path = require('path');
 
-const CircularDependencyPlugin = require('circular-dependency-plugin');
 const SpriteLoaderPlugin = require('svg-sprite-loader/plugin');
 
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
@@ -141,7 +140,7 @@ module.exports.createBaseConfig = () => ({
 
       'es6-promise': 'empty-module',
     },
-    extensions: ['.tsx', '.ts', '.js', '.css', '.scss', '.module.scss'],
+    extensions: ['.tsx', '.ts', '.js'],
     modules: [
       // Allow absolute imports from 'src' dir,
       // e.g. `import 'file';` instead of `'../../file';`
@@ -164,10 +163,5 @@ module.exports.createBaseConfig = () => ({
     ]),
 
     new SpriteLoaderPlugin(),
-
-    new CircularDependencyPlugin({
-      exclude: /node_modules/,
-      failOnError: true,
-    }),
   ]),
 });

@@ -6,7 +6,6 @@ import { SvgIcon } from 'components/SvgIcon/SvgIcon';
 import { AuthState, AuthErrorCode } from 'store/types';
 
 import facebookIcon from 'icons/facebook.svg';
-import classes from './AppMenu.module.scss';
 import { forceReload } from 'helpers/forceReload';
 
 import Snackbar from '@material-ui/core/Snackbar';
@@ -27,6 +26,12 @@ import Tooltip from '@material-ui/core/Tooltip';
 import { MenuItemWithLink, InertMenuItem } from './MenuItem';
 import { callAll } from 'helpers/callAll';
 import { LocationAwareMenu } from 'components/LocationAwareMenu/LocationAwareMenu';
+import {
+  createStyles,
+  withStyles,
+  Theme,
+  WithStyles,
+} from '@material-ui/core/styles';
 
 export type StateProps = {
   authState: AuthState;
@@ -39,7 +44,18 @@ export type DispatchProps = {
 
 export type OwnProps = {};
 
-type Props = OwnProps & StateProps & DispatchProps;
+const styles = (_: Theme) =>
+  createStyles({
+    facebook: {
+      '--facebook-blue': '#4267b2',
+      color: 'var(--facebook-blue)',
+    },
+  });
+
+type Props = OwnProps &
+  StateProps &
+  DispatchProps &
+  WithStyles<ReturnType<typeof styles>>;
 
 const messageForAuthState: Partial<Record<AuthState['state'], string>> = {
   initializing: 'Checking login...',
@@ -57,12 +73,7 @@ const spinner = (
 );
 
 const fbIcon = (
-  <SvgIcon
-    className={classes.facebookIcon}
-    color="var(--facebook-blue)"
-    size={20}
-    {...facebookIcon}
-  />
+  <SvgIcon color="var(--facebook-blue)" size={20} {...facebookIcon} />
 );
 
 const iconForAuthState: Partial<Record<AuthState['state'], React.ReactNode>> = {
@@ -102,228 +113,234 @@ type State = {
   anchorElement: HTMLElement | null;
 };
 
-export class AppMenu extends React.PureComponent<Props, State> {
-  state = {
-    isLoginFailedDialogShown: false,
-    isLoginStateChangeSnackbarShown: false,
-    anchorElement: null,
-  };
+export const AppMenu = withStyles(styles)(
+  class extends React.PureComponent<Props, State> {
+    state = {
+      isLoginFailedDialogShown: false,
+      isLoginStateChangeSnackbarShown: false,
+      anchorElement: null,
+    };
 
-  componentWillReceiveProps({ authState }: Props) {
-    this.setState({
-      isLoginStateChangeSnackbarShown:
-        authState.state !== this.props.authState.state &&
-        !(
-          this.props.authState.state === 'initializing' &&
-          authState.state === 'loggedOut'
-        ),
-      isLoginFailedDialogShown:
-        authState.state !== this.props.authState.state &&
-        authState.state === 'error' &&
-        authState.code !== 'FB_INIT_ERROR',
-    });
-  }
-
-  renderUser = () => {
-    const { authState } = this.props;
-
-    if (authState.state !== 'loggedIn') {
-      return undefined;
+    componentWillReceiveProps({ authState }: Props) {
+      this.setState({
+        isLoginStateChangeSnackbarShown:
+          authState.state !== this.props.authState.state &&
+          !(
+            this.props.authState.state === 'initializing' &&
+            authState.state === 'loggedOut'
+          ),
+        isLoginFailedDialogShown:
+          authState.state !== this.props.authState.state &&
+          authState.state === 'error' &&
+          authState.code !== 'FB_INIT_ERROR',
+      });
     }
 
-    const { viewer } = authState;
+    renderUser = () => {
+      const { authState } = this.props;
 
-    return (
-      <InertMenuItem aria-label={`Signed in as ${viewer.name}`}>
-        <ListItemIcon>
-          <Avatar alt="Profile Photo" src={viewer.photoUrl || undefined} />
-        </ListItemIcon>
-        {viewer.name}
-      </InertMenuItem>
-    );
-  };
+      if (authState.state !== 'loggedIn') {
+        return undefined;
+      }
 
-  renderLoginButton = () => {
-    const {
-      authState: { state },
-    } = this.props;
+      const { viewer } = authState;
 
-    const canClick =
-      state === 'loggedIn' || state === 'loggedOut' || state === 'error';
-
-    const icon = iconForAuthState[state];
-
-    return (
-      <MenuItem
-        id="login-button"
-        button
-        className={cc([
-          {
-            [classes.facebook]: state === 'loggedOut' || state === 'error',
-          },
-        ])}
-        onClick={callAll(this.handleClose, this.handleLoginClick)}
-        disabled={!canClick}
-        divider
-      >
-        {icon && <ListItemIcon>{icon as any}</ListItemIcon>}
-        {messageForAuthState[state] || messageForAuthState.loggedOut}
-      </MenuItem>
-    );
-  };
-
-  renderLoginFailedDialog = () => {
-    const { authState } = this.props;
-
-    if (authState.state !== 'error') {
-      return undefined;
-    }
-
-    const { code = 'UNKNOWN_ERROR' } = authState;
-
-    return (
-      <Dialog
-        aria-labelledby="login-failed-dialog-title"
-        role="alertdialog"
-        onClose={this.toggleLoginFailedDialog}
-        open={this.state.isLoginFailedDialogShown}
-      >
-        <DialogTitle id="login-failed-dialog-title">
-          {titleForErrorCode[code] || titleForErrorCode.UNKNOWN_ERROR}
-        </DialogTitle>
-        <DialogContent>
-          <p>This could be due to a slow network. Try reloading the page.</p>
-          {dialogContentForErrorCode[code] || titleForErrorCode.UNKNOWN_ERROR}
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={forceReload}>Reload</Button>
-          <Button onClick={this.toggleLoginFailedDialog}>Dismiss</Button>
-        </DialogActions>
-      </Dialog>
-    );
-  };
-
-  toggleLoginFailedDialog = () => {
-    this.setState(state => ({
-      isLoginFailedDialogShown: !state.isLoginFailedDialogShown,
-    }));
-  };
-
-  handleLoginClick = () => {
-    const { authState, requestLogin, requestLogout } = this.props;
-
-    if (authState.state === 'loggedIn') {
-      requestLogout(undefined);
-    } else if (authState.state === 'loggedOut') {
-      requestLogin(undefined);
-    } else if (authState.state === 'error') {
-      this.toggleLoginFailedDialog();
-    }
-  };
-
-  renderLoginStateChangeSnackbar() {
-    const { authState } = this.props;
-
-    let message: React.ReactElement<any> | undefined;
-    if (authState.state === 'loggedIn') {
-      message = (
-        <span>
-          Logged in as <b>{authState.viewer.name}</b>
-        </span>
+      return (
+        <InertMenuItem aria-label={`Signed in as ${viewer.name}`}>
+          <ListItemIcon>
+            <Avatar alt="Profile Photo" src={viewer.photoUrl || undefined} />
+          </ListItemIcon>
+          {viewer.name}
+        </InertMenuItem>
       );
-    } else if (authState.state === 'loggedOut') {
-      message = <span>Logged out</span>;
-    }
+    };
 
-    if (!message) {
-      return undefined;
-    }
+    renderLoginButton = () => {
+      const {
+        authState: { state },
+        classes,
+      } = this.props;
 
-    return (
-      <Snackbar
-        anchorOrigin={{
-          horizontal: 'left',
-          vertical: 'bottom',
-        }}
-        open={this.state.isLoginStateChangeSnackbarShown}
-        onClose={this.toggleLoginStateChangeSnackbar}
-        autoHideDuration={6000}
-        message={message}
-        action={
-          <Button
-            key="undo"
-            color="secondary"
-            size="small"
-            onClick={this.toggleLoginStateChangeSnackbar}
-          >
-            Dismiss
-          </Button>
-        }
-      />
-    );
-  }
+      const canClick =
+        state === 'loggedIn' || state === 'loggedOut' || state === 'error';
 
-  toggleLoginStateChangeSnackbar = () => {
-    this.setState(state => ({
-      isLoginStateChangeSnackbarShown: !state.isLoginStateChangeSnackbarShown,
-    }));
-  };
+      const icon = iconForAuthState[state];
 
-  handleClick = (event: React.MouseEvent<any>) => {
-    this.setState({ anchorElement: event.currentTarget });
-  };
+      return (
+        <MenuItem
+          id="login-button"
+          button
+          className={cc([
+            {
+              [classes.facebook]: state === 'loggedOut' || state === 'error',
+            },
+          ])}
+          onClick={callAll(this.handleClose, this.handleLoginClick)}
+          disabled={!canClick}
+          divider
+        >
+          {icon && <ListItemIcon>{icon as any}</ListItemIcon>}
+          {messageForAuthState[state] || messageForAuthState.loggedOut}
+        </MenuItem>
+      );
+    };
 
-  handleClose = () => {
-    this.setState({ anchorElement: null });
-  };
+    renderLoginFailedDialog = () => {
+      const { authState } = this.props;
 
-  render() {
-    const { anchorElement } = this.state;
+      if (authState.state !== 'error') {
+        return undefined;
+      }
 
-    return (
-      <>
-        {this.renderLoginFailedDialog()}
-        {this.renderLoginStateChangeSnackbar()}
-        <Tooltip title="Main Menu">
-          <IconButton
-            style={{ visibility: 'hidden' }}
-            aria-owns={anchorElement ? 'app-menu' : undefined}
-            aria-haspopup="true"
-            aria-label="Open menu"
-            onClick={this.handleClick}
-          >
-            <MenuIcon />
-          </IconButton>
-        </Tooltip>
-        {anchorElement !== null ? (
-          <nav>
-            <LocationAwareMenu
-              id="app-menu"
-              anchorEl={anchorElement}
-              getContentAnchorEl={undefined}
-              anchorOrigin={{ horizontal: 'center', vertical: 'center' }}
-              open={Boolean(anchorElement)}
-              onClose={this.handleClose}
+      const { code = 'UNKNOWN_ERROR' } = authState;
+
+      return (
+        <Dialog
+          aria-labelledby="login-failed-dialog-title"
+          role="alertdialog"
+          onClose={this.toggleLoginFailedDialog}
+          open={this.state.isLoginFailedDialogShown}
+        >
+          <DialogTitle id="login-failed-dialog-title">
+            {titleForErrorCode[code] || titleForErrorCode.UNKNOWN_ERROR}
+          </DialogTitle>
+          <DialogContent>
+            <p>This could be due to a slow network. Try reloading the page.</p>
+            {dialogContentForErrorCode[code] || titleForErrorCode.UNKNOWN_ERROR}
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={forceReload}>Reload</Button>
+            <Button onClick={this.toggleLoginFailedDialog}>Dismiss</Button>
+          </DialogActions>
+        </Dialog>
+      );
+    };
+
+    toggleLoginFailedDialog = () => {
+      this.setState(state => ({
+        isLoginFailedDialogShown: !state.isLoginFailedDialogShown,
+      }));
+    };
+
+    handleLoginClick = () => {
+      const { authState, requestLogin, requestLogout } = this.props;
+
+      if (authState.state === 'loggedIn') {
+        requestLogout(undefined);
+      } else if (authState.state === 'loggedOut') {
+        requestLogin(undefined);
+      } else if (authState.state === 'error') {
+        this.toggleLoginFailedDialog();
+      }
+    };
+
+    renderLoginStateChangeSnackbar() {
+      const { authState } = this.props;
+
+      let message: React.ReactElement<any> | undefined;
+      if (authState.state === 'loggedIn') {
+        message = (
+          <span>
+            Logged in as <b>{authState.viewer.name}</b>
+          </span>
+        );
+      } else if (authState.state === 'loggedOut') {
+        message = <span>Logged out</span>;
+      }
+
+      if (!message) {
+        return undefined;
+      }
+
+      return (
+        <Snackbar
+          anchorOrigin={{
+            horizontal: 'left',
+            vertical: 'bottom',
+          }}
+          open={this.state.isLoginStateChangeSnackbarShown}
+          onClose={this.toggleLoginStateChangeSnackbar}
+          autoHideDuration={6000}
+          message={message}
+          action={
+            <Button
+              key="undo"
+              color="secondary"
+              size="small"
+              onClick={this.toggleLoginStateChangeSnackbar}
             >
-              {this.renderUser()}
-              <MenuItemWithLink onClick={this.handleClose} to="/">
-                Home
-              </MenuItemWithLink>
-              <MenuItemWithLink
-                onClick={this.handleClose}
-                divider
-                to="/contact"
+              Dismiss
+            </Button>
+          }
+        />
+      );
+    }
+
+    toggleLoginStateChangeSnackbar = () => {
+      this.setState(state => ({
+        isLoginStateChangeSnackbarShown: !state.isLoginStateChangeSnackbarShown,
+      }));
+    };
+
+    handleClick = (event: React.MouseEvent<any>) => {
+      this.setState({ anchorElement: event.currentTarget });
+    };
+
+    handleClose = () => {
+      this.setState({ anchorElement: null });
+    };
+
+    render() {
+      const { anchorElement } = this.state;
+
+      return (
+        <>
+          {this.renderLoginFailedDialog()}
+          {this.renderLoginStateChangeSnackbar()}
+          <Tooltip title="Main Menu">
+            <IconButton
+              // style={{ visibility: 'hidden' }}
+              aria-owns={anchorElement ? 'app-menu' : undefined}
+              aria-haspopup="true"
+              aria-label="Open menu"
+              onClick={this.handleClick}
+            >
+              <MenuIcon />
+            </IconButton>
+          </Tooltip>
+          {anchorElement !== null ? (
+            <nav>
+              <LocationAwareMenu
+                id="app-menu"
+                anchorEl={anchorElement}
+                getContentAnchorEl={undefined}
+                anchorOrigin={{ horizontal: 'center', vertical: 'center' }}
+                open={Boolean(anchorElement)}
+                onClose={this.handleClose}
               >
-                Contact
-              </MenuItemWithLink>
-              {this.renderLoginButton()}
-              <MenuItemWithLink onClick={this.handleClose} to="/privacy-policy">
-                <Typography color="textSecondary">Privacy Policy</Typography>
-              </MenuItemWithLink>
-            </LocationAwareMenu>
-          </nav>
-        ) : null}
-      </>
-    );
-  }
-}
+                {this.renderUser()}
+                <MenuItemWithLink onClick={this.handleClose} to="/">
+                  Home
+                </MenuItemWithLink>
+                <MenuItemWithLink
+                  onClick={this.handleClose}
+                  divider
+                  to="/contact"
+                >
+                  Contact
+                </MenuItemWithLink>
+                {this.renderLoginButton()}
+                <MenuItemWithLink
+                  onClick={this.handleClose}
+                  to="/privacy-policy"
+                >
+                  <Typography color="textSecondary">Privacy Policy</Typography>
+                </MenuItemWithLink>
+              </LocationAwareMenu>
+            </nav>
+          ) : null}
+        </>
+      );
+    }
+  },
+);

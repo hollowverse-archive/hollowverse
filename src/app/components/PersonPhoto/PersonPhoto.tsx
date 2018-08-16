@@ -6,29 +6,52 @@ import {
 import { Image, Props as ImageProps } from 'components/Image/Image';
 import cc from 'classcat';
 
-import classes from './PersonPhoto.module.scss';
+import {
+  createStyles,
+  withStyles,
+  WithStyles,
+  Theme,
+} from '@material-ui/core/styles';
 
 import photoPlaceholderUrl from '!!file-loader!svgo-loader!assets/personPlaceholder.svg';
 
-type Props =
-  | (ImageProps & { isLazy?: false })
-  | (LazyImageProps & {
-      isLazy: true;
-    });
+const styles = (theme: Theme) =>
+  createStyles({
+    root: {
+      backgroundColor: theme.palette.background.default,
+    },
+  });
 
-export class PersonPhoto extends React.PureComponent<Props> {
-  render() {
-    const { isLazy, className, role, alt, src, ...imageProps } = this.props;
+type Props = WithStyles<ReturnType<typeof styles>> &
+  (
+    | (ImageProps & { isLazy?: false })
+    | (LazyImageProps & {
+        isLazy: true;
+      }));
 
-    const overrides = {
-      className: cc([classes.root, className]),
-      src: src || photoPlaceholderUrl,
-      role: !src ? 'presentation' : role,
-      alt: !src ? undefined : alt,
-    };
+export const PersonPhoto = withStyles(styles)<Props>(
+  class extends React.PureComponent<Props> {
+    render() {
+      const {
+        isLazy,
+        className,
+        classes,
+        role,
+        alt,
+        src,
+        ...imageProps
+      } = this.props;
 
-    const Component = isLazy ? LazyImage : Image;
+      const overrides = {
+        className: cc([classes.root, className]),
+        src: src || photoPlaceholderUrl,
+        role: !src ? 'presentation' : role,
+        alt: !src ? undefined : alt,
+      };
 
-    return <Component {...imageProps} {...overrides} />;
-  }
-}
+      const Component = isLazy ? LazyImage : Image;
+
+      return <Component {...imageProps} {...overrides} />;
+    }
+  },
+);
