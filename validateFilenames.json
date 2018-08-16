@@ -24,7 +24,6 @@
         "**/docker-compose.yml",
         "**/Dockerfile*",
         "src/app/assets/algolia/*",
-        "_*.scss",
         "src/app/pages/NotablePerson/warningIcon.tsx",
         "**/clownOverrides/c__*"
       ]

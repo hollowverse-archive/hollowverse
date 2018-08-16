@@ -140,7 +140,7 @@ module.exports.createBaseConfig = () => ({
 
       'es6-promise': 'empty-module',
     },
-    extensions: ['.tsx', '.ts', '.js', '.css', '.scss', '.module.scss'],
+    extensions: ['.tsx', '.ts', '.js'],
     modules: [
       // Allow absolute imports from 'src' dir,
       // e.g. `import 'file';` instead of `'../../file';`

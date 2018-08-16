@@ -15,11 +15,6 @@ declare module '*.gql' {
   export = query;
 }
 
-declare module '*.module.scss' {
-  const classes: Record<string, string>;
-  export = classes;
-}
-
 declare module '*.svg' {
   const symbol: SpriteSymbol;
   export = symbol;
