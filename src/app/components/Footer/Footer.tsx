@@ -34,7 +34,7 @@ const styles = (theme: Theme) =>
         color: 'inherit',
       },
       '& > * + *::before': {
-        content: '"\\00b7"',
+        content: '"·"',
         margin: `0 ${theme.spacing.unit}px`,
       },
     },
