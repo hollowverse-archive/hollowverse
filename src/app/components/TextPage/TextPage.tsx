@@ -26,6 +26,8 @@ const styles = ({ breakpoints, palette, spacing }: Theme) =>
       alignItems: 'center',
       '& h1': {
         fontSize: 26,
+        fontWeight: 400,
+        lineHeight: 1,
         margin: '0 0 26px',
       },
       '& h2': {
@@ -88,8 +90,9 @@ const styles = ({ breakpoints, palette, spacing }: Theme) =>
       flexGrow: 1,
       width: '100%',
       maxWidth: breakpoints.values.sm,
-      padding: `${spacing.unit * 4}px ${spacing.unit * 2}px`,
+      padding: `${spacing.unit * 6}px ${spacing.unit * 3}px`,
       animation: 'text-page 0.3s',
+      lineHeight: 1.6,
     },
   });
 
