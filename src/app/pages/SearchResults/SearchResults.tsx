@@ -75,7 +75,7 @@ const styles = ({ breakpoints, spacing, palette }: Theme) =>
       alignSelf: 'flex-end',
       display: 'flex',
       alignItems: 'center',
-      margin: spacing.unit * 2,
+      margin: `${spacing.unit}px 0`,
     },
     logo: {
       height: '1.8em',
