@@ -101,7 +101,11 @@ export const NavBar = withStyles(styles)(
                   alignItems: 'center',
                 }}
               >
-                <Toolbar variant="dense" className={classes.maxWidth}>
+                <Toolbar
+                  disableGutters
+                  variant="dense"
+                  className={classes.maxWidth}
+                >
                   <ConnectedAppMenu />
                   <Switch>
                     <Route path="/search">

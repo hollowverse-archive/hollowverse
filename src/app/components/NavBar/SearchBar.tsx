@@ -42,7 +42,8 @@ const styles = (theme: Theme) =>
     inputWrapper: {
       height: '100%',
       flexGrow: 1,
-      padding: theme.spacing.unit,
+      display: 'flex',
+      alignItems: 'center',
       animationName: 'navbar-switch',
       animationDuration: `${theme.transitions.duration.shortest}ms`,
       animationFillMode: 'backwards',
