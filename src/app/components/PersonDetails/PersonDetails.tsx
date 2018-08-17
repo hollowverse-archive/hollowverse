@@ -129,6 +129,8 @@ const styles = (theme: Theme) =>
       maxHeight: theme.breakpoints.values.sm / 4,
       height: '25vw',
       width: '25vw',
+      minWidth: 120,
+      minHeight: 120,
       marginTop: theme.spacing.unit * 5,
     },
 
@@ -136,10 +138,6 @@ const styles = (theme: Theme) =>
       boxShadow: `0 0 0 1.5px ${
         theme.palette.background.default
       }, 0 2px 1px 0 ${theme.palette.grey['300']}`,
-      minWidth: 120,
-      minHeight: 120,
-      maxHeight: theme.breakpoints.values.sm / 4,
-      maxWidth: theme.breakpoints.values.sm / 4,
       borderRadius: 1,
       display: 'block',
       width: '100%',
