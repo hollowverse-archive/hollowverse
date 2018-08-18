@@ -13,6 +13,7 @@ import { StoreState } from 'store/types';
 import { createConfiguredStore } from 'store/createConfiguredStore';
 import { unhandledErrorThrown } from 'store/features/logging/actions';
 import { getAccessToken } from 'store/features/auth/reducer';
+import { getMuiTheme } from 'store/features/theme/reducer';
 import {
   loadIntersectionObserverPolyfill,
   loadUrlPolyfill,
@@ -27,6 +28,8 @@ import { routesMap } from 'routesMap';
 import { pick } from 'lodash';
 import { isError } from 'util';
 import { getPersistedStateToRestore } from 'store/features/persistence/helpers';
+
+import { MuiThemeProvider } from '@material-ui/core/styles';
 
 declare const module: {
   hot?: { accept(path?: string, cb?: () => void): void };
@@ -85,7 +88,8 @@ if (module.hot) {
 
   const ConnectedApp = connect((state: StoreState) => ({
     accessToken: getAccessToken(state),
-  }))(({ accessToken }) => (
+    theme: getMuiTheme(state),
+  }))(({ accessToken, theme }) => (
     <AppDependenciesContext.Provider
       value={{
         ...defaultAppDependencies,
@@ -102,7 +106,9 @@ if (module.hot) {
       }}
     >
       <Router history={history}>
-        <App routesMap={routesMap} />
+        <MuiThemeProvider theme={theme}>
+          <App routesMap={routesMap} />
+        </MuiThemeProvider>
       </Router>
     </AppDependenciesContext.Provider>
   ));

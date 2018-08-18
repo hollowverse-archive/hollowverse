@@ -48,7 +48,7 @@ const styles = (theme: Theme) =>
       flexDirection: 'column',
       '&$isLoading $text, &$isLoading $photo': {
         color: 'transparent',
-        background: theme.palette.grey['300'],
+        background: theme.palette.divider,
         userSelect: 'none',
       },
       '&$isLoading $text': {
