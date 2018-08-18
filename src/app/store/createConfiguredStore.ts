@@ -121,6 +121,7 @@ const defaultInitialState: StoreState = {
   fbSdkAuthState: {
     state: 'initializing',
   },
+  theme: 'light',
 };
 
 const defaultEpicDependencies: EpicDependencies = {
