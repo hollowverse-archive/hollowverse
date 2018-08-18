@@ -22,6 +22,8 @@ import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Tooltip from '@material-ui/core/Tooltip';
+import Switch from '@material-ui/core/Switch';
+import ListItemText from '@material-ui/core/ListItemText';
 
 import { MenuItemWithLink, InertMenuItem } from './MenuItem';
 import { callAll } from 'helpers/callAll';
@@ -35,11 +37,13 @@ import {
 
 export type StateProps = {
   authState: AuthState;
+  isNightModeEnabled: boolean;
 };
 
 export type DispatchProps = {
   requestLogin(payload: undefined): void;
   requestLogout(payload: undefined): void;
+  toggleNightMode(payload: undefined): void;
 };
 
 export type OwnProps = {};
@@ -290,6 +294,10 @@ export const AppMenu = withStyles(styles)(
       this.setState({ anchorElement: null });
     };
 
+    toggleNightMode = () => {
+      this.props.toggleNightMode(undefined);
+    };
+
     render() {
       const { anchorElement } = this.state;
 
@@ -299,7 +307,7 @@ export const AppMenu = withStyles(styles)(
           {this.renderLoginStateChangeSnackbar()}
           <Tooltip title="Main Menu">
             <IconButton
-              style={{ visibility: 'hidden' }}
+              // style={{ visibility: 'hidden' }}
               aria-owns={anchorElement ? 'app-menu' : undefined}
               aria-haspopup="true"
               aria-label="Open menu"
@@ -330,6 +338,10 @@ export const AppMenu = withStyles(styles)(
                   Contact
                 </MenuItemWithLink>
                 {this.renderLoginButton()}
+                <MenuItem onClick={this.toggleNightMode} divider>
+                  <ListItemText>Night Mode</ListItemText>
+                  <Switch checked={this.props.isNightModeEnabled} />
+                </MenuItem>
                 <MenuItemWithLink
                   onClick={this.handleClose}
                   to="/privacy-policy"
