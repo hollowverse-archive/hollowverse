@@ -338,7 +338,10 @@ export const AppMenu = withStyles(styles)(
                   Contact
                 </MenuItemWithLink>
                 {this.renderLoginButton()}
-                <MenuItem onClick={this.toggleNightMode} divider>
+                <MenuItem
+                  onClick={callAll(this.handleClose, this.toggleNightMode)}
+                  divider
+                >
                   <ListItemText>Night Mode</ListItemText>
                   <Switch checked={this.props.isNightModeEnabled} />
                 </MenuItem>
