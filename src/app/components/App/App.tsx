@@ -87,6 +87,7 @@ const styles = (theme: Theme) =>
       },
       'input[type="search"]': {
         appearance: 'none',
+        '-webkit-appearance': 'none',
       },
       h1: {
         margin: 0,
