@@ -135,9 +135,7 @@ const styles = (theme: Theme) =>
     },
 
     photo: {
-      boxShadow: `0 0 0 1.5px ${
-        theme.palette.background.default
-      }, 0 2px 1px 0 ${theme.palette.grey['300']}`,
+      boxShadow: `0 0 0 1.5px ${theme.palette.background.default}`,
       borderRadius: 1,
       display: 'block',
       width: '100%',

@@ -48,10 +48,13 @@ export type DispatchProps = {
 
 export type OwnProps = {};
 
-const styles = (_: Theme) =>
+const styles = ({ palette }: Theme) =>
   createStyles({
     facebook: {
-      '--facebook-blue': '#4267b2',
+      '--facebook-blue':
+        palette.type === 'light'
+          ? '#4267b2'
+          : palette.getContrastText(palette.background.paper),
       color: 'var(--facebook-blue)',
     },
   });

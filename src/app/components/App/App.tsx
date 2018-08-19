@@ -23,7 +23,7 @@ type AppPath = '/search' | '/contact' | '/privacy-policy' | '/:slug';
 
 export type AppRoutesMap = Record<AppPath | 'default', RouteProps['component']>;
 
-const styles = (_theme: Theme) =>
+const styles = (theme: Theme) =>
   createStyles({
     '@global': {
       ':root': {
@@ -53,7 +53,7 @@ const styles = (_theme: Theme) =>
       a: {
         textDecoration: 'none',
         transition: 'color 0.2s ease-in-out',
-        color: '#4b31f6',
+        color: theme.palette.primary.main,
       },
       sup: {
         fontSize: '0.7em',

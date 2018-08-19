@@ -2,6 +2,8 @@ import { createReducerForStoreKey, isActionOfType } from 'store/helpers';
 import { StoreState } from 'store/types';
 import { createSelector } from 'reselect';
 import { createMuiTheme } from '@material-ui/core/styles';
+import indigo from '@material-ui/core/colors/indigo';
+import yellow from '@material-ui/core/colors/yellow';
 
 export const themeReducer = createReducerForStoreKey<'theme'>(
   {
@@ -55,6 +57,7 @@ export const getMuiTheme = createSelector(getTheme, theme =>
     },
     palette: {
       type: theme,
+      primary: theme === 'dark' ? yellow : indigo,
       // text: {
       //   primary: '#111',
       //   secondary: 'rgba(0, 0, 0, 0.6)',
