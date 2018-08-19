@@ -225,33 +225,35 @@ export const EditorialSummary = withStyles(styles)(
               <Typography variant="subheading">Sources</Typography>
             </ExpansionPanelSummary>
             <ExpansionPanelDetails>
-              <small>
-                <ol className={classes.sourceList}>
-                  {Array.from(this.references.values()).map(ref => {
-                    const { nodeId, sourceId, sourceUrl, sourceTitle } = ref;
-                    const prettifiedUrl = prettifyUrl(sourceUrl);
+              <Typography>
+                <small>
+                  <ol className={classes.sourceList}>
+                    {Array.from(this.references.values()).map(ref => {
+                      const { nodeId, sourceId, sourceUrl, sourceTitle } = ref;
+                      const prettifiedUrl = prettifyUrl(sourceUrl);
 
-                    return (
-                      <li
-                        className={classes.sourceListItem}
-                        key={nodeId}
-                        id={sourceId}
-                      >
-                        <a href={sourceUrl}>{sourceTitle || prettifiedUrl}</a>
-                        {sourceTitle ? ` ${prettifiedUrl}` : null}
-                        <a
-                          className={classes.backLink}
-                          href={`#${nodeId}`}
-                          role="button"
-                          aria-label="Go back to reference"
+                      return (
+                        <li
+                          className={classes.sourceListItem}
+                          key={nodeId}
+                          id={sourceId}
                         >
-                          ↩&#xFE0E;
-                        </a>
-                      </li>
-                    );
-                  })}
-                </ol>
-              </small>
+                          <a href={sourceUrl}>{sourceTitle || prettifiedUrl}</a>
+                          {sourceTitle ? ` ${prettifiedUrl}` : null}
+                          <a
+                            className={classes.backLink}
+                            href={`#${nodeId}`}
+                            role="button"
+                            aria-label="Go back to reference"
+                          >
+                            ↩&#xFE0E;
+                          </a>
+                        </li>
+                      );
+                    })}
+                  </ol>
+                </small>
+              </Typography>
             </ExpansionPanelDetails>
           </ExpansionPanel>
         </>
