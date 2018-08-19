@@ -96,16 +96,16 @@ const dialogContentForErrorCode: Partial<
   Record<AuthErrorCode, React.ReactNode>
 > = {
   FB_INIT_ERROR: (
-    <p>
+    <Typography paragraph component="p">
       If the issue persists, your browser might have a tracking protection
       feature which blocks loading of Facebook scripts.
-    </p>
+    </Typography>
   ),
   UNKNOWN_ERROR: (
-    <p>
+    <Typography paragraph component="p">
       If the issue persists, it is most likely an issue on our side. Please try
       again in a few hours.
-    </p>
+    </Typography>
   ),
 };
 
@@ -212,7 +212,9 @@ export const AppMenu = withStyles(styles)(
             {titleForErrorCode[code] || titleForErrorCode.UNKNOWN_ERROR}
           </DialogTitle>
           <DialogContent>
-            <p>This could be due to a slow network. Try reloading the page.</p>
+            <Typography paragraph component="p">
+              This could be due to a slow network. Try reloading the page.
+            </Typography>
             {dialogContentForErrorCode[code] || titleForErrorCode.UNKNOWN_ERROR}
           </DialogContent>
           <DialogActions>
