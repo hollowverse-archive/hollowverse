@@ -37,7 +37,7 @@ const styles = ({ palette }: Theme) =>
           ? {
               filter: 'grayscale(100%) invert(1)',
             }
-          : undefined,
+          : {},
     },
   });
 
