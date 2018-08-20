@@ -225,7 +225,7 @@ export const EditorialSummary = withStyles(styles)(
               <Typography variant="subheading">Sources</Typography>
             </ExpansionPanelSummary>
             <ExpansionPanelDetails>
-              <Typography>
+              <Typography component="div">
                 <small>
                   <ol className={classes.sourceList}>
                     {Array.from(this.references.values()).map(ref => {
