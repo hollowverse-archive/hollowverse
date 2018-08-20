@@ -146,6 +146,10 @@ const styles = (theme: Theme) =>
 
     text: {},
 
+    name: {
+      color: theme.palette.text.primary,
+    },
+
     summary: {
       padding: theme.spacing.unit * 2,
     },
@@ -225,7 +229,7 @@ export const PersonDetails = withStyles(styles)(
                 Religion, politics, and ideas of
               </span>
             </Typography>
-            <span className={classes.text}>{name}</span>
+            <span className={cc([classes.text, classes.name])}>{name}</span>
           </Typography>
           {summary && (
             <div className={classes.summary}>
