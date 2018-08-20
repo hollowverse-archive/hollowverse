@@ -19,7 +19,7 @@ import { getSearchQuery } from 'store/features/search/selectors';
 import { WithData } from 'hocs/WithData/WithData';
 import { Status } from 'components/Status/Status';
 
-import algoliaLogo from '!!file-loader!svgo-loader!assets/algoliaLogo.svg';
+import algoliaLogo from 'assets/algoliaLogo.svg';
 import { MessageWithIcon } from 'components/MessageWithIcon/MessageWithIcon';
 
 import searchIcon from 'icons/search.svg';
@@ -71,11 +71,13 @@ const styles = ({ breakpoints, spacing, palette }: Theme) =>
       },
     },
     algoliaContainer: {
-      color: palette.text.secondary,
-      alignSelf: 'flex-end',
       display: 'flex',
-      alignItems: 'center',
+      color: palette.text.secondary,
       margin: spacing.unit,
+      alignItems: 'center',
+      alignSelf: 'flex-end',
+      '--color-text': palette.getContrastText(palette.background.default),
+      '--color-background': palette.background.default,
     },
     logo: {
       height: '1.8em',
@@ -118,7 +120,7 @@ const Page = withRouter(
         return (
           <small className={classes.algoliaContainer}>
             Search powered by
-            <img className={classes.logo} src={algoliaLogo} alt="Algolia" />
+            <SvgIcon size={20} className={classes.logo} {...algoliaLogo} />
           </small>
         );
       };
