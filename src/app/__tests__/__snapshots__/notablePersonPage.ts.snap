@@ -45,7 +45,7 @@ exports[`notable person page when notable person is found, if notable person has
             </span>
           </small>
           <span
-            class="PureComponent-text"
+            class="PureComponent-text PureComponent-name"
           >
             Tom Hanks
           </span>
