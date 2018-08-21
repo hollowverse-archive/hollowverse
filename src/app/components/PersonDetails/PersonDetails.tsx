@@ -48,7 +48,7 @@ const styles = (theme: Theme) =>
       flexDirection: 'column',
       '&$isLoading $text, &$isLoading $photo': {
         color: 'transparent',
-        background: theme.palette.grey['300'],
+        background: theme.palette.divider,
         userSelect: 'none',
       },
       '&$isLoading $text': {
@@ -135,9 +135,7 @@ const styles = (theme: Theme) =>
     },
 
     photo: {
-      boxShadow: `0 0 0 1.5px ${
-        theme.palette.background.default
-      }, 0 2px 1px 0 ${theme.palette.grey['300']}`,
+      boxShadow: `0 0 0 1.5px ${theme.palette.background.default}`,
       borderRadius: 1,
       display: 'block',
       width: '100%',
@@ -147,6 +145,10 @@ const styles = (theme: Theme) =>
     },
 
     text: {},
+
+    name: {
+      color: theme.palette.text.primary,
+    },
 
     summary: {
       padding: theme.spacing.unit * 2,
@@ -227,7 +229,7 @@ export const PersonDetails = withStyles(styles)(
                 Religion, politics, and ideas of
               </span>
             </Typography>
-            <span className={classes.text}>{name}</span>
+            <span className={cc([classes.text, classes.name])}>{name}</span>
           </Typography>
           {summary && (
             <div className={classes.summary}>

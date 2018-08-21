@@ -107,6 +107,31 @@ export type FbSdkAuthState =
       error?: Error;
     };
 
+export type AppState = {
+  statusCode: 301 | 302 | 404 | 200 | 500;
+  redirectionUrl: string | null;
+  shouldFocusSearch: boolean;
+  /**
+   * Used to display text in place of the search box when the user
+   * scrolls the page down, like the notable person's name on the notable
+   * person's page.
+   */
+  alternativeSearchBoxText: string | null;
+  resolvedData: {
+    [K in keyof ResolvedData]: AsyncResult<ResolvedData[K]> & {
+      requestId: string | null;
+    }
+  };
+  fbSdkAuthState: FbSdkAuthState;
+  theme: 'light' | 'dark';
+};
+
+/**
+ * Contains AppState as well as other state keys that are
+ * required by external modules
+ */
+export type StoreState = Readonly<AppState & { routing: RouterState }>;
+
 /** A map of all app actions to their corresponding payloads */
 export type ActionTypeToPayloadType = {
   GO_TO_SEARCH: void;
@@ -150,31 +175,8 @@ export type ActionTypeToPayloadType = {
   FACEBOOK_AUTH_RESPONSE_CHANGED: FB.AuthResponse;
   REQUEST_LOGIN: undefined;
   REQUEST_LOGOUT: undefined;
+  TOGGLE_NIGHT_MODE: undefined;
 };
-
-export type AppState = {
-  statusCode: 301 | 302 | 404 | 200 | 500;
-  redirectionUrl: string | null;
-  shouldFocusSearch: boolean;
-  /**
-   * Used to display text in place of the search box when the user
-   * scrolls the page down, like the notable person's name on the notable
-   * person's page.
-   */
-  alternativeSearchBoxText: string | null;
-  resolvedData: {
-    [K in keyof ResolvedData]: AsyncResult<ResolvedData[K]> & {
-      requestId: string | null;
-    }
-  };
-  fbSdkAuthState: FbSdkAuthState;
-};
-
-/**
- * Contains AppState as well as other state keys that are
- * required by external modules
- */
-export type StoreState = Readonly<AppState & { routing: RouterState }>;
 
 export type StoreKey = keyof AppState;
 

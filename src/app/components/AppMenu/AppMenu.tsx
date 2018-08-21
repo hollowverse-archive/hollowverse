@@ -22,6 +22,8 @@ import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Tooltip from '@material-ui/core/Tooltip';
+import Switch from '@material-ui/core/Switch';
+import ListItemText from '@material-ui/core/ListItemText';
 
 import { MenuItemWithLink, InertMenuItem } from './MenuItem';
 import { callAll } from 'helpers/callAll';
@@ -35,19 +37,24 @@ import {
 
 export type StateProps = {
   authState: AuthState;
+  isNightModeEnabled: boolean;
 };
 
 export type DispatchProps = {
   requestLogin(payload: undefined): void;
   requestLogout(payload: undefined): void;
+  toggleNightMode(payload: undefined): void;
 };
 
 export type OwnProps = {};
 
-const styles = (_: Theme) =>
+const styles = ({ palette }: Theme) =>
   createStyles({
     facebook: {
-      '--facebook-blue': '#4267b2',
+      '--facebook-blue':
+        palette.type === 'light'
+          ? '#4267b2'
+          : palette.getContrastText(palette.background.paper),
       color: 'var(--facebook-blue)',
     },
   });
@@ -89,16 +96,16 @@ const dialogContentForErrorCode: Partial<
   Record<AuthErrorCode, React.ReactNode>
 > = {
   FB_INIT_ERROR: (
-    <p>
+    <Typography paragraph component="p">
       If the issue persists, your browser might have a tracking protection
       feature which blocks loading of Facebook scripts.
-    </p>
+    </Typography>
   ),
   UNKNOWN_ERROR: (
-    <p>
+    <Typography paragraph component="p">
       If the issue persists, it is most likely an issue on our side. Please try
       again in a few hours.
-    </p>
+    </Typography>
   ),
 };
 
@@ -205,7 +212,9 @@ export const AppMenu = withStyles(styles)(
             {titleForErrorCode[code] || titleForErrorCode.UNKNOWN_ERROR}
           </DialogTitle>
           <DialogContent>
-            <p>This could be due to a slow network. Try reloading the page.</p>
+            <Typography paragraph component="p">
+              This could be due to a slow network. Try reloading the page.
+            </Typography>
             {dialogContentForErrorCode[code] || titleForErrorCode.UNKNOWN_ERROR}
           </DialogContent>
           <DialogActions>
@@ -290,6 +299,10 @@ export const AppMenu = withStyles(styles)(
       this.setState({ anchorElement: null });
     };
 
+    toggleNightMode = () => {
+      this.props.toggleNightMode(undefined);
+    };
+
     render() {
       const { anchorElement } = this.state;
 
@@ -299,7 +312,7 @@ export const AppMenu = withStyles(styles)(
           {this.renderLoginStateChangeSnackbar()}
           <Tooltip title="Main Menu">
             <IconButton
-              style={{ visibility: 'hidden' }}
+              // style={{ visibility: 'hidden' }}
               aria-owns={anchorElement ? 'app-menu' : undefined}
               aria-haspopup="true"
               aria-label="Open menu"
@@ -329,7 +342,14 @@ export const AppMenu = withStyles(styles)(
                 >
                   Contact
                 </MenuItemWithLink>
-                {this.renderLoginButton()}
+                {/* {this.renderLoginButton()} */}
+                <MenuItem
+                  onClick={callAll(this.handleClose, this.toggleNightMode)}
+                  divider
+                >
+                  <ListItemText>Night Mode</ListItemText>
+                  <Switch checked={this.props.isNightModeEnabled} />
+                </MenuItem>
                 <MenuItemWithLink
                   onClick={this.handleClose}
                   to="/privacy-policy"

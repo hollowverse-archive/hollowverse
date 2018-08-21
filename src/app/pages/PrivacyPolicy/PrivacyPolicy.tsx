@@ -1,18 +1,21 @@
 import React from 'react';
+import Typography from '@material-ui/core/Typography';
 
 import { Footer } from 'components/Footer/Footer';
 import { TextPage } from 'components/TextPage/TextPage';
 
 export const PrivacyPolicy = () => (
   <TextPage>
-    <h1>Privacy Policy</h1>
-    <p>
+    <Typography variant="title" component="h1">
+      Privacy Policy
+    </Typography>
+    <Typography component="p" paragraph>
       Your privacy is very important to us. Accordingly, we have developed this
       Policy in order for you to understand how we collect, use, communicate and
       disclose and make use of personal information. The following outlines our
       privacy policy.
-    </p>
-    <ol>
+    </Typography>
+    <Typography component="ol" paragraph>
       <li>
         Before or at the time of collecting personal information, we will
         identify the purposes for which information is being collected.
@@ -46,12 +49,12 @@ export const PrivacyPolicy = () => (
         policies and practices relating to the management of personal
         information.
       </li>
-    </ol>
-    <p>
+    </Typography>
+    <Typography component="p" paragraph>
       We are committed to conducting our business in accordance with these
       principles in order to ensure that the confidentiality of personal
       information is protected and maintained.
-    </p>
+    </Typography>
     <Footer />
   </TextPage>
 );

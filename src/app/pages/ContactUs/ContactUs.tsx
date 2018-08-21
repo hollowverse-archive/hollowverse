@@ -1,4 +1,6 @@
 import React from 'react';
+import Typography from '@material-ui/core/Typography';
+
 import { Footer } from 'components/Footer/Footer';
 import { TextPage } from 'components/TextPage/TextPage';
 
@@ -9,23 +11,25 @@ const DISCORD_URL =
 
 export const ContactUs = () => (
   <TextPage>
-    <h1>Contact Us</h1>
-    <p>
+    <Typography variant="title" component="h1">
+      Contact Us
+    </Typography>
+    <Typography component="p" paragraph>
       It is often said that one should avoid discussing politics or religion in
       polite company. But these are some of the most interesting topics and we
       hope to get you talking about them!
-    </p>
-    <p>
+    </Typography>
+    <Typography component="p" paragraph>
       Email us at <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a> if
       you'd like to discuss anything.
-    </p>
-    <p>
+    </Typography>
+    <Typography component="p" paragraph>
       You can also join us on <a href={DISCORD_URL}>Discord</a> chat.
-    </p>
-    <p>
+    </Typography>
+    <Typography component="p" paragraph>
       All of our website code is publicly available on{' '}
       <a href={GITHUB_URL}>GitHub</a>.
-    </p>
+    </Typography>
     <Footer />
   </TextPage>
 );

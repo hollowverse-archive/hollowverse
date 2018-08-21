@@ -1,5 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 
+import * as idbKeyVal from 'idb-keyval';
 import { routerMiddleware } from 'react-router-redux';
 import { History } from 'history';
 import {
@@ -29,6 +30,7 @@ import { importGlobalScript } from 'helpers/importGlobalScript';
 import { isError } from 'lodash';
 import { serializeError } from 'helpers/serializeError';
 import { authEpic } from './features/auth/epic';
+import { persistenceEpic } from './features/persistence/epic';
 
 declare const global: NodeJS.Global & {
   /**
@@ -79,11 +81,14 @@ export type EpicDependencies = {
   getGoogleAnalyticsFunction(): Promise<UniversalAnalytics.ga>;
 
   getFbSdk(): Promise<FB>;
+
+  getStateToPersist(state: StoreState): Partial<StoreState>;
+  persistState(state: Partial<StoreState>): Promise<void>;
 };
 
 export type CreateConfiguredStoreOptions = {
   history: History;
-  initialState?: StoreState;
+  initialState?: Partial<StoreState>;
   additionalMiddleware?: Middleware[];
   epicDependenciesOverrides?: Partial<EpicDependencies>;
   wrapRootEpic?(epic: Epic<Action, StoreState>): typeof epic;
@@ -121,6 +126,7 @@ const defaultInitialState: StoreState = {
   fbSdkAuthState: {
     state: 'initializing',
   },
+  theme: 'light',
 };
 
 const defaultEpicDependencies: EpicDependencies = {
@@ -145,6 +151,14 @@ const defaultEpicDependencies: EpicDependencies = {
 
     return FB;
   },
+
+  getStateToPersist({ theme }: StoreState) {
+    return { theme };
+  },
+
+  async persistState(state) {
+    await idbKeyVal.set('state', state);
+  },
 };
 
 export function createConfiguredStore({
@@ -160,7 +174,13 @@ export function createConfiguredStore({
     composeEnhancers = global.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__;
   }
 
-  const epics = [updateUrlEpic, dataResolverEpic, authEpic, loggingEpic];
+  const epics = [
+    updateUrlEpic,
+    dataResolverEpic,
+    authEpic,
+    loggingEpic,
+    persistenceEpic,
+  ];
 
   const dependencies = {
     ...defaultEpicDependencies,
@@ -219,7 +239,7 @@ export function createConfiguredStore({
 
   const store = createStore<StoreState>(
     reducer,
-    initialState,
+    { ...defaultInitialState, ...initialState },
     composeEnhancers(applyMiddleware(...middlewares)),
   );
 

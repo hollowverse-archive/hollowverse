@@ -8,92 +8,12 @@ import { isWhitelistedPage } from 'redirectionMap';
 
 import { ScrollTo } from 'components/ScrollTo/ScrollTo';
 import {
-  MuiThemeProvider,
-  createMuiTheme,
   createStyles,
   withStyles,
   WithStyles,
   Theme,
 } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
-
-const theme = createMuiTheme({
-  breakpoints: {
-    values: {
-      xs: 0,
-      sm: 720,
-      md: 960,
-      lg: 1280,
-      xl: 1920,
-    },
-  },
-  typography: {
-    fontFamily: 'var(--font-family)',
-    fontSize: 14,
-    display1: {
-      fontSize: 26,
-      color: 'inherit',
-    },
-    body1: {
-      fontSize: 16,
-      lineHeight: 1.6,
-    },
-    body2: {
-      fontSize: 15,
-    },
-    title: {
-      lineHeight: 1.6,
-      fontWeight: 700,
-    },
-  },
-  palette: {
-    text: {
-      primary: '#111',
-      secondary: 'rgba(0, 0, 0, 0.6)',
-    },
-    background: {
-      default: '#f1f1f3',
-    },
-  },
-  overrides: {
-    MuiTypography: {
-      gutterBottom: {
-        marginBottom: '15px',
-      },
-    },
-    MuiMenu: {
-      paper: {
-        minWidth: 250,
-      },
-    },
-    MuiPaper: {
-      root: {
-        marginBottom: 10,
-      },
-    },
-    MuiTooltip: {
-      tooltip: {
-        fontSize: 13,
-      },
-    },
-    MuiExpansionPanel: {
-      expanded: {
-        marginTop: 0,
-        '&::before': {
-          opacity: 'inherit',
-        },
-      },
-    },
-  },
-  props: {
-    MuiTooltip: {
-      enterDelay: 400,
-    },
-    MuiPaper: {
-      elevation: 1,
-    },
-  },
-});
 
 type State = {
   hasMounted: boolean;
@@ -103,7 +23,7 @@ type AppPath = '/search' | '/contact' | '/privacy-policy' | '/:slug';
 
 export type AppRoutesMap = Record<AppPath | 'default', RouteProps['component']>;
 
-const styles = (_theme: Theme) =>
+const styles = (theme: Theme) =>
   createStyles({
     '@global': {
       ':root': {
@@ -133,7 +53,7 @@ const styles = (_theme: Theme) =>
       a: {
         textDecoration: 'none',
         transition: 'color 0.2s ease-in-out',
-        color: '#4b31f6',
+        color: theme.palette.primary.main,
       },
       sup: {
         fontSize: '0.7em',
@@ -167,6 +87,7 @@ const styles = (_theme: Theme) =>
       },
       'input[type="search"]': {
         appearance: 'none',
+        '-webkit-appearance': 'none',
       },
       h1: {
         margin: 0,
@@ -234,43 +155,37 @@ export const App = withStyles(styles)<AppProps>(
             />
             <meta name="theme-color" content="" />
           </Helmet>
-          <MuiThemeProvider theme={theme}>
-            <CssBaseline>
-              <>
-                <Route>
-                  {props => {
-                    if (!isWhitelistedPage(props.location.pathname)) {
-                      return (
-                        <Helmet>
-                          <meta name="robots" content="noindex" />
-                        </Helmet>
-                      );
-                    }
+          <CssBaseline>
+            <>
+              <Route>
+                {props => {
+                  if (!isWhitelistedPage(props.location.pathname)) {
+                    return (
+                      <Helmet>
+                        <meta name="robots" content="noindex" />
+                      </Helmet>
+                    );
+                  }
 
-                    return null;
-                  }}
-                </Route>
-                <Route>
-                  {props => <ScrollTo updateKey={props.location.pathname} />}
-                </Route>
-                <Route>
-                  {props => <ConnectedNavBar {...props} title="Hollowverse" />}
-                </Route>
-                <div className={classes.view}>
-                  <Switch>
-                    {orderedPaths.map(path => (
-                      <Route
-                        key={path}
-                        path={path}
-                        component={routesMap[path]}
-                      />
-                    ))}
-                    <Route component={routesMap.default} />
-                  </Switch>
-                </div>
-              </>
-            </CssBaseline>
-          </MuiThemeProvider>
+                  return null;
+                }}
+              </Route>
+              <Route>
+                {props => <ScrollTo updateKey={props.location.pathname} />}
+              </Route>
+              <Route>
+                {props => <ConnectedNavBar {...props} title="Hollowverse" />}
+              </Route>
+              <div className={classes.view}>
+                <Switch>
+                  {orderedPaths.map(path => (
+                    <Route key={path} path={path} component={routesMap[path]} />
+                  ))}
+                  <Route component={routesMap.default} />
+                </Switch>
+              </div>
+            </>
+          </CssBaseline>
         </div>
       );
     }

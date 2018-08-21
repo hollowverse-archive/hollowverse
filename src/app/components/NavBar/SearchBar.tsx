@@ -5,7 +5,7 @@ import { NavBarLink } from 'components/NavBar/NavBarButton';
 
 import { Route, Switch } from 'react-router';
 import IconButton from '@material-ui/core/IconButton';
-import { Input } from 'components/Input/Input';
+import { NavBarInput } from 'components/NavBarInput/NavBarInput';
 import {
   Theme,
   createStyles,
@@ -99,7 +99,7 @@ export const SearchBar = withStyles(styles)(
           role="search"
         >
           <div className={classes.inputWrapper}>
-            <Input
+            <NavBarInput
               inputRef={this.searchInput}
               type="search"
               aria-label="Search"

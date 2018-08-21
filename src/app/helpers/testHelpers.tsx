@@ -229,6 +229,10 @@ export const defaultTestDependencyOverrides: Partial<EpicDependencies> = {
     }),
   ),
   getFbSdk: jest.fn(once(async () => createMockFbSdk())),
+
+  persistState: jest.fn(async _state => {
+    return undefined;
+  }),
 };
 
 export const assertPageHasReloadButton = (context: TestContext) => {
@@ -284,6 +288,7 @@ export type CreateClientSideTestContextOptions = Partial<{
   epicDependenciesOverrides: Partial<EpicDependencies>;
   createHistoryOptions: MemoryHistoryBuildOptions;
   mockDataResponsesOverrides: Partial<ResolvedData>;
+  getPersistedStateToRestore(): Promise<Partial<StoreState>>;
 }>;
 
 /**
@@ -300,11 +305,13 @@ export const createTestContext = async ({
   epicDependenciesOverrides = {},
   createHistoryOptions = { initialEntries: ['/'] },
   mockDataResponsesOverrides = {},
+  getPersistedStateToRestore = async () => ({}),
   ...rest
 }: Partial<CreateClientSideTestContextOptions> = {}) => {
   jest.restoreAllMocks();
 
   const { store, dependencies, history } = createConfiguredStore({
+    initialState: await getPersistedStateToRestore(),
     epicDependenciesOverrides: {
       ...defaultTestDependencyOverrides,
       ...epicDependenciesOverrides,
@@ -343,6 +350,16 @@ export const createTestContext = async ({
 
     // tslint:disable-next-line:prefer-object-spread
     return Object.assign(menu, {
+      getNightModeToggle: () =>
+        getByText(
+          menu,
+          (_, el) =>
+            Boolean(el.textContent && el.textContent.match(/night mode/i)),
+          {
+            selector: '[role="menuitem"]',
+            exact: false,
+          },
+        ),
       getLoginButton: async () =>
         (await waitForElement(() =>
           getByText(menu, 'log in', {
@@ -360,7 +377,12 @@ export const createTestContext = async ({
     });
   };
 
-  return { toggleAppMenu, history, dependencies };
+  return {
+    toggleAppMenu,
+    history,
+    dependencies,
+    getPersistedStateToRestore,
+  };
 };
 
 export type TestContext = UnboxPromise<ReturnType<typeof createTestContext>>;

@@ -5,6 +5,7 @@
   ],
   "rules": {
     "import/extensions": ["off"],
+    "no-shadow-restricted-names": ["off"], // Buggy for TS
     "import/no-webpack-loader-syntax": ["off"],
     "no-restricted-imports": [
       "error",

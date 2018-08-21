@@ -1,5 +1,5 @@
 /* eslint import/no-extraneous-dependencies: ["error", {"devDependencies": true}] */
-/* eslint-env node, jest */
+/* eslint-env node, jest, browser */
 require('expect-more-jest');
 
 require('react-testing-library/cleanup-after-each');
