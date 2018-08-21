@@ -312,7 +312,7 @@ export const AppMenu = withStyles(styles)(
           {this.renderLoginStateChangeSnackbar()}
           <Tooltip title="Main Menu">
             <IconButton
-              style={{ visibility: 'hidden' }}
+              // style={{ visibility: 'hidden' }}
               aria-owns={anchorElement ? 'app-menu' : undefined}
               aria-haspopup="true"
               aria-label="Open menu"
@@ -342,7 +342,7 @@ export const AppMenu = withStyles(styles)(
                 >
                   Contact
                 </MenuItemWithLink>
-                {this.renderLoginButton()}
+                {/* {this.renderLoginButton()} */}
                 <MenuItem
                   onClick={callAll(this.handleClose, this.toggleNightMode)}
                   divider
