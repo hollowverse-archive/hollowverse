@@ -87,6 +87,10 @@ export const SearchBar = withStyles(styles)(
       this.props.setShouldFocusSearch(false);
     };
 
+    handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
+      e.preventDefault();
+    };
+
     render() {
       const { classes, inputValue, isSearchPage } = this.props;
 
@@ -97,6 +101,7 @@ export const SearchBar = withStyles(styles)(
           action="/search"
           method="GET"
           role="search"
+          onSubmit={this.handleSubmit}
         >
           <div className={classes.inputWrapper}>
             <NavBarInput
