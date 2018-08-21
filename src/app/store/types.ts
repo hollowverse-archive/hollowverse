@@ -176,7 +176,6 @@ export type ActionTypeToPayloadType = {
   REQUEST_LOGIN: undefined;
   REQUEST_LOGOUT: undefined;
   TOGGLE_NIGHT_MODE: undefined;
-  SET_PARTIAL_STATE: Partial<StoreState>;
 };
 
 export type StoreKey = keyof AppState;

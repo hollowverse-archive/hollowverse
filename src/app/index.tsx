@@ -27,7 +27,7 @@ import {
 import { routesMap } from 'routesMap';
 import { pick } from 'lodash';
 import { isError } from 'util';
-import { getPersistedStateToRestore } from 'store/features/persistence/helpers';
+import { getPersistedStateToRestore } from 'helpers/getPersistedStateToRestore';
 
 import { MuiThemeProvider } from '@material-ui/core/styles';
 

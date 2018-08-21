@@ -43,7 +43,6 @@ export const getMuiTheme = createSelector(getTheme, theme =>
       fontSize: 14,
       display1: {
         fontSize: 26,
-        // color: 'inherit',
       },
       body1: {
         fontSize: 16,
@@ -61,13 +60,6 @@ export const getMuiTheme = createSelector(getTheme, theme =>
       type: theme,
       primary: theme === 'dark' ? yellow : indigo,
       secondary: theme === 'dark' ? orange : green,
-      // text: {
-      //   primary: '#111',
-      //   secondary: 'rgba(0, 0, 0, 0.6)',
-      // },
-      // background: {
-      //   default: '#f1f1f3',
-      // },
     },
     overrides: {
       MuiTypography: {
