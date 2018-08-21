@@ -379,7 +379,6 @@ export const createTestContext = async ({
 
   return {
     toggleAppMenu,
-    store,
     history,
     dependencies,
     getPersistedStateToRestore,
