@@ -1,5 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 
+import * as idbKeyVal from 'idb-keyval';
 import { routerMiddleware } from 'react-router-redux';
 import { History } from 'history';
 import {
@@ -80,11 +81,14 @@ export type EpicDependencies = {
   getGoogleAnalyticsFunction(): Promise<UniversalAnalytics.ga>;
 
   getFbSdk(): Promise<FB>;
+
+  getStateToPersist(state: StoreState): Partial<StoreState>;
+  persistState(state: Partial<StoreState>): Promise<void>;
 };
 
 export type CreateConfiguredStoreOptions = {
   history: History;
-  initialState?: StoreState;
+  initialState?: Partial<StoreState>;
   additionalMiddleware?: Middleware[];
   epicDependenciesOverrides?: Partial<EpicDependencies>;
   wrapRootEpic?(epic: Epic<Action, StoreState>): typeof epic;
@@ -146,6 +150,14 @@ const defaultEpicDependencies: EpicDependencies = {
     await importGlobalScript('https://connect.facebook.net/en_US/sdk.js');
 
     return FB;
+  },
+
+  getStateToPersist({ theme }: StoreState) {
+    return { theme };
+  },
+
+  async persistState(state) {
+    await idbKeyVal.set('state', state);
   },
 };
 
@@ -227,7 +239,7 @@ export function createConfiguredStore({
 
   const store = createStore<StoreState>(
     reducer,
-    initialState,
+    { ...defaultInitialState, ...initialState },
     composeEnhancers(applyMiddleware(...middlewares)),
   );
 
