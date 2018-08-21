@@ -24,6 +24,8 @@ describe('night mode', () => {
     expect(context.getPersistedStateToRestore).toHaveBeenCalled();
     const toggle = context.toggleAppMenu().getNightModeToggle();
 
-    expect(toggle.querySelector('input[type="checkbox"]')!.checked).toBe(true);
+    expect(
+      toggle.querySelector<HTMLInputElement>('input[type="checkbox"]')!.checked,
+    ).toBe(true);
   });
 });
