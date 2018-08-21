@@ -3,6 +3,8 @@ import React from 'react';
 import Paper from '@material-ui/core/Paper';
 
 import SearchIcon from '@material-ui/icons/Search';
+import IconButton from '@material-ui/core/IconButton';
+import Input from '@material-ui/core/Input';
 import { goToSearch } from 'store/features/search/actions';
 import { connect } from 'react-redux';
 import { Footer } from 'components/Footer/Footer';
@@ -33,22 +35,15 @@ const styles = (theme: Theme) =>
       flexDirection: 'column',
       justifyContent: 'center',
       width: '90%',
-      '& button': {
-        background: 'transparent',
-        padding: `${theme.spacing.unit}px, 0`,
-        display: 'flex',
-        alignItems: 'center',
-        height: '100%',
-        cursor: 'pointer',
-      },
     },
     searchBox: {
-      padding: theme.spacing.unit,
       display: 'flex',
       alignItems: 'center',
+      padding: `0 ${theme.spacing.unit}px`,
     },
     input: {
       flexGrow: 1,
+      background: 'transparent',
     },
   });
 
@@ -70,7 +65,8 @@ const UnstyledHome = connect(
       className={classes.searchContainer}
     >
       <Paper className={classes.searchBox}>
-        <input
+        <Input
+          disableUnderline
           type="search"
           className={classes.input}
           name="query"
@@ -78,10 +74,10 @@ const UnstyledHome = connect(
           onFocus={rest.goToSearch}
           required
         />
-        <button type="submit">
+        <IconButton type="submit">
           <SearchIcon />
           <span className="sr-only">Search</span>
-        </button>
+        </IconButton>
       </Paper>
     </form>
     <Footer />
