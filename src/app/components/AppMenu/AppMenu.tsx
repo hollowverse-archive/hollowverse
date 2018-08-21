@@ -342,7 +342,7 @@ export const AppMenu = withStyles(styles)(
                 >
                   Contact
                 </MenuItemWithLink>
-                {this.renderLoginButton()}
+                {/* {this.renderLoginButton()} */}
                 <MenuItem
                   onClick={callAll(this.handleClose, this.toggleNightMode)}
                   divider
