@@ -303,6 +303,35 @@ export const AppMenu = withStyles(styles)(
       this.props.toggleNightMode(undefined);
     };
 
+    renderModeratorLinks = () => {
+      const { authState } = this.props;
+
+      if (
+        authState.state === 'loggedIn' &&
+        authState.viewer.role === 'MODERATOR'
+      ) {
+        return (
+          <>
+            <MenuItemWithLink
+              onClick={this.handleClose}
+              to="/moderation/quotes"
+            >
+              Review Quotes
+            </MenuItemWithLink>
+            <MenuItemWithLink
+              divider
+              onClick={this.handleClose}
+              to="/moderation/users"
+            >
+              Manage Users
+            </MenuItemWithLink>
+          </>
+        );
+      }
+
+      return undefined;
+    };
+
     render() {
       const { anchorElement } = this.state;
 
@@ -342,7 +371,8 @@ export const AppMenu = withStyles(styles)(
                 >
                   Contact
                 </MenuItemWithLink>
-                {/* {this.renderLoginButton()} */}
+                {this.renderModeratorLinks()}
+                {this.renderLoginButton()}
                 <MenuItem
                   onClick={callAll(this.handleClose, this.toggleNightMode)}
                   divider
