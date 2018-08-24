@@ -2,5 +2,6 @@ query Viewer {
   viewer {
     name
     photoUrl
+    role
   }
 }
