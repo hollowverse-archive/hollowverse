@@ -155,12 +155,7 @@ module.exports.createBaseConfig = () => ({
   plugins: compact([
     // Development
     // Do not watch files in node_modules as this causes a huge overhead
-    new webpack.WatchIgnorePlugin([
-      /node_modules/,
-
-      // Ignore auto-generated type definitions for CSS module files
-      /\.s?css\.d\.ts$/,
-    ]),
+    new webpack.WatchIgnorePlugin([/node_modules/]),
 
     new SpriteLoaderPlugin(),
   ]),
