@@ -9,16 +9,14 @@ type StateProps = {
   authorizationState: AuthorizationState;
 };
 
-type Renderable = React.ReactNode[] | React.ReactElement<any>;
-
-type OwnProps = {
+export type OwnProps = {
   requiresOneOfRoles?: UserRole[];
-  children: Renderable | ((result: AuthorizationState) => Renderable);
+  children: React.ReactNode | ((result: AuthorizationState) => React.ReactNode);
 };
 
 type Props = OwnProps & StateProps;
 
-export const ProtectedWithAuth = connect(
+export const Protected = connect(
   (state: StoreState, { requiresOneOfRoles }: OwnProps) => ({
     authorizationState: getAuthorizationState(state)(requiresOneOfRoles),
   }),

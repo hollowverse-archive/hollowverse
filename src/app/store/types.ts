@@ -121,7 +121,7 @@ export type FbSdkAuthenticationState =
     };
 
 export type AppState = {
-  statusCode: 301 | 302 | 404 | 200 | 500;
+  statusCode: 301 | 302 | 404 | 401 | 403 | 200 | 500;
   redirectionUrl: string | null;
   shouldFocusSearch: boolean;
   /**
@@ -154,7 +154,7 @@ export type ActionTypeToPayloadType = {
   SET_SHOULD_FOCUS_SEARCH: boolean;
   SET_STATUS_CODE:
     | {
-        code: 200 | 404;
+        code: 200 | 404 | 403 | 401;
       }
     | {
         code: 500;
