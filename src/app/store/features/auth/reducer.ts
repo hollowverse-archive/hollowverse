@@ -98,7 +98,7 @@ export const getAuthorizationState = createSelector(
   getAuthenticationState,
   authState => (requiredRoles?: UserRole[]): AuthorizationState => {
     if (authState.state !== 'loggedIn') {
-      return { ...authState };
+      return authState;
     }
 
     return {
