@@ -1,6 +1,7 @@
 import React from 'react';
 import Helmet from 'react-helmet-async';
 import { connect } from 'react-redux';
+import { withRouter, RouteComponentProps } from 'react-router';
 
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -16,8 +17,8 @@ import {
   OwnProps as ProtectedProps,
 } from 'components/Protected/Protected';
 import { Status } from 'components/Status/Status';
+import { LinkButton } from 'components/Button/Button';
 import { requestLogin } from 'store/features/auth/actions';
-import { withRouter, RouteComponentProps } from 'react-router';
 
 import { forceReload } from 'helpers/forceReload';
 import { AuthorizationState, Action } from 'store/types';
@@ -54,7 +55,7 @@ const AuthorizationFailureDialog = (props: AuthorizationDialogProps) => {
         </DialogTitle>
         {content ? <DialogContent>{content}</DialogContent> : undefined}
         <DialogActions>
-          {/* <Button onClick={goBack}>Dismiss</Button> */}
+          <LinkButton to="/">Go to homepage</LinkButton>
           {actions}
         </DialogActions>
       </Dialog>
@@ -105,7 +106,7 @@ export const ProtectedPage = withRouter(
             </Typography>
           ),
           actions: [
-            <Button key="login" onClick={this.requestLogin}>
+            <Button color="primary" key="login" onClick={this.requestLogin}>
               Log in
             </Button>,
           ],
@@ -139,7 +140,7 @@ export const ProtectedPage = withRouter(
           ),
           pageTitle: 'Error',
           actions: [
-            <Button key="reload" onClick={forceReload}>
+            <Button color="primary" key="reload" onClick={forceReload}>
               Reload
             </Button>,
           ],

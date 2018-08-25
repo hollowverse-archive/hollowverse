@@ -222,7 +222,9 @@ export const AppMenu = withStyles(styles)(
             {dialogContentForErrorCode[code] || titleForErrorCode.UNKNOWN_ERROR}
           </DialogContent>
           <DialogActions>
-            <Button onClick={forceReload}>Reload</Button>
+            <Button color="primary" onClick={forceReload}>
+              Reload
+            </Button>
             <Button onClick={this.toggleLoginFailedDialog}>Dismiss</Button>
           </DialogActions>
         </Dialog>
