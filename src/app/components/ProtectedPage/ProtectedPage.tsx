@@ -62,7 +62,7 @@ const AuthorizationFailureDialog = (props: AuthorizationDialogProps) => {
   );
 };
 
-type Props = ProtectedProps & DispatchProps;
+type Props = ProtectedProps & DispatchProps & RouteComponentProps<any>;
 
 /**
  * A wrapper around the `Protected` component with default fallback views
@@ -83,7 +83,14 @@ export const ProtectedPage = withRouter(
       requestLogin,
     },
   )(
-    class extends React.Component<Props & RouteComponentProps<any>> {
+    class extends React.Component<Props> {
+      // Must be initialized first so we can access it in
+      // `dialogPropsForAuthorizationState`
+      requestLogin = () => {
+        this.props.requestLogin(undefined);
+      };
+
+      // tslint:disable-next-line member-ordering
       dialogPropsForAuthorizationState: Partial<
         Record<AuthorizationState['state'], AuthorizationDialogProps>
       > = {
@@ -97,7 +104,11 @@ export const ProtectedPage = withRouter(
               this page
             </Typography>
           ),
-          actions: [<Button onClick={this.requestLogin}>Log in</Button>],
+          actions: [
+            <Button key="login" onClick={this.requestLogin}>
+              Log in
+            </Button>,
+          ],
         },
         notAuthorized: {
           code: 403,
@@ -127,18 +138,13 @@ export const ProtectedPage = withRouter(
             </Typography>
           ),
           pageTitle: 'Error',
-          actions: [<Button onClick={forceReload}>Reload</Button>],
+          actions: [
+            <Button key="reload" onClick={forceReload}>
+              Reload
+            </Button>,
+          ],
         },
       };
-
-      requestLogin = () => {
-        this.props.requestLogin(undefined);
-      };
-
-      goBack = () => {
-        this.props.history.goBack();
-      };
-
       render() {
         const { children, requiresOneOfRoles } = this.props;
 
