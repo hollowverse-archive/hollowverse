@@ -19,7 +19,12 @@ type State = {
   hasMounted: boolean;
 };
 
-type AppPath = '/search' | '/contact' | '/privacy-policy' | '/:slug';
+type AppPath =
+  | '/search'
+  | '/contact'
+  | '/privacy-policy'
+  | '/:slug'
+  | '/moderation';
 
 export type AppRoutesMap = Record<AppPath | 'default', RouteProps['component']>;
 
@@ -118,6 +123,7 @@ const orderedPaths: AppPath[] = [
   '/search',
   '/contact',
   '/privacy-policy',
+  '/moderation',
   '/:slug',
 ];
 

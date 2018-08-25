@@ -3,7 +3,7 @@ import cc from 'classcat';
 
 import { SvgIcon } from 'components/SvgIcon/SvgIcon';
 
-import { AuthState, AuthErrorCode } from 'store/types';
+import { AuthenticationState, AuthenticationErrorCode } from 'store/types';
 
 import facebookIcon from 'icons/facebook.svg';
 import { forceReload } from 'helpers/forceReload';
@@ -36,7 +36,7 @@ import {
 } from '@material-ui/core/styles';
 
 export type StateProps = {
-  authState: AuthState;
+  authState: AuthenticationState;
   isNightModeEnabled: boolean;
 };
 
@@ -64,7 +64,9 @@ type Props = OwnProps &
   DispatchProps &
   WithStyles<ReturnType<typeof styles>>;
 
-const messageForAuthState: Partial<Record<AuthState['state'], string>> = {
+const messageForAuthState: Partial<
+  Record<AuthenticationState['state'], string>
+> = {
   initializing: 'Checking login...',
   loggingIn: 'Checking login...',
   loggingOut: 'Logging out...',
@@ -83,7 +85,9 @@ const fbIcon = (
   <SvgIcon color="var(--facebook-blue)" size={20} {...facebookIcon} />
 );
 
-const iconForAuthState: Partial<Record<AuthState['state'], React.ReactNode>> = {
+const iconForAuthState: Partial<
+  Record<AuthenticationState['state'], React.ReactNode>
+> = {
   loggedOut: fbIcon,
   loggedIn: null,
   loggingIn: spinner,
@@ -93,7 +97,7 @@ const iconForAuthState: Partial<Record<AuthState['state'], React.ReactNode>> = {
 };
 
 const dialogContentForErrorCode: Partial<
-  Record<AuthErrorCode, React.ReactNode>
+  Record<AuthenticationErrorCode, React.ReactNode>
 > = {
   FB_INIT_ERROR: (
     <Typography paragraph component="p">
@@ -109,7 +113,7 @@ const dialogContentForErrorCode: Partial<
   ),
 };
 
-const titleForErrorCode: Partial<Record<AuthErrorCode, string>> = {
+const titleForErrorCode: Partial<Record<AuthenticationErrorCode, string>> = {
   FB_INIT_ERROR: 'Could not connect to Facebook',
   UNKNOWN_ERROR: 'Login failed',
 };
@@ -310,23 +314,18 @@ export const AppMenu = withStyles(styles)(
         authState.state === 'loggedIn' &&
         authState.viewer.role === 'MODERATOR'
       ) {
-        return (
-          <>
-            <MenuItemWithLink
-              onClick={this.handleClose}
-              to="/moderation/quotes"
-            >
-              Review Quotes
-            </MenuItemWithLink>
-            <MenuItemWithLink
-              divider
-              onClick={this.handleClose}
-              to="/moderation/users"
-            >
-              Manage Users
-            </MenuItemWithLink>
-          </>
-        );
+        return [
+          <MenuItemWithLink onClick={this.handleClose} to="/moderation/quotes">
+            Review Quotes
+          </MenuItemWithLink>,
+          <MenuItemWithLink
+            divider
+            onClick={this.handleClose}
+            to="/moderation/users"
+          >
+            Manage Users
+          </MenuItemWithLink>,
+        ];
       }
 
       return undefined;

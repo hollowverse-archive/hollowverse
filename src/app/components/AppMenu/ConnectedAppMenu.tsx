@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { AppMenu, StateProps, DispatchProps, OwnProps } from './AppMenu';
 import { StoreState } from 'store/types';
 import { requestLogin, requestLogout } from 'store/features/auth/actions';
-import { getAuthState } from 'store/features/auth/reducer';
+import { getAuthenticationState } from 'store/features/auth/reducer';
 import { isNightModeEnabled } from 'store/features/theme/reducer';
 import { toggleNightMode } from 'store/features/theme/actions';
 
@@ -13,7 +13,7 @@ export const ConnectedAppMenu = connect<
   StoreState
 >(
   state => ({
-    authState: getAuthState(state),
+    authState: getAuthenticationState(state),
     isNightModeEnabled: isNightModeEnabled(state),
   }),
   { requestLogin, requestLogout, toggleNightMode },

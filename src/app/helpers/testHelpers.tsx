@@ -29,6 +29,7 @@ import { SearchResults } from 'pages/SearchResults/SearchResults';
 import { ContactUs } from 'pages/ContactUs/ContactUs';
 import { PrivacyPolicy } from 'pages/PrivacyPolicy/PrivacyPolicy';
 import { NotablePerson } from 'pages/NotablePerson/NotablePerson';
+import { Moderation } from 'pages/Moderation/Moderation';
 import { Home } from 'pages/Home/Home';
 import { UnboxPromise } from 'typings/typeHelpers';
 import { EventEmitter } from 'events';
@@ -51,6 +52,7 @@ const defaultRoutesMap: AppRoutesMap = {
   '/contact': ContactUs,
   '/privacy-policy': PrivacyPolicy,
   '/:slug': NotablePerson,
+  '/moderation': Moderation,
   default: Home,
 };
 

@@ -77,23 +77,36 @@ type SerializableError = {
   stack?: string;
 };
 
-export type AuthErrorCode = 'FB_INIT_ERROR' | 'API_ERROR' | 'UNKNOWN_ERROR';
+export type AuthenticationErrorCode =
+  | 'FB_INIT_ERROR'
+  | 'API_ERROR'
+  | 'UNKNOWN_ERROR';
 
-export type AuthState =
+type AuthenticationSuccessState = {
+  state: 'loggedIn';
+  viewer: NonNullable<ViewerQuery['viewer']>;
+};
+
+type AuthenticationErrorState = {
+  state: 'error';
+  code?: AuthenticationErrorCode;
+  error?: Error;
+};
+
+export type AuthenticationState =
   | {
       state: 'initializing' | 'loggingIn' | 'loggingOut' | 'loggedOut';
     }
+  | AuthenticationSuccessState
+  | AuthenticationErrorState;
+
+export type AuthorizationState =
+  | Exclude<AuthenticationState, AuthenticationSuccessState>
   | {
-      state: 'loggedIn';
-      viewer: NonNullable<ViewerQuery['viewer']>;
-    }
-  | {
-      state: 'error';
-      code?: AuthErrorCode;
-      error?: Error;
+      state: 'authorized' | 'notAuthorized';
     };
 
-export type FbSdkAuthState =
+export type FbSdkAuthenticationState =
   | {
       state: 'initializing' | 'loggingIn' | 'loggingOut' | 'loggedOut';
     }
@@ -103,7 +116,7 @@ export type FbSdkAuthState =
     }
   | {
       state: 'error';
-      code?: AuthErrorCode;
+      code?: AuthenticationErrorCode;
       error?: Error;
     };
 
@@ -122,7 +135,7 @@ export type AppState = {
       requestId: string | null;
     }
   };
-  fbSdkAuthState: FbSdkAuthState;
+  fbSdkAuthState: FbSdkAuthenticationState;
   theme: 'light' | 'dark';
 };
 
@@ -171,7 +184,7 @@ export type ActionTypeToPayloadType = {
   SET_ALTERNATIVE_SEARCH_BOX_TEXT: string | null;
   '@@router/LOCATION_CHANGE': LocationChangeAction['payload'];
   '@@router/CALL_HISTORY_METHOD': RouterAction['payload'];
-  SET_FB_SDK_AUTH_STATE: FbSdkAuthState;
+  SET_FB_SDK_AUTH_STATE: FbSdkAuthenticationState;
   FACEBOOK_AUTH_RESPONSE_CHANGED: FB.AuthResponse;
   REQUEST_LOGIN: undefined;
   REQUEST_LOGOUT: undefined;
