@@ -81,7 +81,7 @@ export const getAuthenticationState = createSelector(
   },
 );
 
-const hasOneOfRoles = (
+const doesViewerHaveOneOfRoles = (
   viewer: NonNullable<ViewerQuery['viewer']>,
   requiredRoles?: UserRole[],
 ) => {
@@ -102,7 +102,7 @@ export const getAuthorizationState = createSelector(
     }
 
     return {
-      state: hasOneOfRoles(authState.viewer, requiredRoles)
+      state: doesViewerHaveOneOfRoles(authState.viewer, requiredRoles)
         ? 'authorized'
         : 'notAuthorized',
     };
