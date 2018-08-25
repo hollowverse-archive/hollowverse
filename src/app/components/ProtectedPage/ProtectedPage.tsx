@@ -114,10 +114,10 @@ export const ProtectedPage = withRouter(
         notAuthorized: {
           code: 403,
           title: 'You are not allowed to access this page',
-          content: this.props.requiresOneOfRoles ? (
+          content: this.props.authorizedRoles ? (
             <Typography>
               Only{' '}
-              {this.props.requiresOneOfRoles
+              {this.props.authorizedRoles
                 .map(c => c.toLowerCase())
                 .map(plural)
                 .reduce(arrayToSentence())}{' '}
@@ -147,10 +147,10 @@ export const ProtectedPage = withRouter(
         },
       };
       render() {
-        const { children, requiresOneOfRoles } = this.props;
+        const { children, authorizedRoles } = this.props;
 
         return (
-          <Protected requiresOneOfRoles={requiresOneOfRoles}>
+          <Protected authorizedRoles={authorizedRoles}>
             {result => {
               if (typeof children === 'function') {
                 return children(result);

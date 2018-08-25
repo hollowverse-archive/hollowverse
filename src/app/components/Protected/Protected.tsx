@@ -10,15 +10,15 @@ type StateProps = {
 };
 
 export type OwnProps = {
-  requiresOneOfRoles?: UserRole[];
+  authorizedRoles?: UserRole[];
   children: React.ReactNode | ((result: AuthorizationState) => React.ReactNode);
 };
 
 type Props = OwnProps & StateProps;
 
 export const Protected = connect(
-  (state: StoreState, { requiresOneOfRoles }: OwnProps) => ({
-    authorizationState: getAuthorizationState(state)(requiresOneOfRoles),
+  (state: StoreState, { authorizedRoles }: OwnProps) => ({
+    authorizationState: getAuthorizationState(state)(authorizedRoles),
   }),
 )(
   class extends React.Component<Props> {

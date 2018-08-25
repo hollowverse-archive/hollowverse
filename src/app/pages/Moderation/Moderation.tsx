@@ -4,7 +4,7 @@ import { ProtectedPage } from 'components/ProtectedPage/ProtectedPage';
 import { UserRole } from 'api/types';
 
 export const Moderation = () => (
-  <ProtectedPage requiresOneOfRoles={['MODERATOR'] as UserRole[]}>
+  <ProtectedPage authorizedRoles={['MODERATOR'] as UserRole[]}>
     <Switch>
       <Route path="/moderation/users">
         <div>Hello world!</div>
