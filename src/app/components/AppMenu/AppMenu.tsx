@@ -315,10 +315,15 @@ export const AppMenu = withStyles(styles)(
         authState.viewer.role === 'MODERATOR'
       ) {
         return [
-          <MenuItemWithLink onClick={this.handleClose} to="/moderation/quotes">
+          <MenuItemWithLink
+            key="quotes"
+            onClick={this.handleClose}
+            to="/moderation/quotes"
+          >
             Review Quotes
           </MenuItemWithLink>,
           <MenuItemWithLink
+            key="users"
             divider
             onClick={this.handleClose}
             to="/moderation/users"
