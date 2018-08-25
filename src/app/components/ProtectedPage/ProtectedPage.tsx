@@ -1,7 +1,6 @@
 import React from 'react';
 import Helmet from 'react-helmet-async';
 import { connect } from 'react-redux';
-import { withRouter, RouteComponentProps } from 'react-router';
 
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -63,7 +62,7 @@ const AuthorizationFailureDialog = (props: AuthorizationDialogProps) => {
   );
 };
 
-type Props = ProtectedProps & DispatchProps & RouteComponentProps<any>;
+type Props = ProtectedProps & DispatchProps;
 
 /**
  * A wrapper around the `Protected` component with default fallback views
@@ -77,101 +76,100 @@ type Props = ProtectedProps & DispatchProps & RouteComponentProps<any>;
  * to `Protected`, i.e. it is up to the `children` function to decide whether to
  * prevent rendering of the page elements.
  */
-export const ProtectedPage = withRouter(
-  connect(
-    undefined,
-    {
-      requestLogin,
-    },
-  )(
-    class extends React.Component<Props> {
-      // Must be initialized first so we can access it in
-      // `dialogPropsForAuthorizationState`
-      requestLogin = () => {
-        this.props.requestLogin(undefined);
-      };
+export const ProtectedPage = connect(
+  undefined,
+  {
+    requestLogin,
+  },
+)(
+  class extends React.Component<Props> {
+    // Must be initialized first so we can access it in
+    // `dialogPropsForAuthorizationState`
+    requestLogin = () => {
+      this.props.requestLogin(undefined);
+    };
 
-      // tslint:disable-next-line member-ordering
-      dialogPropsForAuthorizationState: Partial<
-        Record<AuthorizationState['state'], AuthorizationDialogProps>
-      > = {
-        loggedOut: {
-          code: 401,
-          title: 'This page requires login',
-          pageTitle: 'Login Required',
-          content: (
-            <Typography>
-              Please log in so that we can check if you are allowed to access
-              this page
-            </Typography>
-          ),
-          actions: [
-            <Button color="primary" key="login" onClick={this.requestLogin}>
-              Log in
-            </Button>,
-          ],
-        },
-        notAuthorized: {
-          code: 403,
-          title: 'You are not allowed to access this page',
-          content: this.props.authorizedRoles ? (
-            <Typography>
-              Only{' '}
-              {this.props.authorizedRoles
-                .map(c => c.toLowerCase())
-                .map(plural)
-                .reduce(arrayToSentence())}{' '}
-              can access this page
-            </Typography>
-          ) : (
-            undefined
-          ),
-          pageTitle: 'Forbidden',
-          actions: [],
-        },
-        error: {
-          code: 500,
-          title: 'We could not check if you are allowed to access this page',
-          content: (
-            <Typography>
-              This page requires authorization but we were not able to check if
-              you are allowed to access it. Please try reloading this page.
-            </Typography>
-          ),
-          pageTitle: 'Error',
-          actions: [
-            <Button color="primary" key="reload" onClick={forceReload}>
-              Reload
-            </Button>,
-          ],
-        },
-      };
-      render() {
-        const { children, authorizedRoles } = this.props;
+    // tslint:disable-next-line member-ordering
+    dialogPropsForAuthorizationState: Partial<
+      Record<AuthorizationState['state'], AuthorizationDialogProps>
+    > = {
+      loggedOut: {
+        code: 401,
+        title: 'This page requires login',
+        pageTitle: 'Login Required',
+        content: (
+          <Typography>
+            Please log in so that we can check if you are allowed to access this
+            page
+          </Typography>
+        ),
+        actions: [
+          <Button color="primary" key="login" onClick={this.requestLogin}>
+            Log in
+          </Button>,
+        ],
+      },
+      notAuthorized: {
+        code: 403,
+        title: 'You are not allowed to access this page',
+        content: this.props.authorizedRoles ? (
+          <Typography>
+            Only{' '}
+            {this.props.authorizedRoles
+              .map(c => c.toLowerCase())
+              .map(plural)
+              .reduce(arrayToSentence())}{' '}
+            can access this page
+          </Typography>
+        ) : (
+          undefined
+        ),
+        pageTitle: 'Forbidden',
+        actions: [],
+      },
+      error: {
+        code: 500,
+        title: 'We could not check if you are allowed to access this page',
+        content: (
+          <Typography>
+            This page requires authorization but we were not able to check if
+            you are allowed to access it. Please try reloading this page.
+          </Typography>
+        ),
+        pageTitle: 'Error',
+        actions: [
+          <Button color="primary" key="reload" onClick={forceReload}>
+            Reload
+          </Button>,
+        ],
+      },
+    };
 
-        return (
-          <Protected authorizedRoles={authorizedRoles}>
-            {result => {
-              if (typeof children === 'function') {
-                return children(result);
-              }
+    render() {
+      const { children, authorizedRoles } = this.props;
 
-              if (result.state === 'authorized') {
-                return children;
-              }
+      return (
+        <Protected authorizedRoles={authorizedRoles}>
+          {result => {
+            if (typeof children === 'function') {
+              return children(result);
+            }
 
-              const { state } = result;
-              const dialogProps = this.dialogPropsForAuthorizationState[state];
+            if (result.state === 'authorized') {
+              return children;
+            }
 
-              if (dialogProps) {
-                return <AuthorizationFailureDialog {...dialogProps} />;
-              }
+            const { state } = result;
+            const dialogProps = this.dialogPropsForAuthorizationState[state];
 
-              return <div>Checking your permissions...</div>;
-            }}
-          </Protected>
-        );
-      }
-    },
-  ),
+            if (dialogProps) {
+              return <AuthorizationFailureDialog {...dialogProps} />;
+            }
+
+            return <div>Checking your permissions...</div>;
+          }}
+        </Protected>
+      );
+    }
+  },
 );

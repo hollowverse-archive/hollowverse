@@ -33,6 +33,11 @@ type Props = OwnProps & StateProps;
  * A component that conditionally renders its `children` based on
  * whether the current viewer is logged in and if it has sufficient
  * permissions to view the content.
+ *
+ * If more control is needed over the rendered `children`, a function can
+ * be used instead which is passed an `AuthorizationState` object that
+ * contains information about the authentication/authorization state of
+ * the viewer.
  */
 export const Protected = connect(
   (state: StoreState, { authorizedRoles }: OwnProps) => ({
