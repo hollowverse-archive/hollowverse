@@ -7,7 +7,8 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import Typography from '@material-ui/core/Typography';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import withMobileDialog from '@material-ui/core/withMobileDialog';
 
 import { plural } from 'pluralize';
 
@@ -34,8 +35,18 @@ type AuthorizationDialogProps = {
   actions: JSX.Element[];
 } & Action<'SET_STATUS_CODE'>['payload'];
 
-const AuthorizationFailureDialog = (props: AuthorizationDialogProps) => {
-  const { pageTitle, title, content, actions, ...rest } = props;
+const AuthorizationFailureDialog = withMobileDialog<AuthorizationDialogProps>({
+  breakpoint: 'xs',
+})(props => {
+  const {
+    pageTitle,
+    title,
+    content,
+    fullScreen,
+    actions,
+    children,
+    ...rest
+  } = props;
 
   return (
     <>
@@ -44,12 +55,12 @@ const AuthorizationFailureDialog = (props: AuthorizationDialogProps) => {
         <title>{pageTitle}</title>
       </Helmet>
       <Dialog
-        aria-labelledby="non-authorized-state-dialog-title"
+        fullScreen={fullScreen}
+        aria-labelledby="authroization-failure-dialog-title"
         role="alertdialog"
-        // onClose={goBack}
         open
       >
-        <DialogTitle id="non-authorized-state-dialog-title">
+        <DialogTitle id="authroization-failure-dialog-title">
           {title}
         </DialogTitle>
         {content ? <DialogContent>{content}</DialogContent> : undefined}
@@ -60,7 +71,7 @@ const AuthorizationFailureDialog = (props: AuthorizationDialogProps) => {
       </Dialog>
     </>
   );
-};
+});
 
 type Props = ProtectedProps & DispatchProps;
 
@@ -98,10 +109,10 @@ export const ProtectedPage = connect(
         title: 'This page requires login',
         pageTitle: 'Login Required',
         content: (
-          <Typography>
+          <DialogContentText>
             Please log in so that we can check if you are allowed to access this
             page
-          </Typography>
+          </DialogContentText>
         ),
         actions: [
           <Button color="primary" key="login" onClick={this.requestLogin}>
@@ -113,14 +124,14 @@ export const ProtectedPage = connect(
         code: 403,
         title: 'You are not allowed to access this page',
         content: this.props.authorizedRoles ? (
-          <Typography>
+          <DialogContentText>
             Only{' '}
             {this.props.authorizedRoles
               .map(c => c.toLowerCase())
               .map(plural)
               .reduce(arrayToSentence())}{' '}
             can access this page
-          </Typography>
+          </DialogContentText>
         ) : (
           undefined
         ),
@@ -131,10 +142,10 @@ export const ProtectedPage = connect(
         code: 500,
         title: 'We could not check if you are allowed to access this page',
         content: (
-          <Typography>
+          <DialogContentText>
             This page requires authorization but we were not able to check if
             you are allowed to access it. Please try reloading this page.
-          </Typography>
+          </DialogContentText>
         ),
         pageTitle: 'Error',
         actions: [

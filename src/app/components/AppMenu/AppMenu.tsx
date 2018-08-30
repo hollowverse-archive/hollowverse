@@ -15,6 +15,7 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogContentText from '@material-ui/core/DialogContentText';
 import MenuItem from '@material-ui/core/MenuItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -100,16 +101,16 @@ const dialogContentForErrorCode: Partial<
   Record<AuthenticationErrorCode, React.ReactNode>
 > = {
   FB_INIT_ERROR: (
-    <Typography paragraph component="p">
+    <DialogContentText>
       If the issue persists, your browser might have a tracking protection
       feature which blocks loading of Facebook scripts.
-    </Typography>
+    </DialogContentText>
   ),
   UNKNOWN_ERROR: (
-    <Typography paragraph component="p">
+    <DialogContentText>
       If the issue persists, it is most likely an issue on our side. Please try
       again in a few hours.
-    </Typography>
+    </DialogContentText>
   ),
 };
 
@@ -216,9 +217,9 @@ export const AppMenu = withStyles(styles)(
             {titleForErrorCode[code] || titleForErrorCode.UNKNOWN_ERROR}
           </DialogTitle>
           <DialogContent>
-            <Typography paragraph component="p">
+            <DialogContentText>
               This could be due to a slow network. Try reloading the page.
-            </Typography>
+            </DialogContentText>
             {dialogContentForErrorCode[code] || titleForErrorCode.UNKNOWN_ERROR}
           </DialogContent>
           <DialogActions>
