@@ -2,6 +2,7 @@ import React, { Children } from 'react';
 import { withRouter, RouteComponentProps } from 'react-router';
 import { Link } from 'react-router-dom';
 import Tabs, { TabsProps } from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
 
 type Props = RouteComponentProps<any> & TabsProps;
 
@@ -28,8 +29,11 @@ export const LocationAwareTabs = withRouter(
       return (
         <Tabs {...rest} value={value} onChange={this.handleChange}>
           {Children.map(children, child => {
+            if (!(typeof child === 'object' && 'props' in child)) {
+              return child;
+            }
+
             return (
-              // @ts-ignore
               <Tab {...child.props} component={Link} to={child.props.value} />
             );
           })}
