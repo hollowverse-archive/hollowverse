@@ -17,6 +17,7 @@ import { createHttpLink } from 'apollo-link-http';
 
 import { ApolloProvider, Query } from 'react-apollo';
 import { getAccessToken } from 'store/features/auth/reducer';
+import IntersectionObserver from 'react-intersection-observer';
 
 export const Moderation = connect((state: StoreState) => ({
   accessToken: getAccessToken(state),
@@ -34,6 +35,7 @@ export const Moderation = connect((state: StoreState) => ({
             useGETForQueries: accessToken === null,
           }),
           cache: new InMemoryCache(),
+          connectToDevTools: true,
         })
       }
     >
@@ -55,9 +57,10 @@ export const Moderation = connect((state: StoreState) => ({
               <Route path="/moderation/users/all">
                 {() => (
                   <Query
+                    fetchPolicy="cache-and-network"
                     query={gql`
-                      query UsersQuery {
-                        users(first: 10) {
+                      query UsersQuery($after: ID) {
+                        users(first: 10, after: $after) {
                           edges {
                             node {
                               id
@@ -66,11 +69,15 @@ export const Moderation = connect((state: StoreState) => ({
                               email
                             }
                           }
+                          pageInfo {
+                            hasNextPage
+                            endCursor
+                          }
                         }
                       }
                     `}
                   >
-                    {({ data }) => (
+                    {({ data, fetchMore }) => (
                       <List>
                         {data &&
                           data.users &&
@@ -84,6 +91,49 @@ export const Moderation = connect((state: StoreState) => ({
                                 />
                               </ListItem>
                             ),
+                          )}
+                        {data &&
+                          data.users &&
+                          data.users.pageInfo &&
+                          data.users.pageInfo.hasNextPage && (
+                            <IntersectionObserver
+                              onChange={inView => {
+                                if (!inView) {
+                                  return;
+                                }
+
+                                console.log({ inView }, 'fetching...');
+
+                                fetchMore({
+                                  variables: {
+                                    after: data.users.pageInfo.endCursor,
+                                  },
+                                  updateQuery(
+                                    previousResult,
+                                    { fetchMoreResult },
+                                  ) {
+                                    const newEdges =
+                                      fetchMoreResult.users.edges;
+                                    const { pageInfo } = fetchMoreResult.users;
+
+                                    return newEdges.length
+                                      ? {
+                                          // Put the new users at the end of the list and update `pageInfo`
+                                          // so we have the new `endCursor` and `hasNextPage` values
+                                          users: {
+                                            ...previousResult.users,
+                                            edges: [
+                                              ...previousResult.users.edges,
+                                              ...newEdges,
+                                            ],
+                                            pageInfo,
+                                          },
+                                        }
+                                      : previousResult;
+                                  },
+                                });
+                              }}
+                            />
                           )}
                       </List>
                     )}
