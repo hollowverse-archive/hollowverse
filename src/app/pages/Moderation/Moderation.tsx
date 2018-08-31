@@ -56,13 +56,22 @@ export const Moderation = connect((state: StoreState) => ({
               <Tab value="/moderation/users/banned" label="Banned" />
             </LocationAwareTabs>
             <Switch>
-              <Route path="/moderation/users/all">
-                {() => (
+              <Route path="/moderation/users/:filter">
+                {({
+                  match: {
+                    params: { filter },
+                  },
+                }) => (
                   <Query<UsersQuery, UsersQueryVariables>
                     fetchPolicy="cache-and-network"
                     query={gql`
                       ${usersQuery}
                     `}
+                    variables={{
+                      where: {
+                        isBanned: filter === 'banned' ? true : undefined,
+                      },
+                    }}
                   >
                     {({ data, fetchMore }) => (
                       <List>
@@ -128,9 +137,6 @@ export const Moderation = connect((state: StoreState) => ({
                     )}
                   </Query>
                 )}
-              </Route>
-              <Route path="/moderation/users/banned">
-                {() => <div>Banned users</div>}
               </Route>
               <Route>
                 <Redirect to="/moderation/users/all" />
