@@ -1,10 +1,12 @@
 import React from 'react';
-import { Switch, Route } from 'react-router';
+import { Switch, Route, Redirect } from 'react-router';
 import { connect } from 'react-redux';
 // import { ProtectedPage } from 'components/ProtectedPage/ProtectedPage';
 // import { UserRole } from 'api/types';
 import Typography from '@material-ui/core/Typography';
 import { List, ListItem, Avatar, ListItemText } from '@material-ui/core';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
 import { StoreState } from 'store/types';
 
 import gql from 'graphql-tag';
@@ -18,9 +20,9 @@ import { getAccessToken } from 'store/features/auth/reducer';
 
 export const Moderation = connect((state: StoreState) => ({
   accessToken: getAccessToken(state),
-}))(
-  ({ accessToken }) => (
-    // <ProtectedPage authorizedRoles={['MODERATOR'] as UserRole[]}>
+}))(({ accessToken }) => (
+  // <ProtectedPage authorizedRoles={['MODERATOR'] as UserRole[]}>
+  <div>
     <ApolloProvider
       client={
         new ApolloClient({
@@ -41,40 +43,54 @@ export const Moderation = connect((state: StoreState) => ({
             <Typography variant="title" component="h1">
               User Management
             </Typography>
-            <Query
-              query={gql`
-                query UsersQuery {
-                  users(first: 10) {
-                    edges {
-                      node {
-                        id
-                        photoUrl
-                        name
+            <Tabs centered value="all-users">
+              <Tab href="/moderation/users/all" label="All" />
+              <Tab href="/moderation/users/banned" label="Banned" />
+            </Tabs>
+            <Switch>
+              <Route path="/moderation/users/all">
+                <Query
+                  query={gql`
+                    query UsersQuery {
+                      users(first: 10) {
+                        edges {
+                          node {
+                            id
+                            photoUrl
+                            name
+                          }
+                        }
                       }
                     }
-                  }
-                }
-              `}
-            >
-              {({ data }) => (
-                <List>
-                  {data &&
-                    data.users &&
-                    data.users.edges.map(
-                      ({ node: { id, photoUrl, name } }: any) => (
-                        <ListItem key={id}>
-                          <Avatar src={photoUrl} />
-                          <ListItemText primary={name} />
-                        </ListItem>
-                      ),
-                    )}
-                </List>
-              )}
-            </Query>
+                  `}
+                >
+                  {({ data }) => (
+                    <List>
+                      {data &&
+                        data.users &&
+                        data.users.edges.map(
+                          ({ node: { id, photoUrl, name } }: any) => (
+                            <ListItem key={id}>
+                              <Avatar src={photoUrl} />
+                              <ListItemText primary={name} />
+                            </ListItem>
+                          ),
+                        )}
+                    </List>
+                  )}
+                </Query>
+              </Route>
+              <Route path="/moderation/users/banned">
+                <div>Banned users</div>
+              </Route>
+              <Route>
+                <Redirect to="/moderation/users/all" />
+              </Route>
+            </Switch>
           </>
         </Route>
       </Switch>
     </ApolloProvider>
-  ),
+  </div>
   // </ProtectedPage>
-);
+));
