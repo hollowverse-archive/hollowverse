@@ -63,6 +63,7 @@ export const Moderation = connect((state: StoreState) => ({
                               id
                               photoUrl
                               name
+                              email
                             }
                           }
                         }
@@ -74,10 +75,13 @@ export const Moderation = connect((state: StoreState) => ({
                         {data &&
                           data.users &&
                           data.users.edges.map(
-                            ({ node: { id, photoUrl, name } }: any) => (
+                            ({ node: { id, photoUrl, name, email } }: any) => (
                               <ListItem key={id}>
                                 <Avatar src={photoUrl} />
-                                <ListItemText primary={name} />
+                                <ListItemText
+                                  primary={name}
+                                  secondary={email}
+                                />
                               </ListItem>
                             ),
                           )}
