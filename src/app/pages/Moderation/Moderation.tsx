@@ -5,9 +5,9 @@ import { connect } from 'react-redux';
 // import { UserRole } from 'api/types';
 import Typography from '@material-ui/core/Typography';
 import { List, ListItem, Avatar, ListItemText } from '@material-ui/core';
-import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import { StoreState } from 'store/types';
+import { LocationAwareTabs } from 'components/LocationAwareTabs/LocationAwareTabs';
 
 import gql from 'graphql-tag';
 
@@ -43,10 +43,14 @@ export const Moderation = connect((state: StoreState) => ({
             <Typography variant="title" component="h1">
               User Management
             </Typography>
-            <Tabs centered value="all-users">
-              <Tab href="/moderation/users/all" label="All" />
-              <Tab href="/moderation/users/banned" label="Banned" />
-            </Tabs>
+            <LocationAwareTabs
+              indicatorColor="primary"
+              value="/moderation/users/all"
+              centered
+            >
+              <Tab value="/moderation/users/all" label="All" />
+              <Tab value="/moderation/users/banned" label="Banned" />
+            </LocationAwareTabs>
             <Switch>
               <Route path="/moderation/users/all">
                 <Query
