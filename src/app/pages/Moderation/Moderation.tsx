@@ -89,7 +89,6 @@ export const Moderation = connect((state: StoreState) => ({
                                   return;
                                 }
 
-                                // @ts-ignore
                                 fetchMore({
                                   variables: {
                                     after: data.users.pageInfo.endCursor,
@@ -99,7 +98,7 @@ export const Moderation = connect((state: StoreState) => ({
                                     { fetchMoreResult },
                                   ) {
                                     if (!fetchMoreResult) {
-                                      return;
+                                      return previousResult;
                                     }
 
                                     const newEdges =
