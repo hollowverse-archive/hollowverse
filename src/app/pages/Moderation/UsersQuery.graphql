@@ -1,0 +1,16 @@
+query Users($after: ID) {
+  users(first: 10, after: $after) {
+    edges {
+      node {
+        id
+        photoUrl
+        name
+        email
+      }
+    }
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+  }
+}

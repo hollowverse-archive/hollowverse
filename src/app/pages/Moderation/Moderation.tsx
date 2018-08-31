@@ -18,6 +18,8 @@ import { createHttpLink } from 'apollo-link-http';
 import { ApolloProvider, Query } from 'react-apollo';
 import { getAccessToken } from 'store/features/auth/reducer';
 import IntersectionObserver from 'react-intersection-observer';
+import { UsersQuery, UsersQueryVariables } from 'api/types';
+import usersQuery from './UsersQuery.graphql';
 
 export const Moderation = connect((state: StoreState) => ({
   accessToken: getAccessToken(state),
@@ -56,25 +58,10 @@ export const Moderation = connect((state: StoreState) => ({
             <Switch>
               <Route path="/moderation/users/all">
                 {() => (
-                  <Query
+                  <Query<UsersQuery, UsersQueryVariables>
                     fetchPolicy="cache-and-network"
                     query={gql`
-                      query UsersQuery($after: ID) {
-                        users(first: 10, after: $after) {
-                          edges {
-                            node {
-                              id
-                              photoUrl
-                              name
-                              email
-                            }
-                          }
-                          pageInfo {
-                            hasNextPage
-                            endCursor
-                          }
-                        }
-                      }
+                      ${usersQuery}
                     `}
                   >
                     {({ data, fetchMore }) => (
@@ -82,9 +69,9 @@ export const Moderation = connect((state: StoreState) => ({
                         {data &&
                           data.users &&
                           data.users.edges.map(
-                            ({ node: { id, photoUrl, name, email } }: any) => (
+                            ({ node: { id, photoUrl, name, email } }) => (
                               <ListItem key={id}>
-                                <Avatar src={photoUrl} />
+                                <Avatar src={photoUrl || undefined} />
                                 <ListItemText
                                   primary={name}
                                   secondary={email}
@@ -102,8 +89,7 @@ export const Moderation = connect((state: StoreState) => ({
                                   return;
                                 }
 
-                                console.log({ inView }, 'fetching...');
-
+                                // @ts-ignore
                                 fetchMore({
                                   variables: {
                                     after: data.users.pageInfo.endCursor,
@@ -112,6 +98,10 @@ export const Moderation = connect((state: StoreState) => ({
                                     previousResult,
                                     { fetchMoreResult },
                                   ) {
+                                    if (!fetchMoreResult) {
+                                      return;
+                                    }
+
                                     const newEdges =
                                       fetchMoreResult.users.edges;
                                     const { pageInfo } = fetchMoreResult.users;
