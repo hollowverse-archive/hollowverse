@@ -53,39 +53,41 @@ export const Moderation = connect((state: StoreState) => ({
             </LocationAwareTabs>
             <Switch>
               <Route path="/moderation/users/all">
-                <Query
-                  query={gql`
-                    query UsersQuery {
-                      users(first: 10) {
-                        edges {
-                          node {
-                            id
-                            photoUrl
-                            name
+                {() => (
+                  <Query
+                    query={gql`
+                      query UsersQuery {
+                        users(first: 10) {
+                          edges {
+                            node {
+                              id
+                              photoUrl
+                              name
+                            }
                           }
                         }
                       }
-                    }
-                  `}
-                >
-                  {({ data }) => (
-                    <List>
-                      {data &&
-                        data.users &&
-                        data.users.edges.map(
-                          ({ node: { id, photoUrl, name } }: any) => (
-                            <ListItem key={id}>
-                              <Avatar src={photoUrl} />
-                              <ListItemText primary={name} />
-                            </ListItem>
-                          ),
-                        )}
-                    </List>
-                  )}
-                </Query>
+                    `}
+                  >
+                    {({ data }) => (
+                      <List>
+                        {data &&
+                          data.users &&
+                          data.users.edges.map(
+                            ({ node: { id, photoUrl, name } }: any) => (
+                              <ListItem key={id}>
+                                <Avatar src={photoUrl} />
+                                <ListItemText primary={name} />
+                              </ListItem>
+                            ),
+                          )}
+                      </List>
+                    )}
+                  </Query>
+                )}
               </Route>
               <Route path="/moderation/users/banned">
-                <div>Banned users</div>
+                {() => <div>Banned users</div>}
               </Route>
               <Route>
                 <Redirect to="/moderation/users/all" />
