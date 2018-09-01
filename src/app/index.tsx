@@ -98,10 +98,6 @@ if (module.hot) {
       value={{
         ...defaultAppDependencies,
         apiClient: new GraphQLClient(__API_ENDPOINT__, {
-          // Use `GET` for public queries to take advantage from
-          // CDN caching of API responses.
-          // `POST` is used for logged-in users because mutations
-          // require `POST` requests. `POST` requests are never cached.
           method: shouldUseGet ? 'GET' : 'POST',
           headers: authHeaders,
         }),

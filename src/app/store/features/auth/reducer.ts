@@ -55,9 +55,14 @@ export const getApiAuthHeaders = createSelector(
   }),
 );
 
+/* Use `GET` for public queries to take advantage from
+ * CDN caching of API responses.
+ * `POST` is used for logged-in users because mutations
+ * require `POST` requests. `POST` requests are never cached.
+*/
 export const shouldUseHttpGetForApiRequests = createSelector(
   getAccessToken,
-  accessToken => accessToken !== null,
+  accessToken => accessToken === null,
 );
 
 export const getViewerResult = createSelector(getResolvedDataForKey, get =>
