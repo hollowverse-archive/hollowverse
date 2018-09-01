@@ -94,7 +94,7 @@ const styles = (theme: Theme) =>
       right: 0,
       left: 0,
       top: 0,
-      height: 200,
+      height: 250,
       zIndex: -1,
     },
 
