@@ -58,7 +58,6 @@ const styles = (theme: Theme) =>
     },
     editorialSummary: {
       alignSelf: 'center',
-      maxWidth: theme.breakpoints.values.sm,
     },
     relatedPeopleTitle: {
       marginTop: 20,

@@ -21,7 +21,6 @@ const styles = (theme: Theme) =>
   createStyles({
     root: {
       width: '100%',
-      maxWidth: theme.breakpoints.values.sm,
       flexGrow: 1,
       alignSelf: 'center',
       display: 'flex',

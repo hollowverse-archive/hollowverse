@@ -111,13 +111,11 @@ const styles = (theme: Theme) =>
       display: 'flex',
       flexDirection: 'column',
       width: '100%',
-      maxWidth: theme.breakpoints.values.sm,
       alignSelf: 'center',
     },
 
     content: {
       width: '100%',
-      maxWidth: theme.breakpoints.values.sm,
       alignSelf: 'center',
       marginTop: theme.spacing.unit * 2,
     },

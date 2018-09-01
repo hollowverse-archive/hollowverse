@@ -52,8 +52,14 @@ export const Moderation = connect((state: StoreState) => ({
               value="/moderation/users/all"
               centered
             >
-              <Tab value="/moderation/users/all" label="All" />
-              <Tab value="/moderation/users/banned" label="Banned" />
+              <Tab
+                value="/moderation/users/all"
+                label={<Typography>All</Typography>}
+              />
+              <Tab
+                value="/moderation/users/banned"
+                label={<Typography>Banned</Typography>}
+              />
             </LocationAwareTabs>
             <Switch>
               <Route path="/moderation/users/:filter">

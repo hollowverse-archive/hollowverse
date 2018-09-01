@@ -106,6 +106,8 @@ const styles = (theme: Theme) =>
     },
     view: {
       width: '100%',
+      maxWidth: theme.breakpoints.values.sm,
+      alignSelf: 'center',
       flexGrow: 1,
       display: 'flex',
       flexDirection: 'column',

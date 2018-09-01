@@ -20,7 +20,6 @@ const styles = (_: Theme) =>
     article: {
       display: 'flex',
       flexDirection: 'column',
-      position: 'relative',
     },
   });
 
