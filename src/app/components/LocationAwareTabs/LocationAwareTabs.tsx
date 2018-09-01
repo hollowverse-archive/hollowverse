@@ -13,7 +13,7 @@ type State = {
 export const LocationAwareTabs = withRouter(
   class extends React.Component<Props, State> {
     state: State = {
-      value: this.props.value,
+      value: this.props.history.createHref(this.props.location),
     };
 
     handleChange: TabsProps['onChange'] = (_event, value) => {
@@ -23,7 +23,14 @@ export const LocationAwareTabs = withRouter(
     };
 
     render() {
-      const { history, staticContext, match, children, ...rest } = this.props;
+      const {
+        history,
+        location,
+        staticContext,
+        match,
+        children,
+        ...rest
+      } = this.props;
       const { value } = this.state;
 
       return (
