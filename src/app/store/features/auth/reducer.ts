@@ -48,6 +48,18 @@ export const getAccessToken = createSelector(
     fbAuthState.state === 'loggedIn' ? fbAuthState.accessToken : null,
 );
 
+export const getApiAuthHeaders = createSelector(
+  getAccessToken,
+  accessToken => ({
+    Authorization: accessToken ? `Bearer ${accessToken}` : '',
+  }),
+);
+
+export const shouldUseHttpGetForApiRequests = createSelector(
+  getAccessToken,
+  accessToken => accessToken !== null,
+);
+
 export const getViewerResult = createSelector(getResolvedDataForKey, get =>
   get('viewer'),
 );

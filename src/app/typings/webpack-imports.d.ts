@@ -15,6 +15,18 @@ declare module '*.gql' {
   export = query;
 }
 
+declare module '!!graphql-tag/loader!*.graphql' {
+  import { DocumentNode } from 'graphql';
+
+  const query: DocumentNode;
+  export = query;
+}
+
+declare module '!!graphql-tag/loader!*.gql' {
+  const query: DocumentNode;
+  export = query;
+}
+
 declare module '*.svg' {
   const symbol: SpriteSymbol;
   export = symbol;

@@ -12,7 +12,10 @@ import { HotApp as App } from 'components/App/App';
 import { StoreState } from 'store/types';
 import { createConfiguredStore } from 'store/createConfiguredStore';
 import { unhandledErrorThrown } from 'store/features/logging/actions';
-import { getAccessToken } from 'store/features/auth/reducer';
+import {
+  getApiAuthHeaders,
+  shouldUseHttpGetForApiRequests,
+} from 'store/features/auth/reducer';
 import { getMuiTheme } from 'store/features/theme/reducer';
 import {
   loadIntersectionObserverPolyfill,
@@ -87,9 +90,10 @@ if (module.hot) {
   await loadPolyfills.catch();
 
   const ConnectedApp = connect((state: StoreState) => ({
-    accessToken: getAccessToken(state),
+    authHeaders: getApiAuthHeaders(state),
+    shouldUseGet: shouldUseHttpGetForApiRequests(state),
     theme: getMuiTheme(state),
-  }))(({ accessToken, theme }) => (
+  }))(({ authHeaders, shouldUseGet, theme }) => (
     <AppDependenciesContext.Provider
       value={{
         ...defaultAppDependencies,
@@ -98,10 +102,8 @@ if (module.hot) {
           // CDN caching of API responses.
           // `POST` is used for logged-in users because mutations
           // require `POST` requests. `POST` requests are never cached.
-          method: accessToken ? 'POST' : 'GET',
-          headers: {
-            Authorization: accessToken ? `Bearer ${accessToken}` : '',
-          },
+          method: shouldUseGet ? 'GET' : 'POST',
+          headers: authHeaders,
         }),
       }}
     >
