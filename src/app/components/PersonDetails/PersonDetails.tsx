@@ -14,6 +14,8 @@ import {
   WithStyles,
 } from '@material-ui/core/styles';
 
+import { createPulseAnimation } from 'helpers/animations';
+
 type PersonDetailsProps = {
   summary: string | null;
   name: string;
@@ -31,29 +33,16 @@ type PersonDetailsProps = {
 };
 
 // tslint:disable-next-line max-func-body-length
-const styles = (theme: Theme) =>
-  createStyles({
-    '@keyframes pulse-animation': {
-      '0%, 100%': {
-        opacity: 0.2,
-      },
+const styles = (theme: Theme) => {
+  const pulse = createPulseAnimation(theme);
 
-      '50%': {
-        opacity: 1,
-      },
-    },
-
+  return createStyles({
+    ...pulse.definition,
     root: {
       display: 'flex',
       flexDirection: 'column',
-      '&$isLoading $text, &$isLoading $photo': {
-        color: 'transparent',
-        background: theme.palette.divider,
-        userSelect: 'none',
-      },
-      '&$isLoading $text': {
-        borderRadius: theme.shape.borderRadius,
-      },
+      '&$isLoading $photo': pulse.photoProps,
+      '&$isLoading $text': pulse.textProps,
       '&$isLoading::after': {
         content: '""',
         position: 'absolute',
@@ -79,9 +68,7 @@ const styles = (theme: Theme) =>
     },
 
     isLoading: {
-      animation: `pulse-animation ${theme.transitions.duration.standard *
-        3}ms ${theme.transitions.easing.easeInOut} infinite`,
-      animationFillMode: 'both',
+      ...pulse.usage,
     },
 
     coverBackgroundWrapper: {
@@ -152,6 +139,7 @@ const styles = (theme: Theme) =>
       padding: theme.spacing.unit * 2,
     },
   });
+};
 
 type Props = PersonDetailsProps & WithStyles<ReturnType<typeof styles>>;
 
