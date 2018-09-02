@@ -36,7 +36,7 @@ export class UncontrolledMenu extends React.Component<Props, State> {
   };
 
   render() {
-    const { id, children, renderButton } = this.props;
+    const { id, children, renderButton, ...rest } = this.props;
     const { anchorEl } = this.state;
 
     return (
@@ -53,6 +53,7 @@ export class UncontrolledMenu extends React.Component<Props, State> {
             id={id}
             onClose={this.handleClose}
             getContentAnchorEl={undefined}
+            {...rest}
           >
             {children({ onClick: this.handleClose })}
           </LocationAwareMenu>

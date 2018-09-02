@@ -78,7 +78,7 @@ const renderUserList = ({
 
   return (
     <List>
-      {edges.map(({ node: { id, photoUrl, name, email } }) => (
+      {edges.map(({ node: { id, photoUrl, name, email, isBanned } }) => (
         <ListItem key={id}>
           <Avatar src={photoUrl || undefined} />
           <ListItemText primary={name} secondary={email} />
@@ -89,9 +89,17 @@ const renderUserList = ({
                   <MoreIcon />
                 </IconButton>
               )}
+              anchorOrigin={{
+                horizontal: 'right',
+                vertical: 'center',
+              }}
               id={`user-action-menu-${id}`}
             >
-              {props => <MenuItem {...props}>Ban User</MenuItem>}
+              {props => (
+                <MenuItem {...props}>
+                  {isBanned ? 'Unban User' : 'Ban User'}
+                </MenuItem>
+              )}
             </UncontrolledMenu>
           </ListItemSecondaryAction>
         </ListItem>
