@@ -11,9 +11,14 @@ export type UncontrolledMenuItemProps = {
   onClick(): void;
 };
 
+export type UncontrolledMenuButtonProps = Pick<
+  ButtonProps,
+  'onClick' | 'aria-haspopup' | 'aria-owns'
+>;
+
 type Props = {
   id: string;
-  renderButton(props: any): JSX.Element;
+  renderButton(props: UncontrolledMenuButtonProps): JSX.Element;
   children(props: UncontrolledMenuItemProps): React.ReactNode;
 } & Pick<MenuProps, 'anchorOrigin'>;
 
@@ -38,7 +43,7 @@ export class UncontrolledMenu extends React.Component<Props, State> {
       <>
         {renderButton({
           'aria-haspopup': 'true',
-          'aria-owns': anchorEl ? id : null,
+          'aria-owns': anchorEl ? id : undefined,
           onClick: this.handleClick,
         })}
         {anchorEl ? (
