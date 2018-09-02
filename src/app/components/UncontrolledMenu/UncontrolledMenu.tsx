@@ -38,6 +38,7 @@ export class UncontrolledMenu extends React.Component<Props, State> {
         {renderButton({
           'aria-haspopup': 'true',
           'aria-owns': anchorEl ? id : null,
+          onClick: this.handleClick,
         })}
         {anchorEl ? (
           <LocationAwareMenu
