@@ -28,13 +28,16 @@ import ListItemText from '@material-ui/core/ListItemText';
 
 import { MenuItemWithLink, InertMenuItem } from './MenuItem';
 import { callAll } from 'helpers/callAll';
-import { LocationAwareMenu } from 'components/LocationAwareMenu/LocationAwareMenu';
 import {
   createStyles,
   withStyles,
   Theme,
   WithStyles,
 } from '@material-ui/core/styles';
+import {
+  UncontrolledMenu,
+  UncontrolledMenuItemProps,
+} from '../UncontrolledMenu/UncontrolledMenu';
 
 export type StateProps = {
   authState: AuthenticationState;
@@ -122,7 +125,6 @@ const titleForErrorCode: Partial<Record<AuthenticationErrorCode, string>> = {
 type State = {
   isLoginFailedDialogShown: boolean;
   isLoginStateChangeSnackbarShown: boolean;
-  anchorElement: HTMLElement | null;
 };
 
 export const AppMenu = withStyles(styles)(
@@ -130,7 +132,6 @@ export const AppMenu = withStyles(styles)(
     state = {
       isLoginFailedDialogShown: false,
       isLoginStateChangeSnackbarShown: false,
-      anchorElement: null,
     };
 
     componentWillReceiveProps({ authState }: Props) {
@@ -167,7 +168,7 @@ export const AppMenu = withStyles(styles)(
       );
     };
 
-    renderLoginButton = () => {
+    renderLoginButton = (menuItemProps: UncontrolledMenuItemProps) => {
       const {
         authState: { state },
         classes,
@@ -187,7 +188,8 @@ export const AppMenu = withStyles(styles)(
               [classes.facebook]: state === 'loggedOut' || state === 'error',
             },
           ])}
-          onClick={callAll(this.handleClose, this.handleLoginClick)}
+          {...menuItemProps}
+          onClick={callAll(menuItemProps.onClick, this.handleLoginClick)}
           disabled={!canClick}
           divider
         >
@@ -298,19 +300,11 @@ export const AppMenu = withStyles(styles)(
       }));
     };
 
-    handleClick = (event: React.MouseEvent<any>) => {
-      this.setState({ anchorElement: event.currentTarget });
-    };
-
-    handleClose = () => {
-      this.setState({ anchorElement: null });
-    };
-
     toggleNightMode = () => {
       this.props.toggleNightMode(undefined);
     };
 
-    renderModeratorLinks = () => {
+    renderModeratorLinks = (menuItemProps: UncontrolledMenuItemProps) => {
       const { authState } = this.props;
 
       if (
@@ -320,7 +314,7 @@ export const AppMenu = withStyles(styles)(
         return [
           <MenuItemWithLink
             key="quotes"
-            onClick={this.handleClose}
+            {...menuItemProps}
             to="/moderation/quotes"
           >
             Review Quotes
@@ -328,7 +322,7 @@ export const AppMenu = withStyles(styles)(
           <MenuItemWithLink
             key="users"
             divider
-            onClick={this.handleClose}
+            {...menuItemProps}
             to="/moderation/users"
           >
             Manage Users
@@ -340,62 +334,57 @@ export const AppMenu = withStyles(styles)(
     };
 
     render() {
-      const { anchorElement } = this.state;
-
       return (
         <>
           {this.renderLoginFailedDialog()}
           {this.renderLoginStateChangeSnackbar()}
-          <Tooltip title="Main Menu">
-            <IconButton
-              // style={{ visibility: 'hidden' }}
-              aria-owns={anchorElement ? 'app-menu' : undefined}
-              aria-haspopup="true"
-              aria-label="Open menu"
-              onClick={this.handleClick}
+          <nav>
+            <UncontrolledMenu
+              id="app-menu"
+              anchorOrigin={{ horizontal: 'center', vertical: 'center' }}
+              renderButton={buttonProps => (
+                <Tooltip title="Main Menu">
+                  <IconButton
+                    // style={{ visibility: 'hidden' }}
+                    aria-label="Open menu"
+                    {...buttonProps}
+                  >
+                    <MenuIcon />
+                  </IconButton>
+                </Tooltip>
+              )}
             >
-              <MenuIcon />
-            </IconButton>
-          </Tooltip>
-          {anchorElement !== null ? (
-            <nav>
-              <LocationAwareMenu
-                id="app-menu"
-                anchorEl={anchorElement}
-                getContentAnchorEl={undefined}
-                anchorOrigin={{ horizontal: 'center', vertical: 'center' }}
-                open={Boolean(anchorElement)}
-                onClose={this.handleClose}
-              >
-                {this.renderUser()}
-                <MenuItemWithLink onClick={this.handleClose} to="/">
-                  Home
-                </MenuItemWithLink>
-                <MenuItemWithLink
-                  onClick={this.handleClose}
-                  divider
-                  to="/contact"
-                >
-                  Contact
-                </MenuItemWithLink>
-                {this.renderModeratorLinks()}
-                {this.renderLoginButton()}
-                <MenuItem
-                  onClick={callAll(this.handleClose, this.toggleNightMode)}
-                  divider
-                >
-                  <ListItemText>Night Mode</ListItemText>
-                  <Switch checked={this.props.isNightModeEnabled} />
-                </MenuItem>
-                <MenuItemWithLink
-                  onClick={this.handleClose}
-                  to="/privacy-policy"
-                >
-                  <Typography color="textSecondary">Privacy Policy</Typography>
-                </MenuItemWithLink>
-              </LocationAwareMenu>
-            </nav>
-          ) : null}
+              {menuItemProps => (
+                <>
+                  {this.renderUser()}
+                  <MenuItemWithLink {...menuItemProps} to="/">
+                    Home
+                  </MenuItemWithLink>
+                  <MenuItemWithLink {...menuItemProps} divider to="/contact">
+                    Contact
+                  </MenuItemWithLink>
+                  {this.renderModeratorLinks(menuItemProps)}
+                  {this.renderLoginButton(menuItemProps)}
+                  <MenuItem
+                    {...menuItemProps}
+                    onClick={callAll(
+                      menuItemProps.onClick,
+                      this.toggleNightMode,
+                    )}
+                    divider
+                  >
+                    <ListItemText>Night Mode</ListItemText>
+                    <Switch checked={this.props.isNightModeEnabled} />
+                  </MenuItem>
+                  <MenuItemWithLink {...menuItemProps} to="/privacy-policy">
+                    <Typography color="textSecondary">
+                      Privacy Policy
+                    </Typography>
+                  </MenuItemWithLink>
+                </>
+              )}
+            </UncontrolledMenu>
+          </nav>
         </>
       );
     }

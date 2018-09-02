@@ -9,6 +9,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import MenuItem from '@material-ui/core/MenuItem';
 import IconButton from '@material-ui/core/IconButton';
 import Avatar from '@material-ui/core/Avatar';
 import Tab from '@material-ui/core/Tab';
@@ -22,6 +23,7 @@ import usersQuery from '!!graphql-tag/loader!./UsersQuery.graphql';
 import { createPulseAnimation } from 'helpers/animations';
 import { MessageWithIcon } from 'components/MessageWithIcon/MessageWithIcon';
 import { LocationAwareTabs } from 'components/LocationAwareTabs/LocationAwareTabs';
+import { UncontrolledMenu } from 'components/UncontrolledMenu/UncontrolledMenu';
 
 const LoadingListPlaceholder = withStyles((theme: Theme) => {
   const pulse = createPulseAnimation(theme);
@@ -81,9 +83,16 @@ const renderUserList = ({
           <Avatar src={photoUrl || undefined} />
           <ListItemText primary={name} secondary={email} />
           <ListItemSecondaryAction>
-            <IconButton>
-              <MoreIcon />
-            </IconButton>
+            <UncontrolledMenu
+              renderButton={props => (
+                <IconButton {...props}>
+                  <MoreIcon />
+                </IconButton>
+              )}
+              id={`user-action-menu-${id}`}
+            >
+              {props => <MenuItem {...props}>Ban User</MenuItem>}
+            </UncontrolledMenu>
           </ListItemSecondaryAction>
         </ListItem>
       ))}

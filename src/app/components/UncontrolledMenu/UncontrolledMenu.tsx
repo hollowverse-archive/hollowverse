@@ -1,20 +1,21 @@
 import React from 'react';
 import { ButtonProps } from '@material-ui/core/Button';
 import { LocationAwareMenu } from 'components/LocationAwareMenu/LocationAwareMenu';
+import { MenuProps } from '@material-ui/core/Menu';
 
 type State = {
   anchorEl: HTMLElement | null;
 };
 
-type ChildrenProps = {
+export type UncontrolledMenuItemProps = {
   onClick(): void;
 };
 
 type Props = {
   id: string;
   renderButton(props: any): JSX.Element;
-  children(props: ChildrenProps): React.ReactNode;
-};
+  children(props: UncontrolledMenuItemProps): React.ReactNode;
+} & Pick<MenuProps, 'anchorOrigin'>;
 
 export class UncontrolledMenu extends React.Component<Props, State> {
   state = {
@@ -46,6 +47,7 @@ export class UncontrolledMenu extends React.Component<Props, State> {
             open={Boolean(anchorEl)}
             id={id}
             onClose={this.handleClose}
+            getContentAnchorEl={undefined}
           >
             {children({ onClick: this.handleClose })}
           </LocationAwareMenu>
