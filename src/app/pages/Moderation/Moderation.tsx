@@ -18,10 +18,10 @@ import { StoreState } from 'store/types';
 
 import { Users } from './Users/Users';
 
-// @TODO: We'll keep this selector and all Apollo library imports in this file to
-// which are not (yet) used in any user-facing UI to avoid increasing bundle size
-// significantly. We should later move this to src/store after we migrate the whole
-// app to use Apollo client.
+// @TODO: Because Apollo is not (yet) used in any user-facing UI, we'll keep this
+// selector and all Apollo library imports in this file, to avoid increasing bundle
+// size significantly. We should later move this to src/store after we migrate the
+// whole app to use Apollo client.
 const getApolloClient = createSelector(
   getApiAuthHeaders,
   shouldUseHttpGetForApiRequests,
