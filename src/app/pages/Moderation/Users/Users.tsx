@@ -45,6 +45,7 @@ import {
   UncontrolledMenuButtonProps,
 } from 'components/UncontrolledMenu/UncontrolledMenu';
 import { UncontrolledDialog } from 'components/UncontrolledDialog/UncontrolledDialog';
+import { UncontrolledSnackbar } from 'components/UncontrolledSnackbar/UncontrolledSnackbar';
 
 const LoadingListPlaceholder = withStyles((theme: Theme) => {
   const pulse = createPulseAnimation(theme);
@@ -96,20 +97,18 @@ const renderUserMenuItem = (variables: UsersQueryVariables) => ({
       variables={{ newValue: !isBanned, userId: id }}
       refetchQueries={[{ query: usersQuery, variables }]}
     >
-      {(changeUserBanStatus, { loading, called, error, data }) => (
+      {(changeUserBanStatus, { loading, data }) => (
         <>
           <ListItemSecondaryAction>
             <UncontrolledMenu
               renderButton={renderUserMenuItemButton}
               anchorOrigin={{
-                horizontal: 'right',
+                horizontal: 'left',
                 vertical: 'center',
               }}
               id={`user-action-menu-${id}`}
             >
               {props => {
-                console.log({ loading, called, error, data });
-
                 return (
                   <MenuItem
                     {...props}
@@ -153,9 +152,19 @@ const renderUserMenuItem = (variables: UsersQueryVariables) => ({
                 </>
               )}
             </UncontrolledDialog>
-          ) : (
-            false
-          )}
+          ) : null}
+          {data && data.changeUserBanStatus.result.state === 'success' ? (
+            <UncontrolledSnackbar
+              open
+              autoHideDuration={2000}
+              message={<span>Ban status changed successfully</span>}
+              renderAction={({ close }) => (
+                <Button color="secondary" size="small" onClick={close}>
+                  Dismiss
+                </Button>
+              )}
+            />
+          ) : null}
         </>
       )}
     </Mutation>
