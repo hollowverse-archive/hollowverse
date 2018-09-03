@@ -5,8 +5,8 @@ import { Link, LinkProps } from 'react-router-dom';
 
 export const NavBarLink = ({
   className,
-  component = Link,
+  component = Link as any,
   ...rest
 }: IconButtonProps & LinkProps) => (
-  <IconButton component={component as any} {...rest} />
+  <IconButton component={component} {...rest} />
 );

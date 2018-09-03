@@ -47,11 +47,11 @@ export function promiseToCancelable<T>(promise: Promise<T>): Cancelable<T> {
   };
 }
 
-export function isCancelRejection(obj: any): obj is CancelationError {
+export function isCancelRejection(obj: unknown): obj is CancelationError {
   return obj instanceof CancelationError;
 }
 
-export const ignoreCancelRejections = async (error: any) => {
+export const ignoreCancelRejections = async (error: unknown) => {
   if (!isCancelRejection(error)) {
     throw error;
   }

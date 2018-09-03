@@ -297,7 +297,7 @@
     "tslint-language-service": "^0.9.9",
     "tslint-microsoft-contrib": "^5.0.3",
     "tslint-react": "^3.6.0",
-    "typescript": "^2.9.2",
+    "typescript": "^3.0.3",
     "typescript-eslint-parser": "^16.0.0",
     "uglify-es": "^3.3.9",
     "uglify-js": "^2.4.16",
