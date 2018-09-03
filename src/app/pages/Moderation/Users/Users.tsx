@@ -1,5 +1,5 @@
 import React from 'react';
-import { Query, QueryResult } from 'react-apollo';
+import { Query, QueryResult, Mutation } from 'react-apollo';
 import { Switch, Route, Redirect } from 'react-router';
 import IntersectionObserver from 'react-intersection-observer';
 import random from 'lodash/random';
@@ -19,8 +19,10 @@ import { withStyles, createStyles, Theme } from '@material-ui/core/styles';
 import { UsersQuery, UsersQueryVariables } from 'api/types';
 
 import usersQuery from '!!graphql-tag/loader!./UsersQuery.graphql';
+import changeUserBanStatusMutation from '!!graphql-tag/loader!./ChangeUserBanStatusMutation.graphql';
 
 import { createPulseAnimation } from 'helpers/animations';
+import { callAll } from 'helpers/callAll';
 import { MessageWithIcon } from 'components/MessageWithIcon/MessageWithIcon';
 import { LocationAwareTabs } from 'components/LocationAwareTabs/LocationAwareTabs';
 import { UncontrolledMenu } from 'components/UncontrolledMenu/UncontrolledMenu';
@@ -59,6 +61,7 @@ const LoadingListPlaceholder = withStyles((theme: Theme) => {
 const renderUserList = ({
   data,
   fetchMore,
+  variables,
   loading,
 }: QueryResult<UsersQuery, UsersQueryVariables>) => {
   if (loading) {
@@ -96,9 +99,21 @@ const renderUserList = ({
               id={`user-action-menu-${id}`}
             >
               {props => (
-                <MenuItem {...props}>
-                  {isBanned ? 'Unban User' : 'Ban User'}
-                </MenuItem>
+                <Mutation mutation={changeUserBanStatusMutation}>
+                  {changeUserBanStatus => (
+                    <MenuItem
+                      {...props}
+                      onClick={callAll(props.onClick, () => {
+                        changeUserBanStatus({
+                          variables: { newValue: !isBanned, userId: id },
+                          refetchQueries: [{ query: usersQuery, variables }],
+                        });
+                      })}
+                    >
+                      {isBanned ? 'Unban User' : 'Ban User'}
+                    </MenuItem>
+                  )}
+                </Mutation>
               )}
             </UncontrolledMenu>
           </ListItemSecondaryAction>
