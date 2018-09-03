@@ -49,7 +49,7 @@ declare namespace FB {
           accessToken: string;
           /** In seconds */
           expiresIn: number;
-          signedRequest: any;
+          signedRequest: string;
           userID: string;
         };
       }

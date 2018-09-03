@@ -166,8 +166,8 @@ export const EditorialSummary = withStyles(styles)(
       shouldShowSources: false,
     };
 
-    constructor(props: Props, context: any) {
-      super(props, context);
+    constructor(props: Props) {
+      super(props);
 
       const { nodes } = props;
 
