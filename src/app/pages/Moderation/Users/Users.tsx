@@ -13,10 +13,19 @@ import MenuItem from '@material-ui/core/MenuItem';
 import IconButton from '@material-ui/core/IconButton';
 import Avatar from '@material-ui/core/Avatar';
 import Tab from '@material-ui/core/Tab';
+import Dialog from '@material-ui/core/Dialog';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import { withStyles, createStyles, Theme } from '@material-ui/core/styles';
 
-import { UsersQuery, UsersQueryVariables } from 'api/types';
+import {
+  UsersQuery,
+  UsersQueryVariables,
+  ChangeUserBanStatusMutation,
+  ChangeUserBanStatusMutationVariables,
+} from 'api/types';
 
 import usersQuery from '!!graphql-tag/loader!./UsersQuery.graphql';
 import changeUserBanStatusMutation from '!!graphql-tag/loader!./ChangeUserBanStatusMutation.graphql';
@@ -25,7 +34,10 @@ import { createPulseAnimation } from 'helpers/animations';
 import { callAll } from 'helpers/callAll';
 import { MessageWithIcon } from 'components/MessageWithIcon/MessageWithIcon';
 import { LocationAwareTabs } from 'components/LocationAwareTabs/LocationAwareTabs';
-import { UncontrolledMenu } from 'components/UncontrolledMenu/UncontrolledMenu';
+import {
+  UncontrolledMenu,
+  UncontrolledMenuButtonProps,
+} from 'components/UncontrolledMenu/UncontrolledMenu';
 
 const LoadingListPlaceholder = withStyles((theme: Theme) => {
   const pulse = createPulseAnimation(theme);
@@ -58,6 +70,14 @@ const LoadingListPlaceholder = withStyles((theme: Theme) => {
   </List>
 ));
 
+const renderUserMenuItemButton: (
+  props: UncontrolledMenuButtonProps,
+) => JSX.Element = props => (
+  <IconButton {...props}>
+    <MoreIcon />
+  </IconButton>
+);
+
 const renderUserList = ({
   data,
   fetchMore,
@@ -85,38 +105,63 @@ const renderUserList = ({
         <ListItem key={id}>
           <Avatar src={photoUrl || undefined} />
           <ListItemText primary={name} secondary={email} />
-          <ListItemSecondaryAction>
-            <UncontrolledMenu
-              renderButton={props => (
-                <IconButton {...props}>
-                  <MoreIcon />
-                </IconButton>
-              )}
-              anchorOrigin={{
-                horizontal: 'right',
-                vertical: 'center',
-              }}
-              id={`user-action-menu-${id}`}
-            >
-              {props => (
-                <Mutation mutation={changeUserBanStatusMutation}>
-                  {changeUserBanStatus => (
-                    <MenuItem
-                      {...props}
-                      onClick={callAll(props.onClick, () => {
-                        changeUserBanStatus({
-                          variables: { newValue: !isBanned, userId: id },
-                          refetchQueries: [{ query: usersQuery, variables }],
-                        });
-                      })}
-                    >
-                      {isBanned ? 'Unban User' : 'Ban User'}
-                    </MenuItem>
-                  )}
-                </Mutation>
-              )}
-            </UncontrolledMenu>
-          </ListItemSecondaryAction>
+          <Mutation<
+            ChangeUserBanStatusMutation,
+            ChangeUserBanStatusMutationVariables
+          >
+            mutation={changeUserBanStatusMutation}
+            variables={{ newValue: !isBanned, userId: id }}
+            refetchQueries={[{ query: usersQuery, variables }]}
+          >
+            {(changeUserBanStatus, { loading, called, error, data }) => (
+              <>
+                <ListItemSecondaryAction>
+                  <UncontrolledMenu
+                    renderButton={renderUserMenuItemButton}
+                    anchorOrigin={{
+                      horizontal: 'right',
+                      vertical: 'center',
+                    }}
+                    id={`user-action-menu-${id}`}
+                  >
+                    {props => {
+                      console.log({ loading, called, error, data });
+
+                      return (
+                        <MenuItem
+                          {...props}
+                          onClick={callAll(props.onClick, () => {
+                            changeUserBanStatus();
+                          })}
+                          disabled={called}
+                        >
+                          {isBanned ? 'Unban User' : 'Ban User'}
+                        </MenuItem>
+                      );
+                    }}
+                  </UncontrolledMenu>
+                </ListItemSecondaryAction>
+                {data && data.changeUserBanStatus.result.state === 'error' ? (
+                  <Dialog open>
+                    <DialogTitle>
+                      Failed to change ban status of user
+                    </DialogTitle>
+                    <DialogContent>
+                      <DialogContentText>
+                        {(data.changeUserBanStatus.result as any).errors.map(
+                          ({ message }: any) => (
+                            <div key={message}>{message}</div>
+                          ),
+                        )}
+                      </DialogContentText>
+                    </DialogContent>
+                  </Dialog>
+                ) : (
+                  false
+                )}
+              </>
+            )}
+          </Mutation>
         </ListItem>
       ))}
       {hasNextPage ? (

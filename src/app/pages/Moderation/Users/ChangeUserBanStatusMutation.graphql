@@ -1,4 +1,4 @@
-mutation BanUser($newValue: Boolean!, $userId: ID!) {
+mutation ChangeUserBanStatus($newValue: Boolean!, $userId: ID!) {
   changeUserBanStatus(input: { newValue: $newValue, userId: $userId }) {
     result {
       state
