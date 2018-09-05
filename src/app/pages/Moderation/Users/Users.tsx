@@ -28,12 +28,12 @@ import { withStyles, createStyles, Theme } from '@material-ui/core/styles';
 import {
   UsersQuery,
   UsersQueryVariables,
-  ChangeUserBanStatusMutation,
-  ChangeUserBanStatusMutationVariables,
+  ChangeUserIsBannedStatusMutation,
+  ChangeUserIsBannedStatusMutationVariables,
 } from 'api/types';
 
 import usersQuery from '!!graphql-tag/loader!./UsersQuery.graphql';
-import changeUserBanStatusMutation from '!!graphql-tag/loader!./ChangeUserBanStatusMutation.graphql';
+import changeUserIsBannedStatusMutation from '!!graphql-tag/loader!./ChangeUserIsBannedStatusMutation.graphql';
 
 import { createPulseAnimation } from 'helpers/animations';
 import { callAll } from 'helpers/callAll';
@@ -92,12 +92,12 @@ const renderUserMenuItem = (variables: UsersQueryVariables) => ({
   <ListItem key={id}>
     <Avatar src={photoUrl || undefined} />
     <ListItemText primary={name} secondary={email} />
-    <Mutation<ChangeUserBanStatusMutation, ChangeUserBanStatusMutationVariables>
-      mutation={changeUserBanStatusMutation}
+    <Mutation<ChangeUserIsBannedStatusMutation, ChangeUserIsBannedStatusMutationVariables>
+      mutation={changeUserIsBannedStatusMutation}
       variables={{ newValue: !isBanned, userId: id }}
       refetchQueries={[{ query: usersQuery, variables }]}
     >
-      {(changeUserBanStatus, { loading, data }) => (
+      {(changeUserIsBannedStatus, { loading, data }) => (
         <>
           <ListItemSecondaryAction>
             <UncontrolledMenu
@@ -113,7 +113,7 @@ const renderUserMenuItem = (variables: UsersQueryVariables) => ({
                   <MenuItem
                     {...props}
                     onClick={callAll(props.onClick, () => {
-                      changeUserBanStatus();
+                      changeUserIsBannedStatus();
                     })}
                     disabled={loading}
                   >
@@ -132,14 +132,20 @@ const renderUserMenuItem = (variables: UsersQueryVariables) => ({
               }}
             </UncontrolledMenu>
           </ListItemSecondaryAction>
-          {data && data.changeUserBanStatus.result.state === 'error' ? (
-            <UncontrolledDialog open>
+          {data && data.changeUserIsBannedStatus.result.state === 'error' ? (
+            <UncontrolledDialog
+              role="alertdialog"
+              aria-labelledby="change-user-ban-status-failure-dialog-title"
+              open
+            >
               {({ close }) => (
                 <>
-                  <DialogTitle>Failed to change ban status of user</DialogTitle>
+                  <DialogTitle id="change-user-ban-status-failure-dialog-title">
+                    Failed to change ban status of user
+                  </DialogTitle>
                   <DialogContent>
                     <DialogContentText>
-                      {(data.changeUserBanStatus.result as any).errors.map(
+                      {(data.changeUserIsBannedStatus.result as any).errors.map(
                         ({ message }: any) => (
                           <span key={message}>{message}</span>
                         ),
@@ -153,7 +159,7 @@ const renderUserMenuItem = (variables: UsersQueryVariables) => ({
               )}
             </UncontrolledDialog>
           ) : null}
-          {data && data.changeUserBanStatus.result.state === 'success' ? (
+          {data && data.changeUserIsBannedStatus.result.state === 'success' ? (
             <UncontrolledSnackbar
               open
               autoHideDuration={2000}

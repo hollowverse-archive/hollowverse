@@ -12,9 +12,9 @@ import {
   shouldUseHttpGetForApiRequests,
 } from 'store/features/auth/reducer';
 import { StoreState } from 'store/types';
-// import { UserRole } from 'api/types';
+import { UserRole } from 'api/types';
 
-// import { ProtectedPage } from 'components/ProtectedPage/ProtectedPage';
+import { ProtectedPage } from 'components/ProtectedPage/ProtectedPage';
 
 import { Users } from './Users/Users';
 
@@ -42,13 +42,13 @@ const getApolloClient = createSelector(
 export const Moderation = connect((state: StoreState) => ({
   client: getApolloClient(state),
 }))(({ client }) => (
-  // <ProtectedPage authorizedRoles={['MODERATOR'] as UserRole[]}>
-  <div>
-    <ApolloProvider client={client}>
-      <Switch>
-        <Route path="/moderation/users" component={Users} />
-      </Switch>
-    </ApolloProvider>
-  </div>
-  // </ProtectedPage>
+  <ProtectedPage authorizedRoles={['MODERATOR'] as UserRole[]}>
+    <div>
+      <ApolloProvider client={client}>
+        <Switch>
+          <Route path="/moderation/users" component={Users} />
+        </Switch>
+      </ApolloProvider>
+    </div>
+  </ProtectedPage>
 ));
