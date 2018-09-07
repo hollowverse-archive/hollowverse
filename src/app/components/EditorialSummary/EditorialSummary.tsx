@@ -1,5 +1,3 @@
-/* tslint:disable no-unnecessary-type-assertion */
-
 import React from 'react';
 import formatDate from 'date-fns/format';
 
@@ -59,7 +57,7 @@ const isBlockNode = (node: Node) =>
     EditorialSummaryNodeType.HEADING,
     EditorialSummaryNodeType.PARAGRAPH,
     EditorialSummaryNodeType.QUOTE,
-  ].includes(node.type.toUpperCase() as EditorialSummaryNodeType);
+  ].includes(node.type);
 
 const isRootBlock = (node: Node) => !node.parentId;
 
@@ -81,13 +79,7 @@ type BlockProps = {
 const Block = (props: BlockProps): JSX.Element => {
   const { node, nodes, referencesMap, onSourceClick } = props;
 
-  // eslint-disable-next-line no-param-reassign
-  node.type = node.type.toUpperCase() as EditorialSummaryNodeType;
-
   const children = findChildren(node, nodes).map(child => {
-    // eslint-disable-next-line no-param-reassign
-    child.type = child.type.toUpperCase() as EditorialSummaryNodeType;
-
     if (isBlockNode(child)) {
       return <Block key={child.id} {...props} node={child} />;
     } else if (child.type === 'LINK' && child.sourceUrl) {
@@ -149,7 +141,7 @@ const Block = (props: BlockProps): JSX.Element => {
  */
 const findRefs = (nodes: Node[], map: Map<Node, Source>) => (node: Node) => {
   const { sourceUrl, sourceTitle, type } = node;
-  if (sourceUrl && type.toUpperCase() !== 'LINK') {
+  if (sourceUrl && type !== 'LINK') {
     const number = map.size + 1;
     map.set(node, {
       number,
