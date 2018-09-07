@@ -1,3 +1,5 @@
+/* tslint:disable no-unnecessary-type-assertion */
+
 import React from 'react';
 import formatDate from 'date-fns/format';
 
@@ -54,10 +56,10 @@ const findChildren = (node: Node, nodes: Node[]) =>
 
 const isBlockNode = (node: Node) =>
   [
-    EditorialSummaryNodeType.heading,
-    EditorialSummaryNodeType.paragraph,
-    EditorialSummaryNodeType.quote,
-  ].includes(node.type.toLowerCase() as EditorialSummaryNodeType);
+    EditorialSummaryNodeType.HEADING,
+    EditorialSummaryNodeType.PARAGRAPH,
+    EditorialSummaryNodeType.QUOTE,
+  ].includes(node.type.toUpperCase() as EditorialSummaryNodeType);
 
 const isRootBlock = (node: Node) => !node.parentId;
 
@@ -80,15 +82,15 @@ const Block = (props: BlockProps): JSX.Element => {
   const { node, nodes, referencesMap, onSourceClick } = props;
 
   // eslint-disable-next-line no-param-reassign
-  node.type = node.type.toLowerCase() as EditorialSummaryNodeType;
+  node.type = node.type.toUpperCase() as EditorialSummaryNodeType;
 
   const children = findChildren(node, nodes).map(child => {
     // eslint-disable-next-line no-param-reassign
-    child.type = child.type.toLowerCase() as EditorialSummaryNodeType;
+    child.type = child.type.toUpperCase() as EditorialSummaryNodeType;
 
     if (isBlockNode(child)) {
       return <Block key={child.id} {...props} node={child} />;
-    } else if (child.type === 'link' && child.sourceUrl) {
+    } else if (child.type === 'LINK' && child.sourceUrl) {
       return (
         <a
           key={child.id}
@@ -104,7 +106,7 @@ const Block = (props: BlockProps): JSX.Element => {
 
     return (
       <span key={child.id}>
-        {child.type === 'emphasis' ? <em>{child.text}</em> : child.text}
+        {child.type === 'EMPHASIS' ? <em>{child.text}</em> : child.text}
         {ref ? (
           <a id={ref.nodeId} onClick={onSourceClick} href={`#${ref.sourceId}`}>
             <sup>{ref.number}</sup>
@@ -114,13 +116,13 @@ const Block = (props: BlockProps): JSX.Element => {
     );
   });
 
-  if (node.type === 'quote') {
+  if (node.type === 'QUOTE') {
     return (
       <Quote key={node.id} size="large">
         {children}
       </Quote>
     );
-  } else if (node.type === 'heading') {
+  } else if (node.type === 'HEADING') {
     return (
       <Typography gutterBottom variant="title" key={node.id}>
         {children}
@@ -147,7 +149,7 @@ const Block = (props: BlockProps): JSX.Element => {
  */
 const findRefs = (nodes: Node[], map: Map<Node, Source>) => (node: Node) => {
   const { sourceUrl, sourceTitle, type } = node;
-  if (sourceUrl && type !== 'link') {
+  if (sourceUrl && type.toUpperCase() !== 'LINK') {
     const number = map.size + 1;
     map.set(node, {
       number,
