@@ -54,9 +54,9 @@ const findChildren = (node: Node, nodes: Node[]) =>
 
 const isBlockNode = (node: Node) =>
   [
-    EditorialSummaryNodeType.heading,
-    EditorialSummaryNodeType.paragraph,
-    EditorialSummaryNodeType.quote,
+    EditorialSummaryNodeType.HEADING,
+    EditorialSummaryNodeType.PARAGRAPH,
+    EditorialSummaryNodeType.QUOTE,
   ].includes(node.type);
 
 const isRootBlock = (node: Node) => !node.parentId;
@@ -78,10 +78,11 @@ type BlockProps = {
 
 const Block = (props: BlockProps): JSX.Element => {
   const { node, nodes, referencesMap, onSourceClick } = props;
+
   const children = findChildren(node, nodes).map(child => {
     if (isBlockNode(child)) {
       return <Block key={child.id} {...props} node={child} />;
-    } else if (child.type === 'link' && child.sourceUrl) {
+    } else if (child.type === 'LINK' && child.sourceUrl) {
       return (
         <a
           key={child.id}
@@ -97,7 +98,7 @@ const Block = (props: BlockProps): JSX.Element => {
 
     return (
       <span key={child.id}>
-        {child.type === 'emphasis' ? <em>{child.text}</em> : child.text}
+        {child.type === 'EMPHASIS' ? <em>{child.text}</em> : child.text}
         {ref ? (
           <a id={ref.nodeId} onClick={onSourceClick} href={`#${ref.sourceId}`}>
             <sup>{ref.number}</sup>
@@ -107,13 +108,13 @@ const Block = (props: BlockProps): JSX.Element => {
     );
   });
 
-  if (node.type === 'quote') {
+  if (node.type === 'QUOTE') {
     return (
       <Quote key={node.id} size="large">
         {children}
       </Quote>
     );
-  } else if (node.type === 'heading') {
+  } else if (node.type === 'HEADING') {
     return (
       <Typography gutterBottom variant="title" key={node.id}>
         {children}
@@ -140,7 +141,7 @@ const Block = (props: BlockProps): JSX.Element => {
  */
 const findRefs = (nodes: Node[], map: Map<Node, Source>) => (node: Node) => {
   const { sourceUrl, sourceTitle, type } = node;
-  if (sourceUrl && type !== 'link') {
+  if (sourceUrl && type !== 'LINK') {
     const number = map.size + 1;
     map.set(node, {
       number,
