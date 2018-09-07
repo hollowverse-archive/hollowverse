@@ -92,7 +92,10 @@ const renderUserMenuItem = (variables: UsersQueryVariables) => ({
   <ListItem key={id}>
     <Avatar src={photoUrl || undefined} />
     <ListItemText primary={name} secondary={email} />
-    <Mutation<ChangeUserIsBannedStatusMutation, ChangeUserIsBannedStatusMutationVariables>
+    <Mutation<
+      ChangeUserIsBannedStatusMutation,
+      ChangeUserIsBannedStatusMutationVariables
+    >
       mutation={changeUserIsBannedStatusMutation}
       variables={{ newValue: !isBanned, userId: id }}
       refetchQueries={[{ query: usersQuery, variables }]}
@@ -132,7 +135,7 @@ const renderUserMenuItem = (variables: UsersQueryVariables) => ({
               }}
             </UncontrolledMenu>
           </ListItemSecondaryAction>
-          {data && data.changeUserIsBannedStatus.result.state === 'error' ? (
+          {data && data.changeUserIsBannedStatus.result.state === 'ERROR' ? (
             <UncontrolledDialog
               role="alertdialog"
               aria-labelledby="change-user-ban-status-failure-dialog-title"
@@ -159,7 +162,7 @@ const renderUserMenuItem = (variables: UsersQueryVariables) => ({
               )}
             </UncontrolledDialog>
           ) : null}
-          {data && data.changeUserIsBannedStatus.result.state === 'success' ? (
+          {data && data.changeUserIsBannedStatus.result.state === 'SUCCESS' ? (
             <UncontrolledSnackbar
               open
               autoHideDuration={2000}
