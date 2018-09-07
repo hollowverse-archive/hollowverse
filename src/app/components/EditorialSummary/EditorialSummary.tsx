@@ -57,7 +57,7 @@ const isBlockNode = (node: Node) =>
     EditorialSummaryNodeType.heading,
     EditorialSummaryNodeType.paragraph,
     EditorialSummaryNodeType.quote,
-  ].includes(node.type);
+  ].includes(node.type.toLowerCase() as EditorialSummaryNodeType);
 
 const isRootBlock = (node: Node) => !node.parentId;
 
@@ -78,7 +78,14 @@ type BlockProps = {
 
 const Block = (props: BlockProps): JSX.Element => {
   const { node, nodes, referencesMap, onSourceClick } = props;
+
+  // eslint-disable-next-line no-param-reassign
+  node.type = node.type.toLowerCase() as EditorialSummaryNodeType;
+
   const children = findChildren(node, nodes).map(child => {
+    // eslint-disable-next-line no-param-reassign
+    child.type = child.type.toLowerCase() as EditorialSummaryNodeType;
+
     if (isBlockNode(child)) {
       return <Block key={child.id} {...props} node={child} />;
     } else if (child.type === 'link' && child.sourceUrl) {
