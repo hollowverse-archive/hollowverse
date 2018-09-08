@@ -8,7 +8,10 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContentText from '@material-ui/core/DialogContentText';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import withMobileDialog from '@material-ui/core/withMobileDialog';
+
+import { MessageWithIcon } from 'components/MessageWithIcon/MessageWithIcon';
 
 import { plural } from 'pluralize';
 
@@ -177,7 +180,12 @@ export const ProtectedPage = connect(
               return <AuthorizationFailureDialog {...dialogProps} />;
             }
 
-            return <div>Checking your permissions...</div>;
+            return (
+              <MessageWithIcon
+                title="Checking your permissions..."
+                icon={<CircularProgress size={50} />}
+              />
+            );
           }}
         </Protected>
       );
