@@ -3,9 +3,14 @@ import { Switch, Route } from 'react-router';
 import { connect } from 'react-redux';
 import { ApolloProvider } from 'react-apollo';
 import { ApolloClient } from 'apollo-client';
-import { InMemoryCache } from 'apollo-cache-inmemory';
+import { InMemoryCache, IntrospectionFragmentMatcher } from 'apollo-cache-inmemory';
 import { createHttpLink } from 'apollo-link-http';
 import { createSelector } from 'reselect';
+import introspectionQueryResultData from 'api/fragmentTypes.json';
+
+const fragmentMatcher = new IntrospectionFragmentMatcher({
+  introspectionQueryResultData
+});
 
 import {
   getApiAuthHeaders,
@@ -34,7 +39,7 @@ const getApolloClient = createSelector(
         },
         useGETForQueries: useHttpGet,
       }),
-      cache: new InMemoryCache(),
+      cache: new InMemoryCache({ fragmentMatcher }),
       connectToDevTools: true,
     }),
 );
