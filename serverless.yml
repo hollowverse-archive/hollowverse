@@ -1,11 +1,22 @@
 service: website
 
 plugins:
+  - serverless-plugin-scripts
+  - serverless-webpack
   - serverless-apigw-binary
   - serverless-content-encoding
   - serverless-cloudfront-invalidate
 
 custom:
+  scripts:
+    hooks:
+      'before:package:createDeploymentArtifacts': yarn app/build
+
+  webpack:
+    packager: 'yarn'
+    webpackConfig: ./src/webpack/webpack.config.server.js
+    includeModules: true
+
   cloudfrontInvalidate:
     distributionId: 'E3U55U3N2RXSA3'
     items:
@@ -35,10 +46,10 @@ provider:
       Action:
         - secretsmanager:GetSecretValue
       Resource:
-        - "${self:custom.secretsArnPrefix}/splunk/httpCollector/website/token-*"
+        - '${self:custom.secretsArnPrefix}/splunk/httpCollector/website/token-*'
 functions:
   servePages:
-    handler: dist/servePages.servePages
+    handler: src/servePages.servePages
     events:
       - http:
           method: ANY
@@ -47,17 +58,11 @@ functions:
           method: ANY
           path: /{proxy+}
   serveLogEndpoint:
-    handler: dist/serveLogEndpoint.serveLogEndpoint
+    handler: src/serveLogEndpoint.serveLogEndpoint
     events:
       - http:
           method: POST
           path: /log
 
 package:
-  excludeDevDependencies: false
-  include:
-    - 'dist/**'
-  exclude:
-    - '**/*'
-
-
+  individually: true

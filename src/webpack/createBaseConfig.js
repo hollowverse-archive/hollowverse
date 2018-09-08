@@ -3,15 +3,14 @@ const path = require('path');
 
 const SpriteLoaderPlugin = require('svg-sprite-loader/plugin');
 
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
-
 const { URL } = require('url');
 
-const { compact } = require('lodash');
+const { compact, mapValues } = require('lodash');
 
 const { srcDirectory, excludedPatterns, publicPath } = require('./variables');
 
-const { isHot, isDev, isProd } = require('@hollowverse/utils/helpers/env');
+const { isHot, isProd } = require('@hollowverse/utils/helpers/env');
+const { getAppGlobals } = require('./appGlobals');
 
 const { API_ENDPOINT = 'https://api.hollowverse.com/graphql' } = process.env;
 
@@ -38,30 +37,6 @@ module.exports.createBaseConfig = () => ({
     },
     stats: 'errors-only',
   },
-
-  // See https://medium.com/webpack/webpack-4-mode-and-optimization-5423a6bc597a
-  optimization: {
-    noEmitOnErrors: true,
-    // Required for debugging in development and for long-term caching in production
-    namedModules: true,
-    namedChunks: true,
-    minimizer: [
-      new UglifyJsPlugin({
-        parallel: true,
-        sourceMap: true,
-        uglifyOptions: {
-          comments: false,
-          minimize: true,
-          safari10: true, // Workaround Safari 10 bugs
-          compress: {
-            inline: false, // Buggy
-          },
-        },
-      }),
-    ],
-  },
-
-  devtool: isDev ? 'cheap-module-source-map' : 'source-map',
 
   module: {
     rules: compact([
@@ -140,7 +115,7 @@ module.exports.createBaseConfig = () => ({
 
       'es6-promise': 'empty-module',
     },
-    extensions: ['.tsx', '.ts', '.js'],
+    extensions: ['.tsx', '.ts', '.js', '.json'],
     modules: [
       // Allow absolute imports from 'src' dir,
       // e.g. `import 'file';` instead of `'../../file';`
@@ -163,5 +138,9 @@ module.exports.createBaseConfig = () => ({
     ]),
 
     new SpriteLoaderPlugin(),
+
+    new webpack.DefinePlugin(
+      mapValues(getAppGlobals(), v => JSON.stringify(v)),
+    ),
   ]),
 });

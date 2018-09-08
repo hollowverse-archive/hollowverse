@@ -39,13 +39,3 @@ declare module '*.html' {
   const str: string;
   export = str;
 }
-
-declare module '!!json-loader!*' {
-  const json: object;
-  export = json;
-}
-
-declare module 'json-loader!*' {
-  const json: object;
-  export = json;
-}

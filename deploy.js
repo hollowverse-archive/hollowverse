@@ -12,18 +12,20 @@ const { IS_PULL_REQUEST, BRANCH } = shelljs.env;
 
 const isPullRequest = IS_PULL_REQUEST !== 'false';
 
-const whitelistedBranches = ['master', 'beta', 'internal', 'materialize-more'];
+const whitelistedBranches = ['master', 'beta', 'internal'];
 
 async function main() {
-  const buildCommands = ['yarn test', 'yarn coverage/report', 'yarn build'];
+  const buildCommands = [];
   const deploymentCommands = [
-    'cp yarn.lock package.json ./dist && cd dist && yarn --prod',
     `NODE_ENV=production serverless deploy --stage ${BRANCH} --aws-s3-accelerate`,
   ];
 
   let isDeployment = false;
   if (isPullRequest === true) {
     console.info('Skipping deployment commands in PRs');
+    buildCommands.push(
+      `NODE_ENV=production serverless package --stage ${BRANCH}`,
+    );
   } else if (!whitelistedBranches.includes(BRANCH)) {
     console.info(
       `Skipping deployment because the branch "${BRANCH}" is not whitelisted`,
