@@ -21,14 +21,7 @@ const serverSpecificConfig = {
 
   devtool: false,
 
-  externals: [
-    'express',
-    'http-proxy-middleware',
-    'helmet',
-    'aws-sdk',
-    'encoding',
-    'keyv',
-  ],
+  externals: ['express', 'http-proxy-middleware', 'helmet', 'aws-sdk'],
 
   optimization: {
     minimizer: [
