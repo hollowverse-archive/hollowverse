@@ -1,13 +1,13 @@
-const webpack = require('webpack');
 const webpackMerge = require('webpack-merge');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 const PreloadWebpackPlugin = require('preload-webpack-plugin');
 const { StatsWriterPlugin } = require('webpack-stats-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 const path = require('path');
-const { compact, mapValues } = require('lodash');
+const { compact } = require('lodash');
 
 const { createScriptRules } = require('./helpers');
 const {
@@ -16,7 +16,6 @@ const {
   publicPath,
 } = require('./variables');
 const { createBaseConfig } = require('./createBaseConfig');
-const { getAppGlobals } = require('./appGlobals');
 
 const common = createBaseConfig();
 
@@ -25,6 +24,7 @@ const {
   ifDev,
   ifPerf,
   isProd,
+  isDev,
 } = require('@hollowverse/utils/helpers/env');
 
 const clientSpecificConfig = {
@@ -41,7 +41,27 @@ const clientSpecificConfig = {
     publicPath,
   },
 
+  // See https://medium.com/webpack/webpack-4-mode-and-optimization-5423a6bc597a
   optimization: {
+    noEmitOnErrors: true,
+    // Required for debugging in development and for long-term caching in production
+    namedModules: true,
+    namedChunks: true,
+    minimizer: [
+      new UglifyJsPlugin({
+        parallel: true,
+        sourceMap: true,
+        uglifyOptions: {
+          comments: false,
+          minimize: true,
+          safari10: true, // Workaround Safari 10 bugs
+          compress: {
+            inline: false, // Buggy
+          },
+        },
+      }),
+    ],
+
     runtimeChunk: true,
 
     // See https://gist.github.com/sokra/1522d586b8e5c0f5072d7565c2bee693
@@ -66,6 +86,8 @@ const clientSpecificConfig = {
       },
     },
   },
+
+  devtool: isDev ? 'cheap-module-source-map' : 'source-map',
 
   stats: 'errors-only',
 
@@ -116,10 +138,6 @@ const clientSpecificConfig = {
     new PreloadWebpackPlugin({
       include: 'initial',
     }),
-
-    new webpack.DefinePlugin(
-      mapValues(getAppGlobals(), v => JSON.stringify(v)),
-    ),
 
     ...ifProd([
       // @ts-ignore
