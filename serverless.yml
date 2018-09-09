@@ -10,7 +10,7 @@ plugins:
 custom:
   scripts:
     hooks:
-      'before:package:createDeploymentArtifacts': yarn app/build
+      'before:package:createDeploymentArtifacts': yarn run-s copy-defs app/build
 
   webpack:
     packager: 'yarn'
