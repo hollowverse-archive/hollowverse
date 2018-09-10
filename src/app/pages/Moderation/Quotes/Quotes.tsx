@@ -96,6 +96,7 @@ export const Quotes = () => (
                     <Chip
                       avatar={iconByReviewStatus[reviewStatus]}
                       label={labelByReviewStatus[reviewStatus]}
+                      variant="outlined"
                     />
                     {reviewStatus !== 'ALLOWED' ? (
                       <Button size="small" color="primary">
@@ -104,7 +105,7 @@ export const Quotes = () => (
                     ) : null}
                     {reviewStatus !== 'REMOVED' ? (
                       <Button size="small" color="primary">
-                        Removed
+                        Remove
                       </Button>
                     ) : null}
                   </CardActions>
