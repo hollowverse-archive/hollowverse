@@ -1,0 +1,15 @@
+mutation ChangeNotablePersonEventReviewStatus(
+  $input: ChangeNotablePersonEventReviewStatusInput!
+) {
+  changeNotablePersonEventReviewStatus(input: $input) {
+    result {
+      state
+      ... on ErrorResult {
+        errors {
+          code
+          message
+        }
+      }
+    }
+  }
+}
