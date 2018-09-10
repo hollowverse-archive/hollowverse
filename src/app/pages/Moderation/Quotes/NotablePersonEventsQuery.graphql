@@ -4,11 +4,17 @@ query NotablePersonEvents($after: ID) {
       cursor
       node {
         id
+
+        notablePerson {
+          name
+        }
+
         quote
         isQuoteByNotablePerson
         happenedOn
         reviewStatus
         sourceUrl
+        postedAt
         submittedBy {
           name
         }
