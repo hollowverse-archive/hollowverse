@@ -1,0 +1,22 @@
+query NotablePersonEvents($after: ID) {
+  notablePeopleEvents(first: 10, after: $after) {
+    edges {
+      cursor
+      node {
+        id
+        quote
+        isQuoteByNotablePerson
+        happenedOn
+        reviewStatus
+        sourceUrl
+        submittedBy {
+          name
+        }
+      }
+    }
+    pageInfo {
+      endCursor
+      hasNextPage
+    }
+  }
+}
