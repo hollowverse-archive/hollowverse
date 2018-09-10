@@ -5,13 +5,37 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import Chip from '@material-ui/core/Chip';
+import RemovedIcon from '@material-ui/icons/BlockOutlined';
+import AllowedIcon from '@material-ui/icons/CheckOutlined';
+import NotReviewedIcon from '@material-ui/icons/WatchLaterOutlined';
+
+import formatDate from 'date-fns/format';
 
 import { Query } from 'react-apollo';
 import {
   NotablePersonEventsQuery,
   NotablePersonEventsQueryVariables,
+  NotablePersonEventReviewStatus,
 } from 'api/types';
 import notablePersonEventsQuery from '!!graphql-tag/loader!./NotablePersonEventsQuery.graphql';
+
+import { prettifyUrl } from 'helpers/prettifyUrl';
+
+const labelByReviewStatus: Record<NotablePersonEventReviewStatus, string> = {
+  ALLOWED: 'Allowed',
+  REMOVED: 'Removed',
+  NOT_REVIEWED: 'Not reviewed',
+};
+
+const iconByReviewStatus: Record<
+  NotablePersonEventReviewStatus,
+  JSX.Element
+> = {
+  ALLOWED: <AllowedIcon />,
+  REMOVED: <RemovedIcon />,
+  NOT_REVIEWED: <NotReviewedIcon />,
+};
 
 export const Quotes = () => (
   <>
@@ -36,7 +60,19 @@ export const Quotes = () => (
           } = data;
 
           return edges.map(
-            ({ node: { id, quote, submittedBy, notablePerson } }) => {
+            ({
+              node: {
+                id,
+                quote,
+                submittedBy,
+                notablePerson,
+                happenedOn,
+                sourceUrl,
+                reviewStatus,
+              },
+            }) => {
+              const date = happenedOn ? new Date(happenedOn) : undefined;
+
               return (
                 <Card key={id}>
                   <CardContent>
@@ -46,15 +82,31 @@ export const Quotes = () => (
                     <Typography component="blockquote" variant="headline">
                       {quote}
                     </Typography>
-                    Submitted by: {submittedBy.name}
+                    <div>Submitted by: {submittedBy.name}</div>
+                    <div>Source: {prettifyUrl(sourceUrl)}</div>
+                    <div>
+                      {date !== undefined ? (
+                        <time dateTime={date.toISOString()}>
+                          {formatDate(date, 'MMMM D, YYYY')}
+                        </time>
+                      ) : null}
+                    </div>
                   </CardContent>
                   <CardActions>
-                    <Button size="small" color="primary">
-                      Allow
-                    </Button>
-                    <Button size="small" color="primary">
-                      Remove
-                    </Button>
+                    <Chip
+                      avatar={iconByReviewStatus[reviewStatus]}
+                      label={labelByReviewStatus[reviewStatus]}
+                    />
+                    {reviewStatus !== 'ALLOWED' ? (
+                      <Button size="small" color="primary">
+                        Allow
+                      </Button>
+                    ) : null}
+                    {reviewStatus !== 'REMOVED' ? (
+                      <Button size="small" color="primary">
+                        Removed
+                      </Button>
+                    ) : null}
                   </CardActions>
                 </Card>
               );
