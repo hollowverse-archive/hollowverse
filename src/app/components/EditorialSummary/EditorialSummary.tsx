@@ -82,7 +82,9 @@ const Block = (props: BlockProps): JSX.Element => {
   const children = findChildren(node, nodes).map(child => {
     if (isBlockNode(child)) {
       return <Block key={child.id} {...props} node={child} />;
-    } else if (child.type === 'LINK' && child.sourceUrl) {
+    }
+
+    if (child.type === 'LINK' && child.sourceUrl) {
       return (
         <a
           key={child.id}
@@ -114,7 +116,9 @@ const Block = (props: BlockProps): JSX.Element => {
         {children}
       </Quote>
     );
-  } else if (node.type === 'HEADING') {
+  }
+
+  if (node.type === 'HEADING') {
     return (
       <Typography gutterBottom variant="title" key={node.id}>
         {children}
@@ -194,15 +198,17 @@ export const EditorialSummary = withStyles(styles)(
       return (
         <>
           <div className={classes.articleText}>
-            {nodes.filter(isRootBlock).map(node => (
-              <Block
-                key={node.id}
-                node={node}
-                nodes={nodes}
-                referencesMap={this.references}
-                onSourceClick={this.onSourceClick}
-              />
-            ))}
+            {nodes
+              .filter(isRootBlock)
+              .map(node => (
+                <Block
+                  key={node.id}
+                  node={node}
+                  nodes={nodes}
+                  referencesMap={this.references}
+                  onSourceClick={this.onSourceClick}
+                />
+              ))}
             <footer>
               <Typography color="textSecondary" component="small">
                 This article was written by {author}

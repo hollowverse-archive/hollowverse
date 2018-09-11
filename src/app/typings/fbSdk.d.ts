@@ -1,46 +1,6 @@
-/* tslint:disable */
 const FB: FB;
 
-interface FB {
-  Event: {
-    subscribe<T extends FB.EventType>(
-      eventToSubscribeTo: T,
-      callback: FB.Callback<FB.EventResponse<T>>,
-    ): void;
-
-    unsubscribe<T extends FB.EventType>(
-      event: EventType,
-      callback: FB.Callback<FB, EventResponse<T>>,
-    ): void;
-  };
-
-  XFBML: {
-    parse(node?: Node, callback?: () => void): void;
-  };
-
-  getLoginStatus(
-    callback: FB.Callback<FB.LoginStatusResponse>,
-    cache?: boolean,
-  ): void;
-
-  getAuthResponse(): FB.AuthResponse;
-
-  login(callback?: FB.Callback<FB.AuthResponse>): void;
-  logout(callback?: FB.Callback<FB.AuthResponse>): void;
-
-  init(params?: {
-    appId?: string;
-    xfbml?: boolean;
-    autoLogAppEvents?: boolean;
-    status?: boolean;
-    version?: string;
-    cookie?: boolean;
-  }): void;
-}
-
 declare namespace FB {
-  type AuthResponse = LoginStatusResponse['authResponse'];
-
   type LoginStatusResponse =
     | {
         /** The user is logged into Facebook and has authorized your application. */
@@ -78,6 +38,8 @@ declare namespace FB {
 
   type LoginStatus = LoginStatusResponse['status'];
 
+  type AuthResponse = LoginStatusResponse['authResponse'];
+
   type EventTypeToResponse = {
     /**
      * Fired when the `authResponse` object has changed,
@@ -110,4 +72,41 @@ declare namespace FB {
   type Callback<T> = (response: T) => void;
 
   type EventResponse<T extends EventType> = EventTypeToResponse[T];
+}
+
+interface FB {
+  Event: {
+    subscribe<T extends FB.EventType>(
+      eventToSubscribeTo: T,
+      callback: FB.Callback<FB.EventResponse<T>>,
+    ): void;
+
+    unsubscribe<T extends FB.EventType>(
+      event: EventType,
+      callback: FB.Callback<FB, EventResponse<T>>,
+    ): void;
+  };
+
+  XFBML: {
+    parse(node?: Node, callback?: () => void): void;
+  };
+
+  getLoginStatus(
+    callback: FB.Callback<FB.LoginStatusResponse>,
+    cache?: boolean,
+  ): void;
+
+  getAuthResponse(): FB.AuthResponse;
+
+  login(callback?: FB.Callback<FB.AuthResponse>): void;
+  logout(callback?: FB.Callback<FB.AuthResponse>): void;
+
+  init(params?: {
+    appId?: string;
+    xfbml?: boolean;
+    autoLogAppEvents?: boolean;
+    status?: boolean;
+    version?: string;
+    cookie?: boolean;
+  }): void;
 }

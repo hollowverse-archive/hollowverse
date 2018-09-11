@@ -1,3 +1,5 @@
+// tslint:disable function-name
+/* eslint-disable camelcase */
 import React from 'react';
 
 import {
@@ -88,13 +90,14 @@ class Wrapper extends React.Component<Props> {
     });
   }
 
-  componentWillMount() {
+  // tslint:disable-next-line function-name
+  UNSAFE_componentWillMount() {
     if (this.props.result.requestId !== this.props.requestId) {
       this.resolve();
     }
   }
 
-  componentWillReceiveProps(nextProps: Props) {
+  UNSAFE_componentWillReceiveProps(nextProps: Props) {
     if (nextProps.requestId !== this.props.requestId) {
       this.resolve(nextProps);
     }

@@ -1,3 +1,5 @@
+// tslint:disable function-name
+/* eslint-disable camelcase */
 import React from 'react';
 
 type Props = {
@@ -23,7 +25,7 @@ export class ScrollTo extends React.PureComponent<Props> {
     this.scroll();
   }
 
-  componentWillReceiveProps(nextProps: Props) {
+  UNSAFE_componentWillReceiveProps(nextProps: Props) {
     if (this.props.updateKey !== nextProps.updateKey) {
       this.scroll();
     }

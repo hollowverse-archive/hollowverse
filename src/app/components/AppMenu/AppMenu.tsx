@@ -1,3 +1,5 @@
+// tslint:disable function-name
+/* eslint-disable camelcase */
 import React from 'react';
 import cc from 'classcat';
 
@@ -134,7 +136,8 @@ export const AppMenu = withStyles(styles)(
       isLoginStateChangeSnackbarShown: false,
     };
 
-    componentWillReceiveProps({ authState }: Props) {
+    // tslint:disable-next-line function-name
+    UNSAFE_componentWillReceiveProps({ authState }: Props) {
       this.setState({
         isLoginStateChangeSnackbarShown:
           authState.state !== this.props.authState.state &&

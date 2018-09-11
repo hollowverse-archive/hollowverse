@@ -178,7 +178,9 @@ export const PersonDetails = withStyles(styles)(
             </span>
           </a>
         );
-      } else if (isLoading || !photo) {
+      }
+
+      if (isLoading || !photo) {
         return (
           <span className={classes.photoLink}>
             <PersonPhoto

@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 type SpriteSymbol = {
   id: string;
   viewBox: string;
