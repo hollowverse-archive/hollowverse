@@ -175,7 +175,10 @@ export const NotablePerson = withRouter(
                     : commentsUrl
                 }
               />
-              <title>{name}'s Religion and Political Views</title>
+              <title>
+                {name}
+                's Religion and Political Views
+              </title>
               <meta
                 name="description"
                 content={oneLine`

@@ -1,7 +1,6 @@
 {
   "scripts": {
-    "check-ts":
-      "npm-run-all -s copy-defs -p -c --aggregate-output '*/check-ts'",
+    "check-ts": "npm-run-all -s copy-defs -p -c --aggregate-output '*/check-ts'",
     "pre-push": "yarn pretest",
     "pre-commit": "yarn common-check"
   }

@@ -194,17 +194,15 @@ export const EditorialSummary = withStyles(styles)(
       return (
         <>
           <div className={classes.articleText}>
-            {nodes
-              .filter(isRootBlock)
-              .map(node => (
-                <Block
-                  key={node.id}
-                  node={node}
-                  nodes={nodes}
-                  referencesMap={this.references}
-                  onSourceClick={this.onSourceClick}
-                />
-              ))}
+            {nodes.filter(isRootBlock).map(node => (
+              <Block
+                key={node.id}
+                node={node}
+                nodes={nodes}
+                referencesMap={this.references}
+                onSourceClick={this.onSourceClick}
+              />
+            ))}
             <footer>
               <Typography color="textSecondary" component="small">
                 This article was written by {author}
@@ -213,7 +211,8 @@ export const EditorialSummary = withStyles(styles)(
                     {' '}
                     and was last updated on {formatDate(date, 'MMMM D, YYYY')}
                   </time>
-                ) : null}.
+                ) : null}
+                .
               </Typography>
             </footer>
           </div>

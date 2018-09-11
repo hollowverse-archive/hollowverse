@@ -30,10 +30,12 @@ export function promiseToCancelable<T>(promise: Promise<T>): Cancelable<T> {
     });
   });
 
+  const removeListeners = () => {
+    target.removeAllListeners();
+  };
+
   const wrappedPromise = Promise.race([cancelationPromise, promise]).finally(
-    () => {
-      target.removeAllListeners();
-    },
+    removeListeners,
   );
 
   return {

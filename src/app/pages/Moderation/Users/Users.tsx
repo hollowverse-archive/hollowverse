@@ -97,7 +97,7 @@ const renderUserMenuItem = (variables: UsersQueryVariables) => ({
       ChangeUserIsBannedStatusMutationVariables
     >
       mutation={changeUserIsBannedStatusMutation}
-      variables={{ newValue: !isBanned, userId: id }}
+      variables={{ input: { newValue: !isBanned, userId: id } }}
       refetchQueries={[{ query: usersQuery, variables }]}
     >
       {(changeUserIsBannedStatus, { loading, data }) => (
