@@ -46,6 +46,7 @@ logEndpoint.use(
 logEndpoint.use([
   // Error handler signature with 4 parameters
   (error, __, res, ___) => {
+    // tslint:disable-next-line no-console
     console.error('Log endpoint error:', error);
     res.status(500);
     res.send({ error: 'Server Error' });

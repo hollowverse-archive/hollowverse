@@ -36,6 +36,7 @@ entryMiddleware.use(async (req, res, next) => {
       next();
     }
   } catch (e) {
+    // tslint:disable-next-line no-console
     console.error(e);
     next();
   }
