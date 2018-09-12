@@ -37,6 +37,7 @@ import changeUserIsBannedStatusMutation from '!!graphql-tag/loader!./ChangeUserI
 
 import { createPulseAnimation } from 'helpers/animations';
 import { callAll } from 'helpers/callAll';
+import { createUpdateRelayConnection } from 'helpers/relay';
 import { ArrayElement } from 'typings/typeHelpers';
 import { MessageWithIcon } from 'components/MessageWithIcon/MessageWithIcon';
 import { LocationAwareTabs } from 'components/LocationAwareTabs/LocationAwareTabs';
@@ -77,6 +78,8 @@ const LoadingListPlaceholder = withStyles((theme: Theme) => {
     ))}
   </List>
 ));
+
+const updateUsersQuery = createUpdateRelayConnection<UsersQuery>('users');
 
 const renderUserMenuItemButton: (
   props: UncontrolledMenuButtonProps,
@@ -216,25 +219,7 @@ const renderUserList = ({
                 variables: {
                   after: data.users.pageInfo.endCursor,
                 },
-                updateQuery(previousResult, { fetchMoreResult }) {
-                  if (!fetchMoreResult) {
-                    return previousResult;
-                  }
-
-                  const { edges: newEdges } = fetchMoreResult.users;
-                  const { pageInfo } = fetchMoreResult.users;
-
-                  return {
-                    ...previousResult,
-                    // Put the new users at the end of the list and update `pageInfo`
-                    // so we have the new `endCursor` and `hasNextPage` values
-                    users: {
-                      ...previousResult.users,
-                      edges: [...previousResult.users.edges, ...newEdges],
-                      pageInfo,
-                    },
-                  };
-                },
+                updateQuery: updateUsersQuery,
               });
             }}
           >
