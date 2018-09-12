@@ -194,10 +194,10 @@ export class EventCard extends React.PureComponent<Props> {
                 <Quote size="large">
                   <Typography paragraph>{quote}</Typography>
                 </Quote>
-                <Table>
+                <Table padding="dense">
                   <TableBody>
                     <TableRow>
-                      <TableCell>Submitted by</TableCell>
+                      <TableCell padding="none">Submitted by</TableCell>
                       <TableCell>
                         <div
                           style={{
@@ -221,13 +221,13 @@ export class EventCard extends React.PureComponent<Props> {
                       </TableCell>
                     </TableRow>
                     <TableRow>
-                      <TableCell>Submitted on</TableCell>
+                      <TableCell padding="none">Submitted on</TableCell>
                       <TableCell>
                         <FormattedDate dateString={postedAt} />
                       </TableCell>
                     </TableRow>
                     <TableRow>
-                      <TableCell>Event happened on</TableCell>
+                      <TableCell padding="none">Event happened on</TableCell>
                       <TableCell>
                         {happenedOn ? (
                           <FormattedDate dateString={happenedOn} />
