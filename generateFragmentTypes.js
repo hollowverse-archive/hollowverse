@@ -32,10 +32,18 @@ fetch(API_ENDPOINT, {
     const filteredData = result.data.__schema.types.filter(
       type => type.possibleTypes !== null,
     );
-    result.data.__schema.types = filteredData;
+
+    const data = {
+      ...result.data,
+      __schema: {
+        ...result.data.__schema,
+        types: filteredData,
+      },
+    };
+
     fs.writeFile(
       './src/app/api/fragmentTypes.json',
-      JSON.stringify(result.data, undefined, 2),
+      JSON.stringify(data, undefined, 2),
       err => {
         if (err) {
           console.error('Error writing fragmentTypes file', err);
