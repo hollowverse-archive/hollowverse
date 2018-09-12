@@ -19,8 +19,6 @@ import AllowedIcon from '@material-ui/icons/CheckOutlined';
 import NotReviewedIcon from '@material-ui/icons/WatchLaterOutlined';
 import MoreIcon from '@material-ui/icons/MoreVert';
 
-import formatDate from 'date-fns/format';
-
 import { Query, Mutation } from 'react-apollo';
 import {
   NotablePersonEventsQuery,
@@ -36,6 +34,7 @@ import { prettifyUrl } from 'helpers/prettifyUrl';
 import { callAll } from 'helpers/callAll';
 
 import { Quote } from 'components/Quote/Quote';
+import { FormattedDate } from 'components/FormattedDate/FormattedDate';
 import {
   UncontrolledMenu,
   UncontrolledMenuButtonProps,
@@ -55,22 +54,6 @@ const iconByReviewStatus: Record<
   ALLOWED: <AllowedIcon />,
   REMOVED: <RemovedIcon />,
   NOT_REVIEWED: <NotReviewedIcon />,
-};
-
-const Time = ({
-  dateString,
-  format = 'MMMM D, YYYY',
-}: {
-  dateString?: string | null;
-  format?: string;
-}) => {
-  if (!dateString) {
-    return null;
-  }
-
-  const date = new Date(dateString);
-
-  return <time dateTime={date.toISOString()}>{formatDate(date, format)}</time>;
 };
 
 const renderMenuButtons = (buttonProps: UncontrolledMenuButtonProps) => (
@@ -230,7 +213,7 @@ const renderEventCard = ({
                 <TableRow>
                   <TableCell>Submitted on</TableCell>
                   <TableCell>
-                    <Time dateString={postedAt} />
+                    <FormattedDate dateString={postedAt} />
                   </TableCell>
                 </TableRow>
                 <TableRow>
