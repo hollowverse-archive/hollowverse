@@ -12,9 +12,9 @@ import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import Chip from '@material-ui/core/Chip';
 import Avatar from '@material-ui/core/Avatar';
-import RemovedIcon from '@material-ui/icons/BlockRounded';
-import AllowedIcon from '@material-ui/icons/CheckRounded';
-import NotReviewedIcon from '@material-ui/icons/WatchLaterRounded';
+import RemovedIcon from '@material-ui/icons/BlockOutlined';
+import AllowedIcon from '@material-ui/icons/CheckOutlined';
+import NotReviewedIcon from '@material-ui/icons/WatchLaterOutlined';
 import MenuItem from '@material-ui/core/MenuItem';
 import MoreIcon from '@material-ui/icons/MoreVert';
 
@@ -134,6 +134,20 @@ export const Quotes = () => (
                         action={
                           <>
                             <Chip
+                              onDelete={
+                                reviewStatus !== 'NOT_REVIEWED'
+                                  ? () => {
+                                      changeReviewStatus({
+                                        variables: {
+                                          input: {
+                                            eventId: id,
+                                            newValue: 'NOT_REVIEWED' as NotablePersonEventReviewStatus,
+                                          },
+                                        },
+                                      });
+                                    }
+                                  : undefined
+                              }
                               avatar={
                                 isMutationLoading ? (
                                   <CircularProgress
