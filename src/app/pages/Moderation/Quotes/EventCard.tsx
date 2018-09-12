@@ -22,6 +22,7 @@ import MoreIcon from '@material-ui/icons/MoreVert';
 import { Mutation } from 'react-apollo';
 import {
   NotablePersonEventsQuery,
+  NotablePersonEventsQueryVariables,
   NotablePersonEventReviewStatus,
   ChangeNotablePersonEventReviewStatusMutation,
   ChangeNotablePersonEventReviewStatusMutationVariables,
@@ -63,12 +64,13 @@ const renderMenuButtons = (buttonProps: UncontrolledMenuButtonProps) => (
 
 type Props = ArrayElement<
   NotablePersonEventsQuery['notablePeopleEvents']['edges']
->;
+> & { variables: NotablePersonEventsQueryVariables };
 
 export class EventCard extends React.PureComponent<Props> {
   // tslint:disable max-func-body-length
   render() {
     const {
+      variables,
       node: {
         id: eventId,
         quote,
@@ -87,7 +89,7 @@ export class EventCard extends React.PureComponent<Props> {
         ChangeNotablePersonEventReviewStatusMutationVariables
       >
         mutation={changeReviewStatusMutation}
-        refetchQueries={[{ query: eventsQuery }]}
+        refetchQueries={[{ query: eventsQuery, variables }]}
         awaitRefetchQueries
         key={eventId}
       >

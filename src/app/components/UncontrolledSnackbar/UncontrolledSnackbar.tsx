@@ -2,7 +2,7 @@ import React from 'react';
 import Snackbar, { SnackbarProps } from '@material-ui/core/Snackbar';
 import { Omit } from 'typings/typeHelpers';
 
-type UncontrolledSnackbarChildrenProps = {
+export type UncontrolledSnackbarChildrenProps = {
   close(): void;
 };
 

@@ -1,235 +1,23 @@
 import React from 'react';
-import { Query, QueryResult, Mutation } from 'react-apollo';
+import { Query } from 'react-apollo';
 import { Switch, Route, Redirect } from 'react-router';
 import IntersectionObserver from 'react-intersection-observer';
-import random from 'lodash/random';
-import times from 'lodash/times';
 import Typography from '@material-ui/core/Typography';
 import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import MenuItem from '@material-ui/core/MenuItem';
-import IconButton from '@material-ui/core/IconButton';
-import Avatar from '@material-ui/core/Avatar';
 import Tab from '@material-ui/core/Tab';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogActions from '@material-ui/core/DialogActions';
-import Button from '@material-ui/core/Button';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import MoreIcon from '@material-ui/icons/MoreVert';
-import BlockIcon from '@material-ui/icons/Block';
-// import UnblockIcon from '@material-ui/icons/Unblock';
-import { withStyles, createStyles, Theme } from '@material-ui/core/styles';
 
-import {
-  UsersQuery,
-  UsersQueryVariables,
-  ChangeUserIsBannedStatusMutation,
-  ChangeUserIsBannedStatusMutationVariables,
-} from 'api/types';
+import { UsersQuery, UsersQueryVariables } from 'api/types';
 
 import usersQuery from '!!graphql-tag/loader!./UsersQuery.graphql';
-import changeUserIsBannedStatusMutation from '!!graphql-tag/loader!./ChangeUserIsBannedStatusMutation.graphql';
 
-import { createPulseAnimation } from 'helpers/animations';
-import { callAll } from 'helpers/callAll';
 import { createUpdateRelayConnection } from 'helpers/relay';
-import { ArrayElement } from 'typings/typeHelpers';
 import { MessageWithIcon } from 'components/MessageWithIcon/MessageWithIcon';
 import { LocationAwareTabs } from 'components/LocationAwareTabs/LocationAwareTabs';
-import {
-  UncontrolledMenu,
-  UncontrolledMenuButtonProps,
-} from 'components/UncontrolledMenu/UncontrolledMenu';
-import { UncontrolledDialog } from 'components/UncontrolledDialog/UncontrolledDialog';
-import { UncontrolledSnackbar } from 'components/UncontrolledSnackbar/UncontrolledSnackbar';
 
-const LoadingListPlaceholder = withStyles((theme: Theme) => {
-  const pulse = createPulseAnimation(theme);
-
-  return createStyles({
-    ...pulse.definition,
-    root: {
-      color: 'transparent',
-      ...pulse.usage,
-    },
-    photo: pulse.photoProps,
-    text: pulse.textProps,
-  });
-})(({ classes }) => (
-  <List aria-hidden className={classes.root}>
-    {times(random(2, 5), i => (
-      <ListItem key={i}>
-        <Avatar className={classes.photo} />
-        <ListItemText
-          aria-hidden
-          primary={
-            <span className={classes.text}>{'#'.repeat(random(10, 25))}</span>
-          }
-          secondary={
-            <span className={classes.text}>{'#'.repeat(random(10, 25))}</span>
-          }
-        />
-      </ListItem>
-    ))}
-  </List>
-));
+import { UserMenuItem } from './UserMenuItem';
+import { LoadingListPlaceholder } from './LoadingListPlaceholder';
 
 const updateUsersQuery = createUpdateRelayConnection<UsersQuery>('users');
-
-const renderUserMenuItemButton: (
-  props: UncontrolledMenuButtonProps,
-) => JSX.Element = props => (
-  <IconButton {...props}>
-    <MoreIcon />
-  </IconButton>
-);
-
-const renderUserMenuItem = (variables: UsersQueryVariables) => ({
-  node: { id, photoUrl, name, email, isBanned },
-}: ArrayElement<UsersQuery['users']['edges']>) => (
-  <ListItem key={id}>
-    <Avatar src={photoUrl || undefined} />
-    <ListItemText primary={name} secondary={email} />
-    <Mutation<
-      ChangeUserIsBannedStatusMutation,
-      ChangeUserIsBannedStatusMutationVariables
-    >
-      mutation={changeUserIsBannedStatusMutation}
-      variables={{ input: { newValue: !isBanned, userId: id } }}
-      refetchQueries={[{ query: usersQuery, variables }]}
-    >
-      {(changeUserIsBannedStatus, { loading, data }) => (
-        <>
-          <ListItemSecondaryAction>
-            <UncontrolledMenu
-              renderButton={renderUserMenuItemButton}
-              anchorOrigin={{
-                horizontal: 'left',
-                vertical: 'center',
-              }}
-              id={`user-action-menu-${id}`}
-            >
-              {props => {
-                return (
-                  <MenuItem
-                    {...props}
-                    onClick={callAll(props.onClick, () => {
-                      changeUserIsBannedStatus();
-                    })}
-                    disabled={loading}
-                  >
-                    {isBanned ? null : (
-                      <ListItemIcon>
-                        {loading ? (
-                          <CircularProgress size={24} />
-                        ) : (
-                          <BlockIcon />
-                        )}
-                      </ListItemIcon>
-                    )}
-                    {isBanned ? 'Unban User' : 'Ban User'}
-                  </MenuItem>
-                );
-              }}
-            </UncontrolledMenu>
-          </ListItemSecondaryAction>
-          {data && data.changeUserIsBannedStatus.result.state === 'ERROR' ? (
-            <UncontrolledDialog
-              role="alertdialog"
-              aria-labelledby="change-user-ban-status-failure-dialog-title"
-              open
-            >
-              {({ close }) => (
-                <>
-                  <DialogTitle id="change-user-ban-status-failure-dialog-title">
-                    Failed to change ban status of user
-                  </DialogTitle>
-                  <DialogContent>
-                    <DialogContentText>
-                      {(data.changeUserIsBannedStatus.result as any).errors.map(
-                        ({ message }: any) => (
-                          <span key={message}>{message}</span>
-                        ),
-                      )}
-                    </DialogContentText>
-                  </DialogContent>
-                  <DialogActions>
-                    <Button onClick={close}>Dismiss</Button>
-                  </DialogActions>
-                </>
-              )}
-            </UncontrolledDialog>
-          ) : null}
-          {data && data.changeUserIsBannedStatus.result.state === 'SUCCESS' ? (
-            <UncontrolledSnackbar
-              open
-              autoHideDuration={2000}
-              message={<span>Ban status changed successfully</span>}
-              renderAction={({ close }) => (
-                <Button color="secondary" size="small" onClick={close}>
-                  Dismiss
-                </Button>
-              )}
-            />
-          ) : null}
-        </>
-      )}
-    </Mutation>
-  </ListItem>
-);
-
-const renderUserList = ({
-  data,
-  fetchMore,
-  variables,
-  loading,
-}: QueryResult<UsersQuery, UsersQueryVariables>) => {
-  if (loading) {
-    return <LoadingListPlaceholder />;
-  }
-
-  if (!data || !data.users || data.users.edges.length === 0) {
-    return <MessageWithIcon title="Nothing to show here" />;
-  }
-
-  const {
-    users: {
-      edges,
-      pageInfo: { hasNextPage },
-    },
-  } = data;
-
-  return (
-    <List>
-      {edges.map(renderUserMenuItem(variables))}
-      {hasNextPage ? (
-        <>
-          <IntersectionObserver
-            onChange={inView => {
-              if (!inView) {
-                return;
-              }
-
-              fetchMore({
-                variables: {
-                  after: data.users.pageInfo.endCursor,
-                },
-                updateQuery: updateUsersQuery,
-              });
-            }}
-          >
-            {inView => (inView ? <LoadingListPlaceholder /> : null)}
-          </IntersectionObserver>
-        </>
-      ) : null}
-    </List>
-  );
-};
 
 export const Users = () => (
   <>
@@ -263,7 +51,54 @@ export const Users = () => (
               },
             }}
           >
-            {renderUserList}
+            {({ data, loading, error, variables, fetchMore }) => {
+              if (loading) {
+                return <LoadingListPlaceholder />;
+              }
+
+              if (error) {
+                return <MessageWithIcon title="Failed to load" />;
+              }
+
+              if (!data || !data.users || data.users.edges.length === 0) {
+                return <MessageWithIcon title="Nothing to show here" />;
+              }
+
+              const {
+                users: {
+                  edges,
+                  pageInfo: { hasNextPage },
+                },
+              } = data;
+
+              const onIntersectionChange = async (inView: boolean) => {
+                if (!inView) {
+                  return;
+                }
+
+                await fetchMore({
+                  variables: {
+                    after: data.users.pageInfo.endCursor,
+                  },
+                  updateQuery: updateUsersQuery,
+                });
+              };
+
+              return (
+                <List>
+                  {edges.map(edge => (
+                    <UserMenuItem {...edge} variables={variables} />
+                  ))}
+                  {hasNextPage ? (
+                    <>
+                      <IntersectionObserver onChange={onIntersectionChange}>
+                        {inView => (inView ? <LoadingListPlaceholder /> : null)}
+                      </IntersectionObserver>
+                    </>
+                  ) : null}
+                </List>
+              );
+            }}
           </Query>
         )}
       </Route>

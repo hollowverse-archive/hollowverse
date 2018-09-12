@@ -17,7 +17,7 @@ export const Quotes = () => (
     <Query<NotablePersonEventsQuery, NotablePersonEventsQueryVariables>
       query={eventsQuery}
     >
-      {({ data, error, loading }) => {
+      {({ data, error, loading, variables }) => {
         if (loading) {
           return <div>Loading...</div>;
         }
@@ -31,7 +31,9 @@ export const Quotes = () => (
             notablePeopleEvents: { edges },
           } = data;
 
-          return edges.map(edge => <EventCard {...edge} />);
+          return edges.map(edge => (
+            <EventCard variables={variables} {...edge} />
+          ));
         }
 
         return null;
