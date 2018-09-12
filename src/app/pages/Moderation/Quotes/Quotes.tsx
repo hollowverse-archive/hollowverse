@@ -120,7 +120,9 @@ export const Quotes = () => (
                       <CardHeader
                         title={notablePerson.name}
                         subheader={
-                          <a href={sourceUrl}>{prettifyUrl(sourceUrl)}</a>
+                          <small>
+                            <a href={sourceUrl}>{prettifyUrl(sourceUrl)}</a>
+                          </small>
                         }
                         avatar={
                           notablePerson.mainPhoto ? (

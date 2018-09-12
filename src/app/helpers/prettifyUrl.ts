@@ -10,5 +10,11 @@
  * https://www.example.com/page/1243 | example.com
  * @param url The full URL to prettify, e.g. https://example.com/page/1243
  */
-export const prettifyUrl = (url: string) =>
-  new URL(url).hostname.replace(/^www\./i, '');
+export const prettifyUrl = (url: string) => {
+  const { hostname, port } = new URL(url);
+  const shouldShowPort = port && port !== '80' && port !== '443';
+
+  return `${hostname.replace(/^www\./i, '')}${
+    shouldShowPort ? `:${port}` : ''
+  }`;
+};

@@ -24,7 +24,6 @@ const styles = (theme: Theme) =>
         fontSize: '175%',
         color: theme.palette.text.secondary,
         opacity: 0.4,
-        marginLeft: 10,
       },
       '& > :first-child::before': {
         display: 'block',
@@ -36,6 +35,7 @@ const styles = (theme: Theme) =>
       '& > :last-child::after': {
         content: '"”"',
         lineHeight: 1,
+        marginLeft: 5,
       },
     },
     large: {},
