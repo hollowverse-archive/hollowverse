@@ -35,7 +35,7 @@
     "commonjs": true
   },
   "settings": {
-    "polyfills": ["intersectionobserver"],
+    "polyfills": ["intersectionobserver", "urlsearchparams"],
     "react": {
       "version": "16.4"
     }
