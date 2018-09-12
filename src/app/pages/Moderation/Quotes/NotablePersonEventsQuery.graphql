@@ -7,6 +7,9 @@ query NotablePersonEvents($after: ID) {
 
         notablePerson {
           name
+          mainPhoto {
+            url
+          }
         }
 
         quote
@@ -17,6 +20,7 @@ query NotablePersonEvents($after: ID) {
         postedAt
         submittedBy {
           name
+          photoUrl
         }
       }
     }

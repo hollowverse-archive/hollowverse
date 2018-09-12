@@ -3,5 +3,15 @@
     "check-ts": "npm-run-all -s copy-defs -p -c --aggregate-output '*/check-ts'",
     "pre-push": "yarn pretest",
     "pre-commit": "yarn common-check"
+  },
+  "resolutions": {
+    "graphql": "^0.13.2"
+  },
+  "dependencies": {
+    "graphql": "^0.13.2"
+  },
+  "devDependencies": {
+    "apollo-codegen": "^0.19.1",
+    "graphql": "^0.13.2"
   }
 }

@@ -1,7 +1,9 @@
 import React from 'react';
 import { ButtonProps } from '@material-ui/core/Button';
-import { LocationAwareMenu } from 'components/LocationAwareMenu/LocationAwareMenu';
-import { MenuProps } from '@material-ui/core/Menu';
+import {
+  LocationAwareMenu,
+  MenuProps,
+} from 'components/LocationAwareMenu/LocationAwareMenu';
 
 type State = {
   anchorEl: HTMLElement | null;

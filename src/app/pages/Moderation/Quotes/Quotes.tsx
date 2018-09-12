@@ -3,12 +3,20 @@ import React from 'react';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-import Button from '@material-ui/core/Button';
+import CardHeader from '@material-ui/core/CardHeader';
+import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableRow from '@material-ui/core/TableRow';
+import TableCell from '@material-ui/core/TableCell';
 import Chip from '@material-ui/core/Chip';
+import Avatar from '@material-ui/core/Avatar';
 import RemovedIcon from '@material-ui/icons/BlockRounded';
 import AllowedIcon from '@material-ui/icons/CheckRounded';
 import NotReviewedIcon from '@material-ui/icons/WatchLaterRounded';
+import MenuItem from '@material-ui/core/MenuItem';
+import MoreIcon from '@material-ui/icons/MoreVert';
 
 import formatDate from 'date-fns/format';
 
@@ -20,10 +28,15 @@ import {
   ChangeNotablePersonEventReviewStatusMutation,
   ChangeNotablePersonEventReviewStatusMutationVariables,
 } from 'api/types';
-import notablePersonEventsQuery from '!!graphql-tag/loader!./NotablePersonEventsQuery.graphql';
-import changeNotablePresonEventReviewStatusMutation from '!!graphql-tag/loader!./ChangeNotablePersonEventReviewStatusMutation.graphql';
+import eventsQuery from '!!graphql-tag/loader!./NotablePersonEventsQuery.graphql';
+import changeReviewStatusMutation from '!!graphql-tag/loader!./ChangeNotablePersonEventReviewStatusMutation.graphql';
 
 import { prettifyUrl } from 'helpers/prettifyUrl';
+import { callAll } from 'helpers/callAll';
+
+import { Quote } from 'components/Quote/Quote';
+import { UncontrolledMenu } from 'components/UncontrolledMenu/UncontrolledMenu';
+import { CircularProgress } from '@material-ui/core';
 
 const labelByReviewStatus: Record<NotablePersonEventReviewStatus, string> = {
   ALLOWED: 'Allowed',
@@ -40,6 +53,22 @@ const iconByReviewStatus: Record<
   NOT_REVIEWED: <NotReviewedIcon />,
 };
 
+const Time = ({
+  dateString,
+  format = 'MMMM D, YYYY',
+}: {
+  dateString?: string | null;
+  format?: string;
+}) => {
+  if (!dateString) {
+    return null;
+  }
+
+  const date = new Date(dateString);
+
+  return <time dateTime={date.toISOString()}>{formatDate(date, format)}</time>;
+};
+
 // tslint:disable max-func-body-length
 export const Quotes = () => (
   <>
@@ -47,7 +76,7 @@ export const Quotes = () => (
       Quotes
     </Typography>
     <Query<NotablePersonEventsQuery, NotablePersonEventsQueryVariables>
-      query={notablePersonEventsQuery}
+      query={eventsQuery}
     >
       {({ data, error, loading }) => {
         if (loading) {
@@ -71,83 +100,166 @@ export const Quotes = () => (
                 submittedBy,
                 notablePerson,
                 happenedOn,
+                postedAt,
                 sourceUrl,
                 reviewStatus,
               },
             }) => {
-              const date = happenedOn ? new Date(happenedOn) : undefined;
-
               return (
                 <Mutation<
                   ChangeNotablePersonEventReviewStatusMutation,
                   ChangeNotablePersonEventReviewStatusMutationVariables
                 >
-                  mutation={changeNotablePresonEventReviewStatusMutation}
-                  refetchQueries={[{ query: notablePersonEventsQuery }]}
+                  mutation={changeReviewStatusMutation}
+                  refetchQueries={[{ query: eventsQuery }]}
+                  awaitRefetchQueries
                   key={id}
                 >
-                  {changeReviewStatus => (
+                  {(changeReviewStatus, { loading: isMutationLoading }) => (
                     <Card>
+                      <CardHeader
+                        title={notablePerson.name}
+                        subheader={
+                          <a href={sourceUrl}>{prettifyUrl(sourceUrl)}</a>
+                        }
+                        avatar={
+                          notablePerson.mainPhoto ? (
+                            <Avatar src={notablePerson.mainPhoto.url} />
+                          ) : (
+                            undefined
+                          )
+                        }
+                        action={
+                          <>
+                            <Chip
+                              avatar={
+                                isMutationLoading ? (
+                                  <CircularProgress
+                                    style={{ marginLeft: 5 }}
+                                    size={20}
+                                  />
+                                ) : (
+                                  iconByReviewStatus[reviewStatus]
+                                )
+                              }
+                              label={
+                                isMutationLoading
+                                  ? 'Updating...'
+                                  : labelByReviewStatus[reviewStatus]
+                              }
+                              variant="outlined"
+                            />
+                            <UncontrolledMenu
+                              id={`quote-${id}-menu`}
+                              renderButton={buttonProps => (
+                                <IconButton
+                                  aria-label="Open menu"
+                                  {...buttonProps}
+                                >
+                                  <MoreIcon />
+                                </IconButton>
+                              )}
+                            >
+                              {menuItemProps => {
+                                return (
+                                  <>
+                                    {reviewStatus !== 'ALLOWED' ? (
+                                      <MenuItem
+                                        {...menuItemProps}
+                                        onClick={callAll(
+                                          menuItemProps.onClick,
+                                          () => {
+                                            changeReviewStatus({
+                                              variables: {
+                                                input: {
+                                                  eventId: id,
+                                                  newValue: 'ALLOWED' as NotablePersonEventReviewStatus,
+                                                },
+                                              },
+                                            });
+                                          },
+                                        )}
+                                      >
+                                        Allow
+                                      </MenuItem>
+                                    ) : null}
+                                    {reviewStatus !== 'REMOVED' ? (
+                                      <MenuItem
+                                        {...menuItemProps}
+                                        onClick={callAll(
+                                          menuItemProps.onClick,
+                                          () => {
+                                            changeReviewStatus({
+                                              variables: {
+                                                input: {
+                                                  eventId: id,
+                                                  newValue: 'REMOVED' as NotablePersonEventReviewStatus,
+                                                },
+                                              },
+                                            });
+                                          },
+                                        )}
+                                      >
+                                        Remove
+                                      </MenuItem>
+                                    ) : null}
+                                  </>
+                                );
+                              }}
+                            </UncontrolledMenu>
+                          </>
+                        }
+                      />
                       <CardContent>
-                        <Typography component="blockquote" variant="subheading">
-                          {notablePerson.name}
-                        </Typography>
-                        <Typography component="blockquote" variant="headline">
-                          {quote}
-                        </Typography>
-                        <div>Submitted by: {submittedBy.name}</div>
-                        <div>Source: {prettifyUrl(sourceUrl)}</div>
-                        <div>
-                          {date !== undefined ? (
-                            <time dateTime={date.toISOString()}>
-                              {formatDate(date, 'MMMM D, YYYY')}
-                            </time>
-                          ) : null}
-                        </div>
+                        <Quote size="large">
+                          <Typography paragraph>{quote}</Typography>
+                        </Quote>
+                        <Table>
+                          <TableBody>
+                            <TableRow>
+                              <TableCell>Submitted by</TableCell>
+                              <TableCell>
+                                <div
+                                  style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                  }}
+                                >
+                                  {submittedBy.photoUrl ? (
+                                    <Avatar
+                                      style={{
+                                        display: 'inline-flex',
+                                        marginRight: 5,
+                                      }}
+                                      src={submittedBy.photoUrl}
+                                    />
+                                  ) : (
+                                    undefined
+                                  )}
+                                  {submittedBy.name}
+                                </div>
+                              </TableCell>
+                            </TableRow>
+                            <TableRow>
+                              <TableCell>Submitted on</TableCell>
+                              <TableCell>
+                                <Time dateString={postedAt} />
+                              </TableCell>
+                            </TableRow>
+                            <TableRow>
+                              <TableCell>Event happened on</TableCell>
+                              <TableCell>
+                                {happenedOn ? (
+                                  <Time dateString={happenedOn} />
+                                ) : (
+                                  '(unspecified)'
+                                )}
+                              </TableCell>
+                            </TableRow>
+                          </TableBody>
+                        </Table>
                       </CardContent>
-                      <CardActions>
-                        <Chip
-                          avatar={iconByReviewStatus[reviewStatus]}
-                          label={labelByReviewStatus[reviewStatus]}
-                          variant="outlined"
-                        />
-                        {reviewStatus !== 'ALLOWED' ? (
-                          <Button
-                            onClick={() => {
-                              changeReviewStatus({
-                                variables: {
-                                  input: {
-                                    eventId: id,
-                                    newValue: 'ALLOWED' as NotablePersonEventReviewStatus,
-                                  },
-                                },
-                              });
-                            }}
-                            size="small"
-                            color="primary"
-                          >
-                            Allow
-                          </Button>
-                        ) : null}
-                        {reviewStatus !== 'REMOVED' ? (
-                          <Button
-                            onClick={() => {
-                              changeReviewStatus({
-                                variables: {
-                                  input: {
-                                    eventId: id,
-                                    newValue: 'REMOVED' as NotablePersonEventReviewStatus,
-                                  },
-                                },
-                              });
-                            }}
-                            size="small"
-                            color="primary"
-                          >
-                            Remove
-                          </Button>
-                        ) : null}
-                      </CardActions>
+                      <CardActions />
                     </Card>
                   )}
                 </Mutation>

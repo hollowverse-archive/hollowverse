@@ -1,5 +1,5 @@
-mutation ChangeUserIsBannedStatus($newValue: Boolean!, $userId: ID!) {
-  changeUserIsBannedStatus(input: { newValue: $newValue, userId: $userId }) {
+mutation ChangeUserIsBannedStatus($input: ChangeUserIsBannedStatusInput!) {
+  changeUserIsBannedStatus(input: $input) {
     result {
       state
       ... on ErrorResult {
