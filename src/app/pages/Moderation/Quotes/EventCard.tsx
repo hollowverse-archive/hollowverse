@@ -127,7 +127,7 @@ export class EventCard extends React.PureComponent<Props> {
                   <>
                     <Chip
                       onDelete={
-                        reviewStatus !== 'NOT_REVIEWED'
+                        !isMutationLoading && reviewStatus !== 'NOT_REVIEWED'
                           ? createSetReviewStatus(
                               'NOT_REVIEWED' as NotablePersonEventReviewStatus,
                             )

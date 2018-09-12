@@ -7,9 +7,10 @@ const { URL } = require('url');
 
 const { compact, mapValues } = require('lodash');
 
+const { isHot, isProd } = require('@hollowverse/utils/helpers/env');
+
 const { srcDirectory, excludedPatterns, publicPath } = require('./variables');
 
-const { isHot, isProd } = require('@hollowverse/utils/helpers/env');
 const { getAppGlobals } = require('./appGlobals');
 
 const { API_ENDPOINT = 'https://api.hollowverse.com/graphql' } = process.env;

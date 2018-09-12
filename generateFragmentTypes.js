@@ -1,3 +1,5 @@
+/* eslint import/no-extraneous-dependencies: ["error", {"devDependencies": true}] */
+/* eslint-disable no-underscore-dangle */
 const fetch = require('node-fetch');
 const fs = require('fs');
 
