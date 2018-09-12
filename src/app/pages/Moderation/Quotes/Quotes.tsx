@@ -220,7 +220,7 @@ const renderEventCard = ({
                   <TableCell>Event happened on</TableCell>
                   <TableCell>
                     {happenedOn ? (
-                      <Time dateString={happenedOn} />
+                      <FormattedDate dateString={happenedOn} />
                     ) : (
                       '(unspecified)'
                     )}

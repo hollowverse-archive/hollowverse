@@ -1,9 +1,9 @@
 import React from 'react';
-import formatDate from 'date-fns/format';
 
 import { prettifyUrl } from 'helpers/prettifyUrl';
 import { EditorialSummaryNodeType, NotablePersonQuery } from 'api/types';
 import { Quote } from 'components/Quote/Quote';
+import { FormattedDate } from 'components/FormattedDate/FormattedDate';
 import { ArrayElement } from 'typings/typeHelpers';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
@@ -193,8 +193,6 @@ export const EditorialSummary = withStyles(styles)(
       const { nodes, author, lastUpdatedOn, classes } = this.props;
       const { shouldShowSources } = this.state;
 
-      const date = lastUpdatedOn ? new Date(lastUpdatedOn) : undefined;
-
       return (
         <>
           <div className={classes.articleText}>
@@ -212,11 +210,12 @@ export const EditorialSummary = withStyles(styles)(
             <footer>
               <Typography color="textSecondary" component="small">
                 This article was written by {author}
-                {date ? (
-                  <time dateTime={date.toISOString()}>
+                {lastUpdatedOn ? (
+                  <>
                     {' '}
-                    and was last updated on {formatDate(date, 'MMMM D, YYYY')}
-                  </time>
+                    and was last updated on{' '}
+                    <FormattedDate dateString={lastUpdatedOn} />
+                  </>
                 ) : null}
                 .
               </Typography>
