@@ -43,6 +43,7 @@ export const sendLogs = async (batch: LogBatch) => {
       request.send(data);
     }
   } catch (e) {
+    // tslint:disable-next-line no-console
     console.error('Failed to send logs', e);
   }
 };

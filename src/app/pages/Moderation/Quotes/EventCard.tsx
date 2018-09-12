@@ -96,8 +96,8 @@ export class EventCard extends React.PureComponent<Props> {
         {(changeReviewStatus, { loading: isMutationLoading }) => {
           const createSetReviewStatus = (
             newValue: NotablePersonEventReviewStatus,
-          ) => () => {
-            changeReviewStatus({
+          ) => async () => {
+            await changeReviewStatus({
               variables: {
                 input: {
                   eventId,

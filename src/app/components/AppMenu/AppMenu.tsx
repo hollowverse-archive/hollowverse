@@ -39,6 +39,7 @@ import {
 import {
   UncontrolledMenu,
   UncontrolledMenuItemProps,
+  UncontrolledMenuButtonProps,
 } from '../UncontrolledMenu/UncontrolledMenu';
 
 export type StateProps = {
@@ -128,6 +129,18 @@ type State = {
   isLoginFailedDialogShown: boolean;
   isLoginStateChangeSnackbarShown: boolean;
 };
+
+const renderMenuButton = (buttonProps: UncontrolledMenuButtonProps) => (
+  <Tooltip title="Main Menu">
+    <IconButton
+      // style={{ visibility: 'hidden' }}
+      aria-label="Open menu"
+      {...buttonProps}
+    >
+      <MenuIcon />
+    </IconButton>
+  </Tooltip>
+);
 
 export const AppMenu = withStyles(styles)(
   class extends React.PureComponent<Props, State> {
@@ -345,17 +358,7 @@ export const AppMenu = withStyles(styles)(
             <UncontrolledMenu
               id="app-menu"
               anchorOrigin={{ horizontal: 'center', vertical: 'center' }}
-              renderButton={buttonProps => (
-                <Tooltip title="Main Menu">
-                  <IconButton
-                    // style={{ visibility: 'hidden' }}
-                    aria-label="Open menu"
-                    {...buttonProps}
-                  >
-                    <MenuIcon />
-                  </IconButton>
-                </Tooltip>
-              )}
+              renderButton={renderMenuButton}
             >
               {menuItemProps => (
                 <>

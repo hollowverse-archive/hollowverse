@@ -20,13 +20,14 @@ import {
   shouldUseHttpGetForApiRequests,
 } from 'store/features/auth/reducer';
 import { StoreState } from 'store/types';
-// import { UserRole } from 'api/types';
+import { UserRole } from 'api/types';
 
-// import { ProtectedPage } from 'components/ProtectedPage/ProtectedPage';
+import { ProtectedPage } from 'components/ProtectedPage/ProtectedPage';
 
 import { Users } from './Users/Users';
 import { Quotes } from './Quotes/Quotes';
 
+// tslint:disable-next-line no-suspicious-comment
 // @TODO: Because Apollo is not (yet) used in any user-facing UI, we'll keep this
 // selector and all Apollo library imports in this file, to avoid increasing bundle
 // size significantly. We should later move this to src/store after we migrate the
@@ -51,14 +52,14 @@ const getApolloClient = createSelector(
 export const Moderation = connect((state: StoreState) => ({
   client: getApolloClient(state),
 }))(({ client }) => (
-  // <ProtectedPage authorizedRoles={['MODERATOR'] as UserRole[]}>
-  <div>
-    <ApolloProvider client={client}>
-      <Switch>
-        <Route path="/moderation/users" component={Users} />
-        <Route path="/moderation/quotes" component={Quotes} />
-      </Switch>
-    </ApolloProvider>
-  </div>
-  // </ProtectedPage>
+  <ProtectedPage authorizedRoles={['MODERATOR'] as UserRole[]}>
+    <div>
+      <ApolloProvider client={client}>
+        <Switch>
+          <Route path="/moderation/users" component={Users} />
+          <Route path="/moderation/quotes" component={Quotes} />
+        </Switch>
+      </ApolloProvider>
+    </div>
+  </ProtectedPage>
 ));
