@@ -8,10 +8,13 @@ import {
   NotablePersonEventsQueryVariables,
   NotablePersonEventReviewStatus,
 } from 'api/types';
-import { MessageWithIcon } from 'components/MessageWithIcon/MessageWithIcon';
 import eventsQuery from '!!graphql-tag/loader!./NotablePersonEventsQuery.graphql';
 import { LocationAwareTabs } from 'components/LocationAwareTabs/LocationAwareTabs';
 import { EventCard } from './EventCard';
+import {
+  InfiniteConnection,
+  // RenderEdgeProps,
+} from 'components/InfiniteConnection/InfiniteConnection';
 
 export const Quotes = () => (
   <>
@@ -40,8 +43,9 @@ export const Quotes = () => (
           },
         }) => (
           <Query<NotablePersonEventsQuery, NotablePersonEventsQueryVariables>
+            key={filter}
             query={eventsQuery}
-            fetchPolicy="cache-and-network"
+            fetchPolicy="network-only"
             variables={{
               where: {
                 reviewStatus:
@@ -51,30 +55,21 @@ export const Quotes = () => (
               },
             }}
           >
-            {({ data, error, loading, variables }) => {
-              if (loading) {
-                return <div>Loading...</div>;
-              }
-
-              if (error) {
-                return <MessageWithIcon title="Failed to load" />;
-              }
-
-              if (data && data.notablePeopleEvents.edges.length > 0) {
-                const {
-                  notablePeopleEvents: { edges },
-                } = data;
-
-                return edges.map(edge => (
-                  <EventCard
-                    key={edge.node.id}
-                    variables={variables}
-                    {...edge}
-                  />
-                ));
-              }
-
-              return null;
+            {queryResult => {
+              return (
+                <InfiniteConnection
+                  {...queryResult}
+                  connectionKey="notablePeopleEvents"
+                  placeholder={<div>Loading...</div>}
+                  renderEdge={({ edge, variables }) => (
+                    <EventCard
+                      key={edge.node.id}
+                      variables={variables}
+                      {...edge}
+                    />
+                  )}
+                />
+              );
             }}
           </Query>
         )}

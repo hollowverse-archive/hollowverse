@@ -1,7 +1,7 @@
 import { FetchMoreOptions } from 'react-apollo';
 import { ArrayElement } from 'typings/typeHelpers';
 
-type Edge<Node> = {
+export type Edge<Node> = {
   cursor?: string;
   node: Node;
 };
@@ -11,7 +11,7 @@ type PageInfo = {
   endCursor: string | null;
 };
 
-type Connection<Node = any> = {
+export type Connection<Node = any> = {
   edges: Array<Edge<Node>>;
   pageInfo: PageInfo;
 };

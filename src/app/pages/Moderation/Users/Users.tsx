@@ -1,7 +1,6 @@
 import React from 'react';
 import { Query } from 'react-apollo';
 import { Switch, Route, Redirect } from 'react-router';
-import IntersectionObserver from 'react-intersection-observer';
 import Typography from '@material-ui/core/Typography';
 import List from '@material-ui/core/List';
 import Tab from '@material-ui/core/Tab';
@@ -10,14 +9,24 @@ import { UsersQuery, UsersQueryVariables } from 'api/types';
 
 import usersQuery from '!!graphql-tag/loader!./UsersQuery.graphql';
 
-import { createUpdateRelayConnection } from 'helpers/relay';
-import { MessageWithIcon } from 'components/MessageWithIcon/MessageWithIcon';
 import { LocationAwareTabs } from 'components/LocationAwareTabs/LocationAwareTabs';
 
 import { UserMenuItem } from './UserMenuItem';
 import { LoadingListPlaceholder } from './LoadingListPlaceholder';
+import {
+  InfiniteConnection,
+  RenderEdgeProps,
+} from 'components/InfiniteConnection/InfiniteConnection';
+import { ArrayElement } from 'typings/typeHelpers';
 
-const updateUsersQuery = createUpdateRelayConnection<UsersQuery>('users');
+type UserNode = ArrayElement<UsersQuery['users']['edges']>['node'];
+
+const renderEdge = ({
+  edge,
+  variables,
+}: RenderEdgeProps<UserNode, UsersQueryVariables>) => (
+  <UserMenuItem key={edge.node.id} {...edge} variables={variables} />
+);
 
 export const Users = () => (
   <>
@@ -43,7 +52,8 @@ export const Users = () => (
           },
         }) => (
           <Query<UsersQuery, UsersQueryVariables>
-            fetchPolicy="cache-and-network"
+            key={filter}
+            fetchPolicy="network-only"
             query={usersQuery}
             variables={{
               where: {
@@ -51,55 +61,15 @@ export const Users = () => (
               },
             }}
           >
-            {({ data, loading, error, variables, fetchMore }) => {
-              if (loading) {
-                return <LoadingListPlaceholder />;
-              }
-
-              if (error) {
-                return <MessageWithIcon title="Failed to load" />;
-              }
-
-              if (!data || !data.users || data.users.edges.length === 0) {
-                return <MessageWithIcon title="Nothing to show here" />;
-              }
-
-              const {
-                users: {
-                  edges,
-                  pageInfo: { hasNextPage },
-                },
-              } = data;
-
-              const onIntersectionChange = async (inView: boolean) => {
-                if (!inView) {
-                  return;
-                }
-
-                await fetchMore({
-                  variables: {
-                    after: data.users.pageInfo.endCursor,
-                  },
-                  updateQuery: updateUsersQuery,
-                });
-              };
-
+            {queryResult => {
               return (
                 <List>
-                  {edges.map(edge => (
-                    <UserMenuItem
-                      key={edge.node.id}
-                      {...edge}
-                      variables={variables}
-                    />
-                  ))}
-                  {hasNextPage ? (
-                    <>
-                      <IntersectionObserver onChange={onIntersectionChange}>
-                        {inView => (inView ? <LoadingListPlaceholder /> : null)}
-                      </IntersectionObserver>
-                    </>
-                  ) : null}
+                  <InfiniteConnection
+                    {...queryResult}
+                    connectionKey="users"
+                    placeholder={<LoadingListPlaceholder />}
+                    renderEdge={renderEdge}
+                  />
                 </List>
               );
             }}

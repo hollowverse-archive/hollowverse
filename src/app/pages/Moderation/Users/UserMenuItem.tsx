@@ -39,7 +39,7 @@ type Props = ArrayElement<UsersQuery['users']['edges']> & {
   variables: UsersQueryVariables;
 };
 
-export class UserMenuItem extends React.Component<Props> {
+export class UserMenuItem extends React.PureComponent<Props> {
   render() {
     const {
       variables,
@@ -57,6 +57,7 @@ export class UserMenuItem extends React.Component<Props> {
           mutation={changeUserIsBannedStatusMutation}
           variables={{ input: { newValue: !isBanned, userId: id } }}
           refetchQueries={[{ query: usersQuery, variables }]}
+          awaitRefetchQueries
         >
           {(changeUserIsBannedStatus, { loading, data }) => {
             const toggleBanStatus = async () => {

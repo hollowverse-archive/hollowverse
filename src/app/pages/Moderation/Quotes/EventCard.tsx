@@ -41,6 +41,7 @@ import {
   UncontrolledMenuButtonProps,
 } from 'components/UncontrolledMenu/UncontrolledMenu';
 import { ArrayElement } from 'typings/typeHelpers';
+import { Edge } from 'helpers/relay';
 
 const labelByReviewStatus: Record<NotablePersonEventReviewStatus, string> = {
   ALLOWED: 'Allowed',
@@ -63,9 +64,11 @@ const renderMenuButtons = (buttonProps: UncontrolledMenuButtonProps) => (
   </IconButton>
 );
 
-type Props = ArrayElement<
+type Node = ArrayElement<
   NotablePersonEventsQuery['notablePeopleEvents']['edges']
-> & { variables: NotablePersonEventsQueryVariables };
+>['node'];
+
+type Props = Edge<Node> & { variables: NotablePersonEventsQueryVariables };
 
 export class EventCard extends React.PureComponent<Props> {
   // tslint:disable max-func-body-length
