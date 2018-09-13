@@ -16,7 +16,7 @@ type State = {
   isOpen: boolean;
 };
 
-export const UncontrolledSnackbar = class extends React.Component<
+export const UncontrolledSnackbar = class extends React.PureComponent<
   Props,
   State
 > {

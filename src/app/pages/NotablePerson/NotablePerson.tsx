@@ -72,7 +72,7 @@ type Result = AsyncResult<NotablePersonQuery | null>;
 
 export const NotablePerson = withRouter(
   withStyles(styles)(
-    class extends React.Component<Props & RouteComponentProps<any>> {
+    class extends React.PureComponent<Props & RouteComponentProps<any>> {
       createLoad = ({
         apiClient,
       }: Pick<AppDependencies, 'apiClient'>) => async () => {

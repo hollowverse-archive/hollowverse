@@ -24,7 +24,7 @@ type Props = {
   children(props: UncontrolledMenuItemProps): React.ReactNode;
 } & Pick<MenuProps, 'anchorOrigin'>;
 
-export class UncontrolledMenu extends React.Component<Props, State> {
+export class UncontrolledMenu extends React.PureComponent<Props, State> {
   state = {
     anchorEl: null,
   };

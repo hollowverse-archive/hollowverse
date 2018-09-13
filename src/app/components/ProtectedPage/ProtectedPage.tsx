@@ -96,7 +96,7 @@ export const ProtectedPage = connect(
     requestLogin,
   },
 )(
-  class extends React.Component<Props> {
+  class extends React.PureComponent<Props> {
     // Must be initialized first so we can access it in
     // `dialogPropsForAuthorizationState`
     requestLogin = () => {

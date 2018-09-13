@@ -78,7 +78,7 @@ type Props<K extends ResolvedDataKey = ResolvedDataKey> = OwnProps<K> &
   StateProps<K> &
   DispatchProps;
 
-class Wrapper extends React.Component<Props> {
+class Wrapper extends React.PureComponent<Props> {
   resolve(props = this.props) {
     const { dataKey, forPage, load, requestId, keepStaleData = false } = props;
     props.requestData({

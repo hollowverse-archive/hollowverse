@@ -44,7 +44,7 @@ export const Protected = connect(
     authorizationState: getAuthorizationState(state)(authorizedRoles),
   }),
 )(
-  class extends React.Component<Props> {
+  class extends React.PureComponent<Props> {
     render() {
       const { children, authorizationState } = this.props;
 

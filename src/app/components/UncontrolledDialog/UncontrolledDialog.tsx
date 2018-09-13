@@ -14,7 +14,10 @@ type State = {
   isOpen: boolean;
 };
 
-export const UncontrolledDialog = class extends React.Component<Props, State> {
+export const UncontrolledDialog = class extends React.PureComponent<
+  Props,
+  State
+> {
   state: State = {
     isOpen: this.props.open,
   };

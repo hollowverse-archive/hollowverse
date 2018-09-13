@@ -133,7 +133,7 @@ const orderedPaths: AppPath[] = [
  * Main app component
  */
 export const App = withStyles(styles)<AppProps>(
-  class extends React.Component<AppProps, State> {
+  class extends React.PureComponent<AppProps, State> {
     state: State = {
       hasMounted: false,
     };

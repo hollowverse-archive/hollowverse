@@ -25,7 +25,7 @@ const styles = (theme: Theme) =>
 type Props = InputProps & WithStyles<typeof styles>;
 
 export const NavBarInput = withStyles(styles)(
-  class extends React.Component<Props> {
+  class extends React.PureComponent<Props> {
     render() {
       const { classes, ...rest } = this.props;
 

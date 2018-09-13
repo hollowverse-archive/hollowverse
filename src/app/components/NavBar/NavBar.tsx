@@ -80,7 +80,7 @@ type Props = OwnProps &
   WithStyles<ReturnType<typeof styles>>;
 
 export const NavBar = withStyles(styles)(
-  class extends React.Component<Props & RouteComponentProps<any>> {
+  class extends React.PureComponent<Props & RouteComponentProps<any>> {
     render() {
       const {
         title,

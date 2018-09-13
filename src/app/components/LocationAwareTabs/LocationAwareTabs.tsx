@@ -11,7 +11,7 @@ type State = {
 };
 
 export const LocationAwareTabs = withRouter(
-  class extends React.Component<Props, State> {
+  class extends React.PureComponent<Props, State> {
     state: State = {
       value: this.props.history.createHref(this.props.location),
     };
