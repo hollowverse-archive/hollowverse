@@ -17,14 +17,11 @@ import {
   InfiniteConnection,
   RenderEdgeProps,
 } from 'components/InfiniteConnection/InfiniteConnection';
-import { ArrayElement } from 'typings/typeHelpers';
-
-type UserNode = ArrayElement<UsersQuery['users']['edges']>['node'];
 
 const renderEdge = ({
   edge,
   variables,
-}: RenderEdgeProps<UserNode, UsersQueryVariables>) => (
+}: RenderEdgeProps<UsersQuery, 'users', UsersQueryVariables>) => (
   <UserMenuItem key={edge.node.id} {...edge} variables={variables} />
 );
 

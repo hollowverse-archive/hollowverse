@@ -6,6 +6,10 @@ export type Edge<Node> = {
   node: Node;
 };
 
+export type NodeFromConnection<T extends Connection<Node>> = ArrayElement<
+  T['edges']
+>['node'];
+
 type PageInfo = {
   hasNextPage: boolean;
   endCursor: string | null;

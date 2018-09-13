@@ -13,8 +13,17 @@ import { LocationAwareTabs } from 'components/LocationAwareTabs/LocationAwareTab
 import { EventCard } from './EventCard';
 import {
   InfiniteConnection,
-  // RenderEdgeProps,
+  RenderEdgeProps,
 } from 'components/InfiniteConnection/InfiniteConnection';
+
+const renderEdge = ({
+  edge,
+  variables,
+}: RenderEdgeProps<
+  NotablePersonEventsQuery,
+  'notablePeopleEvents',
+  NotablePersonEventsQueryVariables
+>) => <EventCard key={edge.node.id} variables={variables} {...edge} />;
 
 export const Quotes = () => (
   <>
@@ -61,13 +70,7 @@ export const Quotes = () => (
                   {...queryResult}
                   connectionKey="notablePeopleEvents"
                   placeholder={<div>Loading...</div>}
-                  renderEdge={({ edge, variables }) => (
-                    <EventCard
-                      key={edge.node.id}
-                      variables={variables}
-                      {...edge}
-                    />
-                  )}
+                  renderEdge={renderEdge}
                 />
               );
             }}

@@ -2,12 +2,21 @@ import React from 'react';
 import IntersectionObserver from 'react-intersection-observer';
 import { QueryResult } from 'react-apollo';
 import { MessageWithIcon } from 'components/MessageWithIcon/MessageWithIcon';
-import { createUpdateRelayConnection, Connection, Edge } from 'helpers/relay';
+import {
+  createUpdateRelayConnection,
+  Connection,
+  Edge,
+  NodeFromConnection,
+} from 'helpers/relay';
 import { ArrayElement } from 'typings/typeHelpers';
 import isEmpty from 'lodash/isEmpty';
 
-export type RenderEdgeProps<Node, Variables> = {
-  edge: Edge<Node>;
+export type RenderEdgeProps<
+  Data extends Record<Key, Connection>,
+  Key extends keyof Data,
+  Variables
+> = {
+  edge: Edge<NodeFromConnection<Data[Key]>>;
   variables: Variables;
 };
 
@@ -18,12 +27,14 @@ type Props<
     ConnectionParent[keyof ConnectionParent]['edges']
   >['node'],
   Data extends { [T in keyof ConnectionParent]: Connection<Node> } = {
-    [T in keyof ConnectionParent]: Connection
+    [T in keyof ConnectionParent]: Connection<Node>
   }
 > = QueryResult<Data, Variables> & {
   connectionKey: keyof ConnectionParent;
   placeholder: React.ReactNode;
-  renderEdge(props: RenderEdgeProps<Node, Variables>): React.ReactNode;
+  renderEdge(
+    props: RenderEdgeProps<Data, keyof ConnectionParent, Variables>,
+  ): React.ReactNode;
 };
 
 export class InfiniteConnection<
