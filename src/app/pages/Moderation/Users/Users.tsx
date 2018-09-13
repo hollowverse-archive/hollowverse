@@ -87,7 +87,11 @@ export const Users = () => (
               return (
                 <List>
                   {edges.map(edge => (
-                    <UserMenuItem {...edge} variables={variables} />
+                    <UserMenuItem
+                      key={edge.node.id}
+                      {...edge}
+                      variables={variables}
+                    />
                   ))}
                   {hasNextPage ? (
                     <>

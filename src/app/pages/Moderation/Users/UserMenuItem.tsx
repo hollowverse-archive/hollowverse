@@ -6,11 +6,6 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import MenuItem from '@material-ui/core/MenuItem';
 import IconButton from '@material-ui/core/IconButton';
 import Avatar from '@material-ui/core/Avatar';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogActions from '@material-ui/core/DialogActions';
-import Button from '@material-ui/core/Button';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import MoreIcon from '@material-ui/icons/MoreVert';
@@ -32,24 +27,12 @@ import {
   UncontrolledMenu,
   UncontrolledMenuButtonProps,
 } from 'components/UncontrolledMenu/UncontrolledMenu';
-import { UncontrolledDialog } from 'components/UncontrolledDialog/UncontrolledDialog';
-import {
-  UncontrolledSnackbar,
-  UncontrolledSnackbarChildrenProps,
-} from 'components/UncontrolledSnackbar/UncontrolledSnackbar';
+import { ApiResultChange } from 'components/ApiResultChange/ApiResultChange';
 
-const renderUserMenuItemButton: (
-  props: UncontrolledMenuButtonProps,
-) => JSX.Element = props => (
+const renderUserMenuItemButton = (props: UncontrolledMenuButtonProps) => (
   <IconButton {...props}>
     <MoreIcon />
   </IconButton>
-);
-
-const renderDismissButton = ({ close }: UncontrolledSnackbarChildrenProps) => (
-  <Button color="secondary" size="small" onClick={close}>
-    Dismiss
-  </Button>
 );
 
 type Props = ArrayElement<UsersQuery['users']['edges']> & {
@@ -64,7 +47,7 @@ export class UserMenuItem extends React.Component<Props> {
     } = this.props;
 
     return (
-      <ListItem key={id}>
+      <ListItem>
         <Avatar src={photoUrl || undefined} />
         <ListItemText primary={name} secondary={email} />
         <Mutation<
@@ -113,40 +96,12 @@ export class UserMenuItem extends React.Component<Props> {
                     }}
                   </UncontrolledMenu>
                 </ListItemSecondaryAction>
-                {data &&
-                data.changeUserIsBannedStatus.result.state === 'ERROR' ? (
-                  <UncontrolledDialog
-                    role="alertdialog"
-                    aria-labelledby="change-user-ban-status-failure-dialog-title"
-                    open
-                  >
-                    {({ close }) => (
-                      <>
-                        <DialogTitle id="change-user-ban-status-failure-dialog-title">
-                          Failed to change ban status of user
-                        </DialogTitle>
-                        <DialogContent>
-                          <DialogContentText>
-                            {(data.changeUserIsBannedStatus
-                              .result as any).errors.map(({ message }: any) => (
-                              <span key={message}>{message}</span>
-                            ))}
-                          </DialogContentText>
-                        </DialogContent>
-                        <DialogActions>
-                          <Button onClick={close}>Dismiss</Button>
-                        </DialogActions>
-                      </>
-                    )}
-                  </UncontrolledDialog>
-                ) : null}
-                {data &&
-                data.changeUserIsBannedStatus.result.state === 'SUCCESS' ? (
-                  <UncontrolledSnackbar
-                    open
-                    autoHideDuration={2000}
-                    message={<span>Ban status changed successfully</span>}
-                    renderAction={renderDismissButton}
+                {data !== undefined ? (
+                  <ApiResultChange
+                    id="change-user-ban-status-failure-dialog-title"
+                    result={data.changeUserIsBannedStatus.result}
+                    errorTitle="Failed to change ban status of user"
+                    successMessage="User ban status changed successfully"
                   />
                 ) : null}
               </>

@@ -52,12 +52,12 @@ const getApolloClient = createSelector(
 export const Moderation = connect((state: StoreState) => ({
   client: getApolloClient(state),
 }))(({ client }) => (
-  <ProtectedPage authorizedRoles={['MODERATOR'] as UserRole[]}>
+  <ProtectedPage authorizedRoles={[UserRole.MODERATOR]}>
     <div>
       <ApolloProvider client={client}>
         <Switch>
           <Route path="/moderation/users" component={Users} />
-          <Route path="/moderation/quotes" component={Quotes} />
+          <Route path="/moderation/events" component={Quotes} />
         </Switch>
       </ApolloProvider>
     </div>

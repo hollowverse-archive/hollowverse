@@ -34,6 +34,7 @@ import { prettifyUrl } from 'helpers/prettifyUrl';
 import { callAll } from 'helpers/callAll';
 
 import { Quote } from 'components/Quote/Quote';
+import { ApiResultChange } from 'components/ApiResultChange/ApiResultChange';
 import { FormattedDate } from 'components/FormattedDate/FormattedDate';
 import {
   UncontrolledMenu,
@@ -93,7 +94,7 @@ export class EventCard extends React.PureComponent<Props> {
         awaitRefetchQueries
         key={eventId}
       >
-        {(changeReviewStatus, { loading: isMutationLoading }) => {
+        {(changeReviewStatus, { data, loading: isMutationLoading }) => {
           const createSetReviewStatus = (
             newValue: NotablePersonEventReviewStatus,
           ) => async () => {
@@ -108,139 +109,153 @@ export class EventCard extends React.PureComponent<Props> {
           };
 
           return (
-            <Card>
-              <CardHeader
-                title={notablePerson.name}
-                subheader={
-                  <small>
-                    <a href={sourceUrl}>{prettifyUrl(sourceUrl)}</a>
-                  </small>
-                }
-                avatar={
-                  notablePerson.mainPhoto ? (
-                    <Avatar src={notablePerson.mainPhoto.url} />
-                  ) : (
-                    undefined
-                  )
-                }
-                action={
-                  <>
-                    <Chip
-                      onDelete={
-                        !isMutationLoading && reviewStatus !== 'NOT_REVIEWED'
-                          ? createSetReviewStatus(
-                              'NOT_REVIEWED' as NotablePersonEventReviewStatus,
-                            )
-                          : undefined
-                      }
-                      avatar={
-                        isMutationLoading ? (
-                          <CircularProgress
-                            style={{ marginLeft: 5 }}
-                            size={20}
-                          />
-                        ) : (
-                          iconByReviewStatus[reviewStatus]
-                        )
-                      }
-                      label={
-                        isMutationLoading
-                          ? 'Updating...'
-                          : labelByReviewStatus[reviewStatus]
-                      }
-                      variant="outlined"
-                    />
-                    <UncontrolledMenu
-                      id={`event-${eventId}-menu`}
-                      renderButton={renderMenuButtons}
-                    >
-                      {menuItemProps => {
-                        return (
-                          <>
-                            {reviewStatus !== 'ALLOWED' ? (
-                              <MenuItem
-                                {...menuItemProps}
-                                onClick={callAll(
-                                  menuItemProps.onClick,
-                                  createSetReviewStatus(
-                                    'ALLOWED' as NotablePersonEventReviewStatus,
-                                  ),
-                                )}
-                              >
-                                Allow
-                              </MenuItem>
-                            ) : null}
-                            {reviewStatus !== 'REMOVED' ? (
-                              <MenuItem
-                                {...menuItemProps}
-                                onClick={callAll(
-                                  menuItemProps.onClick,
-                                  createSetReviewStatus(
-                                    'REMOVED' as NotablePersonEventReviewStatus,
-                                  ),
-                                )}
-                              >
-                                Remove
-                              </MenuItem>
-                            ) : null}
-                          </>
-                        );
-                      }}
-                    </UncontrolledMenu>
-                  </>
-                }
-              />
-              <CardContent>
-                <Quote size="large">
-                  <Typography paragraph>{quote}</Typography>
-                </Quote>
-                <Table padding="dense">
-                  <TableBody>
-                    <TableRow>
-                      <TableCell padding="none">Submitted by</TableCell>
-                      <TableCell>
-                        <div
-                          style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                          }}
-                        >
-                          {submittedBy.photoUrl ? (
-                            <Avatar
-                              style={{
-                                display: 'inline-flex',
-                                marginRight: 5,
-                              }}
-                              src={submittedBy.photoUrl}
+            <>
+              {data !== undefined ? (
+                <ApiResultChange
+                  id="change-event-review-status-failure-dialog-title"
+                  result={data.changeNotablePersonEventReviewStatus.result}
+                  errorTitle="Failed to change review status of event"
+                  successMessage="Event review status changed successfully"
+                />
+              ) : null}
+              <Card>
+                <CardHeader
+                  title={notablePerson.name}
+                  subheader={
+                    <small>
+                      <a href={sourceUrl}>{prettifyUrl(sourceUrl)}</a>
+                    </small>
+                  }
+                  avatar={
+                    notablePerson.mainPhoto ? (
+                      <Avatar src={notablePerson.mainPhoto.url} />
+                    ) : (
+                      undefined
+                    )
+                  }
+                  action={
+                    <>
+                      <Chip
+                        onDelete={
+                          !isMutationLoading &&
+                          reviewStatus !==
+                            NotablePersonEventReviewStatus.NOT_REVIEWED
+                            ? createSetReviewStatus(
+                                NotablePersonEventReviewStatus.NOT_REVIEWED,
+                              )
+                            : undefined
+                        }
+                        avatar={
+                          isMutationLoading ? (
+                            <CircularProgress
+                              style={{ marginLeft: 5 }}
+                              size={20}
                             />
                           ) : (
-                            undefined
+                            iconByReviewStatus[reviewStatus]
+                          )
+                        }
+                        label={
+                          isMutationLoading
+                            ? 'Updating...'
+                            : labelByReviewStatus[reviewStatus]
+                        }
+                        variant="outlined"
+                      />
+                      <UncontrolledMenu
+                        id={`event-${eventId}-menu`}
+                        renderButton={renderMenuButtons}
+                      >
+                        {menuItemProps => {
+                          return (
+                            <>
+                              {reviewStatus !==
+                              NotablePersonEventReviewStatus.ALLOWED ? (
+                                <MenuItem
+                                  {...menuItemProps}
+                                  onClick={callAll(
+                                    menuItemProps.onClick,
+                                    createSetReviewStatus(
+                                      NotablePersonEventReviewStatus.ALLOWED,
+                                    ),
+                                  )}
+                                >
+                                  Allow
+                                </MenuItem>
+                              ) : null}
+                              {reviewStatus !==
+                              NotablePersonEventReviewStatus.REMOVED ? (
+                                <MenuItem
+                                  {...menuItemProps}
+                                  onClick={callAll(
+                                    menuItemProps.onClick,
+                                    createSetReviewStatus(
+                                      NotablePersonEventReviewStatus.REMOVED,
+                                    ),
+                                  )}
+                                >
+                                  Remove
+                                </MenuItem>
+                              ) : null}
+                            </>
+                          );
+                        }}
+                      </UncontrolledMenu>
+                    </>
+                  }
+                />
+                <CardContent>
+                  <Quote size="large">
+                    <Typography paragraph>{quote}</Typography>
+                  </Quote>
+                  <Table padding="dense">
+                    <TableBody>
+                      <TableRow>
+                        <TableCell padding="none">Submitted by</TableCell>
+                        <TableCell>
+                          <div
+                            style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                            }}
+                          >
+                            {submittedBy.photoUrl ? (
+                              <Avatar
+                                style={{
+                                  display: 'inline-flex',
+                                  marginRight: 5,
+                                }}
+                                src={submittedBy.photoUrl}
+                              />
+                            ) : (
+                              undefined
+                            )}
+                            {submittedBy.name}
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell padding="none">Submitted on</TableCell>
+                        <TableCell>
+                          <FormattedDate dateString={postedAt} />
+                        </TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell padding="none">Event happened on</TableCell>
+                        <TableCell>
+                          {happenedOn ? (
+                            <FormattedDate dateString={happenedOn} />
+                          ) : (
+                            '(unspecified)'
                           )}
-                          {submittedBy.name}
-                        </div>
-                      </TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell padding="none">Submitted on</TableCell>
-                      <TableCell>
-                        <FormattedDate dateString={postedAt} />
-                      </TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell padding="none">Event happened on</TableCell>
-                      <TableCell>
-                        {happenedOn ? (
-                          <FormattedDate dateString={happenedOn} />
-                        ) : (
-                          '(unspecified)'
-                        )}
-                      </TableCell>
-                    </TableRow>
-                  </TableBody>
-                </Table>
-              </CardContent>
-              <CardActions />
-            </Card>
+                        </TableCell>
+                      </TableRow>
+                    </TableBody>
+                  </Table>
+                </CardContent>
+                <CardActions />
+              </Card>
+            </>
           );
         }}
       </Mutation>

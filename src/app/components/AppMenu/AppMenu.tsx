@@ -331,9 +331,9 @@ export const AppMenu = withStyles(styles)(
           <MenuItemWithLink
             key="quotes"
             {...menuItemProps}
-            to="/moderation/quotes"
+            to="/moderation/events"
           >
-            Review Quotes
+            Review User-Submitted Events
           </MenuItemWithLink>,
           <MenuItemWithLink
             key="users"

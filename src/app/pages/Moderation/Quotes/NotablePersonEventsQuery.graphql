@@ -1,5 +1,8 @@
-query NotablePersonEvents($after: ID) {
-  notablePeopleEvents(first: 10, after: $after) {
+query NotablePersonEvents(
+  $after: ID
+  $where: NotablePersonEventsQueryWhereInput
+) {
+  notablePeopleEvents(first: 10, after: $after, where: $where) {
     edges {
       cursor
       node {
