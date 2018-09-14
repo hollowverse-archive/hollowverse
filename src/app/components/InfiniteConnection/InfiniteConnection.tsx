@@ -1,6 +1,6 @@
 import React from 'react';
 import IntersectionObserver from 'react-intersection-observer';
-import { QueryResult } from 'react-apollo';
+import { QueryResult, FetchMoreOptions } from 'react-apollo';
 import { MessageWithIcon } from 'components/MessageWithIcon/MessageWithIcon';
 import {
   createUpdateRelayConnection,
@@ -10,6 +10,34 @@ import {
 } from 'helpers/relay';
 import { ArrayElement } from 'typings/typeHelpers';
 import isEmpty from 'lodash/isEmpty';
+
+type CreateOnIntersectionChangeOptions<Data, Variables> = {
+  updateQuery: FetchMoreOptions<Data, Variables>['updateQuery'];
+  fetchMore: QueryResult<Data, Variables>['fetchMore'];
+  endCursor?: string | null;
+};
+
+function createOnIntersectionChange<
+  Data,
+  Variables extends { after?: string | null }
+>({
+  updateQuery,
+  endCursor,
+  fetchMore,
+}: CreateOnIntersectionChangeOptions<Data, Variables>) {
+  return async (inView: boolean) => {
+    if (!inView) {
+      return;
+    }
+
+    await fetchMore({
+      variables: {
+        after: endCursor,
+      },
+      updateQuery,
+    });
+  };
+}
 
 export type RenderEdgeProps<
   Data extends Record<Key, Connection>,
@@ -78,31 +106,18 @@ export class InfiniteConnection<
       pageInfo: { endCursor, hasNextPage },
     } = data[connectionKey];
 
-    const onIntersectionChange = async (inView: boolean) => {
-      console.log('Intersection change');
-
-      if (!inView) {
-        return;
-      }
-
-      console.log('Loading more...');
-
-      await fetchMore({
-        variables: {
-          after: endCursor,
-        },
-        updateQuery,
-      });
-
-      console.log('Loaded more');
-    };
-
     return (
       <>
         {edges.map(edge => renderEdge({ edge, variables }))}
         {loading ? placeholder : null}
         {hasNextPage && !loading ? (
-          <IntersectionObserver onChange={onIntersectionChange}>
+          <IntersectionObserver
+            onChange={createOnIntersectionChange({
+              updateQuery,
+              fetchMore,
+              endCursor,
+            })}
+          >
             {inView => (inView ? placeholder : null)}
           </IntersectionObserver>
         ) : null}
