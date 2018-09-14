@@ -7,7 +7,7 @@ import {
 } from 'store/types';
 import { createSelector } from 'reselect';
 import { getResolvedDataForKey } from '../asyncData/selectors';
-import { isPendingResult, isSuccessResult } from 'helpers/asyncResults';
+import { isSuccessResult, isErrorResult } from 'helpers/asyncResults';
 import { UserRole, ViewerQuery } from 'api/types';
 
 export const fbSdkAuthStateReducer: Reducer<StoreState['fbSdkAuthState']> = (
@@ -83,8 +83,8 @@ export const getAuthenticationState = createSelector(
       return fbAuthState;
     }
 
-    if (isPendingResult(viewerQueryResult)) {
-      return { state: 'loggingIn' };
+    if (isErrorResult(viewerQueryResult)) {
+      return { state: 'error' };
     }
 
     if (
@@ -94,7 +94,7 @@ export const getAuthenticationState = createSelector(
       return { state: 'loggedIn', viewer: viewerQueryResult.value.viewer };
     }
 
-    return { state: 'error' };
+    return { state: 'loggingIn' };
   },
 );
 
