@@ -149,7 +149,6 @@ export const AppMenu = withStyles(styles)(
       isLoginStateChangeSnackbarShown: false,
     };
 
-    // tslint:disable-next-line function-name
     UNSAFE_componentWillReceiveProps({ authState }: Props) {
       this.setState({
         isLoginStateChangeSnackbarShown:

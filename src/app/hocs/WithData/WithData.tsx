@@ -90,7 +90,6 @@ class Wrapper extends React.PureComponent<Props> {
     });
   }
 
-  // tslint:disable-next-line function-name
   UNSAFE_componentWillMount() {
     if (this.props.result.requestId !== this.props.requestId) {
       this.resolve();
