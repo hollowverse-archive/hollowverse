@@ -25,10 +25,10 @@ const renderEdge = ({
   NotablePersonEventsQueryVariables
 >) => <EventCard key={edge.node.id} variables={variables} {...edge} />;
 
-export const Quotes = () => (
+export const Events = () => (
   <>
     <Typography align="center" variant="title" component="h1">
-      Quotes
+      Events
     </Typography>
     <LocationAwareTabs
       indicatorColor="primary"
