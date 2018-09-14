@@ -64,27 +64,170 @@ const renderMenuButtons = (buttonProps: UncontrolledMenuButtonProps) => (
   </IconButton>
 );
 
+type RenderActionMenuOptions = {
+  isMutationLoading: boolean;
+  createSetReviewStatus(
+    newValue: NotablePersonEventReviewStatus,
+  ): (() => Promise<void>);
+};
+
 type Node = ArrayElement<
   NotablePersonEventsQuery['notablePeopleEvents']['edges']
 >['node'];
 
 type Props = Edge<Node> & { variables: NotablePersonEventsQueryVariables };
 
+type CellData = { name: React.ReactNode; data: React.ReactNode };
+
+function createTableData(node: Node): Partial<Record<keyof Node, CellData>> {
+  const { postedAt, submittedBy, happenedOn } = node;
+
+  return {
+    submittedBy: {
+      name: 'Submitted by',
+      data: (
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+          }}
+        >
+          {submittedBy.photoUrl ? (
+            <Avatar
+              style={{
+                display: 'inline-flex',
+                marginRight: 5,
+              }}
+              src={submittedBy.photoUrl}
+            />
+          ) : (
+            undefined
+          )}
+          {submittedBy.name}
+        </div>
+      ),
+    },
+    postedAt: {
+      name: 'Submitted on',
+      data: <FormattedDate dateString={postedAt} />,
+    },
+    happenedOn: {
+      name: 'Event happened on',
+      data: happenedOn ? (
+        <FormattedDate dateString={happenedOn} />
+      ) : (
+        '(unspecified)'
+      ),
+    },
+  };
+}
+
 export class EventCard extends React.PureComponent<Props> {
-  // tslint:disable max-func-body-length
+  renderTable = () => {
+    const { node } = this.props;
+
+    const tableData = createTableData(node);
+
+    return (
+      <Table padding="dense">
+        <TableBody>
+          {Object.entries(tableData).map(([key, value]) => {
+            if (!value) {
+              return undefined;
+            }
+
+            const { name, data } = value;
+
+            return (
+              <TableRow key={key}>
+                <TableCell padding="none">{name}</TableCell>
+                <TableCell>{data}</TableCell>
+              </TableRow>
+            );
+          })}
+        </TableBody>
+      </Table>
+    );
+  };
+
+  renderActionMenu = ({
+    isMutationLoading,
+    createSetReviewStatus,
+  }: RenderActionMenuOptions) => {
+    const {
+      node: { id: eventId, reviewStatus },
+    } = this.props;
+
+    return (
+      <>
+        <Chip
+          onDelete={
+            !isMutationLoading &&
+            reviewStatus !== NotablePersonEventReviewStatus.NOT_REVIEWED
+              ? createSetReviewStatus(
+                  NotablePersonEventReviewStatus.NOT_REVIEWED,
+                )
+              : undefined
+          }
+          avatar={
+            isMutationLoading ? (
+              <CircularProgress style={{ marginLeft: 5 }} size={20} />
+            ) : (
+              iconByReviewStatus[reviewStatus]
+            )
+          }
+          label={
+            isMutationLoading
+              ? 'Updating...'
+              : labelByReviewStatus[reviewStatus]
+          }
+          variant="outlined"
+        />
+        <UncontrolledMenu
+          id={`event-${eventId}-menu`}
+          renderButton={renderMenuButtons}
+        >
+          {menuItemProps => {
+            return (
+              <>
+                {reviewStatus !== NotablePersonEventReviewStatus.ALLOWED ? (
+                  <MenuItem
+                    {...menuItemProps}
+                    onClick={callAll(
+                      menuItemProps.onClick,
+                      createSetReviewStatus(
+                        NotablePersonEventReviewStatus.ALLOWED,
+                      ),
+                    )}
+                  >
+                    Allow
+                  </MenuItem>
+                ) : null}
+                {reviewStatus !== NotablePersonEventReviewStatus.REMOVED ? (
+                  <MenuItem
+                    {...menuItemProps}
+                    onClick={callAll(
+                      menuItemProps.onClick,
+                      createSetReviewStatus(
+                        NotablePersonEventReviewStatus.REMOVED,
+                      ),
+                    )}
+                  >
+                    Remove
+                  </MenuItem>
+                ) : null}
+              </>
+            );
+          }}
+        </UncontrolledMenu>
+      </>
+    );
+  };
+
   render() {
     const {
       variables,
-      node: {
-        id: eventId,
-        quote,
-        submittedBy,
-        notablePerson,
-        happenedOn,
-        postedAt,
-        sourceUrl,
-        reviewStatus,
-      },
+      node: { id: eventId, quote, notablePerson, sourceUrl },
     } = this.props;
 
     return (
@@ -136,125 +279,16 @@ export class EventCard extends React.PureComponent<Props> {
                       undefined
                     )
                   }
-                  action={
-                    <>
-                      <Chip
-                        onDelete={
-                          !isMutationLoading &&
-                          reviewStatus !==
-                            NotablePersonEventReviewStatus.NOT_REVIEWED
-                            ? createSetReviewStatus(
-                                NotablePersonEventReviewStatus.NOT_REVIEWED,
-                              )
-                            : undefined
-                        }
-                        avatar={
-                          isMutationLoading ? (
-                            <CircularProgress
-                              style={{ marginLeft: 5 }}
-                              size={20}
-                            />
-                          ) : (
-                            iconByReviewStatus[reviewStatus]
-                          )
-                        }
-                        label={
-                          isMutationLoading
-                            ? 'Updating...'
-                            : labelByReviewStatus[reviewStatus]
-                        }
-                        variant="outlined"
-                      />
-                      <UncontrolledMenu
-                        id={`event-${eventId}-menu`}
-                        renderButton={renderMenuButtons}
-                      >
-                        {menuItemProps => {
-                          return (
-                            <>
-                              {reviewStatus !==
-                              NotablePersonEventReviewStatus.ALLOWED ? (
-                                <MenuItem
-                                  {...menuItemProps}
-                                  onClick={callAll(
-                                    menuItemProps.onClick,
-                                    createSetReviewStatus(
-                                      NotablePersonEventReviewStatus.ALLOWED,
-                                    ),
-                                  )}
-                                >
-                                  Allow
-                                </MenuItem>
-                              ) : null}
-                              {reviewStatus !==
-                              NotablePersonEventReviewStatus.REMOVED ? (
-                                <MenuItem
-                                  {...menuItemProps}
-                                  onClick={callAll(
-                                    menuItemProps.onClick,
-                                    createSetReviewStatus(
-                                      NotablePersonEventReviewStatus.REMOVED,
-                                    ),
-                                  )}
-                                >
-                                  Remove
-                                </MenuItem>
-                              ) : null}
-                            </>
-                          );
-                        }}
-                      </UncontrolledMenu>
-                    </>
-                  }
+                  action={this.renderActionMenu({
+                    createSetReviewStatus,
+                    isMutationLoading,
+                  })}
                 />
                 <CardContent>
                   <Quote size="large">
                     <Typography paragraph>{quote}</Typography>
                   </Quote>
-                  <Table padding="dense">
-                    <TableBody>
-                      <TableRow>
-                        <TableCell padding="none">Submitted by</TableCell>
-                        <TableCell>
-                          <div
-                            style={{
-                              display: 'flex',
-                              alignItems: 'center',
-                            }}
-                          >
-                            {submittedBy.photoUrl ? (
-                              <Avatar
-                                style={{
-                                  display: 'inline-flex',
-                                  marginRight: 5,
-                                }}
-                                src={submittedBy.photoUrl}
-                              />
-                            ) : (
-                              undefined
-                            )}
-                            {submittedBy.name}
-                          </div>
-                        </TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell padding="none">Submitted on</TableCell>
-                        <TableCell>
-                          <FormattedDate dateString={postedAt} />
-                        </TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell padding="none">Event happened on</TableCell>
-                        <TableCell>
-                          {happenedOn ? (
-                            <FormattedDate dateString={happenedOn} />
-                          ) : (
-                            '(unspecified)'
-                          )}
-                        </TableCell>
-                      </TableRow>
-                    </TableBody>
-                  </Table>
+                  {this.renderTable()}
                 </CardContent>
                 <CardActions />
               </Card>
