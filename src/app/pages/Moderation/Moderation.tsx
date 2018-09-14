@@ -25,7 +25,7 @@ import { UserRole } from 'api/types';
 import { ProtectedPage } from 'components/ProtectedPage/ProtectedPage';
 
 import { Users } from './Users/Users';
-import { Quotes } from './Quotes/Quotes';
+import { Events } from './Events/Events';
 
 // tslint:disable-next-line no-suspicious-comment
 // @TODO: Because Apollo is not (yet) used in any user-facing UI, we'll keep this
@@ -57,7 +57,7 @@ export const Moderation = connect((state: StoreState) => ({
       <ApolloProvider client={client}>
         <Switch>
           <Route path="/moderation/users" component={Users} />
-          <Route path="/moderation/events" component={Quotes} />
+          <Route path="/moderation/events" component={Events} />
         </Switch>
       </ApolloProvider>
     </div>

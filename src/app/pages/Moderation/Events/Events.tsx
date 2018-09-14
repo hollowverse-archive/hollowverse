@@ -1,6 +1,6 @@
 import React from 'react';
 import { Query } from 'react-apollo';
-import { Switch, Redirect, Route } from 'react-router';
+import { Switch, Redirect, Route, RouteComponentProps } from 'react-router';
 import Typography from '@material-ui/core/Typography';
 import Tab from '@material-ui/core/Tab';
 import {
@@ -25,16 +25,12 @@ const renderEdge = ({
   NotablePersonEventsQueryVariables
 >) => <EventCard key={edge.node.id} variables={variables} {...edge} />;
 
-export const Events = () => (
+export const Events = ({ location }: RouteComponentProps<unknown>) => (
   <>
     <Typography align="center" variant="title" component="h1">
       Events
     </Typography>
-    <LocationAwareTabs
-      indicatorColor="primary"
-      value="/moderation/events/all"
-      centered
-    >
+    <LocationAwareTabs location={location} indicatorColor="primary" centered>
       <Tab
         value="/moderation/events/pending"
         label={<Typography>Pending Review</Typography>}
@@ -77,9 +73,7 @@ export const Events = () => (
           </Query>
         )}
       </Route>
-      <Route>
-        <Redirect to="/moderation/events/pending" />
-      </Route>
+      <Redirect to="/moderation/events/pending" />
     </Switch>
   </>
 );
