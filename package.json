@@ -50,7 +50,7 @@
   "bundlesize": [
     {
       "path": "./dist/client/**/!(vendor~main).*.js",
-      "maxSize": "35 kB"
+      "maxSize": "50 kB"
     },
     {
       "path": "./dist/client/**/vendor~main.*.js",
