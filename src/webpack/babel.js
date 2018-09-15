@@ -43,6 +43,7 @@ module.exports.createBabelConfig = options => ({
   plugins: compact([
     'lodash',
     ...ifNotTest(['react-hot-loader/babel']),
+    '@babel/plugin-proposal-object-rest-spread',
     '@babel/plugin-transform-runtime',
     '@babel/plugin-syntax-dynamic-import',
     '@babel/plugin-syntax-import-meta',
