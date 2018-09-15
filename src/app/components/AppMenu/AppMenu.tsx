@@ -133,7 +133,7 @@ type State = {
 const renderMenuButton = (buttonProps: UncontrolledMenuButtonProps) => (
   <Tooltip title="Main Menu">
     <IconButton
-      // style={{ visibility: 'hidden' }}
+      style={{ visibility: 'hidden' }}
       aria-label="Open menu"
       {...buttonProps}
     >
