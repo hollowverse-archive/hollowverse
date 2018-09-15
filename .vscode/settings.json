@@ -21,6 +21,7 @@
     "middlewares",
     "onunhandledrejection",
     "promisify",
+    "refetch",
     "stylelint",
     "unhandledrejection",
     "unmount",
@@ -51,5 +52,8 @@
   },
   "eslint.validate": ["typescript", "typescriptreact", "graphql"],
   "css.validate": false,
-  "scss.validate": false
+  "scss.validate": false,
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": false
+  }
 }

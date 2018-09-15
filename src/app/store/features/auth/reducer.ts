@@ -1,8 +1,14 @@
 import { isActionOfType } from 'store/helpers';
-import { StoreState, AuthState, Reducer } from 'store/types';
+import {
+  StoreState,
+  AuthenticationState,
+  Reducer,
+  AuthorizationState,
+} from 'store/types';
 import { createSelector } from 'reselect';
 import { getResolvedDataForKey } from '../asyncData/selectors';
-import { isPendingResult, isSuccessResult } from 'helpers/asyncResults';
+import { isSuccessResult, isErrorResult } from 'helpers/asyncResults';
+import { UserRole, ViewerQuery } from 'api/types';
 
 export const fbSdkAuthStateReducer: Reducer<StoreState['fbSdkAuthState']> = (
   state,
@@ -33,12 +39,30 @@ export const fbSdkAuthStateReducer: Reducer<StoreState['fbSdkAuthState']> = (
   );
 };
 
-export const getFbSdkAuthState = (state: StoreState) => state.fbSdkAuthState;
+export const getFbSdkAuthenticationState = (state: StoreState) =>
+  state.fbSdkAuthState;
 
 export const getAccessToken = createSelector(
-  getFbSdkAuthState,
+  getFbSdkAuthenticationState,
   fbAuthState =>
     fbAuthState.state === 'loggedIn' ? fbAuthState.accessToken : null,
+);
+
+export const getApiAuthHeaders = createSelector(
+  getAccessToken,
+  accessToken => ({
+    Authorization: accessToken ? `Bearer ${accessToken}` : '',
+  }),
+);
+
+/* Use `GET` for public queries to take advantage from
+ * CDN caching of API responses.
+ * `POST` is used for logged-in users because mutations
+ * require `POST` requests. `POST` requests are never cached.
+*/
+export const shouldUseHttpGetForApiRequests = createSelector(
+  getAccessToken,
+  accessToken => accessToken === null,
 );
 
 export const getViewerResult = createSelector(getResolvedDataForKey, get =>
@@ -51,16 +75,16 @@ export const getViewerResult = createSelector(getResolvedDataForKey, get =>
  * A successful authentication is a combination of a successful Facebook login
  * and a successful, non-`null` `viewer` API query.
  */
-export const getAuthState = createSelector(
+export const getAuthenticationState = createSelector(
   getViewerResult,
-  getFbSdkAuthState,
-  (viewerQueryResult, fbAuthState): AuthState => {
+  getFbSdkAuthenticationState,
+  (viewerQueryResult, fbAuthState): AuthenticationState => {
     if (fbAuthState.state !== 'loggedIn') {
       return fbAuthState;
     }
 
-    if (isPendingResult(viewerQueryResult)) {
-      return { state: 'loggingIn' };
+    if (isErrorResult(viewerQueryResult)) {
+      return { state: 'error' };
     }
 
     if (
@@ -70,6 +94,34 @@ export const getAuthState = createSelector(
       return { state: 'loggedIn', viewer: viewerQueryResult.value.viewer };
     }
 
-    return { state: 'error' };
+    return { state: 'loggingIn' };
+  },
+);
+
+const doesViewerHaveOneOfRoles = (
+  viewer: NonNullable<ViewerQuery['viewer']>,
+  requiredRoles?: UserRole[],
+) => {
+  if (requiredRoles === undefined) {
+    return true;
+  }
+
+  const { role } = viewer;
+
+  return role !== null && requiredRoles.includes(role);
+};
+
+export const getAuthorizationState = createSelector(
+  getAuthenticationState,
+  authState => (requiredRoles?: UserRole[]): AuthorizationState => {
+    if (authState.state !== 'loggedIn') {
+      return authState;
+    }
+
+    return {
+      state: doesViewerHaveOneOfRoles(authState.viewer, requiredRoles)
+        ? 'authorized'
+        : 'notAuthorized',
+    };
   },
 );

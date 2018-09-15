@@ -1,0 +1,17 @@
+query Users($after: ID, $where: UsersQueryWhereInput) {
+  users(first: 10, after: $after, where: $where) {
+    edges {
+      node {
+        id
+        photoUrl
+        name
+        email
+        isBanned
+      }
+    }
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+  }
+}

@@ -1,9 +1,11 @@
+// tslint:disable function-name
+/* eslint-disable camelcase */
 import React from 'react';
 import cc from 'classcat';
 
 import { SvgIcon } from 'components/SvgIcon/SvgIcon';
 
-import { AuthState, AuthErrorCode } from 'store/types';
+import { AuthenticationState, AuthenticationErrorCode } from 'store/types';
 
 import facebookIcon from 'icons/facebook.svg';
 import { forceReload } from 'helpers/forceReload';
@@ -15,6 +17,7 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogContentText from '@material-ui/core/DialogContentText';
 import MenuItem from '@material-ui/core/MenuItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -27,16 +30,20 @@ import ListItemText from '@material-ui/core/ListItemText';
 
 import { MenuItemWithLink, InertMenuItem } from './MenuItem';
 import { callAll } from 'helpers/callAll';
-import { LocationAwareMenu } from 'components/LocationAwareMenu/LocationAwareMenu';
 import {
   createStyles,
   withStyles,
   Theme,
   WithStyles,
 } from '@material-ui/core/styles';
+import {
+  UncontrolledMenu,
+  UncontrolledMenuItemProps,
+  UncontrolledMenuButtonProps,
+} from '../UncontrolledMenu/UncontrolledMenu';
 
 export type StateProps = {
-  authState: AuthState;
+  authState: AuthenticationState;
   isNightModeEnabled: boolean;
 };
 
@@ -64,7 +71,9 @@ type Props = OwnProps &
   DispatchProps &
   WithStyles<ReturnType<typeof styles>>;
 
-const messageForAuthState: Partial<Record<AuthState['state'], string>> = {
+const messageForAuthState: Partial<
+  Record<AuthenticationState['state'], string>
+> = {
   initializing: 'Checking login...',
   loggingIn: 'Checking login...',
   loggingOut: 'Logging out...',
@@ -83,7 +92,9 @@ const fbIcon = (
   <SvgIcon color="var(--facebook-blue)" size={20} {...facebookIcon} />
 );
 
-const iconForAuthState: Partial<Record<AuthState['state'], React.ReactNode>> = {
+const iconForAuthState: Partial<
+  Record<AuthenticationState['state'], React.ReactNode>
+> = {
   loggedOut: fbIcon,
   loggedIn: null,
   loggingIn: spinner,
@@ -93,23 +104,23 @@ const iconForAuthState: Partial<Record<AuthState['state'], React.ReactNode>> = {
 };
 
 const dialogContentForErrorCode: Partial<
-  Record<AuthErrorCode, React.ReactNode>
+  Record<AuthenticationErrorCode, React.ReactNode>
 > = {
   FB_INIT_ERROR: (
-    <Typography paragraph component="p">
+    <DialogContentText>
       If the issue persists, your browser might have a tracking protection
       feature which blocks loading of Facebook scripts.
-    </Typography>
+    </DialogContentText>
   ),
   UNKNOWN_ERROR: (
-    <Typography paragraph component="p">
+    <DialogContentText>
       If the issue persists, it is most likely an issue on our side. Please try
       again in a few hours.
-    </Typography>
+    </DialogContentText>
   ),
 };
 
-const titleForErrorCode: Partial<Record<AuthErrorCode, string>> = {
+const titleForErrorCode: Partial<Record<AuthenticationErrorCode, string>> = {
   FB_INIT_ERROR: 'Could not connect to Facebook',
   UNKNOWN_ERROR: 'Login failed',
 };
@@ -117,18 +128,28 @@ const titleForErrorCode: Partial<Record<AuthErrorCode, string>> = {
 type State = {
   isLoginFailedDialogShown: boolean;
   isLoginStateChangeSnackbarShown: boolean;
-  anchorElement: HTMLElement | null;
 };
+
+const renderMenuButton = (buttonProps: UncontrolledMenuButtonProps) => (
+  <Tooltip title="Main Menu">
+    <IconButton
+      style={{ visibility: 'hidden' }}
+      aria-label="Open menu"
+      {...buttonProps}
+    >
+      <MenuIcon />
+    </IconButton>
+  </Tooltip>
+);
 
 export const AppMenu = withStyles(styles)(
   class extends React.PureComponent<Props, State> {
     state = {
       isLoginFailedDialogShown: false,
       isLoginStateChangeSnackbarShown: false,
-      anchorElement: null,
     };
 
-    componentWillReceiveProps({ authState }: Props) {
+    UNSAFE_componentWillReceiveProps({ authState }: Props) {
       this.setState({
         isLoginStateChangeSnackbarShown:
           authState.state !== this.props.authState.state &&
@@ -162,7 +183,7 @@ export const AppMenu = withStyles(styles)(
       );
     };
 
-    renderLoginButton = () => {
+    renderLoginButton = (menuItemProps: UncontrolledMenuItemProps) => {
       const {
         authState: { state },
         classes,
@@ -182,7 +203,8 @@ export const AppMenu = withStyles(styles)(
               [classes.facebook]: state === 'loggedOut' || state === 'error',
             },
           ])}
-          onClick={callAll(this.handleClose, this.handleLoginClick)}
+          {...menuItemProps}
+          onClick={callAll(menuItemProps.onClick, this.handleLoginClick)}
           disabled={!canClick}
           divider
         >
@@ -212,13 +234,15 @@ export const AppMenu = withStyles(styles)(
             {titleForErrorCode[code] || titleForErrorCode.UNKNOWN_ERROR}
           </DialogTitle>
           <DialogContent>
-            <Typography paragraph component="p">
+            <DialogContentText>
               This could be due to a slow network. Try reloading the page.
-            </Typography>
+            </DialogContentText>
             {dialogContentForErrorCode[code] || titleForErrorCode.UNKNOWN_ERROR}
           </DialogContent>
           <DialogActions>
-            <Button onClick={forceReload}>Reload</Button>
+            <Button color="primary" onClick={forceReload}>
+              Reload
+            </Button>
             <Button onClick={this.toggleLoginFailedDialog}>Dismiss</Button>
           </DialogActions>
         </Dialog>
@@ -291,74 +315,81 @@ export const AppMenu = withStyles(styles)(
       }));
     };
 
-    handleClick = (event: React.MouseEvent<any>) => {
-      this.setState({ anchorElement: event.currentTarget });
-    };
-
-    handleClose = () => {
-      this.setState({ anchorElement: null });
-    };
-
     toggleNightMode = () => {
       this.props.toggleNightMode(undefined);
     };
 
-    render() {
-      const { anchorElement } = this.state;
+    renderModeratorLinks = (menuItemProps: UncontrolledMenuItemProps) => {
+      const { authState } = this.props;
 
+      if (
+        authState.state === 'loggedIn' &&
+        authState.viewer.role === 'MODERATOR'
+      ) {
+        return [
+          <MenuItemWithLink
+            key="quotes"
+            {...menuItemProps}
+            to="/moderation/events"
+          >
+            Review User-Submitted Events
+          </MenuItemWithLink>,
+          <MenuItemWithLink
+            key="users"
+            divider
+            {...menuItemProps}
+            to="/moderation/users"
+          >
+            Manage Users
+          </MenuItemWithLink>,
+        ];
+      }
+
+      return undefined;
+    };
+
+    render() {
       return (
         <>
           {this.renderLoginFailedDialog()}
           {this.renderLoginStateChangeSnackbar()}
-          <Tooltip title="Main Menu">
-            <IconButton
-              // style={{ visibility: 'hidden' }}
-              aria-owns={anchorElement ? 'app-menu' : undefined}
-              aria-haspopup="true"
-              aria-label="Open menu"
-              onClick={this.handleClick}
+          <nav>
+            <UncontrolledMenu
+              id="app-menu"
+              anchorOrigin={{ horizontal: 'center', vertical: 'center' }}
+              renderButton={renderMenuButton}
             >
-              <MenuIcon />
-            </IconButton>
-          </Tooltip>
-          {anchorElement !== null ? (
-            <nav>
-              <LocationAwareMenu
-                id="app-menu"
-                anchorEl={anchorElement}
-                getContentAnchorEl={undefined}
-                anchorOrigin={{ horizontal: 'center', vertical: 'center' }}
-                open={Boolean(anchorElement)}
-                onClose={this.handleClose}
-              >
-                {this.renderUser()}
-                <MenuItemWithLink onClick={this.handleClose} to="/">
-                  Home
-                </MenuItemWithLink>
-                <MenuItemWithLink
-                  onClick={this.handleClose}
-                  divider
-                  to="/contact"
-                >
-                  Contact
-                </MenuItemWithLink>
-                {/* {this.renderLoginButton()} */}
-                <MenuItem
-                  onClick={callAll(this.handleClose, this.toggleNightMode)}
-                  divider
-                >
-                  <ListItemText>Night Mode</ListItemText>
-                  <Switch checked={this.props.isNightModeEnabled} />
-                </MenuItem>
-                <MenuItemWithLink
-                  onClick={this.handleClose}
-                  to="/privacy-policy"
-                >
-                  <Typography color="textSecondary">Privacy Policy</Typography>
-                </MenuItemWithLink>
-              </LocationAwareMenu>
-            </nav>
-          ) : null}
+              {menuItemProps => (
+                <>
+                  {this.renderUser()}
+                  <MenuItemWithLink {...menuItemProps} to="/">
+                    Home
+                  </MenuItemWithLink>
+                  <MenuItemWithLink {...menuItemProps} divider to="/contact">
+                    Contact
+                  </MenuItemWithLink>
+                  {this.renderModeratorLinks(menuItemProps)}
+                  {this.renderLoginButton(menuItemProps)}
+                  <MenuItem
+                    {...menuItemProps}
+                    onClick={callAll(
+                      menuItemProps.onClick,
+                      this.toggleNightMode,
+                    )}
+                    divider
+                  >
+                    <ListItemText>Night Mode</ListItemText>
+                    <Switch checked={this.props.isNightModeEnabled} />
+                  </MenuItem>
+                  <MenuItemWithLink {...menuItemProps} to="/privacy-policy">
+                    <Typography color="textSecondary">
+                      Privacy Policy
+                    </Typography>
+                  </MenuItemWithLink>
+                </>
+              )}
+            </UncontrolledMenu>
+          </nav>
         </>
       );
     }

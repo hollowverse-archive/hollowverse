@@ -24,7 +24,7 @@ const styles = (theme: Theme) =>
         fontSize: '175%',
         color: theme.palette.text.secondary,
         opacity: 0.4,
-        marginLeft: 10,
+        marginLeft: 5,
       },
       '& > :first-child::before': {
         display: 'block',

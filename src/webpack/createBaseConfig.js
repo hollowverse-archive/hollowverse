@@ -7,9 +7,10 @@ const { URL } = require('url');
 
 const { compact, mapValues } = require('lodash');
 
+const { isHot, isProd } = require('@hollowverse/utils/helpers/env');
+
 const { srcDirectory, excludedPatterns, publicPath } = require('./variables');
 
-const { isHot, isProd } = require('@hollowverse/utils/helpers/env');
 const { getAppGlobals } = require('./appGlobals');
 
 const { API_ENDPOINT = 'https://api.hollowverse.com/graphql' } = process.env;
@@ -130,12 +131,7 @@ module.exports.createBaseConfig = () => ({
   plugins: compact([
     // Development
     // Do not watch files in node_modules as this causes a huge overhead
-    new webpack.WatchIgnorePlugin([
-      /node_modules/,
-
-      // Ignore auto-generated type definitions for CSS module files
-      /\.s?css\.d\.ts$/,
-    ]),
+    new webpack.WatchIgnorePlugin([/node_modules/]),
 
     new SpriteLoaderPlugin(),
 

@@ -84,7 +84,9 @@ export const Image = withStyles(styles)<Props>(
 
             if (errorComponent !== undefined && hasError) {
               return errorComponent;
-            } else if (loadingComponent !== undefined && isInProgress) {
+            }
+
+            if (loadingComponent !== undefined && isInProgress) {
               return loadingComponent;
             }
 

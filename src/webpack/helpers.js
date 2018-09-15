@@ -1,8 +1,8 @@
+const { shouldTypeCheck } = require('@hollowverse/utils/helpers/env');
+
 const { createBabelConfig } = require('./babel');
 
 const { excludedPatterns } = require('./variables');
-
-const { shouldTypeCheck } = require('@hollowverse/utils/helpers/env');
 
 /**
  * @param {object} options

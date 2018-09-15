@@ -11,7 +11,7 @@ module.exports = {
     },
   },
   transform: {
-    '^.+\\.tsx?$': '<rootDir>/node_modules/ts-jest/preprocessor.js',
+    '^.+\\.tsx?$': 'ts-jest',
   },
   moduleNameMapper: {
     '\\.(jpg|jpeg|png|gif|eot|otf|webp|ttf|woff|woff2|graphql)$':

@@ -52,7 +52,9 @@ const OBSERVED_FB_ATTR_NAME = 'fb-xfbml-state';
 export const FbComments = withStyles(styles)(
   class extends React.PureComponent<Props> {
     commentsNode: HTMLDivElement | null = null;
+
     commentsParentNode: HTMLDivElement | null = null;
+
     commentsObserver: MutationObserver | null = null;
 
     setCommentsParentNode = (node: HTMLDivElement | null) => {

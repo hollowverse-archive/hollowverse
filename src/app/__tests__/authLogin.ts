@@ -14,6 +14,7 @@ describe.skip('successful log in', () => {
           viewer: {
             name: 'John Doe',
             photoUrl: emptyBase64EncodedImage,
+            role: null,
           },
         },
       },

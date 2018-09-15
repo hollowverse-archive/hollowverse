@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 type SpriteSymbol = {
   id: string;
   viewBox: string;
@@ -12,6 +13,18 @@ declare module '*.graphql' {
 
 declare module '*.gql' {
   const query: string;
+  export = query;
+}
+
+declare module '!!graphql-tag/loader!*.graphql' {
+  import { DocumentNode } from 'graphql';
+
+  const query: DocumentNode;
+  export = query;
+}
+
+declare module '!!graphql-tag/loader!*.gql' {
+  const query: DocumentNode;
   export = query;
 }
 

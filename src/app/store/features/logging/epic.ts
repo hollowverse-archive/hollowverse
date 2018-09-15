@@ -55,7 +55,9 @@ const mapPageLoadActions = ([setStatusCodeAction, locationChangeAction]: [
       to,
       statusCode: statusCodePayload.code,
     });
-  } else if (statusCodePayload.code === 500) {
+  }
+
+  if (statusCodePayload.code === 500) {
     return pageLoadFailed({ path, error: statusCodePayload.error });
   }
 

@@ -9,3 +9,4 @@ coverage
 
 graphqlSchema.json
 src/app/api/types.ts
+src/app/api/fragmentTypes.json

@@ -19,7 +19,12 @@ type State = {
   hasMounted: boolean;
 };
 
-type AppPath = '/search' | '/contact' | '/privacy-policy' | '/:slug';
+type AppPath =
+  | '/search'
+  | '/contact'
+  | '/privacy-policy'
+  | '/:slug'
+  | '/moderation';
 
 export type AppRoutesMap = Record<AppPath | 'default', RouteProps['component']>;
 
@@ -101,6 +106,8 @@ const styles = (theme: Theme) =>
     },
     view: {
       width: '100%',
+      maxWidth: theme.breakpoints.values.sm,
+      alignSelf: 'center',
       flexGrow: 1,
       display: 'flex',
       flexDirection: 'column',
@@ -118,6 +125,7 @@ const orderedPaths: AppPath[] = [
   '/search',
   '/contact',
   '/privacy-policy',
+  '/moderation',
   '/:slug',
 ];
 
@@ -125,7 +133,7 @@ const orderedPaths: AppPath[] = [
  * Main app component
  */
 export const App = withStyles(styles)<AppProps>(
-  class extends React.Component<AppProps, State> {
+  class extends React.PureComponent<AppProps, State> {
     state: State = {
       hasMounted: false,
     };

@@ -7,6 +7,7 @@
     "import/extensions": ["off"],
     "no-shadow-restricted-names": ["off"], // Buggy for TS
     "import/no-webpack-loader-syntax": ["off"],
+    "import/order": ["off"],
     "no-restricted-imports": [
       "error",
       {
@@ -34,6 +35,9 @@
     "commonjs": true
   },
   "settings": {
-    "polyfills": ["intersectionobserver"]
+    "polyfills": ["intersectionobserver", "urlsearchparams"],
+    "react": {
+      "version": "16.4"
+    }
   }
 }

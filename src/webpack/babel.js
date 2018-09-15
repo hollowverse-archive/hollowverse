@@ -34,18 +34,21 @@ module.exports.createBabelConfig = options => ({
           : {
               browsers: pkg.browserslist,
             },
-        useBuiltIns: 'entry',
-        shippedProposals: false,
+        useBuiltIns: isTest ? 'usage' : 'entry',
+        shippedProposals: true,
       },
     ],
-    '@babel/preset-stage-3',
     '@babel/preset-react',
   ]),
   plugins: compact([
     'lodash',
     ...ifNotTest(['react-hot-loader/babel']),
+    '@babel/plugin-proposal-object-rest-spread',
     '@babel/plugin-transform-runtime',
     '@babel/plugin-syntax-dynamic-import',
+    '@babel/plugin-syntax-import-meta',
+    ['@babel/plugin-proposal-class-properties', { loose: false }],
+    '@babel/plugin-proposal-json-strings',
     ifTest('babel-plugin-dynamic-import-node'),
     ...ifProd([
       [

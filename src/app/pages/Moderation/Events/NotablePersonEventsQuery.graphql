@@ -1,0 +1,35 @@
+query NotablePersonEvents(
+  $after: ID
+  $where: NotablePersonEventsQueryWhereInput
+) {
+  notablePeopleEvents(first: 10, after: $after, where: $where) {
+    edges {
+      cursor
+      node {
+        id
+
+        notablePerson {
+          name
+          mainPhoto {
+            url
+          }
+        }
+
+        quote
+        isQuoteByNotablePerson
+        happenedOn
+        reviewStatus
+        sourceUrl
+        postedAt
+        submittedBy {
+          name
+          photoUrl
+        }
+      }
+    }
+    pageInfo {
+      endCursor
+      hasNextPage
+    }
+  }
+}

@@ -58,7 +58,6 @@ const styles = (theme: Theme) =>
     },
     editorialSummary: {
       alignSelf: 'center',
-      maxWidth: theme.breakpoints.values.sm,
     },
     relatedPeopleTitle: {
       marginTop: 20,
@@ -73,7 +72,7 @@ type Result = AsyncResult<NotablePersonQuery | null>;
 
 export const NotablePerson = withRouter(
   withStyles(styles)(
-    class extends React.Component<Props & RouteComponentProps<any>> {
+    class extends React.PureComponent<Props & RouteComponentProps<any>> {
       createLoad = ({
         apiClient,
       }: Pick<AppDependencies, 'apiClient'>) => async () => {
@@ -176,7 +175,10 @@ export const NotablePerson = withRouter(
                     : commentsUrl
                 }
               />
-              <title>{name}'s Religion and Political Views</title>
+              <title>
+                {name}
+                's Religion and Political Views
+              </title>
               <meta
                 name="description"
                 content={oneLine`

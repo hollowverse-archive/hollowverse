@@ -6,6 +6,14 @@ const PreloadWebpackPlugin = require('preload-webpack-plugin');
 const { StatsWriterPlugin } = require('webpack-stats-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
+const {
+  ifProd,
+  ifDev,
+  ifPerf,
+  isProd,
+  isDev,
+} = require('@hollowverse/utils/helpers/env');
+
 const path = require('path');
 const { compact } = require('lodash');
 
@@ -18,14 +26,6 @@ const {
 const { createBaseConfig } = require('./createBaseConfig');
 
 const common = createBaseConfig();
-
-const {
-  ifProd,
-  ifDev,
-  ifPerf,
-  isProd,
-  isDev,
-} = require('@hollowverse/utils/helpers/env');
 
 const clientSpecificConfig = {
   entry: compact([

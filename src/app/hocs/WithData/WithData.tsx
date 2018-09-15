@@ -1,3 +1,5 @@
+// tslint:disable function-name
+/* eslint-disable camelcase */
 import React from 'react';
 
 import {
@@ -76,7 +78,7 @@ type Props<K extends ResolvedDataKey = ResolvedDataKey> = OwnProps<K> &
   StateProps<K> &
   DispatchProps;
 
-class Wrapper extends React.Component<Props> {
+class Wrapper extends React.PureComponent<Props> {
   resolve(props = this.props) {
     const { dataKey, forPage, load, requestId, keepStaleData = false } = props;
     props.requestData({
@@ -88,13 +90,13 @@ class Wrapper extends React.Component<Props> {
     });
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     if (this.props.result.requestId !== this.props.requestId) {
       this.resolve();
     }
   }
 
-  componentWillReceiveProps(nextProps: Props) {
+  UNSAFE_componentWillReceiveProps(nextProps: Props) {
     if (nextProps.requestId !== this.props.requestId) {
       this.resolve(nextProps);
     }

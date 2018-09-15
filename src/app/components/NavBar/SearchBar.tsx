@@ -1,3 +1,5 @@
+// tslint:disable function-name
+/* eslint-disable camelcase */
 import React, { createRef } from 'react';
 
 import SearchIcon from '@material-ui/icons/Search';
@@ -63,7 +65,7 @@ export const SearchBar = withStyles(styles)(
       this.props.searchQueryChanged({ query: e.target.value });
     };
 
-    componentWillReceiveProps(nextProps: Props) {
+    UNSAFE_componentWillReceiveProps(nextProps: Props) {
       this.focusIfNecessary(nextProps);
     }
 

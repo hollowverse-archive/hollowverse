@@ -6,13 +6,13 @@ import { readAwsSecretStringForStage } from '@hollowverse/utils/helpers/readAwsS
 import { globalAgent as globalHttpAgent } from 'http';
 import { Agent as HttpsAgent } from 'https';
 import { SourceMapConsumer } from 'source-map';
-import { isActionOfType } from '../app/store/helpers';
-import { DeserializedLoggedAction } from './types';
 import memoizePromise from 'p-memoize';
 import { UAParser } from 'ua-parser-js';
 import { memoize } from 'lodash';
-import { LogBatch } from 'store/types';
 import { matchesUA } from 'browserslist-useragent';
+import { LogBatch } from 'store/types';
+import { isActionOfType } from 'store/helpers';
+import { DeserializedLoggedAction } from './types';
 
 const parser = new UAParser();
 

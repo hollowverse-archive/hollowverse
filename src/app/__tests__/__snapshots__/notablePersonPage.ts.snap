@@ -54,7 +54,7 @@ exports[`notable person page when notable person is found, if notable person has
     </div>
   </div>
   <div
-    class="Component-stub"
+    class="PureComponent-stub"
   >
     Share what you know about the religion and political views of 
     Tom Hanks

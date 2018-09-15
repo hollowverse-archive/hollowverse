@@ -2,7 +2,9 @@
   "projects": {
     "app": {
       "schemaPath": "graphqlSchema.json",
-      "includes": ["src/**/*.graphql"],
+      "includes": [
+        "src/**/*.graphql"
+      ],
       "extensions": {
         "endpoints": {
           "default": "https://api.hollowverse.com/graphql"

@@ -1,3 +1,5 @@
+// tslint:disable function-name
+/* eslint-disable camelcase */
 import React from 'react';
 import { Action, GenericAction } from 'store/types';
 import { connect } from 'react-redux';
@@ -35,7 +37,7 @@ export const DispatchOnLifecycleEvent = connect<{}, DispatchProps, OwnProps>(
       }
     }
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
       const { onWillMount } = this.props;
       if (onWillMount) {
         this.dispatch(onWillMount);

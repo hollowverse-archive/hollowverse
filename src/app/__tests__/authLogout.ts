@@ -13,6 +13,7 @@ describe.skip('successful log out', () => {
           viewer: {
             name: 'John Doe',
             photoUrl: emptyBase64EncodedImage,
+            role: null,
           },
         },
       },
