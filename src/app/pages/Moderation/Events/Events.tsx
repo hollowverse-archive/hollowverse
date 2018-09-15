@@ -15,6 +15,7 @@ import {
   InfiniteConnection,
   RenderEdgeProps,
 } from 'components/InfiniteConnection/InfiniteConnection';
+import { LoadingEventsPlaceholder } from './LoadingEventsPlaceholder';
 
 const renderEdge = ({
   edge,
@@ -65,7 +66,7 @@ export const Events = ({ location }: RouteComponentProps<unknown>) => (
                 <InfiniteConnection
                   {...queryResult}
                   connectionKey="notablePeopleEvents"
-                  placeholder={<div>Loading...</div>}
+                  placeholder={<LoadingEventsPlaceholder />}
                   renderEdge={renderEdge}
                 />
               );
