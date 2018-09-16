@@ -1,8 +1,8 @@
 import {
   createTestContext,
   TestContext,
-  logout,
-  login,
+  attemptLogout,
+  attemptLogin,
 } from 'helpers/testHelpers';
 import { UserRole } from 'api/types';
 import { waitForElement, getByText } from 'react-testing-library';
@@ -66,11 +66,11 @@ describe.skip('protected pages are inaccessible for users with unmatching roles'
           },
         });
 
-        await login(context);
+        await attemptLogin({ context });
 
         assert();
 
-        await logout(context);
+        await attemptLogout({ context });
       });
     },
   );

@@ -1,9 +1,13 @@
-import { createTestContext, TestContext } from 'helpers/testHelpers';
+import {
+  createTestContext,
+  TestContext,
+  attemptLogin,
+  attemptLogout,
+} from 'helpers/testHelpers';
 import { emptyBase64EncodedImage } from 'fixtures/images';
-import { fireEvent } from 'react-testing-library';
 
 // eslint-disable-next-line jest/no-disabled-tests
-describe.skip('successful log out', () => {
+describe('successful log out', () => {
   let context: TestContext;
 
   beforeEach(async () => {
@@ -19,9 +23,8 @@ describe.skip('successful log out', () => {
       },
     });
 
-    fireEvent.click(await context.toggleAppMenu().getLoginButton());
-
-    fireEvent.click(await context.toggleAppMenu().getLogoutButton());
+    await attemptLogin({ context });
+    await attemptLogout({ context });
   });
 
   it('calls FB.logout', () => {

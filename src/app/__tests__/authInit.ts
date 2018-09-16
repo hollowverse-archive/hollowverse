@@ -1,5 +1,8 @@
-import { createTestContext, TestContext } from 'helpers/testHelpers';
-import { fireEvent } from 'react-testing-library';
+import {
+  createTestContext,
+  TestContext,
+  attemptLogin,
+} from 'helpers/testHelpers';
 
 // eslint-disable-next-line jest/no-disabled-tests
 describe.skip('authentication', () => {
@@ -42,7 +45,7 @@ describe.skip('on FB SDK initialization failure', () => {
   });
 
   it('shows error dialog with possible reasons for failure', async () => {
-    fireEvent.click(await context.toggleAppMenu().getLoginButton());
+    await attemptLogin({ context, waitUntilComplete: false });
 
     expect(document.querySelector('[role="alertdialog"]')).toHaveTextContent(
       'tracking protection',

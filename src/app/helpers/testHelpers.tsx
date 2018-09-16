@@ -293,14 +293,30 @@ export type CreateClientSideTestContextOptions = Partial<{
   getPersistedStateToRestore(): Promise<Partial<StoreState>>;
 }>;
 
-export const login = async (context: TestContext) => {
+export const attemptLogin = async ({
+  context,
+  waitUntilComplete = true,
+}: {
+  context: TestContext;
+  waitUntilComplete?: boolean;
+}) => {
   fireEvent.click(await context.toggleAppMenu().getLoginButton());
-  await context.toggleAppMenu().getLogoutButton();
+  if (waitUntilComplete) {
+    await context.toggleAppMenu().getLogoutButton();
+  }
 };
 
-export const logout = async (context: TestContext) => {
+export const attemptLogout = async ({
+  context,
+  waitUntilComplete = true,
+}: {
+  context: TestContext;
+  waitUntilComplete?: boolean;
+}) => {
   fireEvent.click(await context.toggleAppMenu().getLogoutButton());
-  await context.toggleAppMenu().getLoginButton();
+  if (waitUntilComplete) {
+    await context.toggleAppMenu().getLoginButton();
+  }
 };
 
 /**
