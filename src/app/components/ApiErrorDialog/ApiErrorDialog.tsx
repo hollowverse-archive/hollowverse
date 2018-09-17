@@ -24,7 +24,7 @@ export const ApiErrorDialog = ({ title, id, errors }: Props) => {
             <DialogContent>
               <DialogContentText>
                 {errors.map(({ message }) => (
-                  <span key={message}>{message}</span>
+                  <div key={message}>{message}</div>
                 ))}
               </DialogContentText>
             </DialogContent>

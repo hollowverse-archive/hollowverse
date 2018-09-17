@@ -8,7 +8,6 @@ import {
   Edge,
   NodeFromConnection,
 } from 'helpers/relay';
-import { ArrayElement } from 'typings/typeHelpers';
 import isEmpty from 'lodash/isEmpty';
 
 type CreateOnIntersectionChangeOptions<Data, Variables> = {
@@ -51,9 +50,7 @@ export type RenderEdgeProps<
 type Props<
   ConnectionParent extends { [D in keyof Data]: Connection<Node> },
   Variables = any,
-  Node = ArrayElement<
-    ConnectionParent[keyof ConnectionParent]['edges']
-  >['node'],
+  Node = NodeFromConnection<ConnectionParent[keyof ConnectionParent]>,
   Data extends { [T in keyof ConnectionParent]: Connection<Node> } = {
     [T in keyof ConnectionParent]: Connection<Node>
   }
@@ -65,12 +62,10 @@ type Props<
   ): React.ReactNode;
 };
 
-export class InfiniteConnection<
+export class InfiniteLoadingConnection<
   ConnectionParent extends { [D in keyof Data]: Connection<Node> },
   Variables extends { after?: string | null },
-  Node = ArrayElement<
-    ConnectionParent[keyof ConnectionParent]['edges']
-  >['node'],
+  Node = NodeFromConnection<ConnectionParent[keyof ConnectionParent]>,
   Data extends { [T in keyof ConnectionParent]: Connection<Node> } = {
     [T in keyof ConnectionParent]: Connection<Node>
   }

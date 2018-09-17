@@ -328,7 +328,7 @@ export const AppMenu = withStyles(styles)(
             {...menuItemProps}
             to="/moderation/events"
           >
-            Review User-Submitted Events
+            Review user-submitted events
           </MenuItemWithLink>,
           <MenuItemWithLink
             key="users"
@@ -336,7 +336,7 @@ export const AppMenu = withStyles(styles)(
             {...menuItemProps}
             to="/moderation/users"
           >
-            Manage Users
+            Manage users
           </MenuItemWithLink>,
         ];
       }
