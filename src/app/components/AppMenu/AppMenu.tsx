@@ -132,11 +132,7 @@ type State = {
 
 const renderMenuButton = (buttonProps: UncontrolledMenuButtonProps) => (
   <Tooltip title="Main Menu">
-    <IconButton
-      style={{ visibility: 'hidden' }}
-      aria-label="Open menu"
-      {...buttonProps}
-    >
+    <IconButton aria-label="Open menu" {...buttonProps}>
       <MenuIcon />
     </IconButton>
   </Tooltip>
@@ -369,7 +365,7 @@ export const AppMenu = withStyles(styles)(
                     Contact
                   </MenuItemWithLink>
                   {this.renderModeratorLinks(menuItemProps)}
-                  {this.renderLoginButton(menuItemProps)}
+                  {/* {this.renderLoginButton(menuItemProps)} */}
                   <MenuItem
                     {...menuItemProps}
                     onClick={callAll(
