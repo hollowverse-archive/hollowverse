@@ -185,36 +185,36 @@ export class EventCard extends React.PureComponent<Props> {
           renderButton={renderMenuButtons}
         >
           {menuItemProps => {
-            return (
-              <>
-                {reviewStatus !== NotablePersonEventReviewStatus.ALLOWED ? (
-                  <MenuItem
-                    {...menuItemProps}
-                    onClick={callAll(
-                      menuItemProps.onClick,
-                      createSetReviewStatus(
-                        NotablePersonEventReviewStatus.ALLOWED,
-                      ),
-                    )}
-                  >
-                    Allow
-                  </MenuItem>
-                ) : null}
-                {reviewStatus !== NotablePersonEventReviewStatus.REMOVED ? (
-                  <MenuItem
-                    {...menuItemProps}
-                    onClick={callAll(
-                      menuItemProps.onClick,
-                      createSetReviewStatus(
-                        NotablePersonEventReviewStatus.REMOVED,
-                      ),
-                    )}
-                  >
-                    Remove
-                  </MenuItem>
-                ) : null}
-              </>
-            );
+            return [
+              reviewStatus !== NotablePersonEventReviewStatus.ALLOWED ? (
+                <MenuItem
+                  key="allow"
+                  {...menuItemProps}
+                  onClick={callAll(
+                    menuItemProps.onClick,
+                    createSetReviewStatus(
+                      NotablePersonEventReviewStatus.ALLOWED,
+                    ),
+                  )}
+                >
+                  Allow
+                </MenuItem>
+              ) : null,
+              reviewStatus !== NotablePersonEventReviewStatus.REMOVED ? (
+                <MenuItem
+                  key="remove"
+                  {...menuItemProps}
+                  onClick={callAll(
+                    menuItemProps.onClick,
+                    createSetReviewStatus(
+                      NotablePersonEventReviewStatus.REMOVED,
+                    ),
+                  )}
+                >
+                  Remove
+                </MenuItem>
+              ) : null,
+            ];
           }}
         </UncontrolledMenu>
       </>
