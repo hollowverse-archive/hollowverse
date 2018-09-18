@@ -12,9 +12,9 @@ import eventsQuery from '!!graphql-tag/loader!./NotablePersonEventsQuery.graphql
 import { LocationAwareTabs } from 'components/LocationAwareTabs/LocationAwareTabs';
 import { EventCard } from './EventCard';
 import {
-  InfiniteConnection,
+  InfiniteLoadingConnection,
   RenderEdgeProps,
-} from 'components/InfiniteConnection/InfiniteConnection';
+} from 'components/InfiniteLoadingConnection/InfiniteLoadingConnection';
 import { LoadingEventsPlaceholder } from './LoadingEventsPlaceholder';
 
 const renderEdge = ({
@@ -34,7 +34,7 @@ export const Events = ({ location }: RouteComponentProps<unknown>) => (
     <LocationAwareTabs location={location} indicatorColor="primary" centered>
       <Tab
         value="/moderation/events/pending"
-        label={<Typography>Pending Review</Typography>}
+        label={<Typography>Pending review</Typography>}
       />
       <Tab
         value="/moderation/events/all"
@@ -63,7 +63,7 @@ export const Events = ({ location }: RouteComponentProps<unknown>) => (
           >
             {queryResult => {
               return (
-                <InfiniteConnection
+                <InfiniteLoadingConnection
                   {...queryResult}
                   connectionKey="notablePeopleEvents"
                   placeholder={<LoadingEventsPlaceholder />}

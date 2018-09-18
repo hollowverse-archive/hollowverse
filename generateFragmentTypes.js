@@ -1,3 +1,14 @@
+/**
+ * Apollo needs some information about the schema at runtime in order to validate
+ * the return type of a query when that type contains a union type. For example,
+ * a `Result` type is a union of `SuccessResult` and `ErrorResult` and
+ * without knowing what type a union resolves to, Apollo cannot validate
+ * the return type of a query. It's probably not a big deal that it cannot do
+ * the validation, but it would just keep complaining in the console about missing
+ * fragment type information
+ * @see https://www.apollographql.com/docs/react/advanced/fragments.html
+ */
+
 /* eslint import/no-extraneous-dependencies: ["error", {"devDependencies": true}] */
 /* eslint-disable no-underscore-dangle,no-console */
 /* tslint:disable no-console */

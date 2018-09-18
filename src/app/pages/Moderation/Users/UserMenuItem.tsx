@@ -91,7 +91,7 @@ export class UserMenuItem extends React.PureComponent<Props> {
                               )}
                             </ListItemIcon>
                           )}
-                          {isBanned ? 'Unban User' : 'Ban User'}
+                          {isBanned ? 'Unban user' : 'Ban user'}
                         </MenuItem>
                       );
                     }}

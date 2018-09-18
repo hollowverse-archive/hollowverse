@@ -8,6 +8,7 @@
  * https://example.com/page/1243     | example.com
  * https://sub.example.com/page/1243 | sub.example.com
  * https://www.example.com/page/1243 | example.com
+ * http://localhost:8080/            | localhost:8080
  * @param url The full URL to prettify, e.g. https://example.com/page/1243
  */
 export const prettifyUrl = (url: string) => {

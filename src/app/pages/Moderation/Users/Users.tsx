@@ -14,9 +14,9 @@ import { LocationAwareTabs } from 'components/LocationAwareTabs/LocationAwareTab
 import { UserMenuItem } from './UserMenuItem';
 import { LoadingListPlaceholder } from './LoadingListPlaceholder';
 import {
-  InfiniteConnection,
+  InfiniteLoadingConnection,
   RenderEdgeProps,
-} from 'components/InfiniteConnection/InfiniteConnection';
+} from 'components/InfiniteLoadingConnection/InfiniteLoadingConnection';
 
 const renderEdge = ({
   edge,
@@ -57,7 +57,7 @@ export const Users = ({ location }: RouteComponentProps<unknown>) => (
             {queryResult => {
               return (
                 <List>
-                  <InfiniteConnection
+                  <InfiniteLoadingConnection
                     {...queryResult}
                     connectionKey="users"
                     placeholder={<LoadingListPlaceholder />}

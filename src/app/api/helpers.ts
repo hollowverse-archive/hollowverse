@@ -1,7 +1,7 @@
-import { ResultType } from './types';
+import { ResultType, ErrorCode } from './types';
 
 export type ApiError = {
-  code: string;
+  code: ErrorCode;
   message: string;
 };
 
