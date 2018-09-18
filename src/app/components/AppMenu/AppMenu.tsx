@@ -41,6 +41,7 @@ import {
   UncontrolledMenuItemProps,
   UncontrolledMenuButtonProps,
 } from '../UncontrolledMenu/UncontrolledMenu';
+import { UserRole } from 'api/types';
 
 export type StateProps = {
   authState: AuthenticationState;
@@ -320,7 +321,7 @@ export const AppMenu = withStyles(styles)(
 
       if (
         authState.state === 'loggedIn' &&
-        authState.viewer.role === 'MODERATOR'
+        authState.viewer.role === UserRole.MODERATOR
       ) {
         return [
           <MenuItemWithLink
