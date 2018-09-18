@@ -40,8 +40,7 @@ import {
   UncontrolledMenu,
   UncontrolledMenuButtonProps,
 } from 'components/UncontrolledMenu/UncontrolledMenu';
-import { ArrayElement } from 'typings/typeHelpers';
-import { Edge } from 'helpers/relay';
+import { Edge, NodeFromConnection } from 'helpers/relay';
 
 const labelByReviewStatus: Record<NotablePersonEventReviewStatus, string> = {
   ALLOWED: 'Allowed',
@@ -71,9 +70,7 @@ type RenderActionMenuOptions = {
   ): (() => Promise<void>);
 };
 
-type Node = ArrayElement<
-  NotablePersonEventsQuery['notablePeopleEvents']['edges']
->['node'];
+type Node = NodeFromConnection<NotablePersonEventsQuery['notablePeopleEvents']>;
 
 type Props = Edge<Node> & { variables: NotablePersonEventsQueryVariables };
 

@@ -103,6 +103,17 @@ export const ProtectedPage = connect(
       this.props.requestLogin(undefined);
     };
 
+    getRolesAsSentence = () => {
+      if (this.props.authorizedRoles === undefined) {
+        throw new TypeError('Expected `authorizedRoles` to be defined');
+      }
+
+      return this.props.authorizedRoles
+        .map(c => c.toLowerCase())
+        .map(plural)
+        .reduce(arrayToSentence());
+    };
+
     // tslint:disable-next-line member-ordering
     dialogPropsForAuthorizationState: Partial<
       Record<AuthorizationState['state'], AuthorizationDialogProps>
@@ -128,12 +139,7 @@ export const ProtectedPage = connect(
         title: 'You are not allowed to access this page',
         content: this.props.authorizedRoles ? (
           <DialogContentText>
-            Only{' '}
-            {this.props.authorizedRoles
-              .map(c => c.toLowerCase())
-              .map(plural)
-              .reduce(arrayToSentence())}{' '}
-            can access this page
+            Only {this.getRolesAsSentence()} can access this page
           </DialogContentText>
         ) : (
           undefined
@@ -169,11 +175,11 @@ export const ProtectedPage = connect(
               return children(result);
             }
 
-            if (result.state === 'authorized') {
+            const { state } = result;
+            if (state === 'authorized') {
               return children;
             }
 
-            const { state } = result;
             const dialogProps = this.dialogPropsForAuthorizationState[state];
 
             if (dialogProps) {

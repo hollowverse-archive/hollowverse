@@ -6,7 +6,7 @@ export type Edge<Node> = {
   node: Node;
 };
 
-export type NodeFromConnection<T extends Connection<Node>> = ArrayElement<
+export type NodeFromConnection<T extends Connection> = ArrayElement<
   T['edges']
 >['node'];
 
