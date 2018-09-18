@@ -5,13 +5,22 @@ import {
   attemptLogin,
 } from 'helpers/testHelpers';
 import { UserRole } from 'api/types';
-import { waitForElement, getByText } from 'react-testing-library';
+import { waitForElement, queryByText } from 'react-testing-library';
 import { plural } from 'pluralize';
+import { delay } from 'helpers/delay';
 
-// tslint:disable mocha-no-side-effect-code
-// eslint-disable-next-line jest/no-disabled-tests
-describe.skip('protected pages are inaccessible for users with unmatching roles', () => {
-  describe.each([['/moderation/events', [UserRole.MODERATOR]]])(
+const getFailureDialog = () => {
+  return queryByText(
+    document.body,
+    (_text, el) => Boolean(el.textContent!.match(/fail|access|allow/i)),
+    {
+      selector: '[role="alertdialog"]',
+    },
+  );
+};
+
+describe('protected pages are inaccessible for users with unmatching roles', () => {
+  describe.each([['/moderation', [UserRole.MODERATOR]]])(
     '%s is only accessible to %s',
     (path: string, validRoles: UserRole[]) => {
       let context: TestContext;
@@ -20,22 +29,14 @@ describe.skip('protected pages are inaccessible for users with unmatching roles'
       );
 
       const cannotAccess = async () => {
-        const dialog = await waitForElement(() => {
-          return getByText(
-            document.body,
-            (_text, el) => Boolean(el.textContent!.match(/fail|access|allow/i)),
-            {
-              selector: '[role="alertdialog"]',
-            },
-          );
-        });
-
-        expect(dialog!).toHaveTextContent(/not allowed/);
+        expect(
+          await waitForElement(getFailureDialog, { timeout: 1000 }),
+        ).toHaveTextContent(/not allowed/);
       };
 
       const canAccess = async () => {
-        // @TODO: check that page renders;
-        expect(1).toBe(1);
+        await delay(1000);
+        expect(getFailureDialog()).toBe(null);
       };
 
       test.each([
@@ -50,28 +51,31 @@ describe.skip('protected pages are inaccessible for users with unmatching roles'
           role,
           canAccess,
         ]),
-      ])('%s', async (_: string, role: UserRole, assert: () => void) => {
-        context = await createTestContext({
-          createHistoryOptions: {
-            initialEntries: [path],
-          },
-          mockDataResponsesOverrides: {
-            viewer: {
+      ])(
+        '%s',
+        async (_: string, role: UserRole, assert: () => Promise<void>) => {
+          context = await createTestContext({
+            createHistoryOptions: {
+              initialEntries: [path],
+            },
+            mockDataResponsesOverrides: {
               viewer: {
-                name: 'Jane Doe',
-                photoUrl: null,
-                role,
+                viewer: {
+                  name: 'Jane Doe',
+                  photoUrl: null,
+                  role,
+                },
               },
             },
-          },
-        });
+          });
 
-        await attemptLogin({ context });
+          await attemptLogin({ context });
 
-        assert();
+          await assert();
 
-        await attemptLogout({ context });
-      });
+          await attemptLogout({ context });
+        },
+      );
     },
   );
 });
