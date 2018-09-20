@@ -19,7 +19,18 @@ const getFailureDialog = () => {
   );
 };
 
-describe('protected pages are inaccessible for users with unmatching roles', () => {
+const cannotAccess = async () => {
+  expect(
+    await waitForElement(getFailureDialog, { timeout: 1000 }),
+  ).toHaveTextContent(/not allowed/i);
+};
+
+const canAccess = async () => {
+  await delay(1000);
+  expect(getFailureDialog()).toBe(null);
+};
+
+describe('protected pages are inaccessible for users with mismatching roles', () => {
   describe.each([['/moderation', [UserRole.MODERATOR]]])(
     '%s is only accessible to %s',
     (path: string, validRoles: UserRole[]) => {
@@ -27,18 +38,6 @@ describe('protected pages are inaccessible for users with unmatching roles', () 
       const invalidRoles = Object.values(UserRole).filter(
         role => !validRoles.includes(role),
       );
-
-      const cannotAccess = async () => {
-        expect(
-          await waitForElement(getFailureDialog, { timeout: 1000 }),
-        ).toHaveTextContent(/not allowed/);
-      };
-
-      const canAccess = async () => {
-        await delay(1000);
-        expect(getFailureDialog()).toBe(null);
-      };
-
       test.each([
         ['regular users cannot access', null, cannotAccess],
         ...invalidRoles.map(role => [
