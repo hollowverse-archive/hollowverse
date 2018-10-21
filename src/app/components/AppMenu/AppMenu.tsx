@@ -41,6 +41,7 @@ import {
   UncontrolledMenuItemProps,
   UncontrolledMenuButtonProps,
 } from '../UncontrolledMenu/UncontrolledMenu';
+import { UserRole } from 'api/types';
 
 export type StateProps = {
   authState: AuthenticationState;
@@ -170,7 +171,7 @@ export const AppMenu = withStyles(styles)(
       const { viewer } = authState;
 
       return (
-        <InertMenuItem aria-label={`Signed in as ${viewer.name}`}>
+        <InertMenuItem key="profile" aria-label={`Signed in as ${viewer.name}`}>
           <ListItemIcon>
             <Avatar alt="Profile Photo" src={viewer.photoUrl || undefined} />
           </ListItemIcon>
@@ -193,6 +194,7 @@ export const AppMenu = withStyles(styles)(
       return (
         <MenuItem
           id="login-button"
+          key="login"
           button
           className={cc([
             {
@@ -221,6 +223,7 @@ export const AppMenu = withStyles(styles)(
 
       return (
         <Dialog
+          key="login-failed"
           aria-labelledby="login-failed-dialog-title"
           role="alertdialog"
           onClose={this.toggleLoginFailedDialog}
@@ -283,6 +286,7 @@ export const AppMenu = withStyles(styles)(
 
       return (
         <Snackbar
+          key="login-succeeded"
           anchorOrigin={{
             horizontal: 'left',
             vertical: 'bottom',
@@ -320,7 +324,7 @@ export const AppMenu = withStyles(styles)(
 
       if (
         authState.state === 'loggedIn' &&
-        authState.viewer.role === 'MODERATOR'
+        authState.viewer.role === UserRole.MODERATOR
       ) {
         return [
           <MenuItemWithLink
@@ -341,53 +345,54 @@ export const AppMenu = withStyles(styles)(
         ];
       }
 
-      return undefined;
+      return [];
     };
 
     render() {
-      return (
-        <>
-          {this.renderLoginFailedDialog()}
-          {this.renderLoginStateChangeSnackbar()}
-          <nav>
-            <UncontrolledMenu
-              id="app-menu"
-              anchorOrigin={{ horizontal: 'center', vertical: 'center' }}
-              renderButton={renderMenuButton}
-            >
-              {menuItemProps => (
-                <>
-                  {this.renderUser()}
-                  <MenuItemWithLink {...menuItemProps} to="/">
-                    Home
-                  </MenuItemWithLink>
-                  <MenuItemWithLink {...menuItemProps} divider to="/contact">
-                    Contact
-                  </MenuItemWithLink>
-                  {this.renderModeratorLinks(menuItemProps)}
-                  {/* {this.renderLoginButton(menuItemProps)} */}
-                  <MenuItem
-                    {...menuItemProps}
-                    onClick={callAll(
-                      menuItemProps.onClick,
-                      this.toggleNightMode,
-                    )}
-                    divider
-                  >
-                    <ListItemText>Night Mode</ListItemText>
-                    <Switch checked={this.props.isNightModeEnabled} />
-                  </MenuItem>
-                  <MenuItemWithLink {...menuItemProps} to="/privacy-policy">
-                    <Typography color="textSecondary">
-                      Privacy Policy
-                    </Typography>
-                  </MenuItemWithLink>
-                </>
-              )}
-            </UncontrolledMenu>
-          </nav>
-        </>
-      );
+      return [
+        this.renderLoginFailedDialog(),
+        this.renderLoginStateChangeSnackbar(),
+        <nav>
+          <UncontrolledMenu
+            id="app-menu"
+            anchorOrigin={{ horizontal: 'center', vertical: 'center' }}
+            renderButton={renderMenuButton}
+          >
+            {menuItemProps => [
+              this.renderUser(),
+              <MenuItemWithLink key="home" {...menuItemProps} to="/">
+                Home
+              </MenuItemWithLink>,
+              <MenuItemWithLink
+                key="contact"
+                {...menuItemProps}
+                divider
+                to="/contact"
+              >
+                Contact
+              </MenuItemWithLink>,
+              ...this.renderModeratorLinks(menuItemProps),
+              this.renderLoginButton(menuItemProps),
+              <MenuItem
+                key="night-mode"
+                {...menuItemProps}
+                onClick={callAll(menuItemProps.onClick, this.toggleNightMode)}
+                divider
+              >
+                <ListItemText>Night Mode</ListItemText>
+                <Switch checked={this.props.isNightModeEnabled} />
+              </MenuItem>,
+              <MenuItemWithLink
+                key="privacy"
+                {...menuItemProps}
+                to="/privacy-policy"
+              >
+                <Typography color="textSecondary">Privacy Policy</Typography>
+              </MenuItemWithLink>,
+            ]}
+          </UncontrolledMenu>
+        </nav>,
+      ];
     }
   },
 );

@@ -1,10 +1,13 @@
-import { createTestContext, TestContext } from 'helpers/testHelpers';
+import {
+  createTestContext,
+  TestContext,
+  attemptLogin,
+} from 'helpers/testHelpers';
 import { emptyBase64EncodedImage } from 'fixtures/images';
-import { fireEvent } from 'react-testing-library';
 import 'jest-dom/extend-expect';
 
 // eslint-disable-next-line jest/no-disabled-tests
-describe.skip('successful log in', () => {
+describe('successful log in', () => {
   let context: TestContext;
 
   beforeEach(async () => {
@@ -20,8 +23,7 @@ describe.skip('successful log in', () => {
       },
     });
 
-    fireEvent.click(await context.toggleAppMenu().getLoginButton());
-    await context.toggleAppMenu().getLogoutButton();
+    await attemptLogin({ context });
   });
 
   it('shows profile data after login', async () => {
@@ -35,7 +37,7 @@ describe.skip('successful log in', () => {
 });
 
 // eslint-disable-next-line jest/no-disabled-tests
-describe.skip('failed log in', () => {
+describe('failed log in', () => {
   let context: TestContext;
 
   beforeEach(async () => {
@@ -51,7 +53,7 @@ describe.skip('failed log in', () => {
       },
     });
 
-    fireEvent.click(await context.toggleAppMenu().getLoginButton());
+    await attemptLogin({ context, waitUntilComplete: false });
   });
 
   it('shows error message', () => {

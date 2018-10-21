@@ -293,6 +293,32 @@ export type CreateClientSideTestContextOptions = Partial<{
   getPersistedStateToRestore(): Promise<Partial<StoreState>>;
 }>;
 
+export const attemptLogin = async ({
+  context,
+  waitUntilComplete = true,
+}: {
+  context: TestContext;
+  waitUntilComplete?: boolean;
+}) => {
+  fireEvent.click(await context.toggleAppMenu().getLoginButton());
+  if (waitUntilComplete) {
+    await context.toggleAppMenu().getLogoutButton();
+  }
+};
+
+export const attemptLogout = async ({
+  context,
+  waitUntilComplete = true,
+}: {
+  context: TestContext;
+  waitUntilComplete?: boolean;
+}) => {
+  fireEvent.click(await context.toggleAppMenu().getLogoutButton());
+  if (waitUntilComplete) {
+    await context.toggleAppMenu().getLoginButton();
+  }
+};
+
 /**
  * Creates a new app tree with a new store instance for each test
  * The epic dependencies are replaced with mock functions so that we
@@ -346,7 +372,7 @@ export const createTestContext = async ({
       '[aria-label="Open menu"]',
     ) as HTMLElement;
 
-    fireEvent.click(menuButton as any);
+    fireEvent.click(menuButton);
 
     const menu = document.querySelector('#app-menu') as HTMLElement;
 

@@ -14,7 +14,8 @@ module.exports = {
     '^.+\\.tsx?$': 'ts-jest',
   },
   moduleNameMapper: {
-    '\\.(jpg|jpeg|png|gif|eot|otf|webp|ttf|woff|woff2|graphql)$':
+    '^.+\\.(gql|graphql)$': 'jest-transform-graphql',
+    '\\.(jpg|jpeg|png|gif|eot|otf|webp|ttf|woff|woff2)$':
       '<rootDir>/src/app/__mocks__/fileMock.js',
     '\\.(svg)$': '<rootDir>/src/app/__mocks__/svgSpriteMock.js',
     '\\.(css|scss)$': 'identity-obj-proxy',
